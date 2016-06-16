@@ -3,3 +3,4 @@
 *.so
 *.dylib
 *.class
+*_wrap.cxx
