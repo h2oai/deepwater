@@ -1,6 +1,10 @@
 
 %include "arrays_java.i"
 %apply float[] {float *};
+%apply int[] {int *};
+
+%include "various.i"
+%apply char **STRING_ARRAY { char ** }
 
 %module mlp
 

@@ -1,9 +1,10 @@
 
 #include "mlp.hpp"
 
+using namespace std;
 using namespace mxnet::cpp;
 
-void OutputAccuracy(mx_float* pred, mx_float* target) {
+double score(mx_float* pred, mx_float* target, int dimY) {
   int right = 0;
   for (int i = 0; i < 128; ++i) {
     float mx_p = pred[i * 10 + 0];
@@ -16,19 +17,48 @@ void OutputAccuracy(mx_float* pred, mx_float* target) {
     }
     if (p_y == target[i]) right++;
   }
-  cout << "Accuracy: " << right / 128.0 << endl;
+  cout << "Accuracy: " << right / dimY << endl;
+  return 0.0;
 }
 
-void MLPClass::train(float * aptr_x, float * aptr_y) {
+MLPClass::MLPClass() {
+  sym_x = Symbol::Variable("X");
+  sym_label = Symbol::Variable("label");
+  ctx_dev = Context(DeviceType::kCPU, 0);
+  dimX1 = 0;
+  dimX2 = 0;
+  dimY = 0;
+}
 
-  auto sym_x = Symbol::Variable("X");
-  auto sym_label = Symbol::Variable("label");
+void MLPClass::setLayers(int * lsize, int nsize) {
+  nLayers = nsize;
+  for (int i = 0; i < nsize; i++) {
+    layerSize.push_back(lsize[i]);
+  }
+  weights.resize(nLayers);
+  biases.resize(nLayers);
+  outputs.resize(nLayers);
+}
 
-  const int nLayers = 2;
-  vector<int> layerSizes({512, 10});
-  vector<Symbol> weights(nLayers);
-  vector<Symbol> biases(nLayers);
-  vector<Symbol> outputs(nLayers);
+void MLPClass::setAct(char ** acts) {
+  for (int i = 0; i < nLayers; i++) {
+    activations.push_back(acts[i]);
+  }
+}
+
+void MLPClass::setX(float * aptr_x, int *, int) {
+  array_x = NDArray(Shape(128, 28), ctx_dev, false);
+  array_x.SyncCopyFromCPU(aptr_x, 128 * 28);
+  array_x.WaitToRead();
+}
+
+void MLPClass::setLabel(float * aptr_y, int i) {
+  array_y = NDArray(Shape(128), ctx_dev, false);
+  array_y.SyncCopyFromCPU(aptr_y, 128);
+  array_y.WaitToRead();
+}
+
+void MLPClass::buildnn() {
 
   for (int i = 0; i < nLayers; i++) {
     string istr = to_string(i);
@@ -36,19 +66,13 @@ void MLPClass::train(float * aptr_x, float * aptr_y) {
     biases[i] = Symbol::Variable(string("b") + istr);
     Symbol fc = FullyConnected(string("fc") + istr, 
                                i == 0? sym_x : outputs[i-1], 
-                               weights[i], biases[i], layerSizes[i]);
-    outputs[i] = LeakyReLU(string("act") + istr, fc, LeakyReLUActType::leaky);
+                               weights[i], biases[i], layerSize[i]);
+    outputs[i] = LeakyReLU(activations[i] + istr, fc, LeakyReLUActType::leaky);
   }
-  auto sym_out = SoftmaxOutput("softmax", outputs[nLayers - 1], sym_label);
+  sym_out = SoftmaxOutput("softmax", outputs[nLayers - 1], sym_label);
+}
 
-  Context ctx_dev(DeviceType::kCPU, 0);
-
-  NDArray array_x(Shape(128, 28), ctx_dev, false);
-  NDArray array_y(Shape(128), ctx_dev, false);
-  array_x.SyncCopyFromCPU(aptr_x, 128 * 28);
-  array_x.WaitToRead();
-  array_y.SyncCopyFromCPU(aptr_y, 128);
-  array_y.WaitToRead();
+float MLPClass::train(bool verbose = false) {
 
   // init the parameters
   NDArray array_w_1(Shape(512, 28), ctx_dev, false);
@@ -86,8 +110,7 @@ void MLPClass::train(float * aptr_x, float * aptr_y) {
   arg_grad_store.push_back(array_b_1_g);
   arg_grad_store.push_back(array_w_2_g);
   arg_grad_store.push_back(array_b_2_g);
-  arg_grad_store.push_back(
-      NDArray());  // neither do we need the grad of the loss
+  arg_grad_store.push_back(NDArray());  // neither do we need the grad of the loss
   // how to handle the grad
   std::vector<OpReqType> grad_req_type;
   grad_req_type.push_back(kNullOp);
@@ -98,35 +121,29 @@ void MLPClass::train(float * aptr_x, float * aptr_y) {
   grad_req_type.push_back(kNullOp);
   std::vector<NDArray> aux_states;
 
-  cout << "make the Executor" << endl;
-  Executor* exe = new Executor(sym_out, ctx_dev, in_args, arg_grad_store,
-                               grad_req_type, aux_states);
+  exe = std::make_shared<Executor>(sym_out, ctx_dev, in_args, arg_grad_store,
+                                   grad_req_type, aux_states);
 
-  cout << "Training" << endl;
-  int max_iters = 20000;
   mx_float learning_rate = 0.0001;
-  for (int iter = 0; iter < max_iters; ++iter) {
-    exe->Forward(true);
+  exe->Forward(true);
 
-    if (iter % 100 == 0) {
-      cout << "epoch " << iter << endl;
-      std::vector<NDArray>& out = exe->outputs;
-      float* cptr = new float[128 * 10];
-      out[0].SyncCopyToCPU(cptr, 128 * 10);
-      NDArray::WaitAll();
-      OutputAccuracy(cptr, aptr_y);
-      delete[] cptr;
-    }
-
-    // update the parameters
-    exe->Backward();
-    for (int i = 1; i < 5; ++i) {
-      in_args[i] -= arg_grad_store[i] * learning_rate;
-    }
+  if (verbose) {
+    std::vector<NDArray>& out = exe->outputs;
+    float* cptr = new float[128 * 10];
+    out[0].SyncCopyToCPU(cptr, 128 * 10);
     NDArray::WaitAll();
+
+    float* aptr_y = new float[128];
+    array_y.SyncCopyToCPU(aptr_y, 128);
+    NDArray::WaitAll();
+    delete[] cptr;
+    return score(cptr, aptr_y, 128);
   }
 
-  //delete exe;
-  //delete[] aptr_x;
-  //delete[] aptr_y;
+  // update the parameters
+  exe->Backward();
+  for (int i = 1; i < 5; ++i) {
+    in_args[i] -= arg_grad_store[i] * learning_rate;
+  }
+  NDArray::WaitAll();
 }
