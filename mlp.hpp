@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <vector>
-#include "mxnet-cpp/MxNetCpp.h"
+#include "MxNetCpp.h"
 
 using namespace std;
 
