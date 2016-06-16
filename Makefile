@@ -35,7 +35,7 @@ mlp_wrap.o:
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) mlp_wrap.cxx -o mlp_wrap.o
 
 $(TARGET): mlp_wrap.o
-	$(CXX) -shared $(MXNET_OBJS) $(OBJS) -o $(TARGET) -L./lib -lmxnet
+	$(CXX) -shared $(MXNET_OBJS) $(OBJS) mlp_wrap.o -o $(TARGET) -L./lib -lmxnet
 
 clean:
 	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *.java *_wrap.cxx *_wrap.o 
