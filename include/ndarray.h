@@ -34,6 +34,12 @@ class Context {
   * \param type type of the device
   * \param id id of the device
   */
+  Context() : type_(DeviceType::kCPU), id_(0) {}
+  /*!
+  * \brief Context constructor
+  * \param type type of the device
+  * \param id id of the device
+  */
   Context(const DeviceType &type, int id) : type_(type), id_(id) {}
   /*!
   * \return the type of the device
