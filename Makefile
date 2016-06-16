@@ -10,7 +10,7 @@ SRCS=mlp.cxx
 
 OBJS=$(SRCS:.cxx=.o)
 
-TARGET=libmlp.so
+TARGET=libmlp.$(SUFFIX)
 
 CXX=g++
 
@@ -20,7 +20,7 @@ LDFLAGS=-L./lib -lmxnet
 
 CXXFLAGS=-std=c++11 -O3
 
-all: $(MXNET_OBJS) $(OBJS)
+all: swig $(MXNET_OBJS) $(OBJS) $(TARGET)
 
 $(MXNET_OBJS): %.o : %.cxx
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) $< -o $@
@@ -28,8 +28,12 @@ $(MXNET_OBJS): %.o : %.cxx
 $(OBJS): %.o : %.cxx
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) $< -o $@
 
-swig:
-	swig -c++ -java -package h2o.native mlp.i
+swig: mlp_wrap.cxx
+	swig -c++ -java -package water.gpu mlp.i
+
+$(TARGET): mlp_wrap.o
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) mlp_wrap.cxx
+	$(CXX) -shared $(MXNET_OBJS) $(OBJS) -o $(TARGET) -L./lib -lmxnet
 
 clean:
-	rm -rf $(MXNET_OBJS) $(OBJS)
+	rm -rf $(MXNET_OBJS) $(OBJS) 
