@@ -28,5 +28,8 @@ $(MXNET_OBJS): %.o : %.cxx
 $(OBJS): %.o : %.cxx
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) $< -o $@
 
+swig:
+	swig -c++ -java -package h2o.native mlp.i
+
 clean:
 	rm -rf $(MXNET_OBJS) $(OBJS)
