@@ -1,12 +1,9 @@
 /*!
 *  Copyright (c) 2016 by Contributors
-* \file optimizer.hpp
+* \file optimizer.cxx
 * \brief implementation of optimizer
 * \author Chuntao Hong, Zhang Chen
 */
-
-#ifndef MXNETCPP_OPTIMIZER_HPP
-#define MXNETCPP_OPTIMIZER_HPP
 
 #include <numeric>
 #include <map>
@@ -52,4 +49,3 @@ std::string Optimizer::Serialize() const {
 }  // namespace cpp
 }  // namespace mxnet
 
-#endif  // MXNETCPP_OPTIMIZER_HPP

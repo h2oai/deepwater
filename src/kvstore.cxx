@@ -1,6 +1,6 @@
 /*!
  *  Copyright (c) 2016 by Contributors
- * \file kvstore.hpp
+ * \file kvstore.cxx
  * \brief implementation of kvstore
  * \author Xin Li
  */
@@ -13,9 +13,6 @@
 
 #include "kvstore.h"
 #include "optimizer.h"
-
-#ifndef KVSTORE_HPP
-#define KVSTORE_HPP
 
 namespace mxnet {
 namespace cpp {
@@ -179,4 +176,3 @@ std::string KVStore::GetRole() const {
 }  // namespace cpp
 }  // namespace mxnet
 
-#endif  // KVSTORE_HPP

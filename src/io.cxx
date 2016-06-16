@@ -1,11 +1,9 @@
 /*!
 *  Copyright (c) 2016 by Contributors
-* \file operator.hpp
+* \file operator.cxx
 * \brief implementation of data iter
 * \author Zhang Chen
 */
-#ifndef MXNETCPP_IO_HPP
-#define MXNETCPP_IO_HPP
 
 #include <string>
 #include <vector>
@@ -82,6 +80,4 @@ MXDataIter MXDataIter::CreateDataIter() {
 
 }  // namespace cpp
 }  // namespace mxnet
-
-#endif /* end of include guard: MXNETCPP_IO_HPP */
 

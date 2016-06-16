@@ -1,12 +1,9 @@
 /*!
  *  Copyright (c) 2016 by Contributors
- * \file symbol.hpp
+ * \file symbol.cxx
  * \brief implementation of the symbol
  * \author Zhang Chen, Chuntao Hong
  */
-
-#ifndef MXNETCPP_SYMBOL_HPP
-#define MXNETCPP_SYMBOL_HPP
 
 #include <map>
 #include <memory>
@@ -331,4 +328,3 @@ Executor *Symbol::Bind(const Context &context,
 }  // namespace cpp
 }  // namespace mxnet
 
-#endif  // MXNETCPP_SYMBOL_HPP

@@ -1,12 +1,9 @@
 /*!
  *  Copyright (c) 2016 by Contributors
- * \file executor.hpp
+ * \file executor.cxx
  * \brief implementation of the executor
  * \author Zhang Chen, Chuntao Hong
  */
-
-#ifndef MXNETCPP_EXECUTOR_HPP
-#define MXNETCPP_EXECUTOR_HPP
 
 #include <vector>
 #include "executor.h"
@@ -65,4 +62,3 @@ void Executor::UpdateAll(Optimizer *opt, float lr, float wd,
 }  // namespace cpp
 }  // namespace mxnet
 
-#endif  // MXNETCPP_EXECUTOR_HPP
