@@ -28,12 +28,14 @@ $(MXNET_OBJS): %.o : %.cxx
 $(OBJS): %.o : %.cxx
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) $< -o $@
 
-swig: mlp_wrap.cxx
+swig:
 	swig -c++ -java -package water.gpu mlp.i
 
+mlp_wrap.o:
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) mlp_wrap.cxx -o mlp_wrap.o
+
 $(TARGET): mlp_wrap.o
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) mlp_wrap.cxx
 	$(CXX) -shared $(MXNET_OBJS) $(OBJS) -o $(TARGET) -L./lib -lmxnet
 
 clean:
-	rm -rf $(MXNET_OBJS) $(OBJS) 
+	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *.java *_wrap.cxx *_wrap.o 

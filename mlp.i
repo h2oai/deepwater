@@ -1,6 +1,6 @@
 
 %include "arrays_java.i"
-%apply float[ANY] {float *};
+%apply float[] {float *};
 
 %module mlp
 
