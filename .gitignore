@@ -4,3 +4,4 @@
 *.dylib
 *.class
 *_wrap.cxx
+*.jar
