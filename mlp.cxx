@@ -4,7 +4,7 @@
 using namespace std;
 using namespace mxnet::cpp;
 
-double score(mx_float* pred, mx_float* target, int dimY) {
+double score(mx_float* pred, std::vector<float> target, int dimY) {
   int right = 0;
   for (int i = 0; i < 128; ++i) {
     float mx_p = pred[i * 10 + 0];
@@ -17,7 +17,7 @@ double score(mx_float* pred, mx_float* target, int dimY) {
     }
     if (p_y == target[i]) right++;
   }
-  cout << "Accuracy: " << right / dimY << endl;
+//  cout << "Accuracy: " << (double)right / dimY << endl;
   return right / dimY;
 }
 
@@ -56,6 +56,7 @@ void MLPClass::setLabel(float * aptr_y, int i) {
   array_y = NDArray(Shape(128), ctx_dev, false);
   array_y.SyncCopyFromCPU(aptr_y, 128);
   array_y.WaitToRead();
+  label.assign(aptr_y, aptr_y + 128);
 }
 
 void MLPClass::buildnn() {
@@ -116,26 +117,24 @@ void MLPClass::buildnn() {
   grad_req_type.push_back(kWriteTo);
   grad_req_type.push_back(kNullOp);
 
+  exe = std::make_shared<Executor>(sym_out, ctx_dev, in_args, arg_grad_store,
+                                   grad_req_type, aux_states);
 }
 
 float MLPClass::train(bool verbose) {
 
-  exe = std::make_shared<Executor>(sym_out, ctx_dev, in_args, arg_grad_store,
-                                   grad_req_type, aux_states);
+  float* cptr = new float[128 * 10];
+
   exe->Forward(true);
 
   if (verbose) {
     std::vector<NDArray>& out = exe->outputs;
-    float* cptr = new float[128 * 10];
+    
     out[0].SyncCopyToCPU(cptr, 128 * 10);
     NDArray::WaitAll();
 
-    float* aptr_y = new float[128];
-    array_y.SyncCopyToCPU(aptr_y, 128);
-    NDArray::WaitAll();
-    delete[] cptr;
-    delete[] aptr_y;
-    return score(cptr, aptr_y, 128);
+    std::cout << cptr[0] << " " << cptr[1] << " " << cptr[2] << std::endl;
+    return score(cptr, label, 128);
   }
 
   // update the parameters
@@ -144,4 +143,5 @@ float MLPClass::train(bool verbose) {
     in_args[i] -= arg_grad_store[i] * learning_rate;
   }
   NDArray::WaitAll();
+  delete[] cptr;
 }
