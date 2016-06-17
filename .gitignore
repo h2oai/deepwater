@@ -5,3 +5,5 @@
 *.class
 *_wrap.cxx
 *.jar
+.ycm_extra_conf.pyc
+.ycm_extra_conf.py

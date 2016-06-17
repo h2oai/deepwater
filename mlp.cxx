@@ -4,21 +4,20 @@
 using namespace std;
 using namespace mxnet::cpp;
 
-double score(mx_float* pred, std::vector<float> target, int dimY) {
+float score(float* pred, std::vector<float> target, int dimY, int nout) {
   int right = 0;
-  for (int i = 0; i < 128; ++i) {
-    float mx_p = pred[i * 10 + 0];
+  for (int i = 0; i < dimY; ++i) {
+    float mx_p = pred[i * nout + 0];
     float p_y = 0;
-    for (int j = 0; j < 10; ++j) {
-      if (pred[i * 10 + j] > mx_p) {
-        mx_p = pred[i * 10 + j];
+    for (int j = 0; j < nout; ++j) {
+      if (pred[i * nout + j] > mx_p) {
+        mx_p = pred[i * nout + j];
         p_y = j;
       }
     }
     if (p_y == target[i]) right++;
   }
-//  cout << "Accuracy: " << (double)right / dimY << endl;
-  return right / dimY;
+  return static_cast<float>(right) / dimY;
 }
 
 MLPClass::MLPClass() {
@@ -40,23 +39,26 @@ void MLPClass::setLayers(int * lsize, int nsize) {
   outputs.resize(nLayers);
 }
 
-void MLPClass::setAct(char ** acts) {
-  for (int i = 0; i < nLayers; i++) {
-    activations.push_back(acts[i]);
+void MLPClass::setX(float * aptr_x, int * dims, int n_dim) {
+  if (n_dim == 1) {
+    dimX1 = dims[0];
+    dimX2 = 1;
+    array_x = NDArray(Shape(dimX1), ctx_dev, false);
+  } else if (n_dim == 2) {
+    dimX1 = dims[0];
+    dimX2 = dims[1];
+    array_x = NDArray(Shape(dimX1, dimX2), ctx_dev, false);
   }
-}
-
-void MLPClass::setX(float * aptr_x, int *, int) {
-  array_x = NDArray(Shape(128, 28), ctx_dev, false);
-  array_x.SyncCopyFromCPU(aptr_x, 128 * 28);
+  array_x.SyncCopyFromCPU(aptr_x, dimX1 * dimX2);
   array_x.WaitToRead();
 }
 
 void MLPClass::setLabel(float * aptr_y, int i) {
-  array_y = NDArray(Shape(128), ctx_dev, false);
-  array_y.SyncCopyFromCPU(aptr_y, 128);
+  dimY = i;
+  array_y = NDArray(Shape(dimY), ctx_dev, false);
+  array_y.SyncCopyFromCPU(aptr_y, dimY);
   array_y.WaitToRead();
-  label.assign(aptr_y, aptr_y + 128);
+  label.assign(aptr_y, aptr_y + dimY);
 }
 
 void MLPClass::buildnn() {
@@ -68,80 +70,76 @@ void MLPClass::buildnn() {
     Symbol fc = FullyConnected(string("fc") + istr, 
                                i == 0? sym_x : outputs[i-1], 
                                weights[i], biases[i], layerSize[i]);
-    outputs[i] = LeakyReLU(activations[i] + istr, fc, LeakyReLUActType::leaky);
+    outputs[i] = LeakyReLU(string("act") + istr, fc, LeakyReLUActType::leaky);
   }
   sym_out = SoftmaxOutput("softmax", outputs[nLayers - 1], sym_label);
-  // init the parameters
-  NDArray array_w_1(Shape(512, 28), ctx_dev, false);
-  NDArray array_b_1(Shape(512), ctx_dev, false);
-  NDArray array_w_2(Shape(10, 512), ctx_dev, false);
-  NDArray array_b_2(Shape(10), ctx_dev, false);
 
-  // the parameters should be initialized in some kind of distribution,
-  // so it learns fast
-  // but here just give a const value by hand
-  array_w_1 = 0.5f;
-  array_b_1 = 0.0f;
-  array_w_2 = 0.5f;
-  array_b_2 = 0.0f;
+  // init the parameters
+  in_args.push_back(array_x);
+  for (int i = 0; i < nLayers;i++) {
+    NDArray array_w;
+    if (i == 0) {
+      array_w = NDArray(Shape(layerSize[i], dimX2), ctx_dev, false);
+    } else {
+      array_w = NDArray(Shape(layerSize[i], layerSize[i - 1]), ctx_dev, false);
+    }
+    NDArray array_b(Shape(layerSize[i]), ctx_dev, false);
+    // maybe they should be set according to some distributions
+    array_w = 0.5f;
+    array_b = 0.0f;
+    in_args.push_back(array_w);
+    in_args.push_back(array_b);
+  }
+  in_args.push_back(array_y);
 
   // the grads
-  NDArray array_w_1_g(Shape(512, 28), ctx_dev, false);
-  NDArray array_b_1_g(Shape(512), ctx_dev, false);
-  NDArray array_w_2_g(Shape(10, 512), ctx_dev, false);
-  NDArray array_b_2_g(Shape(10), ctx_dev, false);
+  arg_grad_store.push_back(NDArray());
+  for (int i = 0; i < nLayers; i++) {
+    NDArray array_w_g;
+    if (i == 1) {
+      array_w_g = NDArray(Shape(layerSize[i], dimX2), ctx_dev, false); 
+    } else {
+      array_w_g = NDArray(Shape(layerSize[i], layerSize[i - 1]), ctx_dev, false); 
+    }
+    arg_grad_store.push_back(array_w_g);
+    NDArray array_b_g(Shape(layerSize[i]), ctx_dev, false);
+    arg_grad_store.push_back(array_b_g);
+  }
+  arg_grad_store.push_back(NDArray());
 
-  // Bind the symolic network with the ndarray
-  // all the input args
-
-  in_args.push_back(array_x);
-  in_args.push_back(array_w_1);
-  in_args.push_back(array_b_1);
-  in_args.push_back(array_w_2);
-  in_args.push_back(array_b_2);
-  in_args.push_back(array_y);
-  // all the grads
-
-  arg_grad_store.push_back(NDArray());  // we don't need the grad of the input
-  arg_grad_store.push_back(array_w_1_g);
-  arg_grad_store.push_back(array_b_1_g);
-  arg_grad_store.push_back(array_w_2_g);
-  arg_grad_store.push_back(array_b_2_g);
-  arg_grad_store.push_back(NDArray());  // neither do we need the grad of the loss
-  // how to handle the grad
-
+  // handle the grad
   grad_req_type.push_back(kNullOp);
-  grad_req_type.push_back(kWriteTo);
-  grad_req_type.push_back(kWriteTo);
-  grad_req_type.push_back(kWriteTo);
-  grad_req_type.push_back(kWriteTo);
+  for (int i = 0; i < nLayers; i++) {
+    grad_req_type.push_back(kWriteTo);
+    grad_req_type.push_back(kWriteTo);
+  }
   grad_req_type.push_back(kNullOp);
 
   exe = std::make_shared<Executor>(sym_out, ctx_dev, in_args, arg_grad_store,
                                    grad_req_type, aux_states);
 }
 
-float MLPClass::train(bool verbose) {
+float MLPClass::train(int iter, bool verbose) {
 
-  float* cptr = new float[128 * 10];
+  float acc = 0.0;
+  pred = (float *)malloc(sizeof(float) * dimY * layerSize[layerSize.size() - 1]);
 
-  exe->Forward(true);
+  for (int i = 0; i < iter; i++) {
+    exe->Forward(true);
+    exe->Backward();
+    for (int i = 1; i < 5; ++i) {
+      in_args[i] -= arg_grad_store[i] * learning_rate;
+    }
+    NDArray::WaitAll();
+  }
 
   if (verbose) {
     std::vector<NDArray>& out = exe->outputs;
-    
-    out[0].SyncCopyToCPU(cptr, 128 * 10);
+    out[0].SyncCopyToCPU(pred, dimY * layerSize[layerSize.size() - 1]);
     NDArray::WaitAll();
-
-    std::cout << cptr[0] << " " << cptr[1] << " " << cptr[2] << std::endl;
-    return score(cptr, label, 128);
+    acc = score(pred, label, dimY, layerSize[layerSize.size() - 1]);
   }
 
-  // update the parameters
-  exe->Backward();
-  for (int i = 1; i < 5; ++i) {
-    in_args[i] -= arg_grad_store[i] * learning_rate;
-  }
-  NDArray::WaitAll();
-  delete[] cptr;
+  free(pred);
+  return acc;
 }

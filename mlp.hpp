@@ -2,25 +2,26 @@
 #define __H2O_MPL_H__
 
 #include <memory>
-#include "MxNetCpp.h"
+#include "include/MxNetCpp.h"
 
 class MLPClass {
  public:
   MLPClass();
   void setLayers(int * lsize, int nsize);
-  void setAct(char **);
   void setX(float *, int *, int);
   void setLabel(float *, int);
 
   void buildnn();
-  float train(bool verbose = false);
+  float train(int iter, bool verbose);
 
  private:
-  int nLayers, dimX1, dimX2, dimY;
+  int nLayers;
+  int dimX1, dimX2;
+  int  dimY;
   mx_float learning_rate = 0.0001;
   std::vector<int> layerSize;
   std::vector<float> label;
-  std::vector<std::string> activations;
+  float * pred;
   std::vector<mxnet::cpp::Symbol> weights;
   std::vector<mxnet::cpp::Symbol> biases;
   std::vector<mxnet::cpp::Symbol> outputs;

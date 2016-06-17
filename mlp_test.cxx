@@ -16,15 +16,10 @@ int main() {
   }
   int lsize[2] = {512, 10};
   m.setLayers(lsize, 2);
-  char * act[2] = {"act", "act"};
-  m.setAct(act);
 
   int dimX[2] = {128, 28};
   m.setX(aptr_x, dimX, 2);
   m.setLabel(aptr_y, 128);
   m.buildnn();
-  m.train(true);
-  for (int i = 0; i <= 15000; i++) 
-    m.train(false);
-  m.train(true);
+  std::cout << m.train(1000, true) << std::endl;
 }
