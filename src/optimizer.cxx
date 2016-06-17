@@ -1,9 +1,9 @@
 /*!
-*  Copyright (c) 2016 by Contributors
-* \file optimizer.cxx
-* \brief implementation of optimizer
-* \author Chuntao Hong, Zhang Chen
-*/
+ *  Copyright (c) 2016 by Contributors
+ * \file optimizer.cxx
+ * \brief implementation of optimizer
+ * \author Chuntao Hong, Zhang Chen
+ */
 
 #include <numeric>
 #include <map>
@@ -15,11 +15,15 @@ namespace mxnet {
 namespace cpp {
 
 Optimizer::Optimizer(const std::string &opt_type, mx_float learning_rate, mx_float weight_decay)
-  :init_(false), learning_rate_(learning_rate), weight_decay_(weight_decay), opt_type_(opt_type) {
-  MXOptimizerFindCreator(opt_type.c_str(), &creator_);
-}
+    :init_(false), learning_rate_(learning_rate), weight_decay_(weight_decay), opt_type_(opt_type) {
+      MXOptimizerFindCreator(opt_type.c_str(), &creator_);
+    }
 
 void Optimizer::Update(int index, NDArray weight, NDArray grad) {
+  Update(index, weight, grad, learning_rate_);
+}
+
+void Optimizer::Update(int index, NDArray weight, NDArray grad, mx_float lr) {
   if (!init_) {
     std::vector<const char *> param_keys;
     std::vector<const char *> param_values;
@@ -31,8 +35,11 @@ void Optimizer::Update(int index, NDArray weight, NDArray grad) {
                                param_values.data(), &handle_);
     init_ = true;
   }
+
+  learning_rate_ = lr;
+
   MXOptimizerUpdate(handle_, index, weight.GetHandle(), grad.GetHandle(),
-      learning_rate_, weight_decay_);
+                    learning_rate_, weight_decay_);
 }
 
 std::string Optimizer::Serialize() const {
@@ -42,9 +49,9 @@ std::string Optimizer::Serialize() const {
   params.emplace("learning_rate", std::to_string(learning_rate_));
   params.emplace("weight_decay", std::to_string(weight_decay_));
   return std::accumulate(params.cbegin(), params.cend(), std::string(""),
-    [](const std::string& sum, const ValueType& i) {
-      return sum + '\n' + i.first + '=' + i.second;
-    }).substr(1);
+                         [](const std::string& sum, const ValueType& i) {
+                         return sum + '\n' + i.first + '=' + i.second;
+                         }).substr(1);
 }
 }  // namespace cpp
 }  // namespace mxnet
