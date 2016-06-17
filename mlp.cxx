@@ -18,7 +18,7 @@ double score(mx_float* pred, mx_float* target, int dimY) {
     if (p_y == target[i]) right++;
   }
   cout << "Accuracy: " << right / dimY << endl;
-  return 0.0;
+  return right / dimY;
 }
 
 MLPClass::MLPClass() {
@@ -70,7 +70,7 @@ void MLPClass::buildnn() {
     outputs[i] = LeakyReLU(activations[i] + istr, fc, LeakyReLUActType::leaky);
   }
   sym_out = SoftmaxOutput("softmax", outputs[nLayers - 1], sym_label);
-    // init the parameters
+  // init the parameters
   NDArray array_w_1(Shape(512, 28), ctx_dev, false);
   NDArray array_b_1(Shape(512), ctx_dev, false);
   NDArray array_w_2(Shape(10, 512), ctx_dev, false);
@@ -92,7 +92,7 @@ void MLPClass::buildnn() {
 
   // Bind the symolic network with the ndarray
   // all the input args
-  
+
   in_args.push_back(array_x);
   in_args.push_back(array_w_1);
   in_args.push_back(array_b_1);
@@ -100,7 +100,7 @@ void MLPClass::buildnn() {
   in_args.push_back(array_b_2);
   in_args.push_back(array_y);
   // all the grads
-  
+
   arg_grad_store.push_back(NDArray());  // we don't need the grad of the input
   arg_grad_store.push_back(array_w_1_g);
   arg_grad_store.push_back(array_b_1_g);
@@ -108,21 +108,20 @@ void MLPClass::buildnn() {
   arg_grad_store.push_back(array_b_2_g);
   arg_grad_store.push_back(NDArray());  // neither do we need the grad of the loss
   // how to handle the grad
-  
-  grad_req_type.push_back(kNullOp);
-  grad_req_type.push_back(kWriteTo);
-  grad_req_type.push_back(kWriteTo);
-  grad_req_type.push_back(kWriteTo);
-  grad_req_type.push_back(kWriteTo);
-  grad_req_type.push_back(kNullOp);
-  
 
-  exe = std::make_shared<Executor>(sym_out, ctx_dev, in_args, arg_grad_store,
-                                   grad_req_type, aux_states);
+  grad_req_type.push_back(kNullOp);
+  grad_req_type.push_back(kWriteTo);
+  grad_req_type.push_back(kWriteTo);
+  grad_req_type.push_back(kWriteTo);
+  grad_req_type.push_back(kWriteTo);
+  grad_req_type.push_back(kNullOp);
+
 }
 
 float MLPClass::train(bool verbose) {
 
+  exe = std::make_shared<Executor>(sym_out, ctx_dev, in_args, arg_grad_store,
+                                   grad_req_type, aux_states);
   exe->Forward(true);
 
   if (verbose) {

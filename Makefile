@@ -42,7 +42,7 @@ mlp_test:
 	$(CXX) -o mlp_test mlp_test.o $(MXNET_OBJS) $(OBJS) -L./lib -lmxnet
 
 clean:
-	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *.java *_wrap.cxx *_wrap.o mlp_test.o 
+	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *.java *_wrap.cxx *_wrap.o mlp_test.o mlp_test
 
 clean_test:
 	rm -rf mlp_test.o mlp_test
