@@ -96,7 +96,7 @@ void MLPClass::buildnn() {
   arg_grad_store.push_back(NDArray());
   for (int i = 0; i < nLayers; i++) {
     NDArray array_w_g;
-    if (i == 1) {
+    if (i == 0) {
       array_w_g = NDArray(Shape(layerSize[i], dimX2), ctx_dev, false); 
     } else {
       array_w_g = NDArray(Shape(layerSize[i], layerSize[i - 1]), ctx_dev, false); 
@@ -114,7 +114,6 @@ void MLPClass::buildnn() {
     grad_req_type.push_back(kWriteTo);
   }
   grad_req_type.push_back(kNullOp);
-
   exe = std::make_shared<Executor>(sym_out, ctx_dev, in_args, arg_grad_store,
                                    grad_req_type, aux_states);
 }
