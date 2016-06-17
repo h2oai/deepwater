@@ -37,7 +37,7 @@ mlp_wrap.o:
 $(TARGET): mlp_wrap.o
 	$(CXX) -shared $(MXNET_OBJS) $(OBJS) mlp_wrap.o -o $(TARGET) -L./lib -lmxnet
 
-mlp_test:
+mlp_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) mlp_test.cxx -o mlp_test.o
 	$(CXX) -o mlp_test mlp_test.o $(MXNET_OBJS) $(OBJS) -L./lib -lmxnet
 
