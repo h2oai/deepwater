@@ -20,10 +20,10 @@ Optimizer::Optimizer(const std::string &opt_type, mx_float learning_rate, mx_flo
     }
 
 void Optimizer::Update(int index, NDArray weight, NDArray grad) {
-  Update(index, weight, grad, learning_rate_);
+  Update(index, weight, grad, learning_rate_, weight_decay_);
 }
 
-void Optimizer::Update(int index, NDArray weight, NDArray grad, mx_float lr) {
+void Optimizer::Update(int index, NDArray weight, NDArray grad, mx_float lr, mx_float wd) {
   if (!init_) {
     std::vector<const char *> param_keys;
     std::vector<const char *> param_values;
@@ -36,7 +36,9 @@ void Optimizer::Update(int index, NDArray weight, NDArray grad, mx_float lr) {
     init_ = true;
   }
 
+  //update learning rate and weight decay
   learning_rate_ = lr;
+  weight_decay_ = wd;
 
   MXOptimizerUpdate(handle_, index, weight.GetHandle(), grad.GetHandle(),
                     learning_rate_, weight_decay_);

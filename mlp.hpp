@@ -4,36 +4,29 @@
 #include <memory>
 #include "include/MxNetCpp.h"
 
-class MLPClass {
+class MLPNative {
  public:
-  MLPClass();
+  MLPNative();
   void setLayers(int * lsize, int nsize);
-  void setX(float *, int *, int);
-  void setLabel(float *, int);
+  void setData(mx_float *, int *, int);
+  void setLabel(mx_float *, int);
 
-  void buildnn();
-  float train(int iter, bool verbose);
+  void build_mlp();
+  mx_float* train();
 
  private:
   int nLayers;
-  int dimX1, dimX2;
-  int  dimY;
-  mx_float learning_rate = 0.0001;
+  int dimX1, dimX2, dimY;
+  mx_float learning_rate = 1e-4;
+  mx_float weight_decay = 1e-4;
   std::vector<int> layerSize;
-  std::vector<float> label;
-  float * pred;
-  std::vector<mxnet::cpp::Symbol> weights;
-  std::vector<mxnet::cpp::Symbol> biases;
-  std::vector<mxnet::cpp::Symbol> outputs;
+  std::vector<mx_float> label;
+  mx_float * pred;
   std::shared_ptr<mxnet::cpp::Executor> exe;
-  mxnet::cpp::Symbol sym_x, sym_label, sym_out;
+  mxnet::cpp::Symbol sym_network;
   mxnet::cpp::NDArray array_x;
   mxnet::cpp::NDArray array_y;
   mxnet::cpp::Context ctx_dev;
-  std::vector<mxnet::cpp::NDArray> in_args;
-  std::vector<mxnet::cpp::NDArray> arg_grad_store;
-  std::vector<mxnet::cpp::OpReqType> grad_req_type;
-  std::vector<mxnet::cpp::NDArray> aux_states;
 };
 
 #endif  

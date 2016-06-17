@@ -1,0 +1,82 @@
+
+#include "mlp.hpp"
+
+using namespace std;
+using namespace mxnet::cpp;
+
+float score(float* pred, std::vector<float> target, int dimY, int nout) {
+  int right = 0;
+  for (int i = 0; i < dimY; ++i) {
+    float mx_p = pred[i * nout + 0];
+    float p_y = 0;
+    for (int j = 0; j < nout; ++j) {
+      if (pred[i * nout + j] > mx_p) {
+        mx_p = pred[i * nout + j];
+        p_y = j;
+      }
+    }
+    if (p_y == target[i]) right++;
+  }
+  return static_cast<float>(right) / dimY;
+}
+
+MLPClass::MLPClass() {
+  //sym_x = Symbol::Variable("X");
+  //sym_label = Symbol::Variable("label");
+  ctx_dev = Context(DeviceType::kCPU, 0);
+  dimX1 = 0;
+  dimX2 = 0;
+  dimY = 0;
+}
+
+void MLPClass::setLayers(int * lsize, int nsize) {
+  nLayers = nsize;
+  for (int i = 0; i < nsize; i++) {
+    layerSize.push_back(lsize[i]);
+  }
+}
+
+void MLPClass::setData(float * aptr_x, int * dims, int n_dim) {
+  if (n_dim == 1) {
+    dimX1 = dims[0];
+    dimX2 = 1;
+    array_x = NDArray(Shape(dimX1), ctx_dev, false);
+  } else if (n_dim == 2) {
+    dimX1 = dims[0];
+    dimX2 = dims[1];
+    array_x = NDArray(Shape(dimX1, dimX2), ctx_dev, false);
+  }
+  array_x.SyncCopyFromCPU(aptr_x, dimX1 * dimX2);
+  array_x.WaitToRead();
+}
+
+void MLPClass::setLabel(float * aptr_y, int i) {
+  dimY = i;
+  array_y = NDArray(Shape(dimY), ctx_dev, false);
+  array_y.SyncCopyFromCPU(aptr_y, dimY);
+  array_y.WaitToRead();
+  label.assign(aptr_y, aptr_y + dimY);
+}
+
+void MLPClass::buildnn() {
+
+}
+
+mx_float* MLPClass::train() {
+
+  pred = (float *)malloc(sizeof(float) * dimY * layerSize[layerSize.size() - 1]);
+
+  exe->Forward(true);
+  exe->Backward();
+  for (int i = 1; i < 5; ++i) {
+    in_args[i] -= arg_grad_store[i] * learning_rate;
+  }
+  NDArray::WaitAll();
+
+  std::vector<NDArray>& out = exe->outputs;
+  out[0].SyncCopyToCPU(pred, dimY * layerSize[layerSize.size() - 1]);
+  NDArray::WaitAll();
+  acc = score(pred, label, dimY, layerSize[layerSize.size() - 1]);
+
+  return pred;
+}

@@ -64,7 +64,7 @@ void Update(int index, NDArray weight, NDArray grad);
  *  \param weight the weight to update.
  *  \param grad gradient for the weight.
  */
-void Update(int index, NDArray weight, NDArray grad, mx_float lr);
+void Update(int index, NDArray weight, NDArray grad, mx_float lr, mx_float wd);
 // TODO(zhangcheng-qinyinghua)
 // implement Update a list of arrays, maybe in the form of map
 // void Update(int index, std::vector<NDArray> weights, std::vector<NDArray>
