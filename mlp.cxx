@@ -70,11 +70,7 @@ void MLPClass::buildnn() {
     outputs[i] = LeakyReLU(activations[i] + istr, fc, LeakyReLUActType::leaky);
   }
   sym_out = SoftmaxOutput("softmax", outputs[nLayers - 1], sym_label);
-}
-
-float MLPClass::train(bool verbose = false) {
-
-  // init the parameters
+    // init the parameters
   NDArray array_w_1(Shape(512, 28), ctx_dev, false);
   NDArray array_b_1(Shape(512), ctx_dev, false);
   NDArray array_w_2(Shape(10, 512), ctx_dev, false);
@@ -96,7 +92,7 @@ float MLPClass::train(bool verbose = false) {
 
   // Bind the symolic network with the ndarray
   // all the input args
-  std::vector<NDArray> in_args;
+  
   in_args.push_back(array_x);
   in_args.push_back(array_w_1);
   in_args.push_back(array_b_1);
@@ -104,7 +100,7 @@ float MLPClass::train(bool verbose = false) {
   in_args.push_back(array_b_2);
   in_args.push_back(array_y);
   // all the grads
-  std::vector<NDArray> arg_grad_store;
+  
   arg_grad_store.push_back(NDArray());  // we don't need the grad of the input
   arg_grad_store.push_back(array_w_1_g);
   arg_grad_store.push_back(array_b_1_g);
@@ -112,19 +108,21 @@ float MLPClass::train(bool verbose = false) {
   arg_grad_store.push_back(array_b_2_g);
   arg_grad_store.push_back(NDArray());  // neither do we need the grad of the loss
   // how to handle the grad
-  std::vector<OpReqType> grad_req_type;
+  
   grad_req_type.push_back(kNullOp);
   grad_req_type.push_back(kWriteTo);
   grad_req_type.push_back(kWriteTo);
   grad_req_type.push_back(kWriteTo);
   grad_req_type.push_back(kWriteTo);
   grad_req_type.push_back(kNullOp);
-  std::vector<NDArray> aux_states;
+  
 
   exe = std::make_shared<Executor>(sym_out, ctx_dev, in_args, arg_grad_store,
                                    grad_req_type, aux_states);
+}
 
-  mx_float learning_rate = 0.0001;
+float MLPClass::train(bool verbose) {
+
   exe->Forward(true);
 
   if (verbose) {
@@ -137,6 +135,7 @@ float MLPClass::train(bool verbose = false) {
     array_y.SyncCopyToCPU(aptr_y, 128);
     NDArray::WaitAll();
     delete[] cptr;
+    delete[] aptr_y;
     return score(cptr, aptr_y, 128);
   }
 
