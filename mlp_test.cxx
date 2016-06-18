@@ -3,7 +3,7 @@
 
 int main() {
 
-  MLPClass m = MLPClass();
+  MLPNative m = MLPNative();
   mx_float* aptr_x = new mx_float[128 * 38];
   mx_float* aptr_y = new mx_float[128];
 
@@ -14,12 +14,15 @@ int main() {
     }
     aptr_y[i] = i % 10;
   }
-  int lsize[2] = {512, 10};
-  m.setLayers(lsize, 2);
-
+  int lsize[1] = {10};
+  m.setLayers(lsize, 1, 2);
+  char * act[1] = {"tanh"};
+  m.setAct(act);
+  m.build_mlp();
+/*
   int dimX[2] = {128, 38};
   m.setX(aptr_x, dimX, 2);
   m.setLabel(aptr_y, 128);
   m.buildnn();
-  std::cout << m.train(1000, true) << std::endl;
+  std::cout << m.train(1000, true) << std::endl;*/
 }

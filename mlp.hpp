@@ -7,7 +7,8 @@
 class MLPNative {
  public:
   MLPNative();
-  void setLayers(int * lsize, int nsize);
+  void setLayers(int * lsize, int nsize, int n);
+  void setAct(char **);
   void setData(mx_float *, int *, int);
   void setLabel(mx_float *, int);
 
@@ -15,11 +16,12 @@ class MLPNative {
   mx_float* train();
 
  private:
-  int nLayers;
+  int nLayers, nOut;
   int dimX1, dimX2, dimY;
   mx_float learning_rate = 1e-4;
   mx_float weight_decay = 1e-4;
   std::vector<int> layerSize;
+  std::vector<std::string> activations;
   std::vector<mx_float> label;
   mx_float * pred;
   std::shared_ptr<mxnet::cpp::Executor> exe;

@@ -50,6 +50,15 @@ inline Symbol Activation(const std::string& symbol_name,
            .CreateSymbol(symbol_name);
 }
 
+inline Symbol Activation(const std::string& symbol_name,
+                         Symbol data,
+                         const std::string& act_type) {
+  return Operator("Activation")
+           .SetParam("act_type", act_type.c_str())
+           .SetInput("data", data)
+           .CreateSymbol(symbol_name);
+}
+
 /*!
  * \breif Apply batch normalization to input. 
  * \param symbol_name name of the resulting symbol.
