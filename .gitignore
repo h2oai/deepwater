@@ -7,3 +7,4 @@
 *.jar
 .ycm_extra_conf.pyc
 .ycm_extra_conf.py
+*.json

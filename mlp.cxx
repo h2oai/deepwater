@@ -56,7 +56,8 @@ void MLPNative::build_mlp() {
   //for (auto s : sym_network.ListArguments()) {
   //  std::cout << s << std::endl;  
   //}
-  //std::cout << sym_network.ToJSON() << std::endl;
+  //std::cout <<
+  sym_network.Save("mlp.json");
 }
 
 mx_float* MLPNative::train() {
