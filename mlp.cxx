@@ -58,25 +58,43 @@ void MLPNative::build_mlp() {
                               act, fc_w[nLayers], fc_b[nLayers], nOut));
   sym_network = SoftmaxOutput("softmax", fc[nLayers], data_label);
   sym_network.Save("mlp.json");
-  opt = Optimizer("ccsgd", learning_rate, weight_decay);
-  opt.SetParam("momentum", 0.9)
-      .SetParam("rescale_grad", 1.0)
-      .SetParam("clip_gradient", 10);
+  args_map["data"] = array_x.Slice(0, batch_size).Copy(ctx_dev);
+  args_map["data_label"] = array_y.Slice(0, batch_size).Copy(ctx_dev);
+  sym_network.InferArgsMap(ctx_dev, &args_map, args_map);
+  //opt = Optimizer("ccsgd", learning_rate, weight_decay);
+  //opt.SetParam("momentum", 0.9)
+  //    .SetParam("rescale_grad", 1.0)
+  //    .SetParam("clip_gradient", 10);
 }
 
 mx_float* MLPNative::train() {
 
+  Optimizer opt("ccsgd", learning_rate, weight_decay);
+  opt.SetParam("momentum", 0.9)
+      .SetParam("rescale_grad", 1.0)
+      .SetParam("clip_gradient", 10);
+
   int start_index = 0;
+  while (start_index < dimY) {
+    if (start_index + batch_size > dimY) {
+      start_index = dimY - batch_size; 
+    } 
+    args_map["data"] = array_x.Slice(start_index, start_index + batch_size).Copy(ctx_dev);
+    args_map["data_label"] = array_y.Slice(start_index, start_index + batch_size).Copy(ctx_dev);
+    start_index += batch_size;
+    NDArray::WaitAll();
 
-  Executor *exe = sym_network.SimpleBind(ctx_dev, args_map);
-  exe->Forward(true);
-  exe->Backward();
-  exe->UpdateAll(&opt, learning_rate, weight_decay);
-  NDArray::WaitAll();
-
-  std::vector<NDArray>& out = exe->outputs;
-  out[0].SyncCopyToCPU(pred, dimY * layerSize[layerSize.size() - 1]);
-  NDArray::WaitAll();
+    Executor * exe = sym_network.SimpleBind(ctx_dev, args_map);
+    exe->Forward(true);
+    exe->Backward();
+    exe->UpdateAll(&opt, learning_rate, weight_decay);
+    NDArray::WaitAll();
+    if (start_index == dimY - batch_size) {
+      std::vector<NDArray> & out = exe->outputs; 
+      out[0].SyncCopyToCPU(pred, dimY * layerSize[layerSize.size() - 1]);
+      NDArray::WaitAll();
+    }
+  }
 
   return pred;
 }

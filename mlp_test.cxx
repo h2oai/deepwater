@@ -12,7 +12,8 @@ int main() {
   m.setLayers(lsize, 1, 2);
   char * act[1] = {"tanh"};
   m.setAct(act);
-  m.build_mlp();
   m.setData(aptr_x, 101, 60);
   m.setLabel(aptr_y, 101);
+  m.build_mlp();
+  m.train();
 }
