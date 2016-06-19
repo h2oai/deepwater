@@ -14,6 +14,7 @@ void MLPNative::setLayers(int * lsize, int nsize, int n) {
   for (int i = 0; i < nsize; i++) {
     layerSize.push_back(lsize[i]);
   }
+  pred = (float *)malloc(sizeof(float) * dimY * nOut);
 }
 
 void MLPNative::setAct(char ** acts) {
@@ -22,7 +23,10 @@ void MLPNative::setAct(char ** acts) {
   }
 }
 
-void MLPNative::setData(float * aptr_x, int * dims, int n_dim) {
+void MLPNative::setData(float * aptr_x, int dim1, int dim2) {
+  dimX1 = dim1;
+  dimX2 = dim2;
+  array_x = NDArray(Shape(dimX1, dimX2), ctx_dev, false);
   array_x.SyncCopyFromCPU(aptr_x, dimX1 * dimX2);
   array_x.WaitToRead();
 }
@@ -53,20 +57,20 @@ void MLPNative::build_mlp() {
   fc.push_back(FullyConnected("fc" + std::to_string(nLayers + 1),
                               act, fc_w[nLayers], fc_b[nLayers], nOut));
   sym_network = SoftmaxOutput("softmax", fc[nLayers], data_label);
-  //for (auto s : sym_network.ListArguments()) {
-  //  std::cout << s << std::endl;  
-  //}
-  //std::cout <<
   sym_network.Save("mlp.json");
+  opt = Optimizer("ccsgd", learning_rate, weight_decay);
+  opt.SetParam("momentum", 0.9)
+      .SetParam("rescale_grad", 1.0)
+      .SetParam("clip_gradient", 10);
 }
 
 mx_float* MLPNative::train() {
 
-  pred = (float *)malloc(sizeof(float) * dimY * layerSize[layerSize.size() - 1]);
+  int start_index = 0;
 
+  Executor *exe = sym_network.SimpleBind(ctx_dev, args_map);
   exe->Forward(true);
   exe->Backward();
-  Optimizer opt("ccsgd", learning_rate, weight_decay);
   exe->UpdateAll(&opt, learning_rate, weight_decay);
   NDArray::WaitAll();
 
