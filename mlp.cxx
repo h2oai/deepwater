@@ -14,7 +14,6 @@ void MLPNative::setLayers(int * lsize, int nsize, int n) {
   for (int i = 0; i < nsize; i++) {
     layerSize.push_back(lsize[i]);
   }
-  pred = (mx_float *)malloc(sizeof(mx_float) * dimY * nOut);
 }
 
 void MLPNative::setAct(char ** acts) {
@@ -79,6 +78,7 @@ float MLPNative::compAccuracy() {
     NDArray::WaitAll();
 
     Executor *exe = sym_network.SimpleBind(ctx_dev, args_map);
+    //NDArray::Save("mlp.para", exe->arg_arrays);
     exe->Forward(false);
 
     const auto &out = exe->outputs;
@@ -109,8 +109,11 @@ float MLPNative::compAccuracy() {
 }
 
 void MLPNative::train() {
+  train(learning_rate, weight_decay);
+}
 
-  Optimizer opt("ccsgd", learning_rate, weight_decay);
+void MLPNative::train(float lr, float wd) {
+  Optimizer opt("ccsgd", lr, wd);
   opt.SetParam("momentum", 0.9)
       .SetParam("rescale_grad", 1.0)
       .SetParam("clip_gradient", 10);
@@ -130,10 +133,5 @@ void MLPNative::train() {
     exe->Backward();
     exe->UpdateAll(&opt, learning_rate, weight_decay);
     NDArray::WaitAll();
-    if (start_index == dimY - batch_size) {
-      std::vector<NDArray> & out = exe->outputs; 
-      out[0].SyncCopyToCPU(pred, dimY * layerSize[layerSize.size() - 1]);
-      NDArray::WaitAll();
-    }
   }
 }

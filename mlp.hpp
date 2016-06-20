@@ -17,6 +17,7 @@ class MLPNative {
 
   void build_mlp();
   void train();
+  void train(float learning_rate, float weight_decay);
   float compAccuracy();
 
  private:
@@ -28,7 +29,7 @@ class MLPNative {
   std::vector<int> layerSize;
   std::vector<std::string> activations;
   std::vector<mx_float> label;
-  mx_float * pred;
+  //mx_float * pred;
   //  std::shared_ptr<mxnet::cpp::Executor> exe;
   std::map<std::string, mxnet::cpp::NDArray> args_map;
   //mxnet::cpp::Optimizer opt;

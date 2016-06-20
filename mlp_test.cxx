@@ -15,9 +15,9 @@ int main() {
   m.setLabel(aptr_y, 101);
   m.build_mlp();
   Symbol pred;
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < 150; i++) {
     m.train();
     std::cout << m.compAccuracy() << std::endl;
   }
-      
+
 }
