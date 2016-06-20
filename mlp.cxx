@@ -63,7 +63,7 @@ void MLPNative::build_mlp() {
   sym_network.InferArgsMap(ctx_dev, &args_map, args_map);
 }
 
-mx_float MLPNative::compAccuracy() {
+float MLPNative::compAccuracy() {
   size_t val_num = array_x.GetShape()[0];
   size_t correct_count = 0;
   size_t all_count = 0;
@@ -105,7 +105,7 @@ mx_float MLPNative::compAccuracy() {
 
     delete exe;
   }
-  return static_cast<mx_float>(correct_count) / all_count;
+  return static_cast<float>(correct_count) / all_count;
 }
 
 void MLPNative::train() {

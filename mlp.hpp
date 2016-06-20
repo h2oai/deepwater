@@ -17,7 +17,7 @@ class MLPNative {
 
   void build_mlp();
   void train();
-  mx_float compAccuracy();
+  float compAccuracy();
 
  private:
   int nLayers, nOut;
