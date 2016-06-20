@@ -16,14 +16,15 @@ class MLPNative {
   void setBatch(int batch) {batch_size = batch;}
 
   void build_mlp();
-  mx_float* train();
+  mxnet::cpp::Symbol train();
+  mx_float compAccuracy(mxnet::cpp::Symbol);
 
  private:
   int nLayers, nOut;
   int dimX1, dimX2, dimY;
-  mx_float learning_rate = 1e-4;
-  mx_float weight_decay = 1e-4;
-  int batch_size = 20;
+  mx_float learning_rate = 0.01;
+  mx_float weight_decay = 0.01;
+  int batch_size = 15;
   std::vector<int> layerSize;
   std::vector<std::string> activations;
   std::vector<mx_float> label;

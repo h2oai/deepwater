@@ -61,13 +61,56 @@ void MLPNative::build_mlp() {
   args_map["data"] = array_x.Slice(0, batch_size).Copy(ctx_dev);
   args_map["data_label"] = array_y.Slice(0, batch_size).Copy(ctx_dev);
   sym_network.InferArgsMap(ctx_dev, &args_map, args_map);
-  //opt = Optimizer("ccsgd", learning_rate, weight_decay);
-  //opt.SetParam("momentum", 0.9)
-  //    .SetParam("rescale_grad", 1.0)
-  //    .SetParam("clip_gradient", 10);
 }
 
-mx_float* MLPNative::train() {
+mx_float MLPNative::compAccuracy(mxnet::cpp::Symbol) {
+  size_t val_num = array_x.GetShape()[0];
+  size_t correct_count = 0;
+  size_t all_count = 0;
+
+  size_t start_index = 0;
+  while (start_index < val_num) {
+    if (start_index + batch_size > val_num) {
+      start_index = val_num - batch_size;
+    }
+    args_map["data"] = array_x.Slice(start_index, start_index + batch_size).Copy(ctx_dev);
+    args_map["data_label"] = array_y.Slice(start_index, start_index + batch_size).Copy(ctx_dev);
+    start_index += batch_size;
+    NDArray::WaitAll();
+
+    Executor *exe = sym_network.SimpleBind(ctx_dev, args_map);
+    exe->Forward(false);
+
+    const auto &out = exe->outputs;
+    NDArray outs = out[0].Copy(ctx_dev);
+    NDArray labels = array_y.Slice(start_index - batch_size, start_index).Copy(ctx_dev);
+    NDArray::WaitAll();
+
+    const mx_float *dptr_out = outs.GetData();
+    const mx_float *dptr_label = labels.GetData();
+    for (int i = 0; i < batch_size; i++) {
+      mx_float label = dptr_label[i];
+      int cat_num = outs.GetShape()[1];
+      mx_float p_label = 0, max_p = dptr_out[i * cat_num];
+      for (int j = 0; j < cat_num; ++j) {
+        //std::cout << dptr_out[i * cat_num + j] << std::endl;
+        mx_float p = dptr_out[i * cat_num + j];
+        if (max_p < p) {
+          p_label = j;
+          max_p = p;
+        }
+      }
+      //std::cout << "p_label " << p_label << std::endl;
+      if (label == p_label) correct_count++;
+    }
+    all_count += batch_size;
+
+    delete exe;
+  }
+  return static_cast<mx_float>(correct_count) / all_count;
+}
+
+Symbol MLPNative::train() {
 
   Optimizer opt("ccsgd", learning_rate, weight_decay);
   opt.SetParam("momentum", 0.9)
@@ -96,5 +139,5 @@ mx_float* MLPNative::train() {
     }
   }
 
-  return pred;
+  return sym_network;
 }
