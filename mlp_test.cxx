@@ -16,12 +16,8 @@ int main() {
   m.build_mlp();
   Symbol pred;
   for (int i = 0; i < 100; i++) {
-    pred = m.train();
-    std::cout << m.compAccuracy(pred) << std::endl;
+    m.train();
+    std::cout << m.compAccuracy() << std::endl;
   }
       
-      //m.train();
-  //std::cout << m.compAccuracy(pred) << std::endl;
-  //pred = m.train();
-  //std::cout << m.compAccuracy(pred) << std::endl;
 }

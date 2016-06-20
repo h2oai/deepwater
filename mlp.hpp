@@ -16,8 +16,8 @@ class MLPNative {
   void setBatch(int batch) {batch_size = batch;}
 
   void build_mlp();
-  mxnet::cpp::Symbol train();
-  mx_float compAccuracy(mxnet::cpp::Symbol);
+  void train();
+  mx_float compAccuracy();
 
  private:
   int nLayers, nOut;

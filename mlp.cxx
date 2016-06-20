@@ -14,7 +14,7 @@ void MLPNative::setLayers(int * lsize, int nsize, int n) {
   for (int i = 0; i < nsize; i++) {
     layerSize.push_back(lsize[i]);
   }
-  pred = (float *)malloc(sizeof(float) * dimY * nOut);
+  pred = (mx_float *)malloc(sizeof(mx_float) * dimY * nOut);
 }
 
 void MLPNative::setAct(char ** acts) {
@@ -23,7 +23,7 @@ void MLPNative::setAct(char ** acts) {
   }
 }
 
-void MLPNative::setData(float * aptr_x, int dim1, int dim2) {
+void MLPNative::setData(mx_float * aptr_x, int dim1, int dim2) {
   dimX1 = dim1;
   dimX2 = dim2;
   array_x = NDArray(Shape(dimX1, dimX2), ctx_dev, false);
@@ -31,7 +31,7 @@ void MLPNative::setData(float * aptr_x, int dim1, int dim2) {
   array_x.WaitToRead();
 }
 
-void MLPNative::setLabel(float * aptr_y, int i) {
+void MLPNative::setLabel(mx_float * aptr_y, int i) {
   dimY = i;
   array_y = NDArray(Shape(dimY), ctx_dev, false);
   array_y.SyncCopyFromCPU(aptr_y, dimY);
@@ -63,7 +63,7 @@ void MLPNative::build_mlp() {
   sym_network.InferArgsMap(ctx_dev, &args_map, args_map);
 }
 
-mx_float MLPNative::compAccuracy(mxnet::cpp::Symbol) {
+mx_float MLPNative::compAccuracy() {
   size_t val_num = array_x.GetShape()[0];
   size_t correct_count = 0;
   size_t all_count = 0;
@@ -93,14 +93,12 @@ mx_float MLPNative::compAccuracy(mxnet::cpp::Symbol) {
       int cat_num = outs.GetShape()[1];
       mx_float p_label = 0, max_p = dptr_out[i * cat_num];
       for (int j = 0; j < cat_num; ++j) {
-        //std::cout << dptr_out[i * cat_num + j] << std::endl;
         mx_float p = dptr_out[i * cat_num + j];
         if (max_p < p) {
           p_label = j;
           max_p = p;
         }
       }
-      //std::cout << "p_label " << p_label << std::endl;
       if (label == p_label) correct_count++;
     }
     all_count += batch_size;
@@ -110,7 +108,7 @@ mx_float MLPNative::compAccuracy(mxnet::cpp::Symbol) {
   return static_cast<mx_float>(correct_count) / all_count;
 }
 
-Symbol MLPNative::train() {
+void MLPNative::train() {
 
   Optimizer opt("ccsgd", learning_rate, weight_decay);
   opt.SetParam("momentum", 0.9)
@@ -138,6 +136,4 @@ Symbol MLPNative::train() {
       NDArray::WaitAll();
     }
   }
-
-  return sym_network;
 }
