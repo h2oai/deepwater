@@ -22,7 +22,7 @@ void MLPNative::setAct(char ** acts) {
   }
 }
 
-void MLPNative::setData(mx_float * aptr_x, int dim1, int dim2) {
+void MLPNative::setData(float * aptr_x, int dim1, int dim2) {
   dimX1 = dim1;
   dimX2 = dim2;
   array_x = NDArray(Shape(dimX1, dimX2), ctx_dev, false);
@@ -30,7 +30,7 @@ void MLPNative::setData(mx_float * aptr_x, int dim1, int dim2) {
   array_x.WaitToRead();
 }
 
-void MLPNative::setLabel(mx_float * aptr_y, int i) {
+void MLPNative::setLabel(float * aptr_y, int i) {
   dimY = i;
   array_y = NDArray(Shape(dimY), ctx_dev, false);
   array_y.SyncCopyFromCPU(aptr_y, dimY);

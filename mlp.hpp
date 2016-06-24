@@ -9,8 +9,8 @@ class MLPNative {
   MLPNative();
   void setLayers(int * lsize, int nsize, int n);
   void setAct(char **);
-  void setData(mx_float *, int, int);
-  void setLabel(mx_float *, int);
+  void setData(float *, int, int);
+  void setLabel(float *, int);
   void setLR(float lr) {learning_rate = lr;}
   void setWD(float wd) {weight_decay = wd;}
   void setBatch(int batch) {batch_size = batch;}
