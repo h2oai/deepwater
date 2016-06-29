@@ -112,6 +112,41 @@ void MLPNative::train() {
   train(learning_rate, weight_decay);
 }
 
+std::vector<float> MLPNative::pred() {
+  std::vector<float> pred;
+  size_t val_num = array_x.GetShape()[0];
+  pred.reserve(val_num * nOut);
+
+  size_t start_index = 0;
+  int offset = 0;
+  while (start_index < val_num) {
+    if (start_index + batch_size > val_num) {
+      offset = start_index + batch_size - val_num; 
+      start_index = val_num - batch_size;
+    } 
+
+    args_map["data"] = array_x.Slice(start_index, start_index + batch_size).Copy(ctx_dev);
+    args_map["data_label"] = array_y.Slice(start_index, start_index + batch_size).Copy(ctx_dev);
+    start_index += batch_size;
+    NDArray::WaitAll();
+
+    Executor *exe = sym_network.SimpleBind(ctx_dev, args_map);
+    exe->Forward(false);
+    const auto &out = exe->outputs;
+    NDArray outs = out[0].Copy(ctx_dev);
+    NDArray::WaitAll();
+    const mx_float *dptr_out = outs.GetData();
+    for (int i = offset; i < batch_size; i++) {
+      int cat_num = outs.GetShape()[1];
+      for (int j = 0; j < cat_num; j++) {
+        pred.push_back(dptr_out[i * cat_num + j]);
+      }
+    }
+  }
+
+  return pred;
+}
+
 void MLPNative::train(float lr, float wd) {
   Optimizer opt("ccsgd", lr, wd);
   opt.SetParam("momentum", 0.9)
