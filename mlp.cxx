@@ -142,6 +142,8 @@ std::vector<float> MLPNative::pred() {
         pred.push_back(dptr_out[i * cat_num + j]);
       }
     }
+
+    delete exe;
   }
 
   return pred;
