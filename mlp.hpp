@@ -20,6 +20,7 @@ class MLPNative {
   void train(float learning_rate, float weight_decay);
   float compAccuracy();
   std::vector<float> pred();
+  std::vector<float> pred(float *, int);
 
  private:
   int nLayers, nOut;

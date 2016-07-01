@@ -149,6 +149,29 @@ std::vector<float> MLPNative::pred() {
   return pred;
 }
 
+std::vector<float> MLPNative::pred(float * new_x, int new_size) {
+  std::vector<float> pred;
+  NDArray new_array_x(Shape(1, new_size), ctx_dev, false);
+  new_array_x.SyncCopyFromCPU(new_x, new_size);
+  new_array_x.WaitToRead();
+  args_map["data"] = new_array_x;
+  args_map["data_label"] = array_y.Slice(0, 1).Copy(ctx_dev);
+  NDArray::WaitAll();
+  Executor *exe = sym_network.SimpleBind(ctx_dev, args_map);
+
+  exe->Forward(false);
+
+  const auto &out = exe->outputs;
+  NDArray outs = out[0].Copy(ctx_dev);
+  NDArray::WaitAll();
+  const mx_float *dptr_out = outs.GetData();
+  int cat_num = outs.GetShape()[1];
+  for (int i = 0; i < cat_num; i++) {
+    pred.push_back(dptr_out[i]);
+  }
+  return pred;
+}
+
 void MLPNative::train(float lr, float wd) {
   Optimizer opt("ccsgd", lr, wd);
   opt.SetParam("momentum", 0.9)
