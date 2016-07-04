@@ -6,11 +6,11 @@ MXNET_SRCS=src/executor.cxx src/kvstore.cxx src/operator.cxx src/symbol.cxx src/
 
 MXNET_OBJS=$(MXNET_SRCS:.cxx=.o)
 
-SRCS=mlp.cxx
+SRCS=mlp.cxx imagenet.o
 
 OBJS=$(SRCS:.cxx=.o)
 
-TARGET=libmlp.$(SUFFIX)
+TARGET=libNative.$(SUFFIX)
 
 CXX=g++
 
@@ -30,6 +30,7 @@ $(OBJS): %.o : %.cxx
 
 swig:
 	swig -c++ -java -package water.gpu mlp.i
+	swig -c++ -java -package water.gpu imagenet.i
 
 mlp_wrap.o:
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) mlp_wrap.cxx -o mlp_wrap.o

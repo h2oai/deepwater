@@ -42,6 +42,6 @@
 
 %{
 #include "mlp.hpp"
-    %}
+%}
 
-    %include "mlp.hpp"
+%include "mlp.hpp"
