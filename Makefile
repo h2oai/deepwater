@@ -35,8 +35,11 @@ swig:
 mlp_wrap.o:
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) mlp_wrap.cxx -o mlp_wrap.o
 
-$(TARGET): mlp_wrap.o
-	$(CXX) -shared $(MXNET_OBJS) $(OBJS) mlp_wrap.o -o $(TARGET) -L./lib -lmxnet
+imagenet_wrap.o:
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) imagenet_wrap.cxx -o imagenet_wrap.o
+
+$(TARGET): mlp_wrap.o imagenet_wrap.o
+	$(CXX) -shared $(MXNET_OBJS) $(OBJS) mlp_wrap.o imagenet_wrap.o -o $(TARGET) -L./lib -lmxnet
 
 mlp_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) mlp_test.cxx -o mlp_test.o

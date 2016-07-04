@@ -19,7 +19,6 @@ BufferFile::BufferFile(const std::string & file_path){
   ifs.seekg(0, std::ios::end);
   length_ = ifs.tellg();
   ifs.seekg(0, std::ios::beg);
-
   buffer_ = new char[sizeof(char) * length_];
   ifs.read(buffer_, length_);
   ifs.close();
@@ -32,10 +31,9 @@ BufferFile::~BufferFile() {
 
 std::vector<std::string> loadSynset(const std::string & filename) {
   std::ifstream fi(filename.c_str());
-
   std::vector<std::string> output;
-
   std::string synset, lemma;
+
   while ( fi >> synset ) {
     getline(fi, lemma);
     output.push_back(lemma);
@@ -53,12 +51,14 @@ ImageNative::ImageNative() {
   image_size = width * height * channels;
   dev_type = 1;
   dev_id = 0;
+
+  pred_hnd = 0;
 }
 
 void ImageNative::loadInception() {
   synset = loadSynset(model_path_ + "/Inception/synset.txt");
-  BufferFile json_data(model_path_ + "/Inception_BN-symbol.json");
-  BufferFile param_data(model_path_ + "/Inception_BN-0039.params");
+  BufferFile json_data(model_path_ + "/Inception/Inception_BN-symbol.json");
+  BufferFile param_data(model_path_ + "/Inception/Inception_BN-0039.params");
   BufferFile nd_buf(model_path_ + "/Inception/mean_224.nd");
 
   mx_uint nd_index = 0;
@@ -67,7 +67,7 @@ void ImageNative::loadInception() {
   const char* nd_key = 0;
   const mx_uint* nd_shape = 0;
 
-  MXNDListCreate((const char*)nd_buf.getBuffer(),nd_buf.getLength(),&nd_hnd, &nd_len);
+  MXNDListCreate((const char*)nd_buf.getBuffer(), nd_buf.getLength(), &nd_hnd, &nd_len);
 
   MXNDListGet(nd_hnd, nd_index, &nd_key, &nd_data, &nd_shape, &nd_ndim);
 
@@ -118,9 +118,17 @@ const char * ImageNative::predict(float * image_data) {
 
   MXPredGetOutput(pred_hnd, output_index, &(data[0]), size);
 
-  std::string res;
+  float best_accuracy = 0.0;
+  size_t best_idx = 0;
 
-  return res.c_str();
+  for ( size_t i = 0; i < data.size(); i++ ) {
+    if ( data[i] > best_accuracy ) {
+      best_accuracy = data[i];
+      best_idx = i;
+    }
+  }
+
+  return synset[best_idx].c_str();
 }
 
 ImageNative::~ImageNative() {
