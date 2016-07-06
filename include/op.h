@@ -939,20 +939,12 @@ inline Symbol LogisticRegressionOutput(const std::string& symbol_name,
  *        be inferred from the rest of dims. One and only one dim can be -1
  * \return new symbol
  */
-inline Symbol Reshape(const std::string& symbol_name,
-                      Symbol data,
-                      Shape target_shape = Shape(),
-                      bool keep_highest = false ) {
-                      // TODO(zhangchen-qingyinghua)
-                      // shape param is a vector, which is not registered in mxnet
-                      // comment out for now
-                      // Shape shape = Shape()) {
+inline Symbol Reshape(Symbol data,
+                      Shape shape = Shape()) {
   return Operator("Reshape")
-           .SetParam("target_shape", target_shape)
-           .SetParam("keep_highest", keep_highest)
-           // .SetParam("shape", shape)
+           .SetParam("shape", shape)
            .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+           .CreateSymbol();
 }
 
 /*!

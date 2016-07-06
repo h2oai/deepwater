@@ -118,7 +118,7 @@ int main() {
                              num_label);
 
   Symbol label2 = transpose("label2", label, label);
-  Symbol label3 = Reshape("label3", label2);
+  Symbol label3 = Reshape(label2);
   Symbol loss_all = SoftmaxOutput("sm", fc, label3);
   loss_all.Save("lstm.json");
 }
