@@ -50,7 +50,7 @@ lstm_test: $(TARGET) clean_test
 	$(CXX) -o lstm_test lstm_test.o $(MXNET_OBJS) -L./lib -lmxnet
 
 clean:
-	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *.java *_wrap.cxx *_wrap.o mlp_test.o mlp_test
+	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *.java *_wrap.cxx *_wrap.o mlp_test.o mlp_test lstm_test
 
 clean_test:
 	rm -rf mlp_test.o mlp_test lstm_test lstm_test.o
