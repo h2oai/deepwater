@@ -12,8 +12,29 @@ std::vector<Symbol> lstm(int num_hidden, Symbol indata, std::vector<Symbol> prev
   Symbol i2h = FullyConnected("t" + std::to_string(seqidx) + ".l" + std::to_string(layeridx) + ".i2h",
                               indata, param[0], param[1], num_hidden * 4);
 
-  std::vector<Symbol> lst;
+  Symbol h2h = FullyConnected("t" + std::to_string(seqidx) + ".l" + std::to_string(layeridx) + ".h2h",
+                              prev_state[1], param[2], param[3],
+                              num_hidden * 4);
 
+  Symbol gates = i2h + h2h;
+  Symbol slice_gates = SliceChannel("t" + std::to_string(seqidx) + ".l" + std::to_string(layeridx) + ".slice",
+                                    gates, 4);
+
+  Symbol in_gate = Activation("in_gate", slice_gates[0], "sigmoid");
+
+  Symbol in_transform = Activation("in_transform", slice_gates[1], "tanh");
+
+  Symbol forget_gate = Activation("forget_gate", slice_gates[2], "sigmoid");
+
+  Symbol out_gate = Activation("out_gate", slice_gates[3], "sigmoid");
+
+  Symbol next_c = (forget_gate * prev_state[0]) + (in_gate * in_transform);
+
+  Symbol next_h = out_gate * Activation("next_c", next_c, "tanh");
+
+  std::vector<Symbol> lst;
+  lst.push_back(next_c);
+  lst.push_back(next_h);
   return lst;
 }
 
@@ -37,6 +58,8 @@ int main() {
   Symbol cls_bias = Symbol::Variable("cls.bias");
 
   std::vector<std::vector<Symbol> > param_cells;
+
+  std::vector<Symbol> last_hidden;
 
   for (int i = 1; i <= num_lstm_layer; i++) {
     std::vector<Symbol> lst; 
@@ -73,9 +96,29 @@ int main() {
         dp = dropout;
       }
 
-      std::vector<Symbol> next_state;
+      std::vector<Symbol> next_state = lstm(num_hidden, hidden,
+                                            last_states[i],
+                                            param_cells[i],
+                                            seqidx + 1,
+                                            i + 1, dp);
 
+      hidden = next_state[1];
+      last_states[i] = next_state;
     }
+    if (dropout > 0)
+      hidden = Dropout("hidden", hidden, dropout);
+    
+    last_hidden.push_back(hidden);
+
   }
 
+  Symbol concat = Concat("concat", last_hidden, seq_len, 1);
+  Symbol fc = FullyConnected("fc", concat,
+                             cls_weight, cls_bias,
+                             num_label);
+
+  Symbol label2 = transpose("label2", label, label);
+  Symbol label3 = Reshape("label3", label2);
+  Symbol loss_all = SoftmaxOutput("sm", fc, label3);
+  loss_all.Save("lstm.json");
 }
