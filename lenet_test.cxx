@@ -55,7 +55,7 @@ int main(int argc, char const *argv[]) {
 
   args_map["data"] = NDArray(Shape(batch_size, 1, W, H), Context::cpu());
   args_map["data_label"] = NDArray(Shape(batch_size), Context::cpu());
-  lenet.InferArgsMap(Context::gpu(), &args_map, args_map);
+  lenet.InferArgsMap(Context::cpu(), &args_map, args_map);
 
   auto train_iter = MXDataIter("MNISTIter")
       .SetParam("image", "./train-images-idx3-ubyte")
@@ -80,10 +80,10 @@ int main(int argc, char const *argv[]) {
     train_iter.Reset();
     while (train_iter.Next()) {
       auto data_batch = train_iter.GetDataBatch();
-      args_map["data"] = data_batch.data.Copy(Context::gpu());
-      args_map["data_label"] = data_batch.label.Copy(Context::gpu());
+      args_map["data"] = data_batch.data.Copy(Context::cpu());
+      args_map["data_label"] = data_batch.label.Copy(Context::cpu());
       NDArray::WaitAll();
-      auto *exec = lenet.SimpleBind(Context::gpu(), args_map);
+      auto *exec = lenet.SimpleBind(Context::cpu(), args_map);
       exec->Forward(true);
       exec->Backward();
       exec->UpdateAll(&opt, learning_rate, weight_decay);
