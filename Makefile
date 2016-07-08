@@ -67,8 +67,12 @@ googlenet_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) googlenet_test.cxx -o googlenet_test.o
 	$(CXX) -o googlenet_test googlenet_test.o $(MXNET_OBJS) -L./lib -lmxnet
 
+resnet_test: $(TARGET) clean_test
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) resnet_test.cxx -o resnet_test.o
+	$(CXX) -o resnet_test resnet_test.o $(MXNET_OBJS) -L./lib -lmxnet
+
 clean:
 	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *.java *_wrap.cxx *_wrap.o mlp_test.o mlp_test lstm_test
 
 clean_test:
-	rm -rf mlp_test.o mlp_test lstm_test lstm_test.o lenet_test lenet_test.o inception_test inception_test.o vgg_test vgg_test.o googlenet_test googlenet_test.o
+	rm -rf mlp_test.o mlp_test lstm_test lstm_test.o lenet_test lenet_test.o inception_test inception_test.o vgg_test vgg_test.o googlenet_test googlenet_test.o resnet_test resnet_test.o
