@@ -56,10 +56,10 @@ ImageNative::ImageNative() {
 }
 
 void ImageNative::loadInception() {
-  synset = loadSynset(model_path_ + "/Inception/synset.txt");
-  BufferFile json_data(model_path_ + "/Inception/Inception_BN-symbol.json");
-  BufferFile param_data(model_path_ + "/Inception/Inception_BN-0039.params");
-  BufferFile nd_buf(model_path_ + "/Inception/mean_224.nd");
+  synset = loadSynset(model_path_ + "/synset.txt");
+  BufferFile json_data(model_path_ + "/Inception_BN-symbol.json");
+  BufferFile param_data(model_path_ + "/Inception_BN-0039.params");
+  BufferFile nd_buf(model_path_ + "/mean_224.nd");
 
   mx_uint nd_index = 0;
   mx_uint nd_len;
