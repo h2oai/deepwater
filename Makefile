@@ -1,6 +1,8 @@
-JAVA_INCLUDE=/System/Library/Frameworks/JavaVM.framework/Headers/
+JAVA_INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/include/linux
 
-SUFFIX=dylib
+JNI_INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/include
+
+SUFFIX=so
 
 MXNET_SRCS=src/executor.cxx src/kvstore.cxx src/operator.cxx src/symbol.cxx src/io.cxx src/ndarray.cxx src/optimizer.cxx
 
@@ -14,7 +16,7 @@ TARGET=libNative.$(SUFFIX)
 
 CXX=g++
 
-INCLUDE=-I$(JAVA_INCLUDE) -Iinclude
+INCLUDE=-I$(JAVA_INCLUDE) -I$(JNI_INCLUDE) -Iinclude
 
 LDFLAGS=-L./lib -lmxnet
 
