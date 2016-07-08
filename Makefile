@@ -1,3 +1,5 @@
+CURRENT_DIR = $(shell pwd)
+
 JAVA_INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/include/linux
 
 JNI_INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/include
@@ -18,7 +20,7 @@ CXX=g++
 
 INCLUDE=-I$(JAVA_INCLUDE) -I$(JNI_INCLUDE) -Iinclude
 
-LDFLAGS=-L./lib -lmxnet
+LDFLAGS=-Wl,-rpath,$(CURRENT_DIR) -L./lib -lmxnet
 
 CXXFLAGS=-std=c++11 -O3
 
@@ -41,7 +43,7 @@ imagenet_wrap.o:
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) imagenet_wrap.cxx -o imagenet_wrap.o
 
 $(TARGET): mlp_wrap.o imagenet_wrap.o
-	$(CXX) -shared $(MXNET_OBJS) $(OBJS) mlp_wrap.o imagenet_wrap.o -o $(TARGET) -L./lib -lmxnet
+	$(CXX) -shared $(MXNET_OBJS) $(OBJS) mlp_wrap.o imagenet_wrap.o -o $(TARGET) $(LDFLAGS)
 
 mlp_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) mlp_test.cxx -o mlp_test.o
