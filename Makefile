@@ -10,7 +10,7 @@ MXNET_SRCS=src/executor.cxx src/kvstore.cxx src/operator.cxx src/symbol.cxx src/
 
 MXNET_OBJS=$(MXNET_SRCS:.cxx=.o)
 
-SRCS=mlp.cxx imagenet.o
+SRCS=mlp.cxx imagenet.cxx network_def.cxx
 
 OBJS=$(SRCS:.cxx=.o)
 

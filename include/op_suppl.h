@@ -145,11 +145,37 @@ inline Symbol SliceChannel(const std::string& symbol_name,
                            int axis = 1,
                            bool squeeze_axis = false) {
   return Operator("SliceChannel")
-           .SetParam("num_outputs", num_outputs)
-           .SetParam("axis", axis)
-           .SetParam("squeeze_axis", squeeze_axis) (data)
-           .CreateSymbol(symbol_name);
+      .SetParam("num_outputs", num_outputs)
+      .SetParam("axis", axis)
+      .SetParam("squeeze_axis", squeeze_axis) (data)
+      .CreateSymbol(symbol_name);
 }
+
+inline Symbol ConvolutionNoBias(const std::string& symbol_name,
+                                Symbol data,
+                                Symbol weight,
+                                Symbol bias,
+                                Shape kernel,
+                                int num_filter,
+                                Shape stride = Shape(1,1),
+                                Shape dilate = Shape(1,1),
+                                Shape pad = Shape(0,0),
+                                int num_group = 1,
+                                int64_t workspace = 512) {
+  return Operator("Convolution")
+      .SetParam("kernel", kernel)
+      .SetParam("num_filter", num_filter)
+      .SetParam("stride", stride)
+      .SetParam("dilate", dilate)
+      .SetParam("pad", pad)
+      .SetParam("num_group", num_group)
+      .SetParam("workspace", workspace)
+      .SetParam("no_bias", true)
+      .SetInput("data", data)
+      .SetInput("weight", weight)
+      .CreateSymbol(symbol_name);
+}
+
 }  // namespace cpp
 }  // namespace mxnet
 
