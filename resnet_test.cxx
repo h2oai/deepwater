@@ -74,7 +74,7 @@ Symbol getBody(Symbol data, int num_level, int num_block, int num_filter, mx_flo
   return data;
 }
 
-Symbol InceptionSymbol(int num_class, int num_level = 3, int num_block = 9,
+Symbol ResNetSymbol(int num_class, int num_level = 3, int num_block = 9,
                        int num_filter = 16, mx_float bn_momentum = 0.9,
                        Shape pool_kernel = Shape(8, 8)) {
   // data and label
