@@ -1,6 +1,6 @@
-# h2o-native
+# DeepWater
 
-Native implmentation of deep learning model
+Native implementation of Deep Learning models for GPU backends (mxnet, Caffe, TensorFlow, etc.)
 
 ## Requirement
 
