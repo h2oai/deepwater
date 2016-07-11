@@ -8,8 +8,10 @@
 #ifndef MXNETCPP_METRIC_H
 #define MXNETCPP_METRIC_H
 
+#include <cmath>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include "ndarray.h"
 #include "logging.h"
 
@@ -18,9 +20,13 @@ namespace cpp {
 
 class EvalMetric {
  public:
-  explicit EvalMetric(const std::string& name, int num = 0) : name(name), num(num) {}
+  explicit EvalMetric(const std::string& name, int num = 0)
+      : name(name), num(num) {}
   virtual void Update(NDArray labels, NDArray preds) = 0;
-  void Reset();
+  void Reset() {
+    num_inst = 0;
+    sum_metric = 0.0f;
+  }
   float Get() { return sum_metric / num_inst; }
   void GetNameValue();
 
@@ -29,6 +35,13 @@ class EvalMetric {
   int num;
   float sum_metric = 0.0f;
   int num_inst = 0;
+
+  static bool CheckLabelShapes(NDArray labels, NDArray preds,
+                               Shape shape = Shape(0)) {
+    // TODO(zhangchen-qinyinghua)
+    // inplement this
+    return true;
+  }
 };
 
 class Accuracy : public EvalMetric {
@@ -45,6 +58,27 @@ class Accuracy : public EvalMetric {
     NDArray::WaitAll();
     for (mx_uint i = 0; i < len; ++i) {
       sum_metric += (pred_data[i] == label_data[i]) ? 1 : 0;
+      num_inst += 1;
+    }
+  }
+};
+
+class LogLoss : public EvalMetric {
+ public:
+  LogLoss() : EvalMetric("logloss") {}
+
+  void Update(NDArray labels, NDArray preds) {
+    static const float epsilon = 1e-15;
+    mx_uint len = labels.GetShape()[0];
+    mx_uint m = preds.GetShape()[1];
+    std::vector<mx_float> pred_data(len * m);
+    std::vector<mx_float> label_data(len);
+    preds.SyncCopyToCPU(&pred_data, pred_data.size());
+    labels.SyncCopyToCPU(&label_data, len);
+    NDArray::WaitAll();
+    for (mx_uint i = 0; i < len; ++i) {
+      sum_metric +=
+          -std::log(std::max(pred_data[i * m + label_data[i]], epsilon));
       num_inst += 1;
     }
   }
