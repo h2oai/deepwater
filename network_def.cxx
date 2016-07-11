@@ -364,8 +364,8 @@ Symbol getConv(const std::string & name, Symbol data,
                bool with_relu,
                mx_float bn_momentum) {
 
-  Symbol conv_w(name + "_w"), conv_b(name + "_b");
-  Symbol conv = ConvolutionNoBias(name, data, conv_w, conv_b,
+  Symbol conv_w(name + "_w");
+  Symbol conv = ConvolutionNoBias(name, data, conv_w,
                                   kernel, num_filter, stride, Shape(1, 1),
                                   pad, 1, 512);
 
@@ -401,8 +401,8 @@ Symbol makeBlock(const std::string & name, Symbol data, int num_filter,
   if (dim_match) {
     shortcut = data;
   } else {
-    Symbol shortcut_w(name + "_proj_w"), shortcut_b(name + "_proj_b");
-    shortcut = ConvolutionNoBias(name + "_proj", data, shortcut_w, shortcut_b,
+    Symbol shortcut_w(name + "_proj_w");
+    shortcut = ConvolutionNoBias(name + "_proj", data, shortcut_w,
                                  Shape(2, 2), num_filter,
                                  Shape(2, 2), Shape(1, 1), Shape(0, 0),
                                  1, 512);
