@@ -1,5 +1,5 @@
-#ifndef __H2O_MPL_H__
-#define __H2O_MPL_H__
+#ifndef __H2O_IMAGENET_H__
+#define __H2O_IMAGENET_H__
 
 #include <iostream>
 #include <fstream>

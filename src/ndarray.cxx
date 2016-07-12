@@ -264,6 +264,16 @@ NDArray NDArray::Copy(const Context &ctx) const {
            0);
   return ret;
 }
+
+NDArray NDArray::CopyTo(NDArray * other) const {
+  static FunctionHandle func_handle;
+  MXGetFunction("_copyto", &func_handle);
+  CHECK_EQ(MXFuncInvoke(func_handle, &blob_ptr_->handle_, nullptr,
+                        &other->blob_ptr_->handle_),
+           0);
+  return *other;
+}
+
 NDArray NDArray::Slice(mx_uint begin, mx_uint end) const {
   NDArrayHandle handle;
   CHECK_EQ(MXNDArraySlice(GetHandle(), begin, end, &handle), 0);

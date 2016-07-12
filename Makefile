@@ -10,7 +10,7 @@ MXNET_SRCS=src/executor.cxx src/kvstore.cxx src/operator.cxx src/symbol.cxx src/
 
 MXNET_OBJS=$(MXNET_SRCS:.cxx=.o)
 
-SRCS=mlp.cxx imagenet.cxx network_def.cxx
+SRCS=mlp.cxx imagenet.cxx network_def.cxx image_classify.cxx
 
 OBJS=$(SRCS:.cxx=.o)
 
@@ -35,6 +35,7 @@ $(OBJS): %.o : %.cxx
 swig:
 	swig -c++ -java -package water.gpu mlp.i
 	swig -c++ -java -package water.gpu imagenet.i
+	swig -c++ -java -package water.gpu image_classify.i
 
 mlp_wrap.o:
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) mlp_wrap.cxx -o mlp_wrap.o
@@ -42,8 +43,11 @@ mlp_wrap.o:
 imagenet_wrap.o:
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) imagenet_wrap.cxx -o imagenet_wrap.o
 
-$(TARGET): mlp_wrap.o imagenet_wrap.o
-	$(CXX) -shared $(MXNET_OBJS) $(OBJS) mlp_wrap.o imagenet_wrap.o -o $(TARGET) $(LDFLAGS)
+image_classify_wrap.o:
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) image_classify_wrap.cxx -o image_classify_wrap.o
+
+$(TARGET): mlp_wrap.o imagenet_wrap.o image_classify_wrap.o
+	$(CXX) -shared $(MXNET_OBJS) $(OBJS) mlp_wrap.o imagenet_wrap.o image_classify_wrap.o -o $(TARGET) $(LDFLAGS)
 
 mlp_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) mlp_test.cxx -o mlp_test.o

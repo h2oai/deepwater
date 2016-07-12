@@ -302,6 +302,7 @@ class NDArray {
   * \param end end index in first dim
   * \return sliced NDArray
   */
+  NDArray CopyTo(NDArray * other) const;
   NDArray Slice(mx_uint begin, mx_uint end) const;
   /*!
   * \brief Return a reshaped NDArray that shares memory with current one
