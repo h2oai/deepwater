@@ -14,7 +14,9 @@ class ImageClassify{
   ImageClassify();
   ~ImageClassify();
   void buildNet(int num_classes, int batch_size, char * model_path);
-  void train(float * data, float * label, bool verbose);
+  void setLR(float lr) {learning_rate = lr;}
+  void setWD(float wd) {weight_decay = wd;}
+  std::vector<float> train(float * data, float * label);
 
  private:
   int width, height, batch_size;
@@ -23,7 +25,6 @@ class ImageClassify{
   std::map<std::string, mxnet::cpp::NDArray> args_map;
   mxnet::cpp::Symbol inception_bn_net;
   mxnet::cpp::Executor * exec;
-  mxnet::cpp::Accuracy acu_train;
   mxnet::cpp::Optimizer * opt;
 
 };

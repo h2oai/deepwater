@@ -25,7 +25,6 @@ void ImageClassify::buildNet(int n, int b, char * model_path) {
   (*opt).SetParam("momentum", 0.9);
   (*opt).SetParam("rescale_grad", 1.0 / batch_size);
   (*opt).SetParam("clip_gradient", 10);
-  acu_train.Reset();
 
   args_map["data"] = NDArray(Shape(batch_size, 3, width, height), Context::gpu());
   args_map["data_label"] = NDArray(Shape(batch_size), Context::gpu());
@@ -34,7 +33,7 @@ void ImageClassify::buildNet(int n, int b, char * model_path) {
   NDArray::Load(std::string(model_path), nullptr, &args_map);
 }
 
-void ImageClassify::train(float * data, float * label, bool verbose) {
+std::vector<float> ImageClassify::train(float * data, float * label) {
 
   NDArray data_n = NDArray(data, Shape(batch_size, 3, width, height), Context::gpu());
 
@@ -52,8 +51,10 @@ void ImageClassify::train(float * data, float * label, bool verbose) {
   exec->Backward();
   exec->UpdateAll(opt, learning_rate, weight_decay);
   NDArray::WaitAll();
-
-  acu_train.Update(label_n, exec->outputs[0]);
-  if (verbose) LG << " Train Accuracy: " << acu_train.Get();
-
+  
+  std::vector<float> preds(batch_size);
+  
+  exec->outputs[0].ArgmaxChannel().SyncCopyToCPU(&preds,batch_size);
+  
+  return preds;
 }
