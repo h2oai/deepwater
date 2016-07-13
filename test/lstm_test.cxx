@@ -1,5 +1,5 @@
 
-#include "include/MxNetCpp.h"
+#include "../include/MxNetCpp.h"
 
 using namespace mxnet::cpp;
 
@@ -148,22 +148,22 @@ int main() {
   std::map<std::string, std::vector<mx_uint> > input_shapes;
 
   /*for (size_t i = 0; i < arg_names.size(); i++) {*/
-    //if (endswith(arg_names[i], "init_c") || endswith(arg_names[i], "init_h")) {
-      //std::vector<mx_uint> tmp; tmp.push_back(batch_size); tmp.push_back(num_hidden);
-      //input_shapes[arg_names[i]] = tmp; 
-    //} else if (endswith(arg_names[i], "data")) {
-      //std::vector<mx_uint> tmp; tmp.push_back(batch_size);
-      //input_shapes[arg_names[i]] = tmp;
-    //}
+  //if (endswith(arg_names[i], "init_c") || endswith(arg_names[i], "init_h")) {
+  //std::vector<mx_uint> tmp; tmp.push_back(batch_size); tmp.push_back(num_hidden);
+  //input_shapes[arg_names[i]] = tmp; 
+  //} else if (endswith(arg_names[i], "data")) {
+  //std::vector<mx_uint> tmp; tmp.push_back(batch_size);
+  //input_shapes[arg_names[i]] = tmp;
+  //}
   //}
 
   //std::vector<std::vector<mx_uint> > arg_shapes, aux_shapes, out_shapes;
   /*rnn_sym.InferShape(input_shapes, &arg_shapes, &aux_shapes, &out_shapes);*/
   /*for (size_t i = 0; i < arg_shapes.size(); i++) {*/
-    //for (size_t j = 0; j < arg_shapes[i].size(); j++) {
-      //std::cout << "arg_shapes " << arg_shapes[i][j] << ", ";
-    //}
-    //std::cout << std::endl;
+  //for (size_t j = 0; j < arg_shapes[i].size(); j++) {
+  //std::cout << "arg_shapes " << arg_shapes[i][j] << ", ";
+  //}
+  //std::cout << std::endl;
   /*}*/
   //for (size_t i = 0; i < out_shapes.size(); i++) {
   //for (size_t j = 0; j < out_shapes[i].size(); j++) {
@@ -173,26 +173,26 @@ int main() {
   /*}*/
   /*std::vector<NDArray> arg_arrays;*/
   //for (size_t i = 0; i < arg_shapes.size(); i++) {
-    //NDArray tmp(Shape(arg_shapes[i]), ctx_dev, false);
-    //tmp = (mx_float)0.0;
-    //arg_arrays.push_back(tmp);
+  //NDArray tmp(Shape(arg_shapes[i]), ctx_dev, false);
+  //tmp = (mx_float)0.0;
+  //arg_arrays.push_back(tmp);
   /*}*/
 
   //std::cout << arg_names.size() << " " << arg_shapes.size() << std::endl;
   /*std::vector<NDArray> args_grad;*/
   //for (size_t i = 0; i < arg_shapes.size(); i++) {
-    //if (is_param_name(arg_names[i])) {
-      //NDArray tmp(Shape(arg_shapes[i]), ctx_dev, false);
-      //tmp = (mx_float)0.0; 
-      //args_grad.push_back(tmp);
-    //}
+  //if (is_param_name(arg_names[i])) {
+  //NDArray tmp(Shape(arg_shapes[i]), ctx_dev, false);
+  //tmp = (mx_float)0.0; 
+  //args_grad.push_back(tmp);
+  //}
   /*}*/
   //std::cout << __LINE__ << std::endl;
   /*std::vector<OpReqType> grad_req_type;*/
   //for (size_t i = 0; i < args_grad.size(); i++)
-    //grad_req_type.push_back(kAddTo);
+  //grad_req_type.push_back(kAddTo);
 
   //std::vector<NDArray> aux_states;
   //Executor * exe = new Executor(rnn_sym, ctx_dev, arg_arrays, args_grad,
-                                /*grad_req_type, aux_states);*/
+  /*grad_req_type, aux_states);*/
 }

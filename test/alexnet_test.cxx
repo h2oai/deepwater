@@ -3,8 +3,8 @@
 #include<vector>
 #include<map>
 
-#include"initializer.h"
-#include"network_def.hpp"
+#include "../include/initializer.h"
+#include "../network_def.hpp"
 
 using namespace mxnet::cpp;
 

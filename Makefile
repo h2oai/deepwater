@@ -42,40 +42,42 @@ $(TARGET): deepwater_wrap.o
 	rm -rf $(TARGET)
 	$(CXX) -shared $(MXNET_OBJS) $(OBJS) deepwater_wrap.o -o $(TARGET) $(LDFLAGS)
 
+test: mlp_test lstm_test lenet_test inception_test vgg_test googlenet_test resnet_test alexnet_test
+
 mlp_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) mlp_test.cxx -o mlp_test.o
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/mlp_test.cxx -o mlp_test.o
 	$(CXX) -o mlp_test mlp_test.o $(MXNET_OBJS) $(OBJS) -L./lib -lmxnet
 
 lstm_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) lstm_test.cxx -o lstm_test.o
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/lstm_test.cxx -o lstm_test.o
 	$(CXX) -o lstm_test lstm_test.o $(MXNET_OBJS) -L./lib -lmxnet
 
 lenet_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) lenet_test.cxx -o lenet_test.o
-	$(CXX) -o lenet_test lenet_test.o $(MXNET_OBJS) -L./lib -lmxnet
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/lenet_test.cxx -o lenet_test.o
+	$(CXX) -o lenet_test lenet_test.o network_def.o $(MXNET_OBJS) -L./lib -lmxnet
 
 inception_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) inception_test.cxx -o inception_test.o
-	$(CXX) -o inception_test inception_test.o $(MXNET_OBJS) -L./lib -lmxnet
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/inception_test.cxx -o inception_test.o
+	$(CXX) -o inception_test inception_test.o network_def.o $(MXNET_OBJS) -L./lib -lmxnet
 
 vgg_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) vgg_test.cxx -o vgg_test.o
-	$(CXX) -o vgg_test vgg_test.o $(MXNET_OBJS) -L./lib -lmxnet
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/vgg_test.cxx -o vgg_test.o
+	$(CXX) -o vgg_test vgg_test.o network_def.o $(MXNET_OBJS) -L./lib -lmxnet
 
 googlenet_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) googlenet_test.cxx -o googlenet_test.o
-	$(CXX) -o googlenet_test googlenet_test.o $(MXNET_OBJS) -L./lib -lmxnet
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/googlenet_test.cxx -o googlenet_test.o
+	$(CXX) -o googlenet_test googlenet_test.o network_def.o $(MXNET_OBJS) -L./lib -lmxnet
 
 resnet_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) resnet_test.cxx -o resnet_test.o
-	$(CXX) -o resnet_test resnet_test.o $(MXNET_OBJS) -L./lib -lmxnet
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/resnet_test.cxx -o resnet_test.o
+	$(CXX) -o resnet_test resnet_test.o network_def.o $(MXNET_OBJS) -L./lib -lmxnet
 
 alexnet_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) alexnet_test.cxx -o alexnet_test.o
-	$(CXX) -o alexnet_test alexnet_test.o $(MXNET_OBJS) -L./lib -lmxnet
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/alexnet_test.cxx -o alexnet_test.o
+	$(CXX) -o alexnet_test alexnet_test.o network_def.o $(MXNET_OBJS) -L./lib -lmxnet
 
-clean:
-	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *.java *_wrap.cxx *_wrap.o mlp_test.o mlp_test lstm_test alexnet_test alexnet_test.o
+clean: clean_test
+	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o
 
 clean_test:
-	rm -rf mlp_test.o mlp_test lstm_test lstm_test.o lenet_test lenet_test.o inception_test inception_test.o vgg_test vgg_test.o googlenet_test googlenet_test.o resnet_test resnet_test.o
+	rm -rf *_test.o *_test
