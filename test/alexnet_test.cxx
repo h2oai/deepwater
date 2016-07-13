@@ -1,7 +1,9 @@
-
-#include<string>
-#include<vector>
-#include<map>
+/*!
+ * Copyright (c) 2016 by Contributors
+ */
+#include <string>
+#include <vector>
+#include <map>
 
 #include "../include/initializer.h"
 #include "../network_def.hpp"

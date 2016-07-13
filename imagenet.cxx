@@ -1,9 +1,14 @@
+/*!
+ * Copyright (c) 2016 by Contributors
+ */
+#include <string>
+#include <vector>
 
 #include "imagenet.hpp"
 
 class BufferFile {
  public :
-  BufferFile(const std::string & file_path);
+  explicit BufferFile(const std::string & file_path);
   int getLength() {return length_;}
   char* getBuffer() {return buffer_;}
   ~BufferFile();
@@ -13,7 +18,7 @@ class BufferFile {
   char* buffer_;
 };
 
-BufferFile::BufferFile(const std::string & file_path){
+BufferFile::BufferFile(const std::string & file_path) {
   file_path_ = file_path;
   std::ifstream ifs(file_path.c_str(), std::ios::in | std::ios::binary);
   ifs.seekg(0, std::ios::end);
@@ -93,7 +98,6 @@ void ImageNative::loadInception() {
                input_shape_indptr,
                input_shape_data,
                &pred_hnd);
-
 }
 
 const char * ImageNative::predict(float * image_data) {

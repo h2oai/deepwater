@@ -1,6 +1,9 @@
-
+/*!
+ * Copyright (c) 2016 by Contributors
+ */
+#include <vector>
+#include <string>
 #include "include/optimizer.h"
-
 #include "image_classify.hpp"
 
 using namespace mxnet::cpp;
@@ -13,7 +16,7 @@ ImageClassify::ImageClassify() {
 }
 
 ImageClassify::~ImageClassify() {
-  //delete exec;
+  // delete exec;
 }
 
 void ImageClassify::buildNet(int n, int b) {
@@ -36,7 +39,6 @@ void ImageClassify::loadModel(char * model_path) {
 }
 
 std::vector<float> ImageClassify::train(float * data, float * label, bool is_train) {
-
   NDArray data_n = NDArray(data, Shape(batch_size, 3, width, height), Context::gpu());
 
   NDArray label_n = NDArray(label, Shape(batch_size), Context::gpu());
@@ -58,7 +60,7 @@ std::vector<float> ImageClassify::train(float * data, float * label, bool is_tra
 
   std::vector<float> preds(batch_size);
 
-  exec->outputs[0].ArgmaxChannel().SyncCopyToCPU(&preds,batch_size);
+  exec->outputs[0].ArgmaxChannel().SyncCopyToCPU(&preds, batch_size);
 
   return preds;
 }

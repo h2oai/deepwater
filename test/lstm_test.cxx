@@ -1,35 +1,45 @@
-
+/*!
+ * Copyright (c) 2016 by Contributors
+ */
+#include <string>
+#include <vector>
+#include <map>
 #include "../include/MxNetCpp.h"
 
 using namespace mxnet::cpp;
 
-std::vector<Symbol> lstm(int num_hidden, Symbol indata, 
-                         std::vector<Symbol> prev_state, std::vector<Symbol> param, 
-                         int seqidx, int layeridx, mx_float dropout=0.0) {
+std::vector<Symbol> lstm(int num_hidden, Symbol indata,
+                         std::vector<Symbol> prev_state, std::vector<Symbol> param,
+                         int seqidx, int layeridx, mx_float dropout = 0.0) {
+  if (dropout > 0) indata = Dropout("dp", indata, dropout);
 
-  if (dropout > 0)
-    indata = Dropout("dp", indata, dropout);
+  Symbol i2h =
+      FullyConnected("t" + std::to_string(seqidx) + "_l" + std::to_string(layeridx) + "_i2h",
+                     indata, param[0], param[1],
+                     num_hidden *4);
 
-  Symbol i2h = FullyConnected("t" + std::to_string(seqidx) + "_l" + std::to_string(layeridx) + "_i2h",
-                              indata, param[0], param[1],
-                              num_hidden *4); 
-
-  Symbol h2h = FullyConnected("t" + std::to_string(seqidx) + "_l" + std::to_string(layeridx) + "_h2h",
-                              prev_state[1], param[2], param[3],
-                              num_hidden * 4);
+  Symbol h2h =
+      FullyConnected("t" + std::to_string(seqidx) + "_l" + std::to_string(layeridx) + "_h2h",
+                     prev_state[1], param[2], param[3],
+                     num_hidden * 4);
 
   Symbol gates = i2h + h2h;
-  Symbol slice_gates = SliceChannel("t" + std::to_string(seqidx) + "_l" + std::to_string(layeridx) + "_slice",
-                                    gates, 4);
+  Symbol slice_gates =
+      SliceChannel("t" + std::to_string(seqidx) + "_l" + std::to_string(layeridx) + "_slice",
+                   gates, 4);
 
-  Symbol in_gate = Activation("t" + std::to_string(seqidx) + "_l" + std::to_string(layeridx) + "_in_gates",
-                              slice_gates[0], "sigmoid");
-  Symbol in_transform = Activation("t" + std::to_string(seqidx) + "_l" + std::to_string(layeridx) + "_in_transform",
-                                   slice_gates[1], "tanh");
-  Symbol forget_gate = Activation("t" + std::to_string(seqidx) + "_l" + std::to_string(layeridx) + "_forget_data",
-                                  slice_gates[2], "sigmoid");
-  Symbol out_gate = Activation("t" + std::to_string(seqidx) + "_l" + std::to_string(layeridx) + "_out_gate",
-                               slice_gates[3], "sigmoid");
+  Symbol in_gate =
+      Activation("t" + std::to_string(seqidx) + "_l" + std::to_string(layeridx) + "_in_gates",
+                 slice_gates[0], "sigmoid");
+  Symbol in_transform =
+      Activation("t" + std::to_string(seqidx) + "_l" + std::to_string(layeridx) + "_in_transform",
+                 slice_gates[1], "tanh");
+  Symbol forget_gate =
+      Activation("t" + std::to_string(seqidx) + "_l" + std::to_string(layeridx) + "_forget_data",
+                 slice_gates[2], "sigmoid");
+  Symbol out_gate =
+      Activation("t" + std::to_string(seqidx) + "_l" + std::to_string(layeridx) + "_out_gate",
+                 slice_gates[3], "sigmoid");
 
   Symbol next_c = (forget_gate * prev_state[0]) + (in_gate * in_transform);
   Symbol next_h = out_gate * Activation("", next_c, "tanh");
@@ -41,7 +51,7 @@ std::vector<Symbol> lstm(int num_hidden, Symbol indata,
 
 Symbol lstm_unroll(int num_lstm_layer, int seq_len, int input_size,
                    int num_hidden, int num_embed, int num_label,
-                   mx_float dropout=0.0) {
+                   mx_float dropout = 0.0) {
   Symbol embed_weight = Symbol::Variable("embed_weight");
   Symbol cls_weight = Symbol::Variable("cls_weight");
   Symbol cls_bias = Symbol::Variable("cls_bias");
@@ -71,7 +81,7 @@ Symbol lstm_unroll(int num_lstm_layer, int seq_len, int input_size,
                               data, embed_weight, input_size, num_embed);
     for (int i = 0; i < num_lstm_layer; i++) {
       mx_float dp;
-      if (i ==0) 
+      if (i ==0)
         dp = 0.0;
       else
         dp = dropout;
@@ -111,7 +121,9 @@ Symbol lstm_unroll(int num_lstm_layer, int seq_len, int input_size,
 
 bool endswith(std::string const &fullString, std::string const &ending) {
   if (fullString.length() >= ending.length()) {
-    return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
+    return (0 == fullString.compare(fullString.length() - ending.length(),
+                                    ending.length(),
+                                    ending));
   } else {
     return false;
   }
@@ -146,53 +158,53 @@ int main() {
   std::vector<std::string> arg_names = rnn_sym.ListArguments();
 
   std::map<std::string, std::vector<mx_uint> > input_shapes;
+  /*
+     for (size_t i = 0; i < arg_names.size(); i++) {
+     if (endswith(arg_names[i], "init_c") || endswith(arg_names[i], "init_h")) {
+     std::vector<mx_uint> tmp; tmp.push_back(batch_size); tmp.push_back(num_hidden);
+     input_shapes[arg_names[i]] = tmp; 
+     } else if (endswith(arg_names[i], "data")) {
+     std::vector<mx_uint> tmp; tmp.push_back(batch_size);
+     input_shapes[arg_names[i]] = tmp;
+     }
+     }
 
-  /*for (size_t i = 0; i < arg_names.size(); i++) {*/
-  //if (endswith(arg_names[i], "init_c") || endswith(arg_names[i], "init_h")) {
-  //std::vector<mx_uint> tmp; tmp.push_back(batch_size); tmp.push_back(num_hidden);
-  //input_shapes[arg_names[i]] = tmp; 
-  //} else if (endswith(arg_names[i], "data")) {
-  //std::vector<mx_uint> tmp; tmp.push_back(batch_size);
-  //input_shapes[arg_names[i]] = tmp;
-  //}
-  //}
+     std::vector<std::vector<mx_uint> > arg_shapes, aux_shapes, out_shapes;
+     rnn_sym.InferShape(input_shapes, &arg_shapes, &aux_shapes, &out_shapes);
+     for (size_t i = 0; i < arg_shapes.size(); i++) {
+     for (size_t j = 0; j < arg_shapes[i].size(); j++) {
+     std::cout << "arg_shapes " << arg_shapes[i][j] << ", ";
+     }
+     std::cout << std::endl;
+     }
+     for (size_t i = 0; i < out_shapes.size(); i++) {
+     for (size_t j = 0; j < out_shapes[i].size(); j++) {
+     std::cout << out_shapes[i][j] << ", ";
+     }
+     std::cout << std::endl;
+     }
+     std::vector<NDArray> arg_arrays;
+     for (size_t i = 0; i < arg_shapes.size(); i++) {
+     NDArray tmp(Shape(arg_shapes[i]), ctx_dev, false);
+     tmp = (mx_float)0.0;
+     arg_arrays.push_back(tmp);
+     }
 
-  //std::vector<std::vector<mx_uint> > arg_shapes, aux_shapes, out_shapes;
-  /*rnn_sym.InferShape(input_shapes, &arg_shapes, &aux_shapes, &out_shapes);*/
-  /*for (size_t i = 0; i < arg_shapes.size(); i++) {*/
-  //for (size_t j = 0; j < arg_shapes[i].size(); j++) {
-  //std::cout << "arg_shapes " << arg_shapes[i][j] << ", ";
-  //}
-  //std::cout << std::endl;
-  /*}*/
-  //for (size_t i = 0; i < out_shapes.size(); i++) {
-  //for (size_t j = 0; j < out_shapes[i].size(); j++) {
-  //std::cout << out_shapes[i][j] << ", ";
-  //}
-  //std::cout << std::endl;
-  /*}*/
-  /*std::vector<NDArray> arg_arrays;*/
-  //for (size_t i = 0; i < arg_shapes.size(); i++) {
-  //NDArray tmp(Shape(arg_shapes[i]), ctx_dev, false);
-  //tmp = (mx_float)0.0;
-  //arg_arrays.push_back(tmp);
-  /*}*/
+     std::cout << arg_names.size() << " " << arg_shapes.size() << std::endl;
+     std::vector<NDArray> args_grad;
+     for (size_t i = 0; i < arg_shapes.size(); i++) {
+     if (is_param_name(arg_names[i])) {
+     NDArray tmp(Shape(arg_shapes[i]), ctx_dev, false);
+     tmp = (mx_float)0.0; 
+     args_grad.push_back(tmp);
+     }
+     }
+     std::cout << __LINE__ << std::endl;
+     std::vector<OpReqType> grad_req_type;
+     for (size_t i = 0; i < args_grad.size(); i++)
+     grad_req_type.push_back(kAddTo);
 
-  //std::cout << arg_names.size() << " " << arg_shapes.size() << std::endl;
-  /*std::vector<NDArray> args_grad;*/
-  //for (size_t i = 0; i < arg_shapes.size(); i++) {
-  //if (is_param_name(arg_names[i])) {
-  //NDArray tmp(Shape(arg_shapes[i]), ctx_dev, false);
-  //tmp = (mx_float)0.0; 
-  //args_grad.push_back(tmp);
-  //}
-  /*}*/
-  //std::cout << __LINE__ << std::endl;
-  /*std::vector<OpReqType> grad_req_type;*/
-  //for (size_t i = 0; i < args_grad.size(); i++)
-  //grad_req_type.push_back(kAddTo);
-
-  //std::vector<NDArray> aux_states;
-  //Executor * exe = new Executor(rnn_sym, ctx_dev, arg_arrays, args_grad,
-  /*grad_req_type, aux_states);*/
+     std::vector<NDArray> aux_states;
+     Executor * exe = new Executor(rnn_sym, ctx_dev, arg_arrays, args_grad,
+     grad_req_type, aux_states);*/
 }

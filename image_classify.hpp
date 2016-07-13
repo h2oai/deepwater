@@ -1,3 +1,6 @@
+/*!
+ * Copyright (c) 2016 by Contributors
+ */
 #ifndef __H2O_IMAGE_CLASSIFY_H__
 #define __H2O_IMAGE_CLASSIFY_H__
 
@@ -27,7 +30,6 @@ class ImageClassify{
   mxnet::cpp::Symbol inception_bn_net;
   mxnet::cpp::Executor * exec;
   mxnet::cpp::Optimizer * opt;
-
 };
 
 #endif

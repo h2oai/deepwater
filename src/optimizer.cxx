@@ -36,7 +36,7 @@ void Optimizer::Update(int index, NDArray weight, NDArray grad, mx_float lr, mx_
     init_ = true;
   }
 
-  //update learning rate and weight decay
+  // update learning rate and weight decay
   learning_rate_ = lr;
   weight_decay_ = wd;
 

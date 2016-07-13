@@ -1,3 +1,6 @@
+/*!
+ * Copyright (c) 2016 by Contributors
+ */
 #ifndef __H2O_IMAGENET_H__
 #define __H2O_IMAGENET_H__
 
@@ -25,7 +28,6 @@ class ImageNative {
   int image_size, width, height, channels;
 
   int dev_type, dev_id;
-
 };
 
 #endif

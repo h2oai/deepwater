@@ -156,9 +156,9 @@ inline Symbol ConvolutionNoBias(const std::string& symbol_name,
                                 Symbol weight,
                                 Shape kernel,
                                 int num_filter,
-                                Shape stride = Shape(1,1),
-                                Shape dilate = Shape(1,1),
-                                Shape pad = Shape(0,0),
+                                Shape stride = Shape(1, 1),
+                                Shape dilate = Shape(1, 1),
+                                Shape pad = Shape(0, 0),
                                 int num_group = 1,
                                 int64_t workspace = 512) {
   return Operator("Convolution")

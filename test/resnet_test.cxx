@@ -1,4 +1,6 @@
-
+/*!
+ * Copyright (c) 2016 by Contributors
+ */
 #include <string>
 #include <vector>
 #include <map>

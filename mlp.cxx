@@ -1,4 +1,7 @@
-
+/*!
+ * Copyright (c) 2016 by Contributors
+ */
+#include <vector>
 #include "mlp.hpp"
 
 using namespace std;
@@ -46,7 +49,7 @@ void MLPNative::build_mlp() {
   for (int i = 0; i < nLayers; i++) {
     fc_w.push_back(Symbol("fc" + std::to_string(i + 1) + "_w"));
     fc_b.push_back(Symbol("fc" + std::to_string(i + 1) + "_b"));
-    fc.push_back(FullyConnected("fc" + std::to_string(i + 1), 
+    fc.push_back(FullyConnected("fc" + std::to_string(i + 1),
                                 act, fc_w[i], fc_b[i], layerSize[i]));
     act = Activation("act" + std::to_string(i + 1),
                      fc[i], activations[i]);
@@ -78,7 +81,7 @@ float MLPNative::compAccuracy() {
     NDArray::WaitAll();
 
     Executor *exe = sym_network.SimpleBind(ctx_dev, args_map);
-    //NDArray::Save("mlp.para", exe->arg_arrays);
+    // NDArray::Save("mlp.para", exe->arg_arrays);
     exe->Forward(false);
 
     const auto &out = exe->outputs;
@@ -121,9 +124,9 @@ std::vector<float> MLPNative::pred() {
   int offset = 0;
   while (start_index < val_num) {
     if (start_index + batch_size > val_num) {
-      offset = start_index + batch_size - val_num; 
+      offset = start_index + batch_size - val_num;
       start_index = val_num - batch_size;
-    } 
+    }
 
     args_map["data"] = array_x.Slice(start_index, start_index + batch_size).Copy(ctx_dev);
     args_map["data_label"] = array_y.Slice(start_index, start_index + batch_size).Copy(ctx_dev);
@@ -181,8 +184,8 @@ void MLPNative::train(float lr, float wd) {
   int start_index = 0;
   while (start_index < dimY) {
     if (start_index + batch_size > dimY) {
-      start_index = dimY - batch_size; 
-    } 
+      start_index = dimY - batch_size;
+    }
     args_map["data"] = array_x.Slice(start_index, start_index + batch_size).Copy(ctx_dev);
     args_map["data_label"] = array_y.Slice(start_index, start_index + batch_size).Copy(ctx_dev);
     start_index += batch_size;

@@ -76,6 +76,9 @@ alexnet_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/alexnet_test.cxx -o alexnet_test.o
 	$(CXX) -o alexnet_test alexnet_test.o network_def.o $(MXNET_OBJS) -L./lib -lmxnet
 
+lint:
+	python lint.py deepwater cpp .
+
 clean: clean_test
 	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o
 

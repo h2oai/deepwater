@@ -1,3 +1,6 @@
+/*!
+ * Copyright (c) 2016 by Contributors
+ */
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -8,7 +11,7 @@
 
 mxnet::cpp::Symbol AlexnetSymbol(int num_classes);
 
-mxnet::cpp::Symbol InceptionFactory(mxnet::cpp::Symbol data, int num_1x1, int num_3x3red, 
+mxnet::cpp::Symbol InceptionFactory(mxnet::cpp::Symbol data, int num_1x1, int num_3x3red,
                                     int num_3x3, int num_d5x5red, int num_d5x5,
                                     mxnet::cpp::PoolingPoolType pool, int proj,
                                     const std::string & name);
@@ -54,7 +57,7 @@ mxnet::cpp::Symbol getConv(const std::string & name, mxnet::cpp::Symbol data,
                            mx_float bn_momentum);
 
 mxnet::cpp::Symbol makeBlock(const std::string & name,
-                             mxnet::cpp::Symbol data, int num_filter, 
+                             mxnet::cpp::Symbol data, int num_filter,
                              bool dim_match, mx_float bn_momentum);
 
 mxnet::cpp::Symbol getBody(mxnet::cpp::Symbol data, int num_level,

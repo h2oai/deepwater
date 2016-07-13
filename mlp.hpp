@@ -1,15 +1,21 @@
+/*!
+ * Copyright (c) 2016 by Contributors
+ */
 #ifndef __H2O_MPL_H__
 #define __H2O_MPL_H__
 
 #include <memory>
+#include <map>
+#include <string>
+#include <vector>
 #include "include/MxNetCpp.h"
 
 class MLPNative {
  public:
   MLPNative();
   void setLayers(int * lsize, int nsize, int n);
-  void setAct(char **);
-  void setData(float *, int, int);
+  void setAct(char ** act);
+  void setData(float * data, int dimX1, int dimX2);
   void setLabel(float *, int);
   void setLR(float lr) {learning_rate = lr;}
   void setWD(float wd) {weight_decay = wd;}
@@ -38,4 +44,4 @@ class MLPNative {
   mxnet::cpp::Context ctx_dev;
 };
 
-#endif  
+#endif
