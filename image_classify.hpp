@@ -13,10 +13,11 @@ class ImageClassify{
  public:
   ImageClassify();
   ~ImageClassify();
-  void buildNet(int num_classes, int batch_size, char * model_path);
+  void buildNet(int num_classes, int batch_size);
+  void loadModel(char * model_path);
   void setLR(float lr) {learning_rate = lr;}
   void setWD(float wd) {weight_decay = wd;}
-  std::vector<float> train(float * data, float * label);
+  std::vector<float> train(float * data, float * label, bool is_train);
 
  private:
   int width, height, batch_size;

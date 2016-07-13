@@ -16,8 +16,7 @@ ImageClassify::~ImageClassify() {
   //delete exec;
 }
 
-void ImageClassify::buildNet(int n, int b, char * model_path) {
-
+void ImageClassify::buildNet(int n, int b) {
   inception_bn_net = InceptionSymbol(n);
   batch_size = b;
 
@@ -30,10 +29,13 @@ void ImageClassify::buildNet(int n, int b, char * model_path) {
   args_map["data_label"] = NDArray(Shape(batch_size), Context::gpu());
   inception_bn_net.InferArgsMap(Context::gpu(), &args_map, args_map);
   exec = inception_bn_net.SimpleBind(Context::gpu(), args_map);
+}
+
+void ImageClassify::loadModel(char * model_path) {
   NDArray::Load(std::string(model_path), nullptr, &args_map);
 }
 
-std::vector<float> ImageClassify::train(float * data, float * label) {
+std::vector<float> ImageClassify::train(float * data, float * label, bool is_train) {
 
   NDArray data_n = NDArray(data, Shape(batch_size, 3, width, height), Context::gpu());
 
@@ -47,14 +49,16 @@ std::vector<float> ImageClassify::train(float * data, float * label) {
 
   NDArray::WaitAll();
 
-  exec->Forward(true);
-  exec->Backward();
-  exec->UpdateAll(opt, learning_rate, weight_decay);
+  exec->Forward(is_train);
+  if (is_train) {
+    exec->Backward();
+    exec->UpdateAll(opt, learning_rate, weight_decay);
+  }
   NDArray::WaitAll();
-  
+
   std::vector<float> preds(batch_size);
-  
+
   exec->outputs[0].ArgmaxChannel().SyncCopyToCPU(&preds,batch_size);
-  
+
   return preds;
 }

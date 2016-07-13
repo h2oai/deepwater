@@ -1,13 +1,12 @@
-import java.awt.*;
-import java.awt.image.BufferedImage;
+package water.gpu;
+
 import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 
-public class image_classify_test {
+public class imagetest {
 
     static {
         System.loadLibrary("cudart");
@@ -16,43 +15,12 @@ public class image_classify_test {
         System.loadLibrary("Native");
     }
 
-    public static float[] img2pixels(String fname) throws IOException {
-        int w = 224, h = 224;
-
-        BufferedImage img = ImageIO.read(new File(fname.trim()));
-
-        BufferedImage scaledImg = new BufferedImage(w, h, img.getType());
-
-        Graphics2D g2d = scaledImg.createGraphics();
-        g2d.drawImage(img, 0, 0, w, h, null);
-        g2d.dispose();
-
-        float[] pixels = new float[w * h * 3];
-
-        int r_idx = 0;
-        int g_idx = r_idx + w * h;
-        int b_idx = g_idx + w * h;
-
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                Color mycolor = new Color(scaledImg.getRGB(j, i));
-                int red = mycolor.getRed();
-                int green = mycolor.getGreen();
-                int blue = mycolor.getBlue();
-                pixels[r_idx] = red;
-                r_idx++;
-                pixels[g_idx] = green;
-                g_idx++;
-                pixels[b_idx] = blue;
-                b_idx++;
-            }
-        }
-
-        return pixels;
-    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(new File("/home/ops/Desktop/sf1_train.lst")));
+
+        System.out.println("Integer.BYTES " + Integer.BYTES);
+        System.out.println("Float.BYTES " + Float.BYTES);
+        System.out.println("Double.BYTES " + Double.BYTES);
 
         String line = null;
 
@@ -68,7 +36,7 @@ public class image_classify_test {
 
         br.close();
 
-        int batch_size = 40, start_index = 0, val_num = label_lst.size();
+        int batch_size = 40;//, start_index = 0, val_num = label_lst.size();
 
         int img_size = 224 * 224;
 
@@ -76,41 +44,43 @@ public class image_classify_test {
 
         ImageClassify m = new ImageClassify();
 
-        m.buildNet(10, batch_size, new String("/home/ops/Inception/Inception_BN-0039.params"));
+        m.buildNet(10, batch_size);
+
+        ImageIter img_iter = new ImageIter(img_lst, label_lst, batch_size, "/tmp", 224, 224);
 
         for (int iter = 0; iter < max_iter; iter++) {
-            start_index = 0;
-            long startTime = System.currentTimeMillis();
+            img_iter.Reset();
+            while(img_iter.Nest()){
+                float[] data = img_iter.getData();
+                float[] labels = img_iter.getLabel();
+                float[] pred = m.train(data, labels, true);
 
-            while (start_index < val_num) {
-                if (start_index + batch_size > val_num) {
-                    start_index = val_num - batch_size;
-                }
-
-                float[] labels = new float[batch_size];
-                float[] data = new float[batch_size * img_size * 3];
-
-                for (int i = start_index; i < start_index + batch_size; i++) {
-                    labels[i - start_index] = label_lst.get(i);
-                    float[] tmp = img2pixels(img_lst.get(i));
-                    for (int j = 0; j < img_size * 3; j++) {
-                        data[(i - start_index) * img_size * 3 + j] = tmp[j];
-                    }
-                }
-
-                float[] pred = m.train(data, labels);
-
+                int count = 0;
                 for (int i = 0; i < batch_size; i++) {
                     System.out.print((int)pred[i] + " ");
+                    if (pred[i] == labels[i]) count++;
+                }
+                System.out.println("Acc: " + (double)count / batch_size);
+                for (int i = 0; i < batch_size; i++) {
+                    System.out.print((int)labels[i] + " ");
                 }
                 System.out.println();
-
-                start_index = start_index + batch_size;
             }
-
-            long endTime = System.currentTimeMillis();
-
-            System.out.println("That took " + (endTime - startTime) + " milliseconds");
+            img_iter.Reset();
+            ArrayList<Float> train_pred = new ArrayList<>();
+            while(img_iter.Nest()){
+                float[] data = img_iter.getData();
+                float[] labels = img_iter.getLabel();
+                float[] pred = m.train(data, labels, false);
+                for (int i = 0; i < batch_size; i++) {
+                    train_pred.add(pred[i]);
+                }
+            }
+            int count = 0;
+            for (int i = 0; i < label_lst.size(); i++) {
+                if (train_pred.get(i).equals(label_lst.get(i))) count++;
+            }
+            System.out.println("Iter: " + iter + " Acc: " + (double)count / label_lst.size());
         }
 
     }
