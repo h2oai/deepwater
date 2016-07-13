@@ -45,3 +45,21 @@
 %}
 
 %include "mlp.hpp"
+
+
+%module image_classify
+
+%{
+#include "image_classify.hpp"
+%}
+
+%include "image_classify.hpp"
+
+
+%module imagenet
+
+%{
+#include "imagenet.hpp"
+%}
+
+%include "imagenet.hpp"

@@ -33,21 +33,14 @@ $(OBJS): %.o : %.cxx
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 swig:
-	swig -c++ -java -package water.gpu mlp.i
-	swig -c++ -java -package water.gpu imagenet.i
-	swig -c++ -java -package water.gpu image_classify.i
+	swig -c++ -java -package water.gpu deepwater.i
 
-mlp_wrap.o:
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) mlp_wrap.cxx -o mlp_wrap.o
+deepwater_wrap.o:
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) deepwater_wrap.cxx -o deepwater_wrap.o
 
-imagenet_wrap.o:
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) imagenet_wrap.cxx -o imagenet_wrap.o
-
-image_classify_wrap.o:
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) image_classify_wrap.cxx -o image_classify_wrap.o
-
-$(TARGET): mlp_wrap.o imagenet_wrap.o image_classify_wrap.o
-	$(CXX) -shared $(MXNET_OBJS) $(OBJS) mlp_wrap.o imagenet_wrap.o image_classify_wrap.o -o $(TARGET) $(LDFLAGS)
+$(TARGET): deepwater_wrap.o
+	rm -rf $(TARGET)
+	$(CXX) -shared $(MXNET_OBJS) $(OBJS) deepwater_wrap.o -o $(TARGET) $(LDFLAGS)
 
 mlp_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) mlp_test.cxx -o mlp_test.o
