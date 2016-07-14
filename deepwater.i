@@ -38,7 +38,7 @@
 
 %apply std::vector<float> { std::vector<float> const & };
 
-%module mlp
+%module MLP
 
 %{
 #include "mlp.hpp"
@@ -47,19 +47,19 @@
 %include "mlp.hpp"
 
 
-%module image_classify
+%module ImageTrain
 
 %{
-#include "image_classify.hpp"
+#include "image_train.hpp"
 %}
 
-%include "image_classify.hpp"
+%include "image_train.hpp"
 
 
-%module imagenet
+%module ImagePred
 
 %{
-#include "imagenet.hpp"
+#include "image_pred.hpp"
 %}
 
-%include "imagenet.hpp"
+%include "image_pred.hpp"

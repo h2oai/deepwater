@@ -10,38 +10,39 @@
 #include <vector>
 #include "include/MxNetCpp.h"
 
-class MLPNative {
+class MLPGPU {
  public:
-  MLPNative();
-  void setLayers(int * lsize, int nsize, int n);
+  MLPGPU();
+  void setLayers(int * lsize, int nsize, int num_classes);
   void setAct(char ** act);
-  void setData(float * data, int dimX1, int dimX2);
-  void setLabel(float *, int);
   void setLR(float lr) {learning_rate = lr;}
   void setWD(float wd) {weight_decay = wd;}
-  void setBatch(int batch) {batch_size = batch;}
+  void setBatch(int b) {batch_size = b;}
+  void setDimX(int x) {dimX = x;}
 
-  void build_mlp();
-  void train();
-  void train(float learning_rate, float weight_decay);
-  float compAccuracy();
-  std::vector<float> pred();
-  std::vector<float> pred(float *, int);
+  void buildMLP();
+  std::vector<float> train(float * data, float * label);
+  std::vector<float> predict(float * data, float * label);
+
+  void saveParam(char * param_path);
+  void saveModel(char * model_path);
+  void loadModel(char * model_path);
 
  private:
-  int nLayers, nOut;
-  int dimX1, dimX2, dimY;
+  int nLayers, num_classes, batch_size, dimX;
   mx_float learning_rate = 0.001;
   mx_float weight_decay = 0.001;
-  int batch_size = 15;
   std::vector<int> layerSize;
   std::vector<std::string> activations;
-  std::vector<mx_float> label;
+
   std::map<std::string, mxnet::cpp::NDArray> args_map;
   mxnet::cpp::Symbol sym_network;
-  mxnet::cpp::NDArray array_x;
-  mxnet::cpp::NDArray array_y;
+  mxnet::cpp::Executor * exec;
+  mxnet::cpp::Optimizer * opt;
   mxnet::cpp::Context ctx_dev;
+  bool is_built;
+
+  std::vector<float> execute(float * data, float * label, bool is_train);
 };
 
 #endif

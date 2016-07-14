@@ -46,7 +46,7 @@ mxnet::cpp::Symbol InceptionSymbol(int num_classes);
 
 mxnet::cpp::Symbol VGGSymbol(int num_classes);
 
-mxnet::cpp::Symbol LenetSymbol();
+mxnet::cpp::Symbol LenetSymbol(int num_classes);
 
 mxnet::cpp::Symbol getConv(const std::string & name, mxnet::cpp::Symbol data,
                            int  num_filter,

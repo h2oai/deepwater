@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "imagenet.hpp"
+#include "image_pred.hpp"
 
 class BufferFile {
  public :
@@ -49,7 +49,7 @@ std::vector<std::string> loadSynset(const std::string & filename) {
   return output;
 }
 
-ImageNative::ImageNative() {
+ImagePred::ImagePred() {
   width = 224;
   height = 224;
   channels = 3;
@@ -60,7 +60,7 @@ ImageNative::ImageNative() {
   pred_hnd = 0;
 }
 
-void ImageNative::loadInception() {
+void ImagePred::loadInception() {
   synset = loadSynset(model_path_ + "/synset.txt");
   BufferFile json_data(model_path_ + "/Inception_BN-symbol.json");
   BufferFile param_data(model_path_ + "/Inception_BN-0039.params");
@@ -100,7 +100,7 @@ void ImageNative::loadInception() {
                &pred_hnd);
 }
 
-const char * ImageNative::predict(float * image_data) {
+const char * ImagePred::predict(float * image_data) {
   for (int i = 0; i < image_size; i++) {
     image_data[i] = image_data[i] - nd_data[i];
   }
@@ -132,10 +132,12 @@ const char * ImageNative::predict(float * image_data) {
     }
   }
 
-  return synset[best_idx].c_str();
+  std::string res = "Prediction: " + synset[best_idx] + " Score: " + std::to_string(best_accuracy);
+
+  return res.c_str();
 }
 
-ImageNative::~ImageNative() {
+ImagePred::~ImagePred() {
   MXNDListFree(nd_hnd);
   MXPredFree(pred_hnd);
   delete[] nd_data;

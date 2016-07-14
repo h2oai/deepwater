@@ -1,4 +1,3 @@
-package water.gpu;
 
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
@@ -15,7 +14,7 @@ public class imagetest {
 
     public static void main(String[] args) throws IOException {
         // write your code here
-        BufferedImage img = ImageIO.read(new File("/home/ops/Documents/h2o-native/test1.jpg"));
+        BufferedImage img = ImageIO.read(new File("test1.jpg"));
 
         int w = 224, h = 224;
 

@@ -1,8 +1,8 @@
 /*!
  * Copyright (c) 2016 by Contributors
  */
-#ifndef __H2O_IMAGENET_H__
-#define __H2O_IMAGENET_H__
+#ifndef __DEEPWATER_IMAGE_PRED_H__
+#define __DEEPWATER_IMAGE_PRED_H__
 
 #include <iostream>
 #include <fstream>
@@ -11,13 +11,13 @@
 
 #include "include/c_predict_api.h"
 
-class ImageNative {
+class ImagePred {
  public:
-  ImageNative();
+  ImagePred();
   void setModelPath(char * path) {model_path_ = std::string(path);}
   void loadInception();
   const char * predict(float * data);
-  ~ImageNative();
+  ~ImagePred();
 
  private:
   std::vector<std::string> synset;

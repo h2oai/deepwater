@@ -327,7 +327,7 @@ Symbol VGGSymbol(int num_classes) {
   return SoftmaxOutput("softmax", fc8, data_label);
 }
 
-Symbol LenetSymbol() {
+Symbol LenetSymbol(int num_classes) {
   Symbol data = Symbol::Variable("data");
   Symbol data_label = Symbol::Variable("data_label");
   Symbol conv1_w("conv1_w"), conv1_b("conv1_b");
@@ -351,7 +351,7 @@ Symbol LenetSymbol() {
   Symbol flatten = Flatten("flatten", pool3);
   Symbol fc1 = FullyConnected("fc1", flatten, fc1_w, fc1_b, 500);
   Symbol tanh4 = Activation("tanh4", fc1, "tanh");
-  Symbol fc2 = FullyConnected("fc2", tanh4, fc2_w, fc2_b, 10);
+  Symbol fc2 = FullyConnected("fc2", tanh4, fc2_w, fc2_b, num_classes);
 
   Symbol lenet = SoftmaxOutput("softmax", fc2, data_label);
 
