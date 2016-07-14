@@ -13,3 +13,12 @@ On OSX, you might need to run something similar to the line below:
 ```
 install_name_tool -change lib/libmxnet.so "@loader_path/libmxnet.so" libmlp.dylib
 ```
+
+`package.sh` will generate a `jar` file including native code.
+
+Please add these lines below into your Java code when using this jar as external dependency.
+```
+util.loadCudaLib();
+util.loadNativeLib("mxnet");
+util.loadNativeLib("Native");
+```

@@ -20,7 +20,7 @@ CXX=g++
 
 INCLUDE=-I$(JAVA_INCLUDE) -I$(JNI_INCLUDE) -Iinclude
 
-LDFLAGS=-Wl,-rpath,$(CURRENT_DIR) -L./lib -lmxnet
+LDFLAGS=-Wl,-rpath,/tmp -L./lib -lmxnet
 
 CXXFLAGS=-std=c++11 -O3
 
@@ -83,4 +83,4 @@ clean: clean_test
 	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o
 
 clean_test:
-	rm -rf *_test.o *_test
+	rm -rf *_test.o *_test water*

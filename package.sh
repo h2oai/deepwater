@@ -8,4 +8,7 @@ mkdir -p water/gpu
 
 mv *.class ./water/gpu
 
+cp ./libNative.so ./water/gpu
+cp ./libmxnet.so ./water/gpu
+
 jar -cvf water.gpu.jar ./water
