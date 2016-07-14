@@ -38,7 +38,7 @@
 
 %apply std::vector<float> { std::vector<float> const & };
 
-%module MLP
+%module deepwater
 
 %{
 #include "mlp.hpp"
@@ -46,17 +46,11 @@
 
 %include "mlp.hpp"
 
-
-%module ImageTrain
-
 %{
 #include "image_train.hpp"
 %}
 
 %include "image_train.hpp"
-
-
-%module ImagePred
 
 %{
 #include "image_pred.hpp"

@@ -9,11 +9,11 @@
 using namespace std;
 using namespace mxnet::cpp;
 
-MLPGPU::MLPGPU() {
+MLP::MLP() {
   ctx_dev = Context(DeviceType::kGPU, 0);
 }
 
-void MLPGPU::setLayers(int * lsize, int nsize, int n) {
+void MLP::setLayers(int * lsize, int nsize, int n) {
   nLayers = nsize;
   num_classes = n;
   for (int i = 0; i < nsize; i++) {
@@ -21,29 +21,29 @@ void MLPGPU::setLayers(int * lsize, int nsize, int n) {
   }
 }
 
-void MLPGPU::setAct(char ** acts) {
+void MLP::setAct(char ** acts) {
   for (int i = 0; i < nLayers; i++) {
     activations.push_back(acts[i]);
   }
 }
 
-void MLPGPU::saveParam(char * param_path) {
+void MLP::saveParam(char * param_path) {
   NDArray::Save(std::string(param_path), args_map);
 }
 
-void MLPGPU::saveModel(char * model_path) {
+void MLP::saveModel(char * model_path) {
   if (is_built)
     sym_network.Save(std::string(model_path));
   else
     std::cerr << "Network hasn't been built" << std::endl;
 }
 
-void MLPGPU::loadModel(char * model_path) {
+void MLP::loadModel(char * model_path) {
   sym_network = Symbol::LoadJSON(std::string(model_path));
   is_built = true;
 }
 
-void MLPGPU::buildMLP() {
+void MLP::buildMLP() {
   Symbol act = Symbol::Variable("data");
   Symbol data_label = Symbol::Variable("data_label");
   std::vector<Symbol> fc_w, fc_b, fc;
@@ -67,15 +67,15 @@ void MLPGPU::buildMLP() {
   is_built = true;
 }
 
-std::vector<float> MLPGPU::train(float * data, float * label) {
+std::vector<float> MLP::train(float * data, float * label) {
   return execute(data, label, true);
 }
 
-std::vector<float> MLPGPU::predict(float * data, float * label) {
+std::vector<float> MLP::predict(float * data, float * label) {
   return execute(data, label, false);
 }
 
-std::vector<float> MLPGPU::execute(float * data, float * label, bool is_train) {
+std::vector<float> MLP::execute(float * data, float * label, bool is_train) {
   if (!is_built) {
     std::cerr << "Network hasn't been built. "
         << "Please run buildNet() or loadModel() first." << std::endl;

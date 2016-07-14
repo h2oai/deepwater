@@ -10,9 +10,9 @@
 #include <vector>
 #include "include/MxNetCpp.h"
 
-class MLPGPU {
+class MLP {
  public:
-  MLPGPU();
+  MLP();
   void setLayers(int * lsize, int nsize, int num_classes);
   void setAct(char ** act);
   void setLR(float lr) {learning_rate = lr;}
