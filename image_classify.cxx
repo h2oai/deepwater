@@ -22,6 +22,7 @@ ImageClassify::~ImageClassify() {
 void ImageClassify::buildNet(int n, int b) {
   inception_bn_net = InceptionSymbol(n);
   batch_size = b;
+  num_classes = n;
 
   opt = new Optimizer("ccsgd", learning_rate, weight_decay);
   (*opt).SetParam("momentum", 0.9);
@@ -52,15 +53,17 @@ std::vector<float> ImageClassify::train(float * data, float * label, bool is_tra
   NDArray::WaitAll();
 
   exec->Forward(is_train);
+  // train or predict?
   if (is_train) {
     exec->Backward();
     exec->UpdateAll(opt, learning_rate, weight_decay);
   }
+
   NDArray::WaitAll();
 
-  std::vector<float> preds(batch_size);
-
-  exec->outputs[0].ArgmaxChannel().SyncCopyToCPU(&preds, batch_size);
+  // get probs for prediction
+  std::vector<float> preds(batch_size * num_classes);
+  exec->outputs[0].SyncCopyToCPU(&preds, batch_size * num_classes);
 
   return preds;
 }

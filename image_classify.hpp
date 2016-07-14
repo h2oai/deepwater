@@ -23,7 +23,7 @@ class ImageClassify{
   std::vector<float> train(float * data, float * label, bool is_train);
 
  private:
-  int width, height, batch_size;
+  int width, height, batch_size, num_classes;
   float learning_rate, weight_decay;
 
   std::map<std::string, mxnet::cpp::NDArray> args_map;
