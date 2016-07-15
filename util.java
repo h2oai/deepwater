@@ -29,7 +29,8 @@ public final class util {
         }
 
         String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
-
+        
+        // Maybe Mac use .dylib. I am not sure.
         String lib_suffix = "";
 
         if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
@@ -52,7 +53,7 @@ public final class util {
         String lib_suffix = "";
 
         if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
-            lib_suffix = "dylib";
+            lib_suffix = "so";
         } else if (OS.indexOf("nux") >= 0) {
             lib_suffix = "so";
         } else {
