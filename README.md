@@ -11,10 +11,10 @@ Native implementation of Deep Learning models for GPU backends (mxnet, Caffe, Te
 On OSX, you might need to run something similar to the line below:
 
 ```
-install_name_tool -change lib/libmxnet.so "@loader_path/libmxnet.so" libmlp.dylib
+install_name_tool -change lib/libmxnet.so "@loader_path/libmxnet.so" libNative.dylib
 ```
 
-`package.sh` will generate a `jar` file including native code.
+`make pkg` will generate a `jar` file including native code.
 
 Please add these lines below into your Java code when using this jar as external dependency.
 ```

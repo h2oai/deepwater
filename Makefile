@@ -79,6 +79,15 @@ alexnet_test: $(TARGET) clean_test
 lint:
 	python lint.py deepwater cpp .
 
+pkg: $(TARGET)
+	javac *.java
+	rm -rf water/gpu
+	mkdir -p water/gpu
+	mv *.class ./water/gpu
+	cp ./libNative.so ./water/gpu
+	cp ./libmxnet.so ./water/gpu
+	jar -cvf water.gpu.jar ./water
+
 clean: clean_test
 	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o
 
