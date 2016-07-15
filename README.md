@@ -17,7 +17,7 @@ install_name_tool -change lib/libmxnet.so "@loader_path/libmxnet.so" libNative.d
 `make pkg` will generate a `jar` file including native code.
 
 Please add these lines below into your Java code when using this jar as external dependency.
-```
+```Java
 util.loadCudaLib();
 util.loadNativeLib("mxnet");
 util.loadNativeLib("Native");
