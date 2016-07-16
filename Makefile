@@ -1,10 +1,12 @@
-CURRENT_DIR = $(shell pwd)
 
-JAVA_INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/include/linux
-
-JNI_INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/include
-
-SUFFIX=so
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S), Darwin)
+	JAVA_INCLUDE=/System/Library/Frameworks/JavaVM.framework/Headers
+	JNI_INCLUDE=$(JAVA_INCLUDE)
+else
+	JAVA_INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/include/linux
+	JNI_INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/include
+endif
 
 MXNET_SRCS=src/executor.cxx src/kvstore.cxx src/operator.cxx src/symbol.cxx src/io.cxx src/ndarray.cxx src/optimizer.cxx
 
@@ -14,7 +16,7 @@ SRCS=mlp.cxx image_pred.cxx network_def.cxx image_train.cxx
 
 OBJS=$(SRCS:.cxx=.o)
 
-TARGET=libNative.$(SUFFIX)
+TARGET=libNative.so
 
 CXX=g++
 
