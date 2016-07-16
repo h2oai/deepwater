@@ -50,7 +50,7 @@ mlp_test: $(TARGET) clean_test
 
 lstm_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/lstm_test.cxx -o lstm_test.o
-	$(CXX) -o lstm_test lstm_test.o $(MXNET_OBJS) -L./lib -lmxnet
+	$(CXX) -o lstm_test lstm_test.o network_def.o $(MXNET_OBJS) -L./lib -lmxnet
 
 lenet_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/lenet_test.cxx -o lenet_test.o

@@ -32,8 +32,6 @@ mxnet::cpp::Symbol ConvFactoryBN(mxnet::cpp::Symbol data, int num_filter,
                                  const std::string & name = "",
                                  const std::string & suffix = "");
 
-
-
 mxnet::cpp::Symbol InceptionFactoryA(mxnet::cpp::Symbol data, int num_1x1, int num_3x3red,
                                      int num_3x3, int num_d3x3red, int num_d3x3,
                                      mxnet::cpp::PoolingPoolType pool, int proj,
@@ -66,3 +64,12 @@ mxnet::cpp::Symbol getBody(mxnet::cpp::Symbol data, int num_level,
 mxnet::cpp::Symbol ResNetSymbol(int num_class, int num_level = 3, int num_block = 9,
                                 int num_filter = 16, mx_float bn_momentum = 0.9,
                                 mxnet::cpp::Shape pool_kernel = mxnet::cpp::Shape(8, 8));
+
+std::vector<mxnet::cpp::Symbol> lstm(int num_hidden, mxnet::cpp::Symbol indata,
+                                     std::vector<mxnet::cpp::Symbol> prev_state, 
+                                     std::vector<mxnet::cpp::Symbol> param,
+                                     int seqidx, int layeridx, mx_float dropout = 0.0) ;
+
+mxnet::cpp::Symbol lstm_unroll(int num_lstm_layer, int seq_len, int input_size,
+                               int num_hidden, int num_embed, int num_label,
+                               mx_float dropout = 0.0);
