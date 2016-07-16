@@ -13,7 +13,8 @@ public class imagetest {
         util.loadNativeLib("mxnet");
         util.loadNativeLib("Native");
 
-        BufferedReader br = new BufferedReader(new FileReader(new File("/home/ops/Desktop/sf1_train.lst")));
+        // just read the path and label for each img
+        BufferedReader br = new BufferedReader(new FileReader(new File("sf1_train.lst")));
 
         String line = null;
 
@@ -33,9 +34,9 @@ public class imagetest {
 
         int max_iter = 10;
 
-        ImageClassify m = new ImageClassify();
+        ImageTrain m = new ImageTrain();
 
-        m.buildNet(10, batch_size);
+        m.buildNet(10, batch_size, "inception_bn");
 
         ImageIter img_iter = new ImageIter(img_lst, label_lst, batch_size, 224, 224);
 
@@ -44,13 +45,8 @@ public class imagetest {
             while(img_iter.Nest()){
                 float[] data = img_iter.getData();
                 float[] labels = img_iter.getLabel();
-                float[] pred = m.train(data, labels, true);
-                System.out.println("pred " + pred.length);
-
-                for (int i = 0; i < batch_size * 10; i++) {
-                    System.out.print(pred[i] + " ");
-                }
-                System.out.println();
+                // the return values are probs
+                float[] pred = m.train(data, labels);
             }
         }
 
