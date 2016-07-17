@@ -542,15 +542,8 @@ Symbol lstm_unroll(int num_lstm_layer, int seq_len, int input_size,
   Symbol hidden_concat = Concat("hidden_concat", hidden_all, hidden_all.size(), 0);
   Symbol pred = FullyConnected("pred", hidden_concat,
                                cls_weight, cls_bias, num_label);
-/* something wrong here
-  Symbol label_slice = SliceChannel("label_slice", label, seq_len);
-  std::vector<Symbol> label_vec;
-  for (int i = 0; i < seq_len; i++) {
-    label_vec.push_back(label_slice[i]);
-  }
-
-  label = Concat("label_concat", label_vec, label_vec.size(), 0);
-  label = Reshape(label, Shape(0));*/
+  label = Operator("transpose").SetInput("data", label).CreateSymbol("");
+  label = Reshape(label, Shape(0));
   return SoftmaxOutput("sm", pred, label);
 }
 
