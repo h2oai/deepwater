@@ -19,6 +19,7 @@ public class ImageIter {
         this.height = height;
         data = new float[batch_size * width * height * 3];
         label = new float[batch_size];
+        file = new String[batch_size];
     }
 
     public void Reset() {
@@ -32,6 +33,7 @@ public class ImageIter {
             }
 
             for (int i = start_index; i < start_index + batch_size; i++) {
+                file[i - start_index] = img_lst.get(i);
                 label[i - start_index] = label_lst.get(i);
                 float[] tmp = img2pixels(img_lst.get(i), width, height);
                 for (int j = 0; j < width * height * 3; j++) {
@@ -48,7 +50,7 @@ public class ImageIter {
     }
 
     public String[] getFiles() {
-        return Arrays.copyOfRange(img_lst.toArray(new String[0]),start_index,start_index+batch_size);
+        return file;
     }
 
     public float[] getData() {
@@ -65,6 +67,7 @@ public class ImageIter {
     private int width, height;
     private float[] data;
     private float[] label;
+    private String[] file;
     private ArrayList<String> img_lst;
     private ArrayList<Float> label_lst;
 
