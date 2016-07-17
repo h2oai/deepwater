@@ -89,7 +89,7 @@ pkg: $(TARGET)
 	mkdir -p water/gpu
 	mv *.class ./water/gpu
 	cp ./libNative.so ./water/gpu
-	cp ./libmxnet.so ./water/gpu
+	cp ./lib/libmxnet.so ./water/gpu
 	jar -cvf water.gpu.jar ./water
 
 clean: clean_test
