@@ -6,6 +6,8 @@ ifeq ($(UNAME_S), Darwin)
 else
 	JAVA_INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/include/linux
 	JNI_INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/include
+	#JAVA_INCLUDE=/usr/lib/jvm/java-8-oracle/include/linux/
+	#JNI_INCLUDE=/usr/lib/jvm/java-8-oracle/include/
 endif
 
 MXNET_SRCS=src/executor.cxx src/kvstore.cxx src/operator.cxx src/symbol.cxx src/io.cxx src/ndarray.cxx src/optimizer.cxx
