@@ -512,50 +512,46 @@ Symbol lstm_unroll(int num_lstm_layer, int seq_len, int input_size,
     last_states.push_back(state);
   }
 
-  Symbol label = Symbol::Variable("label");
-  std::vector<Symbol> last_hidden;
+  Symbol data = Symbol::Variable("data");
+  Symbol label = Symbol::Variable("softmax_label");
+  Symbol embed = Embedding("embed", data, embed_weight,
+                           input_size, num_embed);
+  Symbol wordvec = SliceChannel("wordvec", embed, seq_len);
+  std::vector<Symbol> hidden_all;
   for (int seqidx = 0; seqidx < seq_len; seqidx++) {
-    Symbol data = Symbol::Variable("t" + std::to_string(seqidx) + "_data");
-    Symbol hidden = Embedding("t" + std::to_string(seqidx) + "_embed",
-                              data, embed_weight, input_size, num_embed);
+    Symbol hidden = wordvec[seqidx];  
     for (int i = 0; i < num_lstm_layer; i++) {
-      mx_float dp;
-      if (i ==0)
-        dp = 0.0;
+      mx_float dp_ratio;
+      if (i == 0)
+        dp_ratio = 0;
       else
-        dp = dropout;
-
-      std::vector<Symbol> next_state = lstm(num_hidden, hidden, last_states[i],
-                                            param_cells[i], seqidx, i, dp);
+        dp_ratio = dropout;
+      std::vector<Symbol> next_state = lstm(num_hidden, 
+                                            hidden,
+                                            last_states[i], 
+                                            param_cells[i],
+                                            seqidx, i);
       hidden = next_state[1];
       last_states[i] = next_state;
+      if (dp_ratio > 0)
+        hidden = Dropout("dropout", hidden, dp_ratio);
+      hidden_all.push_back(hidden);
     }
-
-    if (dropout > 0)
-      hidden = Dropout("", hidden, dropout);
-
-    last_hidden.push_back(hidden);
   }
 
-  Symbol concat = Concat("", last_hidden, last_hidden.size(), 0);
-  Symbol fc = FullyConnected("", concat, cls_weight, cls_bias, num_label);
-  Symbol sm = SoftmaxOutput("sm", fc, label);
-  std::vector<Symbol> list_all;
-  list_all.push_back(sm);
-  for (int i = 0; i < num_lstm_layer; i++) {
-    last_states[i][0] = BlockGrad("l" + std::to_string(i) + "_last_c", last_states[i][0]);
-    last_states[i][1] = BlockGrad("l" + std::to_string(i) + "_last_c", last_states[i][1]);
+  Symbol hidden_concat = Concat("hidden_concat", hidden_all, hidden_all.size(), 0);
+  Symbol pred = FullyConnected("pred", hidden_concat,
+                               cls_weight, cls_bias, num_label);
+/* something wrong here
+  Symbol label_slice = SliceChannel("label_slice", label, seq_len);
+  std::vector<Symbol> label_vec;
+  for (int i = 0; i < seq_len; i++) {
+    label_vec.push_back(label_slice[i]);
   }
 
-  for (size_t i = 0; i < last_states.size(); i++) {
-    list_all.push_back(last_states[i][0]);
-  }
-
-  for (size_t i = 0; i < last_states.size(); i++) {
-    list_all.push_back(last_states[i][1]);
-  }
-
-  return Symbol::Group(list_all);
+  label = Concat("label_concat", label_vec, label_vec.size(), 0);
+  label = Reshape(label, Shape(0));*/
+  return SoftmaxOutput("sm", pred, label);
 }
 
 Symbol lstm_inference_symbol(int num_lstm_layer, int input_size,
@@ -596,8 +592,9 @@ Symbol lstm_inference_symbol(int num_lstm_layer, int input_size,
   }
 
   if (dropout > 0.0)
-    hidden = Dropout("", hidden, dropout);
-  Symbol fc = FullyConnected("", hidden, cls_weight, cls_bias, num_label);
+    hidden = Dropout("dropout", hidden, dropout);
+
+  Symbol fc = FullyConnected("fc", hidden, cls_weight, cls_bias, num_label);
   Symbol label = Symbol::Variable("data_label");
   Symbol sm = SoftmaxOutput("sm", fc, label);
   std::vector<Symbol> list_all;
