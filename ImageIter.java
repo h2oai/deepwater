@@ -2,6 +2,7 @@ package water.gpu;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static water.gpu.util.img2pixels;
 
@@ -44,6 +45,10 @@ public class ImageIter {
         } else {
             return false;
         }
+    }
+
+    public String[] getFiles() {
+        return Arrays.copyOfRange(img_lst.toArray(new String[0]),start_index,start_index+batch_size);
     }
 
     public float[] getData() {
