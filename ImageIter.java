@@ -24,7 +24,7 @@ public class ImageIter {
         start_index = 0;
     }
 
-    public boolean Nest() throws IOException {
+    public boolean Next() throws IOException {
         if (start_index < val_num) {
             if (start_index + batch_size > val_num) {
                 start_index = val_num - batch_size;
