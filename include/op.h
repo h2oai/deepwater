@@ -791,19 +791,14 @@ inline Symbol MakeLoss(const std::string& symbol_name,
 }
 
 /*!
- * \breif Transpose the input matrix and return a new one.
- * \param symbol_name name of the resulting symbol.
- * \param lhs Left symbolic input to the function.
- * \param rhs Left symbolic input to the function.
+ * \breif Transpose the input symbol and return a new one.
+ * \param data the symbol to transpose.
  * \return new symbol
  */
-inline Symbol transpose(const std::string& symbol_name,
-                        Symbol lhs,
-                        Symbol rhs) {
+inline Symbol transpose(Symbol data) {
   return Operator("transpose")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -817,13 +812,13 @@ inline Symbol dot(const std::string& symbol_name,
                   Symbol lhs,
                   Symbol rhs) {
   return Operator("dot")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*! \breif Pooling type to be applied. 
- */
+*/
 enum class PoolingPoolType {
   avg = 0,
   max = 1,
@@ -855,13 +850,13 @@ inline Symbol Pooling(const std::string& symbol_name,
     "sum"
   };
   return Operator("Pooling")
-           .SetParam("kernel", kernel)
-           .SetParam("pool_type", PoolingPoolTypeValues[int(pool_type)])
-           .SetParam("global_pool", global_pool)
-           .SetParam("stride", stride)
-           .SetParam("pad", pad)
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetParam("kernel", kernel)
+      .SetParam("pool_type", PoolingPoolTypeValues[int(pool_type)])
+      .SetParam("global_pool", global_pool)
+      .SetParam("stride", stride)
+      .SetParam("pad", pad)
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -877,10 +872,10 @@ inline Symbol LinearRegressionOutput(const std::string& symbol_name,
                                      Symbol label,
                                      mx_float grad_scale = 1) {
   return Operator("LinearRegressionOutput")
-           .SetParam("grad_scale", grad_scale)
-           .SetInput("data", data)
-           .SetInput("label", label)
-           .CreateSymbol(symbol_name);
+      .SetParam("grad_scale", grad_scale)
+      .SetInput("data", data)
+      .SetInput("label", label)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -897,10 +892,10 @@ inline Symbol MAERegressionOutput(const std::string& symbol_name,
                                   Symbol label,
                                   mx_float grad_scale = 1) {
   return Operator("MAERegressionOutput")
-           .SetParam("grad_scale", grad_scale)
-           .SetInput("data", data)
-           .SetInput("label", label)
-           .CreateSymbol(symbol_name);
+      .SetParam("grad_scale", grad_scale)
+      .SetInput("data", data)
+      .SetInput("label", label)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -918,10 +913,10 @@ inline Symbol LogisticRegressionOutput(const std::string& symbol_name,
                                        Symbol label,
                                        mx_float grad_scale = 1) {
   return Operator("LogisticRegressionOutput")
-           .SetParam("grad_scale", grad_scale)
-           .SetInput("data", data)
-           .SetInput("label", label)
-           .CreateSymbol(symbol_name);
+      .SetParam("grad_scale", grad_scale)
+      .SetInput("data", data)
+      .SetInput("label", label)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -942,9 +937,9 @@ inline Symbol LogisticRegressionOutput(const std::string& symbol_name,
 inline Symbol Reshape(Symbol data,
                       Shape shape = Shape()) {
   return Operator("Reshape")
-           .SetParam("shape", shape)
-           .SetInput("data", data)
-           .CreateSymbol();
+      .SetParam("shape", shape)
+      .SetInput("data", data)
+      .CreateSymbol();
 }
 
 /*!
@@ -956,8 +951,8 @@ inline Symbol Reshape(Symbol data,
 inline Symbol Flatten(const std::string& symbol_name,
                       Symbol data) {
   return Operator("Flatten")
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -983,11 +978,11 @@ inline Symbol ROIPooling(const std::string& symbol_name,
                          Shape pooled_size,
                          mx_float spatial_scale) {
   return Operator("ROIPooling")
-           .SetParam("pooled_size", pooled_size)
-           .SetParam("spatial_scale", spatial_scale)
-           .SetInput("data", data)
-           .SetInput("rois", rois)
-           .CreateSymbol(symbol_name);
+      .SetParam("pooled_size", pooled_size)
+      .SetParam("spatial_scale", spatial_scale)
+      .SetInput("data", data)
+      .SetInput("rois", rois)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -1003,10 +998,10 @@ inline Symbol SliceChannel(const std::string& symbol_name,
                            int axis = 1,
                            bool squeeze_axis = false) {
   return Operator("SliceChannel")
-           .SetParam("num_outputs", num_outputs)
-           .SetParam("axis", axis)
-           .SetParam("squeeze_axis", squeeze_axis)
-           .CreateSymbol(symbol_name);
+      .SetParam("num_outputs", num_outputs)
+      .SetParam("axis", axis)
+      .SetParam("squeeze_axis", squeeze_axis)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -1020,9 +1015,9 @@ inline Symbol smooth_l1(const std::string& symbol_name,
                         Symbol lhs,
                         Symbol rhs) {
   return Operator("smooth_l1")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*! \breif Softmax Mode.
@@ -1063,9 +1058,9 @@ inline Symbol SoftmaxActivation(const std::string& symbol_name,
     "instance"
   };
   return Operator("SoftmaxActivation")
-           .SetParam("mode", SoftmaxActivationModeValues[int(mode)])
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetParam("mode", SoftmaxActivationModeValues[int(mode)])
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*! \breif If set to null, op will do nothing on output gradient.
@@ -1109,14 +1104,14 @@ inline Symbol SoftmaxOutput(const std::string& symbol_name,
     "valid"
   };
   return Operator("SoftmaxOutput")
-           .SetParam("grad_scale", grad_scale)
-           .SetParam("ignore_label", ignore_label)
-           .SetParam("multi_output", multi_output)
-           .SetParam("use_ignore", use_ignore)
-           .SetParam("normalization", SoftmaxOutputNormalizationValues[int(normalization)])
-           .SetInput("data", data)
-           .SetInput("label", label)
-           .CreateSymbol(symbol_name);
+      .SetParam("grad_scale", grad_scale)
+      .SetParam("ignore_label", ignore_label)
+      .SetParam("multi_output", multi_output)
+      .SetParam("use_ignore", use_ignore)
+      .SetParam("normalization", SoftmaxOutputNormalizationValues[int(normalization)])
+      .SetInput("data", data)
+      .SetInput("label", label)
+      .CreateSymbol(symbol_name);
 }
 
 /*! \breif If set to null, op will do nothing on output gradient.
@@ -1159,13 +1154,13 @@ inline Symbol Softmax(const std::string& symbol_name,
     "valid"
   };
   return Operator("Softmax")
-           .SetParam("grad_scale", grad_scale)
-           .SetParam("ignore_label", ignore_label)
-           .SetParam("multi_output", multi_output)
-           .SetParam("use_ignore", use_ignore)
-           .SetParam("normalization", SoftmaxNormalizationValues[int(normalization)])
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetParam("grad_scale", grad_scale)
+      .SetParam("ignore_label", ignore_label)
+      .SetParam("multi_output", multi_output)
+      .SetParam("use_ignore", use_ignore)
+      .SetParam("normalization", SoftmaxNormalizationValues[int(normalization)])
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -1181,14 +1176,14 @@ inline Symbol SwapAxis(const std::string& symbol_name,
                        int dim1 = 0,
                        int dim2 = 0) {
   return Operator("SwapAxis")
-           .SetParam("dim1", dim1)
-           .SetParam("dim2", dim2)
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetParam("dim1", dim1)
+      .SetParam("dim2", dim2)
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*! \breif upsampling method.
- */
+*/
 enum class UpSamplingSampleType {
   bilinear = 0,
   nearest = 1
@@ -1240,14 +1235,14 @@ inline Symbol UpSampling(const std::string& symbol_name,
     "sum"
   };
   return Operator("UpSampling")
-           .SetParam("scale", scale)
-           .SetParam("sample_type", UpSamplingSampleTypeValues[int(sample_type)])
-           .SetParam("num_args", num_args)
-           .SetParam("num_filter", num_filter)
-           .SetParam("multi_input_mode", UpSamplingMultiInputModeValues[int(multi_input_mode)])
-           .SetParam("workspace", workspace)
-(data)
-           .CreateSymbol(symbol_name);
+      .SetParam("scale", scale)
+      .SetParam("sample_type", UpSamplingSampleTypeValues[int(sample_type)])
+      .SetParam("num_args", num_args)
+      .SetParam("num_filter", num_filter)
+      .SetParam("multi_input_mode", UpSamplingMultiInputModeValues[int(multi_input_mode)])
+      .SetParam("workspace", workspace)
+      (data)
+      .CreateSymbol(symbol_name);
 }
 
 } //namespace cpp
