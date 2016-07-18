@@ -132,7 +132,7 @@ int main() {
   std::map<char, int> vocab = buildVocab(content);
   int batch_size = 32;
   int seq_len = 129;
-  int num_hidden = 256;
+  int num_hidden = 512;
   int num_embed = 256;
   int num_lstm_layer = 3;
   int num_round = 21;
@@ -140,7 +140,7 @@ int main() {
   mx_float wd = 0.00001;
   int clip_gradient = 1;
   int update_period = 1;
-  int input_size = 65;
+  int input_size = vocab.size() + 1;
   int num_label = input_size;
   TextIter iter("./obama.txt", vocab, seq_len, batch_size);
 
@@ -148,8 +148,8 @@ int main() {
                                num_hidden, num_embed, num_label, 0.0);
 
   std::map<std::string, NDArray> args_map;
-  args_map["t0_data"] = NDArray(Shape(batch_size, 1, seq_len), Context::cpu());
-  args_map["data_label"] = NDArray(Shape(batch_size, 1, seq_len), Context::cpu());
+  args_map["data"] = NDArray(Shape(batch_size, 1, seq_len), Context::cpu());
+  args_map["softmax_label"] = NDArray(Shape(batch_size, 1, seq_len), Context::cpu());
 
   rnn_sym.InferArgsMap(Context::cpu(), &args_map, args_map);
 
