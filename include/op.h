@@ -798,7 +798,7 @@ inline Symbol MakeLoss(const std::string& symbol_name,
 inline Symbol transpose(Symbol data) {
   return Operator("transpose")
       .SetInput("data", data)
-      .CreateSymbol(symbol_name);
+      .CreateSymbol();
 }
 
 /*!
