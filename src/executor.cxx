@@ -7,6 +7,8 @@
 
 #include <vector>
 #include <set>
+#include <map>
+#include <string>
 #include "executor.h"
 #include "optimizer.h"
 

@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <map>
+#include <string>
 #include "base.h"
 #include "symbol.h"
 
@@ -97,6 +98,7 @@ class Executor {
   std::map<std::string, NDArray> aux_dict() {
     return GetDict(symbol_.ListAuxiliaryStates(), aux_arrays);
   }
+
  private:
   Executor(const Executor &e);
   Executor &operator=(const Executor &e);
