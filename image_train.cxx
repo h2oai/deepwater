@@ -54,10 +54,10 @@ void ImageTrain::buildNet(int n, int b, char * n_name) {
   opt->SetParam("rescale_grad", 1.0 / batch_size);
   opt->SetParam("clip_gradient", 10);
 
-  args_map["data"] = NDArray(Shape(batch_size, 3, width, height), Context::gpu());
-  args_map["data_label"] = NDArray(Shape(batch_size), Context::gpu());
-  mxnet_sym.InferArgsMap(Context::gpu(), &args_map, args_map);
-  exec = mxnet_sym.SimpleBind(Context::gpu(), args_map);
+  args_map["data"] = NDArray(Shape(batch_size, 3, width, height), Context::cpu());
+  args_map["data_label"] = NDArray(Shape(batch_size), Context::cpu());
+  mxnet_sym.InferArgsMap(Context::cpu(), &args_map, args_map);
+  exec = mxnet_sym.SimpleBind(Context::cpu(), args_map);
   is_built = true;
 }
 
@@ -89,9 +89,9 @@ std::vector<float> ImageTrain::execute(float * data, float * label, bool is_trai
         << "Please run buildNet() or loadModel() first." << std::endl;
     exit(0);
   }
-  NDArray data_n = NDArray(data, Shape(batch_size, 3, width, height), Context::gpu());
+  NDArray data_n = NDArray(data, Shape(batch_size, 3, width, height), Context::cpu());
 
-  NDArray label_n = NDArray(label, Shape(batch_size), Context::gpu());
+  NDArray label_n = NDArray(label, Shape(batch_size), Context::cpu());
 
   data_n.CopyTo(&args_map["data"]);
   label_n.CopyTo(&args_map["data_label"]);
