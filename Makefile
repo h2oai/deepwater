@@ -1,5 +1,5 @@
-
 UNAME_S := $(shell uname -s)
+
 ifeq ($(UNAME_S), Darwin)
 	JAVA_INCLUDE=/System/Library/Frameworks/JavaVM.framework/Headers
 	JNI_INCLUDE=$(JAVA_INCLUDE)
@@ -88,6 +88,10 @@ pkg: $(TARGET)
 	rm -rf water/gpu
 	mkdir -p water/gpu
 	mv *.class ./water/gpu
+ifeq ($(UNAME_S), Darwin)
+	install_name_tool -change lib/libmxnet.so @loader_path/libmxnet.so libNative.so
+else
+endif
 	cp ./libNative.so ./water/gpu
 	cp ./lib/libmxnet.so ./water/gpu
 	jar -cvf water.gpu.jar ./water
