@@ -9,6 +9,8 @@
 #define MXNETCPP_EXECUTOR_H
 
 #include <vector>
+#include <map>
+#include <string>
 #include "base.h"
 #include "symbol.h"
 
@@ -18,8 +20,8 @@ namespace cpp {
 class Optimizer;
 
 /*!
-* \brief Executor interface
-*/
+ * \brief Executor interface
+ */
 class Executor {
  public:
   Executor(const Symbol &symbol, Context context,
@@ -29,9 +31,9 @@ class Executor {
            const std::vector<NDArray> &aux_arrays);
   explicit Executor(const ExecutorHandle &h) { handle_ = h; }
   /*!
-  * \brief Perform a Forward operation of Operator
-  *  After this operation, user can get the result by using function head.
-  */
+   * \brief Perform a Forward operation of Operator
+   *  After this operation, user can get the result by using function head.
+   */
   void Forward(bool is_train) {
     MXExecutorForward(handle_, is_train ? 1 : 0);
     mx_uint out_size;
@@ -42,17 +44,17 @@ class Executor {
     }
   }
   /*!
-  * \brief Perform a Backward operation of the Operator.
-  *  This must be called after Forward.
-  *  After this operation, NDArrays specified by grad_in_args_store will be
-  *updated accordingly.
-  *  User is allowed to pass in an empty Array if the head node is
-  *  loss function and head gradeitn is not needed.
-  *
-  * \param head_grads the gradient of head nodes to be backproped.
-  */
+   * \brief Perform a Backward operation of the Operator.
+   *  This must be called after Forward.
+   *  After this operation, NDArrays specified by grad_in_args_store will be
+   *updated accordingly.
+   *  User is allowed to pass in an empty Array if the head node is
+   *  loss function and head gradeitn is not needed.
+   *
+   * \param head_grads the gradient of head nodes to be backproped.
+   */
   void Backward(const std::vector<NDArray> &head_grads =
-                    std::vector<NDArray>()) {
+                std::vector<NDArray>()) {
     std::vector<NDArrayHandle> head_grads_;
     for (auto d : head_grads) {
       head_grads_.push_back(d.GetHandle());
@@ -64,33 +66,46 @@ class Executor {
     }
   }
   /*!
-  * \brief update the arguments with given learning rate and optimizer
-  * \param opt the pointer to the optimizer
-  * \param lr learning rate
-  * \param wd weight decay
-  * \param arg_update_begin begin index of the arguments to be updated, it
-  * starts after the input data by default
-  * \param arg_update_end end index of the arguments to be updated, it ends
-  * before the label data by default
-  */
+   * \brief update the arguments with given learning rate and optimizer
+   * \param opt the pointer to the optimizer
+   * \param lr learning rate
+   * \param wd weight decay
+   * \param arg_update_begin begin index of the arguments to be updated, it
+   * starts after the input data by default
+   * \param arg_update_end end index of the arguments to be updated, it ends
+   * before the label data by default
+   */
   void UpdateAll(Optimizer *opt, float lr, float wd, int arg_update_begin = 1,
                  int arg_update_end = -1);
   /*!
-  * \brief destructor, free the handle
-  */
+   * \brief destructor, free the handle
+   */
   ~Executor() { MXExecutorFree(handle_); }
   std::vector<NDArray> arg_arrays;
   std::vector<NDArray> grad_arrays;
   std::vector<NDArray> aux_arrays;
   /*!
-  * \brief arrays store the outputs of forward
-  */
+   * \brief arrays store the outputs of forward
+   */
   std::vector<NDArray> outputs;
+
+  std::map<std::string, NDArray> arg_dict() {
+    return GetDict(symbol_.ListArguments(), arg_arrays);
+  }
+  std::map<std::string, NDArray> grad_dict() {
+    return GetDict(symbol_.ListArguments(), grad_arrays);
+  }
+  std::map<std::string, NDArray> aux_dict() {
+    return GetDict(symbol_.ListAuxiliaryStates(), aux_arrays);
+  }
 
  private:
   Executor(const Executor &e);
   Executor &operator=(const Executor &e);
   ExecutorHandle handle_;
+  Symbol symbol_;
+  std::map<std::string, NDArray> GetDict(const std::vector<std::string> &names,
+                                         const std::vector<NDArray> &arrays);
 };
 }  // namespace cpp
 }  // namespace mxnet
