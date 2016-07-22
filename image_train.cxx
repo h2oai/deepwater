@@ -17,11 +17,11 @@ ImageTrain::ImageTrain() {
   learning_rate = 0.001;
   weight_decay = 1e-4;
   is_built = false;
-#ifdef GPU                                                                      
-  ctx_dev = Context(DeviceType::kGPU, 0);                                       
-#else                                                                           
-  ctx_dev = Context(DeviceType::kCPU, 0);                                       
-#endif 
+#ifdef GPU
+  ctx_dev = Context(DeviceType::kGPU, 0);
+#else
+  ctx_dev = Context(DeviceType::kCPU, 0);
+#endif
 }
 
 ImageTrain::~ImageTrain() {

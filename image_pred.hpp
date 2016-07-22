@@ -13,7 +13,7 @@
 
 class ImagePred {
  public:
-  ImagePred(int w = 224, int h = 224, int c = 3);
+  explicit ImagePred(int w = 224, int h = 224, int c = 3);
   void setModelPath(char * path) {model_path_ = std::string(path);}
   void loadInception();
   void loadModel();
