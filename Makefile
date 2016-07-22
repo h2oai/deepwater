@@ -24,7 +24,7 @@ CXX=g++
 
 INCLUDE=-I$(JAVA_INCLUDE) -I$(JNI_INCLUDE) -Iinclude
 
-LDFLAGS=-Wl,-rpath,/tmp -L./lib -lmxnet
+LDFLAGS=-Wl,-rpath,/tmp -L./mxnet/lib -lmxnet
 
 CXXFLAGS=-std=c++11 -O3
 
@@ -89,10 +89,10 @@ pkg: all $(TARGET)
 	mkdir -p water/gpu
 	mv *.class ./water/gpu
 ifeq ($(UNAME_S), Darwin)
-	install_name_tool -change lib/libmxnet.so @loader_path/libmxnet.so libNative.so
+	install_name_tool -change mxnet/lib/libmxnet.so @loader_path/libmxnet.so libNative.so
 endif
 	cp ./libNative.so ./water/gpu
-	cp ./lib/libmxnet.so ./water/gpu
+	cp mxnet/lib/libmxnet.so ./water/gpu
 	jar -cvf water.gpu.jar ./water
 
 clean: clean_test
