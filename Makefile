@@ -1,4 +1,5 @@
 UNAME_S := $(shell uname -s)
+GPU_NAME := $(shel lspci -v | grep "NVIDIA")
 
 ifeq ($(UNAME_S), Darwin)
 	JAVA_INCLUDE=/System/Library/Frameworks/JavaVM.framework/Headers
@@ -26,7 +27,13 @@ INCLUDE=-I$(JAVA_INCLUDE) -I$(JNI_INCLUDE) -Iinclude
 
 LDFLAGS=-Wl,-rpath,/tmp -L./lib -lmxnet
 
-CXXFLAGS=-std=c++11 -O3
+CXXFLAGS :=-std=c++11 -O3
+
+ifeq ($(GPU_NAME), '')
+	CXXFLAGS += -DNO_GPU
+else
+	CXXFLAGS += -DGPU
+endif
 
 all: swig $(MXNET_OBJS) $(OBJS) $(TARGET)
 

@@ -10,7 +10,11 @@ using namespace std;
 using namespace mxnet::cpp;
 
 MLP::MLP() {
+#ifdef GPU
   ctx_dev = Context(DeviceType::kGPU, 0);
+#else
+  ctx_dev = Context(DeviceType::kCPU, 0);
+#endif
 }
 
 void MLP::setLayers(int * lsize, int nsize, int n) {

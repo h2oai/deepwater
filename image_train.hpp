@@ -34,6 +34,7 @@ class ImageTrain{
   mxnet::cpp::Executor * exec;
   mxnet::cpp::Optimizer * opt;
   bool is_built;
+  mxnet::cpp::Context ctx_dev;
 
   std::vector<float> execute(float * data, float * label, bool is_train);
 };
