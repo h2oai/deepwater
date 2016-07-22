@@ -1,11 +1,13 @@
-
 UNAME_S := $(shell uname -s)
+
 ifeq ($(UNAME_S), Darwin)
 	JAVA_INCLUDE=/System/Library/Frameworks/JavaVM.framework/Headers
 	JNI_INCLUDE=$(JAVA_INCLUDE)
 else
-	JAVA_INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/include/linux
-	JNI_INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/include
+	#JAVA_INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/include/linux
+	#JNI_INCLUDE=/usr/lib/jvm/java-1.8.0-openjdk-amd64/include
+	JAVA_INCLUDE=/usr/lib/jvm/java-8-oracle/include/linux/
+	JNI_INCLUDE=/usr/lib/jvm/java-8-oracle/include/
 endif
 
 MXNET_SRCS=src/executor.cxx src/kvstore.cxx src/operator.cxx src/symbol.cxx src/io.cxx src/ndarray.cxx src/optimizer.cxx
@@ -86,8 +88,11 @@ pkg: $(TARGET)
 	rm -rf water/gpu
 	mkdir -p water/gpu
 	mv *.class ./water/gpu
+ifeq ($(UNAME_S), Darwin)
+	install_name_tool -change lib/libmxnet.so @loader_path/libmxnet.so libNative.so
+endif
 	cp ./libNative.so ./water/gpu
-	cp ./libmxnet.so ./water/gpu
+	cp ./lib/libmxnet.so ./water/gpu
 	jar -cvf water.gpu.jar ./water
 
 clean: clean_test

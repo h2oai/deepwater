@@ -1,1 +1,1 @@
-put libmxnet.so here
+put libmxnet.so here (or a symbolic link)

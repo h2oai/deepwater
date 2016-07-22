@@ -2,6 +2,7 @@ package water.gpu;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static water.gpu.util.img2pixels;
 
@@ -18,19 +19,21 @@ public class ImageIter {
         this.height = height;
         data = new float[batch_size * width * height * 3];
         label = new float[batch_size];
+        file = new String[batch_size];
     }
 
     public void Reset() {
         start_index = 0;
     }
 
-    public boolean Nest() throws IOException {
+    public boolean Next() throws IOException {
         if (start_index < val_num) {
             if (start_index + batch_size > val_num) {
                 start_index = val_num - batch_size;
             }
 
             for (int i = start_index; i < start_index + batch_size; i++) {
+                file[i - start_index] = img_lst.get(i);
                 label[i - start_index] = label_lst.get(i);
                 float[] tmp = img2pixels(img_lst.get(i), width, height);
                 for (int j = 0; j < width * height * 3; j++) {
@@ -44,6 +47,10 @@ public class ImageIter {
         } else {
             return false;
         }
+    }
+
+    public String[] getFiles() {
+        return file;
     }
 
     public float[] getData() {
@@ -60,6 +67,7 @@ public class ImageIter {
     private int width, height;
     private float[] data;
     private float[] label;
+    private String[] file;
     private ArrayList<String> img_lst;
     private ArrayList<Float> label_lst;
 
