@@ -18,7 +18,7 @@ int main(int argc, char const *argv[]) {
   float learning_rate = 1e-4;
   float weight_decay = 1e-4;
 
-  auto lenet = LenetSymbol();
+  auto lenet = LenetSymbol(10);
   std::map<std::string, NDArray> args_map;
 
   args_map["data"] = NDArray(Shape(batch_size, 1, W, H), Context::gpu());
