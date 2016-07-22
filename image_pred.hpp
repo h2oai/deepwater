@@ -13,10 +13,12 @@
 
 class ImagePred {
  public:
-  ImagePred();
+  ImagePred(int w = 224, int h = 224, int c = 3);
   void setModelPath(char * path) {model_path_ = std::string(path);}
   void loadInception();
+  void loadModel();
   const char * predict(float * data);
+  std::vector<float> predict_probs(float * data);
   ~ImagePred();
 
  private:

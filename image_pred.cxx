@@ -49,22 +49,25 @@ std::vector<std::string> loadSynset(const std::string & filename) {
   return output;
 }
 
-ImagePred::ImagePred() {
-  width = 224;
-  height = 224;
-  channels = 3;
+ImagePred::ImagePred(int w, int h, int c) {
+  width = w;
+  height = h;
+  channels = c;
   image_size = width * height * channels;
   dev_type = 1;
   dev_id = 0;
-
   pred_hnd = 0;
 }
 
 void ImagePred::loadInception() {
+  loadModel();
+}
+
+void ImagePred::loadModel() {
   synset = loadSynset(model_path_ + "/synset.txt");
-  BufferFile json_data(model_path_ + "/Inception_BN-symbol.json");
-  BufferFile param_data(model_path_ + "/Inception_BN-0039.params");
-  BufferFile nd_buf(model_path_ + "/mean_224.nd");
+  BufferFile json_data(model_path_ + "/model-symbol.json");
+  BufferFile param_data(model_path_ + "/model.params");
+  BufferFile nd_buf(model_path_ + "/mean.nd");
 
   mx_uint nd_index = 0;
   mx_uint nd_len;
@@ -136,6 +139,34 @@ const char * ImagePred::predict(float * image_data) {
 
   return res.c_str();
 }
+
+std::vector<float> ImagePred::predict_probs(float * image_data) {
+  for (int i = 0; i < image_size; i++) {
+    image_data[i] = image_data[i] - nd_data[i];
+  }
+
+  MXPredSetInput(pred_hnd, "data", image_data, image_size);
+
+  MXPredForward(pred_hnd);
+
+  mx_uint output_index = 0;
+  mx_uint *shape = 0;
+  mx_uint shape_len;
+
+  MXPredGetOutputShape(pred_hnd, output_index, &shape, &shape_len);
+
+  size_t size = 1;
+  for (mx_uint i = 0; i < shape_len; ++i) size *= shape[i];
+
+  std::vector<float> data(size);
+
+  MXPredGetOutput(pred_hnd, output_index, &(data[0]), size);
+
+  return data;
+}
+
+
+
 
 ImagePred::~ImagePred() {
   MXNDListFree(nd_hnd);
