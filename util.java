@@ -42,9 +42,9 @@ public final class util {
         }
 
         // load related cuda libraries in case the system can't find them automatically
-        System.load(cuda_path + "lib" + File.separator + "libcudart." + lib_suffix);
-        System.load(cuda_path + "lib" + File.separator + "libcublas." + lib_suffix);
-        System.load(cuda_path + "lib" + File.separator + "libcurand." + lib_suffix);
+        System.load(cuda_path + "lib64" + File.separator + "libcudart." + lib_suffix);
+        System.load(cuda_path + "lib64" + File.separator + "libcublas." + lib_suffix);
+        System.load(cuda_path + "lib64" + File.separator + "libcurand." + lib_suffix);
         return true;
     }
 
