@@ -83,7 +83,7 @@ alexnet_test: $(TARGET) clean_test
 lint:
 	python lint.py deepwater cpp .
 
-pkg: $(TARGET)
+pkg: all $(TARGET)
 	javac *.java
 	rm -rf water/gpu
 	mkdir -p water/gpu
