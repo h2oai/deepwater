@@ -95,11 +95,3 @@ mxnet::cpp::Symbol lstm_unroll(int num_lstm_layer, int seq_len,
                                int input_size, int num_hidden,
                                int num_embed, int num_label,
                                mx_float dropout = 0.0);
-/*
-   mxnet::cpp::Symbol lstm_inference_symbol(int num_lstm_layer,
-   int input_size,
-   int num_hidden,
-   int num_embed,
-   int num_label,
-   mx_float dropout = 0.0);
-   */
