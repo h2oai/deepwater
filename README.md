@@ -9,7 +9,7 @@ Native implementation of Deep Learning models for GPU backends (mxnet, Caffe, Te
 1. A C++ compiler with C++11 support
 1. [SWIG](http://www.swig.org/)
 1. [BLAS](http://www.netlib.org/blas/)
-1. [OpenCV](http://opencv.org)
+1. [OpenCV](http://opencv.org) - optional
 
 ### Ubuntu
 
@@ -18,9 +18,10 @@ sudo apt-get install libatlas-base-dev libblas-dev libopencv-dev swig -y
 git clone https://github.com/h2oai/deepwater.git
 git submodule update --init --recursive
 cd mxnet
-make
+cp make/config.mk .
+### EDIT config.mk - USE_OPENCV=0, USE_CUDA=1, USE_CUDA_PATH=...
+make -j8
 cd ..
-make
 make pkg # will generate a `jar` file including native code.
 ```
 
