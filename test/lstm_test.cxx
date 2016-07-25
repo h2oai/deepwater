@@ -131,9 +131,9 @@ int main() {
     content += sentences[i] + "\n";
   }
   std::map<char, int> vocab = buildVocab(content);
-  int batch_size = 20;
+  int batch_size = 32;
   int seq_len = 129;
-  int num_hidden = 64;//512;
+  int num_hidden = 512;
   int num_embed = 256;
   int num_lstm_layer = 3;
   // int num_round = 21;
@@ -145,28 +145,29 @@ int main() {
   int num_label = input_size;
 
   Symbol rnn_sym = lstm_unroll(num_lstm_layer, seq_len, input_size,
-                               num_hidden, num_embed, num_label, 0.0);
-  //Symbol rnn_sym = Symbol::LoadJSON("/home/ops/Desktop/obama-symbol.json");
+                               num_hidden, num_embed, num_label, 0.2);
+
+  rnn_sym.Save("test.json");
 
   std::map<std::string, NDArray> args_map;
-  args_map["data"] = NDArray(Shape(batch_size, seq_len), Context::gpu());
-  args_map["softmax_label"] = NDArray(Shape(batch_size, seq_len), Context::gpu());
+  args_map["data"] = NDArray(Shape(batch_size, seq_len), Context::cpu());
+  args_map["softmax_label"] = NDArray(Shape(batch_size, seq_len), Context::cpu());
 
   for (int i = 0; i < num_lstm_layer; i++) {
     args_map["l" + std::to_string(i) + "_init_c"] =
-        NDArray(Shape(batch_size, num_hidden), Context::gpu());
+        NDArray(Shape(batch_size, num_hidden), Context::cpu());
     args_map["l" + std::to_string(i) + "_init_h"] =
-        NDArray(Shape(batch_size, num_hidden), Context::gpu());
+        NDArray(Shape(batch_size, num_hidden), Context::cpu());
   }
 
-  rnn_sym.InferArgsMap(Context::gpu(), &args_map, args_map);
+  rnn_sym.InferArgsMap(Context::cpu(), &args_map, args_map);
 
   Optimizer * opt = new Optimizer("ccsgd", learning_rate, wd);
   opt->SetParam("momentum", 0.9);
   opt->SetParam("rescale_grad", 1.0 / batch_size);
   opt->SetParam("clip_gradient", 10);
 
-  Executor * exec = rnn_sym.SimpleBind(Context::gpu(), args_map);
+  Executor * exec = rnn_sym.SimpleBind(Context::cpu(), args_map);
 
   Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);
   for (auto &arg : args_map) {
@@ -174,7 +175,7 @@ int main() {
   }
 
   for (const auto &s : rnn_sym.ListArguments()) {
-    LG << s;
+    std::cout << s << " ";
     const auto &k = args_map[s].GetShape();
     for (const auto & i : k) {
       std::cout << i << " ";
@@ -187,9 +188,9 @@ int main() {
   while(iter.Next()) {
     std::vector<mx_float> data = iter.getData();
     std::vector<mx_float> label = iter.getLabel();
-    NDArray data_n = NDArray(data.data(), Shape(batch_size, seq_len), Context::gpu());
+    NDArray data_n = NDArray(data.data(), Shape(batch_size, seq_len), Context::cpu());
 
-    NDArray label_n = NDArray(label.data(), Shape(batch_size, seq_len), Context::gpu());
+    NDArray label_n = NDArray(label.data(), Shape(batch_size, seq_len), Context::cpu());
     data_n.CopyTo(&args_map["data"]);
     label_n.CopyTo(&args_map["softmax_label"]);
     NDArray::WaitAll();

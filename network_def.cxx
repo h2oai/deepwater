@@ -512,7 +512,7 @@ Symbol lstm_unroll(int num_lstm_layer, int seq_len, int input_size,
       .SetInput("data", embed)
       .SetParam("num_outputs", seq_len)
       .SetParam("squeeze_axis", true)
-      .CreateSymbol();
+      .CreateSymbol("wordvec");
   std::vector<Symbol> hidden_all;
   for (int seqidx = 0; seqidx < seq_len; seqidx++) {
     Symbol hidden = wordvec[seqidx];
@@ -526,7 +526,7 @@ Symbol lstm_unroll(int num_lstm_layer, int seq_len, int input_size,
                                   hidden,
                                   last_states[i],
                                   param_cells[i],
-                                  seqidx, i);
+                                  seqidx, i, dp_ratio);
       hidden = next_state.h;
       last_states[i] = next_state;
     }
@@ -543,6 +543,6 @@ Symbol lstm_unroll(int num_lstm_layer, int seq_len, int input_size,
       .SetParam("target_shape", "(0,)")
       .SetInput("data", label)
       .CreateSymbol();
-  return SoftmaxOutput("sm", pred, label);
+  return SoftmaxOutput("softmax", pred, label);
 }
 
