@@ -103,8 +103,15 @@ endif
 	cp mxnet/lib/libmxnet.so ./water/gpu
 	jar -cvf water.gpu.jar ./water
 
+java_test: 
+	javac -cp water.gpu.jar java/h2o/deepwater/test/InceptionCLI.java
+	java -cp water.gpu.jar:java h2o.deepwater.test.InceptionCLI $(PWD)/Inception $(PWD)/test/test2.jpg 
+
+.PHONY: java_test clean clean_test
+
 clean: clean_test
 	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o
 
 clean_test:
 	rm -rf *_test.o *_test water*
+
