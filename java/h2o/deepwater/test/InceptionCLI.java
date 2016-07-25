@@ -64,6 +64,16 @@ public class InceptionCLI {
     }
 
     public static void main(String[] args) {
+        // Set system property.
+        // Call this BEFORE the toolkit has been initialized, that is,
+        // before Toolkit.getDefaultToolkit() has been called.
+        // see: http://www.oracle.com/technetwork/articles/javase/headless-136834.html
+        System.setProperty("java.awt.headless", "true");
+        // Check whether the application is
+        // running in headless mode.
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        System.out.println("Headless mode: " + ge.isHeadless());
+
         ImagePred m = new ImagePred();
 
         // the path to Inception model
@@ -72,7 +82,7 @@ public class InceptionCLI {
         m.loadInception();
         try {
             float[] pixels = loadImage(args[1]);
-            System.out.println("\n\n" + m.predict(pixels) + "\n\n");
+            System.out.println(m.predict(pixels));
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
