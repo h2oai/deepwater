@@ -127,12 +127,12 @@ struct Shape {
     }
   }
   /*!
-  * \brief constructor five dimmension shape
-  * \param s1 size of the first dimmension
-  * \param s2 size of the second dimmension
-  * \param s3 size of the third dimmension
-  * \param s4 size of the fourth dimmension
-  * \param s5 size of the fifth dimmension
+  * \brief constructor five dimension shape
+  * \param s1 size of the first dimension
+  * \param s2 size of the second dimension
+  * \param s3 size of the third dimension
+  * \param s4 size of the fourth dimension
+  * \param s5 size of the fifth dimension
   */
   Shape(index_t s1, index_t s2, index_t s3, index_t s4, index_t s5)
     : ndim_(5) {
@@ -293,7 +293,7 @@ struct Shape {
   // when dimension is smaller than kStackCache
   // when it is bigger, it will be stored in data_heap_;
   /*! \brief size of in stack space */
-  static const index_t kStackCache = 4;
+  static const index_t kStackCache = 5;
   /*! \brief number of dimnsion of the shape */
   index_t ndim_;
   /*! \brief number of cells allocated in data_heap_ */
