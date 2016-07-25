@@ -1,0 +1,35 @@
+# Use new trusty images, should yield newer compilers and packages
+# reference: http://genbattle.bitbucket.org/blog/2016/01/17/c++-travis-ci/
+sudo: required
+dist: precise
+language: cpp
+
+matrix:
+  include:
+    - compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+      env: COMPILER=g++-4.9
+    - compiler: clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.7
+          packages:
+            - clang-3.7
+      env: COMPILER=clang++-3.7
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y libopencv-dev build-essential git
+  - sudo apt-get install -y libatlas-base-dev libblas-dev swig
+
+script:
+- cd mxnet && cp make/config.mk ./config.mk && cmake -DCXX=$COMPILER -DUSE_BLAS=atlas -DCMAKE_BUILD_TYPE=Release -DCMAKE_CONFIGURATION_TYPES="Release" -DUSE_OPENMP="OFF" -DUSE_CUDNN="OFF" -DUSE_CUDA="OFF" -DCMAKE_CXX_COMPILER=$COMPILER . && make && cd ..
+- make pkg
+- make java_test
