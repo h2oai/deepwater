@@ -97,7 +97,7 @@ pkg: all $(TARGET)
 	mkdir -p water/gpu
 	mv *.class ./water/gpu
 ifeq ($(UNAME_S), Darwin)
-	install_name_tool -change mxnet/lib/libmxnet.so @loader_path/libmxnet.so libNative.so
+	install_name_tool -change lib/libmxnet.so @loader_path/libmxnet.so libNative.so
 endif
 	cp ./libNative.so ./water/gpu
 	cp mxnet/lib/libmxnet.so ./water/gpu
