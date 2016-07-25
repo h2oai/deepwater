@@ -4,13 +4,26 @@ Native implementation of Deep Learning models for GPU backends (mxnet, Caffe, Te
 
 ![architecture](./architecture/overview.png "Deep Water High-Level Architecture")
 
-## Requirements
+## Build Requirements
 
-* SWIG: http://www.swig.org/
+1. A C++ compiler with C++11 support
+1. [SWIG](http://www.swig.org/)
+1. [BLAS](http://www.netlib.org/blas/)
+1. [OpenCV](http://opencv.org) - optional
 
-* A C++ compiler with C++11 support
+### Ubuntu
 
-`make pkg` will generate a `jar` file including native code.
+```bash
+sudo apt-get install libatlas-base-dev libblas-dev libopencv-dev swig -y
+git clone https://github.com/h2oai/deepwater.git
+git submodule update --init --recursive
+cd mxnet
+cp make/config.mk .
+### EDIT config.mk - USE_OPENCV=0, USE_CUDA=1, USE_CUDA_PATH=...
+make -j8
+cd ..
+make pkg # will generate a `jar` file including native code.
+```
 
 Please add these lines below into your Java code when using this jar as external dependency.
 

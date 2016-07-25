@@ -24,7 +24,9 @@ CXX=g++
 
 INCLUDE=-I$(JAVA_INCLUDE) -I$(JNI_INCLUDE) -Iinclude
 
-LDFLAGS=-Wl,-rpath,/tmp -L./lib -lmxnet
+MXLIB=-L./mxnet/lib -lmxnet
+
+LDFLAGS=-Wl,-rpath,/tmp $(MXLIB)
 
 CXXFLAGS :=-std=c++11 -O3
 
@@ -56,35 +58,35 @@ test: mlp_test lstm_test lenet_test inception_test vgg_test googlenet_test resne
 
 mlp_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/mlp_test.cxx -o mlp_test.o
-	$(CXX) -o mlp_test mlp_test.o $(MXNET_OBJS) $(OBJS) -L./lib -lmxnet
+	$(CXX) -o mlp_test mlp_test.o $(MXNET_OBJS) $(OBJS) $(MXLIB)
 
 lstm_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/lstm_test.cxx -o lstm_test.o
-	$(CXX) -o lstm_test lstm_test.o network_def.o $(MXNET_OBJS) -L./lib -lmxnet
+	$(CXX) -o lstm_test lstm_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
 
 lenet_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/lenet_test.cxx -o lenet_test.o
-	$(CXX) -o lenet_test lenet_test.o network_def.o $(MXNET_OBJS) -L./lib -lmxnet
+	$(CXX) -o lenet_test lenet_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
 
 inception_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/inception_test.cxx -o inception_test.o
-	$(CXX) -o inception_test inception_test.o network_def.o $(MXNET_OBJS) -L./lib -lmxnet
+	$(CXX) -o inception_test inception_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
 
 vgg_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/vgg_test.cxx -o vgg_test.o
-	$(CXX) -o vgg_test vgg_test.o network_def.o $(MXNET_OBJS) -L./lib -lmxnet
+	$(CXX) -o vgg_test vgg_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
 
 googlenet_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/googlenet_test.cxx -o googlenet_test.o
-	$(CXX) -o googlenet_test googlenet_test.o network_def.o $(MXNET_OBJS) -L./lib -lmxnet
+	$(CXX) -o googlenet_test googlenet_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
 
 resnet_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/resnet_test.cxx -o resnet_test.o
-	$(CXX) -o resnet_test resnet_test.o network_def.o $(MXNET_OBJS) -L./lib -lmxnet
+	$(CXX) -o resnet_test resnet_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
 
 alexnet_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/alexnet_test.cxx -o alexnet_test.o
-	$(CXX) -o alexnet_test alexnet_test.o network_def.o $(MXNET_OBJS) -L./lib -lmxnet
+	$(CXX) -o alexnet_test alexnet_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
 
 lint:
 	python lint.py deepwater cpp *.cxx *.hpp ./include ./src
@@ -95,10 +97,10 @@ pkg: all $(TARGET)
 	mkdir -p water/gpu
 	mv *.class ./water/gpu
 ifeq ($(UNAME_S), Darwin)
-	install_name_tool -change lib/libmxnet.so @loader_path/libmxnet.so libNative.so
+	install_name_tool -change mxnet/lib/libmxnet.so @loader_path/libmxnet.so libNative.so
 endif
 	cp ./libNative.so ./water/gpu
-	cp ./lib/libmxnet.so ./water/gpu
+	cp mxnet/lib/libmxnet.so ./water/gpu
 	jar -cvf water.gpu.jar ./water
 
 clean: clean_test
