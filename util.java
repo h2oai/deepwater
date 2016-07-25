@@ -14,42 +14,20 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Map;
 import java.util.Locale;
+import java.nio.file.Paths;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 import static java.nio.file.FileVisitResult.TERMINATE;
 
 public final class util {
 
-    public static boolean loadCudaLib() {
-        Map<String, String> env = System.getenv();
-        String cuda_path = env.get("CUDA_PATH");
-        if (cuda_path == null) {
-            System.err.println("CUDA_PATH hasn't been set!");
-            return false;
-        }
+    public static String path(String dirname, String ... more ){
+        return Paths.get(dirname, more).toString();
+    }
 
+    public static String libName(String name){
         String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
         
-        // Maybe Mac use .dylib. I am not sure.
-        String lib_suffix = "";
-
-        if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
-            lib_suffix = "dylib";
-        } else if (OS.indexOf("nux") >= 0) {
-            lib_suffix = "so";
-        } else {
-            System.err.println("Not support Operating system!");
-        }
-
-        // load related cuda libraries in case the system can't find them automatically
-        System.load(cuda_path + "lib64" + File.separator + "libcudart." + lib_suffix);
-        System.load(cuda_path + "lib64" + File.separator + "libcublas." + lib_suffix);
-        System.load(cuda_path + "lib64" + File.separator + "libcurand." + lib_suffix);
-        return true;
-    }
-
-    public static boolean loadNativeLib(String resourceName) throws IOException {
-        String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
         String lib_suffix = "";
 
         if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
@@ -57,27 +35,71 @@ public final class util {
         } else if (OS.indexOf("nux") >= 0) {
             lib_suffix = "so";
         } else {
-            System.err.println("Not support Operating system!");
+            System.err.println("Operating system not supported: "+OS);
         }
 
-        InputStream stream = util.class.getResourceAsStream("/water/gpu/lib" + resourceName + "." + lib_suffix);
-        if (stream == null) {
-            System.err.println("No native libs found in jar. Please check installation!");
-            return false;
-        }
-
-        int readBytes;
-        byte[] buffer = new byte[4096];
-
-        OutputStream resStreamOut = new FileOutputStream("/tmp" + File.separator + "lib" + resourceName + "." + lib_suffix);
-        while ((readBytes = stream.read(buffer)) > 0) {
-            resStreamOut.write(buffer, 0, readBytes);
-        }
-
-        System.load("/tmp" + File.separator + "lib" + resourceName + "." + lib_suffix);
-
-        return true;
+        return "lib" + name + "." + lib_suffix;
     }
+
+    public static void loadCudaLib() {
+        String cuda_path = System.getenv().get("CUDA_PATH");
+        checkNotNull(cuda_path,"CUDA_PATH hasn't been set!");
+
+        System.load(path(cuda_path, "lib64", libName("cudart")));
+        System.load(path(cuda_path, "lib64", libName("cublas")));
+        System.load(path(cuda_path, "lib64", libName("curand")));
+    }
+
+    public static String extractLibrary(String resourceName) throws IOException {
+
+        String libname = libName(resourceName);
+        String origin = path("/water/gpu/",libname);
+
+        String tmpdir = System.getProperty("java.io.tmpdir");
+        if (tmpdir.isEmpty()){
+            tmpdir = "/tmp";
+        }
+        String target = path(tmpdir,libname);
+        if (Files.exists(Paths.get(target))) {
+            return target;
+        }
+
+        InputStream in = util.class.getResourceAsStream(origin);
+        checkNotNull(in,"No native lib " + origin + " found in jar. Please check installation!");
+
+        OutputStream out = new FileOutputStream(target);
+        checkNotNull(out,"could not create file");
+        copy(in, out);
+        return target;
+    }
+
+    public static void loadNativeLib(String resourceName) throws IOException {
+        System.load(extractLibrary(resourceName));
+    }
+
+    public static <T> T checkNotNull(T reference, String msg) {
+   if (reference == null) {
+     throw new NullPointerException(msg);
+    }
+    return reference;
+  }
+
+  private static final int BUF_SIZE = 0x1000; // 4K
+
+  public static long copy(InputStream from, OutputStream to)
+      throws IOException {
+    byte[] buf = new byte[BUF_SIZE];
+    long total = 0;
+    while (true) {
+      int r = from.read(buf);
+      if (r == -1) {
+        break;
+      }
+      to.write(buf, 0, r);
+      total += r;
+    }
+    return total;
+  }
 
     public static void deleteFileOrFolder(final Path path) throws IOException {
         Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
