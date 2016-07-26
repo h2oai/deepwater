@@ -13,6 +13,7 @@
 class MLP {
  public:
   MLP();
+  ~MLP();
   void setLayers(int * lsize, int nsize, int num_classes);
   void setAct(char ** act);
   void setLR(float lr) {learning_rate = lr;}
@@ -23,15 +24,17 @@ class MLP {
   void buildMLP();
   std::vector<float> train(float * data, float * label);
   std::vector<float> predict(float * data, float * label);
+  std::vector<float> predict(float * data);
 
   void saveParam(char * param_path);
+  void loadParam(char * param_path);
   void saveModel(char * model_path);
   void loadModel(char * model_path);
 
  private:
   int nLayers, num_classes, batch_size, dimX;
-  mx_float learning_rate = 0.001;
-  mx_float weight_decay = 0.001;
+  mx_float learning_rate = 1e-3;
+  mx_float weight_decay = 1e-3;
   std::vector<int> layerSize;
   std::vector<std::string> activations;
 

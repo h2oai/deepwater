@@ -17,6 +17,11 @@ MLP::MLP() {
 #endif
 }
 
+MLP::~MLP() {
+  delete exec;
+  delete opt;
+}
+
 void MLP::setLayers(int * lsize, int nsize, int n) {
   nLayers = nsize;
   num_classes = n;
@@ -33,6 +38,10 @@ void MLP::setAct(char ** acts) {
 
 void MLP::saveParam(char * param_path) {
   NDArray::Save(std::string(param_path), args_map);
+}
+
+void MLP::loadParam(char * param_path) {
+  NDArray::Load(std::string(param_path), nullptr, &args_map);
 }
 
 void MLP::saveModel(char * model_path) {
@@ -79,6 +88,10 @@ std::vector<float> MLP::predict(float * data, float * label) {
   return execute(data, label, false);
 }
 
+std::vector<float> MLP::predict(float * data) {
+  return execute(data, NULL, false);
+}
+
 std::vector<float> MLP::execute(float * data, float * label, bool is_train) {
   if (!is_built) {
     std::cerr << "Network hasn't been built. "
@@ -86,11 +99,13 @@ std::vector<float> MLP::execute(float * data, float * label, bool is_train) {
     exit(0);
   }
 
-  NDArray data_n = NDArray(data, Shape(batch_size, 1, dimX), Context::gpu());
-  NDArray label_n = NDArray(label, Shape(batch_size), Context::gpu());
-
+  NDArray data_n = NDArray(data, Shape(batch_size, 1, dimX), ctx_dev);
   data_n.CopyTo(&args_map["data"]);
-  label_n.CopyTo(&args_map["data_label"]);
+
+  if (is_train) {
+    NDArray label_n = NDArray(label, Shape(batch_size), ctx_dev);
+    label_n.CopyTo(&args_map["data_label"]);
+  }
   NDArray::WaitAll();
 
   exec->Forward(is_train);

@@ -14,20 +14,28 @@
 
 class ImageTrain{
  public:
-  ImageTrain();
+  explicit ImageTrain(int w = 224, int h = 224);
   ~ImageTrain();
+
+  // inception_bn/vgg/lenet/alexnet/googlenet/resnet
   void buildNet(int num_classes, int batch_size, char * net_name);
   void loadModel(char * model_path);
+  void saveModel(char * model_path);
   void loadParam(char * param_path);
   void saveParam(char * param_path);
+
   void setLR(float lr) {learning_rate = lr;}
   void setWD(float wd) {weight_decay = wd;}
+  void setMomentum(float m) {momentum = m;}
+  void setClipGradient(float c) {clip_gradient = c;}
+
   std::vector<float> train(float * data, float * label);
   std::vector<float> predict(float * data, float * label);
+  std::vector<float> predict(float * data);
 
  private:
   int width, height, batch_size, num_classes;
-  float learning_rate, weight_decay;
+  float learning_rate, weight_decay, momentum, clip_gradient;
 
   std::map<std::string, mxnet::cpp::NDArray> args_map;
   mxnet::cpp::Symbol mxnet_sym;

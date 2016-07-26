@@ -165,9 +165,6 @@ std::vector<float> ImagePred::predict_probs(float * image_data) {
   return data;
 }
 
-
-
-
 ImagePred::~ImagePred() {
   MXNDListFree(nd_hnd);
   MXPredFree(pred_hnd);
