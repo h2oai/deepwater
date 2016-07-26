@@ -2,6 +2,7 @@
 !util.java
 !ImageIter.java
 !test/*.java
+!java/h2o/deepwater/test/InceptionCLI.java
 *.o
 *.so
 *.dylib

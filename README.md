@@ -25,6 +25,21 @@ cd ..
 make pkg # will generate a `jar` file including native code.
 ```
 
+### Macosx
+
+1. Install [homebrew](http://brew.sh).
+```bash
+git clone https://github.com/h2oai/deepwater.git
+git submodule update --init --recursive
+brew update
+brew tap homebrew/science
+brew install opencv
+cd mxnet; cp make/osx.mk ./config.mk; make -j$(sysctl -n hw.ncpu)
+cd ..
+make pkg # will generate a `jar` file including native code.
+```
+For other options see the [official mxnet build instructions](http://mxnet.readthedocs.io/en/latest/how_to/build.html#building-on-osx).
+
 Please add these lines below into your Java code when using this jar as external dependency.
 
 ```Java
