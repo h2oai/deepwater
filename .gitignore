@@ -5,6 +5,7 @@
 !java/h2o/deepwater/test/InceptionCLI.java
 *.o
 *.so
+*.d
 *.dylib
 *.class
 *_wrap.cxx

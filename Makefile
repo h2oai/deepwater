@@ -36,12 +36,19 @@ else
 	CXXFLAGS += -DGPU
 endif
 
+.PHONY: depend clean all
+
+DEPS := $(OBJS:.o=.d)
+
 all: swig $(MXNET_OBJS) $(OBJS) $(TARGET)
+
+-include $(DEPS)
 
 $(MXNET_OBJS): %.o : %.cxx
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 $(OBJS): %.o : %.cxx
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) $< -MM -MF $(patsubst %.o,%.d,$@)
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 swig:
@@ -50,7 +57,7 @@ swig:
 deepwater_wrap.o:
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) deepwater_wrap.cxx -o deepwater_wrap.o
 
-$(TARGET): deepwater_wrap.o
+$(TARGET): $(MXNET_OBJS) $(OBJS) deepwater_wrap.o
 	rm -rf $(TARGET)
 	$(CXX) -shared $(MXNET_OBJS) $(OBJS) deepwater_wrap.o -o $(TARGET) $(LDFLAGS)
 
@@ -110,7 +117,7 @@ java_test:
 .PHONY: java_test clean clean_test
 
 clean: clean_test
-	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o
+	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o *.d
 
 clean_test:
 	rm -rf *_test.o *_test water*
