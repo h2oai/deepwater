@@ -19,9 +19,15 @@ int main(int argc, char const *argv[]) {
   std::map<std::string, NDArray> args_map;
   std::map<std::string, NDArray> aux_map;
 
-  args_map["data"] = NDArray(Shape(batch_size, 3, 224, 224), Context::gpu());
-  args_map["data_label"] = NDArray(Shape(batch_size), Context::gpu());
-  inception_bn_net.InferArgsMap(Context::gpu(), &args_map, args_map);
+#ifdef GPU
+  Context ctx_dev = Context(DeviceType::kGPU, 0);
+#else
+  Context ctx_dev = Context(DeviceType::kCPU, 0);
+#endif
+
+  args_map["data"] = NDArray(Shape(batch_size, 3, 224, 224), ctx_dev);
+  args_map["data_label"] = NDArray(Shape(batch_size), ctx_dev);
+  inception_bn_net.InferArgsMap(ctx_dev, &args_map, args_map);
 
   auto train_iter = MXDataIter("ImageRecordIter")
       .SetParam("path_imglist", "./sf1_train.lst")
@@ -43,7 +49,7 @@ int main(int argc, char const *argv[]) {
       .SetParam("rescale_grad", 1.0 / batch_size)
       .SetParam("clip_gradient", 10);
 
-  auto *exec = inception_bn_net.SimpleBind(Context::gpu(), args_map);
+  auto * exec = inception_bn_net.SimpleBind(ctx_dev, args_map);
 
   NDArray::Load("/home/ops/Inception/Inception_BN-0039.params", nullptr, &args_map);
 

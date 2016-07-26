@@ -149,25 +149,31 @@ int main() {
 
   rnn_sym.Save("test.json");
 
+#ifdef GPU
+  Context ctx_dev = Context(DeviceType::kGPU, 0);
+#else
+  Context ctx_dev = Context(DeviceType::kCPU, 0);
+#endif
+
   std::map<std::string, NDArray> args_map;
-  args_map["data"] = NDArray(Shape(batch_size, seq_len), Context::cpu());
-  args_map["softmax_label"] = NDArray(Shape(batch_size, seq_len), Context::cpu());
+  args_map["data"] = NDArray(Shape(batch_size, seq_len), ctx_dev);
+  args_map["softmax_label"] = NDArray(Shape(batch_size, seq_len), ctx_dev);
 
   for (int i = 0; i < num_lstm_layer; i++) {
     args_map["l" + std::to_string(i) + "_init_c"] =
-        NDArray(Shape(batch_size, num_hidden), Context::cpu());
+        NDArray(Shape(batch_size, num_hidden), ctx_dev);
     args_map["l" + std::to_string(i) + "_init_h"] =
-        NDArray(Shape(batch_size, num_hidden), Context::cpu());
+        NDArray(Shape(batch_size, num_hidden), ctx_dev);
   }
 
-  rnn_sym.InferArgsMap(Context::cpu(), &args_map, args_map);
+  rnn_sym.InferArgsMap(ctx_dev, &args_map, args_map);
 
   Optimizer * opt = new Optimizer("ccsgd", learning_rate, wd);
   opt->SetParam("momentum", 0.9);
   opt->SetParam("rescale_grad", 1.0 / batch_size);
   opt->SetParam("clip_gradient", 10);
 
-  Executor * exec = rnn_sym.SimpleBind(Context::cpu(), args_map);
+  Executor * exec = rnn_sym.SimpleBind(ctx_dev, args_map);
 
   Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);
   for (auto &arg : args_map) {
@@ -188,9 +194,9 @@ int main() {
   while(iter.Next()) {
     std::vector<mx_float> data = iter.getData();
     std::vector<mx_float> label = iter.getLabel();
-    NDArray data_n = NDArray(data.data(), Shape(batch_size, seq_len), Context::cpu());
+    NDArray data_n = NDArray(data.data(), Shape(batch_size, seq_len), ctx_dev);
 
-    NDArray label_n = NDArray(label.data(), Shape(batch_size, seq_len), Context::cpu());
+    NDArray label_n = NDArray(label.data(), Shape(batch_size, seq_len), ctx_dev);
     data_n.CopyTo(&args_map["data"]);
     label_n.CopyTo(&args_map["softmax_label"]);
     NDArray::WaitAll();
