@@ -25,7 +25,7 @@ ImageTrain::ImageTrain() {
 }
 
 ImageTrain::~ImageTrain() {
-  // delete exec;
+  delete exec;
 }
 
 void ImageTrain::buildNet(int n, int b, char * n_name) {
