@@ -52,7 +52,7 @@ void MLP::saveModel(char * model_path) {
 }
 
 void MLP::loadModel(char * model_path) {
-  sym_network = Symbol::LoadJSON(std::string(model_path));
+  sym_network = Symbol::Load(std::string(model_path));
   is_built = true;
 }
 

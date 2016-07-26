@@ -70,8 +70,13 @@ void ImageTrain::buildNet(int n, int b, char * n_name) {
 }
 
 void ImageTrain::loadModel(char * model_path) {
-  mxnet_sym = Symbol::LoadJSON(std::string(model_path));
+  mxnet_sym = Symbol::Load(std::string(model_path));
   is_built = true;
+}
+
+const char * ImageTrain::toJson() {
+  std::string tmp = mxnet_sym.ToJSON();
+  return tmp.c_str();
 }
 
 void ImageTrain::saveModel(char * model_path) {

@@ -23,6 +23,7 @@ class ImageTrain{
   void saveModel(char * model_path);
   void loadParam(char * param_path);
   void saveParam(char * param_path);
+  const char * toJson();
 
   void setLR(float lr) {learning_rate = lr;}
   void setWD(float wd) {weight_decay = wd;}
