@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include "include/c_api.h"
 #include "image_pred.hpp"
 
 class BufferFile {
@@ -57,6 +58,10 @@ ImagePred::ImagePred(int w, int h, int c) {
   dev_type = 1;
   dev_id = 0;
   pred_hnd = 0;
+}
+
+void ImagePred::setSeed(int seed) {
+  MXRandomSeed(seed);
 }
 
 void ImagePred::loadInception() {

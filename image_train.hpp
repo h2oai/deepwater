@@ -19,6 +19,7 @@ class ImageTrain{
 
   // inception_bn/vgg/lenet/alexnet/googlenet/resnet
   void buildNet(int num_classes, int batch_size, char * net_name);
+  void setSeed(int seed);
   void loadModel(char * model_path);
   void saveModel(char * model_path);
   void loadParam(char * param_path);
@@ -27,8 +28,14 @@ class ImageTrain{
 
   void setLR(float lr) {learning_rate = lr;}
   void setWD(float wd) {weight_decay = wd;}
-  void setMomentum(float m) {momentum = m;}
-  void setClipGradient(float c) {clip_gradient = c;}
+  void setMomentum(float m) {
+    momentum = m;
+    if (opt != NULL) opt->SetParam("momentum", momentum);
+  }
+  void setClipGradient(float c) {
+    clip_gradient = c;
+    if (opt != NULL) opt->SetParam("clip_gradient", clip_gradient);
+  }
 
   std::vector<float> train(float * data, float * label);
   std::vector<float> predict(float * data, float * label);
@@ -46,6 +53,9 @@ class ImageTrain{
   mxnet::cpp::Context ctx_dev;
 
   std::vector<float> execute(float * data, float * label, bool is_train);
+
+  // prediction probs
+  std::vector<float> preds;
 };
 
 #endif

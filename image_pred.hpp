@@ -17,6 +17,8 @@ class ImagePred {
   explicit ImagePred(int w = 224, int h = 224, int c = 3);
   ~ImagePred();
 
+  void setSeed(int seed);
+
   void setModelPath(char * path) {model_path_ = std::string(path);}
 
   void loadInception();

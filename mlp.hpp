@@ -22,6 +22,7 @@ class MLP {
   void setDimX(int x) {dimX = x;}
 
   void buildMLP();
+  void setSeed(int seed);
   std::vector<float> train(float * data, float * label);
   std::vector<float> predict(float * data, float * label);
   std::vector<float> predict(float * data);
@@ -46,6 +47,9 @@ class MLP {
   bool is_built;
 
   std::vector<float> execute(float * data, float * label, bool is_train);
+
+  // prediction probs
+  std::vector<float> preds;
 };
 
 #endif

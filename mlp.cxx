@@ -10,6 +10,7 @@ using namespace std;
 using namespace mxnet::cpp;
 
 MLP::MLP() {
+  batch_size = -1;
 #ifdef GPU
   ctx_dev = Context(DeviceType::kGPU, 0);
 #else
@@ -57,6 +58,7 @@ void MLP::loadModel(char * model_path) {
 }
 
 void MLP::buildMLP() {
+  if (batch_size == -1) std::cerr << "Batch size not set yet" << std::endl;
   Symbol act = Symbol::Variable("data");
   Symbol data_label = Symbol::Variable("data_label");
   std::vector<Symbol> fc_w, fc_b, fc;
@@ -78,6 +80,11 @@ void MLP::buildMLP() {
   sym_network.InferArgsMap(ctx_dev, &args_map, args_map);
   exec = sym_network.SimpleBind(ctx_dev, args_map);
   is_built = true;
+  preds.resize(num_classes * batch_size);
+}
+
+void MLP::setSeed(int seed) {
+  MXRandomSeed(seed);
 }
 
 std::vector<float> MLP::train(float * data, float * label) {
@@ -118,8 +125,6 @@ std::vector<float> MLP::execute(float * data, float * label, bool is_train) {
   NDArray::WaitAll();
 
   // get probs for prediction
-  std::vector<float> preds(batch_size * num_classes);
   exec->outputs[0].SyncCopyToCPU(&preds, batch_size * num_classes);
-
   return preds;
 }

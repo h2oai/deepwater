@@ -31,6 +31,10 @@ ImageTrain::~ImageTrain() {
   delete opt;
 }
 
+void ImageTrain::setSeed(int seed) {
+  MXRandomSeed(seed);
+}
+
 void ImageTrain::buildNet(int n, int b, char * n_name) {
   std::string net_name(n_name);
   assert(net_name == "inception_bn" ||
@@ -56,6 +60,8 @@ void ImageTrain::buildNet(int n, int b, char * n_name) {
 
   batch_size = b;
   num_classes = n;
+
+  preds.resize(num_classes * batch_size);
 
   opt = new Optimizer("ccsgd", learning_rate, weight_decay);
   opt->SetParam("momentum", momentum);
@@ -135,7 +141,6 @@ std::vector<float> ImageTrain::execute(float * data, float * label, bool is_trai
   NDArray::WaitAll();
 
   // get probs for prediction
-  std::vector<float> preds(batch_size * num_classes);
   exec->outputs[0].SyncCopyToCPU(&preds, batch_size * num_classes);
 
   return preds;
