@@ -1,9 +1,9 @@
 /*!
-*  Copyright (c) 2016 by Contributors
-* \file op.h
-* \brief definition of all the operators
-* \author Chuntao Hong
-*/
+ *  Copyright (c) 2016 by Contributors
+ * \file op.h
+ * \brief definition of all the operators
+ * \author Chuntao Hong
+ */
 
 #ifndef _MXNETOP_H
 #define _MXNETOP_H
@@ -18,7 +18,7 @@ namespace mxnet {
 namespace cpp {
 
 /*! \breif Activation function to be applied. 
- */
+*/
 enum class ActivationActType {
   relu = 0,
   sigmoid = 1,
@@ -45,18 +45,18 @@ inline Symbol Activation(const std::string& symbol_name,
     "tanh"
   };
   return Operator("Activation")
-           .SetParam("act_type", ActivationActTypeValues[int(act_type)])
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetParam("act_type", ActivationActTypeValues[int(act_type)])
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 inline Symbol Activation(const std::string& symbol_name,
                          Symbol data,
                          const std::string& act_type) {
   return Operator("Activation")
-           .SetParam("act_type", act_type.c_str())
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetParam("act_type", act_type.c_str())
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -78,12 +78,64 @@ inline Symbol BatchNorm(const std::string& symbol_name,
                         bool fix_gamma = true,
                         bool use_global_stats = false) {
   return Operator("BatchNorm")
-           .SetParam("eps", eps)
-           .SetParam("momentum", momentum)
-           .SetParam("fix_gamma", fix_gamma)
-           .SetParam("use_global_stats", use_global_stats)
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetParam("eps", eps)
+      .SetParam("momentum", momentum)
+      .SetParam("fix_gamma", fix_gamma)
+      .SetParam("use_global_stats", use_global_stats)
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
+}
+
+/*!
+ * \breif Apply batch normalization to input. 
+ * \param data Input data to batch normalization.
+ * \param eps Epsilon to prevent div 0.
+ * \param momentum Momentum for moving average.
+ * \param fix_gamma Fix gamma while training.
+ * \param use_global_stats Whether use global moving statistics instead of
+ *        local batch-norm. This will force change batch-norm into a scale
+ *        shift operator.
+ * \return new symbol
+ */
+inline Symbol CuDNNBatchNorm(Symbol data,
+                             mx_float eps = 0.001,
+                             mx_float momentum = 0.9,
+                             bool fix_gamma = true,
+                             bool use_global_stats = false) {
+  return Operator("CuDNNBatchNorm")
+      .SetParam("eps", eps)
+      .SetParam("momentum", momentum)
+      .SetParam("fix_gamma", fix_gamma)
+      .SetParam("use_global_stats", use_global_stats)
+      .SetInput("data", data)
+      .CreateSymbol();
+}
+
+/*!
+ * \breif Apply batch normalization to input. 
+ * \param symbol_name name of the resulting symbol.
+ * \param data Input data to batch normalization.
+ * \param eps Epsilon to prevent div 0.
+ * \param momentum Momentum for moving average.
+ * \param fix_gamma Fix gamma while training.
+ * \param use_global_stats Whether use global moving statistics instead of
+ *        local batch-norm. This will force change batch-norm into a scale
+ *        shift operator.
+ * \return new symbol
+ */
+inline Symbol CuDNNBatchNorm(const std::string& symbol_name,
+                             Symbol data,
+                             mx_float eps = 0.001,
+                             mx_float momentum = 0.9,
+                             bool fix_gamma = true,
+                             bool use_global_stats = false) {
+  return Operator("CuDNNBatchNorm")
+      .SetParam("eps", eps)
+      .SetParam("momentum", momentum)
+      .SetParam("fix_gamma", fix_gamma)
+      .SetParam("use_global_stats", use_global_stats)
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -95,8 +147,8 @@ inline Symbol BatchNorm(const std::string& symbol_name,
 inline Symbol BlockGrad(const std::string& symbol_name,
                         Symbol data) {
   return Operator("BlockGrad")
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -111,9 +163,9 @@ inline Symbol sum(const std::string& symbol_name,
                   Symbol lhs,
                   Symbol rhs) {
   return Operator("sum")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -127,13 +179,13 @@ inline Symbol sum_mid_internal(const std::string& symbol_name,
                                Symbol lhs,
                                Symbol rhs) {
   return Operator("sum_mid_internal")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*! \breif Target data type. 
- */
+*/
 enum class CastDtype {
   float16 = 0,
   float32 = 1,
@@ -160,9 +212,9 @@ inline Symbol Cast(const std::string& symbol_name,
     "uint8"
   };
   return Operator("Cast")
-           .SetParam("dtype", CastDtypeValues[int(dtype)])
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetParam("dtype", CastDtypeValues[int(dtype)])
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -178,10 +230,10 @@ inline Symbol Concat(const std::string& symbol_name,
                      int num_args,
                      int dim = 1) {
   return Operator("Concat")
-           .SetParam("num_args", num_args)
-           .SetParam("dim", dim)
-(data)
-           .CreateSymbol(symbol_name);
+      .SetParam("num_args", num_args)
+      .SetParam("dim", dim)
+      (data)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -215,18 +267,18 @@ inline Symbol Convolution(const std::string& symbol_name,
                           int64_t workspace = 512,
                           bool no_bias = false) {
   return Operator("Convolution")
-           .SetParam("kernel", kernel)
-           .SetParam("num_filter", num_filter)
-           .SetParam("stride", stride)
-           .SetParam("dilate", dilate)
-           .SetParam("pad", pad)
-           .SetParam("num_group", num_group)
-           .SetParam("workspace", workspace)
-           .SetParam("no_bias", no_bias)
-           .SetInput("data", data)
-           .SetInput("weight", weight)
-           .SetInput("bias", bias)
-           .CreateSymbol(symbol_name);
+      .SetParam("kernel", kernel)
+      .SetParam("num_filter", num_filter)
+      .SetParam("stride", stride)
+      .SetParam("dilate", dilate)
+      .SetParam("pad", pad)
+      .SetParam("num_group", num_group)
+      .SetParam("workspace", workspace)
+      .SetParam("no_bias", no_bias)
+      .SetInput("data", data)
+      .SetInput("weight", weight)
+      .SetInput("bias", bias)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -253,12 +305,12 @@ inline Symbol Crop(const std::string& symbol_name,
                    Shape h_w = Shape(0,0),
                    bool center_crop = false) {
   return Operator("Crop")
-           .SetParam("num_args", num_args)
-           .SetParam("offset", offset)
-           .SetParam("h_w", h_w)
-           .SetParam("center_crop", center_crop)
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetParam("num_args", num_args)
+      .SetParam("offset", offset)
+      .SetParam("h_w", h_w)
+      .SetParam("center_crop", center_crop)
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -271,7 +323,7 @@ inline Symbol Crop(const std::string& symbol_name,
 inline Symbol Custom(const std::string& symbol_name,
                      const std::string& op_type) {
   return Operator("Custom")
-           .CreateSymbol(symbol_name);
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -301,17 +353,17 @@ inline Symbol Deconvolution(const std::string& symbol_name,
                             int64_t workspace = 512,
                             bool no_bias = true) {
   return Operator("Deconvolution")
-           .SetParam("kernel", kernel)
-           .SetParam("num_filter", num_filter)
-           .SetParam("stride", stride)
-           .SetParam("pad", pad)
-           .SetParam("num_group", num_group)
-           .SetParam("workspace", workspace)
-           .SetParam("no_bias", no_bias)
-           .SetInput("data", data)
-           .SetInput("weight", weight)
-           .SetInput("bias", bias)
-           .CreateSymbol(symbol_name);
+      .SetParam("kernel", kernel)
+      .SetParam("num_filter", num_filter)
+      .SetParam("stride", stride)
+      .SetParam("pad", pad)
+      .SetParam("num_group", num_group)
+      .SetParam("workspace", workspace)
+      .SetParam("no_bias", no_bias)
+      .SetInput("data", data)
+      .SetInput("weight", weight)
+      .SetInput("bias", bias)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -325,9 +377,9 @@ inline Symbol Dropout(const std::string& symbol_name,
                       Symbol data,
                       mx_float p = 0.5) {
   return Operator("Dropout")
-           .SetParam("p", p)
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetParam("p", p)
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -341,9 +393,9 @@ inline Symbol broadcast_plus(const std::string& symbol_name,
                              Symbol lhs,
                              Symbol rhs) {
   return Operator("broadcast_plus")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -357,9 +409,9 @@ inline Symbol broadcast_minus(const std::string& symbol_name,
                               Symbol lhs,
                               Symbol rhs) {
   return Operator("broadcast_minus")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -373,9 +425,9 @@ inline Symbol broadcast_mul(const std::string& symbol_name,
                             Symbol lhs,
                             Symbol rhs) {
   return Operator("broadcast_mul")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -389,9 +441,9 @@ inline Symbol broadcast_div(const std::string& symbol_name,
                             Symbol lhs,
                             Symbol rhs) {
   return Operator("broadcast_div")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -403,8 +455,8 @@ inline Symbol broadcast_div(const std::string& symbol_name,
 inline Symbol ElementWiseSum(const std::string& symbol_name,
                              int num_args) {
   return Operator("ElementWiseSum")
-           .SetParam("num_args", num_args)
-           .CreateSymbol(symbol_name);
+      .SetParam("num_args", num_args)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -418,9 +470,9 @@ inline Symbol abs(const std::string& symbol_name,
                   Symbol lhs,
                   Symbol rhs) {
   return Operator("abs")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -434,9 +486,9 @@ inline Symbol sign(const std::string& symbol_name,
                    Symbol lhs,
                    Symbol rhs) {
   return Operator("sign")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -450,9 +502,9 @@ inline Symbol round(const std::string& symbol_name,
                     Symbol lhs,
                     Symbol rhs) {
   return Operator("round")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -466,9 +518,9 @@ inline Symbol ceil(const std::string& symbol_name,
                    Symbol lhs,
                    Symbol rhs) {
   return Operator("ceil")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -482,9 +534,9 @@ inline Symbol floor(const std::string& symbol_name,
                     Symbol lhs,
                     Symbol rhs) {
   return Operator("floor")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -498,9 +550,9 @@ inline Symbol square(const std::string& symbol_name,
                      Symbol lhs,
                      Symbol rhs) {
   return Operator("square")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -514,9 +566,9 @@ inline Symbol sqrt(const std::string& symbol_name,
                    Symbol lhs,
                    Symbol rhs) {
   return Operator("sqrt")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -530,9 +582,9 @@ inline Symbol rsqrt(const std::string& symbol_name,
                     Symbol lhs,
                     Symbol rhs) {
   return Operator("rsqrt")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -546,9 +598,9 @@ inline Symbol exp(const std::string& symbol_name,
                   Symbol lhs,
                   Symbol rhs) {
   return Operator("exp")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -562,9 +614,9 @@ inline Symbol log(const std::string& symbol_name,
                   Symbol lhs,
                   Symbol rhs) {
   return Operator("log")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -578,9 +630,9 @@ inline Symbol cos(const std::string& symbol_name,
                   Symbol lhs,
                   Symbol rhs) {
   return Operator("cos")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -594,9 +646,9 @@ inline Symbol sin(const std::string& symbol_name,
                   Symbol lhs,
                   Symbol rhs) {
   return Operator("sin")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -617,11 +669,11 @@ inline Symbol Embedding(const std::string& symbol_name,
                         int input_dim,
                         int output_dim) {
   return Operator("Embedding")
-           .SetParam("input_dim", input_dim)
-           .SetParam("output_dim", output_dim)
-           .SetInput("data", data)
-           .SetInput("weight", weight)
-           .CreateSymbol(symbol_name);
+      .SetParam("input_dim", input_dim)
+      .SetParam("output_dim", output_dim)
+      .SetInput("data", data)
+      .SetInput("weight", weight)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -641,12 +693,12 @@ inline Symbol FullyConnected(const std::string& symbol_name,
                              int num_hidden,
                              bool no_bias = false) {
   return Operator("FullyConnected")
-           .SetParam("num_hidden", num_hidden)
-           .SetParam("no_bias", no_bias)
-           .SetInput("data", data)
-           .SetInput("weight", weight)
-           .SetInput("bias", bias)
-           .CreateSymbol(symbol_name);
+      .SetParam("num_hidden", num_hidden)
+      .SetParam("no_bias", no_bias)
+      .SetInput("data", data)
+      .SetInput("weight", weight)
+      .SetInput("bias", bias)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -664,11 +716,11 @@ inline Symbol IdentityAttachKLSparseReg(const std::string& symbol_name,
                                         mx_float penalty = 0.001,
                                         mx_float momentum = 0.9) {
   return Operator("IdentityAttachKLSparseReg")
-           .SetParam("sparseness_target", sparseness_target)
-           .SetParam("penalty", penalty)
-           .SetParam("momentum", momentum)
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetParam("sparseness_target", sparseness_target)
+      .SetParam("penalty", penalty)
+      .SetParam("momentum", momentum)
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -682,13 +734,13 @@ inline Symbol L2Normalization(const std::string& symbol_name,
                               Symbol data,
                               mx_float eps = 1e-010) {
   return Operator("L2Normalization")
-           .SetParam("eps", eps)
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetParam("eps", eps)
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*! \breif Activation function to be applied. 
- */
+*/
 enum class LeakyReLUActType {
   elu = 0,
   leaky = 1,
@@ -722,12 +774,12 @@ inline Symbol LeakyReLU(const std::string& symbol_name,
     "rrelu"
   };
   return Operator("LeakyReLU")
-           .SetParam("act_type", LeakyReLUActTypeValues[int(act_type)])
-           .SetParam("slope", slope)
-           .SetParam("lower_bound", lower_bound)
-           .SetParam("upper_bound", upper_bound)
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetParam("act_type", LeakyReLUActTypeValues[int(act_type)])
+      .SetParam("slope", slope)
+      .SetParam("lower_bound", lower_bound)
+      .SetParam("upper_bound", upper_bound)
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -741,9 +793,9 @@ inline Symbol softmax_cross_entropy(const std::string& symbol_name,
                                     Symbol lhs,
                                     Symbol rhs) {
   return Operator("softmax_cross_entropy")
-           .SetInput("lhs", lhs)
-           .SetInput("rhs", rhs)
-           .CreateSymbol(symbol_name);
+      .SetInput("lhs", lhs)
+      .SetInput("rhs", rhs)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -764,12 +816,12 @@ inline Symbol LRN(const std::string& symbol_name,
                   mx_float beta = 0.75,
                   mx_float knorm = 2) {
   return Operator("LRN")
-           .SetParam("nsize", nsize)
-           .SetParam("alpha", alpha)
-           .SetParam("beta", beta)
-           .SetParam("knorm", knorm)
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetParam("nsize", nsize)
+      .SetParam("alpha", alpha)
+      .SetParam("beta", beta)
+      .SetParam("knorm", knorm)
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -785,9 +837,9 @@ inline Symbol MakeLoss(const std::string& symbol_name,
                        Symbol data,
                        mx_float grad_scale = 1) {
   return Operator("MakeLoss")
-           .SetParam("grad_scale", grad_scale)
-           .SetInput("data", data)
-           .CreateSymbol(symbol_name);
+      .SetParam("grad_scale", grad_scale)
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
 }
 
 /*!
@@ -1243,6 +1295,106 @@ inline Symbol UpSampling(const std::string& symbol_name,
       .SetParam("workspace", workspace)
       (data)
       .CreateSymbol(symbol_name);
+}
+
+/*! \breif the type of RNN to compute.
+*/
+enum class RNNMode {
+  gru = 0,
+  lstm = 1,
+  rnn_relu = 2,
+  rnn_tanh = 3
+};
+
+/*!
+ * \breif Apply a recurrent layer to input. 
+ * \param symbol_name name of the resulting symbol.
+ * \param data Input data to RNN.
+ * \param parameters Vector of all RNN trainable parameters.
+ * \param state initial hidden state of the RNN.
+ * \param state_cell initial cell state for LSTM networks (only for LSTM).
+ * \param state_size size of the state for each layer.
+ * \param num_layers number of stacked layers.
+ * \param mode the type of RNN to compute.
+ * \param bidirectional whether to use bidirectional recurrent layers.
+ * \param p Fraction of the input that gets dropped out at training time.
+ * \param state_outputs Whether to have the states as symbol outputs. 
+ * \return new symbol
+ */
+inline Symbol RNN(const std::string& symbol_name,
+                  Symbol data,
+                  Symbol parameters,
+                  Symbol state,
+                  Symbol state_cell,
+                  int state_size,
+                  int num_layers,
+                  RNNMode mode,
+                  bool bidirectional = false,
+                  mx_float p = 0,
+                  bool state_outputs = false) {
+  static const char *RNNModeValues[] = {
+    "gru",
+    "lstm",
+    "rnn_relu",
+    "rnn_tanh"
+  };
+  return Operator("RNN")
+      .SetParam("state_size", state_size)
+      .SetParam("num_layers", num_layers)
+      .SetParam("mode", RNNModeValues[int(mode)])
+      .SetParam("bidirectional", bidirectional)
+      .SetParam("p", p)
+      .SetParam("state_outputs", state_outputs)
+      .SetInput("data", data)
+      .SetInput("parameters", parameters)
+      .SetInput("state", state)
+      .SetInput("state_cell", state_cell)
+      .CreateSymbol(symbol_name);
+}
+
+
+/*!
+ * \breif Apply a recurrent layer to input. 
+ * \param data Input data to RNN.
+ * \param parameters Vector of all RNN trainable parameters.
+ * \param state initial hidden state of the RNN.
+ * \param state_cell initial cell state for LSTM networks (only for LSTM).
+ * \param state_size size of the state for each layer.
+ * \param num_layers number of stacked layers.
+ * \param mode the type of RNN to compute.
+ * \param bidirectional whether to use bidirectional recurrent layers.
+ * \param p Fraction of the input that gets dropped out at training time.
+ * \param state_outputs Whether to have the states as symbol outputs. 
+ * \return new symbol
+ */
+inline Symbol RNN(Symbol data,
+                  Symbol parameters,
+                  Symbol state,
+                  Symbol state_cell,
+                  int state_size,
+                  int num_layers,
+                  RNNMode mode,
+                  bool bidirectional = false,
+                  mx_float p = 0,
+                  bool state_outputs = false) {
+  static const char *RNNModeValues[] = {
+    "gru",
+    "lstm",
+    "rnn_relu",
+    "rnn_tanh"
+  };
+  return Operator("RNN")
+      .SetParam("state_size", state_size)
+      .SetParam("num_layers", num_layers)
+      .SetParam("mode", RNNModeValues[int(mode)])
+      .SetParam("bidirectional", bidirectional)
+      .SetParam("p", p)
+      .SetParam("state_outputs", state_outputs)
+      .SetInput("data", data)
+      .SetInput("parameters", parameters)
+      .SetInput("state", state)
+      .SetInput("state_cell", state_cell)
+      .CreateSymbol();
 }
 
 } //namespace cpp
