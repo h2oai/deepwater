@@ -48,6 +48,7 @@ public final class util {
         System.load(path(cuda_path, "lib64", libName("cudart")));
         System.load(path(cuda_path, "lib64", libName("cublas")));
         System.load(path(cuda_path, "lib64", libName("curand")));
+        System.load(path(cuda_path, "lib64", libName("cudnn")));
     }
 
     public static String extractLibrary(String resourceName) throws IOException {
