@@ -159,8 +159,12 @@ public final class util {
     }
 
     public static float[] img2pixels(String fname, int w, int h) throws IOException {
-
         float[] pixels = new float[w * h * 3];
+        img2pixels(fname,w,h,pixels,0);
+        return pixels;
+    }
+
+    public static void img2pixels(String fname, int w, int h, float[] pixels, int start) throws IOException {
         // resize the image
         BufferedImage img = ImageIO.read(new File(fname.trim()));
         BufferedImage scaledImg = new BufferedImage(w, h, img.getType());
@@ -168,7 +172,7 @@ public final class util {
         g2d.drawImage(img, 0, 0, w, h, null);
         g2d.dispose();
 
-        int r_idx = 0;
+        int r_idx = start;
         int g_idx = r_idx + w * h;
         int b_idx = g_idx + w * h;
 
@@ -186,6 +190,5 @@ public final class util {
                 b_idx++;
             }
         }
-        return pixels;
     }
 }
