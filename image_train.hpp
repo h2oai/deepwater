@@ -14,7 +14,7 @@
 
 class ImageTrain{
  public:
-  explicit ImageTrain(int w = 224, int h = 224);
+  explicit ImageTrain(int w = 224, int h = 224, int c = 3);
   ~ImageTrain();
 
   // inception_bn/vgg/lenet/alexnet/googlenet/resnet
@@ -42,7 +42,7 @@ class ImageTrain{
   std::vector<float> predict(float * data);
 
  private:
-  int width, height, batch_size, num_classes;
+  int width, height, channels, batch_size, num_classes;
   float learning_rate, weight_decay, momentum, clip_gradient;
 
   std::map<std::string, mxnet::cpp::NDArray> args_map;

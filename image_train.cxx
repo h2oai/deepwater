@@ -11,9 +11,10 @@
 
 using namespace mxnet::cpp;
 
-ImageTrain::ImageTrain(int w, int h) {
+ImageTrain::ImageTrain(int w, int h, int c) {
   width = w;
   height = h;
+  channels = c;
   learning_rate = 1e-3;
   weight_decay = 1e-4;
   momentum = 0.9;
@@ -68,7 +69,7 @@ void ImageTrain::buildNet(int n, int b, char * n_name) {
   opt->SetParam("rescale_grad", 1.0 / batch_size);
   opt->SetParam("clip_gradient", clip_gradient);
 
-  args_map["data"] = NDArray(Shape(batch_size, 3, width, height), ctx_dev);
+  args_map["data"] = NDArray(Shape(batch_size, channels, width, height), ctx_dev);
   args_map["data_label"] = NDArray(Shape(batch_size), ctx_dev);
   mxnet_sym.InferArgsMap(ctx_dev, &args_map, args_map);
   exec = mxnet_sym.SimpleBind(ctx_dev, args_map);
