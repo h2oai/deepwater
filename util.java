@@ -160,11 +160,11 @@ public final class util {
 
     public static float[] img2pixels(String fname, int w, int h) throws IOException {
         float[] pixels = new float[w * h * 3];
-        img2pixels(fname,w,h,pixels,0);
+        img2pixels(fname,w,h,3,pixels,0);
         return pixels;
     }
 
-    public static void img2pixels(String fname, int w, int h, float[] pixels, int start) throws IOException {
+    public static void img2pixels(String fname, int w, int h, int channels, float[] pixels, int start) throws IOException {
         // resize the image
         BufferedImage img = ImageIO.read(new File(fname.trim()));
         BufferedImage scaledImg = new BufferedImage(w, h, img.getType());
@@ -182,12 +182,13 @@ public final class util {
                 int red = mycolor.getRed();
                 int green = mycolor.getGreen();
                 int blue = mycolor.getBlue();
-                pixels[r_idx] = red;
-                r_idx++;
-                pixels[g_idx] = green;
-                g_idx++;
-                pixels[b_idx] = blue;
-                b_idx++;
+		if (channels==1) {
+			pixels[r_idx++] = (red+green+blue)/3;
+		} else {
+			pixels[r_idx++] = red;
+			pixels[g_idx++] = green;
+			pixels[b_idx++] = blue;
+		}
             }
         }
     }
