@@ -98,19 +98,12 @@ void ImageTrain::loadParam(char * param_path) {
   std::map<std::string, NDArray> parameters;
   NDArray::Load(std::string(param_path), nullptr, &parameters);
   for (const auto &k : parameters) {
-    if (k.first.substr(0, 4) == "aux:") {
-      auto name = k.first.substr(4, k.first.size() - 4);
-      aux_map[name] = k.second.Copy(ctx_dev);
-    }
     if (k.first.substr(0, 4) == "arg:") {
       auto name = k.first.substr(4, k.first.size() - 4);
       args_map[name] = k.second.Copy(ctx_dev);
     }
   }
-  exec = mxnet_sym.SimpleBind(ctx_dev, args_map,
-                              std::map<std::string, NDArray>(),
-                              std::map<std::string, OpReqType>(),
-                              aux_map);
+  exec = mxnet_sym.SimpleBind(ctx_dev, args_map);
 }
 
 void ImageTrain::saveParam(char * param_path) {
@@ -126,12 +119,14 @@ void ImageTrain::saveParam(char * param_path) {
     for (size_t i = 0; i < shape_lst.size(); i++) {
       s = s * shape_lst[i];
     }
+    std::vector<float> tmp(s);
+    iter->second.SyncCopyToCPU(&tmp, s);
     for (size_t i = 0; i < s; i++) {
-      myfile << iter->second.GetData()[i] << " ";
+      myfile << tmp[i] << " ";
     }
     myfile << std::endl;
   }
-
+  myfile.close();
 }
 
 std::vector<float> ImageTrain::train(float * data, float * label) {
