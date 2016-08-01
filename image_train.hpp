@@ -46,6 +46,7 @@ class ImageTrain{
   float learning_rate, weight_decay, momentum, clip_gradient;
 
   std::map<std::string, mxnet::cpp::NDArray> args_map;
+  std::map<std::string, mxnet::cpp::NDArray> aux_map;
   mxnet::cpp::Symbol mxnet_sym;
   mxnet::cpp::Executor * exec;
   mxnet::cpp::Optimizer * opt;

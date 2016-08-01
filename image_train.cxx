@@ -98,12 +98,19 @@ void ImageTrain::loadParam(char * param_path) {
   std::map<std::string, NDArray> parameters;
   NDArray::Load(std::string(param_path), nullptr, &parameters);
   for (const auto &k : parameters) {
+    if (k.first.substr(0, 4) == "aux:") {
+      auto name = k.first.substr(4, k.first.size() - 4);
+      aux_map[name] = k.second.Copy(ctx_dev);
+    }
     if (k.first.substr(0, 4) == "arg:") {
       auto name = k.first.substr(4, k.first.size() - 4);
       args_map[name] = k.second.Copy(ctx_dev);
     }
   }
-  exec = mxnet_sym.SimpleBind(ctx_dev, args_map);
+  exec = mxnet_sym.SimpleBind(ctx_dev, args_map,
+                              std::map<std::string, NDArray>(),
+                              std::map<std::string, OpReqType>(),
+                              aux_map);
 }
 
 void ImageTrain::saveParam(char * param_path) {
