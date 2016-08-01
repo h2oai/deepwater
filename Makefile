@@ -45,6 +45,7 @@ all: swig $(MXNET_OBJS) $(OBJS) $(TARGET)
 -include $(DEPS)
 
 $(MXNET_OBJS): %.o : %.cxx
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) $< -MM -MF $(patsubst %.o,%.d,$@)
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) $< -o $@
 
 $(OBJS): %.o : %.cxx
