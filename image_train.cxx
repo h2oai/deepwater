@@ -115,6 +115,23 @@ void ImageTrain::loadParam(char * param_path) {
 
 void ImageTrain::saveParam(char * param_path) {
   NDArray::Save(std::string(param_path), args_map);
+  std::string param_path2 = std::string(param_path) + ".txt";
+  std::ofstream myfile;
+  myfile.open(param_path2.c_str());
+  for (std::map<std::string, NDArray>::iterator iter = args_map.begin();
+       iter != args_map.end(); iter++) {
+    myfile << iter->first << " ";
+    std::vector<mx_uint> shape_lst = iter->second.GetShape();
+    size_t s = 1;
+    for (size_t i = 0; i < shape_lst.size(); i++) {
+      s = s * shape_lst[i];
+    }
+    for (size_t i = 0; i < s; i++) {
+      myfile << iter->second.GetData()[i] << " ";
+    }
+    myfile << std::endl;
+  }
+
 }
 
 std::vector<float> ImageTrain::train(float * data, float * label) {
