@@ -15,7 +15,6 @@
 class ImageTrain{
  public:
   explicit ImageTrain(int w = 224, int h = 224, int c = 3);
-  ~ImageTrain();
 
   // inception_bn/vgg/lenet/alexnet/googlenet/resnet
   void buildNet(int num_classes, int batch_size, char * net_name);
@@ -31,11 +30,11 @@ class ImageTrain{
   void setWD(float wd) {weight_decay = wd;}
   void setMomentum(float m) {
     momentum = m;
-    if (opt != NULL) opt->SetParam("momentum", momentum);
+    if (opt.get() != nullptr) opt->SetParam("momentum", momentum);
   }
   void setClipGradient(float c) {
     clip_gradient = c;
-    if (opt != NULL) opt->SetParam("clip_gradient", clip_gradient);
+    if (opt.get() != nullptr) opt->SetParam("clip_gradient", clip_gradient);
   }
 
   std::vector<float> train(float * data, float * label);
@@ -49,8 +48,8 @@ class ImageTrain{
   std::map<std::string, mxnet::cpp::NDArray> args_map;
   std::map<std::string, mxnet::cpp::NDArray> aux_map;
   mxnet::cpp::Symbol mxnet_sym;
-  mxnet::cpp::Executor * exec;
-  mxnet::cpp::Optimizer * opt;
+  std::unique_ptr<mxnet::cpp::Executor> exec;
+  std::unique_ptr<mxnet::cpp::Optimizer> opt;
   bool is_built;
   mxnet::cpp::Context ctx_dev;
 

@@ -27,13 +27,26 @@ ImageTrain::ImageTrain(int w, int h, int c) {
 #endif
 }
 
-ImageTrain::~ImageTrain() {
-  delete exec;
-  delete opt;
-}
-
 void ImageTrain::setSeed(int seed) {
   MXRandomSeed(seed);
+}
+
+void ImageTrain::setOptimizer(int n, int b) {
+  batch_size = b;
+  num_classes = n;
+
+  preds.resize(num_classes * batch_size);
+
+  opt = std::unique_ptr<Optimizer>(new Optimizer("ccsgd", learning_rate, weight_decay));
+  opt->SetParam("momentum", momentum);
+  opt->SetParam("rescale_grad", 1.0 / batch_size);
+  opt->SetParam("clip_gradient", clip_gradient);
+
+  args_map["data"] = NDArray(Shape(batch_size, channels, width, height), ctx_dev);
+  args_map["data_label"] = NDArray(Shape(batch_size), ctx_dev);
+  mxnet_sym.InferArgsMap(ctx_dev, &args_map, args_map);
+  exec = std::unique_ptr<Executor>(mxnet_sym.SimpleBind(ctx_dev, args_map));
+  is_built = true;
 }
 
 void ImageTrain::buildNet(int n, int b, char * n_name) {
@@ -61,23 +74,6 @@ void ImageTrain::buildNet(int n, int b, char * n_name) {
   setOptimizer(n, b);
 }
 
-void ImageTrain::setOptimizer(int n, int b) {
-  batch_size = b;
-  num_classes = n;
-
-  preds.resize(num_classes * batch_size);
-
-  opt = new Optimizer("ccsgd", learning_rate, weight_decay);
-  opt->SetParam("momentum", momentum);
-  opt->SetParam("rescale_grad", 1.0 / batch_size);
-  opt->SetParam("clip_gradient", clip_gradient);
-
-  args_map["data"] = NDArray(Shape(batch_size, channels, width, height), ctx_dev);
-  args_map["data_label"] = NDArray(Shape(batch_size), ctx_dev);
-  mxnet_sym.InferArgsMap(ctx_dev, &args_map, args_map);
-  exec = mxnet_sym.SimpleBind(ctx_dev, args_map);
-  is_built = true;
-}
 
 void ImageTrain::loadModel(char * model_path) {
   mxnet_sym = Symbol::Load(std::string(model_path));
@@ -106,7 +102,7 @@ void ImageTrain::loadParam(char * param_path) {
       args_map[name] = k.second.Copy(ctx_dev);
     }
   }
-  exec = mxnet_sym.SimpleBind(ctx_dev, args_map);
+  exec = std::unique_ptr<Executor>(mxnet_sym.SimpleBind(ctx_dev, args_map));
 }
 
 void ImageTrain::saveParam(char * param_path) {
@@ -166,7 +162,7 @@ std::vector<float> ImageTrain::execute(float * data, float * label, bool is_trai
   // train or predict?
   if (is_train) {
     exec->Backward();
-    exec->UpdateAll(opt, learning_rate, weight_decay);
+    exec->UpdateAll(opt.get(), learning_rate, weight_decay);
   }
 
   NDArray::WaitAll();
