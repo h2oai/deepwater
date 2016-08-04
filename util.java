@@ -136,7 +136,7 @@ public final class util {
     public static float[] readFC(String fname, int length) throws IOException {
         float[] res = new float[length];
         FileChannel inChannel = new RandomAccessFile(fname, "rw").getChannel();
-        ByteBuffer buffer = ByteBuffer.allocate(Float.BYTES * res.length);
+        ByteBuffer buffer = ByteBuffer.allocate(4 * res.length);
         inChannel.read(buffer);
         buffer.flip();
         FloatBuffer buffer2 = buffer.asFloatBuffer();

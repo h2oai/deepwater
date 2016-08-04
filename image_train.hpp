@@ -19,6 +19,7 @@ class ImageTrain{
 
   // inception_bn/vgg/lenet/alexnet/googlenet/resnet
   void buildNet(int num_classes, int batch_size, char * net_name);
+  void setOptimizer(int num_classes, int batch_size);
   void setSeed(int seed);
   void loadModel(char * model_path);
   void saveModel(char * model_path);

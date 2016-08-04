@@ -100,6 +100,7 @@ lint:
 	python lint.py deepwater cpp *.cxx *.hpp ./include ./src
 
 pkg: all $(TARGET)
+	rm -f /tmp/*.so
 	javac *.java
 	rm -rf water/gpu
 	mkdir -p water/gpu

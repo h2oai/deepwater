@@ -58,7 +58,10 @@ void ImageTrain::buildNet(int n, int b, char * n_name) {
   } else {
     mxnet_sym = ResNetSymbol(n);
   }
+  setOptimizer(n, b);
+}
 
+void ImageTrain::setOptimizer(int n, int b) {
   batch_size = b;
   num_classes = n;
 
