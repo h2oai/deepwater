@@ -48,4 +48,4 @@ util.loadNativeLib("mxnet");
 util.loadNativeLib("Native");
 ```
 
-An example implementation can be found in [H2O](https://github.com/h2oai/h2o-3/blob/deepwater/h2o-algos/src/test/java/hex/deeplearning/DeepWaterTest.java).
+An example implementation can be found in [H2O](https://github.com/h2oai/h2o-3/blob/deepwater/h2o-algos/src/test/java/hex/deepwater/DeepWaterTest.java).
