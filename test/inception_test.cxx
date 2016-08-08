@@ -11,18 +11,14 @@
 using namespace mxnet::cpp;
 
 int main(int argc, char const *argv[]) {
-  int batch_size = 60;
+  int batch_size = 64;
   int max_epoch = 100;
-  float learning_rate = 0.03;
-  float weight_decay = 1e-4;
+  float learning_rate = 0.005;
+  float weight_decay = 0.00001;
 
   MXRandomSeed(42);
   //auto inception_bn_net = InceptionSymbol(10);
-  auto inception_bn_net = Symbol::Load("/home/ops/Documents/kaggle_statefarm/inception/model/ckpt-1-0-symbol.json");
-
-  /*for (size_t i = 0; i < inception_bn_net.ListArguments().size(); i++) {*/
-    //std::cout << inception_bn_net.ListArguments()[i] << std::endl;
-  /*}*/
+  Symbol inception_bn_net = Symbol::Load("/home/ops/Documents/kaggle_statefarm/inception/model/ckpt-1-0-symbol.json");
 
   std::map<std::string, NDArray> args_map;
   std::map<std::string, NDArray> aux_map;
@@ -40,14 +36,19 @@ int main(int argc, char const *argv[]) {
   auto train_iter = MXDataIter("ImageRecordIter")
       .SetParam("path_imglist", "./sf1_train.lst")
       .SetParam("path_imgrec", "./sf1_train.rec")
+      .SetParam("mean_img", "mean.bin")
       .SetParam("data_shape", Shape(3, 224, 224))
       .SetParam("batch_size", batch_size)
+      .SetParam("rand_crop", 1)
+      .SetParam("rand_mirror", 1)
       .SetParam("shuffle", 1)
+      .SetParam("max_rotate_angle", "10")
       .CreateDataIter();
 
   auto val_iter = MXDataIter("ImageRecordIter")
       .SetParam("path_imglist", "./sf1_val.lst")
       .SetParam("path_imgrec", "./sf1_val.rec")
+      .SetParam("mean_img", "mean.bin")
       .SetParam("data_shape", Shape(3, 224, 224))
       .SetParam("batch_size", batch_size)
       .CreateDataIter();
@@ -99,8 +100,8 @@ int main(int argc, char const *argv[]) {
       NDArray::WaitAll();
       acu.Update(data_batch.label, exec->outputs[0]);
     }
-    LG << "Accuracy: " << acu.Get();
-    learning_rate -= 0.002;
+    LG << "Val Acc: " << acu.Get();
+    //learning_rate -= 0.0002;
   }
   delete exec;
   return 0;
