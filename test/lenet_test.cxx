@@ -44,8 +44,9 @@ int main(int argc, char const *argv[]) {
       .CreateDataIter();
 
   Optimizer opt("ccsgd", learning_rate, weight_decay);
-  opt.SetParam("momentum", 0.9).SetParam("rescale_grad", 1.0).SetParam(
-      "clip_gradient", 10);
+  opt.SetParam("momentum", 0.9)
+      .SetParam("rescale_grad", 1.0)
+      .SetParam("clip_gradient", 10);
 
   for (int iter = 0; iter < max_epoch; ++iter) {
     LG << "Epoch: " << iter;

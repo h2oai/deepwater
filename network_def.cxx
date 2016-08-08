@@ -344,14 +344,10 @@ Symbol LenetSymbol(int num_classes) {
   Symbol tanh2 = Activation("tanh2", conv2, "tanh");
   Symbol pool2 = Pooling("pool2", tanh2, Shape(2, 2), PoolingPoolType::max, false, Shape(2, 2));
 
-  Symbol conv3 = Convolution("conv3", pool2, conv3_w, conv3_b, Shape(2, 2), 500);
-  Symbol tanh3 = Activation("tanh3", conv3, "tanh");
-  Symbol pool3 = Pooling("pool3", tanh3, Shape(2, 2), PoolingPoolType::max, false, Shape(1, 1));
-
-  Symbol flatten = Flatten("flatten", pool3);
+  Symbol flatten = Flatten("flatten", pool2);
   Symbol fc1 = FullyConnected("fc1", flatten, fc1_w, fc1_b, 500);
-  Symbol tanh4 = Activation("tanh4", fc1, "tanh");
-  Symbol fc2 = FullyConnected("fc2", tanh4, fc2_w, fc2_b, num_classes);
+  Symbol tanh3 = Activation("tanh3", fc1, "tanh");
+  Symbol fc2 = FullyConnected("fc2", tanh3, fc2_w, fc2_b, num_classes);
 
   Symbol lenet = SoftmaxOutput("softmax", fc2, data_label);
 
