@@ -11,13 +11,19 @@
 using namespace mxnet::cpp;
 
 int main(int argc, char const *argv[]) {
-  int batch_size = 40;
+  int batch_size = 60;
   int max_epoch = 100;
-  float learning_rate = 0.005;
+  float learning_rate = 0.03;
   float weight_decay = 1e-4;
 
-  auto inception_bn_net = InceptionSymbol(10);
-  //auto inception_bn_net = Symbol::Load("/home/ops/Documents/kaggle_statefarm/inception/model/ckpt-1-0-symbol.json");
+  MXRandomSeed(42);
+  //auto inception_bn_net = InceptionSymbol(10);
+  auto inception_bn_net = Symbol::Load("/home/ops/Documents/kaggle_statefarm/inception/model/ckpt-1-0-symbol.json");
+
+  /*for (size_t i = 0; i < inception_bn_net.ListArguments().size(); i++) {*/
+    //std::cout << inception_bn_net.ListArguments()[i] << std::endl;
+  /*}*/
+
   std::map<std::string, NDArray> args_map;
   std::map<std::string, NDArray> aux_map;
 
@@ -28,7 +34,7 @@ int main(int argc, char const *argv[]) {
 #endif
 
   args_map["data"] = NDArray(Shape(batch_size, 3, 224, 224), ctx_dev);
-  args_map["data_label"] = NDArray(Shape(batch_size), ctx_dev);
+  args_map["softmax_label"] = NDArray(Shape(batch_size), ctx_dev);
   inception_bn_net.InferArgsMap(ctx_dev, &args_map, args_map);
 
   auto train_iter = MXDataIter("ImageRecordIter")
@@ -65,34 +71,37 @@ int main(int argc, char const *argv[]) {
   }
 
   for (int iter = 0; iter < max_epoch; ++iter) {
+    Accuracy train_acc;
     LG << "Epoch: " << iter;
     train_iter.Reset();
     while (train_iter.Next()) {
       auto data_batch = train_iter.GetDataBatch();
       data_batch.data.CopyTo(&args_map["data"]);
-      data_batch.label.CopyTo(&args_map["data_label"]);
+      data_batch.label.CopyTo(&args_map["softmax_label"]);
       NDArray::WaitAll();
 
       exec->Forward(true);
       exec->Backward();
       exec->UpdateAll(&opt, learning_rate, weight_decay);
       NDArray::WaitAll();
+      train_acc.Update(data_batch.label, exec->outputs[0]);
     }
+    LG << "Training Acc: " << train_acc.Get();
 
     Accuracy acu;
     val_iter.Reset();
     while (val_iter.Next()) {
       auto data_batch = val_iter.GetDataBatch();
       data_batch.data.CopyTo(&args_map["data"]);
-      data_batch.label.CopyTo(&args_map["data_label"]);
+      data_batch.label.CopyTo(&args_map["softmax_label"]);
       NDArray::WaitAll();
       exec->Forward(false);
       NDArray::WaitAll();
       acu.Update(data_batch.label, exec->outputs[0]);
     }
     LG << "Accuracy: " << acu.Get();
+    learning_rate -= 0.002;
   }
-  NDArray::Save("new_inception_bn.params", args_map);
   delete exec;
   return 0;
 }
