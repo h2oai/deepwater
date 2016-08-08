@@ -22,7 +22,7 @@ TARGET=libNative.so
 
 CXX=g++
 
-INCLUDE=-I$(JAVA_INCLUDE) -I$(JNI_INCLUDE) -Iinclude
+INCLUDE=-I$(JAVA_INCLUDE) -I$(JNI_INCLUDE) -Iinclude -I.
 
 MXLIB=-L./mxnet/lib -lmxnet
 
@@ -62,15 +62,9 @@ $(TARGET): $(MXNET_OBJS) $(OBJS) deepwater_wrap.o
 	rm -rf $(TARGET)
 	$(CXX) -shared $(MXNET_OBJS) $(OBJS) deepwater_wrap.o -o $(TARGET) $(LDFLAGS)
 
-test: mlp_test lstm_test lenet_test inception_test vgg_test googlenet_test resnet_test alexnet_test
-
 mlp_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/mlp_test.cxx -o mlp_test.o
 	$(CXX) -o mlp_test mlp_test.o $(MXNET_OBJS) $(OBJS) $(MXLIB)
-
-lstm_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/lstm_test.cxx -o lstm_test.o
-	$(CXX) -o lstm_test lstm_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
 
 lenet_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/lenet_test.cxx -o lenet_test.o
@@ -80,21 +74,10 @@ inception_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/inception_test.cxx -o inception_test.o
 	$(CXX) -o inception_test inception_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
 
-vgg_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/vgg_test.cxx -o vgg_test.o
-	$(CXX) -o vgg_test vgg_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
-
-googlenet_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/googlenet_test.cxx -o googlenet_test.o
-	$(CXX) -o googlenet_test googlenet_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
-
-resnet_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/resnet_test.cxx -o resnet_test.o
-	$(CXX) -o resnet_test resnet_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
-
-alexnet_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/alexnet_test.cxx -o alexnet_test.o
-	$(CXX) -o alexnet_test alexnet_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
+net_def_test: $(TARGET) clean_test
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/net_def_test.cxx -o net_def_test.o
+	$(CXX) -o net_def_test net_def_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
+	./net_def_test
 
 lint:
 	python ./scripts/lint.py deepwater cpp *.cxx *.hpp ./include ./src
@@ -114,8 +97,6 @@ endif
 java_test: 
 	javac -cp water.gpu.jar java/h2o/deepwater/test/InceptionCLI.java
 	java -cp water.gpu.jar:java h2o.deepwater.test.InceptionCLI $(PWD)/Inception $(PWD)/test/test2.jpg 
-
-.PHONY: java_test clean clean_test
 
 clean: clean_test
 	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o *.d

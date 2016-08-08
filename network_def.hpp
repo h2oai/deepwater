@@ -9,6 +9,12 @@
 
 #include "MxNetCpp.h"
 
+static const std::string PoolingPoolTypeValues[] = {
+  "avg",
+  "max",
+  "sum"
+};
+
 mxnet::cpp::Symbol AlexnetSymbol(int num_classes);
 
 mxnet::cpp::Symbol InceptionFactory(mxnet::cpp::Symbol data, int num_1x1, int num_3x3red,

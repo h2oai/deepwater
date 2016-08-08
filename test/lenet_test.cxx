@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 
-#include "../network_def.hpp"
+#include "network_def.hpp"
 
 using namespace mxnet::cpp;
 

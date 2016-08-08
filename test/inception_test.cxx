@@ -6,7 +6,7 @@
 #include <map>
 
 #include "initializer.h"
-#include "../network_def.hpp"
+#include "network_def.hpp"
 
 using namespace mxnet::cpp;
 
@@ -17,8 +17,8 @@ int main(int argc, char const *argv[]) {
   float weight_decay = 0.00001;
 
   MXRandomSeed(42);
-  //auto inception_bn_net = InceptionSymbol(10);
-  Symbol inception_bn_net = Symbol::Load("/home/ops/Documents/kaggle_statefarm/inception/model/ckpt-1-0-symbol.json");
+  auto inception_bn_net = InceptionSymbol(10);
+  //Symbol inception_bn_net = Symbol::Load("./test/symbol_inception-bn-py.json");
 
   std::map<std::string, NDArray> args_map;
   std::map<std::string, NDArray> aux_map;
