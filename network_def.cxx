@@ -245,8 +245,8 @@ Symbol InceptionSymbol(int num_classes) {
 
   // classifier
   Symbol flatten = Flatten("flatten", avg);
-  Symbol conv1_w("conv1_w"), conv1_b("conv1_b");
-  Symbol fc1 = FullyConnected("fc1", flatten, conv1_w, conv1_b, num_classes);
+  Symbol fc1_w("fc1_w"), fc1_b("fc1_b");
+  Symbol fc1 = FullyConnected("fc1", flatten, fc1_w, fc1_b, num_classes);
   return SoftmaxOutput("softmax", fc1, data_label);
 }
 
