@@ -97,7 +97,7 @@ alexnet_test: $(TARGET) clean_test
 	$(CXX) -o alexnet_test alexnet_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
 
 lint:
-	python lint.py deepwater cpp *.cxx *.hpp ./include ./src
+	python ./scripts/lint.py deepwater cpp *.cxx *.hpp ./include ./src
 
 pkg: all $(TARGET)
 	javac *.java
