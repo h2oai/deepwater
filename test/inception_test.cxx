@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 
+#include "initializer.h"
 #include "../network_def.hpp"
 
 using namespace mxnet::cpp;
@@ -12,10 +13,11 @@ using namespace mxnet::cpp;
 int main(int argc, char const *argv[]) {
   int batch_size = 40;
   int max_epoch = 100;
-  float learning_rate = 0.01;
+  float learning_rate = 0.005;
   float weight_decay = 1e-4;
 
   auto inception_bn_net = InceptionSymbol(10);
+  //auto inception_bn_net = Symbol::Load("/home/ops/Documents/kaggle_statefarm/inception/model/ckpt-1-0-symbol.json");
   std::map<std::string, NDArray> args_map;
   std::map<std::string, NDArray> aux_map;
 
@@ -50,8 +52,17 @@ int main(int argc, char const *argv[]) {
       .SetParam("clip_gradient", 10);
 
   auto * exec = inception_bn_net.SimpleBind(ctx_dev, args_map);
+  args_map = exec->arg_dict();
 
-  NDArray::Load("/home/ops/Inception/Inception_BN-0039.params", nullptr, &args_map);
+  Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);
+  for (auto &arg : args_map) {
+    xavier(arg.first, &arg.second);
+  }
+
+  aux_map = exec->aux_dict();
+  for (auto &aux : aux_map) {
+    xavier(aux.first, &aux.second);
+  }
 
   for (int iter = 0; iter < max_epoch; ++iter) {
     LG << "Epoch: " << iter;
