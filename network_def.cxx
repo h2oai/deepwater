@@ -265,8 +265,10 @@ Symbol InceptionSymbol2(int num_classes) {
   Symbol data_label = Symbol::Variable("softmax_label");
 
   // stage 1
-  Symbol conv1 = ConvFactoryBN(data, 64, Shape(7, 7), Shape(2, 2), Shape(3, 3), "1", "", 1e-10, 0.1);
-  Symbol pool1 = Pooling("max_pool_1", conv1, Shape(3, 3), PoolingPoolType::max, false, Shape(2, 2));
+  Symbol conv1 =
+      ConvFactoryBN(data, 64, Shape(7, 7), Shape(2, 2), Shape(3, 3), "1", "", 1e-10, 0.1);
+  Symbol pool1 =
+      Pooling("max_pool_1", conv1, Shape(3, 3), PoolingPoolType::max, false, Shape(2, 2));
 
   // stage 2
   Symbol conv2red_w("conv_2_reduce_weight"), conv2red_b("conv_2_reduce_bias");
@@ -275,25 +277,36 @@ Symbol InceptionSymbol2(int num_classes) {
                                 64, Shape(1, 1), Shape(1, 1), Shape(0, 0));
   Symbol bn2red = BatchNorm("bn_2_1", conv2red, 1e-10, 0.1);
   Symbol act2red = Activation("relu_2_1", bn2red, "relu");
-  Symbol conv2 = ConvFactoryBN(act2red, 192, Shape(3, 3), Shape(1, 1), Shape(1, 1), "2", "", 1e-10, 0.1);
+  Symbol conv2 =
+      ConvFactoryBN(act2red, 192, Shape(3, 3), Shape(1, 1), Shape(1, 1), "2", "", 1e-10, 0.1);
+
   Symbol pool2 =
-      Pooling("max_pool_2", conv2, Shape(3, 3), PoolingPoolType::max, false, Shape(2, 2), Shape(0, 0));
+      Pooling("max_pool_2", conv2, Shape(3, 3),
+              PoolingPoolType::max, false, Shape(2, 2), Shape(0, 0));
 
   // stage 3
-  Symbol in3a = InceptionFactoryA(pool2, 64, 64, 64, 64, 96, PoolingPoolType::avg, 32, "3a", 1e-10, 0.1);
-  Symbol in3b = InceptionFactoryA(in3a, 64, 64, 96, 64, 96, PoolingPoolType::avg, 64, "3b", 1e-10, 0.1);
+  Symbol in3a =
+      InceptionFactoryA(pool2, 64, 64, 64, 64, 96, PoolingPoolType::avg, 32, "3a", 1e-10, 0.1);
+  Symbol in3b =
+      InceptionFactoryA(in3a, 64, 64, 96, 64, 96, PoolingPoolType::avg, 64, "3b", 1e-10, 0.1);
   Symbol in3c = InceptionFactoryB(in3b, 128, 160, 64, 96, "3c", 1e-10, 0.1);
 
   // stage 4
-  Symbol in4a = InceptionFactoryA(in3c, 224, 64, 96, 96, 128, PoolingPoolType::avg, 128, "4a", 1e-10, 0.1);
-  Symbol in4b = InceptionFactoryA(in4a, 192, 96, 128, 96, 128,  PoolingPoolType::avg, 128, "4b", 1e-10, 0.1);
-  Symbol in4c = InceptionFactoryA(in4b, 160, 128, 160, 128, 160, PoolingPoolType::avg, 128, "4c", 1e-10, 0.1);
-  Symbol in4d = InceptionFactoryA(in4c, 96, 128, 192, 160, 192,  PoolingPoolType::avg, 128, "4d", 1e-10, 0.1);
+  Symbol in4a =
+      InceptionFactoryA(in3c, 224, 64, 96, 96, 128, PoolingPoolType::avg, 128, "4a", 1e-10, 0.1);
+  Symbol in4b =
+      InceptionFactoryA(in4a, 192, 96, 128, 96, 128,  PoolingPoolType::avg, 128, "4b", 1e-10, 0.1);
+  Symbol in4c =
+      InceptionFactoryA(in4b, 160, 128, 160, 128, 160, PoolingPoolType::avg, 128, "4c", 1e-10, 0.1);
+  Symbol in4d =
+      InceptionFactoryA(in4c, 96, 128, 192, 160, 192,  PoolingPoolType::avg, 128, "4d", 1e-10, 0.1);
   Symbol in4e = InceptionFactoryB(in4d, 128, 192, 192, 256, "4e", 1e-10, 0.1);
 
   // stage 5
-  Symbol in5a = InceptionFactoryA(in4e, 352, 192, 320, 160, 224, PoolingPoolType::avg, 128, "5a", 1e-10, 0.1);
-  Symbol in5b = InceptionFactoryA(in5a, 352, 192, 320, 192, 224, PoolingPoolType::max, 128, "5b", 1e-10, 0.1);
+  Symbol in5a =
+      InceptionFactoryA(in4e, 352, 192, 320, 160, 224, PoolingPoolType::avg, 128, "5a", 1e-10, 0.1);
+  Symbol in5b =
+      InceptionFactoryA(in5a, 352, 192, 320, 192, 224, PoolingPoolType::max, 128, "5b", 1e-10, 0.1);
 
   // average pooling
   Symbol avg = Pooling("global_pool", in5b, Shape(7, 7), PoolingPoolType::avg);
