@@ -22,10 +22,10 @@ int main(int argc, char const *argv[]) {
   auto lenet = LenetSymbol(10);
   std::map<std::string, NDArray> args_map;
 
-#ifdef GPU
-  Context ctx_dev = Context(DeviceType::kGPU, 0);
-#else
+#if MSHADOW_USE_CUDA == 0
   Context ctx_dev = Context(DeviceType::kCPU, 0);
+#else
+  Context ctx_dev = Context(DeviceType::kGPU, 0);
 #endif
 
   args_map["data"] = NDArray(Shape(batch_size, 1, W, H), ctx_dev);

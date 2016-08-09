@@ -10,6 +10,13 @@ else
 	JNI_INCLUDE=/usr/lib/jvm/java-8-oracle/include/
 endif
 
+MXNET_ROOT=./mxnet
+
+config = $(MXNET_ROOT)/config.mk
+include $(config)
+include $(MXNET_ROOT)/mshadow/make/mshadow.mk
+include $(MXNET_ROOT)/dmlc-core/make/dmlc.mk
+
 MXNET_SRCS=src/executor.cxx src/kvstore.cxx src/operator.cxx src/symbol.cxx src/io.cxx src/ndarray.cxx src/optimizer.cxx
 
 MXNET_OBJS=$(MXNET_SRCS:.cxx=.o)
@@ -28,13 +35,7 @@ MXLIB=-L./mxnet/lib -lmxnet
 
 LDFLAGS=-Wl,-rpath,/tmp $(MXLIB)
 
-CXXFLAGS :=-std=c++11 -O3
-
-ifndef CUDA_PATH
-	CXXFLAGS += -DNO_GPU
-else
-	CXXFLAGS += -DGPU
-endif
+CXXFLAGS=-std=c++11 -O3 -Wall
 
 .PHONY: depend clean all
 
@@ -55,7 +56,7 @@ $(OBJS): %.o : %.cxx
 swig:
 	swig -c++ -java -package water.gpu deepwater.i
 
-deepwater_wrap.o:
+deepwater_wrap.o: swig
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) deepwater_wrap.cxx -o deepwater_wrap.o
 
 $(TARGET): $(MXNET_OBJS) $(OBJS) deepwater_wrap.o

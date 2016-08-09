@@ -8,6 +8,7 @@
 
 #include "include/symbol.h"
 #include "include/optimizer.h"
+#include "include/initializer.h"
 #include "image_train.hpp"
 
 using namespace mxnet::cpp;
@@ -16,15 +17,15 @@ ImageTrain::ImageTrain(int w, int h, int c) {
   width = w;
   height = h;
   channels = c;
-  learning_rate = 1e-3;
+  learning_rate = 1e-4;
   weight_decay = 1e-4;
   momentum = 0.9;
   clip_gradient = 10;
   is_built = false;
-#ifdef GPU
-  ctx_dev = Context(DeviceType::kGPU, 0);
-#else
+#if MSHADOW_USE_CUDA == 0
   ctx_dev = Context(DeviceType::kCPU, 0);
+#else
+  ctx_dev = Context(DeviceType::kGPU, 0);
 #endif
 }
 
@@ -44,9 +45,21 @@ void ImageTrain::setOptimizer(int n, int b) {
   opt->SetParam("clip_gradient", clip_gradient);
 
   args_map["data"] = NDArray(Shape(batch_size, channels, width, height), ctx_dev);
-  args_map["data_label"] = NDArray(Shape(batch_size), ctx_dev);
+  args_map["softmax_label"] = NDArray(Shape(batch_size), ctx_dev);
   mxnet_sym.InferArgsMap(ctx_dev, &args_map, args_map);
   exec = std::unique_ptr<Executor>(mxnet_sym.SimpleBind(ctx_dev, args_map));
+
+  args_map = exec->arg_dict();
+
+  Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);
+  for (auto &arg : args_map) {
+    xavier(arg.first, &arg.second);
+  }
+
+  aux_map = exec->aux_dict();
+  for (auto &aux : aux_map) {
+    xavier(aux.first, &aux.second);
+  }
   is_built = true;
 }
 
@@ -108,25 +121,25 @@ void ImageTrain::loadParam(char * param_path) {
 
 void ImageTrain::saveParam(char * param_path) {
   NDArray::Save(std::string(param_path), args_map);
-  std::string param_path2 = std::string(param_path) + ".txt";
-  std::ofstream myfile;
-  myfile.open(param_path2.c_str());
-  for (std::map<std::string, NDArray>::iterator iter = args_map.begin();
-       iter != args_map.end(); iter++) {
-    myfile << iter->first << " ";
-    std::vector<mx_uint> shape_lst = iter->second.GetShape();
-    size_t s = 1;
-    for (size_t i = 0; i < shape_lst.size(); i++) {
-      s = s * shape_lst[i];
-    }
-    std::vector<float> tmp(s);
-    iter->second.SyncCopyToCPU(&tmp, s);
-    for (size_t i = 0; i < s; i++) {
-      myfile << tmp[i] << " ";
-    }
-    myfile << std::endl;
-  }
-  myfile.close();
+  /*std::string param_path2 = std::string(param_path) + ".txt";*/
+  //std::ofstream myfile;
+  //myfile.open(param_path2.c_str());
+  //for (std::map<std::string, NDArray>::iterator iter = args_map.begin();
+       //iter != args_map.end(); iter++) {
+    //myfile << iter->first << " ";
+    //std::vector<mx_uint> shape_lst = iter->second.GetShape();
+    //size_t s = 1;
+    //for (size_t i = 0; i < shape_lst.size(); i++) {
+      //s = s * shape_lst[i];
+    //}
+    //std::vector<float> tmp(s);
+    //iter->second.SyncCopyToCPU(&tmp, s);
+    //for (size_t i = 0; i < s; i++) {
+      //myfile << tmp[i] << " ";
+    //}
+    /*myfile << std::endl;*/
+  //}
+  //myfile.close();
 }
 
 std::vector<float> ImageTrain::train(float * data, float * label) {
@@ -154,7 +167,7 @@ std::vector<float> ImageTrain::execute(float * data, float * label, bool is_trai
 
   if (is_train) {
     NDArray label_n = NDArray(label, Shape(batch_size), ctx_dev);
-    label_n.CopyTo(&args_map["data_label"]);
+    label_n.CopyTo(&args_map["softmax_label"]);
   }
 
   NDArray::WaitAll();

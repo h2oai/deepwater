@@ -11,10 +11,10 @@ using namespace mxnet::cpp;
 
 MLP::MLP() {
   batch_size = -1;
-#ifdef GPU
-  ctx_dev = Context(DeviceType::kGPU, 0);
-#else
+#if MSHADOW_USE_CUDA == 0
   ctx_dev = Context(DeviceType::kCPU, 0);
+#else
+  ctx_dev = Context(DeviceType::kGPU, 0);
 #endif
 }
 
@@ -60,7 +60,7 @@ void MLP::loadModel(char * model_path) {
 void MLP::buildMLP() {
   if (batch_size == -1) std::cerr << "Batch size not set yet" << std::endl;
   Symbol act = Symbol::Variable("data");
-  Symbol data_label = Symbol::Variable("data_label");
+  Symbol data_label = Symbol::Variable("softmax_label");
   std::vector<Symbol> fc_w, fc_b, fc;
 
   for (int i = 0; i < nLayers; i++) {
@@ -111,7 +111,7 @@ std::vector<float> MLP::execute(float * data, float * label, bool is_train) {
 
   if (is_train) {
     NDArray label_n = NDArray(label, Shape(batch_size), ctx_dev);
-    label_n.CopyTo(&args_map["data_label"]);
+    label_n.CopyTo(&args_map["softmax_label"]);
   }
   NDArray::WaitAll();
 

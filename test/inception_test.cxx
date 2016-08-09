@@ -23,10 +23,10 @@ int main(int argc, char const *argv[]) {
   std::map<std::string, NDArray> args_map;
   std::map<std::string, NDArray> aux_map;
 
-#ifdef GPU
-  Context ctx_dev = Context(DeviceType::kGPU, 0);
-#else
+#if MSHADOW_USE_CUDA == 0
   Context ctx_dev = Context(DeviceType::kCPU, 0);
+#else
+  Context ctx_dev = Context(DeviceType::kGPU, 0);
 #endif
 
   args_map["data"] = NDArray(Shape(batch_size, 3, 224, 224), ctx_dev);
