@@ -103,13 +103,26 @@ endif
 	cp mxnet/lib/libmxnet.so ./water/gpu
 	jar -cvf water.gpu.jar ./water
 
+swig_test: clean_test
+	swig -c++ -java -package test.swig ./test/swigtest.i
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/swigtest.cxx -o ./test/swigtest.o
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/swigtest_wrap.cxx -o ./test/swigtest_wrap.o
+	mkdir -p ./test/swig
+	$(CXX) -shared ./test/swigtest.o ./test/swigtest_wrap.o -o ./test/swig/libswigtest.dylib
+	cp ./test/testJNI.java ./test/swig
+	cp ./test/test.java ./test/swig
+	cp ./test/swigtest.java ./test/swig
+	javac ./test/swig/*.java
+	java -Djava.library.path="./test/swig" test/swig/swigtest
+
+
 java_test: 
 	javac -cp water.gpu.jar java/h2o/deepwater/test/InceptionCLI.java
 	java -cp water.gpu.jar:java h2o.deepwater.test.InceptionCLI $(PWD)/Inception $(PWD)/test/test2.jpg 
 
 clean: clean_test
-	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o *.d
+	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o *.d 
 
 clean_test:
-	rm -rf *_test.o *_test water*
+	rm -rf *_test.o *_test water* ./test/*_wrap.cxx ./test/*_wrap.o ./test/libswigtest.so ./test/swig/* test/test.java test/testJNI.java
 
