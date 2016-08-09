@@ -36,17 +36,25 @@ mxnet::cpp::Symbol ConvFactoryBN(mxnet::cpp::Symbol data, int num_filter,
                                  mxnet::cpp::Shape stride = mxnet::cpp::Shape(1, 1),
                                  mxnet::cpp::Shape pad = mxnet::cpp::Shape(0, 0),
                                  const std::string & name = "",
-                                 const std::string & suffix = "");
+                                 const std::string & suffix = "",
+                                 mx_float eps = 0.001,
+                                 mx_float momentum = 0.9);
 
 mxnet::cpp::Symbol InceptionFactoryA(mxnet::cpp::Symbol data, int num_1x1, int num_3x3red,
                                      int num_3x3, int num_d3x3red, int num_d3x3,
                                      mxnet::cpp::PoolingPoolType pool, int proj,
-                                     const std::string & name);
+                                     const std::string & name,
+                                     mx_float eps = 0.001,
+                                     mx_float momentum = 0.9);
 
 mxnet::cpp::Symbol InceptionFactoryB(mxnet::cpp::Symbol data, int num_3x3red, int num_3x3,
-                                     int num_d3x3red, int num_d3x3, const std::string & name);
+                                     int num_d3x3red, int num_d3x3, const std::string & name,
+                                     mx_float eps = 0.001,
+                                     mx_float momentum = 0.9);
 
 mxnet::cpp::Symbol InceptionSymbol(int num_classes);
+
+mxnet::cpp::Symbol InceptionSymbol2(int num_classes);
 
 mxnet::cpp::Symbol VGGSymbol(int num_classes);
 

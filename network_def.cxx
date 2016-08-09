@@ -148,43 +148,44 @@ Symbol ConvFactory(Symbol data, int num_filter,
   return Activation("relu_" + name + suffix, conv, "relu");
 }
 
-
 Symbol ConvFactoryBN(Symbol data, int num_filter,
                      Shape kernel, Shape stride, Shape pad,
                      const std::string & name,
-                     const std::string & suffix) {
+                     const std::string & suffix,
+                     mx_float eps, mx_float momentum) {
   Symbol conv_w("conv_" + name + suffix + "_weight"), conv_b("conv_" + name + suffix + "_bias");
 
   Symbol conv = Convolution("conv_" + name + suffix, data,
                             conv_w, conv_b, kernel,
                             num_filter, stride, Shape(1, 1), pad);
-  Symbol bn = BatchNorm("bn_" + name + suffix, conv);
+  Symbol bn = BatchNorm("bn_" + name + suffix, conv, eps, momentum);
   return Activation("relu_" + name + suffix, bn, "relu");
 }
 
 Symbol InceptionFactoryA(Symbol data, int num_1x1, int num_3x3red,
                          int num_3x3, int num_d3x3red, int num_d3x3,
                          PoolingPoolType pool, int proj,
-                         const std::string & name) {
+                         const std::string & name,
+                         mx_float eps, mx_float momentum) {
   Symbol c1x1 = ConvFactoryBN(data, num_1x1, Shape(1, 1), Shape(1, 1),
-                              Shape(0, 0), name + "_1x1");
+                              Shape(0, 0), name + "_1x1", "", eps, momentum);
   Symbol c3x3r = ConvFactoryBN(data, num_3x3red, Shape(1, 1), Shape(1, 1),
-                               Shape(0, 0), name + "_3x3", "_reduce");
+                               Shape(0, 0), name + "_3x3", "_reduce", eps, momentum);
   Symbol c3x3 = ConvFactoryBN(c3x3r, num_3x3, Shape(3, 3), Shape(1, 1),
-                              Shape(1, 1), name + "_3x3");
+                              Shape(1, 1), name + "_3x3", "", eps, momentum);
   Symbol cd3x3r = ConvFactoryBN(data, num_d3x3red, Shape(1, 1), Shape(1, 1),
-                                Shape(0, 0), name + "_double_3x3", "_reduce");
+                                Shape(0, 0), name + "_double_3x3", "_reduce", eps, momentum);
   Symbol cd3x3 = ConvFactoryBN(cd3x3r, num_d3x3, Shape(3, 3), Shape(1, 1),
-                               Shape(1, 1), name + "_double_3x3_0");
+                               Shape(1, 1), name + "_double_3x3_0", "", eps, momentum);
 
   cd3x3 = ConvFactoryBN(cd3x3, num_d3x3, Shape(3, 3), Shape(1, 1),
-                        Shape(1, 1), name + "_double_3x3_1");
+                        Shape(1, 1), name + "_double_3x3_1", "", eps, momentum);
   Symbol pooling =
       Pooling(PoolingPoolTypeValues[static_cast<int>(pool)] + "_pool_" +name + "_pool", data,
               Shape(3, 3), pool, false,
               Shape(1, 1), Shape(1, 1));
   Symbol cproj = ConvFactoryBN(pooling, proj, Shape(1, 1), Shape(1, 1),
-                               Shape(0, 0), name + "_proj");
+                               Shape(0, 0), name + "_proj", "", eps, momentum);
   std::vector<Symbol> lst;
   lst.push_back(c1x1);
   lst.push_back(c3x3);
@@ -194,18 +195,19 @@ Symbol InceptionFactoryA(Symbol data, int num_1x1, int num_3x3red,
 }
 
 Symbol InceptionFactoryB(Symbol data, int num_3x3red, int num_3x3,
-                         int num_d3x3red, int num_d3x3, const std::string & name) {
+                         int num_d3x3red, int num_d3x3, const std::string & name,
+                         mx_float eps, mx_float momentum) {
   Symbol c3x3r = ConvFactoryBN(data, num_3x3red, Shape(1, 1),
                                Shape(1, 1), Shape(0, 0),
-                               name + "_3x3", "_reduce");
+                               name + "_3x3", "_reduce", eps, momentum);
   Symbol c3x3 = ConvFactoryBN(c3x3r, num_3x3, Shape(3, 3), Shape(2, 2),
-                              Shape(1, 1), name + "_3x3");
+                              Shape(1, 1), name + "_3x3", "", eps, momentum);
   Symbol cd3x3r = ConvFactoryBN(data, num_d3x3red, Shape(1, 1), Shape(1, 1),
-                                Shape(0, 0), name + "_double_3x3", "_reduce");
+                                Shape(0, 0), name + "_double_3x3", "_reduce", eps, momentum);
   Symbol cd3x3 = ConvFactoryBN(cd3x3r, num_d3x3, Shape(3, 3), Shape(1, 1),
-                               Shape(1, 1), name + "_double_3x3_0");
+                               Shape(1, 1), name + "_double_3x3_0", "", eps, momentum);
   cd3x3 = ConvFactoryBN(cd3x3, num_d3x3, Shape(3, 3), Shape(2, 2),
-                        Shape(1, 1), name + "_double_3x3_1");
+                        Shape(1, 1), name + "_double_3x3_1", "", eps, momentum);
   Symbol pooling = Pooling("max_pool_" + name + "_pool", data,
                            Shape(3, 3), PoolingPoolType::max,
                            false, Shape(2, 2));
@@ -254,6 +256,52 @@ Symbol InceptionSymbol(int num_classes) {
   Symbol flatten = Flatten("flatten", avg);
   Symbol fc1_w("fc1_weight"), fc1_b("fc1_bias");
   Symbol fc1 = FullyConnected("fc1", flatten, fc1_w, fc1_b, num_classes);
+  return SoftmaxOutput("softmax", fc1, data_label);
+}
+
+Symbol InceptionSymbol2(int num_classes) {
+  // data and label
+  Symbol data = Symbol::Variable("data");
+  Symbol data_label = Symbol::Variable("softmax_label");
+
+  // stage 1
+  Symbol conv1 = ConvFactoryBN(data, 64, Shape(7, 7), Shape(2, 2), Shape(3, 3), "1", "", 1e-10, 0.1);
+  Symbol pool1 = Pooling("max_pool_1", conv1, Shape(3, 3), PoolingPoolType::max, false, Shape(2, 2));
+
+  // stage 2
+  Symbol conv2red_w("conv_2_reduce_weight"), conv2red_b("conv_2_reduce_bias");
+  Symbol conv2red = Convolution("conv_2_reduce", pool1,
+                                conv2red_w, conv2red_b, Shape(1, 1),
+                                64, Shape(1, 1), Shape(1, 1), Shape(0, 0));
+  Symbol bn2red = BatchNorm("bn_2_1", conv2red, 1e-10, 0.1);
+  Symbol act2red = Activation("relu_2_1", bn2red, "relu");
+  Symbol conv2 = ConvFactoryBN(act2red, 192, Shape(3, 3), Shape(1, 1), Shape(1, 1), "2", "", 1e-10, 0.1);
+  Symbol pool2 =
+      Pooling("max_pool_2", conv2, Shape(3, 3), PoolingPoolType::max, false, Shape(2, 2), Shape(0, 0));
+
+  // stage 3
+  Symbol in3a = InceptionFactoryA(pool2, 64, 64, 64, 64, 96, PoolingPoolType::avg, 32, "3a", 1e-10, 0.1);
+  Symbol in3b = InceptionFactoryA(in3a, 64, 64, 96, 64, 96, PoolingPoolType::avg, 64, "3b", 1e-10, 0.1);
+  Symbol in3c = InceptionFactoryB(in3b, 128, 160, 64, 96, "3c", 1e-10, 0.1);
+
+  // stage 4
+  Symbol in4a = InceptionFactoryA(in3c, 224, 64, 96, 96, 128, PoolingPoolType::avg, 128, "4a", 1e-10, 0.1);
+  Symbol in4b = InceptionFactoryA(in4a, 192, 96, 128, 96, 128,  PoolingPoolType::avg, 128, "4b", 1e-10, 0.1);
+  Symbol in4c = InceptionFactoryA(in4b, 160, 128, 160, 128, 160, PoolingPoolType::avg, 128, "4c", 1e-10, 0.1);
+  Symbol in4d = InceptionFactoryA(in4c, 96, 128, 192, 160, 192,  PoolingPoolType::avg, 128, "4d", 1e-10, 0.1);
+  Symbol in4e = InceptionFactoryB(in4d, 128, 192, 192, 256, "4e", 1e-10, 0.1);
+
+  // stage 5
+  Symbol in5a = InceptionFactoryA(in4e, 352, 192, 320, 160, 224, PoolingPoolType::avg, 128, "5a", 1e-10, 0.1);
+  Symbol in5b = InceptionFactoryA(in5a, 352, 192, 320, 192, 224, PoolingPoolType::max, 128, "5b", 1e-10, 0.1);
+
+  // average pooling
+  Symbol avg = Pooling("global_pool", in5b, Shape(7, 7), PoolingPoolType::avg);
+
+  // classifier
+  Symbol flatten = Flatten("flatten", avg);
+  Symbol fc1_w("fc_weight"), fc1_b("fc_bias");
+  Symbol fc1 = FullyConnected("fc", flatten, fc1_w, fc1_b, num_classes);
   return SoftmaxOutput("softmax", fc1, data_label);
 }
 

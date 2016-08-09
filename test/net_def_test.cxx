@@ -31,6 +31,9 @@ int main() {
   Symbol inception = InceptionSymbol(10);
   inception.Save("./test/symbol_inception-bn-cpp.json");
 
+  Symbol inception2 = InceptionSymbol2(10);
+  inception2.Save("./test/symbol_inception-bn2-cpp.json");
+
   Symbol mlp = MLPSymbol(10);
   mlp.Save("./test/symbol_mlp-cpp.json");
 
