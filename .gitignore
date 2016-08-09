@@ -10,6 +10,7 @@
 *.class
 *_wrap.cxx
 *.jar
+*.png
 .ycm_extra_conf.pyc
 .ycm_extra_conf.py
 *.pyc
@@ -17,3 +18,8 @@
 *.txt
 *.swp
 *-ubyte
+*.rec
+*.bin
+*.lst
+*.tar.gz
+*.zip

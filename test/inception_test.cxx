@@ -101,7 +101,6 @@ int main(int argc, char const *argv[]) {
       acu.Update(data_batch.label, exec->outputs[0]);
     }
     LG << "Val Acc: " << acu.Get();
-    //learning_rate -= 0.0002;
   }
   delete exec;
   return 0;

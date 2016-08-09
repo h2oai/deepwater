@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 
+#include "initializer.h"
 #include "network_def.hpp"
 
 using namespace mxnet::cpp;
@@ -28,8 +29,14 @@ int main(int argc, char const *argv[]) {
 #endif
 
   args_map["data"] = NDArray(Shape(batch_size, 1, W, H), ctx_dev);
-  args_map["data_label"] = NDArray(Shape(batch_size), ctx_dev);
+  args_map["softmax_label"] = NDArray(Shape(batch_size), ctx_dev);
+
   lenet.InferArgsMap(ctx_dev, &args_map, args_map);
+
+  args_map["fc1_weight"] = NDArray(Shape(500, 4 * 4 * 50), ctx_dev);
+  NDArray::SampleGaussian(0, 1, &args_map["fc1_weight"]);
+  args_map["fc2_bias"] = NDArray(Shape(10), ctx_dev);
+  args_map["fc2_bias"] = 0;
 
   auto train_iter = MXDataIter("MNISTIter")
       .SetParam("image", "./train-images-idx3-ubyte")
@@ -38,6 +45,7 @@ int main(int argc, char const *argv[]) {
       .SetParam("shuffle", 1)
       .SetParam("flat", 0)
       .CreateDataIter();
+
   auto val_iter = MXDataIter("MNISTIter")
       .SetParam("image", "./t10k-images-idx3-ubyte")
       .SetParam("label", "./t10k-labels-idx1-ubyte")
@@ -48,35 +56,39 @@ int main(int argc, char const *argv[]) {
       .SetParam("rescale_grad", 1.0)
       .SetParam("clip_gradient", 10);
 
+  auto * exec = lenet.SimpleBind(ctx_dev, args_map);
+
   for (int iter = 0; iter < max_epoch; ++iter) {
     LG << "Epoch: " << iter;
+    Accuracy train_acc;
     train_iter.Reset();
     while (train_iter.Next()) {
       auto data_batch = train_iter.GetDataBatch();
-      args_map["data"] = data_batch.data.Copy(ctx_dev);
-      args_map["data_label"] = data_batch.label.Copy(ctx_dev);
+      data_batch.data.CopyTo(&args_map["data"]);
+      data_batch.label.CopyTo(&args_map["softmax_label"]);
       NDArray::WaitAll();
-      auto * exec = lenet.SimpleBind(ctx_dev, args_map);
       exec->Forward(true);
       exec->Backward();
       exec->UpdateAll(&opt, learning_rate, weight_decay);
-      delete exec;
+      NDArray::WaitAll();
+      train_acc.Update(data_batch.label, exec->outputs[0]);
     }
+    LG << "Training Acc: " << train_acc.Get();
 
     Accuracy acu;
     val_iter.Reset();
     while (val_iter.Next()) {
       auto data_batch = val_iter.GetDataBatch();
-      args_map["data"] = data_batch.data.Copy(ctx_dev);
-      args_map["data_label"] = data_batch.label.Copy(ctx_dev);
+      data_batch.data.CopyTo(&args_map["data"]);
+      data_batch.label.CopyTo(&args_map["softmax_label"]);
       NDArray::WaitAll();
-      auto * exec = lenet.SimpleBind(ctx_dev, args_map);
       exec->Forward(false);
       NDArray::WaitAll();
       acu.Update(data_batch.label, exec->outputs[0]);
-      delete exec;
     }
-    LG << "Accuracy: " << acu.Get();
+    LG << "Val Acc: " << acu.Get();
+    learning_rate *= 0.98;
   }
+  delete exec;
   return 0;
 }

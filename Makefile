@@ -67,8 +67,10 @@ mlp_test: $(TARGET) clean_test
 	$(CXX) -o mlp_test mlp_test.o $(MXNET_OBJS) $(OBJS) $(MXLIB)
 
 lenet_test: $(TARGET) clean_test
+	bash ./test/download_mnist.sh
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/lenet_test.cxx -o lenet_test.o
 	$(CXX) -o lenet_test lenet_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
+	./lenet_test
 
 inception_test: $(TARGET) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/inception_test.cxx -o inception_test.o
