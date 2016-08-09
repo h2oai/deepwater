@@ -149,7 +149,7 @@ std::vector<float> ImageTrain::execute(float * data, float * label, bool is_trai
     exit(0);
   }
 
-  NDArray data_n = NDArray(data, Shape(batch_size, 3, width, height), ctx_dev);
+  NDArray data_n = NDArray(data, Shape(batch_size, channels, width, height), ctx_dev);
   data_n.CopyTo(&args_map["data"]);
 
   if (is_train) {
