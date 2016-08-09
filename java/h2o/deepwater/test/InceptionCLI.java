@@ -1,10 +1,12 @@
 package h2o.deepwater.test;
 
 import javax.imageio.ImageIO;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import water.gpu.ImageIter;
 import water.gpu.ImagePred;
-import water.gpu.ImageTrain;
 import water.gpu.util;
 
 import java.awt.*;
@@ -27,6 +29,14 @@ public class InceptionCLI {
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
+    }
+
+    public static String FILE__() {
+        return Thread.currentThread().getStackTrace()[2].getFileName();
+    }
+
+    public static int LINE__() {
+        return Thread.currentThread().getStackTrace()[2].getLineNumber();
     }
 
     static float[] loadImage(String path) throws IOException {
@@ -81,8 +91,9 @@ public class InceptionCLI {
 
         m.loadInception();
         try {
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
             float[] pixels = loadImage(args[1]);
-            System.out.println(m.predict(pixels));
+            System.out.println("[" + dateFormat.format(new Date()) + "] " + FILE__() + ":" + LINE__() + ": " + m.predict(pixels));
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }

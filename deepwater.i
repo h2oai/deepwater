@@ -1,3 +1,5 @@
+%include "std_string.i"
+#include <string>
 
 %include "arrays_java.i"
 %apply float[] {float *};

@@ -109,7 +109,7 @@ void ImagePred::loadModel() {
                &pred_hnd);
 }
 
-const char * ImagePred::predict(float * image_data) {
+std::string ImagePred::predict(float * image_data) {
   for (int i = 0; i < image_size; i++) {
     image_data[i] = image_data[i] - nd_data[i];
   }
@@ -143,7 +143,7 @@ const char * ImagePred::predict(float * image_data) {
 
   std::string res = "Prediction: " + synset[best_idx] + " Score: " + std::to_string(best_accuracy);
   LG << res;
-  return res.c_str();
+  return res;
 }
 
 std::vector<float> ImagePred::predict_probs(float * image_data) {

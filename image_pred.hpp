@@ -25,7 +25,7 @@ class ImagePred {
   void loadModel();
 
   // return the result with highest prob
-  const char * predict(float * data);
+  std::string predict(float * data);
   // return probs for each class
   std::vector<float> predict_probs(float * data);
 
