@@ -111,17 +111,32 @@ void ImageTrain::loadParam(char * param_path) {
   std::map<std::string, NDArray> parameters;
   NDArray::Load(std::string(param_path), nullptr, &parameters);
   for (const auto &k : parameters) {
+    if (k.first.substr(0, 4) == "aux:") {
+      auto name = k.first.substr(4, k.first.size() - 4);
+      aux_map[name] = k.second.Copy(ctx_dev);
+    }
     if (k.first.substr(0, 4) == "arg:") {
       auto name = k.first.substr(4, k.first.size() - 4);
       args_map[name] = k.second.Copy(ctx_dev);
     }
   }
-  exec = std::unique_ptr<Executor>(mxnet_sym.SimpleBind(ctx_dev, args_map));
+  NDArray::WaitAll();
 }
 
-// FIXME
 void ImageTrain::saveParam(char * param_path) {
-  NDArray::Save(std::string(param_path), args_map);
+  args_map = exec->arg_dict();
+  std::vector<NDArrayHandle> args;
+  std::vector<const char *> keys;
+  for (const auto &t : args_map) {
+    args.push_back(t.second.GetHandle());
+    keys.push_back(("arg:" + t.first).c_str());
+  }
+  aux_map = exec->aux_dict();
+  for (const auto &t : aux_map) {
+    args.push_back(t.second.GetHandle());
+    keys.push_back(("aux:" + t.first).c_str());
+  }
+  CHECK_EQ(MXNDArraySave(param_path, args.size(), args.data(), keys.data()), 0);
 }
 
 std::vector<float> ImageTrain::train(float * data, float * label) {

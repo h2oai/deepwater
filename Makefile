@@ -37,6 +37,12 @@ LDFLAGS=-Wl,-rpath,/tmp $(MXLIB)
 
 CXXFLAGS=-std=c++11 -O3 -Wall
 
+ifeq ($(USE_CUDA), 1)
+	CXXFLAGS += -DMSHADOW_USE_CUDA=1
+else
+	CXXFLAGS += -DMSHADOW_USE_CUDA=0
+endif
+
 .PHONY: depend clean all
 
 DEPS := $(OBJS:.o=.d)
