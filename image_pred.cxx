@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "include/c_api.h"
+#include "include/logging.h"
 #include "image_pred.hpp"
 
 class BufferFile {
@@ -141,7 +142,7 @@ const char * ImagePred::predict(float * image_data) {
   }
 
   std::string res = "Prediction: " + synset[best_idx] + " Score: " + std::to_string(best_accuracy);
-
+  LG << res;
   return res.c_str();
 }
 
