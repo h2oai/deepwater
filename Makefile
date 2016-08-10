@@ -108,7 +108,11 @@ swig_test: clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/swigtest.cxx -o ./test/swigtest.o
 	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/swigtest_wrap.cxx -o ./test/swigtest_wrap.o
 	mkdir -p ./test/swig
+ifeq ($(UNAME_S), Darwin)
 	$(CXX) -shared ./test/swigtest.o ./test/swigtest_wrap.o -o ./test/swig/libswigtest.dylib
+else
+	$(CXX) -shared ./test/swigtest.o ./test/swigtest_wrap.o -o ./test/swig/libswigtest.so
+endif
 	cp ./test/testJNI.java ./test/swig
 	cp ./test/test.java ./test/swig
 	cp ./test/swigtest.java ./test/swig

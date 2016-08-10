@@ -56,12 +56,8 @@ void float_arr_input_test(float * arr, int l) {
 } 
 
 std::vector<float> float_arr_return_test() {
-  srand(42);
-  std::vector<float> res;
-  int n = 10;
-  for (int i = 0; i < n; i++) {
-    res.push_back(rand() % 1000 / 1000.0);
-  }
+  std::vector<float> res = {0.894, 0.223, 0.009, 0.343, 0.826,
+    0.601, 0.201, 0.76, 0.65, 0.545};
   return res;
 }
 
