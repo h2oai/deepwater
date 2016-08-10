@@ -45,7 +45,7 @@ else
 	CXXFLAGS += -DMSHADOW_USE_CUDA=0
 endif
 
-.PHONY: depend clean all
+.PHONY: depend clean all swig $(OBJS)
 
 DEPS := $(OBJS:.o=.d)
 
