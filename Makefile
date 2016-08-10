@@ -21,7 +21,9 @@ MXNET_SRCS=src/executor.cxx src/kvstore.cxx src/operator.cxx src/symbol.cxx src/
 
 MXNET_OBJS=$(MXNET_SRCS:.cxx=.o)
 
-SRCS=mlp.cxx image_pred.cxx network_def.cxx image_train.cxx
+SWIG_SRCS=deepwater_wrap.cxx
+
+SRCS=mlp.cxx image_pred.cxx network_def.cxx image_train.cxx $(SWIG_SRCS)
 
 OBJS=$(SRCS:.cxx=.o)
 
@@ -35,7 +37,7 @@ MXLIB=-L./mxnet/lib -lmxnet
 
 LDFLAGS=-Wl,-rpath,/tmp $(MXLIB)
 
-CXXFLAGS=-std=c++11 -O3 -Wall
+CXXFLAGS=-std=c++11 -O3 -Wall $(INCLUDE)
 
 ifeq ($(USE_CUDA), 1)
 	CXXFLAGS += -DMSHADOW_USE_CUDA=1
@@ -52,39 +54,36 @@ all: swig $(MXNET_OBJS) $(OBJS) $(TARGET)
 -include $(DEPS)
 
 $(MXNET_OBJS): %.o : %.cxx
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) $< -MM -MF $(patsubst %.o,%.d,$@)
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) $< -o $@
+	$(CXX) -c -fPIC $(CXXFLAGS) $< -MM -MF $(patsubst %.o,%.d,$@)
+	$(CXX) -c -fPIC $(CXXFLAGS) $< -o $@
 
 $(OBJS): %.o : %.cxx
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) $< -MM -MF $(patsubst %.o,%.d,$@)
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) $< -o $@
+	$(CXX) -c -fPIC $(CXXFLAGS) $< -MM -MF $(patsubst %.o,%.d,$@)
+	$(CXX) -c -fPIC $(CXXFLAGS) $< -o $@
 
 swig:
 	swig -c++ -java -package water.gpu deepwater.i
 
-deepwater_wrap.o: swig
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) deepwater_wrap.cxx -o deepwater_wrap.o
-
-$(TARGET): $(MXNET_OBJS) $(OBJS) deepwater_wrap.o
+$(TARGET): $(MXNET_OBJS) $(OBJS)
 	rm -rf $(TARGET)
-	$(CXX) -shared $(MXNET_OBJS) $(OBJS) deepwater_wrap.o -o $(TARGET) $(LDFLAGS)
+	$(CXX) -shared $(MXNET_OBJS) $(OBJS) -o $(TARGET) $(LDFLAGS)
 
 mlp_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/mlp_test.cxx -o mlp_test.o
+	$(CXX) -c -fPIC $(CXXFLAGS) ./test/mlp_test.cxx -o mlp_test.o
 	$(CXX) -o mlp_test mlp_test.o $(MXNET_OBJS) $(OBJS) $(MXLIB)
 
 lenet_test: $(TARGET) clean_test
 	bash ./test/download_mnist.sh
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/lenet_test.cxx -o lenet_test.o
+	$(CXX) -c -fPIC $(CXXFLAGS) ./test/lenet_test.cxx -o lenet_test.o
 	$(CXX) -o lenet_test lenet_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
 	./lenet_test
 
 inception_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/inception_test.cxx -o inception_test.o
+	$(CXX) -c -fPIC $(CXXFLAGS) ./test/inception_test.cxx -o inception_test.o
 	$(CXX) -o inception_test inception_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
 
 net_def_test: $(TARGET) clean_test
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/net_def_test.cxx -o net_def_test.o
+	$(CXX) -c -fPIC $(CXXFLAGS) ./test/net_def_test.cxx -o net_def_test.o
 	$(CXX) -o net_def_test net_def_test.o network_def.o $(MXNET_OBJS) $(MXLIB)
 	./net_def_test
 
@@ -105,8 +104,8 @@ endif
 
 swig_test: clean_test
 	swig -c++ -java -package test.swig ./test/swigtest.i
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/swigtest.cxx -o ./test/swigtest.o
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) ./test/swigtest_wrap.cxx -o ./test/swigtest_wrap.o
+	$(CXX) -c -fPIC $(CXXFLAGS) ./test/swigtest.cxx -o ./test/swigtest.o
+	$(CXX) -c -fPIC $(CXXFLAGS) ./test/swigtest_wrap.cxx -o ./test/swigtest_wrap.o
 	mkdir -p ./test/swig
 ifeq ($(UNAME_S), Darwin)
 	$(CXX) -shared ./test/swigtest.o ./test/swigtest_wrap.o -o ./test/swig/libswigtest.dylib

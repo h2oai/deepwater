@@ -44,7 +44,6 @@ LDFLAGS += -L$(MXNET_ROOT)/lib -lmxnet
 .PHONY: depend clean all
 
 all: func_info_test
-	./func_info_test > mxnet_doc.md
 
 func_info_test: clean_test
 	$(CXX) -c -fPIC $(CFLAGS) func_info.cxx -o func_info.o
