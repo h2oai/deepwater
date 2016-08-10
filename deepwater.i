@@ -59,3 +59,9 @@
 %}
 
 %include "image_pred.hpp"
+
+%{
+#include "util.hpp"
+%}
+
+std::vector<float> loadNDArray(const char * fname);

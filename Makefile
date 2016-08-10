@@ -119,7 +119,6 @@ endif
 	javac ./test/swig/*.java
 	java -Djava.library.path="./test/swig" test/swig/swigtest
 
-
 java_test: 
 	javac -cp water.gpu.jar java/h2o/deepwater/test/InceptionCLI.java
 	java -cp water.gpu.jar:java h2o.deepwater.test.InceptionCLI $(PWD)/Inception $(PWD)/test/test2.jpg 
