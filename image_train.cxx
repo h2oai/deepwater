@@ -13,7 +13,7 @@
 
 using namespace mxnet::cpp;
 
-ImageTrain::ImageTrain(int w, int h, int c) {
+ImageTrain::ImageTrain(int w, int h, int c, int device) {
   width = w;
   height = h;
   channels = c;
@@ -23,9 +23,9 @@ ImageTrain::ImageTrain(int w, int h, int c) {
   clip_gradient = 10;
   is_built = false;
 #if MSHADOW_USE_CUDA == 0
-  ctx_dev = Context(DeviceType::kCPU, 0);
+  ctx_dev = Context(DeviceType::kCPU, device);
 #else
-  ctx_dev = Context(DeviceType::kGPU, 0);
+  ctx_dev = Context(DeviceType::kGPU, device);
 #endif
 }
 
