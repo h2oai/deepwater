@@ -157,11 +157,11 @@ public final class util {
 
     public static float[] img2pixels(String fname, int w, int h) throws IOException {
         float[] pixels = new float[w * h * 3];
-        img2pixels(fname,w,h,3,pixels,0);
+        img2pixels(fname,w,h,3,pixels,0,null);
         return pixels;
     }
 
-    public static void img2pixels(String fname, int w, int h, int channels, float[] pixels, int start) throws IOException {
+    public static void img2pixels(String fname, int w, int h, int channels, float[] pixels, int start, float[] mean) throws IOException {
         // resize the image
         BufferedImage img = ImageIO.read(new File(fname.trim()));
         BufferedImage scaledImg = new BufferedImage(w, h, img.getType());
@@ -180,12 +180,23 @@ public final class util {
                 int green = mycolor.getGreen();
                 int blue = mycolor.getBlue();
 		if (channels==1) {
-			pixels[r_idx++] = (red+green+blue)/3;
+			pixels[r_idx] = (red+green+blue)/3;
+                        if (mean!=null) {
+                            pixels[r_idx] -= mean[r_idx];
+                        }
 		} else {
-			pixels[r_idx++] = red;
-			pixels[g_idx++] = green;
-			pixels[b_idx++] = blue;
+			pixels[r_idx] = red;
+			pixels[g_idx] = green;
+			pixels[b_idx] = blue;
+                        if (mean!=null) {
+                            pixels[r_idx] -= mean[r_idx];
+                            pixels[g_idx] -= mean[g_idx];
+                            pixels[b_idx] -= mean[b_idx];
+                        }
 		}
+                r_idx++;
+                g_idx++;
+                b_idx++;
             }
         }
     }
