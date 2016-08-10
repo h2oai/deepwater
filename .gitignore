@@ -1,8 +1,8 @@
-*.java
-!util.java
-!ImageIter.java
-!test/*.java
-!java/h2o/deepwater/test/InceptionCLI.java
+backends/mxnet/*.java
+!backends/mxnet/util.java
+!backends/mxnet/ImageIter.java
+!backends/mxnet/test/*.java
+!backends/mxnet/java/h2o/deepwater/test/InceptionCLI.java
 *.o
 *.so
 *.d
@@ -23,3 +23,4 @@
 *.lst
 *.tar.gz
 *.zip
+backends/mxnet/test/*-cpp.json
