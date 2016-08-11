@@ -189,9 +189,9 @@ public final class util {
 			pixels[g_idx] = green;
 			pixels[b_idx] = blue;
                         if (mean!=null) {
-                            pixels[r_idx] -= mean[r_idx];
-                            pixels[g_idx] -= mean[g_idx];
-                            pixels[b_idx] -= mean[b_idx];
+                            pixels[r_idx] -= mean[r_idx-start];
+                            pixels[g_idx] -= mean[g_idx-start];
+                            pixels[b_idx] -= mean[b_idx-start];
                         }
 		}
                 r_idx++;
