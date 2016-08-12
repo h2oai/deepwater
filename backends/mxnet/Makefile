@@ -34,7 +34,7 @@ MXLIB := -L$(MXNET_ROOT)/lib -lmxnet
 
 LDFLAGS = -Wl,-rpath,/tmp $(MXLIB)
 
-CXXFLAGS = -std=c++11 -O3 -Wall $(INCLUDE)
+CXXFLAGS = -std=c++11 -O3 -Wall $(INCLUDE) -Wno-unused-function
 
 ifeq ($(USE_CUDA), 1)
 	CXXFLAGS += -DMSHADOW_USE_CUDA=1
