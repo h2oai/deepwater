@@ -108,6 +108,7 @@ void ImageTrain::saveModel(char * model_path) {
 }
 
 void ImageTrain::loadParam(char * param_path) {
+  NDArray::WaitAll();
   std::map<std::string, NDArray> parameters;
   NDArray::Load(std::string(param_path), nullptr, &parameters);
   for (const auto &k : parameters) {
@@ -124,6 +125,7 @@ void ImageTrain::loadParam(char * param_path) {
 }
 
 void ImageTrain::saveParam(char * param_path) {
+  NDArray::WaitAll();
   args_map = exec->arg_dict();
   std::vector<NDArrayHandle> args;
   std::vector<const char *> keys;
@@ -137,6 +139,7 @@ void ImageTrain::saveParam(char * param_path) {
     keys.push_back(("aux:" + t.first).c_str());
   }
   CHECK_EQ(MXNDArraySave(param_path, args.size(), args.data(), keys.data()), 0);
+  NDArray::WaitAll();
 }
 
 std::vector<float> ImageTrain::train(float * data, float * label) {
