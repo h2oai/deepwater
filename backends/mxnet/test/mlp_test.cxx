@@ -12,27 +12,38 @@ using namespace mxnet::cpp;
 Symbol MLPSymbol() {
   Symbol data = Symbol::Variable("data");
   Symbol data_label = Symbol::Variable("softmax_label");
+  Symbol inputdropout = Dropout("dropout0", data, 0.1);
+
   Symbol fc1_w("fc1_w"), fc1_b("fc1_b");
-  Symbol fc1 = FullyConnected("fc1", data, fc1_w, fc1_b, 128);
+  Symbol fc1 = FullyConnected("fc1", data, fc1_w, fc1_b, 4096);
   Symbol act1 = Activation("relu1", fc1, "relu");
+  Symbol dropout1 = Dropout("dropout1", fc1, 0.5);
+
   Symbol fc2_w("fc2_w"), fc2_b("fc2_b");
-  Symbol fc2 = FullyConnected("fc2", act1, fc2_w, fc2_b, 64);
+  Symbol fc2 = FullyConnected("fc2", act1, fc2_w, fc2_b, 4096);
   Symbol act2 = Activation("relu2", fc2, "relu");
+  Symbol dropout2 = Dropout("dropout2", fc2, 0.5);
+
   Symbol fc3_w("fc3_w"), fc3_b("fc3_b");
-  Symbol fc3 = FullyConnected("fc3", act2, fc3_w, fc3_b, 10);
-  return SoftmaxOutput("softmax", fc3, data_label);
+  Symbol fc3 = FullyConnected("fc3", act2, fc3_w, fc3_b, 4096);
+  Symbol act3 = Activation("relu3", fc2, "relu");
+  Symbol dropout3 = Dropout("dropout3", fc3, 0.5);
+
+  Symbol fc4_w("fc4_w"), fc4_b("fc4_b");
+  Symbol fc4 = FullyConnected("fc4", act3, fc4_w, fc4_b, 10);
+  return SoftmaxOutput("softmax", fc4, data_label);
 }
 
 int main(int argc, char const *argv[]) {
   /*setup basic configs*/
   int W = 28;
   int H = 28;
-  int batch_size = 128;
+  int batch_size = 256;
   int max_epoch = 100;
   float learning_rate = 1e-4;
-  float weight_decay = 1e-4;
+  float weight_decay = 1e-6;
 
-#if MSHADOW_USE_CUDA == 0
+#if MSHADOW_USE_CUDA == 1
   Context ctx_dev = Context(DeviceType::kGPU, 0);
 #else
   Context ctx_dev = Context(DeviceType::kCPU, 0);
