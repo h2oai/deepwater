@@ -65,3 +65,9 @@
 %}
 
 std::vector<float> loadNDArray(const char * fname);
+
+%{
+#include "include/c_api.h"
+%}
+
+int MXNotifyShutdown();
