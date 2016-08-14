@@ -61,6 +61,9 @@ public final class util {
             tmpdir = "/tmp";
         }
         String target = path(tmpdir,libname);
+        if (Files.exists(Paths.get(target))) {
+            Files.delete(Paths.get(target));
+        }
 
         InputStream in = util.class.getResourceAsStream(origin);
         checkNotNull(in,"No native lib " + origin + " found in jar. Please check installation!");
