@@ -128,17 +128,28 @@ void ImageTrain::saveParam(char * param_path) {
   NDArray::WaitAll();
   args_map = exec->arg_dict();
   std::vector<NDArrayHandle> args;
-  std::vector<const char *> keys;
+  std::vector<std::string> keys;
   for (const auto &t : args_map) {
+    if (t.first == "data" || t.first == "softmax_label")
+      continue;
     args.push_back(t.second.GetHandle());
-    keys.push_back(("arg:" + t.first).c_str());
+    keys.push_back("arg:" + t.first);
   }
   aux_map = exec->aux_dict();
   for (const auto &t : aux_map) {
+    if (t.first == "data" || t.first == "softmax_label")
+      continue;
     args.push_back(t.second.GetHandle());
-    keys.push_back(("aux:" + t.first).c_str());
+    keys.push_back("aux:" + t.first);
   }
-  CHECK_EQ(MXNDArraySave(param_path, args.size(), args.data(), keys.data()), 0);
+
+  const char * c_keys[args.size()];
+
+  for (size_t i = 0; i < args.size(); i++) {
+    c_keys[i] = keys[i].c_str();
+  }
+
+  CHECK_EQ(MXNDArraySave(param_path, args.size(), args.data(), c_keys), 0);
   NDArray::WaitAll();
 }
 
