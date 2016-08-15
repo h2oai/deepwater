@@ -59,9 +59,7 @@ def get_symbol(num_classes = 10):
     net = mx.sym.Dropout(net)
     net = convolution_module(net, kernel_size, pad_size, filter_count=filter_count * 2)
     net = convolution_module(net, kernel_size, pad_size, filter_count=filter_count * 2, up_pool=True)
-
-    net = convolution_module(net, kernel_size, pad_size, filter_count=1, batch_norm=False, act_type="")
-
     net = mx.symbol.Flatten(net)
-    unet = mx.symbol.SoftmaxOutput(data=net, name='softmax')
-    return unet
+    net = mx.symbol.FullyConnected(data=net, num_hidden=num_classes)
+    net = mx.symbol.SoftmaxOutput(data=net, name='softmax')
+    return net
