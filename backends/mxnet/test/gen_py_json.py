@@ -7,6 +7,7 @@ import importlib
 name = "inception-bn2"
 #name = "lenet"
 #name = "mlp"
+name = "unet"
 #name = "resnet"
 #name = "vgg"
 
