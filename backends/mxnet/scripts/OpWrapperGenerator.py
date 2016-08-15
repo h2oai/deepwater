@@ -241,8 +241,8 @@ def ParseAllOps():
                                               const char ***arg_descriptions,
                                               const char **key_var_num_args);
     """
-    if platform.system() == "Linux":
-      cdll.libmxnet = cdll.LoadLibrary('./mxnet/lib/libmxnet.so')
+    
+    cdll.libmxnet = cdll.LoadLibrary('../mxnet/lib/libmxnet.so')
     ListOP = cdll.libmxnet.MXSymbolListAtomicSymbolCreators
     GetOpInfo = cdll.libmxnet.MXSymbolGetAtomicSymbolInfo
     ListOP.argtypes=[POINTER(c_int), POINTER(POINTER(c_void_p))]
@@ -325,9 +325,9 @@ if __name__ == "__main__":
                  "\n"
                  "#include <string>\n"
                  "#include <vector>\n"
-                 "#include \"mxnet-cpp/base.h\"\n"
-                 "#include \"mxnet-cpp/shape.h\"\n"
-                 "#include \"mxnet-cpp/MxNetCpp.h\"\n"
+                 "#include \"base.h\"\n"
+                 "#include \"shape.h\"\n"
+                 "#include \"MxNetCpp.h\"\n"
                  "\n"
                  "namespace mxnet {\n"
                  "namespace cpp {\n"
@@ -336,6 +336,6 @@ if __name__ == "__main__":
                  "} //namespace cpp\n"
                  "} //namespace mxnet\n"
                  "#endif //ifndef _MXNETOP_H\n")
-    with open('./include/op.h', 'w') as f:
+    with open('../include/op.h', 'w') as f:
         f.write(patternStr % ParseAllOps())
     pass
