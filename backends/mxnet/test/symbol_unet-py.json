@@ -24,12 +24,14 @@
     {
       "op": "Convolution", 
       "param": {
-        "kernel": "(3, 3)", 
+        "cudnn_tune": "limited_workspace", 
+        "dilate": "(1,1)", 
+        "kernel": "(3,3)", 
         "no_bias": "False", 
         "num_filter": "32", 
         "num_group": "1", 
-        "pad": "(1, 1)", 
-        "stride": "(1, 1)", 
+        "pad": "(1,1)", 
+        "stride": "(1,1)", 
         "workspace": "2048"
       }, 
       "name": "convolution0", 
@@ -53,8 +55,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm0", 
       "inputs": [[3, 0], [4, 0], [5, 0]], 
@@ -70,10 +74,11 @@
     {
       "op": "Pooling", 
       "param": {
-        "kernel": "(2, 2)", 
-        "pad": "(0, 0)", 
+        "global_pool": "False", 
+        "kernel": "(2,2)", 
+        "pad": "(0,0)", 
         "pool_type": "max", 
-        "stride": "(2, 2)"
+        "stride": "(2,2)"
       }, 
       "name": "pooling0", 
       "inputs": [[7, 0]], 
@@ -96,12 +101,14 @@
     {
       "op": "Convolution", 
       "param": {
-        "kernel": "(3, 3)", 
+        "cudnn_tune": "limited_workspace", 
+        "dilate": "(1,1)", 
+        "kernel": "(3,3)", 
         "no_bias": "False", 
         "num_filter": "64", 
         "num_group": "1", 
-        "pad": "(1, 1)", 
-        "stride": "(1, 1)", 
+        "pad": "(1,1)", 
+        "stride": "(1,1)", 
         "workspace": "2048"
       }, 
       "name": "convolution1", 
@@ -125,8 +132,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm1", 
       "inputs": [[11, 0], [12, 0], [13, 0]], 
@@ -142,10 +151,11 @@
     {
       "op": "Pooling", 
       "param": {
-        "kernel": "(2, 2)", 
-        "pad": "(0, 0)", 
+        "global_pool": "False", 
+        "kernel": "(2,2)", 
+        "pad": "(0,0)", 
         "pool_type": "max", 
-        "stride": "(2, 2)"
+        "stride": "(2,2)"
       }, 
       "name": "pooling1", 
       "inputs": [[15, 0]], 
@@ -168,12 +178,14 @@
     {
       "op": "Convolution", 
       "param": {
-        "kernel": "(3, 3)", 
+        "cudnn_tune": "limited_workspace", 
+        "dilate": "(1,1)", 
+        "kernel": "(3,3)", 
         "no_bias": "False", 
         "num_filter": "128", 
         "num_group": "1", 
-        "pad": "(1, 1)", 
-        "stride": "(1, 1)", 
+        "pad": "(1,1)", 
+        "stride": "(1,1)", 
         "workspace": "2048"
       }, 
       "name": "convolution2", 
@@ -197,8 +209,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm2", 
       "inputs": [[19, 0], [20, 0], [21, 0]], 
@@ -214,10 +228,11 @@
     {
       "op": "Pooling", 
       "param": {
-        "kernel": "(2, 2)", 
-        "pad": "(0, 0)", 
+        "global_pool": "False", 
+        "kernel": "(2,2)", 
+        "pad": "(0,0)", 
         "pool_type": "max", 
-        "stride": "(2, 2)"
+        "stride": "(2,2)"
       }, 
       "name": "pooling2", 
       "inputs": [[23, 0]], 
@@ -240,12 +255,14 @@
     {
       "op": "Convolution", 
       "param": {
-        "kernel": "(3, 3)", 
+        "cudnn_tune": "limited_workspace", 
+        "dilate": "(1,1)", 
+        "kernel": "(3,3)", 
         "no_bias": "False", 
         "num_filter": "128", 
         "num_group": "1", 
-        "pad": "(1, 1)", 
-        "stride": "(1, 1)", 
+        "pad": "(1,1)", 
+        "stride": "(1,1)", 
         "workspace": "2048"
       }, 
       "name": "convolution3", 
@@ -269,8 +286,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm3", 
       "inputs": [[27, 0], [28, 0], [29, 0]], 
@@ -286,10 +305,11 @@
     {
       "op": "Pooling", 
       "param": {
-        "kernel": "(2, 2)", 
-        "pad": "(0, 0)", 
+        "global_pool": "False", 
+        "kernel": "(2,2)", 
+        "pad": "(0,0)", 
         "pool_type": "max", 
-        "stride": "(2, 2)"
+        "stride": "(2,2)"
       }, 
       "name": "pooling3", 
       "inputs": [[31, 0]], 
@@ -319,12 +339,14 @@
     {
       "op": "Convolution", 
       "param": {
-        "kernel": "(3, 3)", 
+        "cudnn_tune": "limited_workspace", 
+        "dilate": "(1,1)", 
+        "kernel": "(3,3)", 
         "no_bias": "False", 
         "num_filter": "256", 
         "num_group": "1", 
-        "pad": "(1, 1)", 
-        "stride": "(1, 1)", 
+        "pad": "(1,1)", 
+        "stride": "(1,1)", 
         "workspace": "2048"
       }, 
       "name": "convolution4", 
@@ -348,8 +370,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm4", 
       "inputs": [[36, 0], [37, 0], [38, 0]], 
@@ -365,10 +389,11 @@
     {
       "op": "Pooling", 
       "param": {
-        "kernel": "(2, 2)", 
-        "pad": "(0, 0)", 
+        "global_pool": "False", 
+        "kernel": "(2,2)", 
+        "pad": "(0,0)", 
         "pool_type": "max", 
-        "stride": "(2, 2)"
+        "stride": "(2,2)"
       }, 
       "name": "pooling4", 
       "inputs": [[40, 0]], 
@@ -384,12 +409,14 @@
     {
       "op": "Deconvolution", 
       "param": {
-        "kernel": "(2, 2)", 
+        "adj": "(0,0)", 
+        "kernel": "(2,2)", 
         "no_bias": "True", 
         "num_filter": "128", 
         "num_group": "1", 
-        "pad": "(0, 0)", 
-        "stride": "(2, 2)", 
+        "pad": "(0,0)", 
+        "stride": "(2,2)", 
+        "target_shape": "(0,0)", 
         "workspace": "2048"
       }, 
       "name": "deconvolution0", 
@@ -413,8 +440,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm5", 
       "inputs": [[43, 0], [44, 0], [45, 0]], 
@@ -444,12 +473,14 @@
     {
       "op": "Convolution", 
       "param": {
-        "kernel": "(3, 3)", 
+        "cudnn_tune": "limited_workspace", 
+        "dilate": "(1,1)", 
+        "kernel": "(3,3)", 
         "no_bias": "False", 
         "num_filter": "128", 
         "num_group": "1", 
-        "pad": "(1, 1)", 
-        "stride": "(1, 1)", 
+        "pad": "(1,1)", 
+        "stride": "(1,1)", 
         "workspace": "2048"
       }, 
       "name": "convolution5", 
@@ -473,8 +504,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm6", 
       "inputs": [[50, 0], [51, 0], [52, 0]], 
@@ -497,12 +530,14 @@
     {
       "op": "Deconvolution", 
       "param": {
-        "kernel": "(2, 2)", 
+        "adj": "(0,0)", 
+        "kernel": "(2,2)", 
         "no_bias": "True", 
         "num_filter": "128", 
         "num_group": "1", 
-        "pad": "(0, 0)", 
-        "stride": "(2, 2)", 
+        "pad": "(0,0)", 
+        "stride": "(2,2)", 
+        "target_shape": "(0,0)", 
         "workspace": "2048"
       }, 
       "name": "deconvolution1", 
@@ -526,8 +561,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm7", 
       "inputs": [[56, 0], [57, 0], [58, 0]], 
@@ -557,12 +594,14 @@
     {
       "op": "Convolution", 
       "param": {
-        "kernel": "(3, 3)", 
+        "cudnn_tune": "limited_workspace", 
+        "dilate": "(1,1)", 
+        "kernel": "(3,3)", 
         "no_bias": "False", 
         "num_filter": "128", 
         "num_group": "1", 
-        "pad": "(1, 1)", 
-        "stride": "(1, 1)", 
+        "pad": "(1,1)", 
+        "stride": "(1,1)", 
         "workspace": "2048"
       }, 
       "name": "convolution6", 
@@ -586,8 +625,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm8", 
       "inputs": [[63, 0], [64, 0], [65, 0]], 
@@ -617,12 +658,14 @@
     {
       "op": "Convolution", 
       "param": {
-        "kernel": "(4, 4)", 
+        "cudnn_tune": "limited_workspace", 
+        "dilate": "(1,1)", 
+        "kernel": "(4,4)", 
         "no_bias": "False", 
         "num_filter": "128", 
         "num_group": "1", 
-        "pad": "(0, 0)", 
-        "stride": "(1, 1)", 
+        "pad": "(0,0)", 
+        "stride": "(1,1)", 
         "workspace": "2048"
       }, 
       "name": "convolution7", 
@@ -646,8 +689,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm9", 
       "inputs": [[70, 0], [71, 0], [72, 0]], 
@@ -694,12 +739,14 @@
     {
       "op": "Convolution", 
       "param": {
-        "kernel": "(3, 3)", 
+        "cudnn_tune": "limited_workspace", 
+        "dilate": "(1,1)", 
+        "kernel": "(3,3)", 
         "no_bias": "False", 
         "num_filter": "128", 
         "num_group": "1", 
-        "pad": "(1, 1)", 
-        "stride": "(1, 1)", 
+        "pad": "(1,1)", 
+        "stride": "(1,1)", 
         "workspace": "2048"
       }, 
       "name": "convolution8", 
@@ -723,8 +770,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm10", 
       "inputs": [[79, 0], [80, 0], [81, 0]], 
@@ -747,12 +796,14 @@
     {
       "op": "Deconvolution", 
       "param": {
-        "kernel": "(2, 2)", 
+        "adj": "(0,0)", 
+        "kernel": "(2,2)", 
         "no_bias": "True", 
         "num_filter": "128", 
         "num_group": "1", 
-        "pad": "(0, 0)", 
-        "stride": "(2, 2)", 
+        "pad": "(0,0)", 
+        "stride": "(2,2)", 
+        "target_shape": "(0,0)", 
         "workspace": "2048"
       }, 
       "name": "deconvolution2", 
@@ -776,8 +827,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm11", 
       "inputs": [[85, 0], [86, 0], [87, 0]], 
@@ -807,12 +860,14 @@
     {
       "op": "Convolution", 
       "param": {
-        "kernel": "(3, 3)", 
+        "cudnn_tune": "limited_workspace", 
+        "dilate": "(1,1)", 
+        "kernel": "(3,3)", 
         "no_bias": "False", 
         "num_filter": "128", 
         "num_group": "1", 
-        "pad": "(1, 1)", 
-        "stride": "(1, 1)", 
+        "pad": "(1,1)", 
+        "stride": "(1,1)", 
         "workspace": "2048"
       }, 
       "name": "convolution9", 
@@ -836,8 +891,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm12", 
       "inputs": [[92, 0], [93, 0], [94, 0]], 
@@ -884,12 +941,14 @@
     {
       "op": "Convolution", 
       "param": {
-        "kernel": "(3, 3)", 
+        "cudnn_tune": "limited_workspace", 
+        "dilate": "(1,1)", 
+        "kernel": "(3,3)", 
         "no_bias": "False", 
         "num_filter": "128", 
         "num_group": "1", 
-        "pad": "(1, 1)", 
-        "stride": "(1, 1)", 
+        "pad": "(1,1)", 
+        "stride": "(1,1)", 
         "workspace": "2048"
       }, 
       "name": "convolution10", 
@@ -913,8 +972,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm13", 
       "inputs": [[101, 0], [102, 0], [103, 0]], 
@@ -937,12 +998,14 @@
     {
       "op": "Deconvolution", 
       "param": {
-        "kernel": "(2, 2)", 
+        "adj": "(0,0)", 
+        "kernel": "(2,2)", 
         "no_bias": "True", 
         "num_filter": "128", 
         "num_group": "1", 
-        "pad": "(0, 0)", 
-        "stride": "(2, 2)", 
+        "pad": "(0,0)", 
+        "stride": "(2,2)", 
+        "target_shape": "(0,0)", 
         "workspace": "2048"
       }, 
       "name": "deconvolution3", 
@@ -966,8 +1029,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm14", 
       "inputs": [[107, 0], [108, 0], [109, 0]], 
@@ -997,12 +1062,14 @@
     {
       "op": "Convolution", 
       "param": {
-        "kernel": "(3, 3)", 
+        "cudnn_tune": "limited_workspace", 
+        "dilate": "(1,1)", 
+        "kernel": "(3,3)", 
         "no_bias": "False", 
         "num_filter": "128", 
         "num_group": "1", 
-        "pad": "(1, 1)", 
-        "stride": "(1, 1)", 
+        "pad": "(1,1)", 
+        "stride": "(1,1)", 
         "workspace": "2048"
       }, 
       "name": "convolution11", 
@@ -1026,8 +1093,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm15", 
       "inputs": [[114, 0], [115, 0], [116, 0]], 
@@ -1074,12 +1143,14 @@
     {
       "op": "Convolution", 
       "param": {
-        "kernel": "(3, 3)", 
+        "cudnn_tune": "limited_workspace", 
+        "dilate": "(1,1)", 
+        "kernel": "(3,3)", 
         "no_bias": "False", 
         "num_filter": "64", 
         "num_group": "1", 
-        "pad": "(1, 1)", 
-        "stride": "(1, 1)", 
+        "pad": "(1,1)", 
+        "stride": "(1,1)", 
         "workspace": "2048"
       }, 
       "name": "convolution13", 
@@ -1103,8 +1174,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm17", 
       "inputs": [[123, 0], [124, 0], [125, 0]], 
@@ -1127,12 +1200,14 @@
     {
       "op": "Deconvolution", 
       "param": {
-        "kernel": "(2, 2)", 
+        "adj": "(0,0)", 
+        "kernel": "(2,2)", 
         "no_bias": "True", 
         "num_filter": "64", 
         "num_group": "1", 
-        "pad": "(0, 0)", 
-        "stride": "(2, 2)", 
+        "pad": "(0,0)", 
+        "stride": "(2,2)", 
+        "target_shape": "(0,0)", 
         "workspace": "2048"
       }, 
       "name": "deconvolution4", 
@@ -1156,8 +1231,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm18", 
       "inputs": [[129, 0], [130, 0], [131, 0]], 
@@ -1187,12 +1264,14 @@
     {
       "op": "Convolution", 
       "param": {
-        "kernel": "(3, 3)", 
+        "cudnn_tune": "limited_workspace", 
+        "dilate": "(1,1)", 
+        "kernel": "(3,3)", 
         "no_bias": "False", 
         "num_filter": "64", 
         "num_group": "1", 
-        "pad": "(1, 1)", 
-        "stride": "(1, 1)", 
+        "pad": "(1,1)", 
+        "stride": "(1,1)", 
         "workspace": "2048"
       }, 
       "name": "convolution14", 
@@ -1216,8 +1295,10 @@
     {
       "op": "BatchNorm", 
       "param": {
-        "eps": "1e-10", 
-        "momentum": "0.9"
+        "eps": "0.001", 
+        "fix_gamma": "True", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
       }, 
       "name": "batchnorm19", 
       "inputs": [[136, 0], [137, 0], [138, 0]], 
@@ -1272,7 +1353,10 @@
       "op": "SoftmaxOutput", 
       "param": {
         "grad_scale": "1", 
-        "multi_output": "False"
+        "ignore_label": "-1", 
+        "multi_output": "False", 
+        "normalization": "null", 
+        "use_ignore": "False"
       }, 
       "name": "softmax", 
       "inputs": [[144, 0], [145, 0]], 

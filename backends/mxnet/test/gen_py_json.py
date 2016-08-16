@@ -4,7 +4,7 @@ import importlib
 #name = "alexnet"
 #name = "googlenet"
 #name = "inception-bn"
-name = "inception-bn2"
+#name = "inception-bn2"
 #name = "lenet"
 #name = "mlp"
 name = "unet"

@@ -5,9 +5,9 @@ library(mxnet)
 #name = "inception-bn"
 #name = "lenet"
 #name = "mlp"
-#name = "unet"
+name = "unet"
 #name = "resnet"
-name = "vgg"
+#name = "vgg"
 
 source(paste("symbol_", name, ".R", sep = ''))
 
