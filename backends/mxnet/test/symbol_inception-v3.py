@@ -11,9 +11,9 @@ Szegedy, Christian, et al. "Rethinking the Inception Architecture for Computer V
 import mxnet as mx
 
 def Conv(data, num_filter, kernel=(1, 1), stride=(1, 1), pad=(0, 0), name=None, suffix=''):
-    conv = mx.sym.Convolution(data=data, num_filter=num_filter, kernel=kernel, stride=stride, pad=pad, no_bias=True, name='%s%s_conv2d' %(name, suffix))
-    bn = mx.sym.BatchNorm(data=conv, name='%s%s_batchnorm' %(name, suffix), fix_gamma=True)
-    act = mx.sym.Activation(data=bn, act_type='relu', name='%s%s_relu' %(name, suffix))
+    conv = mx.sym.Convolution(data=data, num_filter=num_filter, kernel=kernel, stride=stride, pad=pad, no_bias=True, name='conv_%s%s' %(name, suffix))
+    bn = mx.sym.BatchNorm(data=conv, name='bn_%s%s' %(name, suffix), fix_gamma=True)
+    act = mx.sym.Activation(data=bn, act_type='relu', name='relu_%s%s' %(name, suffix))
     return act
 
 
@@ -104,8 +104,6 @@ def Inception7E(data,
     # concat
     concat = mx.sym.Concat(*[tower_1x1, tower_d3_a, tower_d3_b, tower_3x3_d3_a, tower_3x3_d3_b, cproj], name='ch_concat_%s_chconcat' % name)
     return concat
-
-# In[49]:
 
 def get_symbol(num_classes=1000):
     data = mx.symbol.Variable(name="data")

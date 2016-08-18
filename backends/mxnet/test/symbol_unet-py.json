@@ -10,14 +10,14 @@
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution0_weight", 
+      "name": "pool1_conv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution0_bias", 
+      "name": "pool1_conv_bias", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -34,21 +34,21 @@
         "stride": "(1,1)", 
         "workspace": "2048"
       }, 
-      "name": "convolution0", 
+      "name": "pool1_conv", 
       "inputs": [[0, 0], [1, 0], [2, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm0_gamma", 
+      "name": "pool1_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm0_beta", 
+      "name": "pool1_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -60,14 +60,14 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm0", 
+      "name": "pool1_bn", 
       "inputs": [[3, 0], [4, 0], [5, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation0", 
+      "name": "pool1_act", 
       "inputs": [[6, 0]], 
       "backward_source_id": -1
     }, 
@@ -80,21 +80,21 @@
         "pool_type": "max", 
         "stride": "(2,2)"
       }, 
-      "name": "pooling0", 
+      "name": "pool1_max_pool", 
       "inputs": [[7, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution1_weight", 
+      "name": "pool2_conv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution1_bias", 
+      "name": "pool2_conv_bias", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -111,21 +111,21 @@
         "stride": "(1,1)", 
         "workspace": "2048"
       }, 
-      "name": "convolution1", 
+      "name": "pool2_conv", 
       "inputs": [[8, 0], [9, 0], [10, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm1_gamma", 
+      "name": "pool2_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm1_beta", 
+      "name": "pool2_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -137,14 +137,14 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm1", 
+      "name": "pool2_bn", 
       "inputs": [[11, 0], [12, 0], [13, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation1", 
+      "name": "pool2_act", 
       "inputs": [[14, 0]], 
       "backward_source_id": -1
     }, 
@@ -157,21 +157,21 @@
         "pool_type": "max", 
         "stride": "(2,2)"
       }, 
-      "name": "pooling1", 
+      "name": "pool2_max_pool", 
       "inputs": [[15, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution2_weight", 
+      "name": "pool3_conv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution2_bias", 
+      "name": "pool3_conv_bias", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -188,21 +188,21 @@
         "stride": "(1,1)", 
         "workspace": "2048"
       }, 
-      "name": "convolution2", 
+      "name": "pool3_conv", 
       "inputs": [[16, 0], [17, 0], [18, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm2_gamma", 
+      "name": "pool3_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm2_beta", 
+      "name": "pool3_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -214,14 +214,14 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm2", 
+      "name": "pool3_bn", 
       "inputs": [[19, 0], [20, 0], [21, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation2", 
+      "name": "pool3_act", 
       "inputs": [[22, 0]], 
       "backward_source_id": -1
     }, 
@@ -234,21 +234,21 @@
         "pool_type": "max", 
         "stride": "(2,2)"
       }, 
-      "name": "pooling2", 
+      "name": "pool3_max_pool", 
       "inputs": [[23, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution3_weight", 
+      "name": "pool4_conv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution3_bias", 
+      "name": "pool4_conv_bias", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -265,21 +265,21 @@
         "stride": "(1,1)", 
         "workspace": "2048"
       }, 
-      "name": "convolution3", 
+      "name": "pool4_conv", 
       "inputs": [[24, 0], [25, 0], [26, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm3_gamma", 
+      "name": "pool4_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm3_beta", 
+      "name": "pool4_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -291,14 +291,14 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm3", 
+      "name": "pool4_bn", 
       "inputs": [[27, 0], [28, 0], [29, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation3", 
+      "name": "pool4_act", 
       "inputs": [[30, 0]], 
       "backward_source_id": -1
     }, 
@@ -311,28 +311,28 @@
         "pool_type": "max", 
         "stride": "(2,2)"
       }, 
-      "name": "pooling3", 
+      "name": "pool4_max_pool", 
       "inputs": [[31, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Dropout", 
       "param": {"p": "0.5"}, 
-      "name": "dropout0", 
+      "name": "pool4_drop", 
       "inputs": [[32, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution4_weight", 
+      "name": "pool5_conv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution4_bias", 
+      "name": "pool5_conv_bias", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -349,21 +349,21 @@
         "stride": "(1,1)", 
         "workspace": "2048"
       }, 
-      "name": "convolution4", 
+      "name": "pool5_conv", 
       "inputs": [[33, 0], [34, 0], [35, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm4_gamma", 
+      "name": "pool5_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm4_beta", 
+      "name": "pool5_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -375,14 +375,14 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm4", 
+      "name": "pool5_bn", 
       "inputs": [[36, 0], [37, 0], [38, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation4", 
+      "name": "pool5_act", 
       "inputs": [[39, 0]], 
       "backward_source_id": -1
     }, 
@@ -395,14 +395,14 @@
         "pool_type": "max", 
         "stride": "(2,2)"
       }, 
-      "name": "pooling4", 
+      "name": "pool5_max_pool", 
       "inputs": [[40, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "deconvolution0_weight", 
+      "name": "pool5_conv1_deconv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -419,21 +419,21 @@
         "target_shape": "(0,0)", 
         "workspace": "2048"
       }, 
-      "name": "deconvolution0", 
+      "name": "pool5_conv1_deconv", 
       "inputs": [[41, 0], [42, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm5_gamma", 
+      "name": "pool5_conv1_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm5_beta", 
+      "name": "pool5_conv1_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -445,28 +445,28 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm5", 
+      "name": "pool5_conv1_bn", 
       "inputs": [[43, 0], [44, 0], [45, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation5", 
+      "name": "pool5_conv1_act", 
       "inputs": [[46, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution5_weight", 
+      "name": "pool5_conv1_conv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution5_bias", 
+      "name": "pool5_conv1_conv_bias", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -483,21 +483,21 @@
         "stride": "(1,1)", 
         "workspace": "2048"
       }, 
-      "name": "convolution5", 
+      "name": "pool5_conv1_conv", 
       "inputs": [[47, 0], [48, 0], [49, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm6_gamma", 
+      "name": "pool5_conv1_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm6_beta", 
+      "name": "pool5_conv1_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -509,21 +509,21 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm6", 
+      "name": "pool5_conv1_bn", 
       "inputs": [[50, 0], [51, 0], [52, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation6", 
+      "name": "pool5_conv1_act", 
       "inputs": [[53, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "deconvolution1_weight", 
+      "name": "pool5_conv2_deconv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -540,21 +540,21 @@
         "target_shape": "(0,0)", 
         "workspace": "2048"
       }, 
-      "name": "deconvolution1", 
+      "name": "pool5_conv2_deconv", 
       "inputs": [[54, 0], [55, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm7_gamma", 
+      "name": "pool5_conv2_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm7_beta", 
+      "name": "pool5_conv2_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -566,28 +566,28 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm7", 
+      "name": "pool5_conv2_bn", 
       "inputs": [[56, 0], [57, 0], [58, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation7", 
+      "name": "pool5_conv2_act", 
       "inputs": [[59, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution6_weight", 
+      "name": "pool5_conv2_conv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution6_bias", 
+      "name": "pool5_conv2_conv_bias", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -604,21 +604,21 @@
         "stride": "(1,1)", 
         "workspace": "2048"
       }, 
-      "name": "convolution6", 
+      "name": "pool5_conv2_conv", 
       "inputs": [[60, 0], [61, 0], [62, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm8_gamma", 
+      "name": "pool5_conv2_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm8_beta", 
+      "name": "pool5_conv2_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -630,28 +630,28 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm8", 
+      "name": "pool5_conv2_bn", 
       "inputs": [[63, 0], [64, 0], [65, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation8", 
+      "name": "pool5_conv2_act", 
       "inputs": [[66, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution7_weight", 
+      "name": "pool5_conv3_conv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution7_bias", 
+      "name": "pool5_conv3_conv_bias", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -668,21 +668,21 @@
         "stride": "(1,1)", 
         "workspace": "2048"
       }, 
-      "name": "convolution7", 
+      "name": "pool5_conv3_conv", 
       "inputs": [[67, 0], [68, 0], [69, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm9_gamma", 
+      "name": "pool5_conv3_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm9_beta", 
+      "name": "pool5_conv3_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -694,14 +694,14 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm9", 
+      "name": "pool5_conv3_bn", 
       "inputs": [[70, 0], [71, 0], [72, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation9", 
+      "name": "pool5_conv3_act", 
       "inputs": [[73, 0]], 
       "backward_source_id": -1
     }, 
@@ -711,28 +711,28 @@
         "dim": "1", 
         "num_args": "2"
       }, 
-      "name": "concat0", 
+      "name": "pool3_concat", 
       "inputs": [[24, 0], [74, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Dropout", 
       "param": {"p": "0.5"}, 
-      "name": "dropout1", 
+      "name": "pool3_drop", 
       "inputs": [[75, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution8_weight", 
+      "name": "pool3_conv1_conv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution8_bias", 
+      "name": "pool3_conv1_conv_bias", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -749,21 +749,21 @@
         "stride": "(1,1)", 
         "workspace": "2048"
       }, 
-      "name": "convolution8", 
+      "name": "pool3_conv1_conv", 
       "inputs": [[76, 0], [77, 0], [78, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm10_gamma", 
+      "name": "pool3_conv1_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm10_beta", 
+      "name": "pool3_conv1_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -775,21 +775,21 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm10", 
+      "name": "pool3_conv1_bn", 
       "inputs": [[79, 0], [80, 0], [81, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation10", 
+      "name": "pool3_conv1_act", 
       "inputs": [[82, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "deconvolution2_weight", 
+      "name": "pool3_conv2_deconv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -806,21 +806,21 @@
         "target_shape": "(0,0)", 
         "workspace": "2048"
       }, 
-      "name": "deconvolution2", 
+      "name": "pool3_conv2_deconv", 
       "inputs": [[83, 0], [84, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm11_gamma", 
+      "name": "pool3_conv2_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm11_beta", 
+      "name": "pool3_conv2_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -832,28 +832,28 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm11", 
+      "name": "pool3_conv2_bn", 
       "inputs": [[85, 0], [86, 0], [87, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation11", 
+      "name": "pool3_conv2_act", 
       "inputs": [[88, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution9_weight", 
+      "name": "pool3_conv2_conv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution9_bias", 
+      "name": "pool3_conv2_conv_bias", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -870,21 +870,21 @@
         "stride": "(1,1)", 
         "workspace": "2048"
       }, 
-      "name": "convolution9", 
+      "name": "pool3_conv2_conv", 
       "inputs": [[89, 0], [90, 0], [91, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm12_gamma", 
+      "name": "pool3_conv2_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm12_beta", 
+      "name": "pool3_conv2_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -896,14 +896,14 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm12", 
+      "name": "pool3_conv2_bn", 
       "inputs": [[92, 0], [93, 0], [94, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation12", 
+      "name": "pool3_conv2_act", 
       "inputs": [[95, 0]], 
       "backward_source_id": -1
     }, 
@@ -913,28 +913,28 @@
         "dim": "1", 
         "num_args": "2"
       }, 
-      "name": "concat1", 
+      "name": "pool2_concat", 
       "inputs": [[16, 0], [96, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Dropout", 
       "param": {"p": "0.5"}, 
-      "name": "dropout2", 
+      "name": "pool2_drop", 
       "inputs": [[97, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution10_weight", 
+      "name": "pool2_conv1_conv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution10_bias", 
+      "name": "pool2_conv1_conv_bias", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -951,21 +951,21 @@
         "stride": "(1,1)", 
         "workspace": "2048"
       }, 
-      "name": "convolution10", 
+      "name": "pool2_conv1_conv", 
       "inputs": [[98, 0], [99, 0], [100, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm13_gamma", 
+      "name": "pool2_conv1_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm13_beta", 
+      "name": "pool2_conv1_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -977,21 +977,21 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm13", 
+      "name": "pool2_conv1_bn", 
       "inputs": [[101, 0], [102, 0], [103, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation13", 
+      "name": "pool2_conv1_act", 
       "inputs": [[104, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "deconvolution3_weight", 
+      "name": "pool2_conv2_deconv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -1008,21 +1008,21 @@
         "target_shape": "(0,0)", 
         "workspace": "2048"
       }, 
-      "name": "deconvolution3", 
+      "name": "pool2_conv2_deconv", 
       "inputs": [[105, 0], [106, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm14_gamma", 
+      "name": "pool2_conv2_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm14_beta", 
+      "name": "pool2_conv2_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -1034,28 +1034,28 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm14", 
+      "name": "pool2_conv2_bn", 
       "inputs": [[107, 0], [108, 0], [109, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation14", 
+      "name": "pool2_conv2_act", 
       "inputs": [[110, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution11_weight", 
+      "name": "pool2_conv2_conv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution11_bias", 
+      "name": "pool2_conv2_conv_bias", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -1072,21 +1072,21 @@
         "stride": "(1,1)", 
         "workspace": "2048"
       }, 
-      "name": "convolution11", 
+      "name": "pool2_conv2_conv", 
       "inputs": [[111, 0], [112, 0], [113, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm15_gamma", 
+      "name": "pool2_conv2_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm15_beta", 
+      "name": "pool2_conv2_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -1098,14 +1098,14 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm15", 
+      "name": "pool2_conv2_bn", 
       "inputs": [[114, 0], [115, 0], [116, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation15", 
+      "name": "pool2_conv2_act", 
       "inputs": [[117, 0]], 
       "backward_source_id": -1
     }, 
@@ -1115,28 +1115,28 @@
         "dim": "1", 
         "num_args": "2"
       }, 
-      "name": "concat2", 
+      "name": "pool1_concat", 
       "inputs": [[8, 0], [118, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Dropout", 
       "param": {"p": "0.5"}, 
-      "name": "dropout3", 
+      "name": "pool1_drop", 
       "inputs": [[119, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution13_weight", 
+      "name": "pool1_conv1_conv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution13_bias", 
+      "name": "pool1_conv1_conv_bias", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -1153,21 +1153,21 @@
         "stride": "(1,1)", 
         "workspace": "2048"
       }, 
-      "name": "convolution13", 
+      "name": "pool1_conv1_conv", 
       "inputs": [[120, 0], [121, 0], [122, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm17_gamma", 
+      "name": "pool1_conv1_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm17_beta", 
+      "name": "pool1_conv1_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -1179,21 +1179,21 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm17", 
+      "name": "pool1_conv1_bn", 
       "inputs": [[123, 0], [124, 0], [125, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation17", 
+      "name": "pool1_conv1_act", 
       "inputs": [[126, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "deconvolution4_weight", 
+      "name": "pool1_conv2_deconv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -1210,21 +1210,21 @@
         "target_shape": "(0,0)", 
         "workspace": "2048"
       }, 
-      "name": "deconvolution4", 
+      "name": "pool1_conv2_deconv", 
       "inputs": [[127, 0], [128, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm18_gamma", 
+      "name": "pool1_conv2_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm18_beta", 
+      "name": "pool1_conv2_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -1236,28 +1236,28 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm18", 
+      "name": "pool1_conv2_bn", 
       "inputs": [[129, 0], [130, 0], [131, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation18", 
+      "name": "pool1_conv2_act", 
       "inputs": [[132, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution14_weight", 
+      "name": "pool1_conv2_conv_weight", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "convolution14_bias", 
+      "name": "pool1_conv2_conv_bias", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -1274,21 +1274,21 @@
         "stride": "(1,1)", 
         "workspace": "2048"
       }, 
-      "name": "convolution14", 
+      "name": "pool1_conv2_conv", 
       "inputs": [[133, 0], [134, 0], [135, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm19_gamma", 
+      "name": "pool1_conv2_bn_gamma", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
     {
       "op": "null", 
       "param": {}, 
-      "name": "batchnorm19_beta", 
+      "name": "pool1_conv2_bn_beta", 
       "inputs": [], 
       "backward_source_id": -1
     }, 
@@ -1300,46 +1300,53 @@
         "momentum": "0.9", 
         "use_global_stats": "False"
       }, 
-      "name": "batchnorm19", 
+      "name": "pool1_conv2_bn", 
       "inputs": [[136, 0], [137, 0], [138, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Activation", 
       "param": {"act_type": "relu"}, 
-      "name": "activation19", 
+      "name": "pool1_conv2_act", 
       "inputs": [[139, 0]], 
+      "backward_source_id": -1
+    }, 
+    {
+      "op": "null", 
+      "param": {}, 
+      "name": "pool1_conv3_conv_weight", 
+      "inputs": [], 
+      "backward_source_id": -1
+    }, 
+    {
+      "op": "null", 
+      "param": {}, 
+      "name": "pool1_conv3_conv_bias", 
+      "inputs": [], 
+      "backward_source_id": -1
+    }, 
+    {
+      "op": "Convolution", 
+      "param": {
+        "cudnn_tune": "limited_workspace", 
+        "dilate": "(1,1)", 
+        "kernel": "(3,3)", 
+        "no_bias": "False", 
+        "num_filter": "1", 
+        "num_group": "1", 
+        "pad": "(1,1)", 
+        "stride": "(1,1)", 
+        "workspace": "2048"
+      }, 
+      "name": "pool1_conv3_conv", 
+      "inputs": [[140, 0], [141, 0], [142, 0]], 
       "backward_source_id": -1
     }, 
     {
       "op": "Flatten", 
       "param": {}, 
-      "name": "flatten0", 
-      "inputs": [[140, 0]], 
-      "backward_source_id": -1
-    }, 
-    {
-      "op": "null", 
-      "param": {}, 
-      "name": "fullyconnected0_weight", 
-      "inputs": [], 
-      "backward_source_id": -1
-    }, 
-    {
-      "op": "null", 
-      "param": {}, 
-      "name": "fullyconnected0_bias", 
-      "inputs": [], 
-      "backward_source_id": -1
-    }, 
-    {
-      "op": "FullyConnected", 
-      "param": {
-        "no_bias": "False", 
-        "num_hidden": "10"
-      }, 
-      "name": "fullyconnected0", 
-      "inputs": [[141, 0], [142, 0], [143, 0]], 
+      "name": "flatten", 
+      "inputs": [[143, 0]], 
       "backward_source_id": -1
     }, 
     {
@@ -1350,14 +1357,8 @@
       "backward_source_id": -1
     }, 
     {
-      "op": "SoftmaxOutput", 
-      "param": {
-        "grad_scale": "1", 
-        "ignore_label": "-1", 
-        "multi_output": "False", 
-        "normalization": "null", 
-        "use_ignore": "False"
-      }, 
+      "op": "LogisticRegressionOutput", 
+      "param": {"grad_scale": "1"}, 
       "name": "softmax", 
       "inputs": [[144, 0], [145, 0]], 
       "backward_source_id": -1
@@ -1436,8 +1437,8 @@
     135, 
     137, 
     138, 
+    141, 
     142, 
-    143, 
     145
   ], 
   "heads": [[146, 0]]
