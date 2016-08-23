@@ -40,4 +40,4 @@ util.loadNativeLib("Native");
 
 An example implementation can be found in [H2O](https://github.com/h2oai/h2o-3/blob/deepwater/h2o-algos/src/test/java/hex/deepwater/DeepWaterTest.java).
 
-Note that for DeepWater to work in H2O, you'll need to build the 'deepwater' branch of h2o-3, and place the water.gpu.jar into the h2o-3/h2o-algos directory.
+Note that for DeepWater to show up as a new model type in H2O, you'll need to build the 'deepwater' branch of h2o-3, and place the water.gpu.jar into the h2o-3/h2o-algos directory.
