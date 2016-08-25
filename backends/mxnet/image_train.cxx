@@ -13,7 +13,7 @@
 
 using namespace mxnet::cpp;
 
-ImageTrain::ImageTrain(int w, int h, int c, int device) {
+ImageTrain::ImageTrain(int w, int h, int c, int device, int seed) {
   width = w;
   height = h;
   channels = c;
@@ -22,6 +22,7 @@ ImageTrain::ImageTrain(int w, int h, int c, int device) {
   momentum = 0.9;
   clip_gradient = 10;
   is_built = false;
+  setSeed(seed);
 #if MSHADOW_USE_CUDA == 0
   ctx_dev = Context(DeviceType::kCPU, device);
 #else
@@ -30,7 +31,7 @@ ImageTrain::ImageTrain(int w, int h, int c, int device) {
 }
 
 void ImageTrain::setSeed(int seed) {
-  MXRandomSeed(seed);
+  CHECK_EQ(MXRandomSeed(seed), 0);
 }
 
 void ImageTrain::setOptimizer(int n, int b) {
@@ -144,11 +145,11 @@ void ImageTrain::saveParam(char * param_path) {
   }
 
   const char * c_keys[args.size()];
-
   for (size_t i = 0; i < args.size(); i++) {
-    c_keys[i] = keys[i].c_str();
+    c_keys[i] = keys[i].c_str(); //these stay valid since keys[i] won't be modified or destroyed
   }
 
+  NDArray::WaitAll();
   CHECK_EQ(MXNDArraySave(param_path, args.size(), args.data(), c_keys), 0);
   NDArray::WaitAll();
 }
