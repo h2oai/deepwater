@@ -90,5 +90,6 @@ int main(int argc, char const *argv[]) {
     learning_rate *= 0.98;
   }
   delete exec;
+  MXNotifyShutdown();
   return 0;
 }

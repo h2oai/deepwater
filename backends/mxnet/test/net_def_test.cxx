@@ -46,5 +46,11 @@ int main() {
   Symbol resnet = ResNetSymbol(10);
   resnet.Save("./test/symbol_resnet-cpp.json");
 
+  Symbol inceptionV3 = InceptionV3Symbol(10);
+  inceptionV3.Save("./test/symbol_inception-v3-cpp.json");
+
+  Symbol unet = UNetSymbol();
+  unet.Save("./test/symbol_unet-cpp.json");
+
   return 0;
 }

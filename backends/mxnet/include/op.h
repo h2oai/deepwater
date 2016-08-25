@@ -702,6 +702,25 @@ inline Symbol FullyConnected(const std::string& symbol_name,
 }
 
 /*!
+ * \breif Apply matrix multiplication to input then add a bias. 
+ * \param symbol_name name of the resulting symbol.
+ * \param data Input data to the FullyConnectedOp. 
+ * \param num_hidden Number of hidden nodes of the output. 
+ * \param no_bias Whether to disable bias parameter. 
+ * \return new symbol
+ */
+inline Symbol FullyConnected(const std::string& symbol_name,
+                             Symbol data,
+                             int num_hidden,
+                             bool no_bias = false) {
+  return Operator("FullyConnected")
+      .SetParam("num_hidden", num_hidden)
+      .SetParam("no_bias", no_bias)
+      .SetInput("data", data)
+      .CreateSymbol(symbol_name);
+}
+
+/*!
  * \breif Apply a sparse regularization to the output a sigmoid activation function. 
  * \param symbol_name name of the resulting symbol.
  * \param data Input data. 

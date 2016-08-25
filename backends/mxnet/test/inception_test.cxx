@@ -103,5 +103,6 @@ int main(int argc, char const *argv[]) {
     LG << "Val Acc: " << acu.Get();
   }
   delete exec;
+  MXNotifyShutdown();
   return 0;
 }

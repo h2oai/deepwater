@@ -162,6 +162,19 @@ Symbol ConvFactoryBN(Symbol data, int num_filter,
   return Activation("relu_" + name + suffix, bn, "relu");
 }
 
+Symbol ConvFactoryNoBias(Symbol data, int num_filter,
+                         Shape kernel, Shape stride, Shape pad,
+                         const std::string & name,
+                         const std::string & suffix) {
+  Symbol conv_w("conv_" + name + suffix + "_weight");
+
+  Symbol conv = ConvolutionNoBias("conv_" + name + suffix, data,
+                                  conv_w, kernel,
+                                  num_filter, stride, Shape(1, 1), pad);
+  Symbol bn = BatchNorm("bn_" + name + suffix, conv);
+  return Activation("relu_" + name + suffix, bn, "relu");
+}
+
 Symbol InceptionFactoryA(Symbol data, int num_1x1, int num_3x3red,
                          int num_3x3, int num_d3x3red, int num_d3x3,
                          PoolingPoolType pool, int proj,
@@ -510,3 +523,377 @@ Symbol ResNetSymbol(int num_class, int num_level, int num_block,
   return SoftmaxOutput("softmax", fc, data_label);
 }
 
+Symbol Inception7A(Symbol data, int num_1x1, int num_3x3_red, int num_3x3_1,
+                   int num_3x3_2, int num_5x5_red, int num_5x5,
+                   PoolingPoolType pool, int proj,
+                   const std::string & name) {
+  Symbol tower_1x1 = ConvFactoryNoBias(data, num_1x1, Shape(1, 1),
+                                       Shape(1, 1),
+                                       Shape(0, 0),
+                                       name + "_conv");
+  Symbol tower_5x5 = ConvFactoryNoBias(data,
+                                       num_5x5_red, Shape(1, 1),
+                                       Shape(1, 1), Shape(0, 0),
+                                       name + "_tower", "_conv");
+  tower_5x5 = ConvFactoryNoBias(tower_5x5, num_5x5, Shape(5, 5),
+                                Shape(1, 1), Shape(2, 2),
+                                name + "_tower", "_conv_1");
+  Symbol tower_3x3 = ConvFactoryNoBias(data,
+                                       num_3x3_red, Shape(1, 1),
+                                       Shape(1, 1), Shape(0, 0),
+                                       name + "_tower_1", "_conv");
+  tower_3x3 = ConvFactoryNoBias(tower_3x3,
+                                num_3x3_1, Shape(3, 3),
+                                Shape(1, 1), Shape(1, 1),
+                                name + "_tower_1" , "_conv_1");
+  tower_3x3 = ConvFactoryNoBias(tower_3x3,
+                                num_3x3_2, Shape(3, 3),
+                                Shape(1, 1), Shape(1, 1),
+                                name + "_tower_1", "_conv_2");
+  Symbol pooling =
+      Pooling(PoolingPoolTypeValues[static_cast<int>(pool)] + "_pool_" +name + "_pool",
+              data, Shape(3, 3), pool,
+              false, Shape(1, 1), Shape(1, 1));
+  Symbol cproj = ConvFactoryNoBias(pooling,
+                                   proj, Shape(1, 1),
+                                   Shape(1, 1), Shape(0, 0),
+                                   name + "_tower_2", "_conv");
+  std::vector<Symbol> concat_lst;
+  concat_lst.push_back(tower_1x1);
+  concat_lst.push_back(tower_5x5);
+  concat_lst.push_back(tower_3x3);
+  concat_lst.push_back(cproj);
+  return Concat("ch_concat_" + name + "_chconcat", concat_lst, concat_lst.size());
+}
+
+Symbol Inception7B(Symbol data, int num_3x3, int num_d3x3_red,
+                   int num_d3x3_1, int num_d3x3_2,
+                   PoolingPoolType pool, const std::string & name) {
+  Symbol tower_3x3 = ConvFactoryNoBias(data, num_3x3,
+                                       Shape(3, 3), Shape(2, 2), Shape(0, 0),
+                                       name + "_conv");
+  Symbol tower_d3x3 = ConvFactoryNoBias(data, num_d3x3_red,
+                                        Shape(1, 1), Shape(1, 1), Shape(0, 0),
+                                        name + "_tower", "_conv");
+  tower_d3x3 = ConvFactoryNoBias(tower_d3x3, num_d3x3_1,
+                                 Shape(3, 3), Shape(1, 1), Shape(1, 1),
+                                 name + "_tower", "_conv_1");
+  tower_d3x3 = ConvFactoryNoBias(tower_d3x3, num_d3x3_2,
+                                 Shape(3, 3), Shape(2, 2), Shape(0, 0),
+                                 name + "_tower", "_conv_2");
+  Symbol pooling = Pooling("max_pool_" + name + "_pool",
+                           data, Shape(3, 3),
+                           PoolingPoolType::max, false,
+                           Shape(2, 2), Shape(0, 0));
+  std::vector<Symbol> lst;
+  lst.push_back(tower_3x3);
+  lst.push_back(tower_d3x3);
+  lst.push_back(pooling);
+  return Concat("ch_concat_" + name + "_chconcat", lst, lst.size());
+}
+
+Symbol Inception7C(Symbol data, int num_1x1, int num_d7_red, int num_d7_1,
+                   int num_d7_2, int num_q7_red, int num_q7_1,
+                   int num_q7_2, int num_q7_3, int num_q7_4,
+                   PoolingPoolType pool,
+                   int proj, const std::string & name) {
+  Symbol tower_1x1 = ConvFactoryNoBias(data, num_1x1, Shape(1, 1),
+                                       Shape(1, 1), Shape(0, 0),
+                                       name + "_conv");
+  Symbol tower_d7 = ConvFactoryNoBias(data, num_d7_red, Shape(1, 1),
+                                      Shape(1, 1), Shape(0, 0),
+                                      name + "_tower", "_conv");
+  tower_d7 = ConvFactoryNoBias(tower_d7, num_d7_1, Shape(1, 7),
+                               Shape(1, 1), Shape(0, 3),
+                               name + "_tower", "_conv_1");
+  tower_d7 = ConvFactoryNoBias(tower_d7, num_d7_2, Shape(7, 1),
+                               Shape(1, 1), Shape(3, 0),
+                               name + "_tower", "_conv_2");
+  Symbol tower_q7 = ConvFactoryNoBias(data, num_q7_red, Shape(1, 1),
+                                      Shape(1, 1), Shape(0, 0),
+                                      name + "_tower_1", "_conv");
+  tower_q7 = ConvFactoryNoBias(tower_q7, num_q7_1, Shape(7, 1),
+                               Shape(1, 1), Shape(3, 0),
+                               name + "_tower_1", "_conv_1");
+  tower_q7 = ConvFactoryNoBias(tower_q7, num_q7_2, Shape(1, 7),
+                               Shape(1, 1), Shape(0, 3),
+                               name + "_tower_1", "_conv_2");
+  tower_q7 = ConvFactoryNoBias(tower_q7, num_q7_3, Shape(7, 1),
+                               Shape(1, 1), Shape(3, 0),
+                               name + "_tower_1", "_conv_3");
+  tower_q7 = ConvFactoryNoBias(tower_q7, num_q7_4, Shape(1, 7),
+                               Shape(1, 1), Shape(0, 3),
+                               name + "_tower_1", "_conv_4");
+  Symbol pooling =
+      Pooling(PoolingPoolTypeValues[static_cast<int>(pool)] + "_pool_" +name + "_pool",
+              data, Shape(3, 3), pool, false,
+              Shape(1, 1), Shape(1, 1));
+  Symbol cproj = ConvFactoryNoBias(pooling, proj, Shape(1, 1),
+                                   Shape(1, 1), Shape(0, 0),
+                                   name + "_tower_2", "_conv");
+  // concat
+  std::vector<Symbol> lst;
+  lst.push_back(tower_1x1);
+  lst.push_back(tower_d7);
+  lst.push_back(tower_q7);
+  lst.push_back(cproj);
+  return Concat("ch_concat_" + name + "_chconcat", lst, lst.size());
+}
+
+Symbol Inception7D(Symbol data,
+                   int num_3x3_red, int num_3x3, int num_d7_3x3_red,
+                   int num_d7_1, int num_d7_2, int num_d7_3x3,
+                   PoolingPoolType pool,
+                   const std::string & name) {
+  Symbol tower_3x3 = ConvFactoryNoBias(data, num_3x3_red, Shape(1, 1),
+                                       Shape(1, 1), Shape(0, 0),
+                                       name + "_tower", "_conv");
+  tower_3x3 = ConvFactoryNoBias(tower_3x3, num_3x3, Shape(3, 3),
+                                Shape(2, 2), Shape(0, 0),
+                                name + "_tower", "_conv_1");
+  Symbol tower_d7_3x3 = ConvFactoryNoBias(data, num_d7_3x3_red, Shape(1, 1),
+                                          Shape(1, 1), Shape(0, 0),
+                                          name + "_tower_1", "_conv");
+  tower_d7_3x3 = ConvFactoryNoBias(tower_d7_3x3, num_d7_1, Shape(1, 7),
+                                   Shape(1, 1), Shape(0, 3),
+                                   name + "_tower_1", "_conv_1");
+  tower_d7_3x3 = ConvFactoryNoBias(tower_d7_3x3, num_d7_2, Shape(7, 1),
+                                   Shape(1, 1), Shape(3, 0),
+                                   name + "_tower_1", "_conv_2");
+  tower_d7_3x3 = ConvFactoryNoBias(tower_d7_3x3, num_d7_3x3, Shape(3, 3),
+                                   Shape(2, 2), Shape(0, 0),
+                                   name + "_tower_1", "_conv_3");
+  Symbol pooling =
+      Pooling(PoolingPoolTypeValues[static_cast<int>(pool)] + "_pool_" +name + "_pool",
+              data, Shape(3, 3), pool, false, Shape(2, 2));
+  // concat
+  std::vector<Symbol> lst;
+  lst.push_back(tower_3x3);
+  lst.push_back(tower_d7_3x3);
+  lst.push_back(pooling);
+  return Concat("ch_concat_" + name + "_chconcat", lst, lst.size());
+}
+
+Symbol Inception7E(Symbol data,
+                   int num_1x1, int num_d3_red, int num_d3_1,
+                   int num_d3_2, int num_3x3_d3_red, int num_3x3,
+                   int num_3x3_d3_1, int num_3x3_d3_2,
+                   PoolingPoolType pool,
+                   int proj, const std::string & name) {
+  Symbol tower_1x1 = ConvFactoryNoBias(data, num_1x1, Shape(1, 1),
+                                       Shape(1, 1), Shape(0, 0),
+                                       name + "_conv");
+  Symbol tower_d3 = ConvFactoryNoBias(data, num_d3_red, Shape(1, 1),
+                                      Shape(1, 1), Shape(0, 0),
+                                      name + "_tower", "_conv");
+  Symbol tower_d3_a = ConvFactoryNoBias(tower_d3, num_d3_1, Shape(1, 3),
+                                        Shape(1, 1), Shape(0, 1),
+                                        name + "_tower", "_mixed_conv");
+  Symbol tower_d3_b = ConvFactoryNoBias(tower_d3, num_d3_2, Shape(3, 1),
+                                        Shape(1, 1), Shape(1, 0),
+                                        name + "_tower", "_mixed_conv_1");
+  Symbol tower_3x3_d3 = ConvFactoryNoBias(data, num_3x3_d3_red, Shape(1, 1),
+                                          Shape(1, 1), Shape(0, 0),
+                                          name + "_tower_1", "_conv");
+  tower_3x3_d3 = ConvFactoryNoBias(tower_3x3_d3, num_3x3, Shape(3, 3),
+                                   Shape(1, 1), Shape(1, 1),
+                                   name + "_tower_1", "_conv_1");
+  Symbol tower_3x3_d3_a = ConvFactoryNoBias(tower_3x3_d3, num_3x3_d3_1, Shape(1, 3),
+                                            Shape(1, 1), Shape(0, 1),
+                                            name + "_tower_1", "_mixed_conv");
+  Symbol tower_3x3_d3_b = ConvFactoryNoBias(tower_3x3_d3, num_3x3_d3_2, Shape(3, 1),
+                                            Shape(1, 1), Shape(1, 0),
+                                            name + "_tower_1", "_mixed_conv_1");
+  Symbol pooling =
+      Pooling(PoolingPoolTypeValues[static_cast<int>(pool)] + "_pool_" +name + "_pool", data,
+              Shape(3, 3), pool, false,
+              Shape(1, 1), Shape(1, 1));
+  Symbol cproj = ConvFactoryNoBias(pooling, proj, Shape(1, 1),
+                                   Shape(1, 1), Shape(0, 0),
+                                   name + "_tower_2", "_conv");
+  // concat
+  std::vector<Symbol> lst;
+  lst.push_back(tower_1x1);
+  lst.push_back(tower_d3_a);
+  lst.push_back(tower_d3_b);
+  lst.push_back(tower_3x3_d3_a);
+  lst.push_back(tower_3x3_d3_b);
+  lst.push_back(cproj);
+  return Concat("ch_concat_" + name + "_chconcat", lst, lst.size());
+}
+
+mxnet::cpp::Symbol InceptionV3Symbol(int num_classes) {
+  Symbol data = Symbol::Variable("data");
+  Symbol data_label = Symbol::Variable("softmax_label");
+  // stage 1
+  Symbol conv = ConvFactoryNoBias(data, 32, Shape(3, 3), Shape(2, 2),
+                                  Shape(0, 0), "conv");
+  Symbol conv_1 = ConvFactoryNoBias(conv, 32, Shape(3, 3),
+                                    Shape(1, 1), Shape(0, 0),
+                                    "conv_1");
+  Symbol conv_2 = ConvFactoryNoBias(conv_1, 64, Shape(3, 3), Shape(1, 1),
+                                    Shape(1, 1), "conv_2");
+  Symbol pool = Pooling("pool", conv_2, Shape(3, 3),
+                        PoolingPoolType::max,
+                        false, Shape(2, 2), Shape(0, 0));
+  // stage 2
+  Symbol conv_3 = ConvFactoryNoBias(pool, 80, Shape(1, 1),
+                                    Shape(1, 1), Shape(0, 0),
+                                    "conv_3");
+  Symbol conv_4 = ConvFactoryNoBias(conv_3, 192, Shape(3, 3),
+                                    Shape(1, 1), Shape(0, 0),
+                                    "conv_4");
+  Symbol pool1 = Pooling("pool1", conv_4,
+                         Shape(3, 3), PoolingPoolType::max, false,
+                         Shape(2, 2));
+  // stage 3
+  Symbol in3a = Inception7A(pool1, 64, 64, 96, 96, 48, 64,
+                            PoolingPoolType::avg, 32, "mixed");
+  Symbol in3b = Inception7A(in3a, 64, 64, 96, 96, 48, 64,
+                            PoolingPoolType::avg, 64, "mixed_1");
+  Symbol in3c = Inception7A(in3b, 64, 64, 96, 96, 48, 64,
+                            PoolingPoolType::avg, 64, "mixed_2");
+  Symbol in3d = Inception7B(in3c, 384, 64, 96, 96,
+                            PoolingPoolType::max, "mixed_3");
+  // stage 4
+  Symbol in4a = Inception7C(in3d, 192, 128, 128, 192, 128, 128, 128, 128, 192,
+                            PoolingPoolType::avg, 192, "mixed_4");
+  Symbol in4b = Inception7C(in4a, 192, 160, 160, 192, 160, 160, 160, 160, 192,
+                            PoolingPoolType::avg, 192, "mixed_5");
+  Symbol in4c = Inception7C(in4b, 192, 160, 160, 192, 160, 160, 160, 160, 192,
+                            PoolingPoolType::avg, 192, "mixed_6");
+  Symbol in4d = Inception7C(in4c, 192, 192, 192, 192, 192, 192, 192, 192, 192,
+                            PoolingPoolType::avg, 192, "mixed_7");
+  Symbol in4e = Inception7D(in4d, 192, 320, 192, 192, 192, 192,
+                            PoolingPoolType::max, "mixed_8");
+  // stage 5
+  Symbol in5a = Inception7E(in4e, 320, 384, 384, 384, 448, 384, 384, 384,
+                            PoolingPoolType::avg, 192, "mixed_9");
+  Symbol in5b = Inception7E(in5a, 320, 384, 384, 384, 448, 384, 384, 384,
+                            PoolingPoolType::max, 192, "mixed_10");
+  // pool
+  pool = Pooling("global_pool", in5b, Shape(8, 8),
+                 PoolingPoolType::avg, false);
+  Symbol flatten = Flatten("flatten", pool);
+  Symbol fc1 = FullyConnected("fc1", flatten, num_classes);
+  return SoftmaxOutput("softmax", fc1, data_label);
+}
+
+Symbol ConvModule(const std::string & name,
+                  Symbol net, Shape kernel_size,
+                  Shape pad_size, int filter_count,
+                  Shape stride, int work_space,
+                  bool batch_norm, bool down_pool,
+                  bool up_pool, const std::string & act_type,
+                  bool convolution) {
+  if (up_pool) {
+    net = Operator("Deconvolution")
+        .SetParam("kernel", Shape(2, 2))
+        .SetParam("num_filter", filter_count)
+        .SetParam("stride", Shape(2, 2))
+        .SetParam("pad", Shape(0, 0))
+        .SetParam("workspace", work_space)
+        .SetInput("data", net)
+        .CreateSymbol(name + "_deconv");
+    net = BatchNorm(name + "_bn", net);
+    if (act_type != "") {
+      net = Activation(name + "_act", net, act_type);
+    }
+  }
+
+  if (convolution) {
+    net = Operator("Convolution")
+        .SetParam("kernel", kernel_size)
+        .SetParam("num_filter", filter_count)
+        .SetParam("stride", stride)
+        .SetParam("pad", pad_size)
+        .SetParam("workspace", work_space)
+        .SetInput("data", net)
+        .CreateSymbol(name + "_conv");
+  }
+
+  if (batch_norm) {
+    net = BatchNorm(name + "_bn", net);
+  }
+
+  if (act_type != "") {
+    net = Activation(name + "_act", net, act_type);
+  }
+
+  if (down_pool) {
+    net = Operator("Pooling")
+        .SetParam("kernel", Shape(2, 2))
+        .SetParam("pool_type", "max")
+        .SetParam("stride", Shape(2, 2))
+        .SetInput("data", net)
+        .CreateSymbol(name + "_max_pool");
+  }
+
+  return net;
+}
+
+Symbol UNetSymbol() {
+  Symbol data = Symbol::Variable("data");
+  Symbol data_label = Symbol::Variable("softmax_label");
+  Shape kernel_size = Shape(3, 3);
+  Shape pad_size = Shape(1, 1);
+  int filter_count = 32;
+  Symbol pool1 = ConvModule("pool1", data, kernel_size, pad_size,
+                            filter_count, Shape(1, 1),
+                            2048, true, true, false,
+                            "relu", true);
+  Symbol net = pool1;
+  Symbol pool2 = ConvModule("pool2", net, kernel_size, pad_size,
+                            filter_count * 2, Shape(1, 1),
+                            2048, true, true);
+  net = pool2;
+  Symbol pool3 = ConvModule("pool3", net, kernel_size, pad_size,
+                            filter_count * 4, Shape(1, 1),
+                            2048, true, true);
+  net = pool3;
+  Symbol pool4 = ConvModule("pool4", net, kernel_size, pad_size,
+                            filter_count * 4, Shape(1, 1),
+                            2048, true, true);
+  net = pool4;
+  net = Dropout("pool4_drop", net);
+  Symbol pool5 = ConvModule("pool5", net, kernel_size, pad_size,
+                            filter_count * 8, Shape(1, 1),
+                            2048, true, true);
+  net = pool5;
+  net = ConvModule("pool5_conv1", net, kernel_size, pad_size,
+                   filter_count * 4, Shape(1, 1),
+                   2048, true, false, true);
+  net = ConvModule("pool5_conv2", net, kernel_size, pad_size,
+                   filter_count * 4, Shape(1, 1),
+                   2048, true, false, true);
+  net = ConvModule("pool5_conv3", net, Shape(4, 4), Shape(0, 0), filter_count * 4);
+  std::vector<Symbol> lst;
+  lst.push_back(pool3);
+  lst.push_back(net);
+  net = Concat("pool3_concat", lst, lst.size());
+  net = Dropout("pool3_drop", net);
+  net = ConvModule("pool3_conv1", net, kernel_size, pad_size, filter_count * 4);
+  net = ConvModule("pool3_conv2", net, kernel_size, pad_size, filter_count * 4,
+                   Shape(1, 1), 2048, true, false, true);
+
+  lst.clear();
+  lst.push_back(pool2);
+  lst.push_back(net);
+  net = Concat("pool2_concat", lst, lst.size());
+  net = Dropout("pool2_drop", net);
+  net = ConvModule("pool2_conv1", net, kernel_size, pad_size, filter_count * 4);
+  net = ConvModule("pool2_conv2", net, kernel_size, pad_size, filter_count * 4,
+                   Shape(1, 1), 2048, true, false, true);
+  lst.clear();
+  lst.push_back(pool1);
+  lst.push_back(net);
+  net = Concat("pool1_concat", lst, lst.size());
+  net = Dropout("pool1_drop", net);
+  net = ConvModule("pool1_conv1", net, kernel_size, pad_size, filter_count * 2);
+  net = ConvModule("pool1_conv2", net, kernel_size, pad_size, filter_count * 2,
+                   Shape(1, 1), 2048, true, false, true);
+  net = ConvModule("pool1_conv3", net, kernel_size, pad_size, 1, Shape(1, 1),
+                   2048, false, false, false, "");
+  net = Flatten("flatten", net);
+  return LogisticRegressionOutput("softmax", net, data_label);
+}

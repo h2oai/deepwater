@@ -107,5 +107,6 @@ int main(int argc, char const *argv[]) {
     }
     LG << "Val acc: " << acu.Get();
   }
+  MXNotifyShutdown();
   return 0;
 }
