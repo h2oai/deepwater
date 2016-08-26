@@ -112,6 +112,8 @@ void ImageTrain::loadParam(char * param_path) {
   NDArray::WaitAll();
   std::map<std::string, NDArray> parameters;
   NDArray::Load(std::string(param_path), nullptr, &parameters);
+
+  // only restored named symbols (both aux and arg)
   for (const auto &k : parameters) {
     if (k.first.substr(0, 4) == "aux:") {
       auto name = k.first.substr(4, k.first.size() - 4);
@@ -122,6 +124,11 @@ void ImageTrain::loadParam(char * param_path) {
       args_map[name] = k.second.Copy(ctx_dev);
     }
   }
+  
+  mxnet_sym.InferArgsMap(ctx_dev, &args_map, args_map);
+  exec = std::unique_ptr<Executor>(mxnet_sym.SimpleBind(ctx_dev, args_map));
+  args_map = exec->arg_dict();
+
   NDArray::WaitAll();
 }
 
