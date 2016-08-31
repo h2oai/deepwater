@@ -8,12 +8,12 @@
 
 ```bash
 git submodule update --init --recursive
-cd mxnet
+cd backends/mxnet/mxnet
 cp make/config.mk .
 ### EDIT config.mk - USE_OPENCV=0, USE_CUDA=1, USE_CUDA_PATH=...
 make -j8
 cd ..
-make pkg # will generate a `jar` file including native code.
+make -j8 # will generate a jar file water.gpu.jar that includes native code
 ```
 
 ### Macosx
