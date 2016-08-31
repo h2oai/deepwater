@@ -88,6 +88,10 @@ inception_test: $(MXNET_OBJS) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) ./test/inception_test.cxx -o inception_test.o
 	$(CXX) -o inception_test inception_test.o $(MXNET_OBJS) $(MXLIB)
 
+inception_test2: $(MXNET_OBJS) clean_test
+	$(CXX) -c -fPIC $(CXXFLAGS) ./test/inception_test2.cxx -o inception_test2.o
+	$(CXX) -o inception_test2 inception_test2.o $(MXNET_OBJS) $(MXLIB)
+
 net_def_test: $(MXNET_OBJS) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) ./test/net_def_test.cxx -o net_def_test.o
 	$(CXX) -o net_def_test net_def_test.o $(MXNET_OBJS) $(MXLIB)
