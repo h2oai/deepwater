@@ -17,7 +17,7 @@ int main(int argc, char const *argv[]) {
   float weight_decay = 1e-4;
 
   MXRandomSeed(42);
-  auto inception_bn_net = InceptionSymbol(10);
+  auto inception_bn_net = InceptionSymbol2(10);
 
   std::map<std::string, NDArray> args_map;
   std::map<std::string, NDArray> aux_map;
