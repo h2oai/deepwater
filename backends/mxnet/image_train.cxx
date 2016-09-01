@@ -74,7 +74,7 @@ void ImageTrain::buildNet(int n, int b, char * n_name) {
          net_name == "resnet");
 
   if (net_name == "inception_bn") {
-    mxnet_sym = InceptionSymbol2(n);
+    mxnet_sym = InceptionSymbol(n);
   } else if (net_name == "vgg") {
     mxnet_sym = VGGSymbol(n);
   } else if (net_name == "lenet") {
