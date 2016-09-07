@@ -7,43 +7,46 @@ using namespace std;
 
 int main() {
     int classes = 10;
-    int batch_size = 32;
-    char* network = "inception_bn";
+    int batch_size = 4;
+    vector<string> networks={"lenet","alexnet","googlenet","inception_bn","resnet","vgg"};
 
-    string md5_first;
-    {
-        ImageTrain imageTrain = ImageTrain();
-        imageTrain.buildNet(classes,batch_size,network);
+    for(string& network : networks) {
+        string md5_first;
+        {
+            ImageTrain imageTrain = ImageTrain();
+            imageTrain.buildNet(classes,batch_size,(char*)network.c_str());
 
-        imageTrain.saveModel("/tmp/model");
-        imageTrain.saveParam("/tmp/params");
+            imageTrain.saveModel("/tmp/model");
+            imageTrain.saveParam("/tmp/params");
 
-        std::system("md5sum /tmp/model /tmp/params > /tmp/log.txt");
-        std::ifstream ifs("/tmp/log.txt");
-        md5_first=string((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+            assert(std::system("md5sum /tmp/model /tmp/params > /tmp/log.txt")==0);
+            std::ifstream ifs("/tmp/log.txt");
+            md5_first=string((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+        }
+
+        string md5_second;
+        {
+            ImageTrain imageTrain = ImageTrain();
+            imageTrain.loadModel("/tmp/model");
+            imageTrain.setOptimizer(classes,batch_size);
+            imageTrain.loadParam("/tmp/params");
+
+            imageTrain.saveModel("/tmp/model");
+            imageTrain.saveParam("/tmp/params");
+
+            assert(std::system("md5sum /tmp/model /tmp/params > /tmp/log.txt")==0);
+            std::ifstream ifs("/tmp/log.txt");
+            md5_second=string((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+        }
+
+        std::cout << "\n" << network << " : ";
+        if (md5_first.compare(md5_second)!=0)
+            std::cout << "FAIL" << std::endl; 
+        else
+            std::cout << "PASS" << std::endl; 
+        std::cout << md5_first << "\n" << md5_second << "\n";
+
     }
-
-    string md5_second;
-    {
-        ImageTrain imageTrain = ImageTrain();
-        imageTrain.loadModel("/tmp/model");
-        imageTrain.setOptimizer(classes,batch_size);
-        imageTrain.loadParam("/tmp/params");
-
-        imageTrain.saveModel("/tmp/model");
-        imageTrain.saveParam("/tmp/params");
-
-        std::system("md5sum /tmp/model /tmp/params > /tmp/log.txt");
-        std::ifstream ifs("/tmp/log.txt");
-        md5_second=string((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
-    }
-
-    std::cout << md5_first << std::endl; 
-    std::cout << md5_second << std::endl; 
-    if (md5_first.compare(md5_second)!=0)
-        std::cout << "FAIL" << std::endl; 
-    else
-        std::cout << "PASS" << std::endl; 
 
     MXNotifyShutdown();
 }
