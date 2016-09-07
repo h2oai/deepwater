@@ -35,6 +35,7 @@ MXLIB := -L$(MXNET_ROOT)/lib -lmxnet
 LDFLAGS = -Wl,-rpath,/tmp $(MXLIB)
 
 CXXFLAGS = -std=c++11 -O3 -Wall $(INCLUDE) -Wno-unused-function
+#CXXFLAGS = -std=c++11 -O0 -g -Wall $(INCLUDE) -Wno-unused-function
 
 ifeq ($(USE_CUDA), 1)
 	CXXFLAGS += -DMSHADOW_USE_CUDA=1
@@ -112,6 +113,12 @@ endif
 	cp ./test/swigtest.java ./test/swig
 	javac ./test/swig/*.java
 	java -Djava.library.path="./test/swig" test/swig/swigtest
+
+load_save_test: $(MXNET_OBJS) clean_test
+	$(CXX) -c -fPIC $(CXXFLAGS) image_train.cxx -o image_train.o
+	$(CXX) -c -fPIC $(CXXFLAGS) ./test/load_save_test.cxx -o load_save_test.o
+	$(CXX) -o load_save_test load_save_test.o image_train.o $(MXNET_OBJS) $(MXLIB)
+
 
 java_test: pkg
 	javac -cp water.gpu.jar java/h2o/deepwater/test/InceptionCLI.java
