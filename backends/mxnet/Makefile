@@ -119,6 +119,10 @@ load_save_test: $(MXNET_OBJS) clean_test
 	$(CXX) -c -fPIC $(CXXFLAGS) ./test/load_save_test.cxx -o load_save_test.o
 	$(CXX) -o load_save_test load_save_test.o image_train.o $(MXNET_OBJS) $(MXLIB)
 
+seed_test: $(MXNET_OBJS) clean_test
+	$(CXX) -c -fPIC $(CXXFLAGS) image_train.cxx -o image_train.o
+	$(CXX) -c -fPIC $(CXXFLAGS) ./test/seed_test.cxx -o seed_test.o
+	$(CXX) -o seed_test seed_test.o image_train.o $(MXNET_OBJS) $(MXLIB)
 
 java_test: pkg
 	javac -cp water.gpu.jar java/h2o/deepwater/test/InceptionCLI.java
