@@ -16,8 +16,8 @@ using namespace mxnet::cpp;
 #undef MYDEBUG
 
 #ifdef MYDEBUG
-static int count=0;
-const double C=3;
+static int count = 0;
+const double C = 3;
 #endif
 
 ImageTrain::ImageTrain(int w, int h, int c, int device, int seed, bool gpu) {
@@ -33,9 +33,9 @@ ImageTrain::ImageTrain(int w, int h, int c, int device, int seed, bool gpu) {
 #if MSHADOW_USE_CUDA == 0
   ctx_dev = Context(DeviceType::kCPU, device);
 #else
-  if (!gpu) 
+  if (!gpu)
     ctx_dev = Context(DeviceType::kCPU, device);
-  else 
+  else
     ctx_dev = Context(DeviceType::kGPU, device);
 #endif
 }
@@ -59,13 +59,12 @@ void ImageTrain::setOptimizer(int n, int b) {
   args_map["softmax_label"] = NDArray(Shape(batch_size), ctx_dev);
   mxnet_sym.InferArgsMap(ctx_dev, &args_map, args_map);
 
-  //update the executor to use the new args_map and aux_map
-  exec = std::unique_ptr<Executor>(mxnet_sym.SimpleBind(ctx_dev, 
+  // update the executor to use the new args_map and aux_map
+  exec = std::unique_ptr<Executor>(mxnet_sym.SimpleBind(ctx_dev,
         args_map,
         std::map<std::string, NDArray>(),
-        std::map<std::string, OpReqType>(), 
-        aux_map
-        ));
+        std::map<std::string, OpReqType>(),
+        aux_map));
 
   args_map = exec->arg_dict();
   Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);
@@ -131,83 +130,90 @@ void ImageTrain::loadParam(char * param_path) {
   NDArray::Load(std::string(param_path), nullptr, &parameters);
 
   // only restored named symbols (both aux and arg)
-  size_t args=0;
-  size_t aux=0;
+  size_t args = 0;
+  size_t aux = 0;
   for (const auto &k : parameters) {
-    if (k.first.substr(0, 4)=="arg:") {
+    if (k.first.substr(0, 4) == "arg:") {
       args++;
       auto name = k.first.substr(4, k.first.size() - 4);
       args_map[name] = k.second.Copy(ctx_dev);
+      k.second.WaitToRead();
 
 #ifdef MYDEBUG
-      //immediately bring the values back to the CPU and check
+      // immediately bring the values back to the CPU and check
       std::vector<mx_float> vals(k.second.Size());
       MXNDArraySyncCopyToCPU(k.second.GetHandle(), &vals[0], vals.size());
-      for (size_t j=0;j<vals.size();++j) {
-        if (j==0 && vals[j]!=C) {
-          std::cerr << "load mismatch arg: pos " << j << ": " << vals[j] << " != " << C << std::endl;
+      for (size_t j = 0; j < vals.size(); ++j) {
+        if (j == 0 && vals[j] != C) {
+          std::cerr << "load mismatch arg: pos " << j << ": "
+                    << vals[j] << " != " << C << std::endl;
         }
       }
 #endif
     }
-    if (k.first.substr(0, 4)=="aux:") {
+    if (k.first.substr(0, 4) == "aux:") {
       aux++;
       auto name = k.first.substr(4, k.first.size() - 4);
       aux_map[name] = k.second.Copy(ctx_dev);
+      k.second.WaitToRead();
 
 #ifdef MYDEBUG
-      //immediately bring the values back to the CPU and check
+      // immediately bring the values back to the CPU and check
       std::vector<mx_float> vals(k.second.Size());
       MXNDArraySyncCopyToCPU(k.second.GetHandle(), &vals[0], vals.size());
-      for (size_t j=0;j<vals.size();++j) {
-        if (j==0 && vals[j]!=C) {
-          std::cerr << "load mismatch aux: pos " << j << ": " << vals[j] << " != " << C << std::endl;
+      for (size_t j = 0; j < vals.size(); ++j) {
+        if (j == 0 && vals[j] != C) {
+          std::cerr << "load mismatch aux: pos " << j << ": "
+                    << vals[j] << " != " << C << std::endl;
         }
       }
 #endif
     }
   }
-  if (args+2 != args_map.size()) { //all but "data" and "softmax_label"
-    std::cerr << "Expected to fill up " << args_map.size()-2 << " arg arrays, but only filled " << args << std::endl;
+  if (args+2 != args_map.size()) {  // all but "data" and "softmax_label"
+    std::cerr << "Expected to fill up " << args_map.size() - 2
+              << " arg arrays, but only filled " << args << std::endl;
     exit(-1);
   }
   if (aux != aux_map.size()) {
-    std::cerr << "Expected to fill up " << aux_map.size() << " aux arrays, but only filled " << aux << std::endl;
+    std::cerr << "Expected to fill up " << aux_map.size()
+              << " aux arrays, but only filled " << aux << std::endl;
     exit(-1);
   }
-  //update the executor to use the new args_map and aux_map
-  exec = std::unique_ptr<Executor>(mxnet_sym.SimpleBind(ctx_dev, 
+  // update the executor to use the new args_map and aux_map
+  exec = std::unique_ptr<Executor>(mxnet_sym.SimpleBind(ctx_dev,
         args_map,
         std::map<std::string, NDArray>(),
-        std::map<std::string, OpReqType>(), 
-        aux_map
-        ));
+        std::map<std::string, OpReqType>(),
+        aux_map));
 
 #ifdef MYDEBUG
   // verify arg
   for (const auto &t : args_map) {
-    if (t.first=="data" || t.first=="softmax_label")
+    if (t.first == "data" || t.first == "softmax_label")
       continue;
     std::vector<mx_float> vals(t.second.Size());
     MXNDArraySyncCopyToCPU(t.second.GetHandle(), &vals[0], vals.size());
     // second save: check that we are saving the correct values
-    for (size_t j=0;j<vals.size();++j) {
-      if (j==0 && vals[j]!=C) {
-        std::cerr << "load2 arg mismatch for " << t.first << ": pos " << j << ": " << vals[j] << " != " << C << std::endl;
+    for (size_t j = 0; j < vals.size(); ++j) {
+      if (j == 0 && vals[j] != C) {
+        std::cerr << "load2 arg mismatch for " << t.first << ": pos "
+                  << j << ": " << vals[j] << " != " << C << std::endl;
       }
     }
   }
 
   // verify aux
   for (const auto &t : aux_map) {
-    if (t.first=="data" || t.first=="softmax_label")
+    if (t.first == "data" || t.first == "softmax_label")
       continue;
     std::vector<mx_float> vals(t.second.Size());
     MXNDArraySyncCopyToCPU(t.second.GetHandle(), &vals[0], vals.size());
     // second save: check that we are saving the correct values
-    for (size_t j=0;j<vals.size();++j) {
-      if (j==0 && vals[j]!=C) {
-        std::cerr << "load2 aux mismatch for " << t.first << ": pos " << j << ": " << vals[j] << " != " << C << std::endl;
+    for (size_t j = 0; j < vals.size(); ++j) {
+      if (j == 0 && vals[j] != C) {
+        std::cerr << "load2 aux mismatch for " << t.first << ": pos "
+                  << j << ": " << vals[j] << " != " << C << std::endl;
       }
     }
   }
@@ -224,27 +230,31 @@ void ImageTrain::saveParam(char * param_path) {
   std::vector<NDArrayHandle> args;
   std::vector<std::string> keys;
   for (const auto &t : args_map) {
-    if (t.first=="data" || t.first=="softmax_label")
+    if (t.first == "data" || t.first == "softmax_label")
       continue;
 #ifdef MYDEBUG
-    if (!count) (NDArray)t.second=C;
+    if (!count) (NDArray)t.second = C;
 #endif
+    const_cast<NDArray&>(t.second).WaitToWrite();
+    t.second.WaitToRead();
     args.push_back(t.second.GetHandle());
     keys.push_back("arg:" + t.first);
   }
   for (const auto &t : aux_map) {
-    if (t.first=="data" || t.first=="softmax_label")
+    if (t.first == "data" || t.first == "softmax_label")
       continue;
 #ifdef MYDEBUG
-    if (!count) (NDArray)t.second=C;
+    if (!count) (NDArray)t.second = C;
 #endif
+    const_cast<NDArray&>(t.second).WaitToWrite();
+    t.second.WaitToRead();
     args.push_back(t.second.GetHandle());
     keys.push_back("aux:" + t.first);
   }
 
   const char * c_keys[args.size()];
   for (size_t i = 0; i < args.size(); i++) {
-    c_keys[i] = keys[i].c_str(); //these stay valid since keys[i] won't be modified or destroyed
+    c_keys[i] = keys[i].c_str();  // these stay valid since keys[i] won't be modified or destroyed
   }
 #ifdef MYDEBUG
   count++;

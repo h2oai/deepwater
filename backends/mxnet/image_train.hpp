@@ -14,7 +14,8 @@
 
 class ImageTrain{
  public:
-  explicit ImageTrain(int w = 224, int h = 224, int c = 3, int device = 0, int seed = 0, bool gpu=true);
+  explicit ImageTrain(int w = 224, int h = 224, int c = 3,
+                      int device = 0, int seed = 0, bool gpu = true);
 
   // inception_bn/vgg/lenet/alexnet/googlenet/resnet
   void buildNet(int num_classes, int batch_size, char * net_name);
