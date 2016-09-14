@@ -29,7 +29,6 @@ ImageTrain::ImageTrain(int w, int h, int c, int device, int seed, bool gpu) {
   momentum = 0.9;
   clip_gradient = 10;
   is_built = false;
-  setSeed(seed);
 #if MSHADOW_USE_CUDA == 0
   ctx_dev = Context(DeviceType::kCPU, device);
 #else
@@ -38,6 +37,7 @@ ImageTrain::ImageTrain(int w, int h, int c, int device, int seed, bool gpu) {
   else
     ctx_dev = Context(DeviceType::kGPU, device);
 #endif
+  setSeed(seed);
 }
 
 void ImageTrain::setSeed(int seed) {
