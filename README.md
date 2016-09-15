@@ -20,3 +20,7 @@ Download the [Deep Water overview slides](./architecture/deepwater_overview.pdf)
 
 ### DIY for mxnet - Detailed build instructions here:
 https://github.com/h2oai/deepwater/tree/master/backends/mxnet
+
+
+### First Python example use cases
+https://github.com/h2oai/h2o-3/tree/deepwater/h2o-py/tests/testdir_algos/deepwater
