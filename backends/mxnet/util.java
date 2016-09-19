@@ -54,7 +54,7 @@ public final class util {
       return sb.toString();
     }
 
-    public static void loadCudaLib() {
+    public static void loadCudaLib() throws IOException {
         String cuda_path = System.getenv().get("CUDA_PATH");
         checkNotNull(cuda_path,"CUDA_PATH hasn't been set!");
 
