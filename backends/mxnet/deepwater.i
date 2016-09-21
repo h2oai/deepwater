@@ -42,11 +42,11 @@
 
 %module deepwater
 
-%{
-#include "mlp.hpp"
-%}
+//%{
+//#include "mlp.hpp"
+//%}
 
-%include "mlp.hpp"
+//%include "mlp.hpp"
 
 %{
 #include "image_train.hpp"
@@ -55,10 +55,16 @@
 %include "image_train.hpp"
 
 %{
-#include "image_pred.hpp"
+#include "numeric_train.hpp"
 %}
 
-%include "image_pred.hpp"
+%include "numeric_train.hpp"
+
+//%{
+//#include "image_pred.hpp"
+//%}
+
+//%include "image_pred.hpp"
 
 %{
 #include "util.hpp"

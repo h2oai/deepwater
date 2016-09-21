@@ -1,6 +1,8 @@
 /*!
  * Copyright (c) 2016 by Contributors
  */
+#ifndef __H2O_NETWORK_DEF_H__
+#define __H2O_NETWORK_DEF_H__
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -136,3 +138,6 @@ mxnet::cpp::Symbol ConvModule(const std::string & name,
                               bool convolution = true);
 
 mxnet::cpp::Symbol UNetSymbol();
+
+mxnet::cpp::Symbol MLPSymbol(const std::vector<int> &layerSize, const std::vector<std::string> &activations, int num_classes);
+#endif
