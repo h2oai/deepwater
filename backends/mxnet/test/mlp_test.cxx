@@ -44,15 +44,17 @@ int main(int argc, char const *argv[]) {
   float learning_rate = 1e-2;
   float weight_decay = 1e-6;
 
+  MXRandomSeed(42);
+  auto lenet = MLPSymbol();
+
+  //lenet.Save("/tmp/mx.json");
+  std::map<std::string, NDArray> args_map;
+
 #if MSHADOW_USE_CUDA == 1
   Context ctx_dev = Context(DeviceType::kGPU, 0);
 #else
   Context ctx_dev = Context(DeviceType::kCPU, 0);
 #endif
-
-  auto lenet = MLPSymbol();
-  //lenet.Save("/tmp/mx.json");
-  std::map<std::string, NDArray> args_map;
 
   args_map["data"] = NDArray(Shape(batch_size, 1, W * H), ctx_dev);
   args_map["softmax_label"] = NDArray(Shape(batch_size), ctx_dev);
@@ -78,6 +80,7 @@ int main(int argc, char const *argv[]) {
 
   auto *exec = lenet.SimpleBind(ctx_dev, args_map);
   args_map = exec->arg_dict();
+
   Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);
   for (auto &arg : args_map) {
     xavier(arg.first, &arg.second);
@@ -89,15 +92,14 @@ int main(int argc, char const *argv[]) {
     train_iter.Reset();
     while (train_iter.Next()) {
       auto data_batch = train_iter.GetDataBatch();
-      args_map["data"] = data_batch.data.Copy(ctx_dev);
-      args_map["softmax_label"] = data_batch.label.Copy(ctx_dev);
+      data_batch.data.CopyTo(&args_map["data"]);
+      data_batch.label.CopyTo(&args_map["softmax_label"]);
       NDArray::WaitAll();
-      auto *exec = lenet.SimpleBind(ctx_dev, args_map);
       exec->Forward(true);
       exec->Backward();
       exec->UpdateAll(&opt, learning_rate, weight_decay);
+      NDArray::WaitAll();
       train_acc.Update(data_batch.label, exec->outputs[0]);
-      delete exec;
     }
     LG << "Training acc: " << train_acc.Get();
 
@@ -105,17 +107,16 @@ int main(int argc, char const *argv[]) {
     val_iter.Reset();
     while (val_iter.Next()) {
       auto data_batch = val_iter.GetDataBatch();
-      args_map["data"] = data_batch.data.Copy(ctx_dev);
-      args_map["softmax_label"] = data_batch.label.Copy(ctx_dev);
+      data_batch.data.CopyTo(&args_map["data"]);
+      data_batch.label.CopyTo(&args_map["softmax_label"]);
       NDArray::WaitAll();
-      auto *exec = lenet.SimpleBind(ctx_dev, args_map);
       exec->Forward(false);
       NDArray::WaitAll();
       acu.Update(data_batch.label, exec->outputs[0]);
-      delete exec;
     }
     LG << "Val acc: " << acu.Get();
   }
+  delete exec;
   MXNotifyShutdown();
   return 0;
 }
