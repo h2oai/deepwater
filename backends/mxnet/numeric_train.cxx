@@ -92,6 +92,7 @@ void NumericTrain::buildNet(int n, int b, char * n_name) {
     std::cerr << "Unsupported network" << std::endl;
     exit(-1);
   }
+  //mxnet_sym.Save("/tmp/h2o.json");
   setOptimizer(n, b);
 }
 

@@ -27,7 +27,7 @@ Symbol MLPSymbol() {
 
   Symbol fc3_w("fc3_w"), fc3_b("fc3_b");
   Symbol fc3 = FullyConnected("fc3", act2, fc3_w, fc3_b, 4096);
-  Symbol act3 = Activation("relu3", fc2, "relu");
+  Symbol act3 = Activation("relu3", fc3, "relu");
   Symbol dropout3 = Dropout("dropout3", fc3, 0.5);
 
   Symbol fc4_w("fc4_w"), fc4_b("fc4_b");
@@ -51,6 +51,7 @@ int main(int argc, char const *argv[]) {
 #endif
 
   auto lenet = MLPSymbol();
+  //lenet.Save("/tmp/mx.json");
   std::map<std::string, NDArray> args_map;
 
   args_map["data"] = NDArray(Shape(batch_size, 1, W * H), ctx_dev);

@@ -914,7 +914,7 @@ Symbol MLPSymbol(const std::vector<int> &layerSize,
     fc_w.push_back(Symbol("fc" + std::to_string(i + 1) + "_w"));
     fc_b.push_back(Symbol("fc" + std::to_string(i + 1) + "_b"));
     fc.push_back(FullyConnected("fc" + std::to_string(i + 1), act, fc_w[i], fc_b[i], layerSize[i]));
-    act = Activation("act" + std::to_string(i + 1), fc[i], activations[i].c_str());
+    act = Activation(activations[i] + std::to_string(i + 1), fc[i], activations[i].c_str());
     drop.push_back(Dropout("dropout" + std::to_string(i + 1), fc[i], hidden_dropout[i]));
   }
   fc_w.push_back(Symbol("fc" + std::to_string(nLayers + 1) + "_w"));
