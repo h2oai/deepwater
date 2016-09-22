@@ -286,8 +286,9 @@ std::vector<float> ImageTrain::execute(float * data, float * label, bool is_trai
   NDArray data_n = NDArray(data, Shape(batch_size, channels, width, height), ctx_dev);
   data_n.CopyTo(&args_map["data"]);
 
+  NDArray label_n;
   if (is_train) {
-    NDArray label_n = NDArray(label, Shape(batch_size), ctx_dev);
+    label_n = NDArray(label, Shape(batch_size), ctx_dev);
     label_n.CopyTo(&args_map["softmax_label"]);
   }
 
@@ -301,6 +302,13 @@ std::vector<float> ImageTrain::execute(float * data, float * label, bool is_trai
   }
 
   NDArray::WaitAll();
+
+  // for debugging
+  if (is_train) {
+    Accuracy train_acc;
+    train_acc.Update(label_n, exec->outputs[0]);
+    std::cerr << "Training Accuracy for this mini-batch: " << train_acc.Get() << std::endl;
+  }
 
   // get probs for prediction
   exec->outputs[0].SyncCopyToCPU(&preds, batch_size * num_classes);

@@ -22,8 +22,8 @@ const double C = 3;
 
 NumericTrain::NumericTrain(int ncols, int device, int seed, bool gpu) {
   num_cols = ncols;
-  learning_rate = 1e-4;
-  weight_decay = 1e-4;
+  learning_rate = 1e-2;
+  weight_decay = 1e-6;
   momentum = 0.9;
   clip_gradient = 10;
   is_built = false;
@@ -278,8 +278,9 @@ std::vector<float> NumericTrain::execute(float * data, float * label, bool is_tr
   NDArray data_n = NDArray(data, Shape(batch_size, num_cols), ctx_dev);
   data_n.CopyTo(&args_map["data"]);
 
+  NDArray label_n;
   if (is_train) {
-    NDArray label_n = NDArray(label, Shape(batch_size), ctx_dev);
+    label_n = NDArray(label, Shape(batch_size), ctx_dev);
     label_n.CopyTo(&args_map["softmax_label"]);
   }
 
@@ -293,6 +294,13 @@ std::vector<float> NumericTrain::execute(float * data, float * label, bool is_tr
   }
 
   NDArray::WaitAll();
+
+  // for debugging
+  if (is_train) {
+    Accuracy train_acc;
+    train_acc.Update(label_n, exec->outputs[0]);
+    std::cerr << "Training Accuracy for this mini-batch: " << train_acc.Get() << std::endl;
+  }
 
   // get probs for prediction
   exec->outputs[0].SyncCopyToCPU(&preds, batch_size * num_classes);
