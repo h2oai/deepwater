@@ -36,7 +36,7 @@ Symbol MLPSymbol() {
 }
 
 int main(int argc, char const *argv[]) {
-  int batch_size = 256;
+  int batch_size = 128;
   int W = 28;
   int H = 28;
   int channels = 1;
@@ -44,6 +44,8 @@ int main(int argc, char const *argv[]) {
   int max_epoch = 100;
   float learning_rate = 1e-2;
   float weight_decay = 1e-6;
+  float momentum = 0.9;
+  float clip_gradient = 10;
 
   MXRandomSeed(42);
   auto net = MLPSymbol();
@@ -67,7 +69,7 @@ int main(int argc, char const *argv[]) {
       .SetParam("label", "./train-labels-idx1-ubyte")
       .SetParam("data_shape", shape)
       .SetParam("batch_size", batch_size)
-      .SetParam("shuffle", 1)
+      .SetParam("shuffle", 0)
       .CreateDataIter();
 
   auto val_iter = MXDataIter("MNISTIter")
@@ -78,9 +80,9 @@ int main(int argc, char const *argv[]) {
       .CreateDataIter();
 
   Optimizer opt("ccsgd", learning_rate, weight_decay);
-  opt.SetParam("momentum", 0.9)
+  opt.SetParam("momentum", momentum)
       .SetParam("rescale_grad", 1.0 / batch_size)
-      .SetParam("clip_gradient", 10);
+      .SetParam("clip_gradient", clip_gradient);
 
   auto * exec = net.SimpleBind(ctx_dev, args_map);
   args_map = exec->arg_dict();
