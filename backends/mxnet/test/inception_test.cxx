@@ -12,13 +12,16 @@ using namespace mxnet::cpp;
 
 int main(int argc, char const *argv[]) {
   int batch_size = 64;
+  int W = 224;
+  int H = 224;
+  int channels = 3;
   int max_epoch = 100;
   float learning_rate = 0.005;
   float weight_decay = 0.00001;
 
   MXRandomSeed(42);
-  auto inception_bn_net = InceptionSymbol(10);
-  //Symbol inception_bn_net = Symbol::Load("./test/symbol_inception-bn-py.json");
+  auto net = InceptionSymbol(10);
+  //Symbol net = Symbol::Load("./test/symbol_inception-bn-py.json");
 
   std::map<std::string, NDArray> args_map;
   std::map<std::string, NDArray> aux_map;
@@ -29,15 +32,15 @@ int main(int argc, char const *argv[]) {
   Context ctx_dev = Context(DeviceType::kGPU, 0);
 #endif
 
-  args_map["data"] = NDArray(Shape(batch_size, 3, 224, 224), ctx_dev);
+  args_map["data"] = NDArray(Shape(batch_size, channels, W, H), ctx_dev);
   args_map["softmax_label"] = NDArray(Shape(batch_size), ctx_dev);
-  inception_bn_net.InferArgsMap(ctx_dev, &args_map, args_map);
+  net.InferArgsMap(ctx_dev, &args_map, args_map);
 
   auto train_iter = MXDataIter("ImageRecordIter")
       .SetParam("path_imglist", "./sf1_train.lst")
       .SetParam("path_imgrec", "./sf1_train.rec")
       .SetParam("mean_img", "mean.bin")
-      .SetParam("data_shape", Shape(3, 224, 224))
+      .SetParam("data_shape", Shape(channels, W, H))
       .SetParam("batch_size", batch_size)
       .SetParam("rand_crop", 1)
       .SetParam("rand_mirror", 1)
@@ -49,7 +52,7 @@ int main(int argc, char const *argv[]) {
       .SetParam("path_imglist", "./sf1_val.lst")
       .SetParam("path_imgrec", "./sf1_val.rec")
       .SetParam("mean_img", "mean.bin")
-      .SetParam("data_shape", Shape(3, 224, 224))
+      .SetParam("data_shape", Shape(channels, W, H))
       .SetParam("batch_size", batch_size)
       .CreateDataIter();
 
@@ -58,7 +61,7 @@ int main(int argc, char const *argv[]) {
       .SetParam("rescale_grad", 1.0 / batch_size)
       .SetParam("clip_gradient", 10);
 
-  auto * exec = inception_bn_net.SimpleBind(ctx_dev, args_map);
+  auto * exec = net.SimpleBind(ctx_dev, args_map);
   args_map = exec->arg_dict();
 
   Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);

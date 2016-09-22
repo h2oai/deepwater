@@ -5,8 +5,8 @@
 #include <vector>
 #include <map>
 
-#include "network_def.hpp"
 #include "initializer.h"
+#include "network_def.hpp"
 
 using namespace mxnet::cpp;
 
@@ -36,49 +36,53 @@ Symbol MLPSymbol() {
 }
 
 int main(int argc, char const *argv[]) {
-  /*setup basic configs*/
+  int batch_size = 256;
   int W = 28;
   int H = 28;
-  int batch_size = 256;
+  int channels = 1;
+  Shape shape(batch_size, channels, W, H);
   int max_epoch = 100;
   float learning_rate = 1e-2;
   float weight_decay = 1e-6;
 
   MXRandomSeed(42);
-  auto lenet = MLPSymbol();
+  auto net = MLPSymbol();
 
-  //lenet.Save("/tmp/mx.json");
+  //net.Save("/tmp/mx.json");
   std::map<std::string, NDArray> args_map;
+  std::map<std::string, NDArray> aux_map;
 
-#if MSHADOW_USE_CUDA == 1
-  Context ctx_dev = Context(DeviceType::kGPU, 0);
-#else
+#if MSHADOW_USE_CUDA == 0
   Context ctx_dev = Context(DeviceType::kCPU, 0);
+#else
+  Context ctx_dev = Context(DeviceType::kGPU, 0);
 #endif
 
-  args_map["data"] = NDArray(Shape(batch_size, 1, W * H), ctx_dev);
+  args_map["data"] = NDArray(shape, ctx_dev);
   args_map["softmax_label"] = NDArray(Shape(batch_size), ctx_dev);
-  lenet.InferArgsMap(ctx_dev, &args_map, args_map);
+  net.InferArgsMap(ctx_dev, &args_map, args_map);
 
   auto train_iter = MXDataIter("MNISTIter")
       .SetParam("image", "./train-images-idx3-ubyte")
       .SetParam("label", "./train-labels-idx1-ubyte")
+      .SetParam("data_shape", shape)
       .SetParam("batch_size", batch_size)
       .SetParam("shuffle", 1)
-      .SetParam("flat", 0)
       .CreateDataIter();
 
   auto val_iter = MXDataIter("MNISTIter")
       .SetParam("image", "./t10k-images-idx3-ubyte")
       .SetParam("label", "./t10k-labels-idx1-ubyte")
+      .SetParam("data_shape", shape)
+      .SetParam("batch_size", batch_size)
       .CreateDataIter();
 
   Optimizer opt("ccsgd", learning_rate, weight_decay);
   opt.SetParam("momentum", 0.9)
-      .SetParam("rescale_grad", 1.0/batch_size)
+      .SetParam("rescale_grad", 1.0 / batch_size)
       .SetParam("clip_gradient", 10);
 
-  auto *exec = lenet.SimpleBind(ctx_dev, args_map);
+  auto * exec = net.SimpleBind(ctx_dev, args_map);
   args_map = exec->arg_dict();
 
   Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);
@@ -86,22 +90,28 @@ int main(int argc, char const *argv[]) {
     xavier(arg.first, &arg.second);
   }
 
+  aux_map = exec->aux_dict();
+  for (auto &aux : aux_map) {
+    xavier(aux.first, &aux.second);
+  }
+
   for (int iter = 0; iter < max_epoch; ++iter) {
-    LG << "Epoch: " << iter;
     Accuracy train_acc;
+    LG << "Epoch: " << iter;
     train_iter.Reset();
     while (train_iter.Next()) {
       auto data_batch = train_iter.GetDataBatch();
       data_batch.data.CopyTo(&args_map["data"]);
       data_batch.label.CopyTo(&args_map["softmax_label"]);
       NDArray::WaitAll();
+
       exec->Forward(true);
       exec->Backward();
       exec->UpdateAll(&opt, learning_rate, weight_decay);
       NDArray::WaitAll();
       train_acc.Update(data_batch.label, exec->outputs[0]);
     }
-    LG << "Training acc: " << train_acc.Get();
+    LG << "Training Acc: " << train_acc.Get();
 
     Accuracy acu;
     val_iter.Reset();
@@ -114,7 +124,7 @@ int main(int argc, char const *argv[]) {
       NDArray::WaitAll();
       acu.Update(data_batch.label, exec->outputs[0]);
     }
-    LG << "Val acc: " << acu.Get();
+    LG << "Val Acc: " << acu.Get();
   }
   delete exec;
   MXNotifyShutdown();
