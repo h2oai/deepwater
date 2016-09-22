@@ -45,10 +45,69 @@ def train():
                                     one_hot=True,
                                     fake_data=FLAGS.fake_data)
 
-  sess = tf.InteractiveSession()
 
+  # Merge all the summaries and write them out to /tmp/mnist_logs (by default)
+  train_writer = tf.train.SummaryWriter(FLAGS.summaries_dir + '/train',
+                                        sess.graph)
+  test_writer = tf.train.SummaryWriter(FLAGS.summaries_dir + '/test')
+  tf.initialize_all_variables().run()
+
+  # Train the model, and also write summaries.
+  # Every 10th step, measure test-set accuracy, and write test summaries
+  # All other steps, run train_step on training data, & add training summaries
+
+  def feed_dict(train):
+    """Make a TensorFlow feed_dict: maps data onto Tensor placeholders."""
+    if train or FLAGS.fake_data:
+      xs, ys = mnist.train.next_batch(100, fake_data=FLAGS.fake_data)
+      k = FLAGS.dropout
+    else:
+      xs, ys = mnist.test.images, mnist.test.labels
+      k = 1.0
+    return {x: xs, y_: ys, keep_prob: k}
+
+  saver = tf.train.Saver()
+  for i in range(FLAGS.max_steps):
+    if i % 10 == 0:  # Record summaries and test-set accuracy
+      summary, acc = sess.run([merged, accuracy], feed_dict=feed_dict(False))
+      test_writer.add_summary(summary, i)
+      print('Accuracy at step %s: %s' % (i, acc))
+    else:  # Record train set summaries, and train
+      if i % 100 == 99:  # Record execution stats
+        run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
+        run_metadata = tf.RunMetadata()
+        summary, _ = sess.run([merged, train_step],
+                              feed_dict=feed_dict(True),
+                              options=run_options,
+                              run_metadata=run_metadata)
+        train_writer.add_run_metadata(run_metadata, 'step%d' % i)
+        train_writer.add_summary(summary, i)
+        print('Adding run metadata at step ', i)
+        saver.save(sess, "/tmp/mnist_model", global_step=0, latest_filename='mnist_checkpoint_state')
+        print('output node name is ', y.name)
+      else:  # Record a summary
+        summary, _ = sess.run([merged, train_step], feed_dict=feed_dict(True))
+        train_writer.add_summary(summary, i)
+  tf.train.write_graph(sess.graph.as_graph_def(), "/tmp/", "input_graph.pb")
+
+
+def create_train_model():
   # Create a multilayer model.
+  g = tf.Graph()
+  with g.as_default():
+    train_step, accuray = create_network()
+    merged = tf.merge_all_summaries()
+    init = tf.initialize_all_variables()
+  with open("mnist_train.pb","w") as fd:
+    fd.write(g.as_graph_def(add_shapes=True).SerializeToString())
 
+  print(init.name)
+  print(merged.name)
+  print(train_step.name)
+  print(accuray.name)
+  return g
+
+def create_network():
   # Input placehoolders
   with tf.name_scope('input'):
     x = tf.placeholder(tf.float32, [None, 784], name='x-input')
@@ -130,56 +189,15 @@ def train():
       accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     tf.scalar_summary('accuracy', accuracy)
 
-  # Merge all the summaries and write them out to /tmp/mnist_logs (by default)
-  merged = tf.merge_all_summaries()
-  train_writer = tf.train.SummaryWriter(FLAGS.summaries_dir + '/train',
-                                        sess.graph)
-  test_writer = tf.train.SummaryWriter(FLAGS.summaries_dir + '/test')
-  tf.initialize_all_variables().run()
+  return train_step, accuracy
 
-  # Train the model, and also write summaries.
-  # Every 10th step, measure test-set accuracy, and write test summaries
-  # All other steps, run train_step on training data, & add training summaries
-
-  def feed_dict(train):
-    """Make a TensorFlow feed_dict: maps data onto Tensor placeholders."""
-    if train or FLAGS.fake_data:
-      xs, ys = mnist.train.next_batch(100, fake_data=FLAGS.fake_data)
-      k = FLAGS.dropout
-    else:
-      xs, ys = mnist.test.images, mnist.test.labels
-      k = 1.0
-    return {x: xs, y_: ys, keep_prob: k}
-
-  saver = tf.train.Saver()
-  for i in range(FLAGS.max_steps):
-    if i % 10 == 0:  # Record summaries and test-set accuracy
-      summary, acc = sess.run([merged, accuracy], feed_dict=feed_dict(False))
-      test_writer.add_summary(summary, i)
-      print('Accuracy at step %s: %s' % (i, acc))
-    else:  # Record train set summaries, and train
-      if i % 100 == 99:  # Record execution stats
-        run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
-        run_metadata = tf.RunMetadata()
-        summary, _ = sess.run([merged, train_step],
-                              feed_dict=feed_dict(True),
-                              options=run_options,
-                              run_metadata=run_metadata)
-        train_writer.add_run_metadata(run_metadata, 'step%d' % i)
-        train_writer.add_summary(summary, i)
-        print('Adding run metadata at step ', i)
-	saver.save(sess, "/tmp/mnist_model", global_step=0, latest_filename='mnist_checkpoint_state')
-	print('output node name is ', y.name)
-      else:  # Record a summary
-        summary, _ = sess.run([merged, train_step], feed_dict=feed_dict(True))
-        train_writer.add_summary(summary, i)
-  tf.train.write_graph(sess.graph.as_graph_def(), "/tmp/", "input_graph.pb")
 
 def main(_):
   if tf.gfile.Exists(FLAGS.summaries_dir):
     tf.gfile.DeleteRecursively(FLAGS.summaries_dir)
   tf.gfile.MakeDirs(FLAGS.summaries_dir)
-  train()
+  create_train_model()
+  #train()
 
 
 if __name__ == '__main__':
