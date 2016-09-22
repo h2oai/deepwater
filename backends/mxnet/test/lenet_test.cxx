@@ -16,7 +16,7 @@ int main(int argc, char const *argv[]) {
   int H = 28;
   int batch_size = 128;
   int max_epoch = 100;
-  float learning_rate = 1e-4;
+  float learning_rate = 1e-2;
   float weight_decay = 1e-4;
 
   auto lenet = LenetSymbol(10);
@@ -53,7 +53,7 @@ int main(int argc, char const *argv[]) {
 
   Optimizer opt("ccsgd", learning_rate, weight_decay);
   opt.SetParam("momentum", 0.9)
-      .SetParam("rescale_grad", 1.0)
+      .SetParam("rescale_grad", 1.0/batch_size)
       .SetParam("clip_gradient", 10);
 
   auto * exec = lenet.SimpleBind(ctx_dev, args_map);

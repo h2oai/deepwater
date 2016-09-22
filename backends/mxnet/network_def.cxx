@@ -898,10 +898,16 @@ Symbol UNetSymbol() {
   return LogisticRegressionOutput("softmax", net, data_label);
 }
 
-Symbol MLPSymbol(const std::vector<int> &layerSize, const std::vector<std::string> &activations, int num_classes) {
+Symbol MLPSymbol(const std::vector<int> &layerSize,
+                 const std::vector<std::string> &activations,
+                 int num_classes,
+                 double input_dropout,
+                 const std::vector<double> &hidden_dropout)
+{
   Symbol act = Symbol::Variable("data");
   Symbol data_label = Symbol::Variable("softmax_label");
-  std::vector<Symbol> fc_w, fc_b, fc;
+  Symbol inputdropout = Dropout("dropout0", act, input_dropout);
+  std::vector<Symbol> fc_w, fc_b, fc, drop;
   int nLayers = layerSize.size();
 
   for (int i = 0; i < nLayers; i++) {
@@ -909,6 +915,7 @@ Symbol MLPSymbol(const std::vector<int> &layerSize, const std::vector<std::strin
     fc_b.push_back(Symbol("fc" + std::to_string(i + 1) + "_b"));
     fc.push_back(FullyConnected("fc" + std::to_string(i + 1), act, fc_w[i], fc_b[i], layerSize[i]));
     act = Activation("act" + std::to_string(i + 1), fc[i], activations[i].c_str());
+    drop.push_back(Dropout("dropout" + std::to_string(i + 1), fc[i], hidden_dropout[i]));
   }
   fc_w.push_back(Symbol("fc" + std::to_string(nLayers + 1) + "_w"));
   fc_b.push_back(Symbol("fc" + std::to_string(nLayers + 1) + "_b"));

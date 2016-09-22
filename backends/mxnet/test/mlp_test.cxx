@@ -6,6 +6,7 @@
 #include <map>
 
 #include "network_def.hpp"
+#include "initializer.h"
 
 using namespace mxnet::cpp;
 
@@ -40,7 +41,7 @@ int main(int argc, char const *argv[]) {
   int H = 28;
   int batch_size = 256;
   int max_epoch = 100;
-  float learning_rate = 1e-4;
+  float learning_rate = 1e-2;
   float weight_decay = 1e-6;
 
 #if MSHADOW_USE_CUDA == 1
@@ -71,8 +72,15 @@ int main(int argc, char const *argv[]) {
 
   Optimizer opt("ccsgd", learning_rate, weight_decay);
   opt.SetParam("momentum", 0.9)
-      .SetParam("rescale_grad", 1.0)
+      .SetParam("rescale_grad", 1.0/batch_size)
       .SetParam("clip_gradient", 10);
+
+  auto *exec = lenet.SimpleBind(ctx_dev, args_map);
+  args_map = exec->arg_dict();
+  Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);
+  for (auto &arg : args_map) {
+    xavier(arg.first, &arg.second);
+  }
 
   for (int iter = 0; iter < max_epoch; ++iter) {
     LG << "Epoch: " << iter;

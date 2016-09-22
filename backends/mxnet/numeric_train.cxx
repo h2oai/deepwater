@@ -63,7 +63,6 @@ void NumericTrain::setOptimizer(int n, int b) {
         std::map<std::string, NDArray>(),
         std::map<std::string, OpReqType>(),
         aux_map));
-
   args_map = exec->arg_dict();
   Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);
   for (auto &arg : args_map) {
@@ -80,11 +79,15 @@ void NumericTrain::setOptimizer(int n, int b) {
 void NumericTrain::buildNet(int n, int b, char * n_name) {
   std::string net_name(n_name);
   if (net_name == "relu_300_relu_300_relu_300") {
-    mxnet_sym = MLPSymbol({300,300,300}, {"relu","relu","relu"}, n);
+    mxnet_sym = MLPSymbol({300,300,300}, {"relu","relu","relu"}, n, 0, {0,0,0});
+  } else if (net_name == "relu_500_relu_500_dropout") {
+    mxnet_sym = MLPSymbol({500,500}, {"relu","relu"}, n, 0.1, {0.5,0.5});
   } else if (net_name == "relu_500_relu_500") {
-    mxnet_sym = MLPSymbol({500,500}, {"relu","relu"}, n);
+    mxnet_sym = MLPSymbol({500,500}, {"relu","relu"}, n, 0, {0,0});
   } else if (net_name == "relu_10") {
-    mxnet_sym = MLPSymbol({10}, {"relu"}, n);
+    mxnet_sym = MLPSymbol({10}, {"relu"}, n, 0, {0});
+  } else if (net_name == "tanh_100") {
+    mxnet_sym = MLPSymbol({100}, {"tanh"}, n, 0, {0});
   } else {
     std::cerr << "Unsupported network" << std::endl;
     exit(-1);

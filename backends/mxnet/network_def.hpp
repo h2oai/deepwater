@@ -139,5 +139,9 @@ mxnet::cpp::Symbol ConvModule(const std::string & name,
 
 mxnet::cpp::Symbol UNetSymbol();
 
-mxnet::cpp::Symbol MLPSymbol(const std::vector<int> &layerSize, const std::vector<std::string> &activations, int num_classes);
+mxnet::cpp::Symbol MLPSymbol(const std::vector<int> &layerSize,
+                             const std::vector<std::string> &activations,
+                             int num_classes,
+                             double input_dropout,
+                             const std::vector<double> &hidden_dropout);
 #endif
