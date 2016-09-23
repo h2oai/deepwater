@@ -12,7 +12,7 @@ int main() {
 
     for(string& network : networks) {
         //create a fresh model
-        ImageTrain imageTrain = ImageTrain();
+        ImageTrain imageTrain = ImageTrain(224,224,3);
         imageTrain.buildNet(classes,batch_size,(char*)network.c_str());
 
         //save it

@@ -14,11 +14,14 @@
 
 class ImageTrain{
  public:
-  explicit ImageTrain(int w = 224, int h = 224, int c = 3,
-                      int device = 0, int seed = 0, bool gpu = true);
-
-  // inception_bn/vgg/lenet/alexnet/googlenet/resnet
-  void buildNet(int num_classes, int batch_size, char * net_name);
+  explicit ImageTrain(int w = 0, int h = 0, int c = 0,
+  			int device = 0, int seed = 0, bool gpu = true);
+  void buildNet(int num_classes, int batch_size, char * net_name,
+		 int num_hidden=0,
+                 int *hidden=nullptr,
+                 char**activations=nullptr,
+                 double input_dropout=0,
+                 double *hidden_dropout=nullptr);
   void setOptimizer(int num_classes, int batch_size);
   void setSeed(int seed);
   void loadModel(char * model_path);
@@ -43,7 +46,8 @@ class ImageTrain{
   std::vector<float> predict(float * data);
 
  private:
-  int width, height, channels, batch_size, num_classes;
+  int width, height, channels;
+  int batch_size, num_classes;
   float learning_rate, weight_decay, momentum, clip_gradient;
 
   std::map<std::string, mxnet::cpp::NDArray> args_map;

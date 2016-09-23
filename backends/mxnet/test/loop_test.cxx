@@ -14,7 +14,7 @@ int main() {
     vector<string> networks={"lenet"};
     for(string& network : networks) {
 	    int count=0;
-	    ImageTrain imageTrain = ImageTrain();
+	    ImageTrain imageTrain = ImageTrain(28,28,1);
 	    imageTrain.buildNet(classes,batch_size,(char*)network.c_str());
 	    while(1) {
 		    //imageTrain.saveModel("/tmp/model");

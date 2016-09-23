@@ -55,12 +55,6 @@
 
 %include "image_train.hpp"
 
-%{
-#include "numeric_train.hpp"
-%}
-
-%include "numeric_train.hpp"
-
 //%{
 //#include "image_pred.hpp"
 //%}

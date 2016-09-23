@@ -6,7 +6,7 @@
 using namespace std;
 
 string getMD5(int classes, int batch_size, string network) {
-    ImageTrain imageTrain = ImageTrain();
+    ImageTrain imageTrain = ImageTrain(224,224,3);
     imageTrain.setSeed(1234);
     imageTrain.buildNet(classes,batch_size,(char*)network.c_str());
 

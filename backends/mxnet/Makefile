@@ -19,7 +19,7 @@ MXNET_SRCS := $(shell find src/ -name '*.cxx') network_def.cxx
 MXNET_OBJS = $(MXNET_SRCS:.cxx=.o)
 
 #SRCS := mlp.cxx image_pred.cxx image_train.cxx
-SRCS := mlp.cxx image_train.cxx numeric_train.cxx
+SRCS := mlp.cxx image_train.cxx
 
 OBJS = $(SRCS:.cxx=.o)
 
@@ -130,7 +130,7 @@ java_test: pkg
 	java -cp water.gpu.jar:java h2o.deepwater.test.InceptionCLI $(PWD)/Inception $(PWD)/test/test2.jpg 
 
 clean: clean_test
-	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o *.d MLP.java ImageTrain.java ImagePred.java SWIGT*.java
+	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o *.d MLP.java ImageTrain.java ImagePred.java SWIGT*.java NumericTrain.java
 
 clean_test:
 	rm -rf *_test.o *_test water* ./test/*_wrap.cxx ./test/*_wrap.o ./test/libswigtest.so ./test/swig/* test/test.java test/testJNI.java
