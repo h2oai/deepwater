@@ -304,7 +304,7 @@ std::vector<float> ImageTrain::execute(float * data, float * label, bool is_trai
   NDArray::WaitAll();
 
   // for debugging
-  if (is_train) {
+  if (is_train && false) {
     Accuracy train_acc;
     train_acc.Update(label_n, exec->outputs[0]);
     std::cerr << "Training Accuracy for this mini-batch: " << train_acc.Get() << std::endl;
