@@ -62,6 +62,7 @@ class ImageTrain{
 
   // prediction probs
   std::vector<float> preds;
+  mxnet::cpp::Shape shape;
 };
 
 #endif
