@@ -19,8 +19,8 @@ class NumericTrain{
 		 int num_hidden,
                  int *hidden,
                  char**activations,
-                 float input_dropout,
-                 float *hidden_dropout);
+                 double input_dropout,
+                 double *hidden_dropout);
   void setOptimizer(int num_classes, int batch_size);
   void setSeed(int seed);
   void loadModel(char * model_path);

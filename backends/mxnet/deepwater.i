@@ -3,6 +3,7 @@
 
 %include "arrays_java.i"
 %apply float[] {float *};
+%apply double[] {double *};
 %apply float[] {mx_float *};
 %apply int[] {int *};
 

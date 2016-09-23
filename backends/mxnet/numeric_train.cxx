@@ -80,8 +80,8 @@ void NumericTrain::buildNet(int n, int b, char * n_name,
 		 int num_hidden,
                  int *hidden,
                  char ** activations,
-                 float input_dropout,
-                 float *hidden_dropout) {
+                 double input_dropout,
+                 double *hidden_dropout) {
   if (num_hidden>0) {
     std::vector<int> hid(num_hidden);
     std::vector<double> hdrop(num_hidden);
@@ -91,7 +91,7 @@ void NumericTrain::buildNet(int n, int b, char * n_name,
       act[i]=std::string(activations[i]);
       hdrop[i]=hidden_dropout[i];
     }
-    mxnet_sym = MLPSymbol(hid, act, n, (double)input_dropout, hdrop);
+    mxnet_sym = MLPSymbol(hid, act, n, input_dropout, hdrop);
   } else if (n_name) {
     std::string net_name(n_name);
     if (net_name == "relu_1024_relu_1024_relu_2048_dropout") {
