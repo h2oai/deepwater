@@ -55,11 +55,13 @@ void ImageTrain::setOptimizer(int n, int b) {
   opt->SetParam("rescale_grad", 1.0 / batch_size);
   opt->SetParam("clip_gradient", clip_gradient);
 
-  if (height>0 || channels>0) {
-    shape=Shape(batch_size, channels, width, height);
-  } else {
-    shape=Shape(batch_size, width);
+  if (height>0 || channels>0) { //image classification
+    shape = Shape(batch_size, channels, width, height);
+  } else { //otherwise
+    assert(width>0);
+    shape = Shape(batch_size, width);
   } 
+  std::cout << "mxnet data input shape: " << shape << std::endl;
   args_map["data"] = NDArray(shape, ctx_dev);
   args_map["softmax_label"] = NDArray(Shape(batch_size), ctx_dev);
   mxnet_sym.InferArgsMap(ctx_dev, &args_map, args_map);
@@ -123,7 +125,7 @@ void ImageTrain::buildNet(int n, int b, char * n_name,
     std::cerr << "Unsupported network - need either hidden/activations/dropout or a preset name" << std::endl;
     exit(-1);
   }
-  mxnet_sym.Save("/tmp/h2o.json");
+  //mxnet_sym.Save("/tmp/h2o.json");
   setOptimizer(n, b);
 }
 
@@ -306,7 +308,6 @@ std::vector<float> ImageTrain::execute(float * data, float * label, bool is_trai
     exit(0);
   }
 
-//  std::cout << shape << std::endl;
   NDArray data_n = NDArray(data, shape, ctx_dev);
   data_n.CopyTo(&args_map["data"]);
 

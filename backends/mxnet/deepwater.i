@@ -1,5 +1,5 @@
-//%include "std_string.i"
-//#include <string>
+%include "std_string.i"
+#include <string>
 
 %include "arrays_java.i"
 %apply float[] {float *};
@@ -55,11 +55,11 @@
 
 %include "image_train.hpp"
 
-//%{
-//#include "image_pred.hpp"
-//%}
+%{
+#include "image_pred.hpp"
+%}
 
-//%include "image_pred.hpp"
+%include "image_pred.hpp"
 
 %{
 #include "util.hpp"

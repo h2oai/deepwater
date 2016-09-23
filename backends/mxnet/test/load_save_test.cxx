@@ -40,7 +40,7 @@ int main() {
         // load and save
         string md5_third;
         {
-            imageTrain = ImageTrain();
+            imageTrain = ImageTrain(224,224,3);
             imageTrain.loadModel("/tmp/model");
             imageTrain.setOptimizer(classes,batch_size);
             imageTrain.loadParam("/tmp/params");
