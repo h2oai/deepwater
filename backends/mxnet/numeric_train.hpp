@@ -15,7 +15,12 @@
 class NumericTrain{
  public:
   NumericTrain(int ncols, int device = 0, int seed = 0, bool gpu = true);
-  void buildNet(int num_classes, int batch_size, char * net_name);
+  void buildNet(int num_classes, int batch_size, char * net_name,
+		 int num_hidden,
+                 int *hidden,
+                 char**activations,
+                 float input_dropout,
+                 float *hidden_dropout);
   void setOptimizer(int num_classes, int batch_size);
   void setSeed(int seed);
   void loadModel(char * model_path);

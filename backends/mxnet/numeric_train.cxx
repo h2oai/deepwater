@@ -76,20 +76,33 @@ void NumericTrain::setOptimizer(int n, int b) {
   is_built = true;
 }
 
-void NumericTrain::buildNet(int n, int b, char * n_name) {
-  std::string net_name(n_name);
-  if (net_name == "relu_300_relu_300_relu_300") {
-    mxnet_sym = MLPSymbol({300,300,300}, {"relu","relu","relu"}, n, 0, {0,0,0});
-  } else if (net_name == "relu_500_relu_500_dropout") {
-    mxnet_sym = MLPSymbol({500,500}, {"relu","relu"}, n, 0.1, {0.5,0.5});
-  } else if (net_name == "relu_500_relu_500") {
-    mxnet_sym = MLPSymbol({500,500}, {"relu","relu"}, n, 0, {0,0});
-  } else if (net_name == "relu_10") {
-    mxnet_sym = MLPSymbol({10}, {"relu"}, n, 0, {0});
-  } else if (net_name == "tanh_100") {
-    mxnet_sym = MLPSymbol({100}, {"tanh"}, n, 0, {0});
-  } else {
-    std::cerr << "Unsupported network" << std::endl;
+void NumericTrain::buildNet(int n, int b, char * n_name, 
+		 int num_hidden,
+                 int *hidden,
+                 char ** activations,
+                 float input_dropout,
+                 float *hidden_dropout) {
+  if (num_hidden>0) {
+    std::vector<int> hid(num_hidden);
+    std::vector<double> hdrop(num_hidden);
+    std::vector<std::string> act(num_hidden);
+    for (size_t i=0;i<hid.size();++i) {
+      hid[i]=hidden[i];
+      act[i]=std::string(activations[i]);
+      hdrop[i]=hidden_dropout[i];
+    }
+    mxnet_sym = MLPSymbol(hid, act, n, (double)input_dropout, hdrop);
+  } else if (n_name) {
+    std::string net_name(n_name);
+    if (net_name == "relu_1024_relu_1024_relu_2048_dropout") {
+      mxnet_sym = MLPSymbol({1024,1024,2048}, {"relu","relu","relu"}, n, 0.1, {0.5,0.5,0.5});
+    } else {
+      std::cerr << "Unsupported network preset " << n_name << std::endl;
+      exit(-1);
+    }
+  }
+  else {
+    std::cerr << "Unsupported network - need either hidden/activations/dropout or a preset name" << std::endl;
     exit(-1);
   }
   //mxnet_sym.Save("/tmp/h2o.json");

@@ -130,7 +130,7 @@ java_test: pkg
 	java -cp water.gpu.jar:java h2o.deepwater.test.InceptionCLI $(PWD)/Inception $(PWD)/test/test2.jpg 
 
 clean: clean_test
-	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o *.d MLP.java ImageTrain.java ImagePred.java
+	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o *.d MLP.java ImageTrain.java ImagePred.java SWIGT*.java
 
 clean_test:
 	rm -rf *_test.o *_test water* ./test/*_wrap.cxx ./test/*_wrap.o ./test/libswigtest.so ./test/swig/* test/test.java test/testJNI.java
