@@ -41,8 +41,7 @@ int main() {
         string md5_third;
         {
             imageTrain = ImageTrain(224,224,3);
-            imageTrain.loadModel("/tmp/model");
-            imageTrain.setOptimizer(classes,batch_size);
+            imageTrain.buildNet(classes, batch_size,"/tmp/model");
             imageTrain.loadParam("/tmp/params");
 
             imageTrain.saveModel("/tmp/model");

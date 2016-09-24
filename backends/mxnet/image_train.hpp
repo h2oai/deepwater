@@ -13,6 +13,10 @@
 #include "network_def.hpp"
 
 class ImageTrain{
+  private:
+    void setClassificationDimensions(int num_classes, int batch_size);
+    void setOptimizer();
+    void initializeState();
  public:
   explicit ImageTrain(int w = 0, int h = 0, int c = 0,
   			int device = 0, int seed = 0, bool gpu = true);
@@ -22,7 +26,7 @@ class ImageTrain{
                  char**activations=nullptr,
                  double input_dropout=0,
                  double *hidden_dropout=nullptr);
-  void setOptimizer(int num_classes, int batch_size);
+
   void setSeed(int seed);
   void loadModel(char * model_path);
   void saveModel(char * model_path);
@@ -41,6 +45,7 @@ class ImageTrain{
     if (opt.get() != nullptr) opt->SetParam("clip_gradient", clip_gradient);
   }
 
+  //train/predict on a mini-batch
   std::vector<float> train(float * data, float * label);
   std::vector<float> predict(float * data, float * label);
   std::vector<float> predict(float * data);

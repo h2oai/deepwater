@@ -44,16 +44,10 @@ void ImageTrain::setSeed(int seed) {
   CHECK_EQ(MXRandomSeed(seed), 0);
 }
 
-void ImageTrain::setOptimizer(int n, int b) {
+void ImageTrain::setClassificationDimensions(int n, int b) {
   batch_size = b;
   num_classes = n;
-
   preds.resize(num_classes * batch_size);
-
-  opt = std::unique_ptr<Optimizer>(new Optimizer("ccsgd", learning_rate, weight_decay));
-  opt->SetParam("momentum", momentum);
-  opt->SetParam("rescale_grad", 1.0 / batch_size);
-  opt->SetParam("clip_gradient", clip_gradient);
 
   if (height>0 || channels>0) { //image classification
     shape = Shape(batch_size, channels, width, height);
@@ -72,24 +66,49 @@ void ImageTrain::setOptimizer(int n, int b) {
         std::map<std::string, NDArray>(),
         std::map<std::string, OpReqType>(),
         aux_map));
+}
 
+void ImageTrain::setOptimizer() {
+  opt = std::unique_ptr<Optimizer>(new Optimizer("ccsgd", learning_rate, weight_decay));
+  opt->SetParam("momentum", momentum);
+  opt->SetParam("rescale_grad", 1.0 / batch_size);
+  opt->SetParam("clip_gradient", clip_gradient);
+}
+
+void ImageTrain::initializeState() {
   args_map = exec->arg_dict();
   Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);
   for (auto &arg : args_map) {
     xavier(arg.first, &arg.second);
   }
-
   aux_map = exec->aux_dict();
   for (auto &aux : aux_map) {
     xavier(aux.first, &aux.second);
   }
+  assert(opt);
   is_built = true;
 }
 
-void ImageTrain::buildNet(int n, int b, char * n_name, 
+void ImageTrain::buildNet(int n, int b, char * n_name,
     int num_hidden, int *hidden, char ** activations, 
     double input_dropout, double *hidden_dropout) {
-  if (num_hidden > 0) {
+  std::string net_name(n_name);
+  if (net_name == "inception_bn") {
+    mxnet_sym = InceptionSymbol(n);
+  } else if (net_name == "vgg") {
+    mxnet_sym = VGGSymbol(n);
+  } else if (net_name == "lenet") {
+    mxnet_sym = LenetSymbol(n);
+  } else if (net_name == "alexnet") {
+    mxnet_sym = AlexnetSymbol(n);
+  } else if (net_name == "googlenet") {
+    mxnet_sym = GoogleNetSymbol(n);
+  } else if (net_name == "resnet") {
+    mxnet_sym = ResNetSymbol(n);
+  } else if (net_name == "relu_1024_relu_1024_relu_2048_dropout") {
+    mxnet_sym = MLPSymbol({1024,1024,2048}, {"relu","relu","relu"}, n, 0.1, {0.5,0.5,0.5});
+  } else if (net_name == "MLP") {
+    assert(num_hidden>0);
     std::vector<int> hid(num_hidden);
     std::vector<double> hdrop(num_hidden);
     std::vector<std::string> act(num_hidden);
@@ -99,34 +118,17 @@ void ImageTrain::buildNet(int n, int b, char * n_name,
       hdrop[i]=hidden_dropout[i];
     }
     mxnet_sym = MLPSymbol(hid, act, n, input_dropout, hdrop);
-  } else if (n_name) {
-    std::string net_name(n_name);
-    if (net_name == "inception_bn") {
-      mxnet_sym = InceptionSymbol(n);
-    } else if (net_name == "vgg") {
-      mxnet_sym = VGGSymbol(n);
-    } else if (net_name == "lenet") {
-      mxnet_sym = LenetSymbol(n);
-    } else if (net_name == "alexnet") {
-      mxnet_sym = AlexnetSymbol(n);
-    } else if (net_name == "googlenet") {
-      mxnet_sym = GoogleNetSymbol(n);
-    } else if (net_name == "resnet") {
-      mxnet_sym = ResNetSymbol(n);
-    }
-    else if (net_name == "relu_1024_relu_1024_relu_2048_dropout") {
-      mxnet_sym = MLPSymbol({1024,1024,2048}, {"relu","relu","relu"}, n, 0.1, {0.5,0.5,0.5});
-    } else {
-      std::cerr << "Unsupported network preset " << n_name << std::endl;
-      exit(-1);
-    }
-  }
-  else {
-    std::cerr << "Unsupported network - need either hidden/activations/dropout or a preset name" << std::endl;
+  } else if (net_name.find(".json") != std::string::npos) {
+    loadModel(n_name);
+    is_built = false;
+  } else {
+    std::cerr << "Unsupported network preset " << n_name << std::endl;
     exit(-1);
   }
   //mxnet_sym.Save("/tmp/h2o.json");
-  setOptimizer(n, b);
+  setClassificationDimensions(n, b);
+  setOptimizer();
+  initializeState();
 }
 
 
