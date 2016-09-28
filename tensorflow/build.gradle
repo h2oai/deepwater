@@ -1,0 +1,35 @@
+group 'deepwater.backends.tensorflow'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile files('javacpp.jar')
+    compile files('tensorflow.jar')
+    compile files('tensorflow-linux-x86_64.jar')
+    compile "com.google.protobuf:protobuf-java:3.0.0"
+    compile 'com.google.guava:guava:19.0'
+
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+//jar {
+//    baseName = 'analytics'
+//    from('src/main/java') {
+//        include 'config/**/*.xml'
+//    }
+//
+//    manifest {
+//        attributes 'Implementation-Title': 'Analytics Library', 'Implementation-Version': version
+//    }
+//}
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+}
+sourceSets.main.resources { srcDirs = ["src/main/resources"]; }
