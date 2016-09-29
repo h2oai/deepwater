@@ -131,17 +131,21 @@ std::string ImagePred::predict(float * image_data) {
 
   MXPredGetOutput(pred_hnd, output_index, &(data[0]), size);
 
-  float best_accuracy = 0.0;
-  size_t best_idx = 0;
-
+  int K = 5;
+  std::vector<int> topK(K);
   for ( size_t i = 0; i < data.size(); i++ ) {
-    if ( data[i] > best_accuracy ) {
-      best_accuracy = data[i];
-      best_idx = i;
-    }
+      for ( size_t j = 0; j < K; j++ ) {
+          if ( data[i] > data[topK[j]] ) {
+              topK[j] = i;
+              break;
+          }
+      }
   }
 
-  std::string res = "Prediction: " + synset[best_idx] + " Score: " + std::to_string(best_accuracy);
+  std::string res = "\nTop " + std::to_string(K) + " predictions:\n";
+  for ( size_t j = 0; j < K; j++ ) {
+      res += " Score: " + std::to_string(data[topK[j]]) + "\t" + synset[topK[j]] + "\n";
+  }
   LG << res;
   return res;
 }
