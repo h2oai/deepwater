@@ -4,7 +4,7 @@ package deepwater.backends.tensorflow;
 /**
  * Created by fmilo on 9/23/16.
  */
-class TensorflowBackend {
+public class TensorflowBackendImpl {
 
     public void delete() {
 

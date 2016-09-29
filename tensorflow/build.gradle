@@ -30,6 +30,9 @@ dependencies {
 //    }
 //}
 jar {
+    baseName = rootProject.name + "." + project.name
+
+    // copy all the other dependencies as a single JAR
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
 }
 sourceSets.main.resources { srcDirs = ["src/main/resources"]; }

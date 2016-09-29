@@ -24,3 +24,4 @@ backends/mxnet/*.java
 *.tar.gz
 *.zip
 backends/mxnet/test/*-cpp.json
+build
