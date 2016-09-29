@@ -6,9 +6,6 @@ import deepwater.backends.tensorflow.models.TFModel;
 
 import java.io.InputStream;
 
-/**
- * Created by fmilo on 9/23/16.
- */
 public class TensorflowBackendImpl {
 
     public void delete() {
