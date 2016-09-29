@@ -10,9 +10,6 @@ import java.util.zip.ZipInputStream;
 
 import static org.bytedeco.javacpp.tensorflow.*;
 
-/**
- * Created by fmilo on 9/23/16.
- */
 public class ModelFactory {
 
     static public void debugJar() throws IOException {
@@ -37,7 +34,6 @@ public class ModelFactory {
     static public TFModel LoadModel(String model_name) {
 
         GraphDef graph_def = new GraphDef();
-        //create a temp file
 //        try {
 //            File temp = null;
 //            debugJar();
@@ -48,8 +44,9 @@ public class ModelFactory {
 //            Files.copy(in, temp.toPath(), StandardCopyOption.REPLACE_EXISTING);
 //        } catch (IOException e) {
 //            e.printStackTrace();
-//            throw new InvalidArgumentException(new String[]{"could not load model " + model_name});
+//            //throw new InvalidArgumentException(new String[]{"could not load model " + model_name});
 //        }
+
         String path = "src/main/resources/deepwater.backends.tensorflow.models/mnist.pb";
         checkStatus(ReadBinaryProto(Env.Default(), path, graph_def));
         return new TFModel(graph_def);

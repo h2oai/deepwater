@@ -1,6 +1,11 @@
 package deepwater.backends.tensorflow;
 
 
+import deepwater.backends.tensorflow.models.ModelFactory;
+import deepwater.backends.tensorflow.models.TFModel;
+
+import java.io.InputStream;
+
 /**
  * Created by fmilo on 9/23/16.
  */
@@ -10,6 +15,13 @@ public class TensorflowBackendImpl {
 
     }
 
+    public void createNetwork(String name) {
+
+        InputStream stream = getClass().getResourceAsStream("mnist.pb");
+
+        TFModel model = ModelFactory.LoadModel("LENET");
+
+    }
 
     public void saveModel(String model_path) {
 
