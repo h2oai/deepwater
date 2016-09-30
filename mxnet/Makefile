@@ -7,7 +7,7 @@ else
 	JAVA_INCLUDE := -I/usr/lib/jvm/java-8-oracle/include/linux/ -I/usr/lib/jvm/java-8-oracle/include/
 endif
 
-MXNET_ROOT:=./mxnet
+MXNET_ROOT:=../thirdparty/mxnet
 
 config = $(MXNET_ROOT)/config.mk
 include $(config)
@@ -72,7 +72,7 @@ ifeq ($(UNAME_S), Darwin)
 	install_name_tool -change lib/libmxnet.so @loader_path/libmxnet.so libNative.so
 endif
 	cp ./libNative.so ./water/gpu
-	cp mxnet/lib/libmxnet.so ./water/gpu
+	cp $(MXNET_ROOT)/lib/libmxnet.so ./water/gpu
 	jar -cvf water.gpu.jar ./water
 
 mlp_test: $(MXNET_OBJS) clean_test
