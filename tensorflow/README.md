@@ -43,7 +43,7 @@ cd tensorflow
 ../gradlew build -x test
 ```
 
-#### Link the created .jars to H2O
+#### Link the created .jars to H2O (deepwater branch)
 ```
 ln -sf build/libs/tensorflow-1.0-SNAPSHOT-sources.jar ~/h2o-3/h2o-algos/
 ln -sf build/libs/tensorflow-1.0-SNAPSHOT-javadoc.jar ~/h2o-3/h2o-algos/
