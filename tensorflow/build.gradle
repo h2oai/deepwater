@@ -8,13 +8,12 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile files('javacpp.jar')
-    compile files('tensorflow.jar')
-    compile files('tensorflow-linux-x86_64.jar')
+    compile files('../thirdparty/javacpp-presets/target/javacpp.jar')
+    compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow.jar')
+    compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar')
     compile rootProject
     compile "com.google.protobuf:protobuf-java:3.0.0"
     compile 'com.google.guava:guava:19.0'
-
 }
 
 dependencies {
@@ -40,8 +39,7 @@ jar {
     // copy all the other dependencies as a single JAR
     from configurations.compile.collect {it.isDirectory() ? it: zipTree(it)}
 }
-sourceSets.main.resources {srcDirs = ["src/main/resources"]
-                           }
+sourceSets.main.resources {srcDirs = ["src/main/resources"]}
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
