@@ -1,3 +1,3 @@
 [submodule "backends/mxnet/mxnet"]
 	path = backends/mxnet/mxnet
-	url = https://github.com/dmlc/mxnet.git
+	url = https://github.com/h2oai/mxnet.git
