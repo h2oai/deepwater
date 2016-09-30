@@ -7,8 +7,8 @@
 ### Ubuntu
 
 ```bash
+cd ../thirdparty/mxnet
 git submodule update --init --recursive
-cd backends/mxnet/mxnet
 cp make/config.mk .
 ### EDIT config.mk - USE_OPENCV=0, USE_CUDA=1, USE_CUDA_PATH=...
 make -j8
@@ -23,7 +23,7 @@ make -j8 # will generate a jar file water.gpu.jar that includes native code
 git submodule update --init --recursive
 brew update
 brew tap homebrew/science
-cd mxnet; cp make/osx.mk ./config.mk; make -j$(sysctl -n hw.ncpu)
+cd ../thirdparty/mxnet; cp make/osx.mk ./config.mk; make -j$(sysctl -n hw.ncpu)
 cd ..
 make pkg # will generate a `jar` file including native code.
 ```
