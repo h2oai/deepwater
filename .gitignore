@@ -25,3 +25,7 @@ backends/mxnet/*.java
 *.zip
 backends/mxnet/test/*-cpp.json
 build
+.idea
+.gradle
+.cproject
+.project

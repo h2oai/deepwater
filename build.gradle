@@ -1,3 +1,15 @@
-allprojects {
-    task hello << { task -> println "I'm $task.project.name" }
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile 'com.google.guava:guava:19.0'
+
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
 }

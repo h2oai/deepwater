@@ -1,7 +1,8 @@
 group 'deepwater.backends.tensorflow'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
+apply plugin:
+    'java'
 
 repositories {
     mavenCentral()
@@ -10,6 +11,7 @@ dependencies {
     compile files('javacpp.jar')
     compile files('tensorflow.jar')
     compile files('tensorflow-linux-x86_64.jar')
+    compile rootProject
     compile "com.google.protobuf:protobuf-java:3.0.0"
     compile 'com.google.guava:guava:19.0'
 
@@ -20,19 +22,38 @@ dependencies {
 }
 
 //jar {
-//    baseName = 'analytics'
-//    from('src/main/java') {
-//        include 'config/**/*.xml'
-//    }
-//
-//    manifest {
-//        attributes 'Implementation-Title': 'Analytics Library', 'Implementation-Version': version
-//    }
-//}
+    // baseName = 'analytics'
+    // from('src/main/java') {
+        // include 'config/**/*.xml'
+        //}
+    //
+    // manifest {
+        // attributes 'Implementation-Title': 'Analytics Library', 'Implementation-Version': version
+        //}
+    //}
 jar {
     baseName = rootProject.name + "." + project.name
 
+    // include also the sources for easy debugging
+    from sourceSets.main.allSource
+
     // copy all the other dependencies as a single JAR
-    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    from configurations.compile.collect {it.isDirectory() ? it: zipTree(it)}
 }
-sourceSets.main.resources { srcDirs = ["src/main/resources"]; }
+sourceSets.main.resources {srcDirs = ["src/main/resources"]
+                           }
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
