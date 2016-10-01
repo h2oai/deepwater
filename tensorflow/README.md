@@ -8,7 +8,7 @@ The module directory contains a pretrained set of ready to use models.
 #### Javaccp presets
 ```
 cd thirdparty
-git submodule update --init --recursive
+git submodule update --init --recursive --depth 1
 ```
 
 #### Install Bazel

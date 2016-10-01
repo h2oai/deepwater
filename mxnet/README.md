@@ -20,7 +20,7 @@ make -j8 # will generate a jar file water.gpu.jar that includes native code
 
 1. Install [homebrew](http://brew.sh).
 ```bash
-git submodule update --init --recursive
+git submodule update --init --recursive --depth 1
 brew update
 brew tap homebrew/science
 cd ../thirdparty/mxnet; cp make/osx.mk ./config.mk; make -j$(sysctl -n hw.ncpu)
