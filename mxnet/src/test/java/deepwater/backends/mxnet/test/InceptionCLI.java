@@ -1,4 +1,4 @@
-package h2o.deepwater.test;
+package deepwater.backends.mxnet.test;
 
 import javax.imageio.ImageIO;
 import java.util.Date;

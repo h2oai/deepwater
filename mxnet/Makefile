@@ -125,8 +125,8 @@ seed_test: $(MXNET_OBJS) clean_test
 	$(CXX) -o seed_test seed_test.o image_train.o $(MXNET_OBJS) $(MXLIB)
 
 java_test: pkg
-	javac -cp water.gpu.jar java/h2o/deepwater/test/InceptionCLI.java
-	java -cp water.gpu.jar:java h2o.deepwater.test.InceptionCLI $(PWD)/Inception $(PWD)/test/test2.jpg 
+	javac -cp water.gpu.jar src/test/java/deepwater/backends/mxnet/test/InceptionCLI.java
+	java -cp water.gpu.jar:src/test/java deepwater.backends.mxnet.test.InceptionCLI $(PWD)/Inception $(PWD)/test/test2.jpg 
 
 clean: clean_test
 	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o *.d MLP.java ImageTrain.java ImagePred.java SWIGT*.java NumericTrain.java
