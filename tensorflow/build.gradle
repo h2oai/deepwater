@@ -7,6 +7,11 @@ apply plugin:
 repositories {
     mavenCentral()
 }
+
+sourceSets.main.resources {
+    srcDirs = ["src/main/resources"]
+}
+
 dependencies {
     compile files('../thirdparty/javacpp-presets/target/javacpp.jar')
     compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow.jar')
@@ -39,7 +44,7 @@ jar {
     // copy all the other dependencies as a single JAR
     from configurations.compile.collect {it.isDirectory() ? it: zipTree(it)}
 }
-sourceSets.main.resources {srcDirs = ["src/main/resources"]}
+
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'

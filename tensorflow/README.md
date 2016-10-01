@@ -8,8 +8,18 @@ The module directory contains a pretrained set of ready to use models.
 #### Javaccp presets
 ```
 cd thirdparty
-git submodule update --init --recursive --depth 1
+git submodule update --init --recursive
 ```
+
+## Install Anaconda Python
+
+```
+conda create -name deepwater python=2.7
+source activate deepwater
+# The numpy version is important
+conda install numpy=1.10
+``
+
 
 #### Install Bazel
 ```

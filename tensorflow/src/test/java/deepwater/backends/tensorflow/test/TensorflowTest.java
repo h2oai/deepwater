@@ -1,10 +1,10 @@
 package deepwater.backends.tensorflow.test;
 
 
+import deepwater.backends.tensorflow.models.ModelFactory;
+import deepwater.backends.tensorflow.models.TensorflowModel;
 import deepwater.datasets.MNISTImageDataset;
 import deepwater.datasets.Pair;
-import deepwater.backends.tensorflow.models.ModelFactory;
-import deepwater.backends.tensorflow.models.TFModel;
 import org.bytedeco.javacpp.tensorflow;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -146,7 +146,7 @@ public class TensorflowTest {
         GraphDef graph_def = new GraphDef();
         InputStream stream = getClass().getResourceAsStream("mnist.pb");
 
-        TFModel model = ModelFactory.LoadModel("LENET");
+        TensorflowModel model = ModelFactory.LoadModel("LENET");
 
         checkStatus(sess.Create(model.getGraph()));
 
@@ -202,7 +202,7 @@ public class TensorflowTest {
 
         SessionOptions opt = new SessionOptions();
         Session sess = new Session(opt);
-        TFModel model = ModelFactory.LoadModel("LENET");
+        TensorflowModel model = ModelFactory.LoadModel("LENET");
 
         Status status = sess.Create(model.getGraph());
         if (!status.ok()) {
