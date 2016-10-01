@@ -8,7 +8,6 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    //compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar')
     compile rootProject
     compile files('water.gpu.jar')
 }
@@ -44,6 +43,7 @@ artifacts {
     archives javadocJar
 }
 
+/*
 buildscript {
   repositories {
     maven {
@@ -56,6 +56,7 @@ buildscript {
 }
 
 apply plugin: "net.tribe-seven.swig"
+*/
 
 task makeTask(type: Exec) {
   commandLine "make"

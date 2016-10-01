@@ -4,7 +4,8 @@
 1. [SWIG](http://www.swig.org/)
 1. [OpenCV](http://opencv.org) - optional
 
-### Ubuntu
+#### Build mxnet 
+##### Ubuntu
 
 ```bash
 cd ../thirdparty/mxnet
@@ -16,7 +17,7 @@ cd ..
 make -j8 # will generate a jar file water.gpu.jar that includes native code
 ```
 
-### Macosx
+##### Macosx
 
 1. Install [homebrew](http://brew.sh).
 ```bash
@@ -26,6 +27,16 @@ brew tap homebrew/science
 cd ../thirdparty/mxnet; cp make/osx.mk ./config.mk; make -j$(sysctl -n hw.ncpu)
 cd ..
 make pkg # will generate a `jar` file including native code.
+```
+
+
+#### Build mxnet H2O bindings
+```
+cd deepwater/mxnet
+../gradlew makeTask
+../gradlew build
+cd ..
+./gradlew build -x test
 ```
 
 For other options see the [official mxnet build instructions](http://mxnet.readthedocs.io/en/latest/how_to/build.html).
