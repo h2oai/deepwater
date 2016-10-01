@@ -37,7 +37,7 @@ public class ModelFactory {
 
     }
 
-    static public TFModel LoadModel(String model_name) {
+    static public TensorflowModel LoadModel(String model_name) {
         String resource_model_name = convertToCanonicalName(model_name);
         GraphDef graph_def = new GraphDef();
         try {
@@ -51,7 +51,8 @@ public class ModelFactory {
                 Files.copy(in, temp.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 path = temp.getAbsolutePath();
             } else {
-                path = model_name;
+                // FIXME: for somereason inside idea it does not work
+                path = "/home/fmilo/workspace/deepwater/tensorflow/src/main/resources/"+ resource_model_name;
             }
             checkStatus(ReadBinaryProto(Env.Default(), path, graph_def));
         } catch (IOException e) {
@@ -59,7 +60,7 @@ public class ModelFactory {
             //throw new InvalidArgumentException(new String[]{"could not load model " + model_name});
         }
 
-        return new TFModel(graph_def);
+        return new TensorflowModel(graph_def);
 
     }
 

@@ -4,9 +4,11 @@ import deepwater.backends.BackendModel;
 import deepwater.backends.BackendParams;
 import deepwater.backends.BackendTrain;
 import deepwater.backends.RuntimeOptions;
+import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.datasets.ImageDataSet;
 
-public class TensorflowBackend extends TensorflowBackendImpl implements BackendTrain {
+
+public class TensorflowBackend implements BackendTrain {
 
     @Override
     public void delete(BackendModel m) {
@@ -14,30 +16,8 @@ public class TensorflowBackend extends TensorflowBackendImpl implements BackendT
     }
 
     @Override
-    public BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts, BackendParams backendParams, int num_classes, String name) {
-        assert(opts!=null);
-        assert(dataset!=null);
-        assert(backendParams !=null);
-
-        // TensorflowBackendModel m = super.createNetwork(name, num_classes);
-
-        if (backendParams.get("clip_gradient") != null)
-            //_mxnet.setClipGradient(((Double)bparms.get("clip_gradient")).floatValue());
-        if (backendParams.get("hidden") == null) {
-            //getTrainer().buildNet(num_classes, ((Integer) bparms.get("mini_batch_size")).intValue(), name);
-        } else {
-//            getTrainer().buildNet(
-//                    num_classes,
-//                    ((Integer) backendParams.get("mini_batch_size")).intValue(),
-//                    name,
-//                    ((int[]) backendParams.get("hidden")).length,
-//                    (int[]) backendParams.get("hidden"),
-//                    (String[]) backendParams.get("activations"),
-//                    ((Double) backendParams.get("input_dropout_ratio")).doubleValue(),
-//                    (double[]) backendParams.get("hidden_dropout_ratios")
-//            );
-        }
-        return new TensorflowBackendModel();
+    public BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts, BackendParams backend_params, int num_classes, String name) {
+        return ModelFactory.LoadModel(name);
     }
 
     @Override
@@ -79,5 +59,4 @@ public class TensorflowBackend extends TensorflowBackendImpl implements BackendT
     public float[] predict(BackendModel m, float[] data) {
         return new float[0];
     }
-
 }

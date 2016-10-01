@@ -1,12 +1,9 @@
 package hex.deepwater;
 
-import com.google.protobuf.CodedInputStream;
-import com.google.protobuf.ExtensionRegistryLite;
 import com.google.protobuf.TextFormat;
 import org.tensorflow.framework.AttrValue;
 import org.tensorflow.framework.GraphDef;
 import org.tensorflow.framework.NodeDef;
-import org.tensorflow.framework.OpDef;
 import org.tensorflow.framework.OpList;
 
 import java.io.BufferedReader;

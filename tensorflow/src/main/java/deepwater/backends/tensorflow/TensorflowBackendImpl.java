@@ -2,7 +2,7 @@ package deepwater.backends.tensorflow;
 
 
 import deepwater.backends.tensorflow.models.ModelFactory;
-import deepwater.backends.tensorflow.models.TFModel;
+import deepwater.backends.tensorflow.models.TensorflowModel;
 
 import java.io.InputStream;
 
@@ -16,7 +16,7 @@ public class TensorflowBackendImpl {
 
         InputStream stream = getClass().getResourceAsStream("mnist.pb");
 
-        TFModel model = ModelFactory.LoadModel("LENET");
+        TensorflowModel model = ModelFactory.LoadModel("LENET");
 
     }
 
