@@ -1,0 +1,66 @@
+group 'deepwater.backends.mxnet'
+version '1.0-SNAPSHOT'
+
+apply plugin:
+    'java'
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    //compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar')
+    compile rootProject
+    compile files('water.gpu.jar')
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+jar {
+    baseName = rootProject.name + "." + project.name
+
+    // include also the sources for easy debugging
+    from sourceSets.main.allSource
+
+    // copy all the other dependencies as a single JAR
+    from configurations.compile.collect {it.isDirectory() ? it: zipTree(it)}
+}
+
+sourceSets.main.resources {srcDirs = ["src/main/resources"]}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "gradle.plugin.net.tribe7.gradle:gradle-swig:0.1.1"
+  }
+}
+
+apply plugin: "net.tribe-seven.swig"
+
+task makeTask(type: Exec) {
+  commandLine "make"
+  workingDir "$projectDir"
+}
+
+build.dependsOn makeTask
+
