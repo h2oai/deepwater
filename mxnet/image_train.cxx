@@ -118,7 +118,7 @@ void ImageTrain::buildNet(int n, int b, char * n_name,
       hdrop[i]=hidden_dropout[i];
     }
     mxnet_sym = MLPSymbol(hid, act, n, input_dropout, hdrop);
-  } else if (net_name.find(".json") != std::string::npos) {
+  } else if (net_name.find(".json") != std::string::npos || net_name.find(".network") != std::string::npos) {
     loadModel(n_name);
     is_built = false;
   } else {
@@ -341,4 +341,18 @@ std::vector<float> ImageTrain::execute(float * data, float * label, bool is_trai
   exec->outputs[0].SyncCopyToCPU(&preds, batch_size * num_classes);
 
   return preds;
+}
+
+std::vector<float> ImageTrain::loadMeanImage(const char * fname) {
+  mx_uint out_size, out_name_size;
+  NDArrayHandle *out_arr;
+  const char **out_names;
+  CHECK_EQ(MXNDArrayLoad(fname, &out_size, &out_arr, &out_name_size,
+                         &out_names), 0);
+  CHECK_EQ(out_name_size, out_size);
+  mxnet::cpp::NDArray nd_res = mxnet::cpp::NDArray(out_arr[0]);
+  size_t nd_size = nd_res.Size();
+  std::vector<float> res(nd_size);
+  nd_res.SyncCopyToCPU(&res, nd_size);
+  return res;
 }

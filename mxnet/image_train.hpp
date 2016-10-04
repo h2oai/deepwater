@@ -33,6 +33,7 @@ class ImageTrain{
   void loadParam(char * param_path);
   void saveParam(char * param_path);
   const char * toJson();
+  std::vector<float> loadMeanImage(const char * file_path);
 
   void setLR(float lr) {learning_rate = lr;}
   void setWD(float wd) {weight_decay = wd;}

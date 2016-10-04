@@ -19,7 +19,7 @@ MXNET_SRCS := $(shell find src/ -name '*.cxx') network_def.cxx
 
 MXNET_OBJS = $(MXNET_SRCS:.cxx=.o)
 
-SRCS := mlp.cxx image_train.cxx image_pred.cxx
+SRCS := image_train.cxx image_pred.cxx
 
 OBJS = $(SRCS:.cxx=.o)
 

@@ -43,12 +43,6 @@
 
 %module deepwater
 
-//%{
-//#include "mlp.hpp"
-//%}
-
-//%include "mlp.hpp"
-
 %{
 #include "image_train.hpp"
 %}
@@ -60,12 +54,6 @@
 %}
 
 %include "image_pred.hpp"
-
-%{
-#include "util.hpp"
-%}
-
-std::vector<float> loadNDArray(const char * fname);
 
 %{
 #include "include/c_api.h"
