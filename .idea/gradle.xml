@@ -10,6 +10,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/backends" />
+            <option value="$PROJECT_DIR$/mxnet" />
             <option value="$PROJECT_DIR$/tensorflow" />
           </set>
         </option>
