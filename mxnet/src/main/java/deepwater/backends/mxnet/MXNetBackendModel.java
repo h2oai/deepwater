@@ -1,7 +1,7 @@
 package deepwater.backends.mxnet;
 
 import deepwater.backends.BackendModel;
-import water.gpu.ImageTrain;
+import deepwater.backends.mxnet.ImageTrain;
 
 public class MXNetBackendModel extends ImageTrain implements BackendModel {
 

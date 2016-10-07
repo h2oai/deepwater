@@ -134,7 +134,7 @@ std::string ImagePred::predict(float * image_data) {
   int K = 5;
   std::vector<int> topK(K);
   for ( size_t i = 0; i < data.size(); i++ ) {
-      for ( size_t j = 0; j < K; j++ ) {
+      for ( size_t j = 0; j < (size_t)K; j++ ) {
           if ( data[i] > data[topK[j]] ) {
               topK[j] = i;
               break;
@@ -143,7 +143,7 @@ std::string ImagePred::predict(float * image_data) {
   }
 
   std::string res = "\nTop " + std::to_string(K) + " predictions:\n";
-  for ( size_t j = 0; j < K; j++ ) {
+  for ( size_t j = 0; j < (size_t)K; j++ ) {
       res += " Score: " + std::to_string(data[topK[j]]) + "\t" + synset[topK[j]] + "\n";
   }
   LG << res;

@@ -18,14 +18,14 @@ public class MXNetBackend implements BackendTrain {
           System.out.println("Found CUDA_PATH environment variable, trying to connect to GPU devices.");
           //System.out.println(logNvidiaStats());
           System.out.println("Loading CUDA library.");
-          water.gpu.util.loadCudaLib();
+          util.loadCudaLib();
         } else {
           System.out.println("No GPU found - not loading CUDA library.");
         }
         System.out.println("Loading mxnet library.");
-        water.gpu.util.loadNativeLib("mxnet");
+        util.loadNativeLib("mxnet");
         System.out.println("Loading H2O mxnet bindings.");
-        water.gpu.util.loadNativeLib("Native");
+        util.loadNativeLib("Native");
       } catch (IOException e) {
         e.printStackTrace();
         throw new IllegalArgumentException("Couldn't load native libraries");

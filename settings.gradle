@@ -4,7 +4,7 @@ rootProject.name = 'deepwater'
 include 'backends'
 
 // implementations
-//if (rootProject.hasProperty("doDeepWater")) {
+if (System.getenv("DEEPWATER").equals("1")) {
   include 'mxnet'
   include 'tensorflow'
-//}
+}

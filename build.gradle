@@ -6,13 +6,5 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.google.guava:guava:19.0'
-    compile project(':backends')
-//    if (project.hasProperty("doDeepWater")) {
-     compile project(':mxnet')
-    compile project(':tensorflow')
-   // }
-}
-dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }

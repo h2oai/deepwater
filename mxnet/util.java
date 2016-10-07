@@ -1,4 +1,4 @@
-package water.gpu;
+package deepwater.backends.mxnet;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -54,7 +54,7 @@ public final class util {
     public static String extractLibrary(String resourceName) throws IOException {
 
         String libname = libName(resourceName);
-        String origin = path("/water/gpu/",libname);
+        String origin = path("/deepwater/backends/mxnet/",libname);
 
         String tmpdir = System.getProperty("java.io.tmpdir");
         if (tmpdir.isEmpty()){

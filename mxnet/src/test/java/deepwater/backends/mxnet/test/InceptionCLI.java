@@ -5,9 +5,9 @@ import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-import water.gpu.ImageIter;
-import water.gpu.ImagePred;
-import water.gpu.util;
+import deepwater.backends.mxnet.ImageIter;
+import deepwater.backends.mxnet.ImagePred;
+import deepwater.backends.mxnet.util;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
