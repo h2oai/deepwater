@@ -2,18 +2,30 @@ package deepwater.datasets;
 
 // Inspired from http://stackoverflow.com/questions/8286668/how-to-read-mnist-data-in-c
 
+import com.google.common.collect.ImmutableMap;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 
-public class MNISTImageDataset {
+public class MNISTImageDataset extends ImageDataSet {
+
+    public static final Map<String, String> Resources = ImmutableMap.of(
+            "train_images", "http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz",
+            "in_images","http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz",
+            "test_images", "http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz",
+            "test_labels","http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz"
+    );
 
     private String labelFileName;
     private String imageFileName;
@@ -42,6 +54,7 @@ public class MNISTImageDataset {
 
 
     public MNISTImageDataset(String labelFileName, String imageFileName) {
+        super(28, 28, 1, 10); // these values are from the mnist specifications
         this.labelFileName = labelFileName;
         this.imageFileName = imageFileName;
     }

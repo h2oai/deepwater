@@ -6,11 +6,13 @@ public class ImageDataSet {
     float[] meanData; //mean pixel value of the training data
     private int width;
     private int height;
+    private int numClasses;
 
-    public ImageDataSet(int width, int height, int channels){
+    public ImageDataSet(int width, int height, int channels, int numClasses){
         this.height = height;
         this.width = width;
         this.channels = channels;
+        this.numClasses = numClasses;
     }
 
     public int getWidth() {
@@ -51,4 +53,7 @@ public class ImageDataSet {
     }
 
 
+    public int getNumClasses() {
+        return numClasses;
+    }
 }
