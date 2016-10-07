@@ -16,7 +16,7 @@ dependencies {
     compile files('../thirdparty/javacpp-presets/target/javacpp.jar')
     compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow.jar')
     compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar')
-    compile rootProject
+    compile project (':backends')
     compile "com.google.protobuf:protobuf-java:3.0.0"
     compile 'com.google.guava:guava:19.0'
 }

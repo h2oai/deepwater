@@ -1,6 +1,10 @@
-rootProject.name = 'deepwater.backends'
+rootProject.name = 'deepwater'
 
-include 'tensorflow'
+// interface
 include 'backends'
-include 'mxnet'
 
+// implementations
+//if (rootProject.hasProperty("doDeepWater")) {
+  include 'mxnet'
+  include 'tensorflow'
+//}

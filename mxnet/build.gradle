@@ -8,7 +8,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile rootProject
+    compile project (':backends')
     compile files('water.gpu.jar')
 }
 
