@@ -26,13 +26,13 @@ buildscript {
   }
 }
 shadowJar {
-    dependencies {
-      include(project(':backends'))
-      if (System.getenv("DEEPWATER").equals("1")) {
-          include(project(':mxnet'))
-          include(project(':tensorflow'))
-      }
+  dependencies {
+    include(project(':backends'))
+    if (System.getenv("DEEPWATER").equals("1")) {
+      include(project(':mxnet'))
+      include(project(':tensorflow'))
     }
+  }
 }
 artifacts {
   archives shadowJar
