@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BackendParams {
-  Map<String, Object> values = new HashMap<>();
-  ArrayList<String> args = new ArrayList<>();
+  Map<String, Object> values = new HashMap();
+  ArrayList<String> args = new ArrayList();
 
   public BackendParams set(String name, Object value ){
     args.add(name);

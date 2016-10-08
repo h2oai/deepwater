@@ -47,7 +47,7 @@ public class MNISTImageDataset {
     }
 
     public List<Pair<Integer,float[]>> loadDigitImages() throws IOException {
-        List<Pair<Integer,float[]>> images = new ArrayList<>();
+        List<Pair<Integer,float[]>> images = new ArrayList();
 
         ByteArrayOutputStream labelBuffer = new ByteArrayOutputStream();
         ByteArrayOutputStream imageBuffer = new ByteArrayOutputStream();
@@ -112,7 +112,7 @@ public class MNISTImageDataset {
                 p++;
             }
             assert p == ROWS * COLUMNS: "Expected: "+ROWS*COLUMNS+" GOT: "+p;
-            images.add(new Pair<>(label, imageDataFloat));
+            images.add(new Pair(label, imageDataFloat));
         }
 
         return images;
