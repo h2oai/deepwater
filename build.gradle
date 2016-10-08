@@ -2,6 +2,7 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'com.github.johnrengelman.shadow'
 group = 'com.github.h2oai'
 
 repositories {
@@ -9,4 +10,31 @@ repositories {
 }
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile project(":backends")
+      if (System.getenv("DEEPWATER").equals("1")) {
+          compile project(':mxnet')
+          compile project(':tensorflow')
+      }
+}
+buildscript {
+  repositories {
+      mavenCentral()
+      jcenter()
+      maven { url "http://dl.bintray.com/releashaus/release" }
+  }
+  dependencies {
+    classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+  }
+}
+shadowJar {
+    dependencies {
+      include(project(':backends'))
+      if (System.getenv("DEEPWATER").equals("1")) {
+          include(project(':mxnet'))
+          include(project(':tensorflow'))
+      }
+    }
+}
+artifacts {
+  archives shadowJar
 }
