@@ -3,7 +3,6 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'com.github.johnrengelman.shadow'
-group = 'com.github.h2oai'
 
 repositories {
     mavenCentral()
