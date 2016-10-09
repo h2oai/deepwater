@@ -18,7 +18,7 @@ conda create --name deepwater python=2.7
 source activate deepwater
 # The numpy version is important
 conda install numpy=1.10
-``
+```
 
 
 #### Install Bazel
