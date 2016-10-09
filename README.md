@@ -21,16 +21,16 @@ Download the [Deep Water overview slides](./architecture/deepwater_overview.pdf)
 ### Build instructions here:
 If you want to use Deep Water in H2O-3, you'll need to have a .jar file that includes backend support for at least one of MXNet, Caffe or TensorFlow.
 
-1. Build mxnet 
+##### 1. Build mxnet 
 [Instructions to build MXNet](https://github.com/h2oai/deepwater/tree/master/mxnet)
 
-2. Build TensorFlow 
+##### 2. Build TensorFlow 
 [Instructions to build TensorFlow](https://github.com/h2oai/deepwater/tree/master/tensorflow)
 
-3. Build Caffe 
+##### 3. Build Caffe 
 Coming soon.
 
-4. Build H2O Backend Connectors
+##### 4. Build H2O Backend Connectors
 From the top-level of the deepwater repository, do
 ```
 ./gradlew build -x test
@@ -39,7 +39,7 @@ From the top-level of the deepwater repository, do
 This will create a file that matches this pattern: `build/libs/*-all.jar`
 
 ### H2O-3 has DeepWater support
-You need to check out the 'deepwater' branch of github.com/h2oai/h2o-3.
+You need to check out the [deepwater branch of h2o-3](http://github.com/h2oai/h2o-3/tree/deepwater/).
 
 ### Java example use cases
 Example [Java GPU-enabled unit tests](https://github.com/h2oai/h2o-3/tree/deepwater/h2o-algos/src/test/java/hex/deepwater).
