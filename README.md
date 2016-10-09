@@ -40,7 +40,7 @@ This will create the following file: `build/libs/deepwater-1.0-SNAPSHOT-all.jar`
 
 ##### 5. Add DeepWater support to H2O-3
 You need to check out the [deepwater branch of h2o-3](http://github.com/h2oai/h2o-3/tree/deepwater/).
-Copy this file to h2o-3/h2o-algos/ and to h2o-3/h2o-genmodel/, and modify the two 'build.gradle' files in 'h2o-3/h2o-algos/build.gradle' and 'h2o-3/h2o-genmodel/build.gradle' to point to this jar instead of the default (empty) one:
+Copy the freshly created .jar file from the previous step to h2o-3/h2o-algos/ and to h2o-3/h2o-genmodel/, and modify the two 'build.gradle' files in 'h2o-3/h2o-algos/build.gradle' and 'h2o-3/h2o-genmodel/build.gradle' to point to this jar instead of the default (empty) one:
 
 ```
 dependencies {
