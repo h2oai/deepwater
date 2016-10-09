@@ -37,6 +37,9 @@ DEEPWATER=1 ./gradlew build -x test
 ```
 
 This will create the following file: `build/libs/deepwater-1.0-SNAPSHOT-all.jar`
+
+##### 5. Add DeepWater support to H2O-3
+You need to check out the [deepwater branch of h2o-3](http://github.com/h2oai/h2o-3/tree/deepwater/).
 Copy this file to h2o-3/h2o-algos/ and to h2o-3/h2o-genmodel/, and modify the two 'build.gradle' files in 'h2o-3/h2o-algos/build.gradle' and 'h2o-3/h2o-genmodel/build.gradle' to point to this jar instead of the default (empty) one:
 
 ```
@@ -46,10 +49,6 @@ dependencies {
   compile files('deepwater-1.0-SNAPSHOT-all.jar')  # <- add this line
 }
 ```
-
-
-### H2O-3 has DeepWater support
-You need to check out the [deepwater branch of h2o-3](http://github.com/h2oai/h2o-3/tree/deepwater/).
 
 ### Java example use cases
 Example [Java GPU-enabled unit tests](https://github.com/h2oai/h2o-3/tree/deepwater/h2o-algos/src/test/java/hex/deepwater).
