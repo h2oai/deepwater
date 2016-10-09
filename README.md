@@ -33,10 +33,20 @@ Coming soon.
 ##### 4. Build H2O Backend Connectors
 From the top-level of the deepwater repository, do
 ```
-./gradlew build -x test
+DEEPWATER=1 ./gradlew build -x test
 ```
 
-This will create a file that matches this pattern: `build/libs/*-all.jar`
+This will create the following file: `build/libs/deepwater-1.0-SNAPSHOT-all.jar`
+Copy this file to h2o-3/h2o-algos/ and to h2o-3/h2o-genmodel/, and modify the two 'build.gradle' files in 'h2o-3/h2o-algos/build.gradle' and 'h2o-3/h2o-genmodel/build.gradle' to point to this jar instead of the default (empty) one:
+
+```
+dependencies {
+  ...
+  // compile 'com.github.h2oai.deepwater:deepwater.backends:master-SNAPSHOT' # <- comment out
+  compile files('deepwater-1.0-SNAPSHOT-all.jar')  # <- add this line
+}
+```
+
 
 ### H2O-3 has DeepWater support
 You need to check out the [deepwater branch of h2o-3](http://github.com/h2oai/h2o-3/tree/deepwater/).
