@@ -65,14 +65,14 @@ In the future, we'll have more pre-built jars for more OS/CUDA combinations.
 ```
 sudo pip install h2o-3/h2o-py/h2o-3.11.0.99999-py2.py3-none-any.whl
 ```
-If you didn't build it yourself, download a recent version of the [h2o python wheel](https://slack-files.com/T0329MHH6-F2M4B2ZFW-d77a43ebbf)
+If you didn't build it yourself, download a recent version of the h2o python wheel: (https://slack-files.com/T0329MHH6-F2M4B2ZFW-d77a43ebbf)
 
 ##### (Optional) Install the Python egg for MXNet
 If you want to build your own MXNet models (from Python so far), install the MXNet wheel (which was built together with MXNet above):
 ```
 sudo easy_install deepwater/thirdparty/mxnet/python/dist/mxnet-0.7.0-py2.7.egg
 ```
-If you didn't build it yourself, download a recent version of the [mxnet python egg](https://slack-files.com/T0329MHH6-F2M2XU01H-558dd94fcc)
+If you didn't build it yourself, download a recent version of the mxnet python egg: (https://slack-files.com/T0329MHH6-F2M2XU01H-558dd94fcc)
 
 
 ### Running GPU enabled Deep Water in H2O
@@ -81,7 +81,7 @@ If you didn't build it yourself, download a recent version of the [mxnet python 
 ```
 java -jar build/h2o.jar
 ```
-If you didn't build it yourself, download a recent version of [h2o.jar](https://slack-files.com/T0329MHH6-F2M4AHKS8-59ac335243)
+If you didn't build it yourself, download a recent version of h2o.jar: (https://slack-files.com/T0329MHH6-F2M4AHKS8-59ac335243)
 
 #### Java example use cases
 Example [Java GPU-enabled unit tests](https://github.com/h2oai/h2o-3/tree/deepwater/h2o-algos/src/test/java/hex/deepwater).
