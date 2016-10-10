@@ -134,7 +134,7 @@ seed_test: $(MXNET_OBJS) clean_test
 
 java_test: pkg
 	javac -cp build src/test/java/deepwater/backends/mxnet/test/InceptionCLI.java
-	java -cp build:src/test/java deepwater.backends.mxnet.test.InceptionCLI $(PWD)/Inception $(PWD)/test/test2.jpg 
+	java -cp build:src/test/java deepwater.backends.mxnet.test.InceptionCLI src/main/resources/deepwater/backends/mxnet/models/Inception $(PWD)/test/test2.jpg 
 
 clean: clean_test
 	rm -rf $(OBJDIR)

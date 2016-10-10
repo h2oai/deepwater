@@ -13,8 +13,6 @@ git submodule update --init --recursive
 cp make/config.mk .
 ### EDIT config.mk - USE_OPENCV=0, USE_CUDA=1, USE_CUDA_PATH=...
 make -j8
-cd ..
-make -j8 # will generate a jar file water.gpu.jar that includes native code
 ```
 
 ##### Macosx
@@ -25,8 +23,6 @@ git submodule update --init --recursive --depth 1
 brew update
 brew tap homebrew/science
 cd ../thirdparty/mxnet; cp make/osx.mk ./config.mk; make -j$(sysctl -n hw.ncpu)
-cd ..
-make pkg # will generate a `jar` file including native code.
 ```
 
 For other options see the [official mxnet build instructions](http://mxnet.readthedocs.io/en/latest/how_to/build.html).
