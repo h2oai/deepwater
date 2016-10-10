@@ -71,9 +71,9 @@ void ImagePred::loadInception() {
 
 void ImagePred::loadModel() {
   synset = loadSynset(model_path_ + "/synset.txt");
-  BufferFile json_data(model_path_ + "/model-symbol.json");
-  BufferFile param_data(model_path_ + "/model.params");
-  BufferFile nd_buf(model_path_ + "/mean.nd");
+  BufferFile json_data(model_path_ + "/Inception_BN-symbol.json");
+  BufferFile param_data(model_path_ + "/Inception_BN-0039.params");
+  BufferFile nd_buf(model_path_ + "/mean_224.nd");
 
   mx_uint nd_index = 0;
   mx_uint nd_len;
