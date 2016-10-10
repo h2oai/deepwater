@@ -4,7 +4,12 @@ rootProject.name = 'deepwater'
 include 'backends'
 
 // implementations
-if (System.getenv("DEEPWATER").equals("1")) {
+if (isGradlePropSet("buildDeepWater")){
   include 'mxnet'
   include 'tensorflow'
+}
+
+// helper methods
+def isGradlePropSet(String propName){
+  return startParameter.projectProperties.get(propName, null) != null
 }

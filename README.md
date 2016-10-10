@@ -35,7 +35,7 @@ Coming soon.
 #### 4. Build H2O Backend Connectors
 From the top-level of the deepwater repository, do
 ```
-DEEPWATER=1 ./gradlew build -x test
+./gradlew build -x test -PbuildDeepWater
 ```
 
 This will create the following file: `build/libs/deepwater-1.0-SNAPSHOT-all.jar`

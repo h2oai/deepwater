@@ -10,10 +10,10 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile project(":backends")
-      if (System.getenv("DEEPWATER").equals("1")) {
-          compile project(':mxnet')
-          compile project(':tensorflow')
-      }
+    if (project.hasProperty("buildDeepWater")) {
+        compile project(':mxnet')
+        compile project(':tensorflow')
+    }
 }
 buildscript {
   repositories {
@@ -28,7 +28,7 @@ buildscript {
 shadowJar {
   dependencies {
     include(project(':backends'))
-    if (System.getenv("DEEPWATER").equals("1")) {
+    if (project.hasProperty("buildDeepWater")) {
       include(project(':mxnet'))
       include(project(':tensorflow'))
     }
@@ -40,4 +40,3 @@ artifacts {
 task wrapper(type: Wrapper) {
   gradleVersion = '2.9'
 }
-
