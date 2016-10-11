@@ -30,7 +30,7 @@
         "no_bias": "False", 
         "num_filter": "96", 
         "num_group": "1", 
-        "pad": "(0,0)", 
+        "pad": "(2,2)", 
         "stride": "(4,4)", 
         "workspace": "512"
       }, 

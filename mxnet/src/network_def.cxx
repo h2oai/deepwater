@@ -14,7 +14,8 @@ Symbol AlexnetSymbol(int num_classes) {
 
   Symbol conv1_w("convolution0_weight"), conv1_b("convolution0_bias");
   Symbol conv1 = Convolution("convolution0", data, conv1_w, conv1_b,
-                             Shape(11, 11), 96, Shape(4, 4));
+                             Shape(11, 11), 96,
+                             Shape(4, 4), Shape(1, 1), Shape(2, 2));
   Symbol relu1 = Activation("activation0", conv1, "relu");
   Symbol pool1 = Pooling("pooling0", relu1, Shape(3, 3),
                          PoolingPoolType::max, false, Shape(2, 2));
