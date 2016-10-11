@@ -24,7 +24,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(7,7)", 
         "no_bias": "False", 
@@ -75,7 +76,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -113,7 +115,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -164,7 +167,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -202,7 +206,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -240,7 +245,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -278,7 +284,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -316,7 +323,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(5,5)", 
         "no_bias": "False", 
@@ -367,7 +375,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -415,7 +424,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -453,7 +463,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -491,7 +502,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -529,7 +541,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -567,7 +580,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(5,5)", 
         "no_bias": "False", 
@@ -618,7 +632,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -679,7 +694,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -717,7 +733,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -755,7 +772,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -793,7 +811,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -831,7 +850,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(5,5)", 
         "no_bias": "False", 
@@ -882,7 +902,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -930,7 +951,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -968,7 +990,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1006,7 +1029,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -1044,7 +1068,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1082,7 +1107,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(5,5)", 
         "no_bias": "False", 
@@ -1133,7 +1159,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1181,7 +1208,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1219,7 +1247,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1257,7 +1286,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -1295,7 +1325,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1333,7 +1364,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(5,5)", 
         "no_bias": "False", 
@@ -1384,7 +1416,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1432,7 +1465,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1470,7 +1504,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1508,7 +1543,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -1546,7 +1582,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1584,7 +1621,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(5,5)", 
         "no_bias": "False", 
@@ -1635,7 +1673,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1683,7 +1722,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1721,7 +1761,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1759,7 +1800,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -1797,7 +1839,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1835,7 +1878,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(5,5)", 
         "no_bias": "False", 
@@ -1886,7 +1930,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1947,7 +1992,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -1985,7 +2031,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -2023,7 +2070,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -2061,7 +2109,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -2099,7 +2148,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(5,5)", 
         "no_bias": "False", 
@@ -2150,7 +2200,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -2198,7 +2249,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -2236,7 +2288,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -2274,7 +2327,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -2312,7 +2366,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -2350,7 +2405,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(5,5)", 
         "no_bias": "False", 
@@ -2401,7 +2457,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(1,1)", 
         "no_bias": "False", 
@@ -2437,7 +2494,7 @@
       "param": {
         "global_pool": "False", 
         "kernel": "(7,7)", 
-        "pad": "(0,0)", 
+        "pad": "(1,1)", 
         "pool_type": "avg", 
         "stride": "(1,1)"
       }, 

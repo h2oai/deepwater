@@ -59,7 +59,7 @@ get_symbol <- function(num_classes = 1000) {
   pool5 <- mx.symbol.Pooling(in4e, kernel = c(3, 3), stride = c(2, 2), pool_type = "max")
   in5a <- InceptionFactory(pool5, 256, 160, 320, 32, 128, "max", 128, name = "in5a")
   in5b <- InceptionFactory(in5a, 384, 192, 384, 48, 128, "max", 128, name = "in5b")
-  pool6 <- mx.symbol.Pooling(in5b, kernel = c(7, 7), stride = c(1, 1), pool_type = "avg" )
+  pool6 <- mx.symbol.Pooling(in5b, kernel = c(7, 7), stride = c(1, 1), pad = c(1, 1), pool_type = "avg" )
   flatten <- mx.symbol.Flatten(data = pool6, name = 'flatten0')
   fc1 <- mx.symbol.FullyConnected(data = flatten, num_hidden = num_classes)
   softmax <- mx.symbol.SoftmaxOutput(data = fc1, name = 'softmax')

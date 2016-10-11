@@ -128,7 +128,7 @@ Symbol GoogleNetSymbol(int num_classes) {
   Symbol in5a = InceptionFactory(pool5, 256, 160, 320, 32, 128, PoolingPoolType::max, 128, "in5a");
   Symbol in5b = InceptionFactory(in5a, 384, 192, 384, 48, 128, PoolingPoolType::max, 128, "in5b");
   Symbol pool6 = Pooling("pooling4", in5b, Shape(7, 7), PoolingPoolType::avg,
-                         false, Shape(1, 1));
+                         false, Shape(1, 1), Shape(1, 1));
   Symbol flatten = Flatten("flatten0", pool6);
 
   Symbol fc1_w("fullyconnected0_weight"), fc1_b("fullyconnected0_bias");
@@ -224,7 +224,7 @@ Symbol InceptionFactoryB(Symbol data, int num_3x3red, int num_3x3,
                         Shape(1, 1), name + "_double_3x3_1", "", eps, momentum);
   Symbol pooling = Pooling("max_pool_" + name + "_pool", data,
                            Shape(3, 3), PoolingPoolType::max,
-                           false, Shape(2, 2));
+                           false, Shape(2, 2), Shape(1, 1));
   std::vector<Symbol> lst;
   lst.push_back(c3x3);
   lst.push_back(cd3x3);
@@ -774,7 +774,7 @@ mxnet::cpp::Symbol InceptionV3Symbol(int num_classes) {
                             PoolingPoolType::max, 192, "mixed_10");
   // pool
   pool = Pooling("global_pool", in5b, Shape(8, 8),
-                 PoolingPoolType::avg, false);
+                 PoolingPoolType::avg, false, Shape(1, 1), Shape(1, 1));
   Symbol flatten = Flatten("flatten", pool);
   Symbol fc1 = FullyConnected("fc1", flatten, num_classes);
   return SoftmaxOutput("softmax", fc1, data_label);

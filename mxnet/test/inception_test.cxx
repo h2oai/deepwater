@@ -20,8 +20,10 @@ int main(int argc, char const *argv[]) {
   float weight_decay = 0.00001;
 
   MXRandomSeed(42);
-  auto net = InceptionSymbol(10);
+  //auto net = InceptionSymbol(10);
+  Symbol net = Symbol::Load("./test/symbol_inception-bn-cpp.json");
   //Symbol net = Symbol::Load("./test/symbol_inception-bn-py.json");
+  //Symbol net = Symbol::Load("./src/main/resources/deepwater/backends/mxnet/models/Inception/Inception_BN-symbol.json");
 
   std::map<std::string, NDArray> args_map;
   std::map<std::string, NDArray> aux_map;
@@ -63,16 +65,23 @@ int main(int argc, char const *argv[]) {
 
   auto * exec = net.SimpleBind(ctx_dev, args_map);
   args_map = exec->arg_dict();
-
-  Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);
-  for (auto &arg : args_map) {
-    xavier(arg.first, &arg.second);
-  }
-
   aux_map = exec->aux_dict();
-  for (auto &aux : aux_map) {
-    xavier(aux.first, &aux.second);
+
+  std::map<std::string, NDArray> parameters;
+  NDArray::Load("./src/main/resources/deepwater/backends/mxnet/models/Inception/Inception_BN-0039.params", nullptr, &parameters);
+
+  for (const auto &k : parameters) {
+    if (k.first.substr(0, 4) == "aux:") {
+      auto name = k.first.substr(4, k.first.size() - 4);
+      aux_map[name] = k.second.Copy(ctx_dev);
+    }
+    if (k.first.substr(0, 4) == "arg:") {
+      auto name = k.first.substr(4, k.first.size() - 4);
+      args_map[name] = k.second.Copy(ctx_dev);
+    }
   }
+  NDArray::WaitAll();
+
 
   for (int iter = 0; iter < max_epoch; ++iter) {
     Accuracy train_acc;
@@ -89,6 +98,7 @@ int main(int argc, char const *argv[]) {
       exec->UpdateAll(&opt, learning_rate, weight_decay);
       NDArray::WaitAll();
       train_acc.Update(data_batch.label, exec->outputs[0]);
+      //LG << "Training Acc: " << train_acc.Get();
     }
     LG << "Training Acc: " << train_acc.Get();
 
