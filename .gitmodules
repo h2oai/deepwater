@@ -3,4 +3,4 @@
 	url = https://github.com/h2oai/javacpp-presets
 [submodule "thirdparty/mxnet"]
 	path = thirdparty/mxnet
-	url = git://github.com/h2oai/mxnet.git
+	url = http://github.com/h2oai/mxnet
