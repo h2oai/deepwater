@@ -63,7 +63,7 @@ In the future, we'll have more pre-built jars for more OS/CUDA combinations.
 
 ##### Install the Python wheel:
 ```
-sudo pip install h2o-3/h2o-py/h2o-3.11.0.99999-py2.py3-none-any.whl
+sudo pip install h2o-3/h2o-py/dist/h2o-3.11.0.99999-py2.py3-none-any.whl
 ```
 If you didn't build it yourself, download a recent version of the h2o python wheel: (https://slack-files.com/T0329MHH6-F2M4B2ZFW-d77a43ebbf)
 
