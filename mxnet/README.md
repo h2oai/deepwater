@@ -21,8 +21,18 @@ First install [homebrew](http://brew.sh).
 ```bash
 git submodule update --init --recursive --depth 1
 brew update
+brew uninstall homebrew/science
+## sudo chown -R $(whoami):admin /usr/local ##if you get write permission issues
 brew tap homebrew/science
-cd ../thirdparty/mxnet; cp make/osx.mk ./config.mk; make -j$(sysctl -n hw.ncpu)
+brew install openblas
+
+cd ../thirdparty/mxnet 
+cp make/osx.mk ./config.mk
+cat << EOF >> ./config.mk
+ADD_LDFLAGS = '-L/usr/local/opt/openblas/lib'
+ADD_CFLAGS = '-I/usr/local/opt/openblas/include'
+EOF
+make -j$(sysctl -n hw.ncpu)
 ```
 
 For other options see the [official mxnet build instructions](http://mxnet.readthedocs.io/en/latest/how_to/build.html).
