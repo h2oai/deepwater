@@ -2,8 +2,11 @@ all: pkg
 
 UNAME_S := $(shell uname -s)
 
+JAVA_HOME = /Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/
+
 ifeq ($(UNAME_S), Darwin)
-	JAVA_INCLUDE := -I/System/Library/Frameworks/JavaVM.framework/Headers
+	#JAVA_INCLUDE := -I/System/Library/Frameworks/JavaVM.framework/Headers
+	JAVA_INCLUDE := -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/darwin/
 else
 	#JAVA_INCLUDE := -I/usr/lib/jvm/java-1.8.0-openjdk-amd64/include/linux -I/usr/lib/jvm/java-1.8.0-openjdk-amd64/include
 	JAVA_INCLUDE := -I/usr/lib/jvm/java-8-oracle/include/linux/ -I/usr/lib/jvm/java-8-oracle/include/
