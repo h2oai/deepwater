@@ -1,7 +1,7 @@
 rootProject.name = 'deepwater'
 
 // interface
-include 'backends'
+include 'backend-api'
 
 // implementations
 if (isGradlePropSet("buildDeepWater")){
@@ -12,4 +12,9 @@ if (isGradlePropSet("buildDeepWater")){
 // helper methods
 def isGradlePropSet(String propName){
   return startParameter.projectProperties.get(propName, null) != null
+}
+
+// Prefix all projects with root project name
+rootProject.children.each { project ->
+    project.name = rootProject.name + "-" + project.name 
 }
