@@ -65,7 +65,7 @@ In the future, we'll have more pre-built jars for more OS/CUDA combinations.
 ```
 sudo pip install h2o-3/h2o-py/dist/h2o-3.11.0.99999-py2.py3-none-any.whl
 ```
-If you didn't build it yourself, download a recent version of the h2o python wheel: (https://slack-files.com/T0329MHH6-F2M4B2ZFW-d77a43ebbf)
+If you didn't build it yourself, download a recent version of the h2o python wheel: (https://slack-files.com/T0329MHH6-F2M4B2ZFW-d77a43ebb://slack-files.com/T0329MHH6-F2P0YL3K2-03ff40ddc1)
 
 ##### (Optional) Install the Python egg for MXNet
 If you want to build your own MXNet models (from Python so far), install the MXNet wheel (which was built together with MXNet above):
@@ -81,7 +81,7 @@ If you didn't build it yourself, download a recent version of the mxnet python e
 ```
 java -jar build/h2o.jar
 ```
-If you didn't build it yourself, download a recent version of h2o.jar: (https://slack-files.com/T0329MHH6-F2M4AHKS8-59ac335243)
+If you didn't build it yourself, download a recent version of h2o.jar: (https://slack-files.com/T0329MHH6-F2P0XU99T-6334505603)
 
 #### Java example use cases
 Example [Java GPU-enabled unit tests](https://github.com/h2oai/h2o-3/tree/deepwater/h2o-algos/src/test/java/hex/deepwater).
