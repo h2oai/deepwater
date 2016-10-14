@@ -4,10 +4,10 @@ rootProject.name = 'deepwater'
 include 'backend-api'
 
 // implementations
-//if (isGradlePropSet("buildDeepWater")){
+if (isGradlePropSet("buildDeepWater")){
   include 'mxnet'
   include 'tensorflow'
-//}
+}
 
 // helper methods
 def isGradlePropSet(String propName){

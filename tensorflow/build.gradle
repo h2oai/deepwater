@@ -13,17 +13,19 @@ sourceSets.main.resources {
 }
 
 dependencies {
-    compile files('../thirdparty/javacpp-presets/target/javacpp.jar')
-    compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow.jar')
-    if (new File('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar').exists())
-      compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar')
-    else if (new File('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-macosx-x86_64.jar').exists())
-      compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-macosx-x86_64.jar')
+    println(rootDir)
+    compile files("${rootDir}/thirdparty/javacpp-presets/target/javacpp.jar")
+    compile files("${rootDir}/thirdparty/javacpp-presets/tensorflow/target/tensorflow.jar")
+    if (new File("${rootDir}/thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar").exists()) {
+        compile files("${rootDir}/thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar")
+    }
+    else if (new File("${rootDir}/thirdparty/javacpp-presets/tensorflow/target/tensorflow-macosx-x86_64.jar").exists()) {
+        compile files("${rootDir}/thirdparty/javacpp-presets/tensorflow/target/tensorflow-macosx-x86_64.jar")
+    }
+
     compile project (':deepwater-backend-api')
     compile "com.google.protobuf:protobuf-java:3.0.0"
     compile 'com.google.guava:guava:19.0'
-
-    compile project (':backends')
 
     // https://mvnrepository.com/artifact/org.hdfgroup/hdf-java
     compile group: 'org.hdfgroup', name: 'hdf-java', version: '2.6.1'

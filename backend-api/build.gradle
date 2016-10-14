@@ -5,5 +5,7 @@ description="DeepWater Backend API"
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+
+    compile 'com.google.guava:guava:19.0'
 }
 

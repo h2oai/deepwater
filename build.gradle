@@ -87,10 +87,12 @@ apply plugin: 'com.github.johnrengelman.shadow'
 // Top-level project dependencies
 dependencies {
     compile project(":deepwater-backend-api")
+
     if (includeAllBackends) {
         compile project(':deepwater-mxnet')
         compile project(':deepwater-tensorflow')
-    } 
+    }
+
     // Test stuff
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
