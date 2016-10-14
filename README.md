@@ -38,11 +38,11 @@ From the top-level of the deepwater repository, do
 ./gradlew build -x test -PbuildDeepWater
 ```
 
-This will create the following file: `build/libs/deepwater-1.0-SNAPSHOT-all.jar`
+This will create the following file: `build/libs/deepwater-all.jar`
 
 #### 5. Add DeepWater support to H2O-3
 You need to check out the [deepwater branch of h2o-3](http://github.com/h2oai/h2o-3/tree/deepwater/).
-Copy the freshly created jar file `build/libs/deepwater-1.0-SNAPSHOT-all.jar` from the previous step to H2O-3's library `h2o-3/lib/deepwater-1.0-SNAPSHOT-all.jar` and you're done!
+Copy the freshly created jar file `build/libs/deepwater-all.jar` from the previous step to H2O-3's library `h2o-3/lib/deepwater-all.jar` and you're done!
 
 ##### Build H2O-3 as usual:
 ```
@@ -94,3 +94,13 @@ Coming soon.
 
 #### Scala / Sparkling Water example use cases
 Coming soon.
+
+### Releasing
+The release process bundles all defined submodules and push them into Maven central via Sonatype repository provider.
+The released artifacts are Java 6 compatible.
+
+The release can be invoked for all modules by:
+```bash
+./gradlew -PdoRelease -PdoJava6Bytecode=true -Prelease.useAutomaticVersion=true release
+```
+

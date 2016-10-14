@@ -19,7 +19,7 @@ dependencies {
       compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar')
     else if (new File('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-macosx-x86_64.jar').exists())
       compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-macosx-x86_64.jar')
-    compile project (':backends')
+    compile project (':deepwater-backend-api')
     compile "com.google.protobuf:protobuf-java:3.0.0"
     compile 'com.google.guava:guava:19.0'
 }
