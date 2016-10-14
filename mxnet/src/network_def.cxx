@@ -66,7 +66,10 @@ Symbol AlexnetSymbol(int num_classes) {
   Symbol fc3_w("fullyconnected2_weight"), fc3_b("fullyconnected2_bias");
   Symbol fc3 = FullyConnected("fullyconnected2", dropout2, fc3_w, fc3_b, num_classes);
 
-  return SoftmaxOutput("softmax", fc3, data_label);
+  if (num_classes > 1)
+    return SoftmaxOutput("softmax", fc3, data_label);
+  else
+    return LinearRegressionOutput("softmax", fc3, data_label);
 }
 
 Symbol InceptionFactory(Symbol data, int num_1x1, int num_3x3red,
@@ -134,7 +137,10 @@ Symbol GoogleNetSymbol(int num_classes) {
   Symbol fc1_w("fullyconnected0_weight"), fc1_b("fullyconnected0_bias");
   Symbol fc1 = FullyConnected("fullyconnected0", flatten, fc1_w, fc1_b, num_classes);
 
-  return SoftmaxOutput("softmax", fc1, data_label);
+  if (num_classes > 1)
+    return SoftmaxOutput("softmax", fc1, data_label);
+  else
+    return LinearRegressionOutput("softmax", fc1, data_label);
 }
 
 Symbol ConvFactory(Symbol data, int num_filter,
@@ -270,7 +276,10 @@ Symbol InceptionSymbol(int num_classes) {
   Symbol flatten = Flatten("flatten", avg);
   Symbol fc1_w("fc1_weight"), fc1_b("fc1_bias");
   Symbol fc1 = FullyConnected("fc1", flatten, fc1_w, fc1_b, num_classes);
-  return SoftmaxOutput("softmax", fc1, data_label);
+  if (num_classes > 1)
+    return SoftmaxOutput("softmax", fc1, data_label);
+  else
+    return LinearRegressionOutput("softmax", fc1, data_label);
 }
 
 Symbol InceptionSymbol2(int num_classes) {
@@ -406,7 +415,10 @@ Symbol VGGSymbol(int num_classes) {
 
   Symbol fc8_w("fc8_weight"), fc8_b("fc8_bias");
   Symbol fc8 = FullyConnected("fc8", drop7, fc8_w, fc8_b, num_classes);
-  return SoftmaxOutput("softmax", fc8, data_label);
+  if (num_classes > 1)
+    return SoftmaxOutput("softmax", fc8, data_label);
+  else
+    return LinearRegressionOutput("softmax", fc8, data_label);
 }
 
 Symbol LenetSymbol(int num_classes) {
@@ -431,7 +443,10 @@ Symbol LenetSymbol(int num_classes) {
   Symbol tanh3 = Activation("activation2", fc1, "tanh");
   Symbol fc2 = FullyConnected("fullyconnected1", tanh3, fc2_w, fc2_b, num_classes);
 
-  Symbol lenet = SoftmaxOutput("softmax", fc2, data_label);
+  if (num_classes > 1)
+    return SoftmaxOutput("softmax", fc2, data_label);
+  else
+    return LinearRegressionOutput("softmax", fc2, data_label);
 
   return lenet;
 }
@@ -521,7 +536,10 @@ Symbol ResNetSymbol(int num_class, int num_level, int num_block,
   Symbol fc_w("fc_weight"), fc_b("fc_bias");
   Symbol fc = FullyConnected("fc", flat, fc_w, fc_b, num_class);
 
-  return SoftmaxOutput("softmax", fc, data_label);
+  if (num_classes > 1)
+    return SoftmaxOutput("softmax", fc, data_label);
+  else
+    return LinearRegressionOutput("softmax", fc, data_label);
 }
 
 Symbol Inception7A(Symbol data, int num_1x1, int num_3x3_red, int num_3x3_1,
@@ -777,7 +795,10 @@ mxnet::cpp::Symbol InceptionV3Symbol(int num_classes) {
                  PoolingPoolType::avg, false, Shape(1, 1), Shape(1, 1));
   Symbol flatten = Flatten("flatten", pool);
   Symbol fc1 = FullyConnected("fc1", flatten, num_classes);
-  return SoftmaxOutput("softmax", fc1, data_label);
+  if (num_classes > 1)
+    return SoftmaxOutput("softmax", fc1, data_label);
+  else
+    return LinearRegressionOutput("softmax", fc1, data_label);
 }
 
 Symbol ConvModule(const std::string & name,
