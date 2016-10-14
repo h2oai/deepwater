@@ -923,5 +923,8 @@ Symbol MLPSymbol(const std::vector<int> &layerSize,
   fc.push_back(FullyConnected("fc" + std::to_string(nLayers + 1),
                               act, fc_w[nLayers], fc_b[nLayers], num_classes));
 
-  return SoftmaxOutput("softmax", fc[nLayers], data_label);
+  if (num_classes>1)
+    return SoftmaxOutput("softmax", fc[nLayers], data_label);
+  else
+    return LinearRegressionOutput("softmax", fc[nLayers], data_label);
 }
