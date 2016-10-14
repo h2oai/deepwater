@@ -53,20 +53,24 @@ public class MNISTImageDataset extends ImageDataSet {
     private static final int IMAGE_SIZE = ROWS * COLUMNS;
 
 
-    public MNISTImageDataset(String labelFileName, String imageFileName) {
-        super(28, 28, 1, 10); // these values are from the mnist specifications
-        this.labelFileName = labelFileName;
-        this.imageFileName = imageFileName;
+    public MNISTImageDataset() {
+        super(28, 28, 1, 10);
     }
 
-    public List<Pair<Integer,float[]>> loadDigitImages() throws IOException {
+    public List<Pair<Integer,float[]>> loadImages() throws IOException {
+        return loadImages(imageFileName, labelFileName);
+    }
+
+    public List<Pair<Integer,float[]>> loadImages(String... filenames) throws IOException {
+        assert (filenames.length % 2 == 0): "expected image and label";
+
         List<Pair<Integer,float[]>> images = new ArrayList();
 
         ByteArrayOutputStream labelBuffer = new ByteArrayOutputStream();
         ByteArrayOutputStream imageBuffer = new ByteArrayOutputStream();
 
-        InputStream labelInputStream = new GZIPInputStream(new FileInputStream(labelFileName));//this.getClass().getResourceAsStream(labelFileName);
-        InputStream imageInputStream = new GZIPInputStream(new FileInputStream(imageFileName)); //this.getClass().getResourceAsStream(imageFileName);
+        InputStream labelInputStream = new GZIPInputStream(new FileInputStream(filenames[1]));//this.getClass().getResourceAsStream(labelFileName);
+        InputStream imageInputStream = new GZIPInputStream(new FileInputStream(filenames[0])); //this.getClass().getResourceAsStream(imageFileName);
 
         int read;
         byte[] buffer = new byte[16384];

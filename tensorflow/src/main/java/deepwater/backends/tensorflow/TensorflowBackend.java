@@ -92,15 +92,17 @@ public class TensorflowBackend implements BackendTrain {
         for (int i = 0; i < a.capacity(); i++) {
             a.position(i).put(param_path);
         }
+
         Status status = model.getSession().Run(
                 new StringTensorPairVector(
-                        new String[]{"save/Const:0"},
+                        new String[]{model.meta.save_filename},
                         new Tensor[]{model_path_t}
                 ),
+                new StringVector(model.meta.restore_op),
                 new StringVector(),
-                new StringVector("save/restore_all"),
                 outputs
         );
+
         if (!status.ok()){
             System.err.println("status: " + status.error_message().getString());
         }

@@ -21,10 +21,10 @@ public class CIFAR10ImageDataset extends ImageDataSet {
         super(32, 32, 3, 10);
     }
 
-    public List<Pair<Integer,float[]>> loadImages(String filepath) throws IOException {
+    public List<Pair<Integer,float[]>> loadImages(String... filepath) throws IOException {
         List<Pair<Integer,float[]>> images = new ArrayList<>();
 
-        InputStream inputStream = new FileInputStream(filepath);
+        InputStream inputStream = new FileInputStream(filepath[0]);
 
         int read = 0;
         byte[] buffer = new byte[1+32*32*3];

@@ -161,9 +161,8 @@ public class TensorflowTest {
             System.out.println(">>>>> " + graph_def.node(i).name().getString());
         }
 
-        MNISTImageDataset dataset = new MNISTImageDataset("/home/fmilo/workspace/h2o-3/train-labels-idx1-ubyte.gz",
-                "/home/fmilo/workspace/h2o-3/train-images-idx3-ubyte.gz");
-        List<Pair<Integer, float[]>> images = dataset.loadDigitImages();
+        MNISTImageDataset dataset = new MNISTImageDataset();
+        List<Pair<Integer, float[]>> images = dataset.loadImages();
 
         int wrong_prediction = 0;
         int right_prediction = 0;
@@ -220,8 +219,8 @@ public class TensorflowTest {
     }
 
     void inferMNISTSess(Session sess) throws Exception {
-        MNISTImageDataset dataset = new MNISTImageDataset("/home/fmilo/workspace/h2o-3/t10k-labels-idx1-ubyte.gz", "/home/fmilo/workspace/h2o-3/t10k-images-idx3-ubyte.gz");
-        List<Pair<Integer, float[]>> images = dataset.loadDigitImages();
+        MNISTImageDataset dataset = new MNISTImageDataset();
+        List<Pair<Integer, float[]>> images = dataset.loadImages();
 
         int wrong_prediction = 0;
         int right_prediction = 0;

@@ -5,37 +5,40 @@ import deepwater.backends.BackendParams;
 import deepwater.backends.BackendTrain;
 import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.TensorflowBackend;
+import deepwater.datasets.BatchIterator;
 import deepwater.datasets.CIFAR10ImageDataset;
+import deepwater.datasets.ImageBatch;
 import deepwater.datasets.MNISTImageDataset;
-import deepwater.datasets.Pair;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 public class BackendInterfaceTest {
 
-    public void testMXnet(BackendModel model) throws IOException {
+    public float testMXnet(BackendModel model) throws IOException {
         BackendTrain backend = new TensorflowBackend();
-        MNISTImageDataset dataset = new MNISTImageDataset("/home/fmilo/workspace/h2o-3/t10k-labels-idx1-ubyte.gz",
-                "/home/fmilo/workspace/h2o-3/t10k-images-idx3-ubyte.gz");
-        List<Pair<Integer, float[]>> mnist = dataset.loadDigitImages();
+        MNISTImageDataset dataset = new MNISTImageDataset();
+        String[] images = new String[]{
+                "/home/fmilo/workspace/h2o-3/t10k-images-idx3-ubyte.gz",
+                "/home/fmilo/workspace/h2o-3/t10k-labels-idx1-ubyte.gz"
+        };
 
-        float[] labels = new float[10 * mnist.size()];
-        float[] images = new float[784 * mnist.size()];
-        int i = 0;
-        for (Pair<Integer, float[]> entry : mnist) {
+        BatchIterator it = new BatchIterator(dataset, 1, images);
+        ImageBatch b = new ImageBatch(dataset, 10000);
 
-            float[] image = entry.getSecond();
-            Integer label = entry.getFirst();
-            System.arraycopy(image, 0, images, i * image.length, image.length);
-            labels[i * 10 + label] = (float) 1.0;
-            i++;
+        while(it.next(b)){
+            float[] loss = backend.predict(model, b.getImages(), b.getLabels());
+
+            printLoss(loss);
+            return loss[0];
         }
 
-        float[] loss = backend.predict(model, images, labels);
 
+        return 0;
+    }
+
+    private void printLoss(float[] loss) {
         System.out.print("Test accuracy:");
         for (int k = 0; k < loss.length; k++) {
             System.out.print(loss[k]+",");
@@ -43,52 +46,32 @@ public class BackendInterfaceTest {
         System.out.println();
     }
 
+    String[] mnistTrainData = new String[] {
+            "/home/fmilo/workspace/h2o-3/train-images-idx3-ubyte.gz",
+            "/home/fmilo/workspace/h2o-3/train-labels-idx1-ubyte.gz",
+    };
+
     @Test
     public void backendCanTrainMXNet() throws IOException {
         BackendTrain backend = new TensorflowBackend();
 
-        MNISTImageDataset dataset = new MNISTImageDataset("/home/fmilo/workspace/h2o-3/train-labels-idx1-ubyte.gz",
-                "/home/fmilo/workspace/h2o-3/train-images-idx3-ubyte.gz");
-
-        List<Pair<Integer, float[]>> mnist = dataset.loadDigitImages();
+        MNISTImageDataset dataset = new MNISTImageDataset();
 
         RuntimeOptions opts = new RuntimeOptions();
         BackendParams params = new BackendParams();
 
         BackendModel model = backend.buildNet(dataset, opts, params,
                                             dataset.getNumClasses(), "simple");
-        final int batchSize = 1024;
-        float[] labels = new float[10 * batchSize];
-        float[] images = new float[784 * batchSize];
 
-        for (int j = 0; j < 50; j++) {
-                int i = 0;
-                Arrays.fill(labels,0);
-                Arrays.fill(images, 0);
+        BatchIterator it = new BatchIterator(dataset, 10, mnistTrainData);
+        ImageBatch b = new ImageBatch(dataset, 32);
 
-                for (Pair<Integer, float[]> entry : mnist) {
-
-                    float[] image = entry.getSecond();
-                    Integer label = entry.getFirst();
-                    System.arraycopy(image, 0, images, i * image.length, image.length);
-                    labels[i * 10 + label] = (float) 1.0;
-                    i++;
-
-                    if (i == batchSize) {
-                        float[] loss = backend.train(model, images, labels);
-                        Arrays.fill(labels, 0);
-                        Arrays.fill(images, 0);
-                        i = 0;
-//                        for (int k = 0; k < loss.length; k++) {
-//                            System.out.print(loss[k]+",");
-//                        }
-//                        System.out.println();
-                    }
-                }
-
-                testMXnet(model);
-
+        while(it.nextEpochs()) {
+            while (it.next(b)) {
+                backend.train(model, b.getImages(), b.getLabels());
             }
+            testMXnet(model);
+        }
     }
 
     // canSave // can Load
@@ -101,17 +84,78 @@ public class BackendInterfaceTest {
         RuntimeOptions opts = new RuntimeOptions();
         BackendParams params = new BackendParams();
 
-        List<Pair<Integer, float[]>> images = dataset.loadImages("/datasets/cifar-10-batches-bin/data_batch_1.bin");
+        BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), "simple");
 
-        BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), "cifarnet");
+        String[] train_images = new String[]{
+                "/datasets/cifar-10-batches-bin/data_batch_1.bin",
+                "/datasets/cifar-10-batches-bin/data_batch_2.bin",
+                "/datasets/cifar-10-batches-bin/data_batch_3.bin",
+                "/datasets/cifar-10-batches-bin/data_batch_4.bin",
+                "/datasets/cifar-10-batches-bin/data_batch_5.bin",
+        };
 
-       for( Pair<Integer, float[]> entry: images ) {
-           float[] image = entry.getSecond();
-           Integer label = entry.getFirst();
-           float[] one_hot = new float[10];
-           one_hot[label.intValue()] = (float)1.0;
-           float[] loss = backend.train(model, image, one_hot );
-           System.out.println(loss[0]);
-       }
+        String[] test_images = new String[]{
+                "/datasets/cifar-10-batches-bin/test_batch.bin",
+        };
+
+        BatchIterator it = new BatchIterator(dataset, 30, train_images);
+        ImageBatch b = new ImageBatch(dataset, 32);
+
+        BatchIterator test_it = new BatchIterator(dataset, 1, test_images);
+        ImageBatch bb = new ImageBatch(dataset, 1024);
+
+        while(it.nextEpochs()) {
+            while (it.next(b)) {
+                backend.train(model, b.getImages(), b.getLabels());
+            }
+
+            while (test_it.next(bb)) {
+                float[] loss = backend.predict(model, bb.getImages(), bb.getLabels());
+                printLoss(loss);
+            }
+
+        }
+    }
+
+
+    @Test
+    public void backendCanSaveCheckpoint() throws IOException {
+
+        BackendTrain backend = new TensorflowBackend();
+
+        String[] train_images = new String[]{
+                "/home/fmilo/workspace/h2o-3/train-images-idx3-ubyte.gz",
+                "/home/fmilo/workspace/h2o-3/train-labels-idx1-ubyte.gz",
+        };
+        MNISTImageDataset dataset = new MNISTImageDataset();
+
+        RuntimeOptions opts = new RuntimeOptions();
+        BackendParams params = new BackendParams();
+        BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), "simple");
+
+        float initial = testMXnet(model);
+
+        BatchIterator it = new BatchIterator(dataset, 1, train_images);
+        ImageBatch b = new ImageBatch(dataset, 32);
+        while(it.nextEpochs()) {
+            while (it.next(b)) {
+                backend.train(model, b.getImages(), b.getLabels());
+            }
+        }
+        float trained = testMXnet(model);
+
+        //create a temp file
+        File temp = File.createTempFile("temp-file-name", ".tmp");
+        backend.saveModel(model, temp.getAbsolutePath() );
+
+        BackendModel model2 = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), "simple");
+        backend.loadParam(model2, temp.getAbsolutePath() );
+        System.out.println("Temp file : " + temp.getAbsolutePath());
+
+        float loaded = testMXnet(model2);
+
+        assert initial < trained: initial;
+        assert trained <= loaded: trained;
+
     }
 }
