@@ -2,6 +2,7 @@
 #define AMERICANO_HPP
 
 #include <boost/thread.hpp>
+#include <glog/logging.h>
 #include <csignal>
 #include <cuda_runtime.h>
 #include <iostream>
