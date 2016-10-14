@@ -104,3 +104,22 @@ The release can be invoked for all modules by:
 ./gradlew -PdoRelease -PdoJava6Bytecode=true -Prelease.useAutomaticVersion=true release
 ```
 
+The process performs the following steps:
+  - update `gradle.properties` and remove `SNAPSHOT` and increase minor version (can be changed)
+  - create a new release commit and tag it with release tag (see `gradle/release.gradle` file to override default template)
+  - build
+  - verification of compatibility of used API with Java 6 API
+  - bytecode rewrite to be compatible with Java 6
+  - generation of artifact metadata 
+  - push of artifacts into staging area at https://oss.sonatype.org/
+
+The process needs to be finished manually by:
+  - login into https://oss.sonatype.org/#stagingRepositories
+  - performing actions "Close" and "Release" for `ai.h2o` staging area
+    - Note: be careful since the area can contain more artifacts from different H2O projects
+
+> Note: The release process creates two new commits and a new tag with release version. 
+> However, the process does not push it to a remote repository and it is necessary
+> to perform remote update manually by `git push --tags` or update `gradle/release.gradle`
+> settings and remove `--dry-run` option from `pushOptions` field.
+
