@@ -19,11 +19,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.VersionDef}
  */
 public  final class VersionDef extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.VersionDef)
     VersionDefOrBuilder {
   // Use VersionDef.newBuilder() to construct.
-  private VersionDef(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private VersionDef(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private VersionDef() {
@@ -107,7 +107,7 @@ public  final class VersionDef extends
     return org.tensorflow.framework.VersionsProtos.internal_static_tensorflow_VersionDef_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.VersionsProtos.internal_static_tensorflow_VersionDef_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -196,8 +196,8 @@ public  final class VersionDef extends
       output.writeInt32(2, minConsumer_);
     }
     if (getBadConsumersList().size() > 0) {
-      output.writeRawVarint32(26);
-      output.writeRawVarint32(badConsumersMemoizedSerializedSize);
+      output.writeUInt32NoTag(26);
+      output.writeUInt32NoTag(badConsumersMemoizedSerializedSize);
     }
     for (int i = 0; i < badConsumers_.size(); i++) {
       output.writeInt32NoTag(badConsumers_.get(i));
@@ -236,6 +236,46 @@ public  final class VersionDef extends
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.VersionDef)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.VersionDef other = (org.tensorflow.framework.VersionDef) obj;
+
+    boolean result = true;
+    result = result && (getProducer()
+        == other.getProducer());
+    result = result && (getMinConsumer()
+        == other.getMinConsumer());
+    result = result && getBadConsumersList()
+        .equals(other.getBadConsumersList());
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (37 * hash) + PRODUCER_FIELD_NUMBER;
+    hash = (53 * hash) + getProducer();
+    hash = (37 * hash) + MIN_CONSUMER_FIELD_NUMBER;
+    hash = (53 * hash) + getMinConsumer();
+    if (getBadConsumersCount() > 0) {
+      hash = (37 * hash) + BAD_CONSUMERS_FIELD_NUMBER;
+      hash = (53 * hash) + getBadConsumersList().hashCode();
+    }
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.VersionDef parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -259,39 +299,39 @@ public  final class VersionDef extends
   }
   public static org.tensorflow.framework.VersionDef parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.VersionDef parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.VersionDef parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.VersionDef parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.VersionDef parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.VersionDef parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -309,7 +349,7 @@ public  final class VersionDef extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -329,7 +369,7 @@ public  final class VersionDef extends
    * Protobuf type {@code tensorflow.VersionDef}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.VersionDef)
       org.tensorflow.framework.VersionDefOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -337,7 +377,7 @@ public  final class VersionDef extends
       return org.tensorflow.framework.VersionsProtos.internal_static_tensorflow_VersionDef_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.VersionsProtos.internal_static_tensorflow_VersionDef_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -350,12 +390,13 @@ public  final class VersionDef extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
       }
     }
     public Builder clear() {
@@ -402,6 +443,32 @@ public  final class VersionDef extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.VersionDef) {
         return mergeFrom((org.tensorflow.framework.VersionDef)other);

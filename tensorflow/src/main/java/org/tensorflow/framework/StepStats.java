@@ -7,11 +7,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.StepStats}
  */
 public  final class StepStats extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.StepStats)
     StepStatsOrBuilder {
   // Use StepStats.newBuilder() to construct.
-  private StepStats(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private StepStats(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private StepStats() {
@@ -48,7 +48,8 @@ public  final class StepStats extends
               devStats_ = new java.util.ArrayList<org.tensorflow.framework.DeviceStepStats>();
               mutable_bitField0_ |= 0x00000001;
             }
-            devStats_.add(input.readMessage(org.tensorflow.framework.DeviceStepStats.parser(), extensionRegistry));
+            devStats_.add(
+                input.readMessage(org.tensorflow.framework.DeviceStepStats.parser(), extensionRegistry));
             break;
           }
         }
@@ -70,7 +71,7 @@ public  final class StepStats extends
     return org.tensorflow.framework.StepStatsProtos.internal_static_tensorflow_StepStats_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.StepStatsProtos.internal_static_tensorflow_StepStats_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -143,6 +144,38 @@ public  final class StepStats extends
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.StepStats)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.StepStats other = (org.tensorflow.framework.StepStats) obj;
+
+    boolean result = true;
+    result = result && getDevStatsList()
+        .equals(other.getDevStatsList());
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    if (getDevStatsCount() > 0) {
+      hash = (37 * hash) + DEV_STATS_FIELD_NUMBER;
+      hash = (53 * hash) + getDevStatsList().hashCode();
+    }
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.StepStats parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -166,39 +199,39 @@ public  final class StepStats extends
   }
   public static org.tensorflow.framework.StepStats parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.StepStats parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.StepStats parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.StepStats parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.StepStats parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.StepStats parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -216,7 +249,7 @@ public  final class StepStats extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -224,7 +257,7 @@ public  final class StepStats extends
    * Protobuf type {@code tensorflow.StepStats}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.StepStats)
       org.tensorflow.framework.StepStatsOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -232,7 +265,7 @@ public  final class StepStats extends
       return org.tensorflow.framework.StepStatsProtos.internal_static_tensorflow_StepStats_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.StepStatsProtos.internal_static_tensorflow_StepStats_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -245,12 +278,13 @@ public  final class StepStats extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
         getDevStatsFieldBuilder();
       }
     }
@@ -298,6 +332,32 @@ public  final class StepStats extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.StepStats) {
         return mergeFrom((org.tensorflow.framework.StepStats)other);
@@ -328,7 +388,7 @@ public  final class StepStats extends
             devStats_ = other.devStats_;
             bitField0_ = (bitField0_ & ~0x00000001);
             devStatsBuilder_ = 
-              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getDevStatsFieldBuilder() : null;
           } else {
             devStatsBuilder_.addAllMessages(other.devStats_);
@@ -371,7 +431,7 @@ public  final class StepStats extends
        }
     }
 
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.DeviceStepStats, org.tensorflow.framework.DeviceStepStats.Builder, org.tensorflow.framework.DeviceStepStatsOrBuilder> devStatsBuilder_;
 
     /**
@@ -587,11 +647,11 @@ public  final class StepStats extends
          getDevStatsBuilderList() {
       return getDevStatsFieldBuilder().getBuilderList();
     }
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.DeviceStepStats, org.tensorflow.framework.DeviceStepStats.Builder, org.tensorflow.framework.DeviceStepStatsOrBuilder> 
         getDevStatsFieldBuilder() {
       if (devStatsBuilder_ == null) {
-        devStatsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+        devStatsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             org.tensorflow.framework.DeviceStepStats, org.tensorflow.framework.DeviceStepStats.Builder, org.tensorflow.framework.DeviceStepStatsOrBuilder>(
                 devStats_,
                 ((bitField0_ & 0x00000001) == 0x00000001),

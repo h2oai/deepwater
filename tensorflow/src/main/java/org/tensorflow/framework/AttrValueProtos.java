@@ -6,27 +6,33 @@ package org.tensorflow.framework;
 public final class AttrValueProtos {
   private AttrValueProtos() {}
   public static void registerAllExtensions(
+      com.google.protobuf.ExtensionRegistryLite registry) {
+  }
+
+  public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
+    registerAllExtensions(
+        (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_AttrValue_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_AttrValue_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_AttrValue_ListValue_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_AttrValue_ListValue_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_NameAttrList_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_NameAttrList_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_NameAttrList_AttrEntry_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_NameAttrList_AttrEntry_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
@@ -79,25 +85,25 @@ public final class AttrValueProtos {
     internal_static_tensorflow_AttrValue_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_tensorflow_AttrValue_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_AttrValue_descriptor,
         new java.lang.String[] { "S", "I", "F", "B", "Type", "Shape", "Tensor", "List", "Func", "Placeholder", "Value", });
     internal_static_tensorflow_AttrValue_ListValue_descriptor =
       internal_static_tensorflow_AttrValue_descriptor.getNestedTypes().get(0);
     internal_static_tensorflow_AttrValue_ListValue_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_AttrValue_ListValue_descriptor,
         new java.lang.String[] { "S", "I", "F", "B", "Type", "Shape", "Tensor", });
     internal_static_tensorflow_NameAttrList_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_tensorflow_NameAttrList_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_NameAttrList_descriptor,
         new java.lang.String[] { "Name", "Attr", });
     internal_static_tensorflow_NameAttrList_AttrEntry_descriptor =
       internal_static_tensorflow_NameAttrList_descriptor.getNestedTypes().get(0);
     internal_static_tensorflow_NameAttrList_AttrEntry_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_NameAttrList_AttrEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     org.tensorflow.framework.TensorProtos.getDescriptor();

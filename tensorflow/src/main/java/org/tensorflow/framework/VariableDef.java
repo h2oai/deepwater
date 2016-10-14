@@ -11,11 +11,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.VariableDef}
  */
 public  final class VariableDef extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.VariableDef)
     VariableDefOrBuilder {
   // Use VariableDef.newBuilder() to construct.
-  private VariableDef(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private VariableDef(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private VariableDef() {
@@ -96,7 +96,7 @@ public  final class VariableDef extends
     return org.tensorflow.framework.VariableProtos.internal_static_tensorflow_VariableDef_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.VariableProtos.internal_static_tensorflow_VariableDef_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -275,13 +275,13 @@ public  final class VariableDef extends
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (!getVariableNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 1, variableName_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, variableName_);
     }
     if (!getInitializerNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 2, initializerName_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, initializerName_);
     }
     if (!getSnapshotNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 3, snapshotName_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, snapshotName_);
     }
     if (saveSliceInfoDef_ != null) {
       output.writeMessage(4, getSaveSliceInfoDef());
@@ -294,13 +294,13 @@ public  final class VariableDef extends
 
     size = 0;
     if (!getVariableNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(1, variableName_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, variableName_);
     }
     if (!getInitializerNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(2, initializerName_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, initializerName_);
     }
     if (!getSnapshotNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(3, snapshotName_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, snapshotName_);
     }
     if (saveSliceInfoDef_ != null) {
       size += com.google.protobuf.CodedOutputStream
@@ -311,6 +311,53 @@ public  final class VariableDef extends
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.VariableDef)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.VariableDef other = (org.tensorflow.framework.VariableDef) obj;
+
+    boolean result = true;
+    result = result && getVariableName()
+        .equals(other.getVariableName());
+    result = result && getInitializerName()
+        .equals(other.getInitializerName());
+    result = result && getSnapshotName()
+        .equals(other.getSnapshotName());
+    result = result && (hasSaveSliceInfoDef() == other.hasSaveSliceInfoDef());
+    if (hasSaveSliceInfoDef()) {
+      result = result && getSaveSliceInfoDef()
+          .equals(other.getSaveSliceInfoDef());
+    }
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (37 * hash) + VARIABLE_NAME_FIELD_NUMBER;
+    hash = (53 * hash) + getVariableName().hashCode();
+    hash = (37 * hash) + INITIALIZER_NAME_FIELD_NUMBER;
+    hash = (53 * hash) + getInitializerName().hashCode();
+    hash = (37 * hash) + SNAPSHOT_NAME_FIELD_NUMBER;
+    hash = (53 * hash) + getSnapshotName().hashCode();
+    if (hasSaveSliceInfoDef()) {
+      hash = (37 * hash) + SAVE_SLICE_INFO_DEF_FIELD_NUMBER;
+      hash = (53 * hash) + getSaveSliceInfoDef().hashCode();
+    }
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.VariableDef parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -334,39 +381,39 @@ public  final class VariableDef extends
   }
   public static org.tensorflow.framework.VariableDef parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.VariableDef parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.VariableDef parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.VariableDef parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.VariableDef parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.VariableDef parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -384,7 +431,7 @@ public  final class VariableDef extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -396,7 +443,7 @@ public  final class VariableDef extends
    * Protobuf type {@code tensorflow.VariableDef}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.VariableDef)
       org.tensorflow.framework.VariableDefOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -404,7 +451,7 @@ public  final class VariableDef extends
       return org.tensorflow.framework.VariableProtos.internal_static_tensorflow_VariableDef_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.VariableProtos.internal_static_tensorflow_VariableDef_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -417,12 +464,13 @@ public  final class VariableDef extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
       }
     }
     public Builder clear() {
@@ -473,6 +521,32 @@ public  final class VariableDef extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.VariableDef) {
         return mergeFrom((org.tensorflow.framework.VariableDef)other);
@@ -793,7 +867,7 @@ public  final class VariableDef extends
     }
 
     private org.tensorflow.framework.SaveSliceInfoDef saveSliceInfoDef_ = null;
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.SaveSliceInfoDef, org.tensorflow.framework.SaveSliceInfoDef.Builder, org.tensorflow.framework.SaveSliceInfoDefOrBuilder> saveSliceInfoDefBuilder_;
     /**
      * <pre>
@@ -931,11 +1005,11 @@ public  final class VariableDef extends
      *
      * <code>optional .tensorflow.SaveSliceInfoDef save_slice_info_def = 4;</code>
      */
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.SaveSliceInfoDef, org.tensorflow.framework.SaveSliceInfoDef.Builder, org.tensorflow.framework.SaveSliceInfoDefOrBuilder> 
         getSaveSliceInfoDefFieldBuilder() {
       if (saveSliceInfoDefBuilder_ == null) {
-        saveSliceInfoDefBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+        saveSliceInfoDefBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
             org.tensorflow.framework.SaveSliceInfoDef, org.tensorflow.framework.SaveSliceInfoDef.Builder, org.tensorflow.framework.SaveSliceInfoDefOrBuilder>(
                 getSaveSliceInfoDef(),
                 getParentForChildren(),

@@ -11,11 +11,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.NodeExecStats}
  */
 public  final class NodeExecStats extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.NodeExecStats)
     NodeExecStatsOrBuilder {
   // Use NodeExecStats.newBuilder() to construct.
-  private NodeExecStats(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private NodeExecStats(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private NodeExecStats() {
@@ -88,7 +88,8 @@ public  final class NodeExecStats extends
               memory_ = new java.util.ArrayList<org.tensorflow.framework.AllocatorMemoryUsed>();
               mutable_bitField0_ |= 0x00000020;
             }
-            memory_.add(input.readMessage(org.tensorflow.framework.AllocatorMemoryUsed.parser(), extensionRegistry));
+            memory_.add(
+                input.readMessage(org.tensorflow.framework.AllocatorMemoryUsed.parser(), extensionRegistry));
             break;
           }
           case 58: {
@@ -96,7 +97,8 @@ public  final class NodeExecStats extends
               output_ = new java.util.ArrayList<org.tensorflow.framework.NodeOutput>();
               mutable_bitField0_ |= 0x00000040;
             }
-            output_.add(input.readMessage(org.tensorflow.framework.NodeOutput.parser(), extensionRegistry));
+            output_.add(
+                input.readMessage(org.tensorflow.framework.NodeOutput.parser(), extensionRegistry));
             break;
           }
           case 66: {
@@ -120,7 +122,8 @@ public  final class NodeExecStats extends
               referencedTensor_ = new java.util.ArrayList<org.tensorflow.framework.AllocationDescription>();
               mutable_bitField0_ |= 0x00000400;
             }
-            referencedTensor_.add(input.readMessage(org.tensorflow.framework.AllocationDescription.parser(), extensionRegistry));
+            referencedTensor_.add(
+                input.readMessage(org.tensorflow.framework.AllocationDescription.parser(), extensionRegistry));
             break;
           }
         }
@@ -148,7 +151,7 @@ public  final class NodeExecStats extends
     return org.tensorflow.framework.StepStatsProtos.internal_static_tensorflow_NodeExecStats_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.StepStatsProtos.internal_static_tensorflow_NodeExecStats_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -410,7 +413,7 @@ public  final class NodeExecStats extends
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (!getNodeNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 1, nodeName_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, nodeName_);
     }
     if (allStartMicros_ != 0L) {
       output.writeInt64(2, allStartMicros_);
@@ -431,7 +434,7 @@ public  final class NodeExecStats extends
       output.writeMessage(7, output_.get(i));
     }
     if (!getTimelineLabelBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 8, timelineLabel_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 8, timelineLabel_);
     }
     if (scheduledMicros_ != 0L) {
       output.writeInt64(9, scheduledMicros_);
@@ -450,7 +453,7 @@ public  final class NodeExecStats extends
 
     size = 0;
     if (!getNodeNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(1, nodeName_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, nodeName_);
     }
     if (allStartMicros_ != 0L) {
       size += com.google.protobuf.CodedOutputStream
@@ -477,7 +480,7 @@ public  final class NodeExecStats extends
         .computeMessageSize(7, output_.get(i));
     }
     if (!getTimelineLabelBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(8, timelineLabel_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, timelineLabel_);
     }
     if (scheduledMicros_ != 0L) {
       size += com.google.protobuf.CodedOutputStream
@@ -496,6 +499,87 @@ public  final class NodeExecStats extends
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.NodeExecStats)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.NodeExecStats other = (org.tensorflow.framework.NodeExecStats) obj;
+
+    boolean result = true;
+    result = result && getNodeName()
+        .equals(other.getNodeName());
+    result = result && (getAllStartMicros()
+        == other.getAllStartMicros());
+    result = result && (getOpStartRelMicros()
+        == other.getOpStartRelMicros());
+    result = result && (getOpEndRelMicros()
+        == other.getOpEndRelMicros());
+    result = result && (getAllEndRelMicros()
+        == other.getAllEndRelMicros());
+    result = result && getMemoryList()
+        .equals(other.getMemoryList());
+    result = result && getOutputList()
+        .equals(other.getOutputList());
+    result = result && getTimelineLabel()
+        .equals(other.getTimelineLabel());
+    result = result && (getScheduledMicros()
+        == other.getScheduledMicros());
+    result = result && (getThreadId()
+        == other.getThreadId());
+    result = result && getReferencedTensorList()
+        .equals(other.getReferencedTensorList());
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (37 * hash) + NODE_NAME_FIELD_NUMBER;
+    hash = (53 * hash) + getNodeName().hashCode();
+    hash = (37 * hash) + ALL_START_MICROS_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getAllStartMicros());
+    hash = (37 * hash) + OP_START_REL_MICROS_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getOpStartRelMicros());
+    hash = (37 * hash) + OP_END_REL_MICROS_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getOpEndRelMicros());
+    hash = (37 * hash) + ALL_END_REL_MICROS_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getAllEndRelMicros());
+    if (getMemoryCount() > 0) {
+      hash = (37 * hash) + MEMORY_FIELD_NUMBER;
+      hash = (53 * hash) + getMemoryList().hashCode();
+    }
+    if (getOutputCount() > 0) {
+      hash = (37 * hash) + OUTPUT_FIELD_NUMBER;
+      hash = (53 * hash) + getOutputList().hashCode();
+    }
+    hash = (37 * hash) + TIMELINE_LABEL_FIELD_NUMBER;
+    hash = (53 * hash) + getTimelineLabel().hashCode();
+    hash = (37 * hash) + SCHEDULED_MICROS_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getScheduledMicros());
+    hash = (37 * hash) + THREAD_ID_FIELD_NUMBER;
+    hash = (53 * hash) + getThreadId();
+    if (getReferencedTensorCount() > 0) {
+      hash = (37 * hash) + REFERENCED_TENSOR_FIELD_NUMBER;
+      hash = (53 * hash) + getReferencedTensorList().hashCode();
+    }
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.NodeExecStats parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -519,39 +603,39 @@ public  final class NodeExecStats extends
   }
   public static org.tensorflow.framework.NodeExecStats parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.NodeExecStats parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.NodeExecStats parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.NodeExecStats parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.NodeExecStats parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.NodeExecStats parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -569,7 +653,7 @@ public  final class NodeExecStats extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -581,7 +665,7 @@ public  final class NodeExecStats extends
    * Protobuf type {@code tensorflow.NodeExecStats}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.NodeExecStats)
       org.tensorflow.framework.NodeExecStatsOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -589,7 +673,7 @@ public  final class NodeExecStats extends
       return org.tensorflow.framework.StepStatsProtos.internal_static_tensorflow_NodeExecStats_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.StepStatsProtos.internal_static_tensorflow_NodeExecStats_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -602,12 +686,13 @@ public  final class NodeExecStats extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
         getMemoryFieldBuilder();
         getOutputFieldBuilder();
         getReferencedTensorFieldBuilder();
@@ -713,6 +798,32 @@ public  final class NodeExecStats extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.NodeExecStats) {
         return mergeFrom((org.tensorflow.framework.NodeExecStats)other);
@@ -759,7 +870,7 @@ public  final class NodeExecStats extends
             memory_ = other.memory_;
             bitField0_ = (bitField0_ & ~0x00000020);
             memoryBuilder_ = 
-              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getMemoryFieldBuilder() : null;
           } else {
             memoryBuilder_.addAllMessages(other.memory_);
@@ -785,7 +896,7 @@ public  final class NodeExecStats extends
             output_ = other.output_;
             bitField0_ = (bitField0_ & ~0x00000040);
             outputBuilder_ = 
-              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getOutputFieldBuilder() : null;
           } else {
             outputBuilder_.addAllMessages(other.output_);
@@ -821,7 +932,7 @@ public  final class NodeExecStats extends
             referencedTensor_ = other.referencedTensor_;
             bitField0_ = (bitField0_ & ~0x00000400);
             referencedTensorBuilder_ = 
-              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getReferencedTensorFieldBuilder() : null;
           } else {
             referencedTensorBuilder_.addAllMessages(other.referencedTensor_);
@@ -1072,7 +1183,7 @@ public  final class NodeExecStats extends
        }
     }
 
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.AllocatorMemoryUsed, org.tensorflow.framework.AllocatorMemoryUsed.Builder, org.tensorflow.framework.AllocatorMemoryUsedOrBuilder> memoryBuilder_;
 
     /**
@@ -1288,11 +1399,11 @@ public  final class NodeExecStats extends
          getMemoryBuilderList() {
       return getMemoryFieldBuilder().getBuilderList();
     }
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.AllocatorMemoryUsed, org.tensorflow.framework.AllocatorMemoryUsed.Builder, org.tensorflow.framework.AllocatorMemoryUsedOrBuilder> 
         getMemoryFieldBuilder() {
       if (memoryBuilder_ == null) {
-        memoryBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+        memoryBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             org.tensorflow.framework.AllocatorMemoryUsed, org.tensorflow.framework.AllocatorMemoryUsed.Builder, org.tensorflow.framework.AllocatorMemoryUsedOrBuilder>(
                 memory_,
                 ((bitField0_ & 0x00000020) == 0x00000020),
@@ -1312,7 +1423,7 @@ public  final class NodeExecStats extends
        }
     }
 
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.NodeOutput, org.tensorflow.framework.NodeOutput.Builder, org.tensorflow.framework.NodeOutputOrBuilder> outputBuilder_;
 
     /**
@@ -1528,11 +1639,11 @@ public  final class NodeExecStats extends
          getOutputBuilderList() {
       return getOutputFieldBuilder().getBuilderList();
     }
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.NodeOutput, org.tensorflow.framework.NodeOutput.Builder, org.tensorflow.framework.NodeOutputOrBuilder> 
         getOutputFieldBuilder() {
       if (outputBuilder_ == null) {
-        outputBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+        outputBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             org.tensorflow.framework.NodeOutput, org.tensorflow.framework.NodeOutput.Builder, org.tensorflow.framework.NodeOutputOrBuilder>(
                 output_,
                 ((bitField0_ & 0x00000040) == 0x00000040),
@@ -1673,7 +1784,7 @@ public  final class NodeExecStats extends
        }
     }
 
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.AllocationDescription, org.tensorflow.framework.AllocationDescription.Builder, org.tensorflow.framework.AllocationDescriptionOrBuilder> referencedTensorBuilder_;
 
     /**
@@ -1889,11 +2000,11 @@ public  final class NodeExecStats extends
          getReferencedTensorBuilderList() {
       return getReferencedTensorFieldBuilder().getBuilderList();
     }
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.AllocationDescription, org.tensorflow.framework.AllocationDescription.Builder, org.tensorflow.framework.AllocationDescriptionOrBuilder> 
         getReferencedTensorFieldBuilder() {
       if (referencedTensorBuilder_ == null) {
-        referencedTensorBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+        referencedTensorBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             org.tensorflow.framework.AllocationDescription, org.tensorflow.framework.AllocationDescription.Builder, org.tensorflow.framework.AllocationDescriptionOrBuilder>(
                 referencedTensor_,
                 ((bitField0_ & 0x00000400) == 0x00000400),

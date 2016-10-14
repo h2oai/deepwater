@@ -6,17 +6,23 @@ package org.tensorflow.framework;
 public final class VariableProtos {
   private VariableProtos() {}
   public static void registerAllExtensions(
+      com.google.protobuf.ExtensionRegistryLite registry) {
+  }
+
+  public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
+    registerAllExtensions(
+        (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_VariableDef_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_VariableDef_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_SaveSliceInfoDef_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_SaveSliceInfoDef_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
@@ -52,13 +58,13 @@ public final class VariableProtos {
     internal_static_tensorflow_VariableDef_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_tensorflow_VariableDef_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_VariableDef_descriptor,
         new java.lang.String[] { "VariableName", "InitializerName", "SnapshotName", "SaveSliceInfoDef", });
     internal_static_tensorflow_SaveSliceInfoDef_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_tensorflow_SaveSliceInfoDef_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_SaveSliceInfoDef_descriptor,
         new java.lang.String[] { "FullName", "FullShape", "VarOffset", "VarShape", });
   }

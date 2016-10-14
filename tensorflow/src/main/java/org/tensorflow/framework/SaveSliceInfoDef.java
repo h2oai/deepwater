@@ -7,11 +7,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.SaveSliceInfoDef}
  */
 public  final class SaveSliceInfoDef extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.SaveSliceInfoDef)
     SaveSliceInfoDefOrBuilder {
   // Use SaveSliceInfoDef.newBuilder() to construct.
-  private SaveSliceInfoDef(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private SaveSliceInfoDef(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private SaveSliceInfoDef() {
@@ -140,7 +140,7 @@ public  final class SaveSliceInfoDef extends
     return org.tensorflow.framework.VariableProtos.internal_static_tensorflow_SaveSliceInfoDef_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.VariableProtos.internal_static_tensorflow_SaveSliceInfoDef_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -309,25 +309,25 @@ public  final class SaveSliceInfoDef extends
                       throws java.io.IOException {
     getSerializedSize();
     if (!getFullNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 1, fullName_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, fullName_);
     }
     if (getFullShapeList().size() > 0) {
-      output.writeRawVarint32(18);
-      output.writeRawVarint32(fullShapeMemoizedSerializedSize);
+      output.writeUInt32NoTag(18);
+      output.writeUInt32NoTag(fullShapeMemoizedSerializedSize);
     }
     for (int i = 0; i < fullShape_.size(); i++) {
       output.writeInt32NoTag(fullShape_.get(i));
     }
     if (getVarOffsetList().size() > 0) {
-      output.writeRawVarint32(26);
-      output.writeRawVarint32(varOffsetMemoizedSerializedSize);
+      output.writeUInt32NoTag(26);
+      output.writeUInt32NoTag(varOffsetMemoizedSerializedSize);
     }
     for (int i = 0; i < varOffset_.size(); i++) {
       output.writeInt32NoTag(varOffset_.get(i));
     }
     if (getVarShapeList().size() > 0) {
-      output.writeRawVarint32(34);
-      output.writeRawVarint32(varShapeMemoizedSerializedSize);
+      output.writeUInt32NoTag(34);
+      output.writeUInt32NoTag(varShapeMemoizedSerializedSize);
     }
     for (int i = 0; i < varShape_.size(); i++) {
       output.writeInt32NoTag(varShape_.get(i));
@@ -340,7 +340,7 @@ public  final class SaveSliceInfoDef extends
 
     size = 0;
     if (!getFullNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(1, fullName_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, fullName_);
     }
     {
       int dataSize = 0;
@@ -389,6 +389,54 @@ public  final class SaveSliceInfoDef extends
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.SaveSliceInfoDef)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.SaveSliceInfoDef other = (org.tensorflow.framework.SaveSliceInfoDef) obj;
+
+    boolean result = true;
+    result = result && getFullName()
+        .equals(other.getFullName());
+    result = result && getFullShapeList()
+        .equals(other.getFullShapeList());
+    result = result && getVarOffsetList()
+        .equals(other.getVarOffsetList());
+    result = result && getVarShapeList()
+        .equals(other.getVarShapeList());
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (37 * hash) + FULL_NAME_FIELD_NUMBER;
+    hash = (53 * hash) + getFullName().hashCode();
+    if (getFullShapeCount() > 0) {
+      hash = (37 * hash) + FULL_SHAPE_FIELD_NUMBER;
+      hash = (53 * hash) + getFullShapeList().hashCode();
+    }
+    if (getVarOffsetCount() > 0) {
+      hash = (37 * hash) + VAR_OFFSET_FIELD_NUMBER;
+      hash = (53 * hash) + getVarOffsetList().hashCode();
+    }
+    if (getVarShapeCount() > 0) {
+      hash = (37 * hash) + VAR_SHAPE_FIELD_NUMBER;
+      hash = (53 * hash) + getVarShapeList().hashCode();
+    }
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.SaveSliceInfoDef parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -412,39 +460,39 @@ public  final class SaveSliceInfoDef extends
   }
   public static org.tensorflow.framework.SaveSliceInfoDef parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.SaveSliceInfoDef parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.SaveSliceInfoDef parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.SaveSliceInfoDef parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.SaveSliceInfoDef parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.SaveSliceInfoDef parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -462,7 +510,7 @@ public  final class SaveSliceInfoDef extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -470,7 +518,7 @@ public  final class SaveSliceInfoDef extends
    * Protobuf type {@code tensorflow.SaveSliceInfoDef}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.SaveSliceInfoDef)
       org.tensorflow.framework.SaveSliceInfoDefOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -478,7 +526,7 @@ public  final class SaveSliceInfoDef extends
       return org.tensorflow.framework.VariableProtos.internal_static_tensorflow_SaveSliceInfoDef_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.VariableProtos.internal_static_tensorflow_SaveSliceInfoDef_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -491,12 +539,13 @@ public  final class SaveSliceInfoDef extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
       }
     }
     public Builder clear() {
@@ -554,6 +603,32 @@ public  final class SaveSliceInfoDef extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.SaveSliceInfoDef) {
         return mergeFrom((org.tensorflow.framework.SaveSliceInfoDef)other);

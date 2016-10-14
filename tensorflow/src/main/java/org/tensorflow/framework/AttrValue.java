@@ -13,11 +13,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.AttrValue}
  */
 public  final class AttrValue extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.AttrValue)
     AttrValueOrBuilder {
   // Use AttrValue.newBuilder() to construct.
-  private AttrValue(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private AttrValue(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private AttrValue() {
@@ -152,7 +152,7 @@ public  final class AttrValue extends
     return org.tensorflow.framework.AttrValueProtos.internal_static_tensorflow_AttrValue_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.AttrValueProtos.internal_static_tensorflow_AttrValue_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -394,14 +394,18 @@ public  final class AttrValue extends
         int index);
   }
   /**
+   * <pre>
+   * LINT.IfChange
+   * </pre>
+   *
    * Protobuf type {@code tensorflow.AttrValue.ListValue}
    */
   public  static final class ListValue extends
-      com.google.protobuf.GeneratedMessage implements
+      com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tensorflow.AttrValue.ListValue)
       ListValueOrBuilder {
     // Use ListValue.newBuilder() to construct.
-    private ListValue(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private ListValue(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private ListValue() {
@@ -538,7 +542,8 @@ public  final class AttrValue extends
                 shape_ = new java.util.ArrayList<org.tensorflow.framework.TensorShapeProto>();
                 mutable_bitField0_ |= 0x00000020;
               }
-              shape_.add(input.readMessage(org.tensorflow.framework.TensorShapeProto.parser(), extensionRegistry));
+              shape_.add(
+                  input.readMessage(org.tensorflow.framework.TensorShapeProto.parser(), extensionRegistry));
               break;
             }
             case 66: {
@@ -546,7 +551,8 @@ public  final class AttrValue extends
                 tensor_ = new java.util.ArrayList<org.tensorflow.framework.TensorProto>();
                 mutable_bitField0_ |= 0x00000040;
               }
-              tensor_.add(input.readMessage(org.tensorflow.framework.TensorProto.parser(), extensionRegistry));
+              tensor_.add(
+                  input.readMessage(org.tensorflow.framework.TensorProto.parser(), extensionRegistry));
               break;
             }
           }
@@ -586,7 +592,7 @@ public  final class AttrValue extends
       return org.tensorflow.framework.AttrValueProtos.internal_static_tensorflow_AttrValue_ListValue_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.AttrValueProtos.internal_static_tensorflow_AttrValue_ListValue_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -739,7 +745,7 @@ public  final class AttrValue extends
             new com.google.protobuf.Internal.ListAdapter.Converter<
                 java.lang.Integer, org.tensorflow.framework.DataType>() {
               public org.tensorflow.framework.DataType convert(java.lang.Integer from) {
-                org.tensorflow.framework.DataType result = org.tensorflow.framework.DataType.forNumber(from);
+                org.tensorflow.framework.DataType result = org.tensorflow.framework.DataType.valueOf(from);
                 return result == null ? org.tensorflow.framework.DataType.UNRECOGNIZED : result;
               }
             };
@@ -924,29 +930,29 @@ public  final class AttrValue extends
         output.writeBytes(2, s_.get(i));
       }
       if (getIList().size() > 0) {
-        output.writeRawVarint32(26);
-        output.writeRawVarint32(iMemoizedSerializedSize);
+        output.writeUInt32NoTag(26);
+        output.writeUInt32NoTag(iMemoizedSerializedSize);
       }
       for (int i = 0; i < i_.size(); i++) {
         output.writeInt64NoTag(i_.get(i));
       }
       if (getFList().size() > 0) {
-        output.writeRawVarint32(34);
-        output.writeRawVarint32(fMemoizedSerializedSize);
+        output.writeUInt32NoTag(34);
+        output.writeUInt32NoTag(fMemoizedSerializedSize);
       }
       for (int i = 0; i < f_.size(); i++) {
         output.writeFloatNoTag(f_.get(i));
       }
       if (getBList().size() > 0) {
-        output.writeRawVarint32(42);
-        output.writeRawVarint32(bMemoizedSerializedSize);
+        output.writeUInt32NoTag(42);
+        output.writeUInt32NoTag(bMemoizedSerializedSize);
       }
       for (int i = 0; i < b_.size(); i++) {
         output.writeBoolNoTag(b_.get(i));
       }
       if (getTypeList().size() > 0) {
-        output.writeRawVarint32(50);
-        output.writeRawVarint32(typeMemoizedSerializedSize);
+        output.writeUInt32NoTag(50);
+        output.writeUInt32NoTag(typeMemoizedSerializedSize);
       }
       for (int i = 0; i < type_.size(); i++) {
         output.writeEnumNoTag(type_.get(i));
@@ -1018,7 +1024,7 @@ public  final class AttrValue extends
         size += dataSize;
         if (!getTypeList().isEmpty()) {  size += 1;
           size += com.google.protobuf.CodedOutputStream
-            .computeRawVarint32Size(dataSize);
+            .computeUInt32SizeNoTag(dataSize);
         }typeMemoizedSerializedSize = dataSize;
       }
       for (int i = 0; i < shape_.size(); i++) {
@@ -1034,6 +1040,73 @@ public  final class AttrValue extends
     }
 
     private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.tensorflow.framework.AttrValue.ListValue)) {
+        return super.equals(obj);
+      }
+      org.tensorflow.framework.AttrValue.ListValue other = (org.tensorflow.framework.AttrValue.ListValue) obj;
+
+      boolean result = true;
+      result = result && getSList()
+          .equals(other.getSList());
+      result = result && getIList()
+          .equals(other.getIList());
+      result = result && getFList()
+          .equals(other.getFList());
+      result = result && getBList()
+          .equals(other.getBList());
+      result = result && type_.equals(other.type_);
+      result = result && getShapeList()
+          .equals(other.getShapeList());
+      result = result && getTensorList()
+          .equals(other.getTensorList());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (getSCount() > 0) {
+        hash = (37 * hash) + S_FIELD_NUMBER;
+        hash = (53 * hash) + getSList().hashCode();
+      }
+      if (getICount() > 0) {
+        hash = (37 * hash) + I_FIELD_NUMBER;
+        hash = (53 * hash) + getIList().hashCode();
+      }
+      if (getFCount() > 0) {
+        hash = (37 * hash) + F_FIELD_NUMBER;
+        hash = (53 * hash) + getFList().hashCode();
+      }
+      if (getBCount() > 0) {
+        hash = (37 * hash) + B_FIELD_NUMBER;
+        hash = (53 * hash) + getBList().hashCode();
+      }
+      if (getTypeCount() > 0) {
+        hash = (37 * hash) + TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + type_.hashCode();
+      }
+      if (getShapeCount() > 0) {
+        hash = (37 * hash) + SHAPE_FIELD_NUMBER;
+        hash = (53 * hash) + getShapeList().hashCode();
+      }
+      if (getTensorCount() > 0) {
+        hash = (37 * hash) + TENSOR_FIELD_NUMBER;
+        hash = (53 * hash) + getTensorList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
     public static org.tensorflow.framework.AttrValue.ListValue parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1057,39 +1130,39 @@ public  final class AttrValue extends
     }
     public static org.tensorflow.framework.AttrValue.ListValue parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static org.tensorflow.framework.AttrValue.ListValue parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static org.tensorflow.framework.AttrValue.ListValue parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
     public static org.tensorflow.framework.AttrValue.ListValue parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static org.tensorflow.framework.AttrValue.ListValue parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static org.tensorflow.framework.AttrValue.ListValue parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
@@ -1107,15 +1180,19 @@ public  final class AttrValue extends
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
     /**
+     * <pre>
+     * LINT.IfChange
+     * </pre>
+     *
      * Protobuf type {@code tensorflow.AttrValue.ListValue}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:tensorflow.AttrValue.ListValue)
         org.tensorflow.framework.AttrValue.ListValueOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -1123,7 +1200,7 @@ public  final class AttrValue extends
         return org.tensorflow.framework.AttrValueProtos.internal_static_tensorflow_AttrValue_ListValue_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return org.tensorflow.framework.AttrValueProtos.internal_static_tensorflow_AttrValue_ListValue_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -1136,12 +1213,13 @@ public  final class AttrValue extends
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
           getShapeFieldBuilder();
           getTensorFieldBuilder();
         }
@@ -1240,6 +1318,32 @@ public  final class AttrValue extends
         return result;
       }
 
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof org.tensorflow.framework.AttrValue.ListValue) {
           return mergeFrom((org.tensorflow.framework.AttrValue.ListValue)other);
@@ -1320,7 +1424,7 @@ public  final class AttrValue extends
               shape_ = other.shape_;
               bitField0_ = (bitField0_ & ~0x00000020);
               shapeBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getShapeFieldBuilder() : null;
             } else {
               shapeBuilder_.addAllMessages(other.shape_);
@@ -1346,7 +1450,7 @@ public  final class AttrValue extends
               tensor_ = other.tensor_;
               bitField0_ = (bitField0_ & ~0x00000040);
               tensorBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getTensorFieldBuilder() : null;
             } else {
               tensorBuilder_.addAllMessages(other.tensor_);
@@ -1937,7 +2041,7 @@ public  final class AttrValue extends
          }
       }
 
-      private com.google.protobuf.RepeatedFieldBuilder<
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           org.tensorflow.framework.TensorShapeProto, org.tensorflow.framework.TensorShapeProto.Builder, org.tensorflow.framework.TensorShapeProtoOrBuilder> shapeBuilder_;
 
       /**
@@ -2225,11 +2329,11 @@ public  final class AttrValue extends
            getShapeBuilderList() {
         return getShapeFieldBuilder().getBuilderList();
       }
-      private com.google.protobuf.RepeatedFieldBuilder<
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           org.tensorflow.framework.TensorShapeProto, org.tensorflow.framework.TensorShapeProto.Builder, org.tensorflow.framework.TensorShapeProtoOrBuilder> 
           getShapeFieldBuilder() {
         if (shapeBuilder_ == null) {
-          shapeBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+          shapeBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               org.tensorflow.framework.TensorShapeProto, org.tensorflow.framework.TensorShapeProto.Builder, org.tensorflow.framework.TensorShapeProtoOrBuilder>(
                   shape_,
                   ((bitField0_ & 0x00000020) == 0x00000020),
@@ -2249,7 +2353,7 @@ public  final class AttrValue extends
          }
       }
 
-      private com.google.protobuf.RepeatedFieldBuilder<
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           org.tensorflow.framework.TensorProto, org.tensorflow.framework.TensorProto.Builder, org.tensorflow.framework.TensorProtoOrBuilder> tensorBuilder_;
 
       /**
@@ -2537,11 +2641,11 @@ public  final class AttrValue extends
            getTensorBuilderList() {
         return getTensorFieldBuilder().getBuilderList();
       }
-      private com.google.protobuf.RepeatedFieldBuilder<
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           org.tensorflow.framework.TensorProto, org.tensorflow.framework.TensorProto.Builder, org.tensorflow.framework.TensorProtoOrBuilder> 
           getTensorFieldBuilder() {
         if (tensorBuilder_ == null) {
-          tensorBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+          tensorBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               org.tensorflow.framework.TensorProto, org.tensorflow.framework.TensorProto.Builder, org.tensorflow.framework.TensorProtoOrBuilder>(
                   tensor_,
                   ((bitField0_ & 0x00000040) == 0x00000040),
@@ -2737,7 +2841,8 @@ public  final class AttrValue extends
    */
   public org.tensorflow.framework.DataType getType() {
     if (valueCase_ == 6) {
-      org.tensorflow.framework.DataType result = org.tensorflow.framework.DataType.forNumber((java.lang.Integer) value_);
+      org.tensorflow.framework.DataType result = org.tensorflow.framework.DataType.valueOf(
+          (java.lang.Integer) value_);
       return result == null ? org.tensorflow.framework.DataType.UNRECOGNIZED : result;
     }
     return org.tensorflow.framework.DataType.DT_INVALID;
@@ -2965,7 +3070,7 @@ public  final class AttrValue extends
       output.writeMessage(8, (org.tensorflow.framework.TensorProto) value_);
     }
     if (valueCase_ == 9) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 9, value_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 9, value_);
     }
     if (valueCase_ == 10) {
       output.writeMessage(10, (org.tensorflow.framework.NameAttrList) value_);
@@ -3014,7 +3119,7 @@ public  final class AttrValue extends
         .computeMessageSize(8, (org.tensorflow.framework.TensorProto) value_);
     }
     if (valueCase_ == 9) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(9, value_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, value_);
     }
     if (valueCase_ == 10) {
       size += com.google.protobuf.CodedOutputStream
@@ -3025,6 +3130,128 @@ public  final class AttrValue extends
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.AttrValue)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.AttrValue other = (org.tensorflow.framework.AttrValue) obj;
+
+    boolean result = true;
+    result = result && getValueCase().equals(
+        other.getValueCase());
+    if (!result) return false;
+    switch (valueCase_) {
+      case 2:
+        result = result && getS()
+            .equals(other.getS());
+        break;
+      case 3:
+        result = result && (getI()
+            == other.getI());
+        break;
+      case 4:
+        result = result && (
+            java.lang.Float.floatToIntBits(getF())
+            == java.lang.Float.floatToIntBits(
+                other.getF()));
+        break;
+      case 5:
+        result = result && (getB()
+            == other.getB());
+        break;
+      case 6:
+        result = result && getTypeValue()
+            == other.getTypeValue();
+        break;
+      case 7:
+        result = result && getShape()
+            .equals(other.getShape());
+        break;
+      case 8:
+        result = result && getTensor()
+            .equals(other.getTensor());
+        break;
+      case 1:
+        result = result && getList()
+            .equals(other.getList());
+        break;
+      case 10:
+        result = result && getFunc()
+            .equals(other.getFunc());
+        break;
+      case 9:
+        result = result && getPlaceholder()
+            .equals(other.getPlaceholder());
+        break;
+      case 0:
+      default:
+    }
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    switch (valueCase_) {
+      case 2:
+        hash = (37 * hash) + S_FIELD_NUMBER;
+        hash = (53 * hash) + getS().hashCode();
+        break;
+      case 3:
+        hash = (37 * hash) + I_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getI());
+        break;
+      case 4:
+        hash = (37 * hash) + F_FIELD_NUMBER;
+        hash = (53 * hash) + java.lang.Float.floatToIntBits(
+            getF());
+        break;
+      case 5:
+        hash = (37 * hash) + B_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getB());
+        break;
+      case 6:
+        hash = (37 * hash) + TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + getTypeValue();
+        break;
+      case 7:
+        hash = (37 * hash) + SHAPE_FIELD_NUMBER;
+        hash = (53 * hash) + getShape().hashCode();
+        break;
+      case 8:
+        hash = (37 * hash) + TENSOR_FIELD_NUMBER;
+        hash = (53 * hash) + getTensor().hashCode();
+        break;
+      case 1:
+        hash = (37 * hash) + LIST_FIELD_NUMBER;
+        hash = (53 * hash) + getList().hashCode();
+        break;
+      case 10:
+        hash = (37 * hash) + FUNC_FIELD_NUMBER;
+        hash = (53 * hash) + getFunc().hashCode();
+        break;
+      case 9:
+        hash = (37 * hash) + PLACEHOLDER_FIELD_NUMBER;
+        hash = (53 * hash) + getPlaceholder().hashCode();
+        break;
+      case 0:
+      default:
+    }
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.AttrValue parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3048,39 +3275,39 @@ public  final class AttrValue extends
   }
   public static org.tensorflow.framework.AttrValue parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.AttrValue parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.AttrValue parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.AttrValue parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.AttrValue parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.AttrValue parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -3098,7 +3325,7 @@ public  final class AttrValue extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -3112,7 +3339,7 @@ public  final class AttrValue extends
    * Protobuf type {@code tensorflow.AttrValue}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.AttrValue)
       org.tensorflow.framework.AttrValueOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -3120,7 +3347,7 @@ public  final class AttrValue extends
       return org.tensorflow.framework.AttrValueProtos.internal_static_tensorflow_AttrValue_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.AttrValueProtos.internal_static_tensorflow_AttrValue_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -3133,12 +3360,13 @@ public  final class AttrValue extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
       }
     }
     public Builder clear() {
@@ -3218,6 +3446,32 @@ public  final class AttrValue extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.AttrValue) {
         return mergeFrom((org.tensorflow.framework.AttrValue)other);
@@ -3523,7 +3777,8 @@ public  final class AttrValue extends
      */
     public org.tensorflow.framework.DataType getType() {
       if (valueCase_ == 6) {
-        org.tensorflow.framework.DataType result = org.tensorflow.framework.DataType.forNumber((java.lang.Integer) value_);
+        org.tensorflow.framework.DataType result = org.tensorflow.framework.DataType.valueOf(
+            (java.lang.Integer) value_);
         return result == null ? org.tensorflow.framework.DataType.UNRECOGNIZED : result;
       }
       return org.tensorflow.framework.DataType.DT_INVALID;
@@ -3560,7 +3815,7 @@ public  final class AttrValue extends
       return this;
     }
 
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.TensorShapeProto, org.tensorflow.framework.TensorShapeProto.Builder, org.tensorflow.framework.TensorShapeProtoOrBuilder> shapeBuilder_;
     /**
      * <pre>
@@ -3703,14 +3958,14 @@ public  final class AttrValue extends
      *
      * <code>optional .tensorflow.TensorShapeProto shape = 7;</code>
      */
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.TensorShapeProto, org.tensorflow.framework.TensorShapeProto.Builder, org.tensorflow.framework.TensorShapeProtoOrBuilder> 
         getShapeFieldBuilder() {
       if (shapeBuilder_ == null) {
         if (!(valueCase_ == 7)) {
           value_ = org.tensorflow.framework.TensorShapeProto.getDefaultInstance();
         }
-        shapeBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+        shapeBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
             org.tensorflow.framework.TensorShapeProto, org.tensorflow.framework.TensorShapeProto.Builder, org.tensorflow.framework.TensorShapeProtoOrBuilder>(
                 (org.tensorflow.framework.TensorShapeProto) value_,
                 getParentForChildren(),
@@ -3722,7 +3977,7 @@ public  final class AttrValue extends
       return shapeBuilder_;
     }
 
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.TensorProto, org.tensorflow.framework.TensorProto.Builder, org.tensorflow.framework.TensorProtoOrBuilder> tensorBuilder_;
     /**
      * <pre>
@@ -3865,14 +4120,14 @@ public  final class AttrValue extends
      *
      * <code>optional .tensorflow.TensorProto tensor = 8;</code>
      */
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.TensorProto, org.tensorflow.framework.TensorProto.Builder, org.tensorflow.framework.TensorProtoOrBuilder> 
         getTensorFieldBuilder() {
       if (tensorBuilder_ == null) {
         if (!(valueCase_ == 8)) {
           value_ = org.tensorflow.framework.TensorProto.getDefaultInstance();
         }
-        tensorBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+        tensorBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
             org.tensorflow.framework.TensorProto, org.tensorflow.framework.TensorProto.Builder, org.tensorflow.framework.TensorProtoOrBuilder>(
                 (org.tensorflow.framework.TensorProto) value_,
                 getParentForChildren(),
@@ -3884,7 +4139,7 @@ public  final class AttrValue extends
       return tensorBuilder_;
     }
 
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.AttrValue.ListValue, org.tensorflow.framework.AttrValue.ListValue.Builder, org.tensorflow.framework.AttrValue.ListValueOrBuilder> listBuilder_;
     /**
      * <pre>
@@ -4027,14 +4282,14 @@ public  final class AttrValue extends
      *
      * <code>optional .tensorflow.AttrValue.ListValue list = 1;</code>
      */
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.AttrValue.ListValue, org.tensorflow.framework.AttrValue.ListValue.Builder, org.tensorflow.framework.AttrValue.ListValueOrBuilder> 
         getListFieldBuilder() {
       if (listBuilder_ == null) {
         if (!(valueCase_ == 1)) {
           value_ = org.tensorflow.framework.AttrValue.ListValue.getDefaultInstance();
         }
-        listBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+        listBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
             org.tensorflow.framework.AttrValue.ListValue, org.tensorflow.framework.AttrValue.ListValue.Builder, org.tensorflow.framework.AttrValue.ListValueOrBuilder>(
                 (org.tensorflow.framework.AttrValue.ListValue) value_,
                 getParentForChildren(),
@@ -4046,7 +4301,7 @@ public  final class AttrValue extends
       return listBuilder_;
     }
 
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.NameAttrList, org.tensorflow.framework.NameAttrList.Builder, org.tensorflow.framework.NameAttrListOrBuilder> funcBuilder_;
     /**
      * <pre>
@@ -4213,14 +4468,14 @@ public  final class AttrValue extends
      *
      * <code>optional .tensorflow.NameAttrList func = 10;</code>
      */
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.NameAttrList, org.tensorflow.framework.NameAttrList.Builder, org.tensorflow.framework.NameAttrListOrBuilder> 
         getFuncFieldBuilder() {
       if (funcBuilder_ == null) {
         if (!(valueCase_ == 10)) {
           value_ = org.tensorflow.framework.NameAttrList.getDefaultInstance();
         }
-        funcBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+        funcBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
             org.tensorflow.framework.NameAttrList, org.tensorflow.framework.NameAttrList.Builder, org.tensorflow.framework.NameAttrListOrBuilder>(
                 (org.tensorflow.framework.NameAttrList) value_,
                 getParentForChildren(),

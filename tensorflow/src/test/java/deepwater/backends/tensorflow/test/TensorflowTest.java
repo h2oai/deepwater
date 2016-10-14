@@ -28,8 +28,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.bytedeco.javacpp.tensorflow.Cast;
-import static org.bytedeco.javacpp.tensorflow.Const;
 import static org.bytedeco.javacpp.tensorflow.ConvertGraphDefToGraph;
 import static org.bytedeco.javacpp.tensorflow.DT_FLOAT;
 import static org.bytedeco.javacpp.tensorflow.DT_STRING;
@@ -63,6 +61,8 @@ import static org.bytedeco.javacpp.tensorflow.TensorShape;
 import static org.bytedeco.javacpp.tensorflow.TensorVector;
 import static org.bytedeco.javacpp.tensorflow.TopKV2;
 
+import static org.bytedeco.javacpp.tensorflow.*;
+
 public class TensorflowTest {
 
     static String expandPath(String path) {
@@ -70,64 +70,70 @@ public class TensorflowTest {
     }
 
     Status loadImage(ImageParams imageParams, TensorVector outputs) throws Exception {
-        String image_reader_name = "image_reader";
-        String output_name = "normalize";
-
-        Node image_reader;
-        GraphDefBuilder graphBuilder = new GraphDefBuilder();
-        Node file_reader = ReadFile(Const(imageParams.getImagePath(), graphBuilder.opts()), graphBuilder.opts().WithName(image_reader_name));
-
-        if (imageParams.getImagePath().endsWith(".png")) {
-            image_reader = DecodePng(file_reader, graphBuilder.opts().WithAttr("channels", 3).WithName("png_reader"));
-        } else {
-            image_reader = DecodeJpeg(file_reader, graphBuilder.opts().WithAttr("channels", 3).WithName("jpeg_reader"));
-        }
-        // cast to float
-        Node float_caster = Cast(image_reader, DT_FLOAT, graphBuilder.opts().WithName("float_caster"));
-
-        Node dims_expander = ExpandDims(float_caster, Const(0, graphBuilder.opts()), graphBuilder.opts());
-        Node resized = ResizeBilinear(dims_expander, Const(new int[]{imageParams.getInput_height(), imageParams.getInput_width()}, graphBuilder.opts().WithName("size")), graphBuilder.opts());
-        Node normalized = Div(
-                Sub(resized, Const(imageParams.getInput_mean(), graphBuilder.opts()), graphBuilder.opts().WithName("subtraction")),
-                Const(imageParams.getInput_std(), graphBuilder.opts()),
-                graphBuilder.opts());
-        Squeeze(normalized, graphBuilder.opts());
-        Reshape(normalized, Const(new int[]{-1, 784}, graphBuilder.opts()), graphBuilder.opts().WithName(output_name));
-
-        tensorflow.GraphDef graph = new tensorflow.GraphDef();
-        Status status = graphBuilder.ToGraphDef(graph);
-
-        checkStatus(status);
-
-        Session session = new Session(new SessionOptions());
-        status = session.Create(graph);
-        checkStatus(status);
-
-        status = session.Run(new StringTensorPairVector(),
-                new StringVector(output_name), new StringVector(), outputs);
-        checkStatus(status);
+//        String image_reader_name = "image_reader";
+//        String output_name = "normalize";
+//
+//        Node image_reader;
+//        GraphDefBuilder graphBuilder = new GraphDefBuilder();
+//        Scope root = Scope.NewRootScope();
+//
+//        Output output = Const(root, imageParams.getImagePath(), graphBuilder.opts());
+//
+//        Node file_reader = ReadFile(output, graphBuilder.opts().WithName(image_reader_name));
+//
+//
+//
+//        if (imageParams.getImagePath().endsWith(".png")) {
+//            image_reader = DecodePng(file_reader, graphBuilder.opts().WithAttr("channels", 3).WithName("png_reader"));
+//        } else {
+//            image_reader = DecodeJpeg(file_reader, graphBuilder.opts().WithAttr("channels", 3).WithName("jpeg_reader"));
+//        }
+//        // cast to float
+//        Node float_caster = Cast(image_reader, DT_FLOAT, graphBuilder.opts().WithName("float_caster"));
+//
+//        Node dims_expander = ExpandDims(float_caster, Const(0, graphBuilder.opts()), graphBuilder.opts());
+//        Node resized = ResizeBilinear(dims_expander, Const(new int[]{imageParams.getInput_height(), imageParams.getInput_width()}, graphBuilder.opts().WithName("size")), graphBuilder.opts());
+//        Node normalized = Div(
+//                Sub(resized, Const(imageParams.getInput_mean(), graphBuilder.opts()), graphBuilder.opts().WithName("subtraction")),
+//                Const(imageParams.getInput_std(), graphBuilder.opts()),
+//                graphBuilder.opts());
+//        Squeeze(normalized, graphBuilder.opts());
+//        Reshape(normalized, Const(new int[]{-1, 784}, graphBuilder.opts()), graphBuilder.opts().WithName(output_name));
+//
+//        tensorflow.GraphDef graph = new tensorflow.GraphDef();
+//        Status status = graphBuilder.ToGraphDef(graph);
+//
+//        checkStatus(status);
+//
+//        Session session = new Session(new SessionOptions());
+//        status = session.Create(graph);
+//        checkStatus(status);
+//
+//        status = session.Run(new StringTensorPairVector(),
+//                new StringVector(output_name), new StringVector(), outputs);
+//        checkStatus(status);
         return Status.OK();
     }
 
     TensorVector getTopKLabels(Session sess, Tensor distribution, int k) {
 
-        final String output_name = "top_k";
-
-        GraphDefBuilder b = new GraphDefBuilder();
-
-        TopKV2(Const(distribution, b.opts()), Const(k, b.opts()), b.opts().WithName("top_k"));
-
-        tensorflow.GraphDef graph = new tensorflow.GraphDef();
-        Status status = b.ToGraphDef(graph);
-        checkStatus(status);
-        status = sess.Extend(graph);
-        checkStatus(status);
+//        final String output_name = "top_k";
+//
+//        GraphDefBuilder b = new GraphDefBuilder();
+//
+//        TopKV2(Const(distribution, b.opts()), Const(k, b.opts()), b.opts().WithName("top_k"));
+//
+//        tensorflow.GraphDef graph = new tensorflow.GraphDef();
+//        Status status = b.ToGraphDef(graph);
+//        checkStatus(status);
+//        status = sess.Extend(graph);
+//        checkStatus(status);
         TensorVector outputs = new TensorVector();
-        status = sess.Run(new StringTensorPairVector(),
-                new StringVector(new String[]{output_name + ":0", output_name + ":1"}),
-                new StringVector(),
-                outputs);
-        checkStatus(status);
+//        status = sess.Run(new StringTensorPairVector(),
+//                new StringVector(new String[]{output_name + ":0", output_name + ":1"}),
+//                new StringVector(),
+//                outputs);
+//        checkStatus(status);
         return outputs;
     }
 

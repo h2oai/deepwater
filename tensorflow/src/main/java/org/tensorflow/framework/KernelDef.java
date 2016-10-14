@@ -7,11 +7,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.KernelDef}
  */
 public  final class KernelDef extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.KernelDef)
     KernelDefOrBuilder {
   // Use KernelDef.newBuilder() to construct.
-  private KernelDef(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private KernelDef(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private KernelDef() {
@@ -64,7 +64,8 @@ public  final class KernelDef extends
               constraint_ = new java.util.ArrayList<org.tensorflow.framework.KernelDef.AttrConstraint>();
               mutable_bitField0_ |= 0x00000004;
             }
-            constraint_.add(input.readMessage(org.tensorflow.framework.KernelDef.AttrConstraint.parser(), extensionRegistry));
+            constraint_.add(
+                input.readMessage(org.tensorflow.framework.KernelDef.AttrConstraint.parser(), extensionRegistry));
             break;
           }
           case 34: {
@@ -104,7 +105,7 @@ public  final class KernelDef extends
     return org.tensorflow.framework.KernelDefProtos.internal_static_tensorflow_KernelDef_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.KernelDefProtos.internal_static_tensorflow_KernelDef_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -165,11 +166,11 @@ public  final class KernelDef extends
    * Protobuf type {@code tensorflow.KernelDef.AttrConstraint}
    */
   public  static final class AttrConstraint extends
-      com.google.protobuf.GeneratedMessage implements
+      com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tensorflow.KernelDef.AttrConstraint)
       AttrConstraintOrBuilder {
     // Use AttrConstraint.newBuilder() to construct.
-    private AttrConstraint(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private AttrConstraint(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private AttrConstraint() {
@@ -236,7 +237,7 @@ public  final class KernelDef extends
       return org.tensorflow.framework.KernelDefProtos.internal_static_tensorflow_KernelDef_AttrConstraint_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.KernelDefProtos.internal_static_tensorflow_KernelDef_AttrConstraint_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -334,7 +335,7 @@ public  final class KernelDef extends
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 1, name_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
       }
       if (allowedValues_ != null) {
         output.writeMessage(2, getAllowedValues());
@@ -347,7 +348,7 @@ public  final class KernelDef extends
 
       size = 0;
       if (!getNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, name_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
       }
       if (allowedValues_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -358,6 +359,45 @@ public  final class KernelDef extends
     }
 
     private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.tensorflow.framework.KernelDef.AttrConstraint)) {
+        return super.equals(obj);
+      }
+      org.tensorflow.framework.KernelDef.AttrConstraint other = (org.tensorflow.framework.KernelDef.AttrConstraint) obj;
+
+      boolean result = true;
+      result = result && getName()
+          .equals(other.getName());
+      result = result && (hasAllowedValues() == other.hasAllowedValues());
+      if (hasAllowedValues()) {
+        result = result && getAllowedValues()
+            .equals(other.getAllowedValues());
+      }
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (37 * hash) + NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getName().hashCode();
+      if (hasAllowedValues()) {
+        hash = (37 * hash) + ALLOWED_VALUES_FIELD_NUMBER;
+        hash = (53 * hash) + getAllowedValues().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
     public static org.tensorflow.framework.KernelDef.AttrConstraint parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -381,39 +421,39 @@ public  final class KernelDef extends
     }
     public static org.tensorflow.framework.KernelDef.AttrConstraint parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static org.tensorflow.framework.KernelDef.AttrConstraint parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static org.tensorflow.framework.KernelDef.AttrConstraint parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
     public static org.tensorflow.framework.KernelDef.AttrConstraint parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static org.tensorflow.framework.KernelDef.AttrConstraint parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static org.tensorflow.framework.KernelDef.AttrConstraint parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
@@ -431,7 +471,7 @@ public  final class KernelDef extends
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -439,7 +479,7 @@ public  final class KernelDef extends
      * Protobuf type {@code tensorflow.KernelDef.AttrConstraint}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:tensorflow.KernelDef.AttrConstraint)
         org.tensorflow.framework.KernelDef.AttrConstraintOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -447,7 +487,7 @@ public  final class KernelDef extends
         return org.tensorflow.framework.KernelDefProtos.internal_static_tensorflow_KernelDef_AttrConstraint_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return org.tensorflow.framework.KernelDefProtos.internal_static_tensorflow_KernelDef_AttrConstraint_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -460,12 +500,13 @@ public  final class KernelDef extends
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
       public Builder clear() {
@@ -510,6 +551,32 @@ public  final class KernelDef extends
         return result;
       }
 
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof org.tensorflow.framework.KernelDef.AttrConstraint) {
           return mergeFrom((org.tensorflow.framework.KernelDef.AttrConstraint)other);
@@ -644,7 +711,7 @@ public  final class KernelDef extends
       }
 
       private org.tensorflow.framework.AttrValue allowedValues_ = null;
-      private com.google.protobuf.SingleFieldBuilder<
+      private com.google.protobuf.SingleFieldBuilderV3<
           org.tensorflow.framework.AttrValue, org.tensorflow.framework.AttrValue.Builder, org.tensorflow.framework.AttrValueOrBuilder> allowedValuesBuilder_;
       /**
        * <pre>
@@ -791,11 +858,11 @@ public  final class KernelDef extends
        *
        * <code>optional .tensorflow.AttrValue allowed_values = 2;</code>
        */
-      private com.google.protobuf.SingleFieldBuilder<
+      private com.google.protobuf.SingleFieldBuilderV3<
           org.tensorflow.framework.AttrValue, org.tensorflow.framework.AttrValue.Builder, org.tensorflow.framework.AttrValueOrBuilder> 
           getAllowedValuesFieldBuilder() {
         if (allowedValuesBuilder_ == null) {
-          allowedValuesBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+          allowedValuesBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
               org.tensorflow.framework.AttrValue, org.tensorflow.framework.AttrValue.Builder, org.tensorflow.framework.AttrValueOrBuilder>(
                   getAllowedValues(),
                   getParentForChildren(),
@@ -1081,19 +1148,19 @@ public  final class KernelDef extends
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (!getOpBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 1, op_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, op_);
     }
     if (!getDeviceTypeBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 2, deviceType_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, deviceType_);
     }
     for (int i = 0; i < constraint_.size(); i++) {
       output.writeMessage(3, constraint_.get(i));
     }
     for (int i = 0; i < hostMemoryArg_.size(); i++) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 4, hostMemoryArg_.getRaw(i));
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, hostMemoryArg_.getRaw(i));
     }
     if (!getLabelBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 5, label_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, label_);
     }
   }
 
@@ -1103,10 +1170,10 @@ public  final class KernelDef extends
 
     size = 0;
     if (!getOpBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(1, op_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, op_);
     }
     if (!getDeviceTypeBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(2, deviceType_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, deviceType_);
     }
     for (int i = 0; i < constraint_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
@@ -1121,13 +1188,63 @@ public  final class KernelDef extends
       size += 1 * getHostMemoryArgList().size();
     }
     if (!getLabelBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(5, label_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, label_);
     }
     memoizedSize = size;
     return size;
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.KernelDef)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.KernelDef other = (org.tensorflow.framework.KernelDef) obj;
+
+    boolean result = true;
+    result = result && getOp()
+        .equals(other.getOp());
+    result = result && getDeviceType()
+        .equals(other.getDeviceType());
+    result = result && getConstraintList()
+        .equals(other.getConstraintList());
+    result = result && getHostMemoryArgList()
+        .equals(other.getHostMemoryArgList());
+    result = result && getLabel()
+        .equals(other.getLabel());
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (37 * hash) + OP_FIELD_NUMBER;
+    hash = (53 * hash) + getOp().hashCode();
+    hash = (37 * hash) + DEVICE_TYPE_FIELD_NUMBER;
+    hash = (53 * hash) + getDeviceType().hashCode();
+    if (getConstraintCount() > 0) {
+      hash = (37 * hash) + CONSTRAINT_FIELD_NUMBER;
+      hash = (53 * hash) + getConstraintList().hashCode();
+    }
+    if (getHostMemoryArgCount() > 0) {
+      hash = (37 * hash) + HOST_MEMORY_ARG_FIELD_NUMBER;
+      hash = (53 * hash) + getHostMemoryArgList().hashCode();
+    }
+    hash = (37 * hash) + LABEL_FIELD_NUMBER;
+    hash = (53 * hash) + getLabel().hashCode();
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.KernelDef parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1151,39 +1268,39 @@ public  final class KernelDef extends
   }
   public static org.tensorflow.framework.KernelDef parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.KernelDef parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.KernelDef parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.KernelDef parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.KernelDef parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.KernelDef parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -1201,7 +1318,7 @@ public  final class KernelDef extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -1209,7 +1326,7 @@ public  final class KernelDef extends
    * Protobuf type {@code tensorflow.KernelDef}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.KernelDef)
       org.tensorflow.framework.KernelDefOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -1217,7 +1334,7 @@ public  final class KernelDef extends
       return org.tensorflow.framework.KernelDefProtos.internal_static_tensorflow_KernelDef_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.KernelDefProtos.internal_static_tensorflow_KernelDef_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -1230,12 +1347,13 @@ public  final class KernelDef extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
         getConstraintFieldBuilder();
       }
     }
@@ -1301,6 +1419,32 @@ public  final class KernelDef extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.KernelDef) {
         return mergeFrom((org.tensorflow.framework.KernelDef)other);
@@ -1339,7 +1483,7 @@ public  final class KernelDef extends
             constraint_ = other.constraint_;
             bitField0_ = (bitField0_ & ~0x00000004);
             constraintBuilder_ = 
-              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getConstraintFieldBuilder() : null;
           } else {
             constraintBuilder_.addAllMessages(other.constraint_);
@@ -1574,7 +1718,7 @@ public  final class KernelDef extends
        }
     }
 
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.KernelDef.AttrConstraint, org.tensorflow.framework.KernelDef.AttrConstraint.Builder, org.tensorflow.framework.KernelDef.AttrConstraintOrBuilder> constraintBuilder_;
 
     /**
@@ -1790,11 +1934,11 @@ public  final class KernelDef extends
          getConstraintBuilderList() {
       return getConstraintFieldBuilder().getBuilderList();
     }
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.KernelDef.AttrConstraint, org.tensorflow.framework.KernelDef.AttrConstraint.Builder, org.tensorflow.framework.KernelDef.AttrConstraintOrBuilder> 
         getConstraintFieldBuilder() {
       if (constraintBuilder_ == null) {
-        constraintBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+        constraintBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             org.tensorflow.framework.KernelDef.AttrConstraint, org.tensorflow.framework.KernelDef.AttrConstraint.Builder, org.tensorflow.framework.KernelDef.AttrConstraintOrBuilder>(
                 constraint_,
                 ((bitField0_ & 0x00000004) == 0x00000004),

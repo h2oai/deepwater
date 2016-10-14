@@ -12,11 +12,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.HistogramProto}
  */
 public  final class HistogramProto extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.HistogramProto)
     HistogramProtoOrBuilder {
   // Use HistogramProto.newBuilder() to construct.
-  private HistogramProto(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private HistogramProto(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private HistogramProto() {
@@ -143,7 +143,7 @@ public  final class HistogramProto extends
     return org.tensorflow.framework.SummaryProtos.internal_static_tensorflow_HistogramProto_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.SummaryProtos.internal_static_tensorflow_HistogramProto_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -295,15 +295,15 @@ public  final class HistogramProto extends
       output.writeDouble(5, sumSquares_);
     }
     if (getBucketLimitList().size() > 0) {
-      output.writeRawVarint32(50);
-      output.writeRawVarint32(bucketLimitMemoizedSerializedSize);
+      output.writeUInt32NoTag(50);
+      output.writeUInt32NoTag(bucketLimitMemoizedSerializedSize);
     }
     for (int i = 0; i < bucketLimit_.size(); i++) {
       output.writeDoubleNoTag(bucketLimit_.get(i));
     }
     if (getBucketList().size() > 0) {
-      output.writeRawVarint32(58);
-      output.writeRawVarint32(bucketMemoizedSerializedSize);
+      output.writeUInt32NoTag(58);
+      output.writeUInt32NoTag(bucketMemoizedSerializedSize);
     }
     for (int i = 0; i < bucket_.size(); i++) {
       output.writeDoubleNoTag(bucket_.get(i));
@@ -362,6 +362,79 @@ public  final class HistogramProto extends
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.HistogramProto)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.HistogramProto other = (org.tensorflow.framework.HistogramProto) obj;
+
+    boolean result = true;
+    result = result && (
+        java.lang.Double.doubleToLongBits(getMin())
+        == java.lang.Double.doubleToLongBits(
+            other.getMin()));
+    result = result && (
+        java.lang.Double.doubleToLongBits(getMax())
+        == java.lang.Double.doubleToLongBits(
+            other.getMax()));
+    result = result && (
+        java.lang.Double.doubleToLongBits(getNum())
+        == java.lang.Double.doubleToLongBits(
+            other.getNum()));
+    result = result && (
+        java.lang.Double.doubleToLongBits(getSum())
+        == java.lang.Double.doubleToLongBits(
+            other.getSum()));
+    result = result && (
+        java.lang.Double.doubleToLongBits(getSumSquares())
+        == java.lang.Double.doubleToLongBits(
+            other.getSumSquares()));
+    result = result && getBucketLimitList()
+        .equals(other.getBucketLimitList());
+    result = result && getBucketList()
+        .equals(other.getBucketList());
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (37 * hash) + MIN_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        java.lang.Double.doubleToLongBits(getMin()));
+    hash = (37 * hash) + MAX_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        java.lang.Double.doubleToLongBits(getMax()));
+    hash = (37 * hash) + NUM_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        java.lang.Double.doubleToLongBits(getNum()));
+    hash = (37 * hash) + SUM_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        java.lang.Double.doubleToLongBits(getSum()));
+    hash = (37 * hash) + SUM_SQUARES_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        java.lang.Double.doubleToLongBits(getSumSquares()));
+    if (getBucketLimitCount() > 0) {
+      hash = (37 * hash) + BUCKET_LIMIT_FIELD_NUMBER;
+      hash = (53 * hash) + getBucketLimitList().hashCode();
+    }
+    if (getBucketCount() > 0) {
+      hash = (37 * hash) + BUCKET_FIELD_NUMBER;
+      hash = (53 * hash) + getBucketList().hashCode();
+    }
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.HistogramProto parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -385,39 +458,39 @@ public  final class HistogramProto extends
   }
   public static org.tensorflow.framework.HistogramProto parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.HistogramProto parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.HistogramProto parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.HistogramProto parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.HistogramProto parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.HistogramProto parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -435,7 +508,7 @@ public  final class HistogramProto extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -448,7 +521,7 @@ public  final class HistogramProto extends
    * Protobuf type {@code tensorflow.HistogramProto}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.HistogramProto)
       org.tensorflow.framework.HistogramProtoOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -456,7 +529,7 @@ public  final class HistogramProto extends
       return org.tensorflow.framework.SummaryProtos.internal_static_tensorflow_HistogramProto_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.SummaryProtos.internal_static_tensorflow_HistogramProto_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -469,12 +542,13 @@ public  final class HistogramProto extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
       }
     }
     public Builder clear() {
@@ -537,6 +611,32 @@ public  final class HistogramProto extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.HistogramProto) {
         return mergeFrom((org.tensorflow.framework.HistogramProto)other);

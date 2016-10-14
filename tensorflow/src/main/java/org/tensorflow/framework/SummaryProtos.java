@@ -6,32 +6,38 @@ package org.tensorflow.framework;
 public final class SummaryProtos {
   private SummaryProtos() {}
   public static void registerAllExtensions(
+      com.google.protobuf.ExtensionRegistryLite registry) {
+  }
+
+  public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
+    registerAllExtensions(
+        (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_HistogramProto_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_HistogramProto_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_Summary_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_Summary_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_Summary_Image_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_Summary_Image_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_Summary_Audio_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_Summary_Audio_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_Summary_Value_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_Summary_Value_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
@@ -81,31 +87,31 @@ public final class SummaryProtos {
     internal_static_tensorflow_HistogramProto_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_tensorflow_HistogramProto_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_HistogramProto_descriptor,
         new java.lang.String[] { "Min", "Max", "Num", "Sum", "SumSquares", "BucketLimit", "Bucket", });
     internal_static_tensorflow_Summary_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_tensorflow_Summary_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_Summary_descriptor,
         new java.lang.String[] { "Value", });
     internal_static_tensorflow_Summary_Image_descriptor =
       internal_static_tensorflow_Summary_descriptor.getNestedTypes().get(0);
     internal_static_tensorflow_Summary_Image_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_Summary_Image_descriptor,
         new java.lang.String[] { "Height", "Width", "Colorspace", "EncodedImageString", });
     internal_static_tensorflow_Summary_Audio_descriptor =
       internal_static_tensorflow_Summary_descriptor.getNestedTypes().get(1);
     internal_static_tensorflow_Summary_Audio_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_Summary_Audio_descriptor,
         new java.lang.String[] { "SampleRate", "NumChannels", "LengthFrames", "EncodedAudioString", "ContentType", });
     internal_static_tensorflow_Summary_Value_descriptor =
       internal_static_tensorflow_Summary_descriptor.getNestedTypes().get(2);
     internal_static_tensorflow_Summary_Value_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_Summary_Value_descriptor,
         new java.lang.String[] { "NodeName", "Tag", "SimpleValue", "ObsoleteOldStyleHistogram", "Image", "Histo", "Audio", "Tensor", "Value", });
     org.tensorflow.framework.TensorProtos.getDescriptor();

@@ -7,11 +7,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.MemoryLogStep}
  */
 public  final class MemoryLogStep extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.MemoryLogStep)
     MemoryLogStepOrBuilder {
   // Use MemoryLogStep.newBuilder() to construct.
-  private MemoryLogStep(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private MemoryLogStep(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private MemoryLogStep() {
@@ -71,7 +71,7 @@ public  final class MemoryLogStep extends
     return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogStep_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogStep_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -149,7 +149,7 @@ public  final class MemoryLogStep extends
       output.writeInt64(1, stepId_);
     }
     if (!getHandleBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 2, handle_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, handle_);
     }
   }
 
@@ -163,13 +163,48 @@ public  final class MemoryLogStep extends
         .computeInt64Size(1, stepId_);
     }
     if (!getHandleBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(2, handle_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, handle_);
     }
     memoizedSize = size;
     return size;
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.MemoryLogStep)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.MemoryLogStep other = (org.tensorflow.framework.MemoryLogStep) obj;
+
+    boolean result = true;
+    result = result && (getStepId()
+        == other.getStepId());
+    result = result && getHandle()
+        .equals(other.getHandle());
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (37 * hash) + STEP_ID_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getStepId());
+    hash = (37 * hash) + HANDLE_FIELD_NUMBER;
+    hash = (53 * hash) + getHandle().hashCode();
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.MemoryLogStep parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -193,39 +228,39 @@ public  final class MemoryLogStep extends
   }
   public static org.tensorflow.framework.MemoryLogStep parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.MemoryLogStep parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.MemoryLogStep parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.MemoryLogStep parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.MemoryLogStep parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.MemoryLogStep parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -243,7 +278,7 @@ public  final class MemoryLogStep extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -251,7 +286,7 @@ public  final class MemoryLogStep extends
    * Protobuf type {@code tensorflow.MemoryLogStep}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.MemoryLogStep)
       org.tensorflow.framework.MemoryLogStepOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -259,7 +294,7 @@ public  final class MemoryLogStep extends
       return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogStep_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogStep_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -272,12 +307,13 @@ public  final class MemoryLogStep extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
       }
     }
     public Builder clear() {
@@ -314,6 +350,32 @@ public  final class MemoryLogStep extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.MemoryLogStep) {
         return mergeFrom((org.tensorflow.framework.MemoryLogStep)other);

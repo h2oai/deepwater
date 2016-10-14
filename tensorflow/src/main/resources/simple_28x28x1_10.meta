@@ -1,0 +1,1 @@
+{"inputs": "inference/Placeholder:0", "labels": "train/Placeholder:0", "train_op": "train/Adam", "predict_op": "inference/ArgMax:0", "init": "init", "total_loss": "train/Mean:0", "accuracy": "train/Mean_1:0"}

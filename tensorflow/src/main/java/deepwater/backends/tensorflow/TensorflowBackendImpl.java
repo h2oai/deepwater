@@ -4,6 +4,7 @@ package deepwater.backends.tensorflow;
 import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.backends.tensorflow.models.TensorflowModel;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class TensorflowBackendImpl {
@@ -14,9 +15,11 @@ public class TensorflowBackendImpl {
 
     public void createNetwork(String name) {
 
-        InputStream stream = getClass().getResourceAsStream("mnist.pb");
-
-        TensorflowModel model = ModelFactory.LoadModel("LENET");
+        try {
+            TensorflowModel model = ModelFactory.LoadModel("cifarnet");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 

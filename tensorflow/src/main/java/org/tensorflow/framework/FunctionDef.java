@@ -15,15 +15,16 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.FunctionDef}
  */
 public  final class FunctionDef extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.FunctionDef)
     FunctionDefOrBuilder {
   // Use FunctionDef.newBuilder() to construct.
-  private FunctionDef(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private FunctionDef(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private FunctionDef() {
     node_ = java.util.Collections.emptyList();
+    nodeDef_ = java.util.Collections.emptyList();
   }
 
   @java.lang.Override
@@ -69,7 +70,29 @@ public  final class FunctionDef extends
               node_ = new java.util.ArrayList<org.tensorflow.framework.FunctionDef.Node>();
               mutable_bitField0_ |= 0x00000002;
             }
-            node_.add(input.readMessage(org.tensorflow.framework.FunctionDef.Node.parser(), extensionRegistry));
+            node_.add(
+                input.readMessage(org.tensorflow.framework.FunctionDef.Node.parser(), extensionRegistry));
+            break;
+          }
+          case 26: {
+            if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              nodeDef_ = new java.util.ArrayList<org.tensorflow.framework.NodeDef>();
+              mutable_bitField0_ |= 0x00000004;
+            }
+            nodeDef_.add(
+                input.readMessage(org.tensorflow.framework.NodeDef.parser(), extensionRegistry));
+            break;
+          }
+          case 34: {
+            if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              ret_ = com.google.protobuf.MapField.newMapField(
+                  RetDefaultEntryHolder.defaultEntry);
+              mutable_bitField0_ |= 0x00000008;
+            }
+            com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+            ret = input.readMessage(
+                RetDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+            ret_.getMutableMap().put(ret.getKey(), ret.getValue());
             break;
           }
         }
@@ -83,6 +106,9 @@ public  final class FunctionDef extends
       if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
         node_ = java.util.Collections.unmodifiableList(node_);
       }
+      if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        nodeDef_ = java.util.Collections.unmodifiableList(nodeDef_);
+      }
       makeExtensionsImmutable();
     }
   }
@@ -91,7 +117,18 @@ public  final class FunctionDef extends
     return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  @SuppressWarnings({"rawtypes"})
+  protected com.google.protobuf.MapField internalGetMapField(
+      int number) {
+    switch (number) {
+      case 4:
+        return internalGetRet();
+      default:
+        throw new RuntimeException(
+            "Invalid map field number: " + number);
+    }
+  }
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -112,7 +149,7 @@ public  final class FunctionDef extends
      *
      * <code>repeated string ret = 1;</code>
      */
-    com.google.protobuf.ProtocolStringList
+    java.util.List<java.lang.String>
         getRetList();
     /**
      * <pre>
@@ -178,7 +215,7 @@ public  final class FunctionDef extends
      *
      * <code>repeated string arg = 3;</code>
      */
-    com.google.protobuf.ProtocolStringList
+    java.util.List<java.lang.String>
         getArgList();
     /**
      * <pre>
@@ -227,7 +264,7 @@ public  final class FunctionDef extends
      *
      * <code>repeated string dep = 4;</code>
      */
-    com.google.protobuf.ProtocolStringList
+    java.util.List<java.lang.String>
         getDepList();
     /**
      * <pre>
@@ -273,8 +310,72 @@ public  final class FunctionDef extends
      *
      * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
      */
+    int getAttrCount();
+    /**
+     * <pre>
+     * Attrs.
+     * 'attr' maps names defined by 'func's attr defs to attr values.
+     * attr values may have placeholders which are substituted
+     * recursively by concrete values when this node is instantiated.
+     * These placeholders must name an attr listed in the FunctionDef's
+     * signature.
+     * </pre>
+     *
+     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+     */
+    boolean containsAttr(
+        java.lang.String key);
+    /**
+     * Use {@link #getAttrMap()} instead.
+     */
+    @java.lang.Deprecated
     java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue>
     getAttr();
+    /**
+     * <pre>
+     * Attrs.
+     * 'attr' maps names defined by 'func's attr defs to attr values.
+     * attr values may have placeholders which are substituted
+     * recursively by concrete values when this node is instantiated.
+     * These placeholders must name an attr listed in the FunctionDef's
+     * signature.
+     * </pre>
+     *
+     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+     */
+    java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue>
+    getAttrMap();
+    /**
+     * <pre>
+     * Attrs.
+     * 'attr' maps names defined by 'func's attr defs to attr values.
+     * attr values may have placeholders which are substituted
+     * recursively by concrete values when this node is instantiated.
+     * These placeholders must name an attr listed in the FunctionDef's
+     * signature.
+     * </pre>
+     *
+     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+     */
+
+    org.tensorflow.framework.AttrValue getAttrOrDefault(
+        java.lang.String key,
+        org.tensorflow.framework.AttrValue defaultValue);
+    /**
+     * <pre>
+     * Attrs.
+     * 'attr' maps names defined by 'func's attr defs to attr values.
+     * attr values may have placeholders which are substituted
+     * recursively by concrete values when this node is instantiated.
+     * These placeholders must name an attr listed in the FunctionDef's
+     * signature.
+     * </pre>
+     *
+     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+     */
+
+    org.tensorflow.framework.AttrValue getAttrOrThrow(
+        java.lang.String key);
   }
   /**
    * <pre>
@@ -287,11 +388,11 @@ public  final class FunctionDef extends
    * Protobuf type {@code tensorflow.FunctionDef.Node}
    */
   public  static final class Node extends
-      com.google.protobuf.GeneratedMessage implements
+      com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tensorflow.FunctionDef.Node)
       NodeOrBuilder {
     // Use Node.newBuilder() to construct.
-    private Node(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private Node(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private Node() {
@@ -407,7 +508,7 @@ public  final class FunctionDef extends
               "Invalid map field number: " + number);
       }
     }
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_Node_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -650,6 +751,10 @@ public  final class FunctionDef extends
       }
       return attr_;
     }
+
+    public int getAttrCount() {
+      return internalGetAttr().getMap().size();
+    }
     /**
      * <pre>
      * Attrs.
@@ -663,8 +768,77 @@ public  final class FunctionDef extends
      * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
      */
 
+    public boolean containsAttr(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      return internalGetAttr().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getAttrMap()} instead.
+     */
+    @java.lang.Deprecated
     public java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> getAttr() {
+      return getAttrMap();
+    }
+    /**
+     * <pre>
+     * Attrs.
+     * 'attr' maps names defined by 'func's attr defs to attr values.
+     * attr values may have placeholders which are substituted
+     * recursively by concrete values when this node is instantiated.
+     * These placeholders must name an attr listed in the FunctionDef's
+     * signature.
+     * </pre>
+     *
+     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+     */
+
+    public java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> getAttrMap() {
       return internalGetAttr().getMap();
+    }
+    /**
+     * <pre>
+     * Attrs.
+     * 'attr' maps names defined by 'func's attr defs to attr values.
+     * attr values may have placeholders which are substituted
+     * recursively by concrete values when this node is instantiated.
+     * These placeholders must name an attr listed in the FunctionDef's
+     * signature.
+     * </pre>
+     *
+     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+     */
+
+    public org.tensorflow.framework.AttrValue getAttrOrDefault(
+        java.lang.String key,
+        org.tensorflow.framework.AttrValue defaultValue) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> map =
+          internalGetAttr().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <pre>
+     * Attrs.
+     * 'attr' maps names defined by 'func's attr defs to attr values.
+     * attr values may have placeholders which are substituted
+     * recursively by concrete values when this node is instantiated.
+     * These placeholders must name an attr listed in the FunctionDef's
+     * signature.
+     * </pre>
+     *
+     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+     */
+
+    public org.tensorflow.framework.AttrValue getAttrOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> map =
+          internalGetAttr().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -680,16 +854,16 @@ public  final class FunctionDef extends
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < ret_.size(); i++) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 1, ret_.getRaw(i));
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, ret_.getRaw(i));
       }
       if (!getOpBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 2, op_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, op_);
       }
       for (int i = 0; i < arg_.size(); i++) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 3, arg_.getRaw(i));
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, arg_.getRaw(i));
       }
       for (int i = 0; i < dep_.size(); i++) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 4, dep_.getRaw(i));
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, dep_.getRaw(i));
       }
       for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.AttrValue> entry
            : internalGetAttr().getMap().entrySet()) {
@@ -716,7 +890,7 @@ public  final class FunctionDef extends
         size += 1 * getRetList().size();
       }
       if (!getOpBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, op_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, op_);
       }
       {
         int dataSize = 0;
@@ -749,6 +923,60 @@ public  final class FunctionDef extends
     }
 
     private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.tensorflow.framework.FunctionDef.Node)) {
+        return super.equals(obj);
+      }
+      org.tensorflow.framework.FunctionDef.Node other = (org.tensorflow.framework.FunctionDef.Node) obj;
+
+      boolean result = true;
+      result = result && getRetList()
+          .equals(other.getRetList());
+      result = result && getOp()
+          .equals(other.getOp());
+      result = result && getArgList()
+          .equals(other.getArgList());
+      result = result && getDepList()
+          .equals(other.getDepList());
+      result = result && internalGetAttr().equals(
+          other.internalGetAttr());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (getRetCount() > 0) {
+        hash = (37 * hash) + RET_FIELD_NUMBER;
+        hash = (53 * hash) + getRetList().hashCode();
+      }
+      hash = (37 * hash) + OP_FIELD_NUMBER;
+      hash = (53 * hash) + getOp().hashCode();
+      if (getArgCount() > 0) {
+        hash = (37 * hash) + ARG_FIELD_NUMBER;
+        hash = (53 * hash) + getArgList().hashCode();
+      }
+      if (getDepCount() > 0) {
+        hash = (37 * hash) + DEP_FIELD_NUMBER;
+        hash = (53 * hash) + getDepList().hashCode();
+      }
+      if (!internalGetAttr().getMap().isEmpty()) {
+        hash = (37 * hash) + ATTR_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetAttr().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
     public static org.tensorflow.framework.FunctionDef.Node parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -772,39 +1000,39 @@ public  final class FunctionDef extends
     }
     public static org.tensorflow.framework.FunctionDef.Node parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static org.tensorflow.framework.FunctionDef.Node parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static org.tensorflow.framework.FunctionDef.Node parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
     public static org.tensorflow.framework.FunctionDef.Node parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static org.tensorflow.framework.FunctionDef.Node parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static org.tensorflow.framework.FunctionDef.Node parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
@@ -822,7 +1050,7 @@ public  final class FunctionDef extends
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -837,7 +1065,7 @@ public  final class FunctionDef extends
      * Protobuf type {@code tensorflow.FunctionDef.Node}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:tensorflow.FunctionDef.Node)
         org.tensorflow.framework.FunctionDef.NodeOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -867,7 +1095,7 @@ public  final class FunctionDef extends
                 "Invalid map field number: " + number);
         }
       }
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_Node_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -880,12 +1108,13 @@ public  final class FunctionDef extends
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
       public Builder clear() {
@@ -946,6 +1175,32 @@ public  final class FunctionDef extends
         return result;
       }
 
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof org.tensorflow.framework.FunctionDef.Node) {
           return mergeFrom((org.tensorflow.framework.FunctionDef.Node)other);
@@ -1602,6 +1857,10 @@ public  final class FunctionDef extends
         }
         return attr_;
       }
+
+      public int getAttrCount() {
+        return internalGetAttr().getMap().size();
+      }
       /**
        * <pre>
        * Attrs.
@@ -1614,7 +1873,33 @@ public  final class FunctionDef extends
        *
        * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
        */
+
+      public boolean containsAttr(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        return internalGetAttr().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getAttrMap()} instead.
+       */
+      @java.lang.Deprecated
       public java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> getAttr() {
+        return getAttrMap();
+      }
+      /**
+       * <pre>
+       * Attrs.
+       * 'attr' maps names defined by 'func's attr defs to attr values.
+       * attr values may have placeholders which are substituted
+       * recursively by concrete values when this node is instantiated.
+       * These placeholders must name an attr listed in the FunctionDef's
+       * signature.
+       * </pre>
+       *
+       * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+       */
+
+      public java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> getAttrMap() {
         return internalGetAttr().getMap();
       }
       /**
@@ -1629,6 +1914,66 @@ public  final class FunctionDef extends
        *
        * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
        */
+
+      public org.tensorflow.framework.AttrValue getAttrOrDefault(
+          java.lang.String key,
+          org.tensorflow.framework.AttrValue defaultValue) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> map =
+            internalGetAttr().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <pre>
+       * Attrs.
+       * 'attr' maps names defined by 'func's attr defs to attr values.
+       * attr values may have placeholders which are substituted
+       * recursively by concrete values when this node is instantiated.
+       * These placeholders must name an attr listed in the FunctionDef's
+       * signature.
+       * </pre>
+       *
+       * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+       */
+
+      public org.tensorflow.framework.AttrValue getAttrOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> map =
+            internalGetAttr().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+
+      public Builder clearAttr() {
+        getMutableAttr().clear();
+        return this;
+      }
+      /**
+       * <pre>
+       * Attrs.
+       * 'attr' maps names defined by 'func's attr defs to attr values.
+       * attr values may have placeholders which are substituted
+       * recursively by concrete values when this node is instantiated.
+       * These placeholders must name an attr listed in the FunctionDef's
+       * signature.
+       * </pre>
+       *
+       * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+       */
+
+      public Builder removeAttr(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        getMutableAttr().remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
       public java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue>
       getMutableAttr() {
         return internalGetMutableAttr().getMutableMap();
@@ -1645,6 +1990,27 @@ public  final class FunctionDef extends
        *
        * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
        */
+      public Builder putAttr(
+          java.lang.String key,
+          org.tensorflow.framework.AttrValue value) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        if (value == null) { throw new java.lang.NullPointerException(); }
+        getMutableAttr().put(key, value);
+        return this;
+      }
+      /**
+       * <pre>
+       * Attrs.
+       * 'attr' maps names defined by 'func's attr defs to attr values.
+       * attr values may have placeholders which are substituted
+       * recursively by concrete values when this node is instantiated.
+       * These placeholders must name an attr listed in the FunctionDef's
+       * signature.
+       * </pre>
+       *
+       * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+       */
+
       public Builder putAllAttr(
           java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> values) {
         getMutableAttr().putAll(values);
@@ -1791,6 +2157,167 @@ public  final class FunctionDef extends
     return node_.get(index);
   }
 
+  public static final int NODE_DEF_FIELD_NUMBER = 3;
+  private java.util.List<org.tensorflow.framework.NodeDef> nodeDef_;
+  /**
+   * <pre>
+   * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+   * may have values of type `placeholder` and the `input` field uses
+   * the "output" format above.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+   */
+  public java.util.List<org.tensorflow.framework.NodeDef> getNodeDefList() {
+    return nodeDef_;
+  }
+  /**
+   * <pre>
+   * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+   * may have values of type `placeholder` and the `input` field uses
+   * the "output" format above.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+   */
+  public java.util.List<? extends org.tensorflow.framework.NodeDefOrBuilder> 
+      getNodeDefOrBuilderList() {
+    return nodeDef_;
+  }
+  /**
+   * <pre>
+   * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+   * may have values of type `placeholder` and the `input` field uses
+   * the "output" format above.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+   */
+  public int getNodeDefCount() {
+    return nodeDef_.size();
+  }
+  /**
+   * <pre>
+   * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+   * may have values of type `placeholder` and the `input` field uses
+   * the "output" format above.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+   */
+  public org.tensorflow.framework.NodeDef getNodeDef(int index) {
+    return nodeDef_.get(index);
+  }
+  /**
+   * <pre>
+   * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+   * may have values of type `placeholder` and the `input` field uses
+   * the "output" format above.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+   */
+  public org.tensorflow.framework.NodeDefOrBuilder getNodeDefOrBuilder(
+      int index) {
+    return nodeDef_.get(index);
+  }
+
+  public static final int RET_FIELD_NUMBER = 4;
+  private static final class RetDefaultEntryHolder {
+    static final com.google.protobuf.MapEntry<
+        java.lang.String, java.lang.String> defaultEntry =
+            com.google.protobuf.MapEntry
+            .<java.lang.String, java.lang.String>newDefaultInstance(
+                org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_RetEntry_descriptor, 
+                com.google.protobuf.WireFormat.FieldType.STRING,
+                "",
+                com.google.protobuf.WireFormat.FieldType.STRING,
+                "");
+  }
+  private com.google.protobuf.MapField<
+      java.lang.String, java.lang.String> ret_;
+  private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+  internalGetRet() {
+    if (ret_ == null) {
+      return com.google.protobuf.MapField.emptyMapField(
+          RetDefaultEntryHolder.defaultEntry);
+    }
+    return ret_;
+  }
+
+  public int getRetCount() {
+    return internalGetRet().getMap().size();
+  }
+  /**
+   * <pre>
+   * A mapping from the output arg names from `signature` to the
+   * outputs from `node_def` that should be returned by the function.
+   * </pre>
+   *
+   * <code>map&lt;string, string&gt; ret = 4;</code>
+   */
+
+  public boolean containsRet(
+      java.lang.String key) {
+    if (key == null) { throw new java.lang.NullPointerException(); }
+    return internalGetRet().getMap().containsKey(key);
+  }
+  /**
+   * Use {@link #getRetMap()} instead.
+   */
+  @java.lang.Deprecated
+  public java.util.Map<java.lang.String, java.lang.String> getRet() {
+    return getRetMap();
+  }
+  /**
+   * <pre>
+   * A mapping from the output arg names from `signature` to the
+   * outputs from `node_def` that should be returned by the function.
+   * </pre>
+   *
+   * <code>map&lt;string, string&gt; ret = 4;</code>
+   */
+
+  public java.util.Map<java.lang.String, java.lang.String> getRetMap() {
+    return internalGetRet().getMap();
+  }
+  /**
+   * <pre>
+   * A mapping from the output arg names from `signature` to the
+   * outputs from `node_def` that should be returned by the function.
+   * </pre>
+   *
+   * <code>map&lt;string, string&gt; ret = 4;</code>
+   */
+
+  public java.lang.String getRetOrDefault(
+      java.lang.String key,
+      java.lang.String defaultValue) {
+    if (key == null) { throw new java.lang.NullPointerException(); }
+    java.util.Map<java.lang.String, java.lang.String> map =
+        internalGetRet().getMap();
+    return map.containsKey(key) ? map.get(key) : defaultValue;
+  }
+  /**
+   * <pre>
+   * A mapping from the output arg names from `signature` to the
+   * outputs from `node_def` that should be returned by the function.
+   * </pre>
+   *
+   * <code>map&lt;string, string&gt; ret = 4;</code>
+   */
+
+  public java.lang.String getRetOrThrow(
+      java.lang.String key) {
+    if (key == null) { throw new java.lang.NullPointerException(); }
+    java.util.Map<java.lang.String, java.lang.String> map =
+        internalGetRet().getMap();
+    if (!map.containsKey(key)) {
+      throw new java.lang.IllegalArgumentException();
+    }
+    return map.get(key);
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -1809,6 +2336,18 @@ public  final class FunctionDef extends
     for (int i = 0; i < node_.size(); i++) {
       output.writeMessage(2, node_.get(i));
     }
+    for (int i = 0; i < nodeDef_.size(); i++) {
+      output.writeMessage(3, nodeDef_.get(i));
+    }
+    for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+         : internalGetRet().getMap().entrySet()) {
+      com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+      ret = RetDefaultEntryHolder.defaultEntry.newBuilderForType()
+          .setKey(entry.getKey())
+          .setValue(entry.getValue())
+          .build();
+      output.writeMessage(4, ret);
+    }
   }
 
   public int getSerializedSize() {
@@ -1824,11 +2363,78 @@ public  final class FunctionDef extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(2, node_.get(i));
     }
+    for (int i = 0; i < nodeDef_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(3, nodeDef_.get(i));
+    }
+    for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+         : internalGetRet().getMap().entrySet()) {
+      com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+      ret = RetDefaultEntryHolder.defaultEntry.newBuilderForType()
+          .setKey(entry.getKey())
+          .setValue(entry.getValue())
+          .build();
+      size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, ret);
+    }
     memoizedSize = size;
     return size;
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.FunctionDef)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.FunctionDef other = (org.tensorflow.framework.FunctionDef) obj;
+
+    boolean result = true;
+    result = result && (hasSignature() == other.hasSignature());
+    if (hasSignature()) {
+      result = result && getSignature()
+          .equals(other.getSignature());
+    }
+    result = result && getNodeList()
+        .equals(other.getNodeList());
+    result = result && getNodeDefList()
+        .equals(other.getNodeDefList());
+    result = result && internalGetRet().equals(
+        other.internalGetRet());
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    if (hasSignature()) {
+      hash = (37 * hash) + SIGNATURE_FIELD_NUMBER;
+      hash = (53 * hash) + getSignature().hashCode();
+    }
+    if (getNodeCount() > 0) {
+      hash = (37 * hash) + NODE_FIELD_NUMBER;
+      hash = (53 * hash) + getNodeList().hashCode();
+    }
+    if (getNodeDefCount() > 0) {
+      hash = (37 * hash) + NODE_DEF_FIELD_NUMBER;
+      hash = (53 * hash) + getNodeDefList().hashCode();
+    }
+    if (!internalGetRet().getMap().isEmpty()) {
+      hash = (37 * hash) + RET_FIELD_NUMBER;
+      hash = (53 * hash) + internalGetRet().hashCode();
+    }
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.FunctionDef parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1852,39 +2458,39 @@ public  final class FunctionDef extends
   }
   public static org.tensorflow.framework.FunctionDef parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.FunctionDef parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.FunctionDef parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.FunctionDef parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.FunctionDef parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.FunctionDef parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -1902,7 +2508,7 @@ public  final class FunctionDef extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -1918,7 +2524,7 @@ public  final class FunctionDef extends
    * Protobuf type {@code tensorflow.FunctionDef}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.FunctionDef)
       org.tensorflow.framework.FunctionDefOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -1926,7 +2532,29 @@ public  final class FunctionDef extends
       return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @SuppressWarnings({"rawtypes"})
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 4:
+          return internalGetRet();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
+    @SuppressWarnings({"rawtypes"})
+    protected com.google.protobuf.MapField internalGetMutableMapField(
+        int number) {
+      switch (number) {
+        case 4:
+          return internalGetMutableRet();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -1939,13 +2567,15 @@ public  final class FunctionDef extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
         getNodeFieldBuilder();
+        getNodeDefFieldBuilder();
       }
     }
     public Builder clear() {
@@ -1962,6 +2592,13 @@ public  final class FunctionDef extends
       } else {
         nodeBuilder_.clear();
       }
+      if (nodeDefBuilder_ == null) {
+        nodeDef_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000004);
+      } else {
+        nodeDefBuilder_.clear();
+      }
+      internalGetMutableRet().clear();
       return this;
     }
 
@@ -2000,11 +2637,48 @@ public  final class FunctionDef extends
       } else {
         result.node_ = nodeBuilder_.build();
       }
+      if (nodeDefBuilder_ == null) {
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          nodeDef_ = java.util.Collections.unmodifiableList(nodeDef_);
+          bitField0_ = (bitField0_ & ~0x00000004);
+        }
+        result.nodeDef_ = nodeDef_;
+      } else {
+        result.nodeDef_ = nodeDefBuilder_.build();
+      }
+      result.ret_ = internalGetRet();
+      result.ret_.makeImmutable();
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.FunctionDef) {
         return mergeFrom((org.tensorflow.framework.FunctionDef)other);
@@ -2038,13 +2712,41 @@ public  final class FunctionDef extends
             node_ = other.node_;
             bitField0_ = (bitField0_ & ~0x00000002);
             nodeBuilder_ = 
-              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getNodeFieldBuilder() : null;
           } else {
             nodeBuilder_.addAllMessages(other.node_);
           }
         }
       }
+      if (nodeDefBuilder_ == null) {
+        if (!other.nodeDef_.isEmpty()) {
+          if (nodeDef_.isEmpty()) {
+            nodeDef_ = other.nodeDef_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensureNodeDefIsMutable();
+            nodeDef_.addAll(other.nodeDef_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.nodeDef_.isEmpty()) {
+          if (nodeDefBuilder_.isEmpty()) {
+            nodeDefBuilder_.dispose();
+            nodeDefBuilder_ = null;
+            nodeDef_ = other.nodeDef_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+            nodeDefBuilder_ = 
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                 getNodeDefFieldBuilder() : null;
+          } else {
+            nodeDefBuilder_.addAllMessages(other.nodeDef_);
+          }
+        }
+      }
+      internalGetMutableRet().mergeFrom(
+          other.internalGetRet());
       onChanged();
       return this;
     }
@@ -2073,7 +2775,7 @@ public  final class FunctionDef extends
     private int bitField0_;
 
     private org.tensorflow.framework.OpDef signature_ = null;
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.OpDef, org.tensorflow.framework.OpDef.Builder, org.tensorflow.framework.OpDefOrBuilder> signatureBuilder_;
     /**
      * <pre>
@@ -2220,11 +2922,11 @@ public  final class FunctionDef extends
      *
      * <code>optional .tensorflow.OpDef signature = 1;</code>
      */
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.OpDef, org.tensorflow.framework.OpDef.Builder, org.tensorflow.framework.OpDefOrBuilder> 
         getSignatureFieldBuilder() {
       if (signatureBuilder_ == null) {
-        signatureBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+        signatureBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
             org.tensorflow.framework.OpDef, org.tensorflow.framework.OpDef.Builder, org.tensorflow.framework.OpDefOrBuilder>(
                 getSignature(),
                 getParentForChildren(),
@@ -2243,7 +2945,7 @@ public  final class FunctionDef extends
        }
     }
 
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.FunctionDef.Node, org.tensorflow.framework.FunctionDef.Node.Builder, org.tensorflow.framework.FunctionDef.NodeOrBuilder> nodeBuilder_;
 
     /**
@@ -2531,11 +3233,11 @@ public  final class FunctionDef extends
          getNodeBuilderList() {
       return getNodeFieldBuilder().getBuilderList();
     }
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.FunctionDef.Node, org.tensorflow.framework.FunctionDef.Node.Builder, org.tensorflow.framework.FunctionDef.NodeOrBuilder> 
         getNodeFieldBuilder() {
       if (nodeBuilder_ == null) {
-        nodeBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+        nodeBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             org.tensorflow.framework.FunctionDef.Node, org.tensorflow.framework.FunctionDef.Node.Builder, org.tensorflow.framework.FunctionDef.NodeOrBuilder>(
                 node_,
                 ((bitField0_ & 0x00000002) == 0x00000002),
@@ -2544,6 +3246,508 @@ public  final class FunctionDef extends
         node_ = null;
       }
       return nodeBuilder_;
+    }
+
+    private java.util.List<org.tensorflow.framework.NodeDef> nodeDef_ =
+      java.util.Collections.emptyList();
+    private void ensureNodeDefIsMutable() {
+      if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        nodeDef_ = new java.util.ArrayList<org.tensorflow.framework.NodeDef>(nodeDef_);
+        bitField0_ |= 0x00000004;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        org.tensorflow.framework.NodeDef, org.tensorflow.framework.NodeDef.Builder, org.tensorflow.framework.NodeDefOrBuilder> nodeDefBuilder_;
+
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public java.util.List<org.tensorflow.framework.NodeDef> getNodeDefList() {
+      if (nodeDefBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(nodeDef_);
+      } else {
+        return nodeDefBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public int getNodeDefCount() {
+      if (nodeDefBuilder_ == null) {
+        return nodeDef_.size();
+      } else {
+        return nodeDefBuilder_.getCount();
+      }
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public org.tensorflow.framework.NodeDef getNodeDef(int index) {
+      if (nodeDefBuilder_ == null) {
+        return nodeDef_.get(index);
+      } else {
+        return nodeDefBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public Builder setNodeDef(
+        int index, org.tensorflow.framework.NodeDef value) {
+      if (nodeDefBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureNodeDefIsMutable();
+        nodeDef_.set(index, value);
+        onChanged();
+      } else {
+        nodeDefBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public Builder setNodeDef(
+        int index, org.tensorflow.framework.NodeDef.Builder builderForValue) {
+      if (nodeDefBuilder_ == null) {
+        ensureNodeDefIsMutable();
+        nodeDef_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        nodeDefBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public Builder addNodeDef(org.tensorflow.framework.NodeDef value) {
+      if (nodeDefBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureNodeDefIsMutable();
+        nodeDef_.add(value);
+        onChanged();
+      } else {
+        nodeDefBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public Builder addNodeDef(
+        int index, org.tensorflow.framework.NodeDef value) {
+      if (nodeDefBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureNodeDefIsMutable();
+        nodeDef_.add(index, value);
+        onChanged();
+      } else {
+        nodeDefBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public Builder addNodeDef(
+        org.tensorflow.framework.NodeDef.Builder builderForValue) {
+      if (nodeDefBuilder_ == null) {
+        ensureNodeDefIsMutable();
+        nodeDef_.add(builderForValue.build());
+        onChanged();
+      } else {
+        nodeDefBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public Builder addNodeDef(
+        int index, org.tensorflow.framework.NodeDef.Builder builderForValue) {
+      if (nodeDefBuilder_ == null) {
+        ensureNodeDefIsMutable();
+        nodeDef_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        nodeDefBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public Builder addAllNodeDef(
+        java.lang.Iterable<? extends org.tensorflow.framework.NodeDef> values) {
+      if (nodeDefBuilder_ == null) {
+        ensureNodeDefIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, nodeDef_);
+        onChanged();
+      } else {
+        nodeDefBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public Builder clearNodeDef() {
+      if (nodeDefBuilder_ == null) {
+        nodeDef_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000004);
+        onChanged();
+      } else {
+        nodeDefBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public Builder removeNodeDef(int index) {
+      if (nodeDefBuilder_ == null) {
+        ensureNodeDefIsMutable();
+        nodeDef_.remove(index);
+        onChanged();
+      } else {
+        nodeDefBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public org.tensorflow.framework.NodeDef.Builder getNodeDefBuilder(
+        int index) {
+      return getNodeDefFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public org.tensorflow.framework.NodeDefOrBuilder getNodeDefOrBuilder(
+        int index) {
+      if (nodeDefBuilder_ == null) {
+        return nodeDef_.get(index);  } else {
+        return nodeDefBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public java.util.List<? extends org.tensorflow.framework.NodeDefOrBuilder> 
+         getNodeDefOrBuilderList() {
+      if (nodeDefBuilder_ != null) {
+        return nodeDefBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(nodeDef_);
+      }
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public org.tensorflow.framework.NodeDef.Builder addNodeDefBuilder() {
+      return getNodeDefFieldBuilder().addBuilder(
+          org.tensorflow.framework.NodeDef.getDefaultInstance());
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public org.tensorflow.framework.NodeDef.Builder addNodeDefBuilder(
+        int index) {
+      return getNodeDefFieldBuilder().addBuilder(
+          index, org.tensorflow.framework.NodeDef.getDefaultInstance());
+    }
+    /**
+     * <pre>
+     * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+     * may have values of type `placeholder` and the `input` field uses
+     * the "output" format above.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+     */
+    public java.util.List<org.tensorflow.framework.NodeDef.Builder> 
+         getNodeDefBuilderList() {
+      return getNodeDefFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        org.tensorflow.framework.NodeDef, org.tensorflow.framework.NodeDef.Builder, org.tensorflow.framework.NodeDefOrBuilder> 
+        getNodeDefFieldBuilder() {
+      if (nodeDefBuilder_ == null) {
+        nodeDefBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+            org.tensorflow.framework.NodeDef, org.tensorflow.framework.NodeDef.Builder, org.tensorflow.framework.NodeDefOrBuilder>(
+                nodeDef_,
+                ((bitField0_ & 0x00000004) == 0x00000004),
+                getParentForChildren(),
+                isClean());
+        nodeDef_ = null;
+      }
+      return nodeDefBuilder_;
+    }
+
+    private com.google.protobuf.MapField<
+        java.lang.String, java.lang.String> ret_;
+    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+    internalGetRet() {
+      if (ret_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            RetDefaultEntryHolder.defaultEntry);
+      }
+      return ret_;
+    }
+    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+    internalGetMutableRet() {
+      onChanged();;
+      if (ret_ == null) {
+        ret_ = com.google.protobuf.MapField.newMapField(
+            RetDefaultEntryHolder.defaultEntry);
+      }
+      if (!ret_.isMutable()) {
+        ret_ = ret_.copy();
+      }
+      return ret_;
+    }
+
+    public int getRetCount() {
+      return internalGetRet().getMap().size();
+    }
+    /**
+     * <pre>
+     * A mapping from the output arg names from `signature` to the
+     * outputs from `node_def` that should be returned by the function.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; ret = 4;</code>
+     */
+
+    public boolean containsRet(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      return internalGetRet().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getRetMap()} instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, java.lang.String> getRet() {
+      return getRetMap();
+    }
+    /**
+     * <pre>
+     * A mapping from the output arg names from `signature` to the
+     * outputs from `node_def` that should be returned by the function.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; ret = 4;</code>
+     */
+
+    public java.util.Map<java.lang.String, java.lang.String> getRetMap() {
+      return internalGetRet().getMap();
+    }
+    /**
+     * <pre>
+     * A mapping from the output arg names from `signature` to the
+     * outputs from `node_def` that should be returned by the function.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; ret = 4;</code>
+     */
+
+    public java.lang.String getRetOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetRet().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <pre>
+     * A mapping from the output arg names from `signature` to the
+     * outputs from `node_def` that should be returned by the function.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; ret = 4;</code>
+     */
+
+    public java.lang.String getRetOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetRet().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
+    public Builder clearRet() {
+      getMutableRet().clear();
+      return this;
+    }
+    /**
+     * <pre>
+     * A mapping from the output arg names from `signature` to the
+     * outputs from `node_def` that should be returned by the function.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; ret = 4;</code>
+     */
+
+    public Builder removeRet(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      getMutableRet().remove(key);
+      return this;
+    }
+    /**
+     * Use alternate mutation accessors instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, java.lang.String>
+    getMutableRet() {
+      return internalGetMutableRet().getMutableMap();
+    }
+    /**
+     * <pre>
+     * A mapping from the output arg names from `signature` to the
+     * outputs from `node_def` that should be returned by the function.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; ret = 4;</code>
+     */
+    public Builder putRet(
+        java.lang.String key,
+        java.lang.String value) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      if (value == null) { throw new java.lang.NullPointerException(); }
+      getMutableRet().put(key, value);
+      return this;
+    }
+    /**
+     * <pre>
+     * A mapping from the output arg names from `signature` to the
+     * outputs from `node_def` that should be returned by the function.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; ret = 4;</code>
+     */
+
+    public Builder putAllRet(
+        java.util.Map<java.lang.String, java.lang.String> values) {
+      getMutableRet().putAll(values);
+      return this;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

@@ -6,12 +6,18 @@ package org.tensorflow.framework;
 public final class TensorDescriptionProtos {
   private TensorDescriptionProtos() {}
   public static void registerAllExtensions(
+      com.google.protobuf.ExtensionRegistryLite registry) {
+  }
+
+  public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
+    registerAllExtensions(
+        (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_TensorDescription_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_TensorDescription_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
@@ -53,7 +59,7 @@ public final class TensorDescriptionProtos {
     internal_static_tensorflow_TensorDescription_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_tensorflow_TensorDescription_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_TensorDescription_descriptor,
         new java.lang.String[] { "Dtype", "Shape", "AllocationDescription", });
     org.tensorflow.framework.TypesProtos.getDescriptor();
