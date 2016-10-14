@@ -19,7 +19,10 @@ source activate deepwater
 # The numpy version is important
 conda install numpy=1.10
 ```
-
+#### Install SWIG
+```
+sudo apt-get install swig
+```
 
 #### Install Bazel
 ```
