@@ -447,8 +447,6 @@ Symbol LenetSymbol(int num_classes) {
     return SoftmaxOutput("softmax", fc2, data_label);
   else
     return LinearRegressionOutput("softmax", fc2, data_label);
-
-  return lenet;
 }
 
 Symbol getConv(const std::string & name, Symbol data,
@@ -536,7 +534,7 @@ Symbol ResNetSymbol(int num_class, int num_level, int num_block,
   Symbol fc_w("fc_weight"), fc_b("fc_bias");
   Symbol fc = FullyConnected("fc", flat, fc_w, fc_b, num_class);
 
-  if (num_classes > 1)
+  if (num_class > 1)
     return SoftmaxOutput("softmax", fc, data_label);
   else
     return LinearRegressionOutput("softmax", fc, data_label);
