@@ -84,10 +84,10 @@ java -jar build/h2o.jar
 If you didn't build it yourself, download a recent version of h2o.jar: (https://slack-files.com/T0329MHH6-F2P0XU99T-6334505603)
 
 #### Java example use cases
-Example [Java GPU-enabled unit tests](https://github.com/h2oai/h2o-3/tree/deepwater/h2o-algos/src/test/java/hex/deepwater).
+Example [Java GPU-enabled unit tests](https://github.com/h2oai/h2o-3/tree/master/h2o-algos/src/test/java/hex/deepwater).
 
 #### Python example use cases
-Example [Python GPU-enabled unit tests](https://github.com/h2oai/h2o-3/tree/deepwater/h2o-py/tests/testdir_algos/deepwater).
+Example [Python GPU-enabled unit tests](https://github.com/h2oai/h2o-3/tree/master/h2o-py/tests/testdir_algos/deepwater).
 
 #### R example use cases
 Coming soon.
