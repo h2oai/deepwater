@@ -41,7 +41,7 @@ From the top-level of the deepwater repository, do
 This will create the following file: `build/libs/deepwater-all.jar`
 
 #### 5. Add DeepWater support to H2O-3
-You need to check out the [deepwater branch of h2o-3](http://github.com/h2oai/h2o-3/tree/deepwater/).
+You need to check out the [h2o-3](http://github.com/h2oai/h2o-3/).
 Copy the freshly created jar file `build/libs/deepwater-all.jar` from the previous step to H2O-3's library `h2o-3/lib/deepwater-all.jar` and you're done!
 
 ##### Build H2O-3 as usual:
