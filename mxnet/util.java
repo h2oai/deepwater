@@ -14,6 +14,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Map;
 import java.util.Locale;
+import java.util.UUID;
 import java.nio.file.Paths;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
@@ -60,17 +61,19 @@ public final class util {
         if (tmpdir.isEmpty()){
             tmpdir = "/tmp";
         }
-        String target = path(tmpdir,libname);
-        if (Files.exists(Paths.get(target))) {
-            Files.delete(Paths.get(target));
-        }
+        String random = UUID.randomUUID().toString();
+        String dir = path(tmpdir,random);
+        new File(dir).mkdirs();
 
+        System.setProperty("java.library.path", dir);
         InputStream in = util.class.getResourceAsStream(origin);
         checkNotNull(in,"No native lib " + origin + " found in jar. Please check installation!");
 
+        String target = path(dir,libname);
         OutputStream out = new FileOutputStream(target);
         checkNotNull(out,"could not create file");
         copy(in, out);
+        new File(target).deleteOnExit();
         return target;
     }
 
