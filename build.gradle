@@ -90,6 +90,7 @@ dependencies {
     if (includeAllBackends) {
         compile project(':deepwater-mxnet')
         compile project(':deepwater-tensorflow')
+        compile project(':deepwater-caffe')
     } 
     // Test stuff
     testCompile group: 'junit', name: 'junit', version: '4.11'
