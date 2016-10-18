@@ -1,4 +1,4 @@
-package water.gpu;
+package deepwater.backends.mxnet;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -41,19 +41,6 @@ public final class util {
         return "lib" + name + "." + lib_suffix;
     }
 
-    public static String getNvidiaStats() throws java.io.IOException {
-      String cmd = "nvidia-smi";
-      InputStream stdin = Runtime.getRuntime().exec(cmd).getInputStream();
-      InputStreamReader isr = new InputStreamReader(stdin);
-      BufferedReader br = new BufferedReader(isr);
-      StringBuilder sb = new StringBuilder();
-      String s = null;
-      while ((s = br.readLine()) != null) {
-        sb.append(s + "\n");
-      }
-      return sb.toString();
-    }
-
     public static void loadCudaLib() throws IOException {
         String cuda_path = System.getenv().get("CUDA_PATH");
         checkNotNull(cuda_path,"CUDA_PATH hasn't been set!");
@@ -67,7 +54,7 @@ public final class util {
     public static String extractLibrary(String resourceName) throws IOException {
 
         String libname = libName(resourceName);
-        String origin = path("/water/gpu/",libname);
+        String origin = path("/deepwater/backends/mxnet/",libname);
 
         String tmpdir = System.getProperty("java.io.tmpdir");
         if (tmpdir.isEmpty()){

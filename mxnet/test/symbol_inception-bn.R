@@ -101,7 +101,7 @@ get_symbol <- function(num_classes = 1000) {
   in5a = InceptionFactoryA(in4e, 352, 192, 320, 160, 224, "avg", 128, '5a')
   in5b = InceptionFactoryA(in5a, 352, 192, 320, 192, 224, "max", 128, '5b')
   # global avg pooling
-  avg = mx.symbol.Pooling(data = in5b, kernel = c(7, 7), stride = c(1, 1),
+  avg = mx.symbol.Pooling(data = in5b, kernel = c(7, 7), stride = c(1, 1), pad = c(1, 1),
                           name = "global_pool", pool_type = 'avg')
   # linear classifier
   flatten = mx.symbol.Flatten(data = avg, name = 'flatten')

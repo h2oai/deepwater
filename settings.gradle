@@ -1,7 +1,21 @@
-rootProject.name = 'deepwater.backends'
+rootProject.name = 'deepwater'
 
-include 'tensorflow'
-include 'backends'
-include 'mxnet'
-//include 'caffe'
+// interface
+include 'backend-api'
 
+// implementations
+if (isGradlePropSet("buildDeepWater")){
+  include 'mxnet'
+  include 'tensorflow'
+  include 'caffe'
+}
+
+// helper methods
+def isGradlePropSet(String propName){
+  return startParameter.projectProperties.get(propName, null) != null
+}
+
+// Prefix all projects with root project name
+rootProject.children.each { project ->
+    project.name = rootProject.name + "-" + project.name 
+}

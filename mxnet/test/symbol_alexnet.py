@@ -6,10 +6,10 @@ Krizhevsky, Alex, Ilya Sutskever, and Geoffrey E. Hinton. "Imagenet classificati
 import mxnet as mx
 
 def get_symbol(num_classes = 1000):
-    input_data = mx.symbol.Variable(name="data")
+    data = mx.symbol.Variable(name="data")
     # stage 1
     conv1 = mx.symbol.Convolution(
-        data=input_data, kernel=(11, 11), stride=(4, 4), num_filter=96)
+        data=data, kernel=(11, 11), stride=(4, 4), pad=(2, 2), num_filter=96)
     relu1 = mx.symbol.Activation(data=conv1, act_type="relu")
     pool1 = mx.symbol.Pooling(
         data=relu1, pool_type="max", kernel=(3, 3), stride=(2,2))

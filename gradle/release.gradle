@@ -1,0 +1,34 @@
+apply plugin: 'net.researchgate.release'
+
+release {
+  tagTemplate = 'RELEASE-v$version'
+  // Safe point - do releases only from release branch - can be deleted in future
+  failOnUnversionedFiles = false
+  preCommitText = ":tada: "
+
+  git {
+      // Note: the releases are only allowed from master branch
+      requireBranch = "master"
+      // FIXME: remove in production/CI
+      pushOptions = ["--dry-run"]
+  }
+}
+
+// Helper task publishing all artifacts
+task publishAll
+publishAll.dependsOn {
+    def onlyPublishTasks = subprojects.collectNested { p -> 
+        p.tasks.matching {t -> 
+            (p in publishedProjects) && t.name == "publish"
+        } 
+    }
+    onlyPublishTasks
+}
+
+
+// Helper task uploading and releasing all staged artifacts 
+task stageAll
+stageAll.dependsOn publishAll
+
+// Create release as final step
+afterReleaseBuild.dependsOn stageAll

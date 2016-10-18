@@ -36,6 +36,11 @@ public class TensorflowBackend implements BackendTrain {
     }
 
     @Override
+    public float[] loadMeanImage(BackendModel m, String path) {
+        return new float[0];
+    }
+
+    @Override
     public String toJson(BackendModel m) {
         return null;
     }

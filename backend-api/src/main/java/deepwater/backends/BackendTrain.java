@@ -1,5 +1,5 @@
 package deepwater.backends;
-
+import java.io.*;
 
 import deepwater.datasets.ImageDataSet;
 
@@ -14,6 +14,8 @@ public interface BackendTrain {
     void loadParam(BackendModel m, String param_path);
 
     void saveParam(BackendModel m, String param_path);
+
+    float[] loadMeanImage(BackendModel m, String path);
 
     String toJson(BackendModel m);
 

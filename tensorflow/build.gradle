@@ -1,8 +1,8 @@
 group 'deepwater.backends.tensorflow'
 version '1.0-SNAPSHOT'
 
-apply plugin:
-    'java'
+apply plugin: 'java'
+apply plugin: 'maven'
 
 repositories {
     mavenCentral()
@@ -15,8 +15,11 @@ sourceSets.main.resources {
 dependencies {
     compile files('../thirdparty/javacpp-presets/target/javacpp.jar')
     compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow.jar')
-    compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar')
-    compile rootProject
+    if (new File('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar').exists())
+      compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar')
+    else if (new File('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-macosx-x86_64.jar').exists())
+      compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-macosx-x86_64.jar')
+    compile project (':deepwater-backend-api')
     compile "com.google.protobuf:protobuf-java:3.0.0"
     compile 'com.google.guava:guava:19.0'
 }

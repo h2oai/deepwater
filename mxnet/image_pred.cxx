@@ -71,9 +71,9 @@ void ImagePred::loadInception() {
 
 void ImagePred::loadModel() {
   synset = loadSynset(model_path_ + "/synset.txt");
-  BufferFile json_data(model_path_ + "/model-symbol.json");
-  BufferFile param_data(model_path_ + "/model.params");
-  BufferFile nd_buf(model_path_ + "/mean.nd");
+  BufferFile json_data(model_path_ + "/Inception_BN-symbol.json");
+  BufferFile param_data(model_path_ + "/Inception_BN-0039.params");
+  BufferFile nd_buf(model_path_ + "/mean_224.nd");
 
   mx_uint nd_index = 0;
   mx_uint nd_len;
@@ -134,7 +134,7 @@ std::string ImagePred::predict(float * image_data) {
   int K = 5;
   std::vector<int> topK(K);
   for ( size_t i = 0; i < data.size(); i++ ) {
-      for ( size_t j = 0; j < K; j++ ) {
+      for ( size_t j = 0; j < (size_t)K; j++ ) {
           if ( data[i] > data[topK[j]] ) {
               topK[j] = i;
               break;
@@ -143,7 +143,7 @@ std::string ImagePred::predict(float * image_data) {
   }
 
   std::string res = "\nTop " + std::to_string(K) + " predictions:\n";
-  for ( size_t j = 0; j < K; j++ ) {
+  for ( size_t j = 0; j < (size_t)K; j++ ) {
       res += " Score: " + std::to_string(data[topK[j]]) + "\t" + synset[topK[j]] + "\n";
   }
   LG << res;

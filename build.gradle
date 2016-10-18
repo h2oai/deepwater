@@ -1,17 +1,114 @@
-version '1.0-SNAPSHOT'
-
 apply plugin: 'java'
 apply plugin: 'maven'
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
-dependencies {
-    compile 'com.google.guava:guava:19.0'
+// This build script dependencies
+buildscript {
+  repositories {
+      mavenCentral()
+      jcenter()
+      maven { url "http://dl.bintray.com/releashaus/release" }
+  }
+  dependencies {
+      classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+      classpath 'net.researchgate:gradle-release:2.4.1'
+      classpath "be.insaneprogramming.gradle:animalsniffer-gradle-plugin:+"
+  }
 }
 
+//
+// Configure project properties
+//
+ext {
+    includeAllBackends = project.hasProperty("buildDeepWater") && project.buildDeepWater != null
+    // List of all published projects
+    publishedProjects = [
+      project(':deepwater-backend-api'),
+    ] 
+}
+
+allprojects {
+    ext {
+        // Safe-flag to be sure that we are really performing release
+        isRelease = rootProject.hasProperty("doRelease")
+    }
+    // Technical task to list all artifacts
+    apply from: "$rootDir/gradle/artifacts.gradle"
+    // Global repositories to fetch this project artifacts
+    repositories {
+        mavenCentral()
+    }
+}
+
+//
+// Apply support for releasing
+//
+if (isRelease) {
+    apply from: "$rootDir/gradle/release.gradle"
+}
+
+//
+// Configure all submodules
+// 
+subprojects {
+    // The projects share the same provider
+    group = rootProject.group
+
+    // Enable Java6 bytecode rewritting
+    if (project.hasProperty("doJava6Bytecode")) {
+        if (project.doJava6Bytecode == "true"
+            || (project.doJava6Bytecode == "auto"
+                && System.getProperty("user.name").equals("jenkins")
+                && System.getenv("JAVA_6_HOME"))) {
+          apply from: "$rootDir/gradle/java6bytecode.gradle"
+          // Always do animal sniffing for java6
+          ext.doAnimalSniffer = "true"
+          }
+    }
+
+    // Publication
+    if (project in publishedProjects) {
+       // Support for artifact publication
+        apply from: "$rootDir/gradle/publish.gradle"
+    }
+
+    // This expects that all projects are Java projects
+    if (project.hasProperty("doAnimalSniffer") && project.doAnimalSniffer == "true") {
+        apply from: "$rootDir/gradle/animalSniffer.gradle"
+    }
+}
+
+//
+// Top-level project build just an assembly of all required parts
+//
+
+// Support for FatJars
+apply plugin: 'com.github.johnrengelman.shadow'
+
+// Top-level project dependencies
 dependencies {
+    compile project(":deepwater-backend-api")
+    if (includeAllBackends) {
+        compile project(':deepwater-mxnet')
+        compile project(':deepwater-tensorflow')
+    } 
+    // Test stuff
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
+shadowJar {
+    archiveName = "deepwater-all.jar"
+}
+
+// We do not need jar for this project since we are generating FatJar
+jar {
+    enabled = false
+}
+
+artifacts {
+  archives shadowJar
+}
+
+// TODO: upgrade me !
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.9'
+}

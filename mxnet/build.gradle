@@ -1,29 +1,20 @@
 group 'deepwater.backends.mxnet'
 version '1.0-SNAPSHOT'
 
-apply plugin:
-    'java'
+apply plugin: 'java'
+apply plugin: 'maven'
 
 repositories {
     mavenCentral()
 }
 dependencies {
-    compile rootProject
-    compile files('water.gpu.jar')
-}
-
-dependencies {
+    compile project (':deepwater-backend-api')
+    compile files ('build')
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
-
 jar {
     baseName = rootProject.name + "." + project.name
-
-    // include also the sources for easy debugging
-    from sourceSets.main.allSource
-
-    // copy all the other dependencies as a single JAR
-    from configurations.compile.collect {it.isDirectory() ? it: zipTree(it)}
+    from ('build/deepwater/backends/mxnet/') { include '**/*' }
 }
 
 sourceSets.main.resources {srcDirs = ["src/main/resources"]}
@@ -42,26 +33,14 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
-
-/*
-buildscript {
-  repositories {
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
-  }
-  dependencies {
-    classpath "gradle.plugin.net.tribe7.gradle:gradle-swig:0.1.1"
-  }
-}
-
-apply plugin: "net.tribe-seven.swig"
-*/
-
-task makeTask(type: Exec) {
-  commandLine "make"
+task make (type: Exec) {
+  commandLine "mkdir", "build"
+  commandLine "make", "-j12"
   workingDir "$projectDir"
 }
+compileJava.dependsOn(make)
 
-build.dependsOn makeTask
-
+task makeClean (type: Exec) {
+  commandLine "make", "clean"
+}
+clean.dependsOn(makeClean)

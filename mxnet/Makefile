@@ -1,7 +1,12 @@
+all: pkg
+
 UNAME_S := $(shell uname -s)
 
+JAVA_HOME = /Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/
+
 ifeq ($(UNAME_S), Darwin)
-	JAVA_INCLUDE := -I/System/Library/Frameworks/JavaVM.framework/Headers
+	#JAVA_INCLUDE := -I/System/Library/Frameworks/JavaVM.framework/Headers
+	JAVA_INCLUDE := -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/darwin/
 else
 	#JAVA_INCLUDE := -I/usr/lib/jvm/java-1.8.0-openjdk-amd64/include/linux -I/usr/lib/jvm/java-1.8.0-openjdk-amd64/include
 	JAVA_INCLUDE := -I/usr/lib/jvm/java-8-oracle/include/linux/ -I/usr/lib/jvm/java-8-oracle/include/
@@ -15,21 +20,28 @@ include $(config)
 include $(MXNET_ROOT)/mshadow/make/mshadow.mk
 include $(MXNET_ROOT)/dmlc-core/make/dmlc.mk
 
-MXNET_SRCS := $(shell find src/ -name '*.cxx') network_def.cxx
+OBJDIR = build
 
-MXNET_OBJS = $(MXNET_SRCS:.cxx=.o)
+VPATH = src
+MXNET_SRCS := io.cxx ndarray.cxx kvstore.cxx executor.cxx symbol.cxx optimizer.cxx network_def.cxx operator.cxx
+MXNET_OBJS = $(patsubst %.cxx,$(OBJDIR)/%.o,$(MXNET_SRCS)) 
 
-SRCS := mlp.cxx image_train.cxx image_pred.cxx
+$(MXNET_OBJS): | $(OBJDIR)
 
-OBJS = $(SRCS:.cxx=.o)
+$(OBJDIR):
+	mkdir -p $@
 
-TARGET := libNative.so
+SRCS := image_train.cxx image_pred.cxx
+
+OBJS = $(patsubst %.cxx,$(OBJDIR)/%.o,$(SRCS))
+
+TARGET := $(OBJDIR)/libNative.so
 
 CXX := g++
 
 SWIG := swig
 
-INCLUDE = $(JAVA_INCLUDE) -Iinclude -I.
+INCLUDE = $(JAVA_INCLUDE) -Iinclude -I. -I./src/
 
 #MXLIB := -L$(MXNET_ROOT)/cppbuild/linux-x86_64/lib -lmxnet
 MXLIB := -L$(MXNET_ROOT)/lib -lmxnet
@@ -45,38 +57,34 @@ else
 	CXXFLAGS += -DMSHADOW_USE_CUDA=0
 endif
 
-%.o : %.cxx
-	$(CXX) -c -fPIC $(CXXFLAGS) $< -MM -MF $(patsubst %.o,%.d,$@)
+$(OBJDIR)/%.o: %.cxx
+	$(CXX) -c -fPIC $(CXXFLAGS) $< -MM -MF $@
 	$(CXX) -c -fPIC $(CXXFLAGS) $< -o $@
 
 DEPS=$(OBJS:.o=.d) $(MXNET_OBJS:.o=.d)
 
-.PHONY: depend pkg
+.PHONY: pkg clean
 
-all: pkg
 
 -include $(DEPS)
 
 $(TARGET): $(MXNET_OBJS) $(OBJS)
-	$(SWIG) -c++ -java -package water.gpu deepwater.i
-	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) deepwater_wrap.cxx -o deepwater_wrap.o
-	$(CXX) -shared $(MXNET_OBJS) $(OBJS) $(SWIG_OBJS) deepwater_wrap.o -o $(TARGET) $(LDFLAGS)
+	$(SWIG) -outdir $(OBJDIR) -c++ -java -package deepwater.backends.mxnet -o $(OBJDIR)/deepwater_wrap.cxx deepwater.i 
+	$(CXX) -c -fPIC $(CXXFLAGS) $(INCLUDE) $(OBJDIR)/deepwater_wrap.cxx -o $(OBJDIR)/deepwater_wrap.o
+	$(CXX) -shared $(MXNET_OBJS) $(OBJS) $(SWIG_OBJS) $(OBJDIR)/deepwater_wrap.o -o $(TARGET) $(LDFLAGS)
 
 lint:
 	python ./scripts/lint.py deepwater cpp *.cxx *.hpp ./include ./src
 
 pkg: $(TARGET)
-	javac *.java
-	rm -rf water/gpu
-	mkdir -p water/gpu
-	mv *.class ./water/gpu
+	rm -rf $(OBJDIR)/deepwater
+	mkdir -p $(OBJDIR)/deepwater/backends/mxnet
+	javac -sourcepath . -d $(OBJDIR) *.java $(OBJDIR)/*.java
 ifeq ($(UNAME_S), Darwin)
-	install_name_tool -change lib/libmxnet.so @loader_path/libmxnet.so libNative.so
+	install_name_tool -change lib/libmxnet.so @loader_path/libmxnet.so $(TARGET)
 endif
-	cp ./libNative.so ./water/gpu
-	#cp $(MXNET_ROOT)/cppbuild/linux-x86_64/lib/libmxnet.so ./water/gpu
-	cp $(MXNET_ROOT)/lib/libmxnet.so ./water/gpu
-	jar -cvf water.gpu.jar ./water
+	cp $(TARGET) $(OBJDIR)/deepwater/backends/mxnet
+	cp $(MXNET_ROOT)/lib/libmxnet.so $(OBJDIR)/deepwater/backends/mxnet
 
 mlp_test: $(MXNET_OBJS) clean_test
 	bash ./test/download_mnist.sh
@@ -128,11 +136,11 @@ seed_test: $(MXNET_OBJS) clean_test
 	$(CXX) -o seed_test seed_test.o image_train.o $(MXNET_OBJS) $(MXLIB)
 
 java_test: pkg
-	javac -cp water.gpu.jar src/test/java/deepwater/backends/mxnet/test/InceptionCLI.java
-	java -cp water.gpu.jar:src/test/java deepwater.backends.mxnet.test.InceptionCLI $(PWD)/Inception $(PWD)/test/test2.jpg 
+	javac -cp build src/test/java/deepwater/backends/mxnet/test/InceptionCLI.java
+	java -cp build:src/test/java deepwater.backends.mxnet.test.InceptionCLI src/main/resources/deepwater/backends/mxnet/models/Inception $(PWD)/test/test2.jpg 
 
 clean: clean_test
-	rm -rf $(MXNET_OBJS) $(OBJS) $(TARGET) *_wrap.cxx *_wrap.o *.d MLP.java ImageTrain.java ImagePred.java SWIGT*.java NumericTrain.java
+	rm -rf $(OBJDIR)
 
 clean_test:
 	rm -rf *_test.o *_test water* ./test/*_wrap.cxx ./test/*_wrap.o ./test/libswigtest.so ./test/swig/* test/test.java test/testJNI.java

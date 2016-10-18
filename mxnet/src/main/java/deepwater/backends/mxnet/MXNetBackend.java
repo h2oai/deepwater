@@ -6,9 +6,33 @@ import deepwater.backends.BackendTrain;
 import deepwater.backends.RuntimeOptions;
 import deepwater.datasets.ImageDataSet;
 
-import java.io.File;
+import java.io.*;
 
 public class MXNetBackend implements BackendTrain {
+
+  static private class MXNetLoader {
+    static { //only load libraries once
+      try {
+        final boolean GPU = System.getenv("CUDA_PATH") != null;
+        if (GPU) {
+          System.out.println("Found CUDA_PATH environment variable, trying to connect to GPU devices.");
+          //System.out.println(logNvidiaStats());
+          System.out.println("Loading CUDA library.");
+          util.loadCudaLib();
+        } else {
+          System.out.println("No GPU found - not loading CUDA library.");
+        }
+        System.out.println("Loading mxnet library.");
+        util.loadNativeLib("mxnet");
+        System.out.println("Loading H2O mxnet bindings.");
+        util.loadNativeLib("Native");
+      } catch (IOException e) {
+        e.printStackTrace();
+        throw new IllegalArgumentException("Couldn't load native libraries");
+      }
+    }
+  }
+
   MXNetBackendModel get(BackendModel m) {
     return (MXNetBackendModel) m;
   }
@@ -20,6 +44,7 @@ public class MXNetBackend implements BackendTrain {
 
   @Override
   public BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts, BackendParams bparms, int num_classes, String name) {
+    new MXNetLoader();
     assert(opts!=null);
     assert(dataset!=null);
     assert(bparms!=null);
@@ -98,6 +123,11 @@ public class MXNetBackend implements BackendTrain {
   @Override
   public void saveParam(BackendModel m, String param_path) {
     get(m).saveParam(param_path);
+  }
+
+  @Override
+  public float[] loadMeanImage(BackendModel m, String param_path) {
+    return get(m).loadMeanImage(param_path);
   }
 
   @Override

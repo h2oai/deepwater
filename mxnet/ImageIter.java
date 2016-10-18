@@ -1,10 +1,10 @@
-package water.gpu;
+package deepwater.backends.mxnet;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static water.gpu.util.img2pixels;
+import static deepwater.backends.mxnet.util.img2pixels;
 
 public class ImageIter {
 

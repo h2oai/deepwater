@@ -18,8 +18,11 @@ conda create --name deepwater python=2.7
 source activate deepwater
 # The numpy version is important
 conda install numpy=1.10
-``
-
+```
+#### Install SWIG
+```
+sudo apt-get install swig
+```
 
 #### Install Bazel
 ```
@@ -46,23 +49,4 @@ mvn -T 20 install --projects .,tensorflow
 ```
 
 #### Build TF H2O bindings
-```
-cd ../../
-./gradlew build -x test
-cd tensorflow
-../gradlew build -x test
-```
-
-#### Link the created .jars to H2O (deepwater branch)
-```
-cd ..
-ROOT=$PWD
-H2ODIR=~/h2o-3/
-
-cd $H2ODIR/h2o-algos/
-
-ln -sf $ROOT/tensorflow/build/libs/tensorflow-1.0-SNAPSHOT-sources.jar .
-ln -sf $ROOT/tensorflow/build/libs/tensorflow-1.0-SNAPSHOT-javadoc.jar .
-ln -sf $ROOT/tensorflow/build/libs/deepwater.backends.tensorflow-1.0-SNAPSHOT.jar .
-ln -sf $ROOT/build/libs/deepwater.backends-1.0-SNAPSHOT.jar .
-```
+Once TensorFlow is built, go back to the top-level directory of the deepwater repo, and follow the directions there.

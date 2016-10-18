@@ -24,7 +24,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -75,7 +76,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -126,7 +128,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -164,7 +167,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -215,7 +219,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -253,7 +258,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -304,7 +310,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
@@ -342,7 +349,8 @@
     {
       "op": "Convolution", 
       "param": {
-        "cudnn_tune": "limited_workspace", 
+        "cudnn_off": "False", 
+        "cudnn_tune": "off", 
         "dilate": "(1,1)", 
         "kernel": "(3,3)", 
         "no_bias": "False", 
