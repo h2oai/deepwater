@@ -183,7 +183,7 @@ public class Model implements BackendModel, Closeable {
                         FloatBlob b = net.input_blobs().get(i);
                         b.set_gpu_data(a.gpu_data());
                     }
-                    _solver.param().set_momentum(_momentum);
+                    _solver.param().set_lr(_learning_rate);
                     _solver.param().set_momentum(_momentum);
                     _solver.Step(1);
                     _free.put(map);
