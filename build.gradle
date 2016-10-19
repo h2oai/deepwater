@@ -88,9 +88,9 @@ apply plugin: 'com.github.johnrengelman.shadow'
 dependencies {
     compile project(":deepwater-backend-api")
     if (includeAllBackends) {
-        compile project(':deepwater-mxnet')
-        compile project(':deepwater-tensorflow')
-        compile project(':deepwater-caffe')
+        compile project(path: ':deepwater-mxnet')
+        compile project(path: ':deepwater-tensorflow')
+	compile project(path: ':deepwater-caffe', configuration: 'mvnFiles')
     } 
     // Test stuff
     testCompile group: 'junit', name: 'junit', version: '4.11'
@@ -113,3 +113,4 @@ artifacts {
 task wrapper(type: Wrapper) {
   gradleVersion = '2.9'
 }
+

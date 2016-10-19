@@ -40,6 +40,10 @@ apply plugin: 'java-base'
 //    testCompile group: 'junit', name: 'junit', version: '4.11'
 //}
 //
+configurations {
+  mvnFiles
+}
+
 task clean
 task build
 task jar
@@ -50,7 +54,15 @@ build.dependsOn jar
 
 task mvnJar(type: Exec) {
   commandLine "mvn", "clean", "package", "dependency:copy-dependencies"
+  // Register output from this task
+  outputs.files fileTree(dir: "$projectDir/target", include: "*.jar")
+  outputs.files fileTree(dir: "$projectDir/target/dependency", include: "*.jar")
 }
+
+dependencies {
+  mvnFiles mvnJar.outputs.files
+}
+
 classes.dependsOn mvnJar
 
 task mvnClean(type: Exec) {
@@ -58,15 +70,6 @@ task mvnClean(type: Exec) {
 }
 clean.dependsOn mvnClean
 
-artifacts {
-  def targetTree = fileTree(dir: "$projectDir/target", include: "*.jar")
-  targetTree.each { File file ->
-    archives file
-  }
-  fileTree(dir: "$projectDir/target/dependency", include: "*.jar").each { File file ->
-    archives file
-  }
-}
 
 //jar {
 //    baseName = rootProject.name + "." + project.name

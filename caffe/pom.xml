@@ -16,9 +16,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>deepwater.backends</groupId>
-      <artifactId>backends</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <groupId>ai.h2o</groupId>
+      <artifactId>deepwater-backend-api</artifactId>
+      <version>1.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.bytedeco.javacpp-presets</groupId>
@@ -50,10 +50,19 @@
       <name>repo-name</name>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
+    <repository>
+      <id>central</id>
+      <name>Maven Repository Switchboard</name>
+      <layout>default</layout>
+      <url>http://repo1.maven.org/maven2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
   </repositories>
   <pluginRepositories>
     <pluginRepository>
-      <id>repo-id</id>
+      <id>repo-plugin-id</id>
       <name>repo-name</name>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </pluginRepository>

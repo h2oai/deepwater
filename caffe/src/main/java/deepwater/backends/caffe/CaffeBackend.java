@@ -40,7 +40,7 @@ public class CaffeBackend implements BackendTrain {
         solver.set_allocated_net_param(net);
 //      net.layer(3)
 
-        int mini_batch_size = ((Integer) bparms.get("mini_batch_size")).intValue();
+        //int mini_batch_size = ((Integer) bparms.get("mini_batch_size")).intValue();
 
         return new Model(solver);
     }
@@ -92,5 +92,9 @@ public class CaffeBackend implements BackendTrain {
     @Override
     public float[] predict(BackendModel m, float[] data) {
         return ((Model) m).predict(data);
+    }
+    @Override
+    public float[] loadMeanImage(BackendModel m, String path) {
+       throw new RuntimeException("ups");
     }
 }
