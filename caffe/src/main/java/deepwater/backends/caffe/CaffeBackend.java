@@ -15,7 +15,7 @@ public class CaffeBackend implements BackendTrain {
     }
 
     @Override
-    public BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts, BackendParams bparms, int num_classes, String name) {
+    public BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts, BackendParams backend_params, int num_classes, String name) {
         caffe.SolverParameter solver = new caffe.SolverParameter();
 //        solver.add_test_iter(1000);
         solver.set_test_interval(Integer.MAX_VALUE);  // Disable tests
@@ -48,15 +48,18 @@ public class CaffeBackend implements BackendTrain {
     // graph - model definition
     @Override
     public void saveModel(BackendModel m, String model_path) {
+        // Why do we need that?
     }
 
     // weights/biases/aux - model state
     @Override
     public void loadParam(BackendModel m, String param_path) {
+        ((Model) m).load(param_path);
     }
 
     @Override
     public void saveParam(BackendModel m, String param_path) {
+        ((Model) m).save(param_path);
     }
 
     @Override
@@ -66,17 +69,13 @@ public class CaffeBackend implements BackendTrain {
 
     @Override
     public void setParameter(BackendModel m, String name, float value) {
-      /*
-        CaffeModel caffe = (CaffeModel) m;
-        if (name == "momentum") {
-            caffe.setMomentum(value);
-            //solver.set_momentum(value);
-        } else if (name == "learning_rate") {
-            caffe.setLR(value);
-        } else if (name == "clip_gradient") {
-            caffe.setClipGradient(value);
-        } else throw new IllegalArgumentException("invalid parameter: "+name);
-        */
+        if ("momentum".equals(name)) {
+            ((Model) m).setMomentum(value);
+        } else if ("learning_rate".equals(name)) {
+            ((Model) m).setLearningRate(value);
+        } else if ("clip_gradient".equals(name)) {
+//            ((Model) m).setClipGradient(value);
+        } else throw new IllegalArgumentException("invalid parameter: " + name);
     }
 
     @Override
@@ -87,11 +86,11 @@ public class CaffeBackend implements BackendTrain {
 
     @Override
     public float[] predict(BackendModel m, float[] data, float[] label) {
-        return new float[0];
+        return null;
     }
 
     @Override
     public float[] predict(BackendModel m, float[] data) {
-        return new float[0];
+        return ((Model) m).predict(data);
     }
 }
