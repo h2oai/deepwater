@@ -12,15 +12,19 @@ sourceSets.main.resources {
     srcDirs = ["src/main/resources"]
 }
 
+
 dependencies {
-    println(rootDir)
-    compile files("${rootDir}/thirdparty/javacpp-presets/target/javacpp.jar")
-    compile files("${rootDir}/thirdparty/javacpp-presets/tensorflow/target/tensorflow.jar")
-    if (new File("${rootDir}/thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar").exists()) {
-        compile files("${rootDir}/thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar")
+
+    def presets = "${rootDir}/thirdparty/javacpp-presets"
+    println("Preset directory set to : ${presets}")
+
+    compile files("${presets}/target/javacpp.jar")
+    compile files("${presets}/tensorflow/target/tensorflow.jar")
+    if (new File("${presets}/tensorflow/target/tensorflow-linux-x86_64.jar").exists()) {
+        compile files("${presets}/tensorflow/target/tensorflow-linux-x86_64.jar")
     }
-    else if (new File("${rootDir}/thirdparty/javacpp-presets/tensorflow/target/tensorflow-macosx-x86_64.jar").exists()) {
-        compile files("${rootDir}/thirdparty/javacpp-presets/tensorflow/target/tensorflow-macosx-x86_64.jar")
+    else if (new File("${presets}/tensorflow/target/tensorflow-macosx-x86_64.jar").exists()) {
+        compile files("${presets}/tensorflow/target/tensorflow-macosx-x86_64.jar")
     }
 
     compile project (':deepwater-backend-api')

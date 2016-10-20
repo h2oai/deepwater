@@ -4,12 +4,11 @@ import com.google.common.primitives.Floats;
 import deepwater.backends.BackendModel;
 import deepwater.backends.BackendParams;
 import deepwater.backends.BackendTrain;
-import deepwater.backends.DeepwaterBackendException;
 import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.backends.tensorflow.models.TensorflowModel;
 import deepwater.datasets.ImageDataSet;
-import org.tensorflow.framework.DataType;
+import org.bytedeco.javacpp.tensorflow;
 
 import java.io.FileNotFoundException;
 import java.nio.FloatBuffer;
@@ -26,7 +25,8 @@ public class TensorflowBackend implements BackendTrain {
     @Override
     public void delete(BackendModel m) {
         TensorflowModel model = (TensorflowModel) m;
-        model.getSession().Close();
+        Status status = model.getSession().Close();
+        checkStatus(status);
     }
 
     @Override
@@ -45,7 +45,8 @@ public class TensorflowBackend implements BackendTrain {
         session = new Session(sessionOptions);
 
         Status status = session.Create(model.getGraph());
-        assert status.ok(): status.error_message().getString();
+        checkStatus(status);
+
         model.frameSize = dataset.getWidth() * dataset.getHeight() * dataset.getChannels();
         TensorVector outputs = new TensorVector();
         status = session.Run(
@@ -56,7 +57,8 @@ public class TensorflowBackend implements BackendTrain {
                 new StringVector(),
                 new StringVector(model.meta.init),
                 outputs);
-        assert status.ok(): status.error_message().getString();
+
+        checkStatus(status);
         model.setSession(session);
         return model;
     }
@@ -70,15 +72,17 @@ public class TensorflowBackend implements BackendTrain {
         for (int i = 0; i < a.capacity(); i++) {
             a.position(i).put(model_path);
         }
-        model.getSession().Run(
+
+        Status status = model.getSession().Run(
                 new StringTensorPairVector(
-                        new String[]{"save/Const:0"},
+                        new String[]{model.meta.save_filename},
                         new Tensor[]{model_path_t}
                 ),
+                new StringVector(model.meta.save_op),
                 new StringVector(),
-                new StringVector("save/control_dependency:0"),
                 outputs
         );
+        checkStatus(status);
     }
 
     @Override
@@ -98,14 +102,12 @@ public class TensorflowBackend implements BackendTrain {
                         new String[]{model.meta.save_filename},
                         new Tensor[]{model_path_t}
                 ),
-                new StringVector(model.meta.restore_op),
                 new StringVector(),
+                new StringVector(model.meta.restore_op),
                 outputs
         );
 
-        if (!status.ok()){
-            System.err.println("status: " + status.error_message().getString());
-        }
+        checkStatus(status);
     }
 
     @Override
@@ -125,7 +127,8 @@ public class TensorflowBackend implements BackendTrain {
 
     @Override
     public void setParameter(BackendModel m, String name, float value) {
-
+        TensorflowModel model = (TensorflowModel) m;
+        model.setParameter(name, value);
     }
 
     @Override
@@ -137,20 +140,17 @@ public class TensorflowBackend implements BackendTrain {
         StringTensorPairVector feedDict = convertData(
                 new float[][]{data, label},
                 new long[][]{ new long[]{batchSize, model.frameSize},  new long[]{ batchSize, label.length/batchSize}  },
-                new String[]{model.meta.inputs, model.meta.labels}
+                new String[]{ model.meta.inputs.get("batch_image_input"), model.meta.inputs.get("categorical_labels")}
         );
 
         Status status = model.getSession().Run(
                 feedDict,
-                new StringVector(model.meta.accuracy, model.meta.total_loss),
+                new StringVector(model.meta.metrics.get("accuracy"), model.meta.metrics.get("total_loss")),
                 new StringVector(model.meta.train_op),
                 outputs
         );
 
-        if (!status.ok()){
-            System.out.println(status.error_message().getString());
-            return new float[]{};
-        }
+        checkStatus(status);
 
         return flatten(outputs);
     }
@@ -164,26 +164,25 @@ public class TensorflowBackend implements BackendTrain {
         StringTensorPairVector feedDict = convertData(
                 new float[][]{data, labels},
                 new long[][]{ new long[]{batchSize, model.frameSize}, new long[]{ batchSize, labels.length/batchSize} } ,
-                new String[]{model.meta.inputs, model.meta.labels}
+                new String[]{ model.meta.inputs.get("batch_image_input"), model.meta.inputs.get("categorical_labels")}
         );
 
         Status status = model.getSession().Run(
                 feedDict,
-                new StringVector(model.meta.accuracy),
+                new StringVector(model.meta.metrics.get("accuracy")),
                 new StringVector(),
                 outputs
         );
 
-        if (!status.ok()){
-            System.out.println(status.error_message().getString());
-
-//            for (int i = 0; i < model.getGraph().node_size(); i++) {
-//                System.out.println(model.getGraph().node(i).name().getString());
-//            }
-            return new float[]{};
-        }
+        checkStatus(status);
 
         return flatten(outputs);
+    }
+
+    private void checkStatus(Status status) {
+        if (!status.ok()){
+            throw new InternalError(status.error_message().getString());
+        }
     }
 
     @Override
@@ -195,7 +194,7 @@ public class TensorflowBackend implements BackendTrain {
         StringTensorPairVector feedDict = convertData(
                 new float[][]{data, },
                 new long[][]{ new long[]{batchSize, model.frameSize}, },
-                new String[]{model.meta.inputs, }
+                new String[]{model.meta.inputs.get("batch_image_input"), }
         );
 
         Status status = model.getSession().Run(
@@ -205,11 +204,7 @@ public class TensorflowBackend implements BackendTrain {
                 outputs
         );
 
-        if (!status.ok()){
-            System.out.println(status.error_message().getString());
-            return new float[]{};
-        }
-
+        checkStatus(status);
        return flatten(outputs);
     }
 
