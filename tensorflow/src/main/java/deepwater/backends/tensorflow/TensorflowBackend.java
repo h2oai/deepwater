@@ -136,6 +136,11 @@ public class TensorflowBackend implements BackendTrain {
         TensorflowModel model = (TensorflowModel) m;
         TensorVector outputs = new TensorVector();
         final long batchSize = data.length / model.frameSize;
+        // FIXME: assume that label is the class ordinal
+        final int classes = (int) (label.length/batchSize);
+        if (classes > 1){
+            int[] classes = new int[classes]{};
+        }
 
         StringTensorPairVector feedDict = convertData(
                 new float[][]{data, label},
