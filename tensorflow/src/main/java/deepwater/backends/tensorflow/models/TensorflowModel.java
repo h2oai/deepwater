@@ -15,6 +15,7 @@ public class TensorflowModel implements BackendModel {
 
     private GraphDef graph;
     public TensorflowMetaModel meta;
+    public int classes;
 
     protected Session session;
 

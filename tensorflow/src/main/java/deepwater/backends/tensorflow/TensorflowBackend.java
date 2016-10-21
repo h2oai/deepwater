@@ -48,6 +48,7 @@ public class TensorflowBackend implements BackendTrain {
         checkStatus(status);
 
         model.frameSize = dataset.getWidth() * dataset.getHeight() * dataset.getChannels();
+        model.classes = num_classes;
         TensorVector outputs = new TensorVector();
         status = session.Run(
                 new StringTensorPairVector(
@@ -136,29 +137,18 @@ public class TensorflowBackend implements BackendTrain {
         TensorflowModel model = (TensorflowModel) m;
         TensorVector outputs = new TensorVector();
         final long batchSize = data.length / model.frameSize;
-        // FIXME: assume that label is the class ordinal
 
-        int classes = (int) (labels.length/batchSize);
-
-        long [] labelShape = new long[]{ batchSize, classes};
+        long [] labelShape = new long[]{ batchSize, model.classes};
         float [] labelData = labels;
 
-        // FIXME: assume that if the max value is an int and the classes are == 1 then is a categorical problem
-        final float maxLabelValue = Floats.max(labels);
-
-        if (maxLabelValue == classes) {
-            // we are good
-        }
-
-        if ((classes == 1) && maxLabelValue < 1000.0) {
-            classes = (int) maxLabelValue;
-            labelData = new float[Math.toIntExact(batchSize * classes)];
+        if (model.classes > 1) { //one-hot encoder
+            labelData = new float[Math.toIntExact(batchSize * model.classes)];
             for (int i = 0; i < batchSize; i++) {
                 int idx = (int)labels[i];
-                labelData[i * classes + idx] = (float) 1.0;
+                labelData[i * model.classes + idx] = (float) 1.0;
             }
 
-            labelShape = new long[]{ batchSize, classes };
+            labelShape = new long[]{ batchSize, model.classes };
         }
 
         StringTensorPairVector feedDict = convertData(
