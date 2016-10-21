@@ -3,7 +3,7 @@ package deepwater.datasets;
 import java.io.IOException;
 import java.util.List;
 
-public abstract class ImageDataSet {
+public class ImageDataSet {
 
     int channels;
     float[] meanData; //mean pixel value of the training data
@@ -60,6 +60,6 @@ public abstract class ImageDataSet {
         return numClasses;
     }
 
-    public abstract List<Pair<Integer,float[]>> loadImages(String... filename) throws IOException;
+    public List<Pair<Integer,float[]>> loadImages(String... filename) throws IOException { return null; }
 }
 
