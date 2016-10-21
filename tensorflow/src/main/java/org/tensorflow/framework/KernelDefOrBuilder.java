@@ -75,7 +75,7 @@ public interface KernelDefOrBuilder extends
    *
    * <code>repeated string host_memory_arg = 4;</code>
    */
-  com.google.protobuf.ProtocolStringList
+  java.util.List<java.lang.String>
       getHostMemoryArgList();
   /**
    * <pre>

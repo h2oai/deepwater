@@ -7,7 +7,8 @@ public interface BackendTrain {
 
     void delete(BackendModel m);
 
-    BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts, BackendParams backend_params, int num_classes, String name);
+    BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts,
+                          BackendParams backend_params, int num_classes, String name);
 
     void saveModel(BackendModel m, String model_path);
 
@@ -25,7 +26,7 @@ public interface BackendTrain {
     // clip_gradient: bool
     void setParameter(BackendModel m, String name, float value);
 
-    float[] train(BackendModel m, float[] data, float[] label);
+float[] train(BackendModel m, float[] data, float[] label);
 
     float[] predict(BackendModel m, float[] data, float[] label);
 

@@ -7,11 +7,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.CostGraphDef}
  */
 public  final class CostGraphDef extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.CostGraphDef)
     CostGraphDefOrBuilder {
   // Use CostGraphDef.newBuilder() to construct.
-  private CostGraphDef(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private CostGraphDef(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private CostGraphDef() {
@@ -48,7 +48,8 @@ public  final class CostGraphDef extends
               node_ = new java.util.ArrayList<org.tensorflow.framework.CostGraphDef.Node>();
               mutable_bitField0_ |= 0x00000001;
             }
-            node_.add(input.readMessage(org.tensorflow.framework.CostGraphDef.Node.parser(), extensionRegistry));
+            node_.add(
+                input.readMessage(org.tensorflow.framework.CostGraphDef.Node.parser(), extensionRegistry));
             break;
           }
         }
@@ -70,7 +71,7 @@ public  final class CostGraphDef extends
     return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -83,7 +84,7 @@ public  final class CostGraphDef extends
 
     /**
      * <pre>
-     * The name of the node.
+     * The name of the node. Names are globally unique.
      * </pre>
      *
      * <code>optional string name = 1;</code>
@@ -91,7 +92,7 @@ public  final class CostGraphDef extends
     java.lang.String getName();
     /**
      * <pre>
-     * The name of the node.
+     * The name of the node. Names are globally unique.
      * </pre>
      *
      * <code>optional string name = 1;</code>
@@ -101,7 +102,8 @@ public  final class CostGraphDef extends
 
     /**
      * <pre>
-     * The device of the node.
+     * The device of the node. Can be empty if the node is mapped to the
+     * default partition or partitioning hasn't been run yet.
      * </pre>
      *
      * <code>optional string device = 2;</code>
@@ -109,7 +111,8 @@ public  final class CostGraphDef extends
     java.lang.String getDevice();
     /**
      * <pre>
-     * The device of the node.
+     * The device of the node. Can be empty if the node is mapped to the
+     * default partition or partitioning hasn't been run yet.
      * </pre>
      *
      * <code>optional string device = 2;</code>
@@ -119,7 +122,7 @@ public  final class CostGraphDef extends
 
     /**
      * <pre>
-     * The id of the node.
+     * The id of the node. Node ids are only unique inside a partition.
      * </pre>
      *
      * <code>optional int32 id = 3;</code>
@@ -185,6 +188,15 @@ public  final class CostGraphDef extends
 
     /**
      * <pre>
+     * Estimate of the computational cost of this node.
+     * </pre>
+     *
+     * <code>optional int64 compute_cost = 9;</code>
+     */
+    long getComputeCost();
+
+    /**
+     * <pre>
      * If true, the output is permanent: it can't be discarded, because this
      * node is part of the "final output". Nodes may depend on final nodes.
      * </pre>
@@ -222,11 +234,11 @@ public  final class CostGraphDef extends
    * Protobuf type {@code tensorflow.CostGraphDef.Node}
    */
   public  static final class Node extends
-      com.google.protobuf.GeneratedMessage implements
+      com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tensorflow.CostGraphDef.Node)
       NodeOrBuilder {
     // Use Node.newBuilder() to construct.
-    private Node(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private Node(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private Node() {
@@ -236,6 +248,7 @@ public  final class CostGraphDef extends
       inputInfo_ = java.util.Collections.emptyList();
       outputInfo_ = java.util.Collections.emptyList();
       temporaryMemorySize_ = 0L;
+      computeCost_ = 0L;
       isFinal_ = false;
       controlInput_ = java.util.Collections.emptyList();
     }
@@ -287,7 +300,8 @@ public  final class CostGraphDef extends
                 inputInfo_ = new java.util.ArrayList<org.tensorflow.framework.CostGraphDef.Node.InputInfo>();
                 mutable_bitField0_ |= 0x00000008;
               }
-              inputInfo_.add(input.readMessage(org.tensorflow.framework.CostGraphDef.Node.InputInfo.parser(), extensionRegistry));
+              inputInfo_.add(
+                  input.readMessage(org.tensorflow.framework.CostGraphDef.Node.InputInfo.parser(), extensionRegistry));
               break;
             }
             case 42: {
@@ -295,7 +309,8 @@ public  final class CostGraphDef extends
                 outputInfo_ = new java.util.ArrayList<org.tensorflow.framework.CostGraphDef.Node.OutputInfo>();
                 mutable_bitField0_ |= 0x00000010;
               }
-              outputInfo_.add(input.readMessage(org.tensorflow.framework.CostGraphDef.Node.OutputInfo.parser(), extensionRegistry));
+              outputInfo_.add(
+                  input.readMessage(org.tensorflow.framework.CostGraphDef.Node.OutputInfo.parser(), extensionRegistry));
               break;
             }
             case 48: {
@@ -309,9 +324,9 @@ public  final class CostGraphDef extends
               break;
             }
             case 64: {
-              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
                 controlInput_ = new java.util.ArrayList<java.lang.Integer>();
-                mutable_bitField0_ |= 0x00000080;
+                mutable_bitField0_ |= 0x00000100;
               }
               controlInput_.add(input.readInt32());
               break;
@@ -319,14 +334,19 @@ public  final class CostGraphDef extends
             case 66: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080) && input.getBytesUntilLimit() > 0) {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100) && input.getBytesUntilLimit() > 0) {
                 controlInput_ = new java.util.ArrayList<java.lang.Integer>();
-                mutable_bitField0_ |= 0x00000080;
+                mutable_bitField0_ |= 0x00000100;
               }
               while (input.getBytesUntilLimit() > 0) {
                 controlInput_.add(input.readInt32());
               }
               input.popLimit(limit);
+              break;
+            }
+            case 72: {
+
+              computeCost_ = input.readInt64();
               break;
             }
           }
@@ -343,7 +363,7 @@ public  final class CostGraphDef extends
         if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           outputInfo_ = java.util.Collections.unmodifiableList(outputInfo_);
         }
-        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
           controlInput_ = java.util.Collections.unmodifiableList(controlInput_);
         }
         makeExtensionsImmutable();
@@ -354,7 +374,7 @@ public  final class CostGraphDef extends
       return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_Node_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_Node_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -385,11 +405,11 @@ public  final class CostGraphDef extends
      * Protobuf type {@code tensorflow.CostGraphDef.Node.InputInfo}
      */
     public  static final class InputInfo extends
-        com.google.protobuf.GeneratedMessage implements
+        com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:tensorflow.CostGraphDef.Node.InputInfo)
         InputInfoOrBuilder {
       // Use InputInfo.newBuilder() to construct.
-      private InputInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      private InputInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
         super(builder);
       }
       private InputInfo() {
@@ -448,7 +468,7 @@ public  final class CostGraphDef extends
         return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_Node_InputInfo_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_Node_InputInfo_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -511,6 +531,40 @@ public  final class CostGraphDef extends
       }
 
       private static final long serialVersionUID = 0L;
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof org.tensorflow.framework.CostGraphDef.Node.InputInfo)) {
+          return super.equals(obj);
+        }
+        org.tensorflow.framework.CostGraphDef.Node.InputInfo other = (org.tensorflow.framework.CostGraphDef.Node.InputInfo) obj;
+
+        boolean result = true;
+        result = result && (getPrecedingNode()
+            == other.getPrecedingNode());
+        result = result && (getPrecedingPort()
+            == other.getPrecedingPort());
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptorForType().hashCode();
+        hash = (37 * hash) + PRECEDING_NODE_FIELD_NUMBER;
+        hash = (53 * hash) + getPrecedingNode();
+        hash = (37 * hash) + PRECEDING_PORT_FIELD_NUMBER;
+        hash = (53 * hash) + getPrecedingPort();
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
       public static org.tensorflow.framework.CostGraphDef.Node.InputInfo parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -534,39 +588,39 @@ public  final class CostGraphDef extends
       }
       public static org.tensorflow.framework.CostGraphDef.Node.InputInfo parseFrom(java.io.InputStream input)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
       public static org.tensorflow.framework.CostGraphDef.Node.InputInfo parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
       public static org.tensorflow.framework.CostGraphDef.Node.InputInfo parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
       public static org.tensorflow.framework.CostGraphDef.Node.InputInfo parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
       public static org.tensorflow.framework.CostGraphDef.Node.InputInfo parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
       public static org.tensorflow.framework.CostGraphDef.Node.InputInfo parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
@@ -584,7 +638,7 @@ public  final class CostGraphDef extends
 
       @java.lang.Override
       protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         Builder builder = new Builder(parent);
         return builder;
       }
@@ -598,7 +652,7 @@ public  final class CostGraphDef extends
        * Protobuf type {@code tensorflow.CostGraphDef.Node.InputInfo}
        */
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
           // @@protoc_insertion_point(builder_implements:tensorflow.CostGraphDef.Node.InputInfo)
           org.tensorflow.framework.CostGraphDef.Node.InputInfoOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
@@ -606,7 +660,7 @@ public  final class CostGraphDef extends
           return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_Node_InputInfo_descriptor;
         }
 
-        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_Node_InputInfo_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
@@ -619,12 +673,13 @@ public  final class CostGraphDef extends
         }
 
         private Builder(
-            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
           super(parent);
           maybeForceBuilderInitialization();
         }
         private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
           }
         }
         public Builder clear() {
@@ -661,6 +716,32 @@ public  final class CostGraphDef extends
           return result;
         }
 
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof org.tensorflow.framework.CostGraphDef.Node.InputInfo) {
             return mergeFrom((org.tensorflow.framework.CostGraphDef.Node.InputInfo)other);
@@ -832,11 +913,11 @@ public  final class CostGraphDef extends
      * Protobuf type {@code tensorflow.CostGraphDef.Node.OutputInfo}
      */
     public  static final class OutputInfo extends
-        com.google.protobuf.GeneratedMessage implements
+        com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:tensorflow.CostGraphDef.Node.OutputInfo)
         OutputInfoOrBuilder {
       // Use OutputInfo.newBuilder() to construct.
-      private OutputInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      private OutputInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
         super(builder);
       }
       private OutputInfo() {
@@ -895,7 +976,7 @@ public  final class CostGraphDef extends
         return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_Node_OutputInfo_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_Node_OutputInfo_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -964,6 +1045,42 @@ public  final class CostGraphDef extends
       }
 
       private static final long serialVersionUID = 0L;
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof org.tensorflow.framework.CostGraphDef.Node.OutputInfo)) {
+          return super.equals(obj);
+        }
+        org.tensorflow.framework.CostGraphDef.Node.OutputInfo other = (org.tensorflow.framework.CostGraphDef.Node.OutputInfo) obj;
+
+        boolean result = true;
+        result = result && (getSize()
+            == other.getSize());
+        result = result && (getAliasInputPort()
+            == other.getAliasInputPort());
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptorForType().hashCode();
+        hash = (37 * hash) + SIZE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getSize());
+        hash = (37 * hash) + ALIAS_INPUT_PORT_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getAliasInputPort());
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
       public static org.tensorflow.framework.CostGraphDef.Node.OutputInfo parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -987,39 +1104,39 @@ public  final class CostGraphDef extends
       }
       public static org.tensorflow.framework.CostGraphDef.Node.OutputInfo parseFrom(java.io.InputStream input)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
       public static org.tensorflow.framework.CostGraphDef.Node.OutputInfo parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
       public static org.tensorflow.framework.CostGraphDef.Node.OutputInfo parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
       public static org.tensorflow.framework.CostGraphDef.Node.OutputInfo parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
       public static org.tensorflow.framework.CostGraphDef.Node.OutputInfo parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
       public static org.tensorflow.framework.CostGraphDef.Node.OutputInfo parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
@@ -1037,7 +1154,7 @@ public  final class CostGraphDef extends
 
       @java.lang.Override
       protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         Builder builder = new Builder(parent);
         return builder;
       }
@@ -1049,7 +1166,7 @@ public  final class CostGraphDef extends
        * Protobuf type {@code tensorflow.CostGraphDef.Node.OutputInfo}
        */
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
           // @@protoc_insertion_point(builder_implements:tensorflow.CostGraphDef.Node.OutputInfo)
           org.tensorflow.framework.CostGraphDef.Node.OutputInfoOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
@@ -1057,7 +1174,7 @@ public  final class CostGraphDef extends
           return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_Node_OutputInfo_descriptor;
         }
 
-        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_Node_OutputInfo_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
@@ -1070,12 +1187,13 @@ public  final class CostGraphDef extends
         }
 
         private Builder(
-            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
           super(parent);
           maybeForceBuilderInitialization();
         }
         private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
           }
         }
         public Builder clear() {
@@ -1112,6 +1230,32 @@ public  final class CostGraphDef extends
           return result;
         }
 
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof org.tensorflow.framework.CostGraphDef.Node.OutputInfo) {
             return mergeFrom((org.tensorflow.framework.CostGraphDef.Node.OutputInfo)other);
@@ -1278,7 +1422,7 @@ public  final class CostGraphDef extends
     private volatile java.lang.Object name_;
     /**
      * <pre>
-     * The name of the node.
+     * The name of the node. Names are globally unique.
      * </pre>
      *
      * <code>optional string name = 1;</code>
@@ -1297,7 +1441,7 @@ public  final class CostGraphDef extends
     }
     /**
      * <pre>
-     * The name of the node.
+     * The name of the node. Names are globally unique.
      * </pre>
      *
      * <code>optional string name = 1;</code>
@@ -1320,7 +1464,8 @@ public  final class CostGraphDef extends
     private volatile java.lang.Object device_;
     /**
      * <pre>
-     * The device of the node.
+     * The device of the node. Can be empty if the node is mapped to the
+     * default partition or partitioning hasn't been run yet.
      * </pre>
      *
      * <code>optional string device = 2;</code>
@@ -1339,7 +1484,8 @@ public  final class CostGraphDef extends
     }
     /**
      * <pre>
-     * The device of the node.
+     * The device of the node. Can be empty if the node is mapped to the
+     * default partition or partitioning hasn't been run yet.
      * </pre>
      *
      * <code>optional string device = 2;</code>
@@ -1362,7 +1508,7 @@ public  final class CostGraphDef extends
     private int id_;
     /**
      * <pre>
-     * The id of the node.
+     * The id of the node. Node ids are only unique inside a partition.
      * </pre>
      *
      * <code>optional int32 id = 3;</code>
@@ -1454,6 +1600,19 @@ public  final class CostGraphDef extends
       return temporaryMemorySize_;
     }
 
+    public static final int COMPUTE_COST_FIELD_NUMBER = 9;
+    private long computeCost_;
+    /**
+     * <pre>
+     * Estimate of the computational cost of this node.
+     * </pre>
+     *
+     * <code>optional int64 compute_cost = 9;</code>
+     */
+    public long getComputeCost() {
+      return computeCost_;
+    }
+
     public static final int IS_FINAL_FIELD_NUMBER = 7;
     private boolean isFinal_;
     /**
@@ -1517,10 +1676,10 @@ public  final class CostGraphDef extends
                         throws java.io.IOException {
       getSerializedSize();
       if (!getNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 1, name_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
       }
       if (!getDeviceBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 2, device_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, device_);
       }
       if (id_ != 0) {
         output.writeInt32(3, id_);
@@ -1538,11 +1697,14 @@ public  final class CostGraphDef extends
         output.writeBool(7, isFinal_);
       }
       if (getControlInputList().size() > 0) {
-        output.writeRawVarint32(66);
-        output.writeRawVarint32(controlInputMemoizedSerializedSize);
+        output.writeUInt32NoTag(66);
+        output.writeUInt32NoTag(controlInputMemoizedSerializedSize);
       }
       for (int i = 0; i < controlInput_.size(); i++) {
         output.writeInt32NoTag(controlInput_.get(i));
+      }
+      if (computeCost_ != 0L) {
+        output.writeInt64(9, computeCost_);
       }
     }
 
@@ -1552,10 +1714,10 @@ public  final class CostGraphDef extends
 
       size = 0;
       if (!getNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, name_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
       }
       if (!getDeviceBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, device_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, device_);
       }
       if (id_ != 0) {
         size += com.google.protobuf.CodedOutputStream
@@ -1591,11 +1753,86 @@ public  final class CostGraphDef extends
         }
         controlInputMemoizedSerializedSize = dataSize;
       }
+      if (computeCost_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(9, computeCost_);
+      }
       memoizedSize = size;
       return size;
     }
 
     private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.tensorflow.framework.CostGraphDef.Node)) {
+        return super.equals(obj);
+      }
+      org.tensorflow.framework.CostGraphDef.Node other = (org.tensorflow.framework.CostGraphDef.Node) obj;
+
+      boolean result = true;
+      result = result && getName()
+          .equals(other.getName());
+      result = result && getDevice()
+          .equals(other.getDevice());
+      result = result && (getId()
+          == other.getId());
+      result = result && getInputInfoList()
+          .equals(other.getInputInfoList());
+      result = result && getOutputInfoList()
+          .equals(other.getOutputInfoList());
+      result = result && (getTemporaryMemorySize()
+          == other.getTemporaryMemorySize());
+      result = result && (getComputeCost()
+          == other.getComputeCost());
+      result = result && (getIsFinal()
+          == other.getIsFinal());
+      result = result && getControlInputList()
+          .equals(other.getControlInputList());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (37 * hash) + NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getName().hashCode();
+      hash = (37 * hash) + DEVICE_FIELD_NUMBER;
+      hash = (53 * hash) + getDevice().hashCode();
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getId();
+      if (getInputInfoCount() > 0) {
+        hash = (37 * hash) + INPUT_INFO_FIELD_NUMBER;
+        hash = (53 * hash) + getInputInfoList().hashCode();
+      }
+      if (getOutputInfoCount() > 0) {
+        hash = (37 * hash) + OUTPUT_INFO_FIELD_NUMBER;
+        hash = (53 * hash) + getOutputInfoList().hashCode();
+      }
+      hash = (37 * hash) + TEMPORARY_MEMORY_SIZE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTemporaryMemorySize());
+      hash = (37 * hash) + COMPUTE_COST_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getComputeCost());
+      hash = (37 * hash) + IS_FINAL_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsFinal());
+      if (getControlInputCount() > 0) {
+        hash = (37 * hash) + CONTROL_INPUT_FIELD_NUMBER;
+        hash = (53 * hash) + getControlInputList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
     public static org.tensorflow.framework.CostGraphDef.Node parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1619,39 +1856,39 @@ public  final class CostGraphDef extends
     }
     public static org.tensorflow.framework.CostGraphDef.Node parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static org.tensorflow.framework.CostGraphDef.Node parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static org.tensorflow.framework.CostGraphDef.Node parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
     public static org.tensorflow.framework.CostGraphDef.Node parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static org.tensorflow.framework.CostGraphDef.Node parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static org.tensorflow.framework.CostGraphDef.Node parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
@@ -1669,7 +1906,7 @@ public  final class CostGraphDef extends
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -1677,7 +1914,7 @@ public  final class CostGraphDef extends
      * Protobuf type {@code tensorflow.CostGraphDef.Node}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:tensorflow.CostGraphDef.Node)
         org.tensorflow.framework.CostGraphDef.NodeOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -1685,7 +1922,7 @@ public  final class CostGraphDef extends
         return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_Node_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_Node_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -1698,12 +1935,13 @@ public  final class CostGraphDef extends
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
           getInputInfoFieldBuilder();
           getOutputInfoFieldBuilder();
         }
@@ -1730,10 +1968,12 @@ public  final class CostGraphDef extends
         }
         temporaryMemorySize_ = 0L;
 
+        computeCost_ = 0L;
+
         isFinal_ = false;
 
         controlInput_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
@@ -1780,10 +2020,11 @@ public  final class CostGraphDef extends
           result.outputInfo_ = outputInfoBuilder_.build();
         }
         result.temporaryMemorySize_ = temporaryMemorySize_;
+        result.computeCost_ = computeCost_;
         result.isFinal_ = isFinal_;
-        if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((bitField0_ & 0x00000100) == 0x00000100)) {
           controlInput_ = java.util.Collections.unmodifiableList(controlInput_);
-          bitField0_ = (bitField0_ & ~0x00000080);
+          bitField0_ = (bitField0_ & ~0x00000100);
         }
         result.controlInput_ = controlInput_;
         result.bitField0_ = to_bitField0_;
@@ -1791,6 +2032,32 @@ public  final class CostGraphDef extends
         return result;
       }
 
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof org.tensorflow.framework.CostGraphDef.Node) {
           return mergeFrom((org.tensorflow.framework.CostGraphDef.Node)other);
@@ -1832,7 +2099,7 @@ public  final class CostGraphDef extends
               inputInfo_ = other.inputInfo_;
               bitField0_ = (bitField0_ & ~0x00000008);
               inputInfoBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getInputInfoFieldBuilder() : null;
             } else {
               inputInfoBuilder_.addAllMessages(other.inputInfo_);
@@ -1858,7 +2125,7 @@ public  final class CostGraphDef extends
               outputInfo_ = other.outputInfo_;
               bitField0_ = (bitField0_ & ~0x00000010);
               outputInfoBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getOutputInfoFieldBuilder() : null;
             } else {
               outputInfoBuilder_.addAllMessages(other.outputInfo_);
@@ -1868,13 +2135,16 @@ public  final class CostGraphDef extends
         if (other.getTemporaryMemorySize() != 0L) {
           setTemporaryMemorySize(other.getTemporaryMemorySize());
         }
+        if (other.getComputeCost() != 0L) {
+          setComputeCost(other.getComputeCost());
+        }
         if (other.getIsFinal() != false) {
           setIsFinal(other.getIsFinal());
         }
         if (!other.controlInput_.isEmpty()) {
           if (controlInput_.isEmpty()) {
             controlInput_ = other.controlInput_;
-            bitField0_ = (bitField0_ & ~0x00000080);
+            bitField0_ = (bitField0_ & ~0x00000100);
           } else {
             ensureControlInputIsMutable();
             controlInput_.addAll(other.controlInput_);
@@ -1911,7 +2181,7 @@ public  final class CostGraphDef extends
       private java.lang.Object name_ = "";
       /**
        * <pre>
-       * The name of the node.
+       * The name of the node. Names are globally unique.
        * </pre>
        *
        * <code>optional string name = 1;</code>
@@ -1930,7 +2200,7 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The name of the node.
+       * The name of the node. Names are globally unique.
        * </pre>
        *
        * <code>optional string name = 1;</code>
@@ -1950,7 +2220,7 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The name of the node.
+       * The name of the node. Names are globally unique.
        * </pre>
        *
        * <code>optional string name = 1;</code>
@@ -1967,7 +2237,7 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The name of the node.
+       * The name of the node. Names are globally unique.
        * </pre>
        *
        * <code>optional string name = 1;</code>
@@ -1980,7 +2250,7 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The name of the node.
+       * The name of the node. Names are globally unique.
        * </pre>
        *
        * <code>optional string name = 1;</code>
@@ -2000,7 +2270,8 @@ public  final class CostGraphDef extends
       private java.lang.Object device_ = "";
       /**
        * <pre>
-       * The device of the node.
+       * The device of the node. Can be empty if the node is mapped to the
+       * default partition or partitioning hasn't been run yet.
        * </pre>
        *
        * <code>optional string device = 2;</code>
@@ -2019,7 +2290,8 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The device of the node.
+       * The device of the node. Can be empty if the node is mapped to the
+       * default partition or partitioning hasn't been run yet.
        * </pre>
        *
        * <code>optional string device = 2;</code>
@@ -2039,7 +2311,8 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The device of the node.
+       * The device of the node. Can be empty if the node is mapped to the
+       * default partition or partitioning hasn't been run yet.
        * </pre>
        *
        * <code>optional string device = 2;</code>
@@ -2056,7 +2329,8 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The device of the node.
+       * The device of the node. Can be empty if the node is mapped to the
+       * default partition or partitioning hasn't been run yet.
        * </pre>
        *
        * <code>optional string device = 2;</code>
@@ -2069,7 +2343,8 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The device of the node.
+       * The device of the node. Can be empty if the node is mapped to the
+       * default partition or partitioning hasn't been run yet.
        * </pre>
        *
        * <code>optional string device = 2;</code>
@@ -2089,7 +2364,7 @@ public  final class CostGraphDef extends
       private int id_ ;
       /**
        * <pre>
-       * The id of the node.
+       * The id of the node. Node ids are only unique inside a partition.
        * </pre>
        *
        * <code>optional int32 id = 3;</code>
@@ -2099,7 +2374,7 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The id of the node.
+       * The id of the node. Node ids are only unique inside a partition.
        * </pre>
        *
        * <code>optional int32 id = 3;</code>
@@ -2112,7 +2387,7 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The id of the node.
+       * The id of the node. Node ids are only unique inside a partition.
        * </pre>
        *
        * <code>optional int32 id = 3;</code>
@@ -2133,7 +2408,7 @@ public  final class CostGraphDef extends
          }
       }
 
-      private com.google.protobuf.RepeatedFieldBuilder<
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           org.tensorflow.framework.CostGraphDef.Node.InputInfo, org.tensorflow.framework.CostGraphDef.Node.InputInfo.Builder, org.tensorflow.framework.CostGraphDef.Node.InputInfoOrBuilder> inputInfoBuilder_;
 
       /**
@@ -2349,11 +2624,11 @@ public  final class CostGraphDef extends
            getInputInfoBuilderList() {
         return getInputInfoFieldBuilder().getBuilderList();
       }
-      private com.google.protobuf.RepeatedFieldBuilder<
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           org.tensorflow.framework.CostGraphDef.Node.InputInfo, org.tensorflow.framework.CostGraphDef.Node.InputInfo.Builder, org.tensorflow.framework.CostGraphDef.Node.InputInfoOrBuilder> 
           getInputInfoFieldBuilder() {
         if (inputInfoBuilder_ == null) {
-          inputInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+          inputInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               org.tensorflow.framework.CostGraphDef.Node.InputInfo, org.tensorflow.framework.CostGraphDef.Node.InputInfo.Builder, org.tensorflow.framework.CostGraphDef.Node.InputInfoOrBuilder>(
                   inputInfo_,
                   ((bitField0_ & 0x00000008) == 0x00000008),
@@ -2373,7 +2648,7 @@ public  final class CostGraphDef extends
          }
       }
 
-      private com.google.protobuf.RepeatedFieldBuilder<
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           org.tensorflow.framework.CostGraphDef.Node.OutputInfo, org.tensorflow.framework.CostGraphDef.Node.OutputInfo.Builder, org.tensorflow.framework.CostGraphDef.Node.OutputInfoOrBuilder> outputInfoBuilder_;
 
       /**
@@ -2589,11 +2864,11 @@ public  final class CostGraphDef extends
            getOutputInfoBuilderList() {
         return getOutputInfoFieldBuilder().getBuilderList();
       }
-      private com.google.protobuf.RepeatedFieldBuilder<
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           org.tensorflow.framework.CostGraphDef.Node.OutputInfo, org.tensorflow.framework.CostGraphDef.Node.OutputInfo.Builder, org.tensorflow.framework.CostGraphDef.Node.OutputInfoOrBuilder> 
           getOutputInfoFieldBuilder() {
         if (outputInfoBuilder_ == null) {
-          outputInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+          outputInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               org.tensorflow.framework.CostGraphDef.Node.OutputInfo, org.tensorflow.framework.CostGraphDef.Node.OutputInfo.Builder, org.tensorflow.framework.CostGraphDef.Node.OutputInfoOrBuilder>(
                   outputInfo_,
                   ((bitField0_ & 0x00000010) == 0x00000010),
@@ -2642,6 +2917,44 @@ public  final class CostGraphDef extends
         return this;
       }
 
+      private long computeCost_ ;
+      /**
+       * <pre>
+       * Estimate of the computational cost of this node.
+       * </pre>
+       *
+       * <code>optional int64 compute_cost = 9;</code>
+       */
+      public long getComputeCost() {
+        return computeCost_;
+      }
+      /**
+       * <pre>
+       * Estimate of the computational cost of this node.
+       * </pre>
+       *
+       * <code>optional int64 compute_cost = 9;</code>
+       */
+      public Builder setComputeCost(long value) {
+        
+        computeCost_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Estimate of the computational cost of this node.
+       * </pre>
+       *
+       * <code>optional int64 compute_cost = 9;</code>
+       */
+      public Builder clearComputeCost() {
+        
+        computeCost_ = 0L;
+        onChanged();
+        return this;
+      }
+
       private boolean isFinal_ ;
       /**
        * <pre>
@@ -2685,9 +2998,9 @@ public  final class CostGraphDef extends
 
       private java.util.List<java.lang.Integer> controlInput_ = java.util.Collections.emptyList();
       private void ensureControlInputIsMutable() {
-        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
+        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
           controlInput_ = new java.util.ArrayList<java.lang.Integer>(controlInput_);
-          bitField0_ |= 0x00000080;
+          bitField0_ |= 0x00000100;
          }
       }
       /**
@@ -2772,7 +3085,7 @@ public  final class CostGraphDef extends
        */
       public Builder clearControlInput() {
         controlInput_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         onChanged();
         return this;
       }
@@ -2891,6 +3204,38 @@ public  final class CostGraphDef extends
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.CostGraphDef)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.CostGraphDef other = (org.tensorflow.framework.CostGraphDef) obj;
+
+    boolean result = true;
+    result = result && getNodeList()
+        .equals(other.getNodeList());
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    if (getNodeCount() > 0) {
+      hash = (37 * hash) + NODE_FIELD_NUMBER;
+      hash = (53 * hash) + getNodeList().hashCode();
+    }
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.CostGraphDef parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2914,39 +3259,39 @@ public  final class CostGraphDef extends
   }
   public static org.tensorflow.framework.CostGraphDef parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.CostGraphDef parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.CostGraphDef parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.CostGraphDef parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.CostGraphDef parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.CostGraphDef parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -2964,7 +3309,7 @@ public  final class CostGraphDef extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -2972,7 +3317,7 @@ public  final class CostGraphDef extends
    * Protobuf type {@code tensorflow.CostGraphDef}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.CostGraphDef)
       org.tensorflow.framework.CostGraphDefOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -2980,7 +3325,7 @@ public  final class CostGraphDef extends
       return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.CostGraphProtos.internal_static_tensorflow_CostGraphDef_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -2993,12 +3338,13 @@ public  final class CostGraphDef extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
         getNodeFieldBuilder();
       }
     }
@@ -3046,6 +3392,32 @@ public  final class CostGraphDef extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.CostGraphDef) {
         return mergeFrom((org.tensorflow.framework.CostGraphDef)other);
@@ -3076,7 +3448,7 @@ public  final class CostGraphDef extends
             node_ = other.node_;
             bitField0_ = (bitField0_ & ~0x00000001);
             nodeBuilder_ = 
-              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getNodeFieldBuilder() : null;
           } else {
             nodeBuilder_.addAllMessages(other.node_);
@@ -3119,7 +3491,7 @@ public  final class CostGraphDef extends
        }
     }
 
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.CostGraphDef.Node, org.tensorflow.framework.CostGraphDef.Node.Builder, org.tensorflow.framework.CostGraphDef.NodeOrBuilder> nodeBuilder_;
 
     /**
@@ -3335,11 +3707,11 @@ public  final class CostGraphDef extends
          getNodeBuilderList() {
       return getNodeFieldBuilder().getBuilderList();
     }
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.CostGraphDef.Node, org.tensorflow.framework.CostGraphDef.Node.Builder, org.tensorflow.framework.CostGraphDef.NodeOrBuilder> 
         getNodeFieldBuilder() {
       if (nodeBuilder_ == null) {
-        nodeBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+        nodeBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             org.tensorflow.framework.CostGraphDef.Node, org.tensorflow.framework.CostGraphDef.Node.Builder, org.tensorflow.framework.CostGraphDef.NodeOrBuilder>(
                 node_,
                 ((bitField0_ & 0x00000001) == 0x00000001),

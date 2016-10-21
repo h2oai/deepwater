@@ -11,11 +11,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.FunctionDefLibrary}
  */
 public  final class FunctionDefLibrary extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.FunctionDefLibrary)
     FunctionDefLibraryOrBuilder {
   // Use FunctionDefLibrary.newBuilder() to construct.
-  private FunctionDefLibrary(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private FunctionDefLibrary(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private FunctionDefLibrary() {
@@ -53,7 +53,8 @@ public  final class FunctionDefLibrary extends
               function_ = new java.util.ArrayList<org.tensorflow.framework.FunctionDef>();
               mutable_bitField0_ |= 0x00000001;
             }
-            function_.add(input.readMessage(org.tensorflow.framework.FunctionDef.parser(), extensionRegistry));
+            function_.add(
+                input.readMessage(org.tensorflow.framework.FunctionDef.parser(), extensionRegistry));
             break;
           }
           case 18: {
@@ -61,7 +62,8 @@ public  final class FunctionDefLibrary extends
               gradient_ = new java.util.ArrayList<org.tensorflow.framework.GradientDef>();
               mutable_bitField0_ |= 0x00000002;
             }
-            gradient_.add(input.readMessage(org.tensorflow.framework.GradientDef.parser(), extensionRegistry));
+            gradient_.add(
+                input.readMessage(org.tensorflow.framework.GradientDef.parser(), extensionRegistry));
             break;
           }
         }
@@ -86,7 +88,7 @@ public  final class FunctionDefLibrary extends
     return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDefLibrary_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDefLibrary_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -201,6 +203,44 @@ public  final class FunctionDefLibrary extends
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.FunctionDefLibrary)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.FunctionDefLibrary other = (org.tensorflow.framework.FunctionDefLibrary) obj;
+
+    boolean result = true;
+    result = result && getFunctionList()
+        .equals(other.getFunctionList());
+    result = result && getGradientList()
+        .equals(other.getGradientList());
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    if (getFunctionCount() > 0) {
+      hash = (37 * hash) + FUNCTION_FIELD_NUMBER;
+      hash = (53 * hash) + getFunctionList().hashCode();
+    }
+    if (getGradientCount() > 0) {
+      hash = (37 * hash) + GRADIENT_FIELD_NUMBER;
+      hash = (53 * hash) + getGradientList().hashCode();
+    }
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.FunctionDefLibrary parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -224,39 +264,39 @@ public  final class FunctionDefLibrary extends
   }
   public static org.tensorflow.framework.FunctionDefLibrary parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.FunctionDefLibrary parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.FunctionDefLibrary parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.FunctionDefLibrary parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.FunctionDefLibrary parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.FunctionDefLibrary parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -274,7 +314,7 @@ public  final class FunctionDefLibrary extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -286,7 +326,7 @@ public  final class FunctionDefLibrary extends
    * Protobuf type {@code tensorflow.FunctionDefLibrary}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.FunctionDefLibrary)
       org.tensorflow.framework.FunctionDefLibraryOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -294,7 +334,7 @@ public  final class FunctionDefLibrary extends
       return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDefLibrary_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDefLibrary_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -307,12 +347,13 @@ public  final class FunctionDefLibrary extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
         getFunctionFieldBuilder();
         getGradientFieldBuilder();
       }
@@ -376,6 +417,32 @@ public  final class FunctionDefLibrary extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.FunctionDefLibrary) {
         return mergeFrom((org.tensorflow.framework.FunctionDefLibrary)other);
@@ -406,7 +473,7 @@ public  final class FunctionDefLibrary extends
             function_ = other.function_;
             bitField0_ = (bitField0_ & ~0x00000001);
             functionBuilder_ = 
-              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getFunctionFieldBuilder() : null;
           } else {
             functionBuilder_.addAllMessages(other.function_);
@@ -432,7 +499,7 @@ public  final class FunctionDefLibrary extends
             gradient_ = other.gradient_;
             bitField0_ = (bitField0_ & ~0x00000002);
             gradientBuilder_ = 
-              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getGradientFieldBuilder() : null;
           } else {
             gradientBuilder_.addAllMessages(other.gradient_);
@@ -475,7 +542,7 @@ public  final class FunctionDefLibrary extends
        }
     }
 
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.FunctionDef, org.tensorflow.framework.FunctionDef.Builder, org.tensorflow.framework.FunctionDefOrBuilder> functionBuilder_;
 
     /**
@@ -691,11 +758,11 @@ public  final class FunctionDefLibrary extends
          getFunctionBuilderList() {
       return getFunctionFieldBuilder().getBuilderList();
     }
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.FunctionDef, org.tensorflow.framework.FunctionDef.Builder, org.tensorflow.framework.FunctionDefOrBuilder> 
         getFunctionFieldBuilder() {
       if (functionBuilder_ == null) {
-        functionBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+        functionBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             org.tensorflow.framework.FunctionDef, org.tensorflow.framework.FunctionDef.Builder, org.tensorflow.framework.FunctionDefOrBuilder>(
                 function_,
                 ((bitField0_ & 0x00000001) == 0x00000001),
@@ -715,7 +782,7 @@ public  final class FunctionDefLibrary extends
        }
     }
 
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.GradientDef, org.tensorflow.framework.GradientDef.Builder, org.tensorflow.framework.GradientDefOrBuilder> gradientBuilder_;
 
     /**
@@ -931,11 +998,11 @@ public  final class FunctionDefLibrary extends
          getGradientBuilderList() {
       return getGradientFieldBuilder().getBuilderList();
     }
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.GradientDef, org.tensorflow.framework.GradientDef.Builder, org.tensorflow.framework.GradientDefOrBuilder> 
         getGradientFieldBuilder() {
       if (gradientBuilder_ == null) {
-        gradientBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+        gradientBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             org.tensorflow.framework.GradientDef, org.tensorflow.framework.GradientDef.Builder, org.tensorflow.framework.GradientDefOrBuilder>(
                 gradient_,
                 ((bitField0_ & 0x00000002) == 0x00000002),

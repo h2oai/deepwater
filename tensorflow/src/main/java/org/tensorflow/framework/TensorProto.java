@@ -11,11 +11,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.TensorProto}
  */
 public  final class TensorProto extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.TensorProto)
     TensorProtoOrBuilder {
   // Use TensorProto.newBuilder() to construct.
-  private TensorProto(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private TensorProto(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private TensorProto() {
@@ -306,7 +306,7 @@ public  final class TensorProto extends
     return org.tensorflow.framework.TensorProtos.internal_static_tensorflow_TensorProto_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.TensorProtos.internal_static_tensorflow_TensorProto_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -326,7 +326,7 @@ public  final class TensorProto extends
    * <code>optional .tensorflow.DataType dtype = 1;</code>
    */
   public org.tensorflow.framework.DataType getDtype() {
-    org.tensorflow.framework.DataType result = org.tensorflow.framework.DataType.forNumber(dtype_);
+    org.tensorflow.framework.DataType result = org.tensorflow.framework.DataType.valueOf(dtype_);
     return result == null ? org.tensorflow.framework.DataType.UNRECOGNIZED : result;
   }
 
@@ -742,22 +742,22 @@ public  final class TensorProto extends
       output.writeBytes(4, tensorContent_);
     }
     if (getFloatValList().size() > 0) {
-      output.writeRawVarint32(42);
-      output.writeRawVarint32(floatValMemoizedSerializedSize);
+      output.writeUInt32NoTag(42);
+      output.writeUInt32NoTag(floatValMemoizedSerializedSize);
     }
     for (int i = 0; i < floatVal_.size(); i++) {
       output.writeFloatNoTag(floatVal_.get(i));
     }
     if (getDoubleValList().size() > 0) {
-      output.writeRawVarint32(50);
-      output.writeRawVarint32(doubleValMemoizedSerializedSize);
+      output.writeUInt32NoTag(50);
+      output.writeUInt32NoTag(doubleValMemoizedSerializedSize);
     }
     for (int i = 0; i < doubleVal_.size(); i++) {
       output.writeDoubleNoTag(doubleVal_.get(i));
     }
     if (getIntValList().size() > 0) {
-      output.writeRawVarint32(58);
-      output.writeRawVarint32(intValMemoizedSerializedSize);
+      output.writeUInt32NoTag(58);
+      output.writeUInt32NoTag(intValMemoizedSerializedSize);
     }
     for (int i = 0; i < intVal_.size(); i++) {
       output.writeInt32NoTag(intVal_.get(i));
@@ -766,36 +766,36 @@ public  final class TensorProto extends
       output.writeBytes(8, stringVal_.get(i));
     }
     if (getScomplexValList().size() > 0) {
-      output.writeRawVarint32(74);
-      output.writeRawVarint32(scomplexValMemoizedSerializedSize);
+      output.writeUInt32NoTag(74);
+      output.writeUInt32NoTag(scomplexValMemoizedSerializedSize);
     }
     for (int i = 0; i < scomplexVal_.size(); i++) {
       output.writeFloatNoTag(scomplexVal_.get(i));
     }
     if (getInt64ValList().size() > 0) {
-      output.writeRawVarint32(82);
-      output.writeRawVarint32(int64ValMemoizedSerializedSize);
+      output.writeUInt32NoTag(82);
+      output.writeUInt32NoTag(int64ValMemoizedSerializedSize);
     }
     for (int i = 0; i < int64Val_.size(); i++) {
       output.writeInt64NoTag(int64Val_.get(i));
     }
     if (getBoolValList().size() > 0) {
-      output.writeRawVarint32(90);
-      output.writeRawVarint32(boolValMemoizedSerializedSize);
+      output.writeUInt32NoTag(90);
+      output.writeUInt32NoTag(boolValMemoizedSerializedSize);
     }
     for (int i = 0; i < boolVal_.size(); i++) {
       output.writeBoolNoTag(boolVal_.get(i));
     }
     if (getDcomplexValList().size() > 0) {
-      output.writeRawVarint32(98);
-      output.writeRawVarint32(dcomplexValMemoizedSerializedSize);
+      output.writeUInt32NoTag(98);
+      output.writeUInt32NoTag(dcomplexValMemoizedSerializedSize);
     }
     for (int i = 0; i < dcomplexVal_.size(); i++) {
       output.writeDoubleNoTag(dcomplexVal_.get(i));
     }
     if (getHalfValList().size() > 0) {
-      output.writeRawVarint32(106);
-      output.writeRawVarint32(halfValMemoizedSerializedSize);
+      output.writeUInt32NoTag(106);
+      output.writeUInt32NoTag(halfValMemoizedSerializedSize);
     }
     for (int i = 0; i < halfVal_.size(); i++) {
       output.writeInt32NoTag(halfVal_.get(i));
@@ -934,6 +934,106 @@ public  final class TensorProto extends
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.TensorProto)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.TensorProto other = (org.tensorflow.framework.TensorProto) obj;
+
+    boolean result = true;
+    result = result && dtype_ == other.dtype_;
+    result = result && (hasTensorShape() == other.hasTensorShape());
+    if (hasTensorShape()) {
+      result = result && getTensorShape()
+          .equals(other.getTensorShape());
+    }
+    result = result && (getVersionNumber()
+        == other.getVersionNumber());
+    result = result && getTensorContent()
+        .equals(other.getTensorContent());
+    result = result && getHalfValList()
+        .equals(other.getHalfValList());
+    result = result && getFloatValList()
+        .equals(other.getFloatValList());
+    result = result && getDoubleValList()
+        .equals(other.getDoubleValList());
+    result = result && getIntValList()
+        .equals(other.getIntValList());
+    result = result && getStringValList()
+        .equals(other.getStringValList());
+    result = result && getScomplexValList()
+        .equals(other.getScomplexValList());
+    result = result && getInt64ValList()
+        .equals(other.getInt64ValList());
+    result = result && getBoolValList()
+        .equals(other.getBoolValList());
+    result = result && getDcomplexValList()
+        .equals(other.getDcomplexValList());
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (37 * hash) + DTYPE_FIELD_NUMBER;
+    hash = (53 * hash) + dtype_;
+    if (hasTensorShape()) {
+      hash = (37 * hash) + TENSOR_SHAPE_FIELD_NUMBER;
+      hash = (53 * hash) + getTensorShape().hashCode();
+    }
+    hash = (37 * hash) + VERSION_NUMBER_FIELD_NUMBER;
+    hash = (53 * hash) + getVersionNumber();
+    hash = (37 * hash) + TENSOR_CONTENT_FIELD_NUMBER;
+    hash = (53 * hash) + getTensorContent().hashCode();
+    if (getHalfValCount() > 0) {
+      hash = (37 * hash) + HALF_VAL_FIELD_NUMBER;
+      hash = (53 * hash) + getHalfValList().hashCode();
+    }
+    if (getFloatValCount() > 0) {
+      hash = (37 * hash) + FLOAT_VAL_FIELD_NUMBER;
+      hash = (53 * hash) + getFloatValList().hashCode();
+    }
+    if (getDoubleValCount() > 0) {
+      hash = (37 * hash) + DOUBLE_VAL_FIELD_NUMBER;
+      hash = (53 * hash) + getDoubleValList().hashCode();
+    }
+    if (getIntValCount() > 0) {
+      hash = (37 * hash) + INT_VAL_FIELD_NUMBER;
+      hash = (53 * hash) + getIntValList().hashCode();
+    }
+    if (getStringValCount() > 0) {
+      hash = (37 * hash) + STRING_VAL_FIELD_NUMBER;
+      hash = (53 * hash) + getStringValList().hashCode();
+    }
+    if (getScomplexValCount() > 0) {
+      hash = (37 * hash) + SCOMPLEX_VAL_FIELD_NUMBER;
+      hash = (53 * hash) + getScomplexValList().hashCode();
+    }
+    if (getInt64ValCount() > 0) {
+      hash = (37 * hash) + INT64_VAL_FIELD_NUMBER;
+      hash = (53 * hash) + getInt64ValList().hashCode();
+    }
+    if (getBoolValCount() > 0) {
+      hash = (37 * hash) + BOOL_VAL_FIELD_NUMBER;
+      hash = (53 * hash) + getBoolValList().hashCode();
+    }
+    if (getDcomplexValCount() > 0) {
+      hash = (37 * hash) + DCOMPLEX_VAL_FIELD_NUMBER;
+      hash = (53 * hash) + getDcomplexValList().hashCode();
+    }
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.TensorProto parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -957,39 +1057,39 @@ public  final class TensorProto extends
   }
   public static org.tensorflow.framework.TensorProto parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.TensorProto parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.TensorProto parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.TensorProto parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.TensorProto parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.TensorProto parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -1007,7 +1107,7 @@ public  final class TensorProto extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -1019,7 +1119,7 @@ public  final class TensorProto extends
    * Protobuf type {@code tensorflow.TensorProto}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.TensorProto)
       org.tensorflow.framework.TensorProtoOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -1027,7 +1127,7 @@ public  final class TensorProto extends
       return org.tensorflow.framework.TensorProtos.internal_static_tensorflow_TensorProto_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.TensorProtos.internal_static_tensorflow_TensorProto_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -1040,12 +1140,13 @@ public  final class TensorProto extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
       }
     }
     public Builder clear() {
@@ -1162,6 +1263,32 @@ public  final class TensorProto extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.TensorProto) {
         return mergeFrom((org.tensorflow.framework.TensorProto)other);
@@ -1321,7 +1448,7 @@ public  final class TensorProto extends
      * <code>optional .tensorflow.DataType dtype = 1;</code>
      */
     public org.tensorflow.framework.DataType getDtype() {
-      org.tensorflow.framework.DataType result = org.tensorflow.framework.DataType.forNumber(dtype_);
+      org.tensorflow.framework.DataType result = org.tensorflow.framework.DataType.valueOf(dtype_);
       return result == null ? org.tensorflow.framework.DataType.UNRECOGNIZED : result;
     }
     /**
@@ -1347,7 +1474,7 @@ public  final class TensorProto extends
     }
 
     private org.tensorflow.framework.TensorShapeProto tensorShape_ = null;
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.TensorShapeProto, org.tensorflow.framework.TensorShapeProto.Builder, org.tensorflow.framework.TensorShapeProtoOrBuilder> tensorShapeBuilder_;
     /**
      * <pre>
@@ -1485,11 +1612,11 @@ public  final class TensorProto extends
      *
      * <code>optional .tensorflow.TensorShapeProto tensor_shape = 2;</code>
      */
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.TensorShapeProto, org.tensorflow.framework.TensorShapeProto.Builder, org.tensorflow.framework.TensorShapeProtoOrBuilder> 
         getTensorShapeFieldBuilder() {
       if (tensorShapeBuilder_ == null) {
-        tensorShapeBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+        tensorShapeBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
             org.tensorflow.framework.TensorShapeProto, org.tensorflow.framework.TensorShapeProto.Builder, org.tensorflow.framework.TensorShapeProtoOrBuilder>(
                 getTensorShape(),
                 getParentForChildren(),

@@ -11,11 +11,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.GraphDef}
  */
 public  final class GraphDef extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.GraphDef)
     GraphDefOrBuilder {
   // Use GraphDef.newBuilder() to construct.
-  private GraphDef(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private GraphDef(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private GraphDef() {
@@ -53,7 +53,8 @@ public  final class GraphDef extends
               node_ = new java.util.ArrayList<org.tensorflow.framework.NodeDef>();
               mutable_bitField0_ |= 0x00000001;
             }
-            node_.add(input.readMessage(org.tensorflow.framework.NodeDef.parser(), extensionRegistry));
+            node_.add(
+                input.readMessage(org.tensorflow.framework.NodeDef.parser(), extensionRegistry));
             break;
           }
           case 18: {
@@ -106,7 +107,7 @@ public  final class GraphDef extends
     return org.tensorflow.framework.GraphProtos.internal_static_tensorflow_GraphDef_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.GraphProtos.internal_static_tensorflow_GraphDef_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -215,7 +216,7 @@ public  final class GraphDef extends
    *     different orgs. E.g.,
    *     { "/google/nn", { ... }},
    *     { "/google/vision", { ... }}
-   *     { "/org_foo/module_bar", {...}}
+   *     { "/org_foo/module_bar", { ... }}
    *     map&lt;string, FunctionDefLib&gt; named_lib;
    *   * If node[i].op is the name of one function in "library",
    *     node[i] is deemed as a function call. Otherwise, node[i].op
@@ -246,7 +247,7 @@ public  final class GraphDef extends
    *     different orgs. E.g.,
    *     { "/google/nn", { ... }},
    *     { "/google/vision", { ... }}
-   *     { "/org_foo/module_bar", {...}}
+   *     { "/org_foo/module_bar", { ... }}
    *     map&lt;string, FunctionDefLib&gt; named_lib;
    *   * If node[i].op is the name of one function in "library",
    *     node[i] is deemed as a function call. Otherwise, node[i].op
@@ -277,7 +278,7 @@ public  final class GraphDef extends
    *     different orgs. E.g.,
    *     { "/google/nn", { ... }},
    *     { "/google/vision", { ... }}
-   *     { "/org_foo/module_bar", {...}}
+   *     { "/org_foo/module_bar", { ... }}
    *     map&lt;string, FunctionDefLib&gt; named_lib;
    *   * If node[i].op is the name of one function in "library",
    *     node[i] is deemed as a function call. Otherwise, node[i].op
@@ -351,6 +352,60 @@ public  final class GraphDef extends
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.GraphDef)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.GraphDef other = (org.tensorflow.framework.GraphDef) obj;
+
+    boolean result = true;
+    result = result && getNodeList()
+        .equals(other.getNodeList());
+    result = result && (hasVersions() == other.hasVersions());
+    if (hasVersions()) {
+      result = result && getVersions()
+          .equals(other.getVersions());
+    }
+    result = result && (getVersion()
+        == other.getVersion());
+    result = result && (hasLibrary() == other.hasLibrary());
+    if (hasLibrary()) {
+      result = result && getLibrary()
+          .equals(other.getLibrary());
+    }
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    if (getNodeCount() > 0) {
+      hash = (37 * hash) + NODE_FIELD_NUMBER;
+      hash = (53 * hash) + getNodeList().hashCode();
+    }
+    if (hasVersions()) {
+      hash = (37 * hash) + VERSIONS_FIELD_NUMBER;
+      hash = (53 * hash) + getVersions().hashCode();
+    }
+    hash = (37 * hash) + VERSION_FIELD_NUMBER;
+    hash = (53 * hash) + getVersion();
+    if (hasLibrary()) {
+      hash = (37 * hash) + LIBRARY_FIELD_NUMBER;
+      hash = (53 * hash) + getLibrary().hashCode();
+    }
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.GraphDef parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -374,39 +429,39 @@ public  final class GraphDef extends
   }
   public static org.tensorflow.framework.GraphDef parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.GraphDef parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.GraphDef parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.GraphDef parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.GraphDef parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.GraphDef parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -424,7 +479,7 @@ public  final class GraphDef extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -436,7 +491,7 @@ public  final class GraphDef extends
    * Protobuf type {@code tensorflow.GraphDef}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.GraphDef)
       org.tensorflow.framework.GraphDefOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -444,7 +499,7 @@ public  final class GraphDef extends
       return org.tensorflow.framework.GraphProtos.internal_static_tensorflow_GraphDef_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.GraphProtos.internal_static_tensorflow_GraphDef_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -457,12 +512,13 @@ public  final class GraphDef extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
         getNodeFieldBuilder();
       }
     }
@@ -537,6 +593,32 @@ public  final class GraphDef extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.GraphDef) {
         return mergeFrom((org.tensorflow.framework.GraphDef)other);
@@ -567,7 +649,7 @@ public  final class GraphDef extends
             node_ = other.node_;
             bitField0_ = (bitField0_ & ~0x00000001);
             nodeBuilder_ = 
-              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getNodeFieldBuilder() : null;
           } else {
             nodeBuilder_.addAllMessages(other.node_);
@@ -619,7 +701,7 @@ public  final class GraphDef extends
        }
     }
 
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.NodeDef, org.tensorflow.framework.NodeDef.Builder, org.tensorflow.framework.NodeDefOrBuilder> nodeBuilder_;
 
     /**
@@ -835,11 +917,11 @@ public  final class GraphDef extends
          getNodeBuilderList() {
       return getNodeFieldBuilder().getBuilderList();
     }
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.NodeDef, org.tensorflow.framework.NodeDef.Builder, org.tensorflow.framework.NodeDefOrBuilder> 
         getNodeFieldBuilder() {
       if (nodeBuilder_ == null) {
-        nodeBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+        nodeBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             org.tensorflow.framework.NodeDef, org.tensorflow.framework.NodeDef.Builder, org.tensorflow.framework.NodeDefOrBuilder>(
                 node_,
                 ((bitField0_ & 0x00000001) == 0x00000001),
@@ -851,7 +933,7 @@ public  final class GraphDef extends
     }
 
     private org.tensorflow.framework.VersionDef versions_ = null;
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.VersionDef, org.tensorflow.framework.VersionDef.Builder, org.tensorflow.framework.VersionDefOrBuilder> versionsBuilder_;
     /**
      * <pre>
@@ -1007,11 +1089,11 @@ public  final class GraphDef extends
      *
      * <code>optional .tensorflow.VersionDef versions = 4;</code>
      */
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.VersionDef, org.tensorflow.framework.VersionDef.Builder, org.tensorflow.framework.VersionDefOrBuilder> 
         getVersionsFieldBuilder() {
       if (versionsBuilder_ == null) {
-        versionsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+        versionsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
             org.tensorflow.framework.VersionDef, org.tensorflow.framework.VersionDef.Builder, org.tensorflow.framework.VersionDefOrBuilder>(
                 getVersions(),
                 getParentForChildren(),
@@ -1066,7 +1148,7 @@ public  final class GraphDef extends
     }
 
     private org.tensorflow.framework.FunctionDefLibrary library_ = null;
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.FunctionDefLibrary, org.tensorflow.framework.FunctionDefLibrary.Builder, org.tensorflow.framework.FunctionDefLibraryOrBuilder> libraryBuilder_;
     /**
      * <pre>
@@ -1078,7 +1160,7 @@ public  final class GraphDef extends
      *     different orgs. E.g.,
      *     { "/google/nn", { ... }},
      *     { "/google/vision", { ... }}
-     *     { "/org_foo/module_bar", {...}}
+     *     { "/org_foo/module_bar", { ... }}
      *     map&lt;string, FunctionDefLib&gt; named_lib;
      *   * If node[i].op is the name of one function in "library",
      *     node[i] is deemed as a function call. Otherwise, node[i].op
@@ -1109,7 +1191,7 @@ public  final class GraphDef extends
      *     different orgs. E.g.,
      *     { "/google/nn", { ... }},
      *     { "/google/vision", { ... }}
-     *     { "/org_foo/module_bar", {...}}
+     *     { "/org_foo/module_bar", { ... }}
      *     map&lt;string, FunctionDefLib&gt; named_lib;
      *   * If node[i].op is the name of one function in "library",
      *     node[i] is deemed as a function call. Otherwise, node[i].op
@@ -1144,7 +1226,7 @@ public  final class GraphDef extends
      *     different orgs. E.g.,
      *     { "/google/nn", { ... }},
      *     { "/google/vision", { ... }}
-     *     { "/org_foo/module_bar", {...}}
+     *     { "/org_foo/module_bar", { ... }}
      *     map&lt;string, FunctionDefLib&gt; named_lib;
      *   * If node[i].op is the name of one function in "library",
      *     node[i] is deemed as a function call. Otherwise, node[i].op
@@ -1185,7 +1267,7 @@ public  final class GraphDef extends
      *     different orgs. E.g.,
      *     { "/google/nn", { ... }},
      *     { "/google/vision", { ... }}
-     *     { "/org_foo/module_bar", {...}}
+     *     { "/org_foo/module_bar", { ... }}
      *     map&lt;string, FunctionDefLib&gt; named_lib;
      *   * If node[i].op is the name of one function in "library",
      *     node[i] is deemed as a function call. Otherwise, node[i].op
@@ -1224,7 +1306,7 @@ public  final class GraphDef extends
      *     different orgs. E.g.,
      *     { "/google/nn", { ... }},
      *     { "/google/vision", { ... }}
-     *     { "/org_foo/module_bar", {...}}
+     *     { "/org_foo/module_bar", { ... }}
      *     map&lt;string, FunctionDefLib&gt; named_lib;
      *   * If node[i].op is the name of one function in "library",
      *     node[i] is deemed as a function call. Otherwise, node[i].op
@@ -1267,7 +1349,7 @@ public  final class GraphDef extends
      *     different orgs. E.g.,
      *     { "/google/nn", { ... }},
      *     { "/google/vision", { ... }}
-     *     { "/org_foo/module_bar", {...}}
+     *     { "/org_foo/module_bar", { ... }}
      *     map&lt;string, FunctionDefLib&gt; named_lib;
      *   * If node[i].op is the name of one function in "library",
      *     node[i] is deemed as a function call. Otherwise, node[i].op
@@ -1306,7 +1388,7 @@ public  final class GraphDef extends
      *     different orgs. E.g.,
      *     { "/google/nn", { ... }},
      *     { "/google/vision", { ... }}
-     *     { "/org_foo/module_bar", {...}}
+     *     { "/org_foo/module_bar", { ... }}
      *     map&lt;string, FunctionDefLib&gt; named_lib;
      *   * If node[i].op is the name of one function in "library",
      *     node[i] is deemed as a function call. Otherwise, node[i].op
@@ -1339,7 +1421,7 @@ public  final class GraphDef extends
      *     different orgs. E.g.,
      *     { "/google/nn", { ... }},
      *     { "/google/vision", { ... }}
-     *     { "/org_foo/module_bar", {...}}
+     *     { "/org_foo/module_bar", { ... }}
      *     map&lt;string, FunctionDefLib&gt; named_lib;
      *   * If node[i].op is the name of one function in "library",
      *     node[i] is deemed as a function call. Otherwise, node[i].op
@@ -1375,7 +1457,7 @@ public  final class GraphDef extends
      *     different orgs. E.g.,
      *     { "/google/nn", { ... }},
      *     { "/google/vision", { ... }}
-     *     { "/org_foo/module_bar", {...}}
+     *     { "/org_foo/module_bar", { ... }}
      *     map&lt;string, FunctionDefLib&gt; named_lib;
      *   * If node[i].op is the name of one function in "library",
      *     node[i] is deemed as a function call. Otherwise, node[i].op
@@ -1393,11 +1475,11 @@ public  final class GraphDef extends
      *
      * <code>optional .tensorflow.FunctionDefLibrary library = 2;</code>
      */
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.FunctionDefLibrary, org.tensorflow.framework.FunctionDefLibrary.Builder, org.tensorflow.framework.FunctionDefLibraryOrBuilder> 
         getLibraryFieldBuilder() {
       if (libraryBuilder_ == null) {
-        libraryBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+        libraryBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
             org.tensorflow.framework.FunctionDefLibrary, org.tensorflow.framework.FunctionDefLibrary.Builder, org.tensorflow.framework.FunctionDefLibraryOrBuilder>(
                 getLibrary(),
                 getParentForChildren(),

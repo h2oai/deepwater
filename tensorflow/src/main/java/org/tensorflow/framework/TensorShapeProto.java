@@ -11,11 +11,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.TensorShapeProto}
  */
 public  final class TensorShapeProto extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.TensorShapeProto)
     TensorShapeProtoOrBuilder {
   // Use TensorShapeProto.newBuilder() to construct.
-  private TensorShapeProto(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private TensorShapeProto(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private TensorShapeProto() {
@@ -53,7 +53,8 @@ public  final class TensorShapeProto extends
               dim_ = new java.util.ArrayList<org.tensorflow.framework.TensorShapeProto.Dim>();
               mutable_bitField0_ |= 0x00000001;
             }
-            dim_.add(input.readMessage(org.tensorflow.framework.TensorShapeProto.Dim.parser(), extensionRegistry));
+            dim_.add(
+                input.readMessage(org.tensorflow.framework.TensorShapeProto.Dim.parser(), extensionRegistry));
             break;
           }
           case 24: {
@@ -80,7 +81,7 @@ public  final class TensorShapeProto extends
     return org.tensorflow.framework.TensorShapeProtos.internal_static_tensorflow_TensorShapeProto_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.TensorShapeProtos.internal_static_tensorflow_TensorShapeProto_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -130,11 +131,11 @@ public  final class TensorShapeProto extends
    * Protobuf type {@code tensorflow.TensorShapeProto.Dim}
    */
   public  static final class Dim extends
-      com.google.protobuf.GeneratedMessage implements
+      com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:tensorflow.TensorShapeProto.Dim)
       DimOrBuilder {
     // Use Dim.newBuilder() to construct.
-    private Dim(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private Dim(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private Dim() {
@@ -194,7 +195,7 @@ public  final class TensorShapeProto extends
       return org.tensorflow.framework.TensorShapeProtos.internal_static_tensorflow_TensorShapeProto_Dim_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.TensorShapeProtos.internal_static_tensorflow_TensorShapeProto_Dim_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -276,7 +277,7 @@ public  final class TensorShapeProto extends
         output.writeInt64(1, size_);
       }
       if (!getNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 2, name_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
       }
     }
 
@@ -290,13 +291,48 @@ public  final class TensorShapeProto extends
           .computeInt64Size(1, size_);
       }
       if (!getNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, name_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
       }
       memoizedSize = size;
       return size;
     }
 
     private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.tensorflow.framework.TensorShapeProto.Dim)) {
+        return super.equals(obj);
+      }
+      org.tensorflow.framework.TensorShapeProto.Dim other = (org.tensorflow.framework.TensorShapeProto.Dim) obj;
+
+      boolean result = true;
+      result = result && (getSize()
+          == other.getSize());
+      result = result && getName()
+          .equals(other.getName());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (37 * hash) + SIZE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getSize());
+      hash = (37 * hash) + NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getName().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
     public static org.tensorflow.framework.TensorShapeProto.Dim parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -320,39 +356,39 @@ public  final class TensorShapeProto extends
     }
     public static org.tensorflow.framework.TensorShapeProto.Dim parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static org.tensorflow.framework.TensorShapeProto.Dim parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static org.tensorflow.framework.TensorShapeProto.Dim parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
     public static org.tensorflow.framework.TensorShapeProto.Dim parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static org.tensorflow.framework.TensorShapeProto.Dim parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static org.tensorflow.framework.TensorShapeProto.Dim parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
@@ -370,7 +406,7 @@ public  final class TensorShapeProto extends
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -382,7 +418,7 @@ public  final class TensorShapeProto extends
      * Protobuf type {@code tensorflow.TensorShapeProto.Dim}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:tensorflow.TensorShapeProto.Dim)
         org.tensorflow.framework.TensorShapeProto.DimOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -390,7 +426,7 @@ public  final class TensorShapeProto extends
         return org.tensorflow.framework.TensorShapeProtos.internal_static_tensorflow_TensorShapeProto_Dim_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return org.tensorflow.framework.TensorShapeProtos.internal_static_tensorflow_TensorShapeProto_Dim_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -403,12 +439,13 @@ public  final class TensorShapeProto extends
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
       public Builder clear() {
@@ -445,6 +482,32 @@ public  final class TensorShapeProto extends
         return result;
       }
 
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof org.tensorflow.framework.TensorShapeProto.Dim) {
           return mergeFrom((org.tensorflow.framework.TensorShapeProto.Dim)other);
@@ -829,6 +892,43 @@ public  final class TensorShapeProto extends
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.TensorShapeProto)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.TensorShapeProto other = (org.tensorflow.framework.TensorShapeProto) obj;
+
+    boolean result = true;
+    result = result && getDimList()
+        .equals(other.getDimList());
+    result = result && (getUnknownRank()
+        == other.getUnknownRank());
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    if (getDimCount() > 0) {
+      hash = (37 * hash) + DIM_FIELD_NUMBER;
+      hash = (53 * hash) + getDimList().hashCode();
+    }
+    hash = (37 * hash) + UNKNOWN_RANK_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getUnknownRank());
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.TensorShapeProto parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -852,39 +952,39 @@ public  final class TensorShapeProto extends
   }
   public static org.tensorflow.framework.TensorShapeProto parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.TensorShapeProto parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.TensorShapeProto parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.TensorShapeProto parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.TensorShapeProto parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.TensorShapeProto parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -902,7 +1002,7 @@ public  final class TensorShapeProto extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -914,7 +1014,7 @@ public  final class TensorShapeProto extends
    * Protobuf type {@code tensorflow.TensorShapeProto}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.TensorShapeProto)
       org.tensorflow.framework.TensorShapeProtoOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -922,7 +1022,7 @@ public  final class TensorShapeProto extends
       return org.tensorflow.framework.TensorShapeProtos.internal_static_tensorflow_TensorShapeProto_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.TensorShapeProtos.internal_static_tensorflow_TensorShapeProto_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -935,12 +1035,13 @@ public  final class TensorShapeProto extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
         getDimFieldBuilder();
       }
     }
@@ -993,6 +1094,32 @@ public  final class TensorShapeProto extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.TensorShapeProto) {
         return mergeFrom((org.tensorflow.framework.TensorShapeProto)other);
@@ -1023,7 +1150,7 @@ public  final class TensorShapeProto extends
             dim_ = other.dim_;
             bitField0_ = (bitField0_ & ~0x00000001);
             dimBuilder_ = 
-              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getDimFieldBuilder() : null;
           } else {
             dimBuilder_.addAllMessages(other.dim_);
@@ -1069,7 +1196,7 @@ public  final class TensorShapeProto extends
        }
     }
 
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.TensorShapeProto.Dim, org.tensorflow.framework.TensorShapeProto.Dim.Builder, org.tensorflow.framework.TensorShapeProto.DimOrBuilder> dimBuilder_;
 
     /**
@@ -1519,11 +1646,11 @@ public  final class TensorShapeProto extends
          getDimBuilderList() {
       return getDimFieldBuilder().getBuilderList();
     }
-    private com.google.protobuf.RepeatedFieldBuilder<
+    private com.google.protobuf.RepeatedFieldBuilderV3<
         org.tensorflow.framework.TensorShapeProto.Dim, org.tensorflow.framework.TensorShapeProto.Dim.Builder, org.tensorflow.framework.TensorShapeProto.DimOrBuilder> 
         getDimFieldBuilder() {
       if (dimBuilder_ == null) {
-        dimBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+        dimBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             org.tensorflow.framework.TensorShapeProto.Dim, org.tensorflow.framework.TensorShapeProto.Dim.Builder, org.tensorflow.framework.TensorShapeProto.DimOrBuilder>(
                 dim_,
                 ((bitField0_ & 0x00000001) == 0x00000001),

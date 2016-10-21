@@ -4,6 +4,10 @@
 package org.tensorflow.framework;
 
 /**
+ * <pre>
+ * LINT.IfChange
+ * </pre>
+ *
  * Protobuf enum {@code tensorflow.DataType}
  */
 public enum DataType

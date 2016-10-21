@@ -6,37 +6,43 @@ package org.tensorflow.framework;
 public final class LogMemoryProtos {
   private LogMemoryProtos() {}
   public static void registerAllExtensions(
+      com.google.protobuf.ExtensionRegistryLite registry) {
+  }
+
+  public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
+    registerAllExtensions(
+        (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_MemoryLogStep_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_MemoryLogStep_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_MemoryLogTensorAllocation_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_MemoryLogTensorAllocation_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_MemoryLogTensorDeallocation_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_MemoryLogTensorDeallocation_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_MemoryLogTensorOutput_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_MemoryLogTensorOutput_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_MemoryLogRawAllocation_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_MemoryLogRawAllocation_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_MemoryLogRawDeallocation_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_MemoryLogRawDeallocation_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
@@ -85,37 +91,37 @@ public final class LogMemoryProtos {
     internal_static_tensorflow_MemoryLogStep_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_tensorflow_MemoryLogStep_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_MemoryLogStep_descriptor,
         new java.lang.String[] { "StepId", "Handle", });
     internal_static_tensorflow_MemoryLogTensorAllocation_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_tensorflow_MemoryLogTensorAllocation_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_MemoryLogTensorAllocation_descriptor,
         new java.lang.String[] { "StepId", "KernelName", "Tensor", });
     internal_static_tensorflow_MemoryLogTensorDeallocation_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_tensorflow_MemoryLogTensorDeallocation_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_MemoryLogTensorDeallocation_descriptor,
         new java.lang.String[] { "AllocationId", "AllocatorName", });
     internal_static_tensorflow_MemoryLogTensorOutput_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_tensorflow_MemoryLogTensorOutput_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_MemoryLogTensorOutput_descriptor,
         new java.lang.String[] { "StepId", "KernelName", "Index", "Tensor", });
     internal_static_tensorflow_MemoryLogRawAllocation_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_tensorflow_MemoryLogRawAllocation_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_MemoryLogRawAllocation_descriptor,
         new java.lang.String[] { "StepId", "Operation", "NumBytes", "Ptr", "AllocationId", "AllocatorName", });
     internal_static_tensorflow_MemoryLogRawDeallocation_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_tensorflow_MemoryLogRawDeallocation_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_MemoryLogRawDeallocation_descriptor,
         new java.lang.String[] { "StepId", "Operation", "AllocationId", "AllocatorName", "Deferred", });
     org.tensorflow.framework.TensorDescriptionProtos.getDescriptor();

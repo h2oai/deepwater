@@ -6,32 +6,38 @@ package org.tensorflow.framework;
 public final class OpDefProtos {
   private OpDefProtos() {}
   public static void registerAllExtensions(
+      com.google.protobuf.ExtensionRegistryLite registry) {
+  }
+
+  public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
+    registerAllExtensions(
+        (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_OpDef_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_OpDef_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_OpDef_ArgDef_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_OpDef_ArgDef_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_OpDef_AttrDef_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_OpDef_AttrDef_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_OpDeprecation_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_OpDeprecation_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_OpList_descriptor;
   static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_OpList_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
@@ -85,31 +91,31 @@ public final class OpDefProtos {
     internal_static_tensorflow_OpDef_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_tensorflow_OpDef_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_OpDef_descriptor,
         new java.lang.String[] { "Name", "InputArg", "OutputArg", "Attr", "Deprecation", "Summary", "Description", "IsCommutative", "IsAggregate", "IsStateful", "AllowsUninitializedInput", });
     internal_static_tensorflow_OpDef_ArgDef_descriptor =
       internal_static_tensorflow_OpDef_descriptor.getNestedTypes().get(0);
     internal_static_tensorflow_OpDef_ArgDef_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_OpDef_ArgDef_descriptor,
         new java.lang.String[] { "Name", "Description", "Type", "TypeAttr", "NumberAttr", "TypeListAttr", "IsRef", });
     internal_static_tensorflow_OpDef_AttrDef_descriptor =
       internal_static_tensorflow_OpDef_descriptor.getNestedTypes().get(1);
     internal_static_tensorflow_OpDef_AttrDef_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_OpDef_AttrDef_descriptor,
         new java.lang.String[] { "Name", "Type", "DefaultValue", "Description", "HasMinimum", "Minimum", "AllowedValues", });
     internal_static_tensorflow_OpDeprecation_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_tensorflow_OpDeprecation_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_OpDeprecation_descriptor,
         new java.lang.String[] { "Version", "Explanation", });
     internal_static_tensorflow_OpList_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_tensorflow_OpList_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_OpList_descriptor,
         new java.lang.String[] { "Op", });
     org.tensorflow.framework.AttrValueProtos.getDescriptor();

@@ -7,11 +7,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.DeviceAttributes}
  */
 public  final class DeviceAttributes extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.DeviceAttributes)
     DeviceAttributesOrBuilder {
   // Use DeviceAttributes.newBuilder() to construct.
-  private DeviceAttributes(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private DeviceAttributes(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private DeviceAttributes() {
@@ -98,7 +98,7 @@ public  final class DeviceAttributes extends
     return org.tensorflow.framework.DeviceAttributesProtos.internal_static_tensorflow_DeviceAttributes_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.DeviceAttributesProtos.internal_static_tensorflow_DeviceAttributes_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -206,7 +206,7 @@ public  final class DeviceAttributes extends
    * <code>optional .tensorflow.BusAdjacency bus_adjacency = 5;</code>
    */
   public org.tensorflow.framework.BusAdjacency getBusAdjacency() {
-    org.tensorflow.framework.BusAdjacency result = org.tensorflow.framework.BusAdjacency.forNumber(busAdjacency_);
+    org.tensorflow.framework.BusAdjacency result = org.tensorflow.framework.BusAdjacency.valueOf(busAdjacency_);
     return result == null ? org.tensorflow.framework.BusAdjacency.UNRECOGNIZED : result;
   }
 
@@ -279,10 +279,10 @@ public  final class DeviceAttributes extends
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (!getNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 1, name_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
     }
     if (!getDeviceTypeBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 2, deviceType_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, deviceType_);
     }
     if (memoryLimit_ != 0L) {
       output.writeInt64(4, memoryLimit_);
@@ -294,7 +294,7 @@ public  final class DeviceAttributes extends
       output.writeFixed64(6, incarnation_);
     }
     if (!getPhysicalDeviceDescBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 7, physicalDeviceDesc_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 7, physicalDeviceDesc_);
     }
   }
 
@@ -304,10 +304,10 @@ public  final class DeviceAttributes extends
 
     size = 0;
     if (!getNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(1, name_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
     }
     if (!getDeviceTypeBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(2, deviceType_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, deviceType_);
     }
     if (memoryLimit_ != 0L) {
       size += com.google.protobuf.CodedOutputStream
@@ -322,13 +322,64 @@ public  final class DeviceAttributes extends
         .computeFixed64Size(6, incarnation_);
     }
     if (!getPhysicalDeviceDescBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(7, physicalDeviceDesc_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, physicalDeviceDesc_);
     }
     memoizedSize = size;
     return size;
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.DeviceAttributes)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.DeviceAttributes other = (org.tensorflow.framework.DeviceAttributes) obj;
+
+    boolean result = true;
+    result = result && getName()
+        .equals(other.getName());
+    result = result && getDeviceType()
+        .equals(other.getDeviceType());
+    result = result && (getMemoryLimit()
+        == other.getMemoryLimit());
+    result = result && busAdjacency_ == other.busAdjacency_;
+    result = result && (getIncarnation()
+        == other.getIncarnation());
+    result = result && getPhysicalDeviceDesc()
+        .equals(other.getPhysicalDeviceDesc());
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (37 * hash) + NAME_FIELD_NUMBER;
+    hash = (53 * hash) + getName().hashCode();
+    hash = (37 * hash) + DEVICE_TYPE_FIELD_NUMBER;
+    hash = (53 * hash) + getDeviceType().hashCode();
+    hash = (37 * hash) + MEMORY_LIMIT_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getMemoryLimit());
+    hash = (37 * hash) + BUS_ADJACENCY_FIELD_NUMBER;
+    hash = (53 * hash) + busAdjacency_;
+    hash = (37 * hash) + INCARNATION_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getIncarnation());
+    hash = (37 * hash) + PHYSICAL_DEVICE_DESC_FIELD_NUMBER;
+    hash = (53 * hash) + getPhysicalDeviceDesc().hashCode();
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.DeviceAttributes parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -352,39 +403,39 @@ public  final class DeviceAttributes extends
   }
   public static org.tensorflow.framework.DeviceAttributes parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.DeviceAttributes parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.DeviceAttributes parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.DeviceAttributes parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.DeviceAttributes parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.DeviceAttributes parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -402,7 +453,7 @@ public  final class DeviceAttributes extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -410,7 +461,7 @@ public  final class DeviceAttributes extends
    * Protobuf type {@code tensorflow.DeviceAttributes}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.DeviceAttributes)
       org.tensorflow.framework.DeviceAttributesOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -418,7 +469,7 @@ public  final class DeviceAttributes extends
       return org.tensorflow.framework.DeviceAttributesProtos.internal_static_tensorflow_DeviceAttributes_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.DeviceAttributesProtos.internal_static_tensorflow_DeviceAttributes_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -431,12 +482,13 @@ public  final class DeviceAttributes extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
       }
     }
     public Builder clear() {
@@ -485,6 +537,32 @@ public  final class DeviceAttributes extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.DeviceAttributes) {
         return mergeFrom((org.tensorflow.framework.DeviceAttributes)other);
@@ -758,7 +836,7 @@ public  final class DeviceAttributes extends
      * <code>optional .tensorflow.BusAdjacency bus_adjacency = 5;</code>
      */
     public org.tensorflow.framework.BusAdjacency getBusAdjacency() {
-      org.tensorflow.framework.BusAdjacency result = org.tensorflow.framework.BusAdjacency.forNumber(busAdjacency_);
+      org.tensorflow.framework.BusAdjacency result = org.tensorflow.framework.BusAdjacency.valueOf(busAdjacency_);
       return result == null ? org.tensorflow.framework.BusAdjacency.UNRECOGNIZED : result;
     }
     /**

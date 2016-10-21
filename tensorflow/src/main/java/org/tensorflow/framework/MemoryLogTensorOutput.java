@@ -7,11 +7,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.MemoryLogTensorOutput}
  */
 public  final class MemoryLogTensorOutput extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.MemoryLogTensorOutput)
     MemoryLogTensorOutputOrBuilder {
   // Use MemoryLogTensorOutput.newBuilder() to construct.
-  private MemoryLogTensorOutput(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private MemoryLogTensorOutput(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private MemoryLogTensorOutput() {
@@ -90,7 +90,7 @@ public  final class MemoryLogTensorOutput extends
     return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogTensorOutput_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogTensorOutput_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -216,7 +216,7 @@ public  final class MemoryLogTensorOutput extends
       output.writeInt64(1, stepId_);
     }
     if (!getKernelNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 2, kernelName_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, kernelName_);
     }
     if (index_ != 0) {
       output.writeInt32(3, index_);
@@ -236,7 +236,7 @@ public  final class MemoryLogTensorOutput extends
         .computeInt64Size(1, stepId_);
     }
     if (!getKernelNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(2, kernelName_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, kernelName_);
     }
     if (index_ != 0) {
       size += com.google.protobuf.CodedOutputStream
@@ -251,6 +251,54 @@ public  final class MemoryLogTensorOutput extends
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.MemoryLogTensorOutput)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.MemoryLogTensorOutput other = (org.tensorflow.framework.MemoryLogTensorOutput) obj;
+
+    boolean result = true;
+    result = result && (getStepId()
+        == other.getStepId());
+    result = result && getKernelName()
+        .equals(other.getKernelName());
+    result = result && (getIndex()
+        == other.getIndex());
+    result = result && (hasTensor() == other.hasTensor());
+    if (hasTensor()) {
+      result = result && getTensor()
+          .equals(other.getTensor());
+    }
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (37 * hash) + STEP_ID_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getStepId());
+    hash = (37 * hash) + KERNEL_NAME_FIELD_NUMBER;
+    hash = (53 * hash) + getKernelName().hashCode();
+    hash = (37 * hash) + INDEX_FIELD_NUMBER;
+    hash = (53 * hash) + getIndex();
+    if (hasTensor()) {
+      hash = (37 * hash) + TENSOR_FIELD_NUMBER;
+      hash = (53 * hash) + getTensor().hashCode();
+    }
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.MemoryLogTensorOutput parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -274,39 +322,39 @@ public  final class MemoryLogTensorOutput extends
   }
   public static org.tensorflow.framework.MemoryLogTensorOutput parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.MemoryLogTensorOutput parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.MemoryLogTensorOutput parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.MemoryLogTensorOutput parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.MemoryLogTensorOutput parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.MemoryLogTensorOutput parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -324,7 +372,7 @@ public  final class MemoryLogTensorOutput extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -332,7 +380,7 @@ public  final class MemoryLogTensorOutput extends
    * Protobuf type {@code tensorflow.MemoryLogTensorOutput}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.MemoryLogTensorOutput)
       org.tensorflow.framework.MemoryLogTensorOutputOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -340,7 +388,7 @@ public  final class MemoryLogTensorOutput extends
       return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogTensorOutput_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogTensorOutput_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -353,12 +401,13 @@ public  final class MemoryLogTensorOutput extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
       }
     }
     public Builder clear() {
@@ -409,6 +458,32 @@ public  final class MemoryLogTensorOutput extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.MemoryLogTensorOutput) {
         return mergeFrom((org.tensorflow.framework.MemoryLogTensorOutput)other);
@@ -630,7 +705,7 @@ public  final class MemoryLogTensorOutput extends
     }
 
     private org.tensorflow.framework.TensorDescription tensor_ = null;
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.TensorDescription, org.tensorflow.framework.TensorDescription.Builder, org.tensorflow.framework.TensorDescriptionOrBuilder> tensorBuilder_;
     /**
      * <pre>
@@ -768,11 +843,11 @@ public  final class MemoryLogTensorOutput extends
      *
      * <code>optional .tensorflow.TensorDescription tensor = 4;</code>
      */
-    private com.google.protobuf.SingleFieldBuilder<
+    private com.google.protobuf.SingleFieldBuilderV3<
         org.tensorflow.framework.TensorDescription, org.tensorflow.framework.TensorDescription.Builder, org.tensorflow.framework.TensorDescriptionOrBuilder> 
         getTensorFieldBuilder() {
       if (tensorBuilder_ == null) {
-        tensorBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+        tensorBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
             org.tensorflow.framework.TensorDescription, org.tensorflow.framework.TensorDescription.Builder, org.tensorflow.framework.TensorDescriptionOrBuilder>(
                 getTensor(),
                 getParentForChildren(),

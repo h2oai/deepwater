@@ -7,11 +7,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.MemoryLogTensorDeallocation}
  */
 public  final class MemoryLogTensorDeallocation extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.MemoryLogTensorDeallocation)
     MemoryLogTensorDeallocationOrBuilder {
   // Use MemoryLogTensorDeallocation.newBuilder() to construct.
-  private MemoryLogTensorDeallocation(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private MemoryLogTensorDeallocation(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private MemoryLogTensorDeallocation() {
@@ -71,7 +71,7 @@ public  final class MemoryLogTensorDeallocation extends
     return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogTensorDeallocation_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogTensorDeallocation_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -150,7 +150,7 @@ public  final class MemoryLogTensorDeallocation extends
       output.writeInt64(1, allocationId_);
     }
     if (!getAllocatorNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 2, allocatorName_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, allocatorName_);
     }
   }
 
@@ -164,13 +164,48 @@ public  final class MemoryLogTensorDeallocation extends
         .computeInt64Size(1, allocationId_);
     }
     if (!getAllocatorNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(2, allocatorName_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, allocatorName_);
     }
     memoizedSize = size;
     return size;
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.MemoryLogTensorDeallocation)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.MemoryLogTensorDeallocation other = (org.tensorflow.framework.MemoryLogTensorDeallocation) obj;
+
+    boolean result = true;
+    result = result && (getAllocationId()
+        == other.getAllocationId());
+    result = result && getAllocatorName()
+        .equals(other.getAllocatorName());
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (37 * hash) + ALLOCATION_ID_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getAllocationId());
+    hash = (37 * hash) + ALLOCATOR_NAME_FIELD_NUMBER;
+    hash = (53 * hash) + getAllocatorName().hashCode();
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.MemoryLogTensorDeallocation parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -194,39 +229,39 @@ public  final class MemoryLogTensorDeallocation extends
   }
   public static org.tensorflow.framework.MemoryLogTensorDeallocation parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.MemoryLogTensorDeallocation parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.MemoryLogTensorDeallocation parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.MemoryLogTensorDeallocation parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.MemoryLogTensorDeallocation parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.MemoryLogTensorDeallocation parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -244,7 +279,7 @@ public  final class MemoryLogTensorDeallocation extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -252,7 +287,7 @@ public  final class MemoryLogTensorDeallocation extends
    * Protobuf type {@code tensorflow.MemoryLogTensorDeallocation}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.MemoryLogTensorDeallocation)
       org.tensorflow.framework.MemoryLogTensorDeallocationOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -260,7 +295,7 @@ public  final class MemoryLogTensorDeallocation extends
       return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogTensorDeallocation_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogTensorDeallocation_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -273,12 +308,13 @@ public  final class MemoryLogTensorDeallocation extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
       }
     }
     public Builder clear() {
@@ -315,6 +351,32 @@ public  final class MemoryLogTensorDeallocation extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.MemoryLogTensorDeallocation) {
         return mergeFrom((org.tensorflow.framework.MemoryLogTensorDeallocation)other);

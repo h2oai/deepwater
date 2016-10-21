@@ -2,18 +2,30 @@ package deepwater.datasets;
 
 // Inspired from http://stackoverflow.com/questions/8286668/how-to-read-mnist-data-in-c
 
+import com.google.common.collect.ImmutableMap;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 
-public class MNISTImageDataset {
+public class MNISTImageDataset extends ImageDataSet {
+
+    public static final Map<String, String> Resources = ImmutableMap.of(
+            "train_images", "http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz",
+            "in_images","http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz",
+            "test_images", "http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz",
+            "test_labels","http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz"
+    );
 
     private String labelFileName;
     private String imageFileName;
@@ -41,19 +53,24 @@ public class MNISTImageDataset {
     private static final int IMAGE_SIZE = ROWS * COLUMNS;
 
 
-    public MNISTImageDataset(String labelFileName, String imageFileName) {
-        this.labelFileName = labelFileName;
-        this.imageFileName = imageFileName;
+    public MNISTImageDataset() {
+        super(28, 28, 1, 10);
     }
 
-    public List<Pair<Integer,float[]>> loadDigitImages() throws IOException {
+    public List<Pair<Integer,float[]>> loadImages() throws IOException {
+        return loadImages(imageFileName, labelFileName);
+    }
+
+    public List<Pair<Integer,float[]>> loadImages(String... filenames) throws IOException {
+        assert (filenames.length % 2 == 0): "expected image and label";
+
         List<Pair<Integer,float[]>> images = new ArrayList();
 
         ByteArrayOutputStream labelBuffer = new ByteArrayOutputStream();
         ByteArrayOutputStream imageBuffer = new ByteArrayOutputStream();
 
-        InputStream labelInputStream = new GZIPInputStream(new FileInputStream(labelFileName));//this.getClass().getResourceAsStream(labelFileName);
-        InputStream imageInputStream = new GZIPInputStream(new FileInputStream(imageFileName)); //this.getClass().getResourceAsStream(imageFileName);
+        InputStream labelInputStream = new GZIPInputStream(new FileInputStream(filenames[1]));//this.getClass().getResourceAsStream(labelFileName);
+        InputStream imageInputStream = new GZIPInputStream(new FileInputStream(filenames[0])); //this.getClass().getResourceAsStream(imageFileName);
 
         int read;
         byte[] buffer = new byte[16384];

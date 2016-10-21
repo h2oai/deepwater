@@ -12,16 +12,30 @@ sourceSets.main.resources {
     srcDirs = ["src/main/resources"]
 }
 
+
 dependencies {
-    compile files('../thirdparty/javacpp-presets/target/javacpp.jar')
-    compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow.jar')
-    if (new File('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar').exists())
-      compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-linux-x86_64.jar')
-    else if (new File('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-macosx-x86_64.jar').exists())
-      compile files('../thirdparty/javacpp-presets/tensorflow/target/tensorflow-macosx-x86_64.jar')
+
+    def presets = "${rootDir}/thirdparty/javacpp-presets"
+    println("Preset directory set to : ${presets}")
+
+    compile files("${presets}/target/javacpp.jar")
+    compile files("${presets}/tensorflow/target/tensorflow.jar")
+    if (new File("${presets}/tensorflow/target/tensorflow-linux-x86_64.jar").exists()) {
+        compile files("${presets}/tensorflow/target/tensorflow-linux-x86_64.jar")
+    }
+    else if (new File("${presets}/tensorflow/target/tensorflow-macosx-x86_64.jar").exists()) {
+        compile files("${presets}/tensorflow/target/tensorflow-macosx-x86_64.jar")
+    }
+
     compile project (':deepwater-backend-api')
     compile "com.google.protobuf:protobuf-java:3.0.0"
     compile 'com.google.guava:guava:19.0'
+
+    // https://mvnrepository.com/artifact/org.hdfgroup/hdf-java
+    compile group: 'org.hdfgroup', name: 'hdf-java', version: '2.6.1'
+
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
 }
 
 dependencies {

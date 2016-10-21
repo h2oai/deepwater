@@ -78,4 +78,117 @@ public interface FunctionDefOrBuilder extends
    */
   org.tensorflow.framework.FunctionDef.NodeOrBuilder getNodeOrBuilder(
       int index);
+
+  /**
+   * <pre>
+   * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+   * may have values of type `placeholder` and the `input` field uses
+   * the "output" format above.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+   */
+  java.util.List<org.tensorflow.framework.NodeDef> 
+      getNodeDefList();
+  /**
+   * <pre>
+   * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+   * may have values of type `placeholder` and the `input` field uses
+   * the "output" format above.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+   */
+  org.tensorflow.framework.NodeDef getNodeDef(int index);
+  /**
+   * <pre>
+   * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+   * may have values of type `placeholder` and the `input` field uses
+   * the "output" format above.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+   */
+  int getNodeDefCount();
+  /**
+   * <pre>
+   * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+   * may have values of type `placeholder` and the `input` field uses
+   * the "output" format above.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+   */
+  java.util.List<? extends org.tensorflow.framework.NodeDefOrBuilder> 
+      getNodeDefOrBuilderList();
+  /**
+   * <pre>
+   * The body of the function.  Unlike the NodeDefs in a GraphDef, attrs
+   * may have values of type `placeholder` and the `input` field uses
+   * the "output" format above.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+   */
+  org.tensorflow.framework.NodeDefOrBuilder getNodeDefOrBuilder(
+      int index);
+
+  /**
+   * <pre>
+   * A mapping from the output arg names from `signature` to the
+   * outputs from `node_def` that should be returned by the function.
+   * </pre>
+   *
+   * <code>map&lt;string, string&gt; ret = 4;</code>
+   */
+  int getRetCount();
+  /**
+   * <pre>
+   * A mapping from the output arg names from `signature` to the
+   * outputs from `node_def` that should be returned by the function.
+   * </pre>
+   *
+   * <code>map&lt;string, string&gt; ret = 4;</code>
+   */
+  boolean containsRet(
+      java.lang.String key);
+  /**
+   * Use {@link #getRetMap()} instead.
+   */
+  @java.lang.Deprecated
+  java.util.Map<java.lang.String, java.lang.String>
+  getRet();
+  /**
+   * <pre>
+   * A mapping from the output arg names from `signature` to the
+   * outputs from `node_def` that should be returned by the function.
+   * </pre>
+   *
+   * <code>map&lt;string, string&gt; ret = 4;</code>
+   */
+  java.util.Map<java.lang.String, java.lang.String>
+  getRetMap();
+  /**
+   * <pre>
+   * A mapping from the output arg names from `signature` to the
+   * outputs from `node_def` that should be returned by the function.
+   * </pre>
+   *
+   * <code>map&lt;string, string&gt; ret = 4;</code>
+   */
+
+  java.lang.String getRetOrDefault(
+      java.lang.String key,
+      java.lang.String defaultValue);
+  /**
+   * <pre>
+   * A mapping from the output arg names from `signature` to the
+   * outputs from `node_def` that should be returned by the function.
+   * </pre>
+   *
+   * <code>map&lt;string, string&gt; ret = 4;</code>
+   */
+
+  java.lang.String getRetOrThrow(
+      java.lang.String key);
 }

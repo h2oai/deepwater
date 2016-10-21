@@ -7,11 +7,11 @@ package org.tensorflow.framework;
  * Protobuf type {@code tensorflow.MemoryLogRawAllocation}
  */
 public  final class MemoryLogRawAllocation extends
-    com.google.protobuf.GeneratedMessage implements
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:tensorflow.MemoryLogRawAllocation)
     MemoryLogRawAllocationOrBuilder {
   // Use MemoryLogRawAllocation.newBuilder() to construct.
-  private MemoryLogRawAllocation(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  private MemoryLogRawAllocation(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
   private MemoryLogRawAllocation() {
@@ -96,7 +96,7 @@ public  final class MemoryLogRawAllocation extends
     return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogRawAllocation_descriptor;
   }
 
-  protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogRawAllocation_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
@@ -256,7 +256,7 @@ public  final class MemoryLogRawAllocation extends
       output.writeInt64(1, stepId_);
     }
     if (!getOperationBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 2, operation_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, operation_);
     }
     if (numBytes_ != 0L) {
       output.writeInt64(3, numBytes_);
@@ -268,7 +268,7 @@ public  final class MemoryLogRawAllocation extends
       output.writeInt64(5, allocationId_);
     }
     if (!getAllocatorNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessage.writeString(output, 6, allocatorName_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 6, allocatorName_);
     }
   }
 
@@ -282,7 +282,7 @@ public  final class MemoryLogRawAllocation extends
         .computeInt64Size(1, stepId_);
     }
     if (!getOperationBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(2, operation_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, operation_);
     }
     if (numBytes_ != 0L) {
       size += com.google.protobuf.CodedOutputStream
@@ -297,13 +297,67 @@ public  final class MemoryLogRawAllocation extends
         .computeInt64Size(5, allocationId_);
     }
     if (!getAllocatorNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessage.computeStringSize(6, allocatorName_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, allocatorName_);
     }
     memoizedSize = size;
     return size;
   }
 
   private static final long serialVersionUID = 0L;
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
+    if (obj == this) {
+     return true;
+    }
+    if (!(obj instanceof org.tensorflow.framework.MemoryLogRawAllocation)) {
+      return super.equals(obj);
+    }
+    org.tensorflow.framework.MemoryLogRawAllocation other = (org.tensorflow.framework.MemoryLogRawAllocation) obj;
+
+    boolean result = true;
+    result = result && (getStepId()
+        == other.getStepId());
+    result = result && getOperation()
+        .equals(other.getOperation());
+    result = result && (getNumBytes()
+        == other.getNumBytes());
+    result = result && (getPtr()
+        == other.getPtr());
+    result = result && (getAllocationId()
+        == other.getAllocationId());
+    result = result && getAllocatorName()
+        .equals(other.getAllocatorName());
+    return result;
+  }
+
+  @java.lang.Override
+  public int hashCode() {
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
+    }
+    int hash = 41;
+    hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (37 * hash) + STEP_ID_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getStepId());
+    hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+    hash = (53 * hash) + getOperation().hashCode();
+    hash = (37 * hash) + NUM_BYTES_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getNumBytes());
+    hash = (37 * hash) + PTR_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getPtr());
+    hash = (37 * hash) + ALLOCATION_ID_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getAllocationId());
+    hash = (37 * hash) + ALLOCATOR_NAME_FIELD_NUMBER;
+    hash = (53 * hash) + getAllocatorName().hashCode();
+    hash = (29 * hash) + unknownFields.hashCode();
+    memoizedHashCode = hash;
+    return hash;
+  }
+
   public static org.tensorflow.framework.MemoryLogRawAllocation parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -327,39 +381,39 @@ public  final class MemoryLogRawAllocation extends
   }
   public static org.tensorflow.framework.MemoryLogRawAllocation parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.MemoryLogRawAllocation parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.MemoryLogRawAllocation parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.MemoryLogRawAllocation parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
   public static org.tensorflow.framework.MemoryLogRawAllocation parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
   public static org.tensorflow.framework.MemoryLogRawAllocation parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessage
+    return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
@@ -377,7 +431,7 @@ public  final class MemoryLogRawAllocation extends
 
   @java.lang.Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -385,7 +439,7 @@ public  final class MemoryLogRawAllocation extends
    * Protobuf type {@code tensorflow.MemoryLogRawAllocation}
    */
   public static final class Builder extends
-      com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:tensorflow.MemoryLogRawAllocation)
       org.tensorflow.framework.MemoryLogRawAllocationOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -393,7 +447,7 @@ public  final class MemoryLogRawAllocation extends
       return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogRawAllocation_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.LogMemoryProtos.internal_static_tensorflow_MemoryLogRawAllocation_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -406,12 +460,13 @@ public  final class MemoryLogRawAllocation extends
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
       }
     }
     public Builder clear() {
@@ -460,6 +515,32 @@ public  final class MemoryLogRawAllocation extends
       return result;
     }
 
+    public Builder clone() {
+      return (Builder) super.clone();
+    }
+    public Builder setField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.setField(field, value);
+    }
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
+      return (Builder) super.clearField(field);
+    }
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+      return (Builder) super.clearOneof(oneof);
+    }
+    public Builder setRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, Object value) {
+      return (Builder) super.setRepeatedField(field, index, value);
+    }
+    public Builder addRepeatedField(
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        Object value) {
+      return (Builder) super.addRepeatedField(field, value);
+    }
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.tensorflow.framework.MemoryLogRawAllocation) {
         return mergeFrom((org.tensorflow.framework.MemoryLogRawAllocation)other);
