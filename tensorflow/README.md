@@ -5,6 +5,21 @@ This package provides inference bindings for Tensorflow and H2O.ai.
 The module directory contains a pretrained set of ready to use models. 
 
 
+#### Install Bazel 0.3.1
+For Linux:
+```
+wget https://github.com/bazelbuild/bazel/releases/download/0.3.1/bazel-0.3.1-installer-linux-x86_64.sh
+sudo bash bazel-0.3.1-installer-darwin-x86_64.sh
+exit
+```
+
+For Mac:
+```
+wget https://github.com/bazelbuild/bazel/releases/download/0.3.1/bazel-0.3.1-installer-darwin-x86_64.sh
+sudo bash bazel-0.3.1-installer-darwin-x86_64.sh
+exit
+```
+
 #### Javaccp presets
 ```
 cd thirdparty
@@ -22,12 +37,6 @@ conda install numpy=1.10
 #### Install SWIG
 ```
 sudo apt-get install swig
-```
-
-#### Install Bazel
-```
-sudo apt-get install bazel ## Ubuntu, see https://www.bazel.io/versions/master/docs/install.html#ubuntu
-brew install bazel ## Mac
 ```
 
 
