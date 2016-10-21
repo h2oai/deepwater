@@ -55,7 +55,7 @@ public class ModelFactory {
 
     private static TensorflowMetaModel extractMetaModel(String resourceMetaModelName) throws FileNotFoundException {
         Gson g = new Gson();
-        InputStream in = ModelFactory.class.getResourceAsStream(resourceMetaModelName);
+        InputStream in = ModelFactory.class.getResourceAsStream("/"+resourceMetaModelName);
         if (in == null){
             String path = "/home/fmilo/workspace/deepwater/tensorflow/src/main/resources/" + resourceMetaModelName;
             in =  new FileInputStream(path);
@@ -74,7 +74,7 @@ public class ModelFactory {
         try {
             //debugJar();
             String path;
-            InputStream in = ModelFactory.class.getResourceAsStream(resourceModelName);
+            InputStream in = ModelFactory.class.getResourceAsStream("/"+resourceModelName);
             if (in != null) {
                 path = saveToTempFile(in);
             } else {
