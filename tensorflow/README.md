@@ -24,6 +24,7 @@ exit
 ```
 cd thirdparty
 git submodule update --init --recursive
+cd ..
 ```
 
 ## Install Anaconda Python
@@ -40,21 +41,24 @@ sudo apt-get install swig
 ```
 
 
-#### Build TF 
-```
-cd javacpp-presets
-./cppbuild.sh install tensorflow
-```
-
 #### Install Maven
 ```
 sudo apt install maven
 brew install maven
 ```
 
+#### Build JavaCPP 
+```
+cd thirdparty/javacpp
+mvn install
+cd ../..
+```
+
 #### Build TF Java bindings
 ```
+cd thirdparty/javacpp-presets
 mvn -T 20 install --projects .,tensorflow
+cd ../..
 ```
 
 #### Build TF H2O bindings
