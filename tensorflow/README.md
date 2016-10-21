@@ -9,7 +9,7 @@ The module directory contains a pretrained set of ready to use models.
 For Linux:
 ```
 wget https://github.com/bazelbuild/bazel/releases/download/0.3.1/bazel-0.3.1-installer-linux-x86_64.sh
-sudo bash bazel-0.3.1-installer-darwin-x86_64.sh
+sudo bash bazel-0.3.1-installer-linux-x86_64.sh
 exit
 ```
 
