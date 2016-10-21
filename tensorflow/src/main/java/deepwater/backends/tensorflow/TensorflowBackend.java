@@ -132,19 +132,38 @@ public class TensorflowBackend implements BackendTrain {
     }
 
     @Override
-    public float[] train(BackendModel m, float[] data, float[] label) {
+    public float[] train(BackendModel m, float[] data, float[] labels) {
         TensorflowModel model = (TensorflowModel) m;
         TensorVector outputs = new TensorVector();
         final long batchSize = data.length / model.frameSize;
         // FIXME: assume that label is the class ordinal
-        final int classes = (int) (label.length/batchSize);
-        if (classes > 1){
-            int[] classes = new int[classes]{};
+
+        int classes = (int) (labels.length/batchSize);
+
+        long [] labelShape = new long[]{ batchSize, classes};
+        float [] labelData = labels;
+
+        // FIXME: assume that if the max value is an int and the classes are == 1 then is a categorical problem
+        final float maxLabelValue = Floats.max(labels);
+
+        if (maxLabelValue == classes) {
+            // we are good
+        }
+
+        if ((classes == 1) && maxLabelValue < 1000.0) {
+            classes = (int) maxLabelValue;
+            labelData = new float[Math.toIntExact(batchSize * classes)];
+            for (int i = 0; i < batchSize; i++) {
+                int idx = (int)labels[i];
+                labelData[i * classes + idx] = (float) 1.0;
+            }
+
+            labelShape = new long[]{ batchSize, classes };
         }
 
         StringTensorPairVector feedDict = convertData(
-                new float[][]{data, label},
-                new long[][]{ new long[]{batchSize, model.frameSize},  new long[]{ batchSize, label.length/batchSize}  },
+                new float[][]{data, labelData},
+                new long[][]{ new long[]{batchSize, model.frameSize},  labelShape  },
                 new String[]{ model.meta.inputs.get("batch_image_input"), model.meta.inputs.get("categorical_labels")}
         );
 

@@ -9,6 +9,7 @@ import deepwater.datasets.BatchIterator;
 import deepwater.datasets.CIFAR10ImageDataset;
 import deepwater.datasets.ImageBatch;
 import deepwater.datasets.MNISTImageDataset;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -57,6 +58,7 @@ public class BackendInterfaceTest {
         backendCanSaveCheckpoint("lenet", 1024);
     }
 
+    @Ignore
     @Test
     public void testVGG16() throws IOException{
         backendCanSaveCheckpoint("vgg16", 16);
