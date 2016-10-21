@@ -19,7 +19,7 @@ buildscript {
 // Configure project properties
 //
 ext {
-    includeAllBackends = project.hasProperty("buildDeepWater") && project.buildDeepWater != null
+    buildOnlyBackendApi = project.hasProperty("buildOnlyBackendApi")
     // List of all published projects
     publishedProjects = [
       project(':deepwater-backend-api'),
@@ -88,8 +88,10 @@ apply plugin: 'com.github.johnrengelman.shadow'
 dependencies {
     compile project(":deepwater-backend-api")
 
-    compile project('deepwater-mxnet')
-    compile project('deepwater-tensorflow')
+    if (!buildOnlyBackendApi) {
+      compile project('deepwater-mxnet')
+      compile project('deepwater-tensorflow')
+    }
 
     // Test stuff
     testCompile group: 'junit', name: 'junit', version: '4.11'

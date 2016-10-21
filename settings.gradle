@@ -4,8 +4,10 @@ rootProject.name = 'deepwater'
 include 'backend-api'
 
 // implementations
-include 'mxnet'
-include 'tensorflow'
+if (!isGradlePropSet("buildOnlyBackendApi")) {
+  include 'mxnet'
+  include 'tensorflow'
+}
 
 
 // helper methods

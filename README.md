@@ -101,7 +101,7 @@ The released artifacts are Java 6 compatible.
 
 The release can be invoked for all modules by:
 ```bash
-./gradlew -PdoRelease -PdoJava6Bytecode=true -Prelease.useAutomaticVersion=true release
+./gradlew -PdoRelease -PbuildOnlyBackendApi -PdoJava6Bytecode=true -Prelease.useAutomaticVersion=true release
 ```
 
 The process performs the following steps:
