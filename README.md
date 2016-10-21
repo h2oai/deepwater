@@ -35,7 +35,7 @@ Coming soon.
 #### 4. Build H2O Backend Connectors
 From the top-level of the deepwater repository, do
 ```
-./gradlew build -x test -PbuildDeepWater
+./gradlew build -x test
 ```
 
 This will create the following file: `build/libs/deepwater-all.jar`
