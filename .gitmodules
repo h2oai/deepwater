@@ -4,3 +4,6 @@
 [submodule "thirdparty/mxnet"]
 	path = thirdparty/mxnet
 	url = http://github.com/h2oai/mxnet
+[submodule "thirdparty/javacpp"]
+	path = thirdparty/javacpp
+	url = git@github.com:h2oai/javacpp.git
