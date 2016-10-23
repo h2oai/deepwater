@@ -37,5 +37,13 @@ make -j$(sysctl -n hw.ncpu)
 
 For other options see the [official mxnet build instructions](http://mxnet.readthedocs.io/en/latest/how_to/build.html).
 
+#### Build and install mxnet Python bindings
+To build the Python egg (which can be installed with `easy_install dist/*.egg`), do the following:
+```
+cd thirdparty/mxnet/python
+python setup.py install
+```
+Now, you'll have the mxnet python module available for creating your own Deep Learning models from scratch.
+
 #### Build mxnet H2O bindings
 Once libmxnet.so is built, go back to the top-level directory of the deepwater repo, and follow the directions there.
