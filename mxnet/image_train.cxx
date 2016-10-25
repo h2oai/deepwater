@@ -127,13 +127,18 @@ void ImageTrain::buildNet(int n, int b, char * n_name,
   }
   //mxnet_sym.Save("/tmp/h2o.json");
   setClassificationDimensions(n, b);
+  std::cerr << "Setting the optimizer." << std::endl;
   setOptimizer();
+  std::cerr << "Initializing state." << std::endl;
   initializeState();
+  std::cerr << "Done creating the model." << std::endl;
 }
 
 
 void ImageTrain::loadModel(char * model_path) {
+  std::cerr << "Loading the model." << std::endl;
   mxnet_sym = Symbol::Load(std::string(model_path));
+  std::cerr << "Done loading the model." << std::endl;
   is_built = true;
 }
 
@@ -146,12 +151,15 @@ void ImageTrain::saveModel(char * model_path) {
   if (!is_built) {
     std::cerr << "Network not built!" << std::endl;
   } else {
+    std::cerr << "Saving the model." << std::endl;
     mxnet_sym.Save(std::string(model_path));
+    std::cerr << "Done saving the model." << std::endl;
   }
 }
 
 
 void ImageTrain::loadParam(char * param_path) {
+  std::cerr << "Loading the model parameters." << std::endl;
   NDArray::WaitAll();
   std::map<std::string, NDArray> parameters;
   NDArray::Load(std::string(param_path), nullptr, &parameters);
@@ -247,10 +255,12 @@ void ImageTrain::loadParam(char * param_path) {
 #endif
 
   NDArray::WaitAll();
+  std::cerr << "Done loading the model parameters." << std::endl;
 }
 
 
 void ImageTrain::saveParam(char * param_path) {
+  std::cerr << "Saving the model parameters." << std::endl;
   args_map = exec->arg_dict();
   aux_map = exec->aux_dict();
 
@@ -288,6 +298,7 @@ void ImageTrain::saveParam(char * param_path) {
 #endif
 
   CHECK_EQ(MXNDArraySave(param_path, args.size(), args.data(), c_keys), 0);
+  std::cerr << "Done saving the model parameters." << std::endl;
 }
 
 std::vector<float> ImageTrain::train(float * data, float * label) {

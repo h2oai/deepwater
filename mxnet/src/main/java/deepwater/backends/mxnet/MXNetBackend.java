@@ -44,15 +44,20 @@ public class MXNetBackend implements BackendTrain {
 
   @Override
   public BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts, BackendParams bparms, int num_classes, String name) {
+    System.out.println("Loading H2O mxnet bindings.");
     new MXNetLoader();
+    System.out.println("Done loading H2O mxnet bindings.");
     assert(opts!=null);
     assert(dataset!=null);
     assert(bparms!=null);
+    System.out.println("Constructing model.");
     MXNetBackendModel mxnet = new MXNetBackendModel(dataset.getWidth(), dataset.getHeight(), dataset.getChannels(),
         opts.getDeviceID()[0], (int)opts.getSeed(), opts.useGPU());
+    System.out.println("Done constructing model.");
 
     if (bparms.get("clip_gradient") != null)
       mxnet.setClipGradient(((Double)bparms.get("clip_gradient")).floatValue());
+    System.out.println("Building network.");
     if (bparms.get("hidden") == null) {
       mxnet.buildNet(num_classes, ((Integer) bparms.get("mini_batch_size")).intValue(), name);
     } else {
@@ -67,6 +72,7 @@ public class MXNetBackend implements BackendTrain {
           (double[]) bparms.get("hidden_dropout_ratios")
       );
     }
+    System.out.println("Done building network.");
     return mxnet;
   }
 
