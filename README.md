@@ -11,6 +11,9 @@
 ### What it is not
 * An oil drilling platform
 
+### Python/R Jupyter Notebooks
+Check out a sample of cool Deep Learning [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks)!
+
 ### Roadmap, Architecture and Demo
 Download the [Deep Water overview slides](./architecture/deepwater_overview.pdf).
 
