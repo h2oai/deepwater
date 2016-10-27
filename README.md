@@ -31,6 +31,8 @@ In the future, we'll have more pre-built jars for more OS/CUDA combinations.
 If you are interested in running H2O Deep Water on a different infrastructure, see the DIY build instructions below
 
 ### PreRelease Amazon AWS Image
+For your convenience, here's a pre-built image for Amazon's EC2 environment, based off our recent [H2O Open Tour Hands-On Deep Water workshop](https://twitter.com/ArnoCandel/status/791280896318042112) (recording coming soon).
+
 * AMI ID: ami-d32f70c4
 * AMI Name: deepwater-dallas-v3
 * Recommended instance types: g2.2xlarge or p2.xlarge
