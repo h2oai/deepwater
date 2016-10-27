@@ -14,6 +14,17 @@
 ### Python/R Jupyter Notebooks
 Check out a sample of cool Deep Learning [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks)!
 
+### PreRelease Downloads
+* Required to run Jupyter notebook: [H2O Deep Water enabled Python module](https://slack-files.com/T0329MHH6-F2TN01TUN-b0577b68da) -- install via `pip install <file>`
+* To build custom networks: [Matching MXNet Python egg](https://slack-files.com/T0329MHH6-F2PU85GEN-2f4fee68e2) -- install via `easy_install <file>`
+* To run from Flow only: [H2O Standalone h2o.jar](https://slack-files.com/T0329MHH6-F2TMW53FW-a577a9946a) -- launch via `java -jar h2o.jar`
+
+### PreRelease Amazon AWS Image
+* AMI ID: ami-d32f70c4
+* AMI Name: deepwater-dallas-v3
+* Recommended instance types: g2.2xlarge or p2.xlarge
+* After launching the instance, you can connect to port 8888 (Jupyter Notebook) or port 54321 (H2O Flow).
+
 ### Roadmap, Architecture and Demo
 Download the [Deep Water overview slides](./architecture/deepwater_overview.pdf).
 
@@ -22,6 +33,7 @@ Download the [Deep Water overview slides](./architecture/deepwater_overview.pdf)
 ![architecture](./architecture/deepwater_overview/deepwater_overview.003.jpeg "Deep Water Networks")
 ![architecture](./architecture/deepwater_overview/deepwater_overview.004.jpeg "Deep Water Architecture")
 ![architecture](./architecture/deepwater_overview/deepwater_overview.005.jpeg "Deep Water Example in Flow")
+
 
 ### DIY Build Instructions:
 If you want to use Deep Water in H2O-3, you'll need to have a .jar file that includes backend support for at least one of MXNet, Caffe or TensorFlow.
@@ -68,14 +80,14 @@ In the future, we'll have more pre-built jars for more OS/CUDA combinations.
 ```
 sudo pip install h2o-3/h2o-py/dist/h2o-3.11.0.99999-py2.py3-none-any.whl
 ```
-If you didn't build it yourself, download a recent version of the h2o python wheel: (https://slack-files.com/T0329MHH6-F2TN01TUN-b0577b68da)
+
 
 ##### (Optional) Install the Python egg for MXNet
 If you want to build your own MXNet models (from Python so far), install the MXNet wheel (which was built together with MXNet above):
 ```
 sudo easy_install deepwater/thirdparty/mxnet/python/dist/mxnet-0.7.0-py2.7.egg
 ```
-If you didn't build it yourself, download a recent version of the mxnet python egg: (https://slack-files.com/T0329MHH6-F2PU85GEN-2f4fee68e2)
+
 
 
 ### Running GPU enabled Deep Water in H2O
@@ -84,7 +96,6 @@ If you didn't build it yourself, download a recent version of the mxnet python e
 ```
 java -jar h2o.jar
 ```
-If you didn't build it yourself, download a recent version of h2o.jar: (https://slack-files.com/T0329MHH6-F2TMW53FW-a577a9946a)
 
 #### Java example use cases
 Example [Java GPU-enabled unit tests](https://github.com/h2oai/h2o-3/tree/master/h2o-algos/src/test/java/hex/deepwater).
