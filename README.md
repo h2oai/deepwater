@@ -15,9 +15,20 @@
 Check out a sample of cool Deep Learning [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks)!
 
 ### PreRelease Downloads
+For the following system dependencies, we provide recent builds for your convenience. 
+
+* Ubuntu 16.04 LTS
+* Latest NVIDIA Display driver
+* CUDA 8 (latest available) in /usr/local/cuda
+* CUDNN 5 (inside of lib and include directories in /usr/local/cuda/)
+
+In the future, we'll have more pre-built jars for more OS/CUDA combinations.
+
 * Required to run Jupyter notebook: [H2O Deep Water enabled Python module](https://slack-files.com/T0329MHH6-F2TN01TUN-b0577b68da) -- install via `pip install <file>`
 * To build custom networks: [Matching MXNet Python egg](https://slack-files.com/T0329MHH6-F2PU85GEN-2f4fee68e2) -- install via `easy_install <file>`
 * To run from Flow only: [H2O Standalone h2o.jar](https://slack-files.com/T0329MHH6-F2TMW53FW-a577a9946a) -- launch via `java -jar h2o.jar`
+
+If you are interested in running H2O Deep Water on a different infrastructure, see the DIY build instructions below
 
 ### PreRelease Amazon AWS Image
 * AMI ID: ami-d32f70c4
@@ -66,14 +77,6 @@ Copy the freshly created jar file `build/libs/deepwater-all.jar` from the previo
 
 This H2O version will now have GPU Deep Learning support!
 
-Alternatively, for the following system dependencies, we provide recent builds for your convenience. 
-
-* Ubuntu 16.04 LTS
-* Latest NVIDIA Display driver
-* CUDA 8 (latest available) in /usr/local/cuda
-* CUDNN 5 (inside of lib and include directories in /usr/local/cuda/)
-
-In the future, we'll have more pre-built jars for more OS/CUDA combinations.
 
 
 ##### Install the Python wheel:
