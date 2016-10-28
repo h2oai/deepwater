@@ -3,6 +3,7 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'com.google.protobuf'
 
 repositories {
     mavenCentral()
@@ -30,6 +31,10 @@ dependencies {
     compile project (':deepwater-backend-api')
     compile "com.google.protobuf:protobuf-java:3.0.0"
     compile 'com.google.guava:guava:19.0'
+
+    compile 'io.grpc:grpc-netty:1.0.1'
+    compile 'io.grpc:grpc-protobuf:1.0.1'
+    compile 'io.grpc:grpc-stub:1.0.1'
 
     // https://mvnrepository.com/artifact/org.hdfgroup/hdf-java
     compile group: 'org.hdfgroup', name: 'hdf-java', version: '2.6.1'
@@ -76,4 +81,12 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 artifacts {
     archives sourcesJar
     archives javadocJar
+}
+
+idea {
+    module {
+        sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/java");
+        // If you have additional sourceSets and/or codegen plugins, add all of them
+        sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/grpc");
+    }
 }
