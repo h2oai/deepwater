@@ -7,3 +7,6 @@
 [submodule "thirdparty/javacpp"]
 	path = thirdparty/javacpp
 	url = http://github.com/h2oai/javacpp
+[submodule "thirdparty/protobuf-gradle-plugin"]
+	path = thirdparty/protobuf-gradle-plugin
+	url = https://github.com/google/protobuf-gradle-plugin.git
