@@ -8,7 +8,6 @@ import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.backends.tensorflow.models.TensorflowModel;
 import deepwater.datasets.ImageDataSet;
-import org.bytedeco.javacpp.tensorflow;
 
 import java.io.FileNotFoundException;
 import java.nio.FloatBuffer;

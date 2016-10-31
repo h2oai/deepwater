@@ -1,9 +1,17 @@
 package deepwater.backends.tensorflow.models;
 
 import com.google.gson.Gson;
+import com.google.protobuf.ProtocolStringList;
 import deepwater.backends.tensorflow.TensorflowMetaModel;
+import org.bytedeco.javacpp.tensorflow;
+import org.tensorflow.framework.*;
+import org.tensorflow.framework.OpDef;
+import org.tensorflow.framework.OpList;
+import org.tensorflow.util.SaverDef;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,10 +27,14 @@ import java.nio.file.StandardCopyOption;
 import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import static org.bytedeco.javacpp.tensorflow.*;
+import static org.tensorflow.framework.CollectionDef.*;
+
 
 public class ModelFactory {
 
@@ -48,7 +60,7 @@ public class ModelFactory {
     static public TensorflowModel LoadModel(String modelName) throws FileNotFoundException {
         String resourceModelName = convertToCanonicalName(modelName);
         String resourceMetaModelName = convertToCanonicalMetaName(modelName);
-        GraphDef graph_def = extractGraphDefinition(resourceModelName);
+        tensorflow.GraphDef graph_def = extractGraphDefinition(resourceModelName);
         TensorflowMetaModel meta = extractMetaModel(resourceMetaModelName);
         return new TensorflowModel(meta, graph_def);
     }
@@ -69,8 +81,8 @@ public class ModelFactory {
         return g.fromJson(reader, TensorflowMetaModel.class);
     }
 
-    private static GraphDef extractGraphDefinition(String resourceModelName) {
-        GraphDef graph_def = new GraphDef();
+    private static tensorflow.GraphDef extractGraphDefinition(String resourceModelName) {
+        tensorflow.GraphDef graph_def = new tensorflow.GraphDef();
         try {
             //debugJar();
             String path;
@@ -87,6 +99,101 @@ public class ModelFactory {
             //throw new InvalidArgumentException(new String[]{"could not load model " + model_name});
         }
         return graph_def;
+    }
+
+
+    public static TensorflowModel readMetaGraph(String metaPath) throws Exception {
+        MetaGraphDef metaGraphDef = MetaGraphDef.parseFrom(new FileInputStream(metaPath));
+        org.tensorflow.framework.GraphDef graphDef = metaGraphDef.getGraphDef();
+        // Tags
+        for( String tag: metaGraphDef.getMetaInfoDef().getTagsList()) {
+            System.out.println(tag);
+        }
+
+
+        OpList ops = metaGraphDef.getMetaInfoDef().getStrippedOpList();
+        for( OpDef op: ops.getOpList()){
+            System.out.println("stripped op: "+ op.getName());
+        }
+
+        TensorflowMetaModel meta = new TensorflowMetaModel();
+
+        // SaverDef
+        SaverDef saver = metaGraphDef.getSaverDef();
+        meta.save_filename = saver.getFilenameTensorName();
+        meta.save_op = saver.getSaveTensorName();
+        meta.restore_op = saver.getRestoreOpName();
+
+
+        meta.summary_op = getFirstOperationFromCollection(metaGraphDef, "summaries");
+        meta.predict_op = getFirstOperationFromCollection(metaGraphDef, "logits");
+        meta.train_op =  getFirstOperationFromCollection(metaGraphDef, "train");
+        //getOperationsFromCollection(metaGraphDef, "variables");
+        //getOperationsFromCollection(metaGraphDef, "trainable_variables");
+
+        for(Map.Entry<String, SignatureDef> entry: metaGraphDef.getSignatureDefMap().entrySet()) {
+
+            System.out.println("signature: " + entry.getKey());
+            for(Map.Entry<String, TensorInfo> input: entry.getValue().getInputsMap().entrySet() ) {
+                System.out.println("\tinput: " + input.getKey());
+            }
+
+            for(Map.Entry<String, TensorInfo> output: entry.getValue().getOutputsMap().entrySet() ) {
+                System.out.println("\toutput: " + output.getKey());
+            }
+
+        }
+
+        for(String name: getAllCollections(metaGraphDef)){
+            System.out.println("collection: " + name);
+        }
+
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        graphDef.writeTo(output);
+
+        String path = saveToTempFile(new ByteArrayInputStream(output.toByteArray()));
+
+        tensorflow.GraphDef gdef = new tensorflow.GraphDef();
+        Status status = ReadBinaryProto(tensorflow.Env.Default(), path, gdef);
+        checkStatus(status);
+        return new TensorflowModel(meta, gdef);
+    }
+
+    private static String[] getAllCollections(MetaGraphDef metaGraphDef) throws Exception {
+        Set<String> keys = metaGraphDef.getCollectionDefMap().keySet();
+        String[] results = new String[keys.size()];
+        keys.toArray(results);
+        return results;
+
+    }
+
+    private static String getFirstOperationFromCollection(MetaGraphDef metaGraphDef, String collectionName) throws Exception {
+        String[] ops = getOperationsFromCollection(metaGraphDef, collectionName);
+        if (ops.length > 0){
+            return ops[0];
+        }
+        return "";
+    }
+
+    private static String[] getOperationsFromCollection(MetaGraphDef metaGraphDef, String collectionName) throws Exception {
+        for(Map.Entry<String, CollectionDef> entry: metaGraphDef.getCollectionDefMap().entrySet()) {
+            if(entry.getValue().equals(collectionName)){
+               KindCase kase = entry.getValue().getKindCase();
+
+               switch(kase) {
+                case NODE_LIST:
+                    ProtocolStringList vlist = entry.getValue().getNodeList().getValueList();
+                    String [] result = new String[vlist.size()];
+                    vlist.toArray(result);
+                    return result;
+                default:
+                    throw new Exception("invalid collection format.");
+                case KIND_NOT_SET:
+                    break;
+               }
+            }
+        }
+        return new String[]{};
     }
 
     private static String saveToTempFile(InputStream in) throws IOException {

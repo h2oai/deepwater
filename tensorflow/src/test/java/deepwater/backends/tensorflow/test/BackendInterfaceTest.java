@@ -5,15 +5,29 @@ import deepwater.backends.BackendParams;
 import deepwater.backends.BackendTrain;
 import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.TensorflowBackend;
+import deepwater.backends.tensorflow.models.ModelFactory;
+import deepwater.backends.tensorflow.models.TensorflowModel;
 import deepwater.datasets.BatchIterator;
 import deepwater.datasets.CIFAR10ImageDataset;
 import deepwater.datasets.ImageBatch;
 import deepwater.datasets.MNISTImageDataset;
+import org.bytedeco.javacpp.tensorflow;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.tensorflow.framework.CollectionDef;
+import org.tensorflow.framework.GraphDef;
+import org.tensorflow.framework.MetaGraphDef;
+import org.tensorflow.framework.MetaGraphDefOrBuilder;
+import org.tensorflow.framework.OpDef;
+import org.tensorflow.framework.OpList;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Map;
+
+import static org.bytedeco.javacpp.tensorflow.ReadBinaryProto;
 
 public class BackendInterfaceTest {
 
@@ -173,6 +187,14 @@ public class BackendInterfaceTest {
 
         backend.delete(model);
         backend.delete(model2);
+
+    }
+
+    @Test
+    public void backendCanLoadMetaGraph() throws Exception {
+        final String meta_model = "/home/fmilo/workspace/deepwater/tensorflow/src/main/python/my-model-10000.meta";
+        TensorflowModel model = ModelFactory.readMetaGraph(meta_model);
+
 
     }
 }

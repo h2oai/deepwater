@@ -3,7 +3,6 @@ package deepwater.backends.tensorflow.models;
 
 import deepwater.backends.BackendModel;
 import deepwater.backends.tensorflow.TensorflowMetaModel;
-import org.bytedeco.javacpp.tensorflow;
 
 import java.util.HashMap;
 import java.util.Map;
