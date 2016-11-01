@@ -10,3 +10,7 @@
 [submodule "thirdparty/protobuf-gradle-plugin"]
 	path = thirdparty/protobuf-gradle-plugin
 	url = https://github.com/google/protobuf-gradle-plugin.git
+[submodule "thirdparty/jpy"]
+	path = thirdparty/jpy
+	url = https://github.com/bcdev/jpy.git
+	branch = 0.8.x
