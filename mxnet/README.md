@@ -8,6 +8,7 @@
 ##### Ubuntu
 
 ```bash
+sudo apt-get install swig
 cd ../thirdparty/mxnet
 git submodule update --init --recursive
 cp make/config.mk .

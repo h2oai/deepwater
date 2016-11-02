@@ -58,7 +58,7 @@ If you want to use Deep Water in H2O-3, you'll need to have a .jar file that inc
 [Instructions to build TensorFlow](https://github.com/h2oai/deepwater/tree/master/tensorflow)
 
 #### 3. Build Caffe 
-Coming soon.
+[Instructions to build Caffe](https://github.com/h2oai/deepwater/tree/master/caffe)
 
 #### 4. Build H2O Backend Connectors
 From the top-level of the deepwater repository, do
