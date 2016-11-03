@@ -1,6 +1,6 @@
 package deepwater.backends.tensorflow.test;
 
-
+import org.jpy.*;
 import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.backends.tensorflow.models.TensorflowModel;
 import deepwater.datasets.MNISTImageDataset;
@@ -8,9 +8,12 @@ import deepwater.datasets.Pair;
 import org.bytedeco.javacpp.tensorflow;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.Assert.*;
+
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -20,6 +23,7 @@ import java.io.LineNumberReader;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -584,6 +588,45 @@ public class TensorflowTest {
         //PyLib.stopPython();
     }*/
 
+	@Test
+	public void extractAndLinkSharedObjects() throws Exception {
+		InputStream jpy = this.getClass().getClassLoader().getResourceAsStream("lib.linux-x86_64-2.7/jpy.so");
+		InputStream jdl = this.getClass().getClassLoader().getResourceAsStream("lib.linux-x86_64-2.7/jdl.so");
+		/*
+			put jpy and jdl on filesystem so they can be linked against
+			Maintain reference so it can be cleaned up
+			
+		*/
+		//System.setProperty("jpy.pythonLib", "/usr/lib/python2.7/config-x86_64-linux-gnu/libpython2.7.so");
+		String p = "/tmp/jpy.so";
+		Files.copy(jpy, Paths.get(p), StandardCopyOption.REPLACE_EXISTING);
+		File fl = new File(p);
+		fl.setExecutable(true);
+		fl.deleteOnExit();
+		System.setProperty("jpu.debug", "true");
+		System.setProperty("jpy.jpyLib", fl.getAbsolutePath());
+		p = "/tmp/jdl.so";
+		Files.copy(jdl, Paths.get(p), StandardCopyOption.REPLACE_EXISTING);
+		fl = new File(p);
+		fl.setExecutable(true);
+		fl.deleteOnExit();
+		System.setProperty("jpy.jdlLib", fl.getAbsolutePath());
+	
+	/*	System.setProperty("jpy.jpyLib", "/home/ubuntu/deepwater/thirdparty/jpy/build/lib.linux-x86_64-2.7/jpy.so");
+		System.setProperty("jpy.jdlLib", "/home/ubuntu/deepwater/thirdparty/jpy/build/lib.linux-x86_64-2.7/jdl.so");
+	*/
+		PyLib.startPython();
+		PyLib.assertPythonRuns();
+		PyModule main = PyModule.getMain();
+		if(main != null)
+			System.out.println("s'not null");
+		else
+			System.out.println("s'null");
+		PyModule tf = PyModule.importModule("tensorflow");
+		jpy.close();
+		jdl.close();
+		//PyLib.stopPython();
+	}
 
     private static class ImageParams {
         private final String imagePath;

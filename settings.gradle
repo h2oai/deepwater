@@ -5,6 +5,7 @@ include 'backend-api'
 
 // implementations
 if (!isGradlePropSet("buildOnlyBackendApi")) {
+  include 'python'
   include 'mxnet'
   include 'tensorflow'
 }

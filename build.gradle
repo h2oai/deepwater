@@ -90,6 +90,7 @@ dependencies {
     compile project(":deepwater-backend-api")
 
     if (!buildOnlyBackendApi) {
+      compile project('deepwater-python')
       compile project('deepwater-mxnet')
       compile project('deepwater-tensorflow')
     }

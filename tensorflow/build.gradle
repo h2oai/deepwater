@@ -17,9 +17,12 @@ sourceSets.main.resources {
 dependencies {
 
     def presets = "${rootDir}/thirdparty/javacpp-presets"
+    def jpy = "${rootDir}/thirdparty/jpy"
     println("Preset directory set to : ${presets}")
 
     compile files("${presets}/target/javacpp.jar")
+	compile files("${jpy}/target/jpy-0.9-SNAPSHOT.jar")
+	compile files("${jpy}/build/lib.zip")
     compile files("${presets}/tensorflow/target/tensorflow.jar")
     if (new File("${presets}/tensorflow/target/tensorflow-linux-x86_64.jar").exists()) {
         compile files("${presets}/tensorflow/target/tensorflow-linux-x86_64.jar")
@@ -29,7 +32,7 @@ dependencies {
     }
 
     compile project (':deepwater-backend-api')
-    compile "com.google.protobuf:protobuf-java:3.0.0"
+    compile "com.google.protobuf:protobuf-java:3.1.0"
     compile 'com.google.guava:guava:19.0'
 
     compile 'io.grpc:grpc-netty:1.0.1'
