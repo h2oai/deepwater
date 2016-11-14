@@ -10,6 +10,7 @@ import deepwater.backends.tensorflow.models.TensorflowModel;
 import deepwater.datasets.ImageDataSet;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.LongBuffer;
 
@@ -65,24 +66,12 @@ public class TensorflowBackend implements BackendTrain {
 
     @Override
     public void saveModel(BackendModel m, String model_path) {
-        TensorVector outputs = new TensorVector();
         TensorflowModel model = (TensorflowModel) m;
-        Tensor model_path_t = new Tensor(DT_STRING, new TensorShape(1));
-        StringArray a = model_path_t.createStringArray();
-        for (int i = 0; i < a.capacity(); i++) {
-            a.position(i).put(model_path);
+        try {
+            model.saveModel(model_path);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        Status status = model.getSession().Run(
-                new StringTensorPairVector(
-                        new String[]{model.meta.save_filename},
-                        new Tensor[]{model_path_t}
-                ),
-                new StringVector(model.meta.save_op),
-                new StringVector(),
-                outputs
-        );
-        checkStatus(status);
     }
 
     @Override
@@ -112,7 +101,25 @@ public class TensorflowBackend implements BackendTrain {
 
     @Override
     public void saveParam(BackendModel m, String param_path) {
-        saveModel(m, param_path);
+        TensorVector outputs = new TensorVector();
+        TensorflowModel model = (TensorflowModel) m;
+        Tensor model_path_t = new Tensor(DT_STRING, new TensorShape(1));
+        StringArray a = model_path_t.createStringArray();
+        for (int i = 0; i < a.capacity(); i++) {
+            a.position(i).put(param_path);
+        }
+
+        Status status = model.getSession().Run(
+                new StringTensorPairVector(
+                        new String[]{model.meta.save_filename},
+                        new Tensor[]{model_path_t}
+                ),
+                new StringVector(),
+                new StringVector(model.meta.save_op),
+                outputs
+        );
+
+        checkStatus(status);
     }
 
     @Override

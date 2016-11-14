@@ -54,51 +54,12 @@ public class ModelFactory {
             }
 
         }
-
     }
 
     static public TensorflowModel LoadModel(String modelName) throws FileNotFoundException {
         String resourceModelName = convertToCanonicalName(modelName);
         String resourceMetaModelName = convertToCanonicalMetaName(modelName);
-        tensorflow.GraphDef graph_def = extractGraphDefinition(resourceModelName);
-        TensorflowMetaModel meta = extractMetaModel(resourceMetaModelName);
-        return new TensorflowModel(meta, graph_def);
-    }
-
-    private static TensorflowMetaModel extractMetaModel(String resourceMetaModelName) throws FileNotFoundException {
-        Gson g = new Gson();
-        InputStream in = ModelFactory.class.getResourceAsStream("/"+resourceMetaModelName);
-        if (in == null){
-            String path = "/home/fmilo/workspace/deepwater/tensorflow/src/main/resources/" + resourceMetaModelName;
-            in =  new FileInputStream(path);
-        }
-        Reader reader = null;
-        try {
-            reader = new InputStreamReader(in, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return g.fromJson(reader, TensorflowMetaModel.class);
-    }
-
-    private static tensorflow.GraphDef extractGraphDefinition(String resourceModelName) {
-        tensorflow.GraphDef graph_def = new tensorflow.GraphDef();
-        try {
-            //debugJar();
-            String path;
-            InputStream in = ModelFactory.class.getResourceAsStream("/"+resourceModelName);
-            if (in != null) {
-                path = saveToTempFile(in);
-            } else {
-                // FIXME: for some reason inside idea it does not work
-                path = "/home/fmilo/workspace/deepwater/tensorflow/src/main/resources/" + resourceModelName;
-            }
-            checkStatus(ReadBinaryProto(Env.Default(), path, graph_def));
-        } catch (IOException e) {
-            e.printStackTrace();
-            //throw new InvalidArgumentException(new String[]{"could not load model " + model_name});
-        }
-        return graph_def;
+        return new TensorflowModel(resourceMetaModelName, resourceModelName);
     }
 
 
@@ -141,7 +102,6 @@ public class ModelFactory {
             for(Map.Entry<String, TensorInfo> output: entry.getValue().getOutputsMap().entrySet() ) {
                 System.out.println("\toutput: " + output.getKey());
             }
-
         }
 
         for(String name: getAllCollections(metaGraphDef)){
