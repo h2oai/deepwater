@@ -2,6 +2,9 @@ package deepwater.backends.tensorflow.models;
 
 
 import com.google.common.base.Charsets;
+import com.google.common.io.ByteSink;
+import com.google.common.io.ByteSource;
+import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Resources;
 import com.google.common.io.Files;
@@ -40,7 +43,7 @@ public class TensorflowModel implements BackendModel {
 
     public int frameSize;
     private Map<String, Float> parameters;
-    private String modelGraphData;
+    private byte[] modelGraphData;
 
     public TensorflowModel(TensorflowMetaModel meta, GraphDef graph) {
         this.meta = meta;
@@ -71,7 +74,8 @@ public class TensorflowModel implements BackendModel {
     }
 
     public void saveModel(String path) throws IOException {
-        com.google.common.io.Files.write(modelGraphData, new File(path), Charsets.UTF_8);
+        ByteSink bs = com.google.common.io.Files.asByteSink(new File(path));
+        bs.write(modelGraphData);
     }
 
     private tensorflow.GraphDef extractGraphDefinition(String resourceModelName) {
@@ -79,19 +83,19 @@ public class TensorflowModel implements BackendModel {
         try {
             String path;
             URL url = Resources.getResource(resourceModelName);
-            String text = Resources.toString(url, Charsets.UTF_8);
-            modelGraphData = text;
+            modelGraphData = Resources.toByteArray(url);
             path = saveToTempFile(modelGraphData);
 
-            if (text.isEmpty()) {
+            if (modelGraphData == null || modelGraphData.length == 0) {
                 InputStream in = ModelFactory.class.getResourceAsStream("/" + resourceModelName);
                 if (in != null) {
                     path = saveToTempFile(in);
-                    modelGraphData = CharStreams.toString(new InputStreamReader(in));
+                    modelGraphData = ByteStreams.toByteArray(in);
                 } else {
                     // FIXME: for some reason inside idea it does not work
                     path = "/home/fmilo/workspace/deepwater/tensorflow/src/main/resources/" + resourceModelName;
-                    modelGraphData = com.google.common.io.Files.toString( new File(path), Charsets.UTF_8);
+                    ByteSource bs = com.google.common.io.Files.asByteSource( new File(path));
+                    modelGraphData = bs.read();
                 }
             }
 
@@ -120,10 +124,11 @@ public class TensorflowModel implements BackendModel {
     }
 
 
-    private String saveToTempFile(String in) throws IOException {
+    private String saveToTempFile(byte[] in) throws IOException {
         String path;
         File temp = File.createTempFile("tempfile", ".tmp");
-        com.google.common.io.Files.write(in, temp, Charsets.UTF_8);
+        ByteSink bs = com.google.common.io.Files.asByteSink(temp);
+        bs.write(in);
         path = temp.getAbsolutePath();
         return path;
     }
