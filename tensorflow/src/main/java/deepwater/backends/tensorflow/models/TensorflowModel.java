@@ -1,72 +1,58 @@
 package deepwater.backends.tensorflow.models;
 
 
-import com.google.common.base.Charsets;
 import com.google.common.io.ByteSink;
 import com.google.common.io.ByteSource;
 import com.google.common.io.ByteStreams;
-import com.google.common.io.CharStreams;
 import com.google.common.io.Resources;
-import com.google.common.io.Files;
-
-import com.google.gson.Gson;
 import deepwater.backends.BackendModel;
 import deepwater.backends.tensorflow.TensorflowMetaModel;
 import org.bytedeco.javacpp.tensorflow;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 
 import static deepwater.backends.tensorflow.models.ModelFactory.checkStatus;
-import static org.bytedeco.javacpp.tensorflow.*;
+import static org.bytedeco.javacpp.tensorflow.Env;
+import static org.bytedeco.javacpp.tensorflow.GraphDef;
+import static org.bytedeco.javacpp.tensorflow.ReadBinaryProto;
+import static org.bytedeco.javacpp.tensorflow.Session;
 
 
 public class TensorflowModel implements BackendModel {
 
-    private GraphDef graph;
     public TensorflowMetaModel meta;
     public int classes;
-
-    protected Session session;
-
     public int frameSize;
+    protected Session session;
+    private GraphDef graph;
     private Map<String, Float> parameters;
     private byte[] modelGraphData;
 
-    public TensorflowModel(TensorflowMetaModel meta, GraphDef graph) {
+    TensorflowModel(TensorflowMetaModel meta, GraphDef graph, byte[] definition) {
         this.meta = meta;
         this.graph = graph;
         this.parameters = new HashMap<>();
-    }
-
-    public TensorflowModel(String resourceMetaModelName, String resourceModelName) throws FileNotFoundException {
-        graph = extractGraphDefinition(resourceModelName);
-        meta = extractMetaModel(resourceMetaModelName);
-        this.parameters = new HashMap<>();
+        modelGraphData = definition;
     }
 
     public GraphDef getGraph() {
         return graph;
     }
 
-    public void setSession(Session session) {
-        this.session = session;
-    }
-
     public Session getSession() {
         return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
     }
 
     public void setParameter(String name, float value) {
@@ -106,23 +92,6 @@ public class TensorflowModel implements BackendModel {
         }
         return graph_def;
     }
-
-    private TensorflowMetaModel extractMetaModel(String resourceMetaModelName) throws FileNotFoundException {
-        Gson g = new Gson();
-        InputStream in = ModelFactory.class.getResourceAsStream("/"+resourceMetaModelName);
-        if (in == null){
-            String path = "/home/fmilo/workspace/deepwater/tensorflow/src/main/resources/" + resourceMetaModelName;
-            in =  new FileInputStream(path);
-        }
-        Reader reader = null;
-        try {
-            reader = new InputStreamReader(in, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return g.fromJson(reader, TensorflowMetaModel.class);
-    }
-
 
     private String saveToTempFile(byte[] in) throws IOException {
         String path;

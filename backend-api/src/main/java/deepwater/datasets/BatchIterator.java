@@ -20,7 +20,7 @@ public class BatchIterator {
         this.images = images;
     }
 
-    public void newEpoch() throws IOException {
+    private void newEpoch() throws IOException {
        this.currentEpoch++;
         imageLabelList = data.loadImages(images);
     }
@@ -40,12 +40,12 @@ public class BatchIterator {
         for (int ii = savedIterator; ii < imageLabelList.size() ; ii++) {
             int i = ii % b.size;
 
-            Pair<Integer, float[]> entry = imageLabelList.get(i);
+            Pair<Integer, float[]> entry = imageLabelList.get(ii);
 
             float[] image = entry.getSecond();
             Integer label = entry.getFirst();
             System.arraycopy(image, 0, b.images, i * image.length, image.length);
-            b.labels[i * data.getNumClasses() + label] = (float) 1.0;
+            b.labels[i] = label;
 
             i++;
             savedIterator++;
