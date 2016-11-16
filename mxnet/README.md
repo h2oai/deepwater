@@ -19,7 +19,7 @@ make -j8
 
 First install [homebrew](http://brew.sh).
 ```bash
-git submodule update --init --recursive --depth 1
+git submodule update --init --recursive
 brew update
 brew uninstall homebrew/science
 ## sudo chown -R $(whoami):admin /usr/local ##if you get write permission issues
