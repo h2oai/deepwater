@@ -8,17 +8,32 @@ import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.backends.tensorflow.models.TensorflowModel;
 import deepwater.datasets.ImageDataSet;
-import org.bytedeco.javacpp.tensorflow;
 
-import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.LongBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
-import static org.bytedeco.javacpp.tensorflow.*;
+import static org.bytedeco.javacpp.tensorflow.DT_FLOAT;
+import static org.bytedeco.javacpp.tensorflow.DT_INT32;
+import static org.bytedeco.javacpp.tensorflow.DT_INT64;
+import static org.bytedeco.javacpp.tensorflow.DT_STRING;
+import static org.bytedeco.javacpp.tensorflow.Session;
+import static org.bytedeco.javacpp.tensorflow.SessionOptions;
+import static org.bytedeco.javacpp.tensorflow.Status;
+import static org.bytedeco.javacpp.tensorflow.StringArray;
+import static org.bytedeco.javacpp.tensorflow.StringTensorPairVector;
+import static org.bytedeco.javacpp.tensorflow.StringVector;
+import static org.bytedeco.javacpp.tensorflow.Tensor;
+import static org.bytedeco.javacpp.tensorflow.TensorShape;
+import static org.bytedeco.javacpp.tensorflow.TensorVector;
 
 
 public class TensorflowBackend implements BackendTrain {
 
+    private Map<TensorflowModel, Integer> global_step = new HashMap<>();
     private SessionOptions sessionOptions;
     private Session session;
 
@@ -33,13 +48,25 @@ public class TensorflowBackend implements BackendTrain {
     public BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts,
                   BackendParams backend_params, int num_classes, String name)
     {
-        TensorflowModel model = null;
-        try {
-            model = ModelFactory.LoadModel(name+'_'+dataset.getWidth()+"x"+
-                    dataset.getHeight()+"x"+dataset.getChannels()+"_"+dataset.getNumClasses());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        TensorflowModel model;
+
+        if (new File(name).exists()) {
+
+            model = ModelFactory.LoadModelFromFile(name);
+
+        } else {
+
+            String modelName = name + '_' + dataset.getWidth() + "x" +
+                    dataset.getHeight() + "x" + dataset.getChannels() + "_" + dataset.getNumClasses();
+            String resourceModelName = ModelFactory.convertToCanonicalName(modelName);
+            try {
+                resourceModelName = ModelFactory.findResource(resourceModelName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            model = ModelFactory.LoadModelFromFile(resourceModelName);
         }
+
 
         sessionOptions = new SessionOptions();
         session = new Session(sessionOptions);
@@ -49,41 +76,31 @@ public class TensorflowBackend implements BackendTrain {
 
         model.frameSize = dataset.getWidth() * dataset.getHeight() * dataset.getChannels();
         model.classes = num_classes;
-        TensorVector outputs = new TensorVector();
-        status = session.Run(
-                new StringTensorPairVector(
-                        new String[]{},
-                        new Tensor[]{}
-                ),
-                new StringVector(),
-                new StringVector(model.meta.init),
-                outputs);
+        if (!model.meta.init.isEmpty()) {
+            TensorVector outputs = new TensorVector();
+            status = session.Run(
+                    new StringTensorPairVector(
+                            new String[]{},
+                            new Tensor[]{}
+                    ),
+                    new StringVector(),
+                    new StringVector(model.meta.init),
+                    outputs);
 
-        checkStatus(status);
+            checkStatus(status);
+        }
         model.setSession(session);
         return model;
     }
 
     @Override
     public void saveModel(BackendModel m, String model_path) {
-        TensorVector outputs = new TensorVector();
         TensorflowModel model = (TensorflowModel) m;
-        Tensor model_path_t = new Tensor(DT_STRING, new TensorShape(1));
-        StringArray a = model_path_t.createStringArray();
-        for (int i = 0; i < a.capacity(); i++) {
-            a.position(i).put(model_path);
+        try {
+            model.saveModel(model_path);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        Status status = model.getSession().Run(
-                new StringTensorPairVector(
-                        new String[]{model.meta.save_filename},
-                        new Tensor[]{model_path_t}
-                ),
-                new StringVector(model.meta.save_op),
-                new StringVector(),
-                outputs
-        );
-        checkStatus(status);
     }
 
     @Override
@@ -113,7 +130,25 @@ public class TensorflowBackend implements BackendTrain {
 
     @Override
     public void saveParam(BackendModel m, String param_path) {
-        saveModel(m, param_path);
+        TensorVector outputs = new TensorVector();
+        TensorflowModel model = (TensorflowModel) m;
+        Tensor model_path_t = new Tensor(DT_STRING, new TensorShape(1));
+        StringArray a = model_path_t.createStringArray();
+        for (int i = 0; i < a.capacity(); i++) {
+            a.position(i).put(param_path);
+        }
+
+        Status status = model.getSession().Run(
+                new StringTensorPairVector(
+                        new String[]{model.meta.save_filename},
+                        new Tensor[]{model_path_t}
+                ),
+                new StringVector(model.meta.save_op),
+                new StringVector(),
+                outputs
+        );
+
+        checkStatus(status);
     }
 
     @Override
@@ -151,10 +186,21 @@ public class TensorflowBackend implements BackendTrain {
             labelShape = new long[]{ batchSize, model.classes };
         }
 
+        if (!global_step.containsKey(model)) {
+            global_step.put(model, 0);
+        }
+
+
+        Integer step = global_step.get(model);
+
         StringTensorPairVector feedDict = convertData(
-                new float[][]{data, labelData},
-                new long[][]{ new long[]{batchSize, model.frameSize},  labelShape  },
-                new String[]{ model.meta.inputs.get("batch_image_input"), model.meta.inputs.get("categorical_labels")}
+                new float[][]{data, labelData, new float[]{step.floatValue()}},
+                new long[][]{new long[]{batchSize, model.frameSize}, labelShape, new long[]{1}},
+                new String[]{
+                        model.meta.inputs.get("batch_image_input"),
+                        model.meta.inputs.get("categorical_labels"),
+                        model.meta.parameters.get("global_step"),
+                }
         );
 
         Status status = model.getSession().Run(
@@ -165,6 +211,7 @@ public class TensorflowBackend implements BackendTrain {
         );
 
         checkStatus(status);
+        global_step.put(model, step + 1);
 
         return flatten(outputs);
     }
@@ -175,9 +222,22 @@ public class TensorflowBackend implements BackendTrain {
         TensorVector outputs = new TensorVector();
         final long batchSize = data.length / model.frameSize;
 
+        float[] labelData = labels;
+        long[] labelShape = new long[]{batchSize, model.classes};
+
+        if (model.classes > 1) { //one-hot encoder
+            labelData = new float[Math.toIntExact(batchSize * model.classes)];
+            for (int i = 0; i < batchSize; i++) {
+                int idx = (int) labels[i];
+                labelData[i * model.classes + idx] = (float) 1.0;
+            }
+
+            labelShape = new long[]{batchSize, model.classes};
+        }
+
         StringTensorPairVector feedDict = convertData(
-                new float[][]{data, labels},
-                new long[][]{ new long[]{batchSize, model.frameSize}, new long[]{ batchSize, labels.length/batchSize} } ,
+                new float[][]{data, labelData},
+                new long[][]{new long[]{batchSize, model.frameSize}, labelShape},
                 new String[]{ model.meta.inputs.get("batch_image_input"), model.meta.inputs.get("categorical_labels")}
         );
 
@@ -222,14 +282,14 @@ public class TensorflowBackend implements BackendTrain {
        return flatten(outputs);
     }
 
-    float[] convertFloat(Tensor in) {
+    private float[] convertFloat(Tensor in) {
         FloatBuffer buffer = in.createBuffer();
         float[] result = new float[buffer.limit()];
         buffer.get(result);
         return result;
     }
 
-    long[] convertLong(Tensor in) {
+    private long[] convertLong(Tensor in) {
         LongBuffer buffer = in.createBuffer();
         long[] result = new long[buffer.limit()];
         buffer.get(result);
@@ -252,7 +312,7 @@ public class TensorflowBackend implements BackendTrain {
         return new StringTensorPairVector(tensors, t);
     }
 
-    float[] toFloatArray(long[] arr) {
+    private float[] toFloatArray(long[] arr) {
         if (arr == null) return null;
         int n = arr.length;
         float[] ret = new float[n];
@@ -262,7 +322,7 @@ public class TensorflowBackend implements BackendTrain {
         return ret;
     }
 
-    float[] flatten(TensorVector arr) {
+    private float[] flatten(TensorVector arr) {
         if (arr == null) return null;
         int n = (int)arr.size();
         float[][] ret = new float[n][];
@@ -292,7 +352,7 @@ public class TensorflowBackend implements BackendTrain {
         return flattenFloat(ret);
     }
 
-    float[] flattenFloat(float[]... args){
+    private float[] flattenFloat(float[]... args) {
         if (args == null) return null;
         return Floats.concat(args);
     }

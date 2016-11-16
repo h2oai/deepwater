@@ -5,6 +5,7 @@ import deepwater.backends.BackendParams;
 import deepwater.backends.BackendTrain;
 import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.TensorflowBackend;
+import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.datasets.BatchIterator;
 import deepwater.datasets.CIFAR10ImageDataset;
 import deepwater.datasets.ImageBatch;
@@ -15,14 +16,22 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 
+import static deepwater.datasets.FileUtils.findFile;
+
+
 public class BackendInterfaceTest {
 
-    public float testMXnet(BackendModel model) throws IOException {
+    private String[] mnistTrainData = new String[]{
+            findFile("bigdata/laptop/mnist/train-images-idx3-ubyte.gz"),
+            findFile("bigdata/laptop/mnist/train-labels-idx1-ubyte.gz"),
+    };
+
+    private float testMXnet(BackendModel model) throws IOException {
         BackendTrain backend = new TensorflowBackend();
         MNISTImageDataset dataset = new MNISTImageDataset();
         String[] images = new String[]{
-                "/home/fmilo/workspace/h2o-3/t10k-images-idx3-ubyte.gz",
-                "/home/fmilo/workspace/h2o-3/t10k-labels-idx1-ubyte.gz"
+                findFile("bigdata/laptop/mnist/t10k-images-idx3-ubyte.gz"),
+                findFile("bigdata/laptop/mnist/t10k-labels-idx1-ubyte.gz")
         };
 
         BatchIterator it = new BatchIterator(dataset, 1, images);
@@ -41,32 +50,27 @@ public class BackendInterfaceTest {
 
     private void printLoss(float[] loss) {
         System.out.print("Test accuracy:");
-        for (int k = 0; k < loss.length; k++) {
-            System.out.print(loss[k]+",");
+        for (float los : loss) {
+            System.out.print(los + ",");
         }
         System.out.println();
     }
 
-    String[] mnistTrainData = new String[] {
-            "/home/fmilo/workspace/h2o-3/train-images-idx3-ubyte.gz",
-            "/home/fmilo/workspace/h2o-3/train-labels-idx1-ubyte.gz",
-    };
-
     @Test
     public void testLenet() throws IOException{
-        backendCanTrainMNIST("lenet", 1024, 10);
-        backendCanSaveCheckpoint("lenet", 1024);
+        backendCanTrainMNIST("lenet", 32, 3);
+        backendCanSaveCheckpoint("lenet", 32);
     }
 
     @Ignore
     @Test
-    public void testVGG16() throws IOException{
-        backendCanSaveCheckpoint("vgg16", 16);
-        backendCanTrainMNIST("vgg16", 16, 100);
-        backendCanTrainCifar10("vgg16", 16, 10);
+    public void testVGG() throws IOException {
+        backendCanSaveCheckpoint("vgg", 16);
+        backendCanTrainMNIST("vgg", 32, 10);
+        backendCanTrainCifar10("vgg", 32, 10);
     }
 
-    public void backendCanTrainMNIST(String modelName, int batchSize, int epochs) throws IOException {
+    private void backendCanTrainMNIST(String modelName, int batchSize, int epochs) throws IOException {
         BackendTrain backend = new TensorflowBackend();
 
         MNISTImageDataset dataset = new MNISTImageDataset();
@@ -89,7 +93,7 @@ public class BackendInterfaceTest {
         backend.delete(model);
     }
 
-    public void backendCanTrainCifar10(String modelName, int batchSize, int epochs) throws IOException {
+    private void backendCanTrainCifar10(String modelName, int batchSize, int epochs) throws IOException {
         BackendTrain backend = new TensorflowBackend();
 
         CIFAR10ImageDataset dataset = new CIFAR10ImageDataset();
@@ -100,15 +104,15 @@ public class BackendInterfaceTest {
         BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelName);
 
         String[] train_images = new String[]{
-                "/datasets/cifar-10-batches-bin/data_batch_1.bin",
-                "/datasets/cifar-10-batches-bin/data_batch_2.bin",
-                "/datasets/cifar-10-batches-bin/data_batch_3.bin",
-                "/datasets/cifar-10-batches-bin/data_batch_4.bin",
-                "/datasets/cifar-10-batches-bin/data_batch_5.bin",
+                findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_1.bin"),
+                findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_2.bin"),
+                findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_3.bin"),
+                findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_4.bin"),
+                findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_5.bin"),
         };
 
         String[] test_images = new String[]{
-                "/datasets/cifar-10-batches-bin/test_batch.bin",
+                findFile("bigdata/laptop/cifar-10-batches-bin/test_batch.bin"),
         };
 
         BatchIterator it = new BatchIterator(dataset, epochs, train_images);
@@ -133,13 +137,13 @@ public class BackendInterfaceTest {
     }
 
 
-    public void backendCanSaveCheckpoint(String modelName, int batchSize) throws IOException {
+    private void backendCanSaveCheckpoint(String modelName, int batchSize) throws IOException {
 
         BackendTrain backend = new TensorflowBackend();
 
         String[] train_images = new String[]{
-                "/home/fmilo/workspace/h2o-3/train-images-idx3-ubyte.gz",
-                "/home/fmilo/workspace/h2o-3/train-labels-idx1-ubyte.gz",
+                findFile("bigdata/laptop/mnist/train-images-idx3-ubyte.gz"),
+                findFile("bigdata/laptop/mnist/train-labels-idx1-ubyte.gz"),
         };
         MNISTImageDataset dataset = new MNISTImageDataset();
 
@@ -159,12 +163,15 @@ public class BackendInterfaceTest {
         float trained = testMXnet(model);
 
         //create a temp file
-        File temp = File.createTempFile("test", ".tmp");
-        backend.saveModel(model, temp.getAbsolutePath() );
+        File modelFile = File.createTempFile("model", ".tmp");
+        backend.saveModel(model, modelFile.getAbsolutePath());
 
-        BackendModel model2 = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelName);
-        backend.loadParam(model2, temp.getAbsolutePath() );
-        System.out.println("Temp file : " + temp.getAbsolutePath());
+        File modelParams = File.createTempFile("params", ".tmp");
+        backend.saveParam(model, modelParams.getAbsolutePath());
+
+        BackendModel model2 = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelFile.getAbsolutePath());
+
+        backend.loadParam(model2, modelParams.getAbsolutePath());
 
         float loaded = testMXnet(model2);
 
@@ -174,5 +181,36 @@ public class BackendInterfaceTest {
         backend.delete(model);
         backend.delete(model2);
 
+    }
+
+    @Test
+    public void backendCanLoadMetaGraph() throws Exception {
+        final String meta_model = ModelFactory.findResource("my-model-20001.meta");
+
+        MNISTImageDataset dataset = new MNISTImageDataset();
+
+        BackendTrain backend = new TensorflowBackend();
+        RuntimeOptions opts = new RuntimeOptions();
+        BackendParams params = new BackendParams();
+
+        BackendModel model = backend.buildNet(dataset, opts, params,
+                dataset.getNumClasses(),
+                meta_model);
+
+        File modelFile = File.createTempFile("model", ".tmp");
+        backend.saveModel(model, modelFile.getPath());
+
+        File modelParams = File.createTempFile("params", ".tmp");
+        backend.saveParam(model, modelParams.getAbsolutePath());
+
+
+        opts = new RuntimeOptions();
+        params = new BackendParams();
+
+        BackendModel model2 = backend.buildNet(dataset, opts, params,
+                dataset.getNumClasses(),
+                modelFile.getAbsolutePath());
+
+        backend.loadParam(model2, modelParams.getAbsolutePath());
     }
 }

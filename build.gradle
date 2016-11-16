@@ -2,6 +2,9 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'maven'
 
+// Include support for S3 syncing
+apply from: "gradle/s3sync.gradle"
+
 // This build script dependencies
 buildscript {
   repositories {
@@ -13,6 +16,7 @@ buildscript {
       classpath 'net.researchgate:gradle-release:2.4.1'
       classpath "be.insaneprogramming.gradle:animalsniffer-gradle-plugin:+"
       classpath 'com.google.protobuf:protobuf-gradle-plugin:0.7.5'
+      classpath 'de.undercouch:gradle-download-task:2.1.0'
   }
 }
 

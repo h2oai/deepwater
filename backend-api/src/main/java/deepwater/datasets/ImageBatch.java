@@ -10,11 +10,11 @@ public class ImageBatch {
 
     public ImageBatch(ImageDataSet data, int size) {
         this.size = size;
-        this.labels = new float[data.getNumClasses() * size];
+        this.labels = new float[size];
         this.images = new float[data.getHeight() * data.getWidth() * data.getChannels() * size];
     }
 
-    public void reset() {
+    void reset() {
         Arrays.fill(labels, 0);
         Arrays.fill(images, 0);
     }
