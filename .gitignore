@@ -29,3 +29,5 @@ build
 .gradle
 .cproject
 .project
+smalldata
+bigdata

@@ -37,6 +37,7 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import static deepwater.datasets.FileUtils.findFile;
 import static org.bytedeco.javacpp.tensorflow.ReadBinaryProto;
 import static org.bytedeco.javacpp.tensorflow.Status;
 import static org.tensorflow.framework.CollectionDef.KindCase;
@@ -242,8 +243,7 @@ public class ModelFactory {
         return path;
     }
 
-    public static String extractResource(String resourceModelName) throws IOException {
-        tensorflow.GraphDef graph_def = new tensorflow.GraphDef();
+    public static String findResource(String resourceModelName) throws IOException {
 
         URL url = Resources.getResource(resourceModelName);
         byte[] modelGraphData = Resources.toByteArray(url);
@@ -254,8 +254,8 @@ public class ModelFactory {
             if (in != null) {
                 path = saveToTempFile(in);
             } else {
-                // FIXME: for some reason inside idea it does not work
-                path = "/home/fmilo/workspace/deepwater/tensorflow/src/main/resources/" + resourceModelName;
+                // NOTE: for some reason inside idea it does not work
+                path = findFile("deepwater/tensorflow/src/main/resources/" + resourceModelName);
             }
         }
         return path;

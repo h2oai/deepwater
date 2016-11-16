@@ -5,6 +5,7 @@ import deepwater.backends.BackendParams;
 import deepwater.backends.BackendTrain;
 import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.TensorflowBackend;
+import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.datasets.BatchIterator;
 import deepwater.datasets.CIFAR10ImageDataset;
 import deepwater.datasets.ImageBatch;
@@ -15,19 +16,22 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 
+import static deepwater.datasets.FileUtils.findFile;
+
+
 public class BackendInterfaceTest {
 
     private String[] mnistTrainData = new String[]{
-            "/home/fmilo/workspace/h2o-3/train-images-idx3-ubyte.gz",
-            "/home/fmilo/workspace/h2o-3/train-labels-idx1-ubyte.gz",
+            findFile("bigdata/laptop/mnist/train-images-idx3-ubyte.gz"),
+            findFile("bigdata/laptop/mnist/train-labels-idx1-ubyte.gz"),
     };
 
     private float testMXnet(BackendModel model) throws IOException {
         BackendTrain backend = new TensorflowBackend();
         MNISTImageDataset dataset = new MNISTImageDataset();
         String[] images = new String[]{
-                "/home/fmilo/workspace/h2o-3/t10k-images-idx3-ubyte.gz",
-                "/home/fmilo/workspace/h2o-3/t10k-labels-idx1-ubyte.gz"
+                findFile("bigdata/laptop/mnist/t10k-images-idx3-ubyte.gz"),
+                findFile("bigdata/laptop/mnist/t10k-labels-idx1-ubyte.gz")
         };
 
         BatchIterator it = new BatchIterator(dataset, 1, images);
@@ -60,10 +64,10 @@ public class BackendInterfaceTest {
 
     @Ignore
     @Test
-    public void testVGG16() throws IOException{
-        backendCanSaveCheckpoint("vgg16", 16);
-        backendCanTrainMNIST("vgg16", 16, 100);
-        backendCanTrainCifar10("vgg16", 16, 10);
+    public void testVGG() throws IOException {
+        backendCanSaveCheckpoint("vgg", 16);
+        backendCanTrainMNIST("vgg", 32, 10);
+        backendCanTrainCifar10("vgg", 32, 10);
     }
 
     private void backendCanTrainMNIST(String modelName, int batchSize, int epochs) throws IOException {
@@ -82,10 +86,7 @@ public class BackendInterfaceTest {
 
         while(it.nextEpochs()) {
             while (it.next(b)) {
-                float[] values = backend.train(model, b.getImages(), b.getLabels());
-//                for (int i = 0; i < values.length; i++) {
-//                    System.out.println(values[i]);
-//                }
+                backend.train(model, b.getImages(), b.getLabels());
             }
             testMXnet(model);
         }
@@ -103,15 +104,15 @@ public class BackendInterfaceTest {
         BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelName);
 
         String[] train_images = new String[]{
-                "/datasets/cifar-10-batches-bin/data_batch_1.bin",
-                "/datasets/cifar-10-batches-bin/data_batch_2.bin",
-                "/datasets/cifar-10-batches-bin/data_batch_3.bin",
-                "/datasets/cifar-10-batches-bin/data_batch_4.bin",
-                "/datasets/cifar-10-batches-bin/data_batch_5.bin",
+                findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_1.bin"),
+                findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_2.bin"),
+                findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_3.bin"),
+                findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_4.bin"),
+                findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_5.bin"),
         };
 
         String[] test_images = new String[]{
-                "/datasets/cifar-10-batches-bin/test_batch.bin",
+                findFile("bigdata/laptop/cifar-10-batches-bin/test_batch.bin"),
         };
 
         BatchIterator it = new BatchIterator(dataset, epochs, train_images);
@@ -141,8 +142,8 @@ public class BackendInterfaceTest {
         BackendTrain backend = new TensorflowBackend();
 
         String[] train_images = new String[]{
-                "/home/fmilo/workspace/h2o-3/train-images-idx3-ubyte.gz",
-                "/home/fmilo/workspace/h2o-3/train-labels-idx1-ubyte.gz",
+                findFile("bigdata/laptop/mnist/train-images-idx3-ubyte.gz"),
+                findFile("bigdata/laptop/mnist/train-labels-idx1-ubyte.gz"),
         };
         MNISTImageDataset dataset = new MNISTImageDataset();
 
@@ -184,7 +185,7 @@ public class BackendInterfaceTest {
 
     @Test
     public void backendCanLoadMetaGraph() throws Exception {
-        final String meta_model = "/home/fmilo/workspace/deepwater/tensorflow/src/main/python/my-model-20001.meta";
+        final String meta_model = ModelFactory.findResource("my-model-20001.meta");
 
         MNISTImageDataset dataset = new MNISTImageDataset();
 
