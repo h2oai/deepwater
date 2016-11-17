@@ -15,15 +15,15 @@ A Deep Water workshop was presented at H2O Open Tour Dallas. The hands-on worksh
 
  ![Images > AMIs](images/images_amis.png)
 
-5. On the Launch screen, change the dropdown at the top to **Public images** , then search for the Deep Water AMI using the ID: ami-d32f70c4. Click Enter to begin the search.
+5. On the Launch screen, change the dropdown at the top to **Public images** , then search for the Deep Water AMI using the ID: ami-10bd9607. Click Enter to begin the search.
 
  ![Locate the AMI](images/locate_ami.png)
 
-6. After the AMI is located, select **Launch** from the Action dropdown.
+6. After the AMI is located, click on **Launch**.
 
  ![Launch the AMI](images/launch_ami.png)
 
-7. At this point, you will be directed to choose your GPU instance type, for example g2.2xlarge. Select an instance, then click **Next: Configure Instance Details**.
+7. At this point, you will be directed to choose your GPU instance type. Select an instance, for example g2.2xlarge, then click **Next: Configure Instance Details**.
 
  ![Choose instance type](images/choose_instance_type.png)
 
@@ -39,7 +39,7 @@ A Deep Water workshop was presented at H2O Open Tour Dallas. The hands-on worksh
 
  ![Tag instance](images/tag_instance.png)
 
-11. Update the security group, and choose **All TCP** in the Type dropdown. This is necessary to open the Flow UI. Click **Review and Launch**.
+11. Update the security group, and add rules as shown in the following image. This is necessary to open the Flow UI, Prediction Services, Jupyter Notebook server and log in to the instance via command line. Click **Review and Launch**.
 
  ![Configure security group](images/configure_security_group.png)
 
@@ -53,9 +53,13 @@ A Deep Water workshop was presented at H2O Open Tour Dallas. The hands-on worksh
 
 After the instance starts, you can view/start/stop/terminate the instance from the EC2 Dashboard by clicking on **Running Instances**.
 
+To open Jupyter Notebook server, enter ``<Public_IP_Address>:80`` in the address bar tab of browser window. A prompt box will appear for authentication. Enter username as ``deepwater`` and password as AWS Instance ID.
+
+To open Flow UI, enter ``<Public_IP_Address>:54321`` in the address bar tab of browser window.
+
 You can log in to this instance using ssh with Terminal (Mac/Linux) or Putty (Window). For example:
 
   ``ssh -i <Private_Key_File> ubuntu@<Public_IP_Address>``
 
-Note that the public IP address will change on reboot. Also, the key pair file should have restricted permissions (``chmod 600 <Private_Key_File>``). 
+Note that the public IP address will change on reboot. Also, the key pair file should have restricted permissions (``chmod 400 <Private_Key_File>``). 
 
