@@ -19,9 +19,7 @@ A Deep Water workshop was presented at H2O Open Tour Dallas. The hands-on worksh
 
  ![Locate the AMI](images/locate_ami.png)
 
-6. After the AMI is located, click on **Launch**.
-
- ![Launch the AMI](images/launch_ami.png)
+6. After the AMI is located, click the **Launch** button.
 
 7. At this point, you will be directed to choose your GPU instance type. Select an instance, for example g2.2xlarge, then click **Next: Configure Instance Details**.
 
@@ -39,7 +37,20 @@ A Deep Water workshop was presented at H2O Open Tour Dallas. The hands-on worksh
 
  ![Tag instance](images/tag_instance.png)
 
-11. Update the security group, and add rules as shown in the following image. This is necessary to open the Flow UI, Prediction Services, Jupyter Notebook server and log in to the instance via command line. Click **Review and Launch**.
+11. Update the security group, and add rules as indicated in the following table (refer also to the image below the table):
+
+ | Type            | Protocol  | Port Range    | Source             |
+ | ----------------|-----------|---------------|--------------------|
+ | SSH             | TCP       | 22            | Anywhere 0.0.0.0/0 |      
+ | HTTP            | TCP       | 80            | Anywhere 0.0.0.0/0 |  
+ | HTTPS           | TCP       | 443           | Anywhere 0.0.0.0/0 | 
+ | Custom TCP Rule | TCP       | 8080          | Anywhere 0.0.0.0/0 |
+ | Custom TCP Rule | TCP       | 54321-54330   | Anywhere 0.0.0.0/0 | 
+ | Custom TCP Rule | TCP       | 55001         | Anywhere 0.0.0.0/0 | 
+ | Custom TCP Rule | TCP       | 55011         | Anywhere 0.0.0.0/0 |
+ | Custom TCP Rule | TCP       | 55021         | Anywhere 0.0.0.0/0 |
+
+ These rules are necessary to open the Flow UI, Prediction Services, Jupyter Notebook server and log in to the instance via command line. Click **Review and Launch**.
 
  ![Configure security group](images/configure_security_group.png)
 
@@ -47,15 +58,15 @@ A Deep Water workshop was presented at H2O Open Tour Dallas. The hands-on worksh
 
  ![Review instance launch](images/review_instance_launch.png)
  
-13. A popup will appear prompting you to select a key pair. This will be used to log in to the instance via command line. You can select your existing key pair or create a new one. Click **Launch Instances** to start the new instance.
+13. A popup will appear prompting you to select a key pair. This will be used to log in to the instance via command line. You can select your existing key pair or create a new one. Be sure to accept the acknowledgement, then click **Launch Instances** to start the new instance.
 
  ![Enter or select key/pair](images/enter_key_pair.png)
 
 After the instance starts, you can view/start/stop/terminate the instance from the EC2 Dashboard by clicking on **Running Instances**.
 
-To open Jupyter Notebook server, enter ``<Public_IP_Address>:80`` in the address bar tab of browser window. A prompt box will appear for authentication. Enter username as ``deepwater`` and password as AWS Instance ID.
+To open a Jupyter Notebook server, enter ``<Public_IP_Address>:80`` in the address bar of your browser window. A message box will appear, prompting you to provide authentication. Enter ``deepwater`` for the username, and enter the AWS Instance ID as the password.
 
-To open Flow UI, enter ``<Public_IP_Address>:54321`` in the address bar tab of browser window.
+To open the Flow UI, enter ``<Public_IP_Address>:54321`` in the address bar of your browser window.
 
 You can log in to this instance using ssh with Terminal (Mac/Linux) or Putty (Window). For example:
 

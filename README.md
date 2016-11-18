@@ -33,10 +33,12 @@ If you are interested in running H2O Deep Water on a different infrastructure, s
 ### PreRelease Amazon AWS Image
 For your convenience, here's a pre-built image for Amazon's EC2 environment, based off our recent [H2O Open Tour Hands-On Deep Water workshop](https://twitter.com/ArnoCandel/status/791280896318042112) (recording coming soon).
 
-* AMI ID: ami-d32f70c4
-* AMI Name: deepwater-dallas-v3
+* AMI ID: ami-10bd9607
+* AMI Name: deepwater-dallas-v4
 * Recommended instance types: g2.2xlarge or p2.xlarge
 * After launching the instance, you can connect to port 8888 (Jupyter Notebook) or port 54321 (H2O Flow).
+
+Refer to the [Deep Water Workshop on EC2 Amazon AMI](docs/open-tour-dallas/deep-water-ami.md) document for additional information on how to run this AMI. 
 
 ### Roadmap, Architecture and Demo
 Download the [Deep Water overview slides](./architecture/deepwater_overview.pdf).
