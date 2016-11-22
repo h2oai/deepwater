@@ -4,6 +4,8 @@ This package provides inference bindings for Tensorflow and H2O.ai.
 
 The module directory contains a pretrained set of ready to use models. 
 
+#### Install Protobuf 3.0.0
+https://github.com/google/protobuf/releases/tag/v3.0.0
 
 #### Install Bazel 0.3.1
 For Linux:
