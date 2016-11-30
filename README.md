@@ -109,9 +109,10 @@ Example [Java GPU-enabled unit tests](https://github.com/h2oai/h2o-3/tree/master
 
 #### Python example use cases
 Example [Python GPU-enabled unit tests](https://github.com/h2oai/h2o-3/tree/master/h2o-py/tests/testdir_algos/deepwater).
+Check out a sample of cool Deep Learning Python [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks)!
 
 #### R example use cases
-Coming soon.
+Check out a sample of cool Deep Learning R [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks)!
 
 #### Scala / Sparkling Water example use cases
 Coming soon.
