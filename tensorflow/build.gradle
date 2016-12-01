@@ -3,24 +3,26 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'maven'
-apply plugin: 'com.google.protobuf'
 
 repositories {
     mavenCentral()
 }
 
-sourceSets.main.resources {
-    srcDirs = ["src/main/resources"]
+sourceSets {
+    main {
+        java {
+            srcDirs "${rootDir}/tensorflow/src/main/grpc"
+        }
+    }
 }
-
 
 dependencies {
 
     def presets = "${rootDir}/thirdparty/javacpp-presets"
-    println("Preset directory set to : ${presets}")
 
     compile files("${presets}/target/javacpp.jar")
     compile files("${presets}/tensorflow/target/tensorflow.jar")
+
     if (new File("${presets}/tensorflow/target/tensorflow-linux-x86_64.jar").exists()) {
         compile files("${presets}/tensorflow/target/tensorflow-linux-x86_64.jar")
     }
@@ -29,7 +31,7 @@ dependencies {
     }
 
     compile project (':deepwater-backend-api')
-    compile "com.google.protobuf:protobuf-java:3.0.0"
+    compile "com.google.protobuf:protobuf-java:3.1.0"
     compile 'com.google.guava:guava:19.0'
 
     compile 'io.grpc:grpc-netty:1.0.1'
@@ -41,26 +43,14 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
+
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-protobuf {
-    generatedFilesBaseDir = "$projectDir/src/"
-}
 
-//jar {
-    // baseName = 'analytics'
-    // from('src/main/java') {
-        // include 'config/**/*.xml'
-        //}
-    //
-    // manifest {
-        // attributes 'Implementation-Title': 'Analytics Library', 'Implementation-Version': version
-        //}
-    //}
 jar {
     baseName = rootProject.name + "." + project.name
 
@@ -87,10 +77,3 @@ artifacts {
     archives javadocJar
 }
 
-idea {
-    module {
-        sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/java");
-        // If you have additional sourceSets and/or codegen plugins, add all of them
-        sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/grpc");
-    }
-}

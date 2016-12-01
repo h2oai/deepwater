@@ -431,9 +431,10 @@ public  final class FunctionDef extends
                 mutable_bitField0_ |= 0x00000010;
               }
               com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.AttrValue>
-              attr = input.readMessage(
+              attr__ = input.readMessage(
                   AttrDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-              attr_.getMutableMap().put(attr.getKey(), attr.getValue());
+              attr_.getMutableMap().put(
+                  attr__.getKey(), attr__.getValue());
               break;
             }
           }
@@ -829,15 +830,12 @@ public  final class FunctionDef extends
       for (int i = 0; i < dep_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, dep_.getRaw(i));
       }
-      for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.AttrValue> entry
-           : internalGetAttr().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.AttrValue>
-        attr = AttrDefaultEntryHolder.defaultEntry.newBuilderForType()
-            .setKey(entry.getKey())
-            .setValue(entry.getValue())
-            .build();
-        output.writeMessage(5, attr);
-      }
+      com.google.protobuf.GeneratedMessageV3
+        .serializeStringMapTo(
+          output,
+          internalGetAttr(),
+          AttrDefaultEntryHolder.defaultEntry,
+          5);
     }
 
     public int getSerializedSize() {
@@ -875,12 +873,12 @@ public  final class FunctionDef extends
       for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.AttrValue> entry
            : internalGetAttr().getMap().entrySet()) {
         com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.AttrValue>
-        attr = AttrDefaultEntryHolder.defaultEntry.newBuilderForType()
+        attr__ = AttrDefaultEntryHolder.defaultEntry.newBuilderForType()
             .setKey(entry.getKey())
             .setValue(entry.getValue())
             .build();
         size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(5, attr);
+            .computeMessageSize(5, attr__);
       }
       memoizedSize = size;
       return size;

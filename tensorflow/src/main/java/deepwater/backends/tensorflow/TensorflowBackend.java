@@ -44,6 +44,11 @@ public class TensorflowBackend implements BackendTrain {
         checkStatus(status);
     }
 
+    public BackendModel buildModel(String name, ModelParams params)
+    {
+        return null;
+    }
+
     @Override
     public BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts,
                   BackendParams backend_params, int num_classes, String name)

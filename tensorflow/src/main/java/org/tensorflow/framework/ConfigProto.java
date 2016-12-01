@@ -63,9 +63,10 @@ public  final class ConfigProto extends
               mutable_bitField0_ |= 0x00000001;
             }
             com.google.protobuf.MapEntry<java.lang.String, java.lang.Integer>
-            deviceCount = input.readMessage(
+            deviceCount__ = input.readMessage(
                 DeviceCountDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-            deviceCount_.getMutableMap().put(deviceCount.getKey(), deviceCount.getValue());
+            deviceCount_.getMutableMap().put(
+                deviceCount__.getKey(), deviceCount__.getValue());
             break;
           }
           case 16: {
@@ -617,15 +618,12 @@ public  final class ConfigProto extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    for (java.util.Map.Entry<java.lang.String, java.lang.Integer> entry
-         : internalGetDeviceCount().getMap().entrySet()) {
-      com.google.protobuf.MapEntry<java.lang.String, java.lang.Integer>
-      deviceCount = DeviceCountDefaultEntryHolder.defaultEntry.newBuilderForType()
-          .setKey(entry.getKey())
-          .setValue(entry.getValue())
-          .build();
-      output.writeMessage(1, deviceCount);
-    }
+    com.google.protobuf.GeneratedMessageV3
+      .serializeStringMapTo(
+        output,
+        internalGetDeviceCount(),
+        DeviceCountDefaultEntryHolder.defaultEntry,
+        1);
     if (intraOpParallelismThreads_ != 0) {
       output.writeInt32(2, intraOpParallelismThreads_);
     }
@@ -669,12 +667,12 @@ public  final class ConfigProto extends
     for (java.util.Map.Entry<java.lang.String, java.lang.Integer> entry
          : internalGetDeviceCount().getMap().entrySet()) {
       com.google.protobuf.MapEntry<java.lang.String, java.lang.Integer>
-      deviceCount = DeviceCountDefaultEntryHolder.defaultEntry.newBuilderForType()
+      deviceCount__ = DeviceCountDefaultEntryHolder.defaultEntry.newBuilderForType()
           .setKey(entry.getKey())
           .setValue(entry.getValue())
           .build();
       size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, deviceCount);
+          .computeMessageSize(1, deviceCount__);
     }
     if (intraOpParallelismThreads_ != 0) {
       size += com.google.protobuf.CodedOutputStream

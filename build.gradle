@@ -1,6 +1,7 @@
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'com.google.protobuf'
 
 // Include support for S3 syncing
 apply from: "gradle/s3sync.gradle"
@@ -42,6 +43,28 @@ allprojects {
     repositories {
         mavenCentral()
     }
+
+    protobuf {
+        generatedFilesBaseDir = "$projectDir/src/"
+
+        protoc {
+            artifact = "com.google.protobuf:protoc:3.1.0"
+        }
+
+        plugins {
+            grpc {
+                artifact = 'io.grpc:protoc-gen-grpc-java:1.0.2'
+            }
+        }
+
+        generateProtoTasks {
+            all()*.plugins {
+                grpc {}
+            }
+        }
+    }
+
+
 }
 
 //

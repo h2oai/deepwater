@@ -104,9 +104,10 @@ public  final class MetaGraphDef extends
               mutable_bitField0_ |= 0x00000008;
             }
             com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.CollectionDef>
-            collectionDef = input.readMessage(
+            collectionDef__ = input.readMessage(
                 CollectionDefDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-            collectionDef_.getMutableMap().put(collectionDef.getKey(), collectionDef.getValue());
+            collectionDef_.getMutableMap().put(
+                collectionDef__.getKey(), collectionDef__.getValue());
             break;
           }
           case 42: {
@@ -116,9 +117,10 @@ public  final class MetaGraphDef extends
               mutable_bitField0_ |= 0x00000010;
             }
             com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.SignatureDef>
-            signatureDef = input.readMessage(
+            signatureDef__ = input.readMessage(
                 SignatureDefDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-            signatureDef_.getMutableMap().put(signatureDef.getKey(), signatureDef.getValue());
+            signatureDef_.getMutableMap().put(
+                signatureDef__.getKey(), signatureDef__.getValue());
             break;
           }
         }
@@ -1884,24 +1886,18 @@ public  final class MetaGraphDef extends
     if (saverDef_ != null) {
       output.writeMessage(3, getSaverDef());
     }
-    for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.CollectionDef> entry
-         : internalGetCollectionDef().getMap().entrySet()) {
-      com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.CollectionDef>
-      collectionDef = CollectionDefDefaultEntryHolder.defaultEntry.newBuilderForType()
-          .setKey(entry.getKey())
-          .setValue(entry.getValue())
-          .build();
-      output.writeMessage(4, collectionDef);
-    }
-    for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.SignatureDef> entry
-         : internalGetSignatureDef().getMap().entrySet()) {
-      com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.SignatureDef>
-      signatureDef = SignatureDefDefaultEntryHolder.defaultEntry.newBuilderForType()
-          .setKey(entry.getKey())
-          .setValue(entry.getValue())
-          .build();
-      output.writeMessage(5, signatureDef);
-    }
+    com.google.protobuf.GeneratedMessageV3
+      .serializeStringMapTo(
+        output,
+        internalGetCollectionDef(),
+        CollectionDefDefaultEntryHolder.defaultEntry,
+        4);
+    com.google.protobuf.GeneratedMessageV3
+      .serializeStringMapTo(
+        output,
+        internalGetSignatureDef(),
+        SignatureDefDefaultEntryHolder.defaultEntry,
+        5);
   }
 
   public int getSerializedSize() {
@@ -1924,22 +1920,22 @@ public  final class MetaGraphDef extends
     for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.CollectionDef> entry
          : internalGetCollectionDef().getMap().entrySet()) {
       com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.CollectionDef>
-      collectionDef = CollectionDefDefaultEntryHolder.defaultEntry.newBuilderForType()
+      collectionDef__ = CollectionDefDefaultEntryHolder.defaultEntry.newBuilderForType()
           .setKey(entry.getKey())
           .setValue(entry.getValue())
           .build();
       size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, collectionDef);
+          .computeMessageSize(4, collectionDef__);
     }
     for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.SignatureDef> entry
          : internalGetSignatureDef().getMap().entrySet()) {
       com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.SignatureDef>
-      signatureDef = SignatureDefDefaultEntryHolder.defaultEntry.newBuilderForType()
+      signatureDef__ = SignatureDefDefaultEntryHolder.defaultEntry.newBuilderForType()
           .setKey(entry.getKey())
           .setValue(entry.getValue())
           .build();
       size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, signatureDef);
+          .computeMessageSize(5, signatureDef__);
     }
     memoizedSize = size;
     return size;
