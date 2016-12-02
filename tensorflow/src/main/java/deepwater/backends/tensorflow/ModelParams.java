@@ -1,7 +1,8 @@
 package deepwater.backends.tensorflow;
 
-/**
- * Created by fmilo on 11/30/16.
- */
-public class ModelParams {
+
+import java.util.HashMap;
+
+public class ModelParams extends HashMap<String, Object> {
+
 }

@@ -6,11 +6,14 @@ import ai.h2o.deepwater.ParamValue;
 import ai.h2o.deepwater.ServiceGrpc;
 import ai.h2o.deepwater.PingRequest;
 import ai.h2o.deepwater.Status;
+import com.google.common.collect.ImmutableMap;
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.tensorflow.framework.MetaGraphDef;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -38,7 +41,32 @@ public class Client {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
-    public ParamValue asParam(long value){
+    public ParamValue asParam(Object value) throws Exception {
+        if (value.getClass() == java.lang.String.class){
+            return asParam((String) value);
+        }
+        else if (value.getClass() == java.lang.Long.class){
+            return asParam((Long) value);
+        }
+        else if (value.getClass() == java.lang.Integer.class){
+            return asParam((Integer) value);
+        }
+        else if (value.getClass() == java.lang.Boolean.class) {
+            return asParam((Boolean) value);
+        } else {
+            throw new Exception("unsupported class value: "+value.getClass());
+        }
+    }
+
+    public ParamValue asParam(Boolean value){
+        return ParamValue.newBuilder().setB(value).build();
+    }
+
+    public ParamValue asParam(Integer value){
+        return ParamValue.newBuilder().setI(value).build();
+    }
+
+    public ParamValue asParam(Long value){
         return ParamValue.newBuilder().setI(value).build();
     }
 
@@ -46,16 +74,16 @@ public class Client {
         return ParamValue.newBuilder().setS(ByteString.copyFromUtf8(key)).build();
     }
 
-    public MetaGraphDef BuildNetwork(String networkName) {
-        NetworkRequest request = NetworkRequest.newBuilder()
-                .putParams("name", asParam(networkName))
-                .putParams("width", asParam(28))
-                .putParams("height", asParam(28))
-                .putParams("channels", asParam(28))
-                .putParams("classes", asParam(10))
-            .build();
+    public MetaGraphDef BuildNetwork(String networkName, Map<String, Object> hashMap) throws Exception {
+        NetworkRequest.Builder requestBuilder = NetworkRequest.newBuilder();
+        requestBuilder.putParams("name", asParam(networkName));
+
+        for (String key: hashMap.keySet()) {
+            requestBuilder.putParams(key, asParam(hashMap.get(key)));
+        }
+
         NetworkResponse response;
-        response = blockingStub.buildNetwork(request);
+        response = blockingStub.buildNetwork(requestBuilder.build());
         logger.info("buildNetwork: " + response);
         return response.getNetwork();
     }

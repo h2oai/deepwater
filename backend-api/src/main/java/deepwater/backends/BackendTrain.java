@@ -26,9 +26,10 @@ public interface BackendTrain {
     // clip_gradient: bool
     void setParameter(BackendModel m, String name, float value);
 
-float[] train(BackendModel m, float[] data, float[] label);
+    float[] train(BackendModel m, float[] data, float[] label);
 
     float[] predict(BackendModel m, float[] data, float[] label);
 
     float[] predict(BackendModel m, float[] data);
+
 }

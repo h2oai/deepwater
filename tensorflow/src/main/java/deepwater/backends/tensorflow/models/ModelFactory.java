@@ -71,18 +71,18 @@ public class ModelFactory {
         if (!new File(metaPath).exists()) {
             throw new FileNotFoundException(metaPath);
         }
-
-        Path path = FileSystems.getDefault().getPath(metaPath);
-
-        byte[] data = Files.readAllBytes(path);
-
         MetaGraphDef metaGraphDef = MetaGraphDef.parseFrom(new FileInputStream(metaPath));
+        return LoadFromMetaGraphDef(metaGraphDef);
+    }
+
+    public static TensorflowModel LoadFromMetaGraphDef(MetaGraphDef metaGraphDef) throws Exception {
+
         org.tensorflow.framework.GraphDef graphDef = metaGraphDef.getGraphDef();
+
         // Tags
         for( String tag: metaGraphDef.getMetaInfoDef().getTagsList()) {
             System.out.println(tag);
         }
-
 
         OpList ops = metaGraphDef.getMetaInfoDef().getStrippedOpList();
         for( OpDef op: ops.getOpList()){
@@ -146,6 +146,9 @@ public class ModelFactory {
         tensorflow.GraphDef gdef = new tensorflow.GraphDef();
         Status status = ReadBinaryProto(tensorflow.Env.Default(), graphPath, gdef);
         checkStatus(status);
+
+        byte[] data = metaGraphDef.toByteArray();
+
         return new TensorflowModel(meta, gdef, data);
     }
 

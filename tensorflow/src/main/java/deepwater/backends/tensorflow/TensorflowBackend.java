@@ -8,6 +8,8 @@ import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.backends.tensorflow.models.TensorflowModel;
 import deepwater.datasets.ImageDataSet;
+import org.bytedeco.javacpp.tensorflow;
+import org.tensorflow.framework.MetaGraphDef;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +39,7 @@ public class TensorflowBackend implements BackendTrain {
     private SessionOptions sessionOptions;
     private Session session;
 
+
     @Override
     public void delete(BackendModel m) {
         TensorflowModel model = (TensorflowModel) m;
@@ -44,9 +47,16 @@ public class TensorflowBackend implements BackendTrain {
         checkStatus(status);
     }
 
-    public BackendModel buildModel(String name, ModelParams params)
-    {
-        return null;
+    public BackendModel buildModel(String name, ModelParams params) throws Exception {
+       Client c = new Client("localhost", 50051);
+       MetaGraphDef meta = c.BuildNetwork(name, params);
+       TensorflowModel model = ModelFactory.LoadFromMetaGraphDef(meta);
+        int width = (int) params.get("width");
+        int height = (int) params.get("height");
+        int channels = (int) params.get("channels");
+        int frameSize = width * height * channels;
+        int classes = (Integer) params.get("classes");
+        return setupModel(frameSize, classes, model);
     }
 
     @Override
@@ -72,14 +82,18 @@ public class TensorflowBackend implements BackendTrain {
             model = ModelFactory.LoadModelFromFile(resourceModelName);
         }
 
+        int frameSize = dataset.getWidth() * dataset.getHeight() * dataset.getChannels();
+        return setupModel(frameSize, num_classes, model);
+    }
 
+    private BackendModel setupModel(int frameSize, int num_classes, TensorflowModel model) {
         sessionOptions = new SessionOptions();
         session = new Session(sessionOptions);
 
         Status status = session.Create(model.getGraph());
         checkStatus(status);
 
-        model.frameSize = dataset.getWidth() * dataset.getHeight() * dataset.getChannels();
+        model.frameSize = frameSize;
         model.classes = num_classes;
         if (!model.meta.init.isEmpty()) {
             TensorVector outputs = new TensorVector();
@@ -301,6 +315,9 @@ public class TensorflowBackend implements BackendTrain {
         return result;
     }
 
+    /**
+        Converts a list of float arrays with shape *shapes* into a list of tensors with tensors name
+     */
     private StringTensorPairVector convertData(float[][] inputs, long[][] shapes, String[] tensors){
         assert inputs.length == shapes.length:  shapes.length;
         assert inputs.length == tensors.length: inputs.length;
@@ -308,6 +325,7 @@ public class TensorflowBackend implements BackendTrain {
         Tensor[] t = new Tensor[inputs.length];
 
         for (int i = 0; i < inputs.length; i++) {
+            System.out.println(shapes[i]);
             Tensor data_t = new Tensor(DT_FLOAT, new TensorShape(shapes[i]));
             FloatBuffer data_flat =  data_t.createBuffer();
             data_flat.put(inputs[i]);
