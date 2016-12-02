@@ -7,12 +7,43 @@ option java_package = "ai.h2o.deepwater";
 option java_outer_classname = "GRPCService";
 
 
+import "tensorflow/core/protobuf/meta_graph.proto";
+
 package deepwater;
 
 service Service {
 
-    rpc Ping(PingRequest) returns (Status) {}
+    rpc Ping(PingRequest) returns (Status) {};
 
+    rpc BuildNetwork(NetworkRequest) returns (NetworkResponse) {};
+
+}
+
+message ParamValue {
+    message ListValue {
+        repeated bytes s = 2;                        // "list(string)"
+        repeated int64 i = 3 [packed = true];        // "list(int)"
+        repeated float f = 4 [packed = true];        // "list(float)"
+        repeated bool b = 5 [packed = true];         // "list(bool)"
+    }
+
+    oneof value {
+        bytes s = 2; // "string"
+        int64 i = 3; // "int"
+        float f = 4; // "float"
+        bool b = 5; // "bool"
+        ListValue list = 1; // any "list(...)"
+    }
+}
+
+message NetworkRequest {
+    map<string, ParamValue> params = 1;
+
+}
+
+message NetworkResponse {
+    tensorflow.MetaGraphDef network = 1;
+    Status status = 2;
 }
 
 message PingRequest {

@@ -36,6 +36,15 @@ public class ServiceGrpc {
               "deepwater.Service", "Ping"),
           io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.PingRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.Status.getDefaultInstance()));
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.NetworkRequest,
+      ai.h2o.deepwater.NetworkResponse> METHOD_BUILD_NETWORK =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "deepwater.Service", "BuildNetwork"),
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.NetworkRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.NetworkResponse.getDefaultInstance()));
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -71,6 +80,13 @@ public class ServiceGrpc {
       asyncUnimplementedUnaryCall(METHOD_PING, responseObserver);
     }
 
+    /**
+     */
+    public void buildNetwork(ai.h2o.deepwater.NetworkRequest request,
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.NetworkResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_BUILD_NETWORK, responseObserver);
+    }
+
     @java.lang.Override public io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -80,6 +96,13 @@ public class ServiceGrpc {
                 ai.h2o.deepwater.PingRequest,
                 ai.h2o.deepwater.Status>(
                   this, METHODID_PING)))
+          .addMethod(
+            METHOD_BUILD_NETWORK,
+            asyncUnaryCall(
+              new MethodHandlers<
+                ai.h2o.deepwater.NetworkRequest,
+                ai.h2o.deepwater.NetworkResponse>(
+                  this, METHODID_BUILD_NETWORK)))
           .build();
     }
   }
@@ -109,6 +132,14 @@ public class ServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(METHOD_PING, getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void buildNetwork(ai.h2o.deepwater.NetworkRequest request,
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.NetworkResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_BUILD_NETWORK, getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -134,6 +165,13 @@ public class ServiceGrpc {
     public ai.h2o.deepwater.Status ping(ai.h2o.deepwater.PingRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_PING, getCallOptions(), request);
+    }
+
+    /**
+     */
+    public ai.h2o.deepwater.NetworkResponse buildNetwork(ai.h2o.deepwater.NetworkRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_BUILD_NETWORK, getCallOptions(), request);
     }
   }
 
@@ -162,9 +200,18 @@ public class ServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(METHOD_PING, getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.NetworkResponse> buildNetwork(
+        ai.h2o.deepwater.NetworkRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_BUILD_NETWORK, getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_PING = 0;
+  private static final int METHODID_BUILD_NETWORK = 1;
 
   private static class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -187,6 +234,10 @@ public class ServiceGrpc {
           serviceImpl.ping((ai.h2o.deepwater.PingRequest) request,
               (io.grpc.stub.StreamObserver<ai.h2o.deepwater.Status>) responseObserver);
           break;
+        case METHODID_BUILD_NETWORK:
+          serviceImpl.buildNetwork((ai.h2o.deepwater.NetworkRequest) request,
+              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.NetworkResponse>) responseObserver);
+          break;
         default:
           throw new AssertionError();
       }
@@ -205,7 +256,8 @@ public class ServiceGrpc {
 
   public static io.grpc.ServiceDescriptor getServiceDescriptor() {
     return new io.grpc.ServiceDescriptor(SERVICE_NAME,
-        METHOD_PING);
+        METHOD_PING,
+        METHOD_BUILD_NETWORK);
   }
 
 }

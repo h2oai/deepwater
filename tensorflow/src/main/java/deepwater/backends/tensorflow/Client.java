@@ -1,10 +1,16 @@
 package deepwater.backends.tensorflow;
 
+import ai.h2o.deepwater.NetworkRequest;
+import ai.h2o.deepwater.NetworkResponse;
+import ai.h2o.deepwater.ParamValue;
 import ai.h2o.deepwater.ServiceGrpc;
 import ai.h2o.deepwater.PingRequest;
 import ai.h2o.deepwater.Status;
+import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import org.tensorflow.framework.MetaGraphDef;
+
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -31,6 +37,29 @@ public class Client {
     public void shutdown() throws InterruptedException {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
+
+    public ParamValue asParam(long value){
+        return ParamValue.newBuilder().setI(value).build();
+    }
+
+    public ParamValue asParam(String key){
+        return ParamValue.newBuilder().setS(ByteString.copyFromUtf8(key)).build();
+    }
+
+    public MetaGraphDef BuildNetwork(String networkName) {
+        NetworkRequest request = NetworkRequest.newBuilder()
+                .putParams("name", asParam(networkName))
+                .putParams("width", asParam(28))
+                .putParams("height", asParam(28))
+                .putParams("channels", asParam(28))
+                .putParams("classes", asParam(10))
+            .build();
+        NetworkResponse response;
+        response = blockingStub.buildNetwork(request);
+        logger.info("buildNetwork: " + response);
+        return response.getNetwork();
+    }
+
 
     public void Ping() {
         PingRequest request = PingRequest.newBuilder().build();

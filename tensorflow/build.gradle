@@ -3,6 +3,7 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'com.google.protobuf'
 
 repositories {
     mavenCentral()
@@ -76,4 +77,25 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
+
+protobuf {
+    generatedFilesBaseDir = "$projectDir/src/"
+
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.1.0"
+    }
+
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.0.2'
+        }
+    }
+
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}
+
 

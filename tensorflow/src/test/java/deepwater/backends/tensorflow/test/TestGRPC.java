@@ -1,18 +1,33 @@
 package deepwater.backends.tensorflow.test;
 
 import deepwater.backends.tensorflow.Client;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.tensorflow.framework.MetaGraphDef;
 
 public class TestGRPC {
 
+    private Client client;
+
+    @Before
+    public void setUp(){
+        client = new Client("localhost", 50051);
+    }
+
+    @After
+    public void tearDown() throws InterruptedException {
+        client.shutdown();
+    }
+
     @Test
     public void testSimpleConnection() throws InterruptedException {
-            Client client = new Client("localhost", 50051);
-            try {
-                /* Access a service running on the local machine on port 50051 */
-                client.Ping();
-            } finally {
-                client.shutdown();
-            }
-        }
+        client.Ping();
     }
+
+    @Test
+    public void testSimpleBuildNetwork() throws InterruptedException {
+        MetaGraphDef graph = client.BuildNetwork("lenet");
+    }
+
+}

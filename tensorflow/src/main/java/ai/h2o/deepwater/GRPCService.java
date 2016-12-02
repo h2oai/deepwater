@@ -15,6 +15,31 @@ public final class GRPCService {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_deepwater_ParamValue_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_deepwater_ParamValue_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_deepwater_ParamValue_ListValue_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_deepwater_ParamValue_ListValue_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_deepwater_NetworkRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_deepwater_NetworkRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_deepwater_NetworkRequest_ParamsEntry_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_deepwater_NetworkRequest_ParamsEntry_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_deepwater_NetworkResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_deepwater_NetworkResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_deepwater_PingRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -33,10 +58,24 @@ public final class GRPCService {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rservice.proto\022\tdeepwater\"\r\n\013PingReques" +
-      "t\"\010\n\006Status2>\n\007Service\0223\n\004Ping\022\026.deepwat" +
-      "er.PingRequest\032\021.deepwater.Status\"\000B!\n\020a" +
-      "i.h2o.deepwaterB\013GRPCServiceP\001b\006proto3"
+      "\n\rservice.proto\022\tdeepwater\032)tensorflow/c" +
+      "ore/protobuf/meta_graph.proto\"\277\001\n\nParamV" +
+      "alue\022\013\n\001s\030\002 \001(\014H\000\022\013\n\001i\030\003 \001(\003H\000\022\013\n\001f\030\004 \001(" +
+      "\002H\000\022\013\n\001b\030\005 \001(\010H\000\022/\n\004list\030\001 \001(\0132\037.deepwat" +
+      "er.ParamValue.ListValueH\000\032C\n\tListValue\022\t" +
+      "\n\001s\030\002 \003(\014\022\r\n\001i\030\003 \003(\003B\002\020\001\022\r\n\001f\030\004 \003(\002B\002\020\001\022" +
+      "\r\n\001b\030\005 \003(\010B\002\020\001B\007\n\005value\"\215\001\n\016NetworkReque" +
+      "st\0225\n\006params\030\001 \003(\0132%.deepwater.NetworkRe" +
+      "quest.ParamsEntry\032D\n\013ParamsEntry\022\013\n\003key\030" +
+      "\001 \001(\t\022$\n\005value\030\002 \001(\0132\025.deepwater.ParamVa",
+      "lue:\0028\001\"_\n\017NetworkResponse\022)\n\007network\030\001 " +
+      "\001(\0132\030.tensorflow.MetaGraphDef\022!\n\006status\030" +
+      "\002 \001(\0132\021.deepwater.Status\"\r\n\013PingRequest\"" +
+      "\010\n\006Status2\207\001\n\007Service\0223\n\004Ping\022\026.deepwate" +
+      "r.PingRequest\032\021.deepwater.Status\"\000\022G\n\014Bu" +
+      "ildNetwork\022\031.deepwater.NetworkRequest\032\032." +
+      "deepwater.NetworkResponse\"\000B!\n\020ai.h2o.de" +
+      "epwaterB\013GRPCServiceP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -49,19 +88,51 @@ public final class GRPCService {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          org.tensorflow.framework.MetaGraphProtos.getDescriptor(),
         }, assigner);
-    internal_static_deepwater_PingRequest_descriptor =
+    internal_static_deepwater_ParamValue_descriptor =
       getDescriptor().getMessageTypes().get(0);
+    internal_static_deepwater_ParamValue_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_deepwater_ParamValue_descriptor,
+        new java.lang.String[] { "S", "I", "F", "B", "List", "Value", });
+    internal_static_deepwater_ParamValue_ListValue_descriptor =
+      internal_static_deepwater_ParamValue_descriptor.getNestedTypes().get(0);
+    internal_static_deepwater_ParamValue_ListValue_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_deepwater_ParamValue_ListValue_descriptor,
+        new java.lang.String[] { "S", "I", "F", "B", });
+    internal_static_deepwater_NetworkRequest_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_deepwater_NetworkRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_deepwater_NetworkRequest_descriptor,
+        new java.lang.String[] { "Params", });
+    internal_static_deepwater_NetworkRequest_ParamsEntry_descriptor =
+      internal_static_deepwater_NetworkRequest_descriptor.getNestedTypes().get(0);
+    internal_static_deepwater_NetworkRequest_ParamsEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_deepwater_NetworkRequest_ParamsEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_deepwater_NetworkResponse_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_deepwater_NetworkResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_deepwater_NetworkResponse_descriptor,
+        new java.lang.String[] { "Network", "Status", });
+    internal_static_deepwater_PingRequest_descriptor =
+      getDescriptor().getMessageTypes().get(3);
     internal_static_deepwater_PingRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_deepwater_PingRequest_descriptor,
         new java.lang.String[] { });
     internal_static_deepwater_Status_descriptor =
-      getDescriptor().getMessageTypes().get(1);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_deepwater_Status_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_deepwater_Status_descriptor,
         new java.lang.String[] { });
+    org.tensorflow.framework.MetaGraphProtos.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)
