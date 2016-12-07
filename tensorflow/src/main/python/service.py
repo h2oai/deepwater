@@ -65,13 +65,19 @@ class DeepWaterServer(service_pb2.ServiceServicer):
     return service_pb2.Status()
 
   def BuildNetwork(self, req, ctx):
-    params = convert(req)
-    name = params.pop('name')
-    print(name, params)
-    return service_pb2.NetworkResponse(
-        network=mlp(**params),
-        status=service_pb2.Status(),
-    )
+    try:
+        params = convert(req)
+        name = params.pop('name')
+        metagraph = eval(name)(**params);
+        return service_pb2.NetworkResponse(
+            network=metagraph,
+            status=service_pb2.Status(OK=True),
+        )
+    except Exception,e:
+        return service_pb2.NetworkResponse(
+            network=None,
+            status=service_pb2.Status(OK=False, message=e.message),
+        )
 
 
 def serve():

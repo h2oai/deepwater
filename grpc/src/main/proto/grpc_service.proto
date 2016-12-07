@@ -1,0 +1,134 @@
+// DeepWater Remote Procedure Service
+
+syntax="proto3";
+
+option java_multiple_files = true;
+option java_package = "ai.h2o.deepwater.backends.grpc";
+option java_outer_classname = "DeepWaterGRPCService";
+
+
+package deepwater;
+
+service DeepWaterPredictBackend {
+    rpc Predict(PredictRequest) returns (Status) {};
+}
+
+service DeepWaterTrainBackend {
+
+    rpc CreateModel(CreateModelRequest) returns (CreateModelResponse) {};
+
+    rpc SaveModel(SaveModelRequest) returns (Status) {};
+
+    rpc LoadWeights(LoadWeightsRequest) returns (Status) {};
+
+    rpc SaveWeights(SaveWeightsRequest) returns (Status) {};
+
+    rpc SetParameters(SetParametersRequest) returns (Status) {};
+
+    rpc Train(TrainRequest) returns (Status) {};
+
+    rpc Predict(PredictRequest) returns (Status) {};
+}
+
+message Session {
+    string id = 1;
+}
+
+message BackendModel {
+    bytes state = 1;
+}
+
+message CreateModelRequest {
+    map<string, ParamValue> params = 1;
+}
+
+message CreateModelResponse {
+    bytes network = 1;
+    Status status = 2;
+}
+
+message Status {
+    bool ok = 1;
+    string message = 2;
+}
+
+message SaveModelRequest {
+    Session session = 1;
+    BackendModel model = 2;
+    bytes path = 3;
+}
+
+message LoadWeightsRequest {
+    Session session = 1;
+    BackendModel model = 2;
+    bytes path = 3;
+}
+
+message SaveWeightsRequest {
+    BackendModel model = 1;
+    bytes path = 2;
+}
+
+message SetParametersRequest{
+    BackendModel model = 1;
+    map<string, ParamValue> params = 2;
+}
+
+message TrainRequest {
+    BackendModel model = 1;
+    repeated Tensor feeds = 2;
+    repeated Tensor fetches = 3;
+}
+
+message PredictRequest {
+    BackendModel model = 1;
+}
+
+enum DataType {
+    DT_INVALID = 0;
+    DT_FLOAT32 = 1;
+    DT_FLOAT64 = 2;
+    DT_INT32= 3;
+    DT_INT64 = 4;
+    DT_BOOL = 5;
+    DT_STRING = 6;
+}
+
+message Shape {
+    message Dim {
+        int64 size = 1;
+    }
+    repeated Dim dim = 2;
+}
+
+message Tensor {
+    Shape shape = 1;
+    DataType type = 2;
+    string name =  3;
+    repeated bytes string_value = 4;
+    repeated int32 int32_value = 5 [packed = true];
+    repeated int64 int64_value = 6 [packed = true];
+    repeated float float_value = 7 [packed = true];
+    repeated double double_value = 8 [packed = true];
+    repeated bool bool_value = 9 [packed = true];
+}
+
+message ParamValue {
+    message ListValue {
+        repeated bytes s = 2;                        // "list(string)"
+        repeated int64 i = 3 [packed = true];        // "list(int)"
+        repeated float c = 4 [packed = true];        // "list(float)"
+        repeated double f = 5 [packed = true];        // "list(double)"
+        repeated bool b = 6 [packed = true];         // "list(bool)"
+    }
+
+    oneof value {
+        bytes s = 2; // "string"
+        int64 i = 3; // "int"
+        float f = 4; // "float"
+        double d = 5; // "float"
+        bool b = 6; // "bool"
+        ListValue list = 1; // any "list(...)"
+    }
+}
+

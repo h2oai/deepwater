@@ -20,3 +20,5 @@ rootProject.children.each { project ->
     project.name = rootProject.name + "-" + project.name
     println(project.name)
 }
+include 'grpc'
+
