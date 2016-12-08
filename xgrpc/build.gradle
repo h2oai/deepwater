@@ -1,4 +1,4 @@
-group 'deepwater.backends.tensorflow'
+group 'deepwater.backends.xgrpc'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
@@ -12,8 +12,6 @@ sourceSets {
         java {
             srcDirs "${rootDir}/grpc/src/main/grpc"
         }
-    }
-    main {
         scala {
             srcDirs "${rootDir}/grpc/src/main/scala"
         }
@@ -25,14 +23,16 @@ repositories {
 }
 
 dependencies {
-    compile project (':deepwater-backend-api')
+    compile project(':deepwater-backend-api')
 
     compile 'com.google.protobuf:protobuf-java:3.1.0'
     compile 'com.google.guava:guava:19.0'
 
     compile 'io.grpc:grpc-all:1.0.2'
     compile 'org.scala-lang:scala-library:2.11.1'
+}
 
+dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 

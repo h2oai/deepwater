@@ -51,7 +51,7 @@ class PythonWorkerFactory(pythonExec: String, envVars: Map[String, String])
   var simpleWorkers = new mutable.WeakHashMap[Socket, Process]()
 
   val pythonPath = PythonUtils.mergePythonPaths(
-    PythonUtils.sparkPythonPath,
+    PythonUtils.deepwaterPythonPath,
     envVars.getOrElse("PYTHONPATH", ""),
     sys.env.getOrElse("PYTHONPATH", ""))
 
@@ -111,7 +111,7 @@ class PythonWorkerFactory(pythonExec: String, envVars: Map[String, String])
       serverSocket = new ServerSocket(0, 1, InetAddress.getByAddress(Array[Byte](127, 0, 0, 1)))
 
       // Create and start the worker
-      val pb = new ProcessBuilder(Arrays.asList(pythonExec, "-m", "pyspark.worker"))
+      val pb = new ProcessBuilder(Arrays.asList(pythonExec, "-m", "daemon"))
       val workerEnv = pb.environment()
       workerEnv.putAll(envVars.asJava)
       workerEnv.put("PYTHONPATH", pythonPath)
@@ -154,7 +154,7 @@ class PythonWorkerFactory(pythonExec: String, envVars: Map[String, String])
 
       try {
         // Create and start the daemon
-        val pb = new ProcessBuilder(Arrays.asList(pythonExec, "-m", "pyspark.daemon"))
+        val pb = new ProcessBuilder(Arrays.asList(pythonExec, "-m", "daemon"))
         val workerEnv = pb.environment()
         workerEnv.putAll(envVars.asJava)
         workerEnv.put("PYTHONPATH", pythonPath)
@@ -312,12 +312,11 @@ private object PythonWorkerFactory {
 }
 
 object PythonUtils {
-  /** Get the PYTHONPATH for PySpark, either from SPARK_HOME, if it is set, or from our JAR */
-  def sparkPythonPath: String = {
+
+  def deepwaterPythonPath: String = {
     val pythonPath = new ArrayBuffer[String]
-    for (sparkHome <- sys.env.get("SPARK_HOME")) {
-      pythonPath += Seq(sparkHome, "python", "lib", "pyspark.zip").mkString(File.separator)
-      pythonPath += Seq(sparkHome, "python", "lib", "py4j-0.10.4-src.zip").mkString(File.separator)
+    for (sparkHome <- sys.env.get("H2O_HOME")) {
+      pythonPath += Seq(sparkHome, "python", "lib", "deepwater.zip").mkString(File.separator)
     }
 
     // pythonPath ++= SparkContext.jarOfObject(this)
@@ -328,10 +327,6 @@ object PythonUtils {
   def mergePythonPaths(paths: String*): String = {
     paths.filter(_ != "").mkString(File.pathSeparator)
   }
-
-//  def generateRDDWithNull(sc: JavaSparkContext): JavaRDD[String] = {
-//    sc.parallelize(List("a", null, "b"))
-//  }
 
   /**
     * Convert list of T into seq of T (for calling API with varargs)

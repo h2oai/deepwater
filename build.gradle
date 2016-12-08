@@ -2,6 +2,14 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'maven'
 
+// Scala idea plugin error workaround
+// see issue: https://youtrack.jetbrains.com/issue/SCL-11072
+idea{
+    module{
+        inheritOutputDirs = true
+    }
+}
+
 // Include support for S3 syncing
 apply from: "gradle/s3sync.gradle"
 
@@ -98,6 +106,7 @@ dependencies {
     if (!buildOnlyBackendApi) {
       compile project('deepwater-mxnet')
       compile project('deepwater-tensorflow')
+      compile project('deepwater-xgrpc')
     }
 
     // Test stuff

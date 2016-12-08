@@ -23,25 +23,26 @@ import static deepwater.datasets.FileUtils.findFile;
 
 public class TestDeepWaterGRPC {
 
-    private Client client;
-
     private static PythonWorkerPool pypool;
 
+    private Client client;
+
     @BeforeClass
-    public void startPythonDaemon(){
+    public static void startPythonDaemon(){
         pypool = new PythonWorkerPool();
     }
 
     @AfterClass
-    public void stopPythonDaemon(){
+    public static void stopPythonDaemon(){
         pypool.stop();
     }
 
     @Before
-    public void setUp(){
+    public void setUp() {
         HashMap<String, String> env = new HashMap<>();
-        env.put("PYTHONPATH", "/users/fmilo/workspace/deepwater/grpc/src/main/python/");
-        pypool.createPythonWorker("python -m deepwater_service", env);
+        env.put("PYTHONPATH", "/home/fmilo/workspace/deepwater/xgrpc/src/main/python/");
+        env.put("LD_LIBRARY_PATH", "/usr/local/cuda/lib64");
+        pypool.createPythonWorker("/home/fmilo/anaconda2/bin/python", env);
         client = new Client("localhost", 50051);
     }
 

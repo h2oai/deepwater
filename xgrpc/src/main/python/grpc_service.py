@@ -1,5 +1,7 @@
 from concurrent import futures
 
+import sys
+import os
 import time
 import json
 import grpc
@@ -121,12 +123,16 @@ class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
       )
 
 
-def serve():
-  port = 50051
-  server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+def serve(infile, outfile):
+  port = os.getenv('DEEPWATER_WORKER_PORT', '50051')
+  max_workers = os.getenv('DEEPWATER_MAX_WORKERS', '10')
+  port = int(port)
+  max_workers = int(max_workers)
+  server = grpc.server(futures.ThreadPoolExecutor(max_workers=max_workers))
   pb.add_DeepWaterTrainBackendServicer_to_server(DeepWaterServer(), server)
   server.add_insecure_port('[::]:%d' % port)
   server.start()
+
   print("listening on port {}".format(port))
   try:
     while True:
@@ -136,4 +142,4 @@ def serve():
 
 
 if __name__ == '__main__':
-  serve()
+  serve(sys.stdin, sys.stdout)

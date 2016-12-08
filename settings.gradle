@@ -7,7 +7,7 @@ include 'backend-api'
 if (!isGradlePropSet("buildOnlyBackendApi")) {
   include 'mxnet'
   include 'tensorflow'
-  include 'grpc'
+  include 'xgrpc'
 }
 
 
