@@ -1,6 +1,5 @@
 package deepwater.backends.grpc;
 
-import ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService;
 import ai.h2o.deepwater.backends.grpc.DeepWaterTrainBackendGrpc;
 import ai.h2o.deepwater.backends.grpc.ParamValue;
 import com.google.protobuf.ByteString;
@@ -13,7 +12,7 @@ import java.util.logging.Logger;
 public class Client {
     private static final Logger logger = Logger.getLogger(Client.class.getName());
 
-    private final DeepWaterTrainBackendGrpc.ServiceBlockingStub blockingStub;
+    private final DeepWaterTrainBackendGrpc.DeepWaterTrainBackendBlockingStub blockingStub;
     private final ManagedChannel channel;
 
     /** Construct client connecting to HelloWorld server at {@code host:port}. */
@@ -26,7 +25,7 @@ public class Client {
 
     Client(ManagedChannelBuilder<?> channelBuilder) {
         channel = channelBuilder.build();
-        blockingStub = DeepWaterGRPCService.newBlockingStub(channel);
+        blockingStub = DeepWaterTrainBackendGrpc.newBlockingStub(channel);
     }
 
     public void shutdown() throws InterruptedException {

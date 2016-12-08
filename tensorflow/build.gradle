@@ -35,9 +35,7 @@ dependencies {
     compile "com.google.protobuf:protobuf-java:3.1.0"
     compile 'com.google.guava:guava:19.0'
 
-    compile 'io.grpc:grpc-netty:1.0.1'
-    compile 'io.grpc:grpc-protobuf:1.0.1'
-    compile 'io.grpc:grpc-stub:1.0.1'
+    compile 'io.grpc:grpc-all:1.0.2'
 
     // https://mvnrepository.com/artifact/org.hdfgroup/hdf-java
     compile group: 'org.hdfgroup', name: 'hdf-java', version: '2.6.1'
