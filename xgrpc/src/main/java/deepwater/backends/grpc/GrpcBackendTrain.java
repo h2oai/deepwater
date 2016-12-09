@@ -7,6 +7,7 @@ import deepwater.backends.RuntimeOptions;
 import deepwater.datasets.ImageDataSet;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -87,9 +88,12 @@ public class GrpcBackendTrain implements BackendTrain {
             HashMap<String, float[]> params = new HashMap<>();
             params.put("batch_image_data", data);
             params.put("categorical_labels", label);
-            client.train(m, params);
+            String[] fetches = new String[]{"categorical_logits"};
+            Map<String, float[]> results = client.train(m, params, fetches);
+            return results.get("categorical_logits");
         } catch (Exception e) {
             log.log(Level.WARNING, e.getMessage());
+            return new float[]{};
         }
     }
 
@@ -98,9 +102,12 @@ public class GrpcBackendTrain implements BackendTrain {
             HashMap<String, float[]> m = new HashMap<>();
             m.put("batch_image_data", data);
             m.put("categorical_labels", label);
-            client.predict(model, m);
+            String[] fetches = new String[]{"categorical_logits"};
+            Map<String, float[]> results = client.predict(model, m, fetches);
+            return results.get("categorical_logits");
         } catch (Exception e) {
             log.log(Level.WARNING, e.getMessage());
+            return new float[]{};
         }
     }
 
@@ -108,9 +115,12 @@ public class GrpcBackendTrain implements BackendTrain {
         try {
             HashMap<String, float[]> m = new HashMap<>();
             m.put("batch_image_data", data);
-            client.predict(model, m);
+            String[] fetches = new String[]{"categorical_logits"};
+            Map<String, float[]> results = client.predict(model, m, fetches);
+            return results.get(fetches[0]);
         } catch (Exception e) {
             log.log(Level.WARNING, e.getMessage());
+            return new float[]{};
         }
     }
 }

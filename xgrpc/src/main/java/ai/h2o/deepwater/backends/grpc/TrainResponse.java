@@ -44,19 +44,19 @@ public  final class TrainResponse extends
             break;
           }
           case 10: {
-            ai.h2o.deepwater.backends.grpc.BackendModel.Builder subBuilder = null;
-            if (model_ != null) {
-              subBuilder = model_.toBuilder();
+            ai.h2o.deepwater.backends.grpc.Status.Builder subBuilder = null;
+            if (status_ != null) {
+              subBuilder = status_.toBuilder();
             }
-            model_ = input.readMessage(ai.h2o.deepwater.backends.grpc.BackendModel.parser(), extensionRegistry);
+            status_ = input.readMessage(ai.h2o.deepwater.backends.grpc.Status.parser(), extensionRegistry);
             if (subBuilder != null) {
-              subBuilder.mergeFrom(model_);
-              model_ = subBuilder.buildPartial();
+              subBuilder.mergeFrom(status_);
+              status_ = subBuilder.buildPartial();
             }
 
             break;
           }
-          case 26: {
+          case 18: {
             if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
               fetches_ = new java.util.ArrayList<ai.h2o.deepwater.backends.grpc.Tensor>();
               mutable_bitField0_ |= 0x00000002;
@@ -92,56 +92,56 @@ public  final class TrainResponse extends
   }
 
   private int bitField0_;
-  public static final int MODEL_FIELD_NUMBER = 1;
-  private ai.h2o.deepwater.backends.grpc.BackendModel model_;
+  public static final int STATUS_FIELD_NUMBER = 1;
+  private ai.h2o.deepwater.backends.grpc.Status status_;
   /**
-   * <code>optional .deepwater.BackendModel model = 1;</code>
+   * <code>optional .deepwater.Status status = 1;</code>
    */
-  public boolean hasModel() {
-    return model_ != null;
+  public boolean hasStatus() {
+    return status_ != null;
   }
   /**
-   * <code>optional .deepwater.BackendModel model = 1;</code>
+   * <code>optional .deepwater.Status status = 1;</code>
    */
-  public ai.h2o.deepwater.backends.grpc.BackendModel getModel() {
-    return model_ == null ? ai.h2o.deepwater.backends.grpc.BackendModel.getDefaultInstance() : model_;
+  public ai.h2o.deepwater.backends.grpc.Status getStatus() {
+    return status_ == null ? ai.h2o.deepwater.backends.grpc.Status.getDefaultInstance() : status_;
   }
   /**
-   * <code>optional .deepwater.BackendModel model = 1;</code>
+   * <code>optional .deepwater.Status status = 1;</code>
    */
-  public ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder getModelOrBuilder() {
-    return getModel();
+  public ai.h2o.deepwater.backends.grpc.StatusOrBuilder getStatusOrBuilder() {
+    return getStatus();
   }
 
-  public static final int FETCHES_FIELD_NUMBER = 3;
+  public static final int FETCHES_FIELD_NUMBER = 2;
   private java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> fetches_;
   /**
-   * <code>repeated .deepwater.Tensor fetches = 3;</code>
+   * <code>repeated .deepwater.Tensor fetches = 2;</code>
    */
   public java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> getFetchesList() {
     return fetches_;
   }
   /**
-   * <code>repeated .deepwater.Tensor fetches = 3;</code>
+   * <code>repeated .deepwater.Tensor fetches = 2;</code>
    */
   public java.util.List<? extends ai.h2o.deepwater.backends.grpc.TensorOrBuilder> 
       getFetchesOrBuilderList() {
     return fetches_;
   }
   /**
-   * <code>repeated .deepwater.Tensor fetches = 3;</code>
+   * <code>repeated .deepwater.Tensor fetches = 2;</code>
    */
   public int getFetchesCount() {
     return fetches_.size();
   }
   /**
-   * <code>repeated .deepwater.Tensor fetches = 3;</code>
+   * <code>repeated .deepwater.Tensor fetches = 2;</code>
    */
   public ai.h2o.deepwater.backends.grpc.Tensor getFetches(int index) {
     return fetches_.get(index);
   }
   /**
-   * <code>repeated .deepwater.Tensor fetches = 3;</code>
+   * <code>repeated .deepwater.Tensor fetches = 2;</code>
    */
   public ai.h2o.deepwater.backends.grpc.TensorOrBuilder getFetchesOrBuilder(
       int index) {
@@ -160,11 +160,11 @@ public  final class TrainResponse extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (model_ != null) {
-      output.writeMessage(1, getModel());
+    if (status_ != null) {
+      output.writeMessage(1, getStatus());
     }
     for (int i = 0; i < fetches_.size(); i++) {
-      output.writeMessage(3, fetches_.get(i));
+      output.writeMessage(2, fetches_.get(i));
     }
   }
 
@@ -173,13 +173,13 @@ public  final class TrainResponse extends
     if (size != -1) return size;
 
     size = 0;
-    if (model_ != null) {
+    if (status_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(1, getModel());
+        .computeMessageSize(1, getStatus());
     }
     for (int i = 0; i < fetches_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(3, fetches_.get(i));
+        .computeMessageSize(2, fetches_.get(i));
     }
     memoizedSize = size;
     return size;
@@ -197,10 +197,10 @@ public  final class TrainResponse extends
     ai.h2o.deepwater.backends.grpc.TrainResponse other = (ai.h2o.deepwater.backends.grpc.TrainResponse) obj;
 
     boolean result = true;
-    result = result && (hasModel() == other.hasModel());
-    if (hasModel()) {
-      result = result && getModel()
-          .equals(other.getModel());
+    result = result && (hasStatus() == other.hasStatus());
+    if (hasStatus()) {
+      result = result && getStatus()
+          .equals(other.getStatus());
     }
     result = result && getFetchesList()
         .equals(other.getFetchesList());
@@ -214,9 +214,9 @@ public  final class TrainResponse extends
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptorForType().hashCode();
-    if (hasModel()) {
-      hash = (37 * hash) + MODEL_FIELD_NUMBER;
-      hash = (53 * hash) + getModel().hashCode();
+    if (hasStatus()) {
+      hash = (37 * hash) + STATUS_FIELD_NUMBER;
+      hash = (53 * hash) + getStatus().hashCode();
     }
     if (getFetchesCount() > 0) {
       hash = (37 * hash) + FETCHES_FIELD_NUMBER;
@@ -341,11 +341,11 @@ public  final class TrainResponse extends
     }
     public Builder clear() {
       super.clear();
-      if (modelBuilder_ == null) {
-        model_ = null;
+      if (statusBuilder_ == null) {
+        status_ = null;
       } else {
-        model_ = null;
-        modelBuilder_ = null;
+        status_ = null;
+        statusBuilder_ = null;
       }
       if (fetchesBuilder_ == null) {
         fetches_ = java.util.Collections.emptyList();
@@ -377,10 +377,10 @@ public  final class TrainResponse extends
       ai.h2o.deepwater.backends.grpc.TrainResponse result = new ai.h2o.deepwater.backends.grpc.TrainResponse(this);
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
-      if (modelBuilder_ == null) {
-        result.model_ = model_;
+      if (statusBuilder_ == null) {
+        result.status_ = status_;
       } else {
-        result.model_ = modelBuilder_.build();
+        result.status_ = statusBuilder_.build();
       }
       if (fetchesBuilder_ == null) {
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
@@ -433,8 +433,8 @@ public  final class TrainResponse extends
 
     public Builder mergeFrom(ai.h2o.deepwater.backends.grpc.TrainResponse other) {
       if (other == ai.h2o.deepwater.backends.grpc.TrainResponse.getDefaultInstance()) return this;
-      if (other.hasModel()) {
-        mergeModel(other.getModel());
+      if (other.hasStatus()) {
+        mergeStatus(other.getStatus());
       }
       if (fetchesBuilder_ == null) {
         if (!other.fetches_.isEmpty()) {
@@ -489,121 +489,121 @@ public  final class TrainResponse extends
     }
     private int bitField0_;
 
-    private ai.h2o.deepwater.backends.grpc.BackendModel model_ = null;
+    private ai.h2o.deepwater.backends.grpc.Status status_ = null;
     private com.google.protobuf.SingleFieldBuilderV3<
-        ai.h2o.deepwater.backends.grpc.BackendModel, ai.h2o.deepwater.backends.grpc.BackendModel.Builder, ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder> modelBuilder_;
+        ai.h2o.deepwater.backends.grpc.Status, ai.h2o.deepwater.backends.grpc.Status.Builder, ai.h2o.deepwater.backends.grpc.StatusOrBuilder> statusBuilder_;
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Status status = 1;</code>
      */
-    public boolean hasModel() {
-      return modelBuilder_ != null || model_ != null;
+    public boolean hasStatus() {
+      return statusBuilder_ != null || status_ != null;
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Status status = 1;</code>
      */
-    public ai.h2o.deepwater.backends.grpc.BackendModel getModel() {
-      if (modelBuilder_ == null) {
-        return model_ == null ? ai.h2o.deepwater.backends.grpc.BackendModel.getDefaultInstance() : model_;
+    public ai.h2o.deepwater.backends.grpc.Status getStatus() {
+      if (statusBuilder_ == null) {
+        return status_ == null ? ai.h2o.deepwater.backends.grpc.Status.getDefaultInstance() : status_;
       } else {
-        return modelBuilder_.getMessage();
+        return statusBuilder_.getMessage();
       }
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Status status = 1;</code>
      */
-    public Builder setModel(ai.h2o.deepwater.backends.grpc.BackendModel value) {
-      if (modelBuilder_ == null) {
+    public Builder setStatus(ai.h2o.deepwater.backends.grpc.Status value) {
+      if (statusBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
-        model_ = value;
+        status_ = value;
         onChanged();
       } else {
-        modelBuilder_.setMessage(value);
+        statusBuilder_.setMessage(value);
       }
 
       return this;
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Status status = 1;</code>
      */
-    public Builder setModel(
-        ai.h2o.deepwater.backends.grpc.BackendModel.Builder builderForValue) {
-      if (modelBuilder_ == null) {
-        model_ = builderForValue.build();
+    public Builder setStatus(
+        ai.h2o.deepwater.backends.grpc.Status.Builder builderForValue) {
+      if (statusBuilder_ == null) {
+        status_ = builderForValue.build();
         onChanged();
       } else {
-        modelBuilder_.setMessage(builderForValue.build());
+        statusBuilder_.setMessage(builderForValue.build());
       }
 
       return this;
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Status status = 1;</code>
      */
-    public Builder mergeModel(ai.h2o.deepwater.backends.grpc.BackendModel value) {
-      if (modelBuilder_ == null) {
-        if (model_ != null) {
-          model_ =
-            ai.h2o.deepwater.backends.grpc.BackendModel.newBuilder(model_).mergeFrom(value).buildPartial();
+    public Builder mergeStatus(ai.h2o.deepwater.backends.grpc.Status value) {
+      if (statusBuilder_ == null) {
+        if (status_ != null) {
+          status_ =
+            ai.h2o.deepwater.backends.grpc.Status.newBuilder(status_).mergeFrom(value).buildPartial();
         } else {
-          model_ = value;
+          status_ = value;
         }
         onChanged();
       } else {
-        modelBuilder_.mergeFrom(value);
+        statusBuilder_.mergeFrom(value);
       }
 
       return this;
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Status status = 1;</code>
      */
-    public Builder clearModel() {
-      if (modelBuilder_ == null) {
-        model_ = null;
+    public Builder clearStatus() {
+      if (statusBuilder_ == null) {
+        status_ = null;
         onChanged();
       } else {
-        model_ = null;
-        modelBuilder_ = null;
+        status_ = null;
+        statusBuilder_ = null;
       }
 
       return this;
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Status status = 1;</code>
      */
-    public ai.h2o.deepwater.backends.grpc.BackendModel.Builder getModelBuilder() {
+    public ai.h2o.deepwater.backends.grpc.Status.Builder getStatusBuilder() {
       
       onChanged();
-      return getModelFieldBuilder().getBuilder();
+      return getStatusFieldBuilder().getBuilder();
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Status status = 1;</code>
      */
-    public ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder getModelOrBuilder() {
-      if (modelBuilder_ != null) {
-        return modelBuilder_.getMessageOrBuilder();
+    public ai.h2o.deepwater.backends.grpc.StatusOrBuilder getStatusOrBuilder() {
+      if (statusBuilder_ != null) {
+        return statusBuilder_.getMessageOrBuilder();
       } else {
-        return model_ == null ?
-            ai.h2o.deepwater.backends.grpc.BackendModel.getDefaultInstance() : model_;
+        return status_ == null ?
+            ai.h2o.deepwater.backends.grpc.Status.getDefaultInstance() : status_;
       }
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Status status = 1;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        ai.h2o.deepwater.backends.grpc.BackendModel, ai.h2o.deepwater.backends.grpc.BackendModel.Builder, ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder> 
-        getModelFieldBuilder() {
-      if (modelBuilder_ == null) {
-        modelBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            ai.h2o.deepwater.backends.grpc.BackendModel, ai.h2o.deepwater.backends.grpc.BackendModel.Builder, ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder>(
-                getModel(),
+        ai.h2o.deepwater.backends.grpc.Status, ai.h2o.deepwater.backends.grpc.Status.Builder, ai.h2o.deepwater.backends.grpc.StatusOrBuilder> 
+        getStatusFieldBuilder() {
+      if (statusBuilder_ == null) {
+        statusBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            ai.h2o.deepwater.backends.grpc.Status, ai.h2o.deepwater.backends.grpc.Status.Builder, ai.h2o.deepwater.backends.grpc.StatusOrBuilder>(
+                getStatus(),
                 getParentForChildren(),
                 isClean());
-        model_ = null;
+        status_ = null;
       }
-      return modelBuilder_;
+      return statusBuilder_;
     }
 
     private java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> fetches_ =
@@ -619,7 +619,7 @@ public  final class TrainResponse extends
         ai.h2o.deepwater.backends.grpc.Tensor, ai.h2o.deepwater.backends.grpc.Tensor.Builder, ai.h2o.deepwater.backends.grpc.TensorOrBuilder> fetchesBuilder_;
 
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> getFetchesList() {
       if (fetchesBuilder_ == null) {
@@ -629,7 +629,7 @@ public  final class TrainResponse extends
       }
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public int getFetchesCount() {
       if (fetchesBuilder_ == null) {
@@ -639,7 +639,7 @@ public  final class TrainResponse extends
       }
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public ai.h2o.deepwater.backends.grpc.Tensor getFetches(int index) {
       if (fetchesBuilder_ == null) {
@@ -649,7 +649,7 @@ public  final class TrainResponse extends
       }
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public Builder setFetches(
         int index, ai.h2o.deepwater.backends.grpc.Tensor value) {
@@ -666,7 +666,7 @@ public  final class TrainResponse extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public Builder setFetches(
         int index, ai.h2o.deepwater.backends.grpc.Tensor.Builder builderForValue) {
@@ -680,7 +680,7 @@ public  final class TrainResponse extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public Builder addFetches(ai.h2o.deepwater.backends.grpc.Tensor value) {
       if (fetchesBuilder_ == null) {
@@ -696,7 +696,7 @@ public  final class TrainResponse extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public Builder addFetches(
         int index, ai.h2o.deepwater.backends.grpc.Tensor value) {
@@ -713,7 +713,7 @@ public  final class TrainResponse extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public Builder addFetches(
         ai.h2o.deepwater.backends.grpc.Tensor.Builder builderForValue) {
@@ -727,7 +727,7 @@ public  final class TrainResponse extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public Builder addFetches(
         int index, ai.h2o.deepwater.backends.grpc.Tensor.Builder builderForValue) {
@@ -741,7 +741,7 @@ public  final class TrainResponse extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public Builder addAllFetches(
         java.lang.Iterable<? extends ai.h2o.deepwater.backends.grpc.Tensor> values) {
@@ -756,7 +756,7 @@ public  final class TrainResponse extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public Builder clearFetches() {
       if (fetchesBuilder_ == null) {
@@ -769,7 +769,7 @@ public  final class TrainResponse extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public Builder removeFetches(int index) {
       if (fetchesBuilder_ == null) {
@@ -782,14 +782,14 @@ public  final class TrainResponse extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public ai.h2o.deepwater.backends.grpc.Tensor.Builder getFetchesBuilder(
         int index) {
       return getFetchesFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public ai.h2o.deepwater.backends.grpc.TensorOrBuilder getFetchesOrBuilder(
         int index) {
@@ -799,7 +799,7 @@ public  final class TrainResponse extends
       }
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public java.util.List<? extends ai.h2o.deepwater.backends.grpc.TensorOrBuilder> 
          getFetchesOrBuilderList() {
@@ -810,14 +810,14 @@ public  final class TrainResponse extends
       }
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public ai.h2o.deepwater.backends.grpc.Tensor.Builder addFetchesBuilder() {
       return getFetchesFieldBuilder().addBuilder(
           ai.h2o.deepwater.backends.grpc.Tensor.getDefaultInstance());
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public ai.h2o.deepwater.backends.grpc.Tensor.Builder addFetchesBuilder(
         int index) {
@@ -825,7 +825,7 @@ public  final class TrainResponse extends
           index, ai.h2o.deepwater.backends.grpc.Tensor.getDefaultInstance());
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 2;</code>
      */
     public java.util.List<ai.h2o.deepwater.backends.grpc.Tensor.Builder> 
          getFetchesBuilderList() {

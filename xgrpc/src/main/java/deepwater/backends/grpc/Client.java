@@ -8,12 +8,15 @@ import ai.h2o.deepwater.backends.grpc.LoadModelRequest;
 import ai.h2o.deepwater.backends.grpc.LoadWeightsRequest;
 import ai.h2o.deepwater.backends.grpc.ParamValue;
 import ai.h2o.deepwater.backends.grpc.PredictRequest;
+import ai.h2o.deepwater.backends.grpc.PredictResponse;
 import ai.h2o.deepwater.backends.grpc.SaveModelRequest;
 import ai.h2o.deepwater.backends.grpc.SaveWeightsRequest;
 import ai.h2o.deepwater.backends.grpc.SetParametersRequest;
+import ai.h2o.deepwater.backends.grpc.SetParametersResponse;
 import ai.h2o.deepwater.backends.grpc.Status;
 import ai.h2o.deepwater.backends.grpc.Tensor;
 import ai.h2o.deepwater.backends.grpc.TrainRequest;
+import ai.h2o.deepwater.backends.grpc.TrainResponse;
 import com.google.common.primitives.Floats;
 import com.google.protobuf.ByteString;
 import deepwater.backends.BackendModel;
@@ -165,14 +168,14 @@ public class Client {
                 .putAllParams(asParams(params))
                 .build();
 
-        Status status = blockingStub.setParameters(req);
+        SetParametersResponse response = blockingStub.setParameters(req);
 
-        checkStatus(status);
+        checkStatus(response.getStatus());
 
     }
 
 
-    public Map<String, float[]> train(BackendModel model, Map<String, float[]> m) throws Exception {
+    public Map<String, float[]> train(BackendModel model, Map<String, float[]> m, String[] fetches) throws Exception {
         TrainRequest.Builder builder = TrainRequest.newBuilder();
         int i = 0;
         for (String key: m.keySet()) {
@@ -184,13 +187,21 @@ public class Client {
 
         builder.setModel(asSessionBuilder(model));
 
-        Status status = blockingStub.train(builder.build());
-        
-        checkStatus(status);
+        TrainResponse response = blockingStub.train(builder.build());
+
+        checkStatus(response.getStatus());
+
+        // unpack fetched tensors
+        HashMap<String, float[]> results = new HashMap<>();
+        for (Tensor t: response.getFetchesList()){
+            results.put(t.getName(), Floats.toArray(t.getFloatValueList()));
+        }
+
+        return results;
     }
 
 
-    public void predict(BackendModel model, Map<String, float[]> m) throws Exception {
+    public Map<String, float[]> predict(BackendModel model, Map<String, float[]> m, String[] fetches) throws Exception {
         PredictRequest.Builder builder= PredictRequest.newBuilder();
 
         builder.setModel(asSession(model));
@@ -202,10 +213,26 @@ public class Client {
             i++;
         }
 
-        Status status = blockingStub.predict(builder.build());
+        // add fetches
+        i = 0;
+        for(String key: fetches){
+            Tensor.Builder tb = Tensor.newBuilder()
+                    .setName(key);
+            builder.setFetches(i, tb);
+            i++;
+        }
 
-        checkStatus(status);
+        PredictResponse response = blockingStub.predict(builder.build());
 
+        checkStatus(response.getStatus());
+
+        // unpack fetched tensors
+        HashMap<String, float[]> results = new HashMap<>();
+        for (Tensor t: response.getFetchesList()){
+            results.put(t.getName(), Floats.toArray(t.getFloatValueList()));
+        }
+
+        return results;
     }
 
 }

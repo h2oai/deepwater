@@ -80,6 +80,16 @@ public final class DeepWaterGRPCService {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_deepwater_SetParametersRequest_ParamsEntry_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_deepwater_SetParametersResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_deepwater_SetParametersResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_deepwater_SetParametersResponse_ParamsEntry_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_deepwater_SetParametersResponse_ParamsEntry_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_deepwater_TrainRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -159,53 +169,58 @@ public final class DeepWaterGRPCService {
       " \003(\0132+.deepwater.SetParametersRequest.Pa" +
       "ramsEntry\032D\n\013ParamsEntry\022\013\n\003key\030\001 \001(\t\022$\n" +
       "\005value\030\002 \001(\0132\025.deepwater.ParamValue:\0028\001\"" +
-      "|\n\014TrainRequest\022&\n\005model\030\001 \001(\0132\027.deepwat" +
-      "er.BackendModel\022 \n\005feeds\030\002 \003(\0132\021.deepwat" +
-      "er.Tensor\022\"\n\007fetches\030\003 \003(\0132\021.deepwater.T" +
-      "ensor\"[\n\rTrainResponse\022&\n\005model\030\001 \001(\0132\027.",
-      "deepwater.BackendModel\022\"\n\007fetches\030\003 \003(\0132" +
-      "\021.deepwater.Tensor\"~\n\016PredictRequest\022&\n\005" +
-      "model\030\001 \001(\0132\027.deepwater.BackendModel\022 \n\005" +
-      "feeds\030\002 \003(\0132\021.deepwater.Tensor\022\"\n\007fetche" +
-      "s\030\003 \003(\0132\021.deepwater.Tensor\"X\n\017PredictRes" +
-      "ponse\022\"\n\007fetches\030\001 \003(\0132\021.deepwater.Tenso" +
-      "r\022!\n\006status\030\002 \001(\0132\021.deepwater.Status\"?\n\005" +
-      "Shape\022!\n\003dim\030\002 \003(\0132\024.deepwater.Shape.Dim" +
-      "\032\023\n\003Dim\022\014\n\004size\030\001 \001(\003\"\355\001\n\006Tensor\022\037\n\005shap" +
-      "e\030\001 \001(\0132\020.deepwater.Shape\022!\n\004type\030\002 \001(\0162",
-      "\023.deepwater.DataType\022\014\n\004name\030\003 \001(\t\022\024\n\014st" +
-      "ring_value\030\004 \003(\014\022\027\n\013int32_value\030\005 \003(\005B\002\020" +
-      "\001\022\027\n\013int64_value\030\006 \003(\003B\002\020\001\022\027\n\013float_valu" +
-      "e\030\007 \003(\002B\002\020\001\022\030\n\014double_value\030\010 \003(\001B\002\020\001\022\026\n" +
-      "\nbool_value\030\t \003(\010B\002\020\001\"\333\001\n\nParamValue\022\013\n\001" +
-      "s\030\002 \001(\014H\000\022\013\n\001i\030\003 \001(\003H\000\022\013\n\001f\030\004 \001(\002H\000\022\013\n\001d" +
-      "\030\005 \001(\001H\000\022\013\n\001b\030\006 \001(\010H\000\022/\n\004list\030\001 \001(\0132\037.de" +
-      "epwater.ParamValue.ListValueH\000\032R\n\tListVa" +
-      "lue\022\t\n\001s\030\002 \003(\014\022\r\n\001i\030\003 \003(\003B\002\020\001\022\r\n\001c\030\004 \003(\002" +
-      "B\002\020\001\022\r\n\001f\030\005 \003(\001B\002\020\001\022\r\n\001b\030\006 \003(\010B\002\020\001B\007\n\005va",
-      "lue*r\n\010DataType\022\016\n\nDT_INVALID\020\000\022\016\n\nDT_FL" +
-      "OAT32\020\001\022\016\n\nDT_FLOAT64\020\002\022\014\n\010DT_INT32\020\003\022\014\n" +
-      "\010DT_INT64\020\004\022\013\n\007DT_BOOL\020\005\022\r\n\tDT_STRING\020\0062" +
-      "T\n\027DeepWaterPredictBackend\0229\n\007Predict\022\031." +
-      "deepwater.PredictRequest\032\021.deepwater.Sta" +
-      "tus\"\0002\347\004\n\025DeepWaterTrainBackend\022N\n\013Creat" +
-      "eModel\022\035.deepwater.CreateModelRequest\032\036." +
-      "deepwater.CreateModelResponse\"\000\022A\n\013Delet" +
-      "eModel\022\035.deepwater.DeleteModelRequest\032\021." +
-      "deepwater.Status\"\000\022=\n\tLoadModel\022\033.deepwa",
-      "ter.LoadModelRequest\032\021.deepwater.Status\"" +
-      "\000\022=\n\tSaveModel\022\033.deepwater.SaveModelRequ" +
-      "est\032\021.deepwater.Status\"\000\022A\n\013LoadWeights\022" +
-      "\035.deepwater.LoadWeightsRequest\032\021.deepwat" +
-      "er.Status\"\000\022A\n\013SaveWeights\022\035.deepwater.S" +
-      "aveWeightsRequest\032\021.deepwater.Status\"\000\022E" +
-      "\n\rSetParameters\022\037.deepwater.SetParameter" +
-      "sRequest\032\021.deepwater.Status\"\000\0225\n\005Train\022\027" +
-      ".deepwater.TrainRequest\032\021.deepwater.Stat" +
-      "us\"\000\0229\n\007Predict\022\031.deepwater.PredictReque",
-      "st\032\021.deepwater.Status\"\000B8\n\036ai.h2o.deepwa" +
-      "ter.backends.grpcB\024DeepWaterGRPCServiceP" +
-      "\001b\006proto3"
+      "\276\001\n\025SetParametersResponse\022!\n\006status\030\001 \001(" +
+      "\0132\021.deepwater.Status\022<\n\006params\030\002 \003(\0132,.d" +
+      "eepwater.SetParametersResponse.ParamsEnt" +
+      "ry\032D\n\013ParamsEntry\022\013\n\003key\030\001 \001(\t\022$\n\005value\030",
+      "\002 \001(\0132\025.deepwater.ParamValue:\0028\001\"|\n\014Trai" +
+      "nRequest\022&\n\005model\030\001 \001(\0132\027.deepwater.Back" +
+      "endModel\022 \n\005feeds\030\002 \003(\0132\021.deepwater.Tens" +
+      "or\022\"\n\007fetches\030\003 \003(\0132\021.deepwater.Tensor\"V" +
+      "\n\rTrainResponse\022!\n\006status\030\001 \001(\0132\021.deepwa" +
+      "ter.Status\022\"\n\007fetches\030\002 \003(\0132\021.deepwater." +
+      "Tensor\"~\n\016PredictRequest\022&\n\005model\030\001 \001(\0132" +
+      "\027.deepwater.BackendModel\022 \n\005feeds\030\002 \003(\0132" +
+      "\021.deepwater.Tensor\022\"\n\007fetches\030\003 \003(\0132\021.de" +
+      "epwater.Tensor\"X\n\017PredictResponse\022!\n\006sta",
+      "tus\030\001 \001(\0132\021.deepwater.Status\022\"\n\007fetches\030" +
+      "\002 \003(\0132\021.deepwater.Tensor\"?\n\005Shape\022!\n\003dim" +
+      "\030\002 \003(\0132\024.deepwater.Shape.Dim\032\023\n\003Dim\022\014\n\004s" +
+      "ize\030\001 \001(\003\"\355\001\n\006Tensor\022\037\n\005shape\030\001 \001(\0132\020.de" +
+      "epwater.Shape\022!\n\004type\030\002 \001(\0162\023.deepwater." +
+      "DataType\022\014\n\004name\030\003 \001(\t\022\024\n\014string_value\030\004" +
+      " \003(\014\022\027\n\013int32_value\030\005 \003(\005B\002\020\001\022\027\n\013int64_v" +
+      "alue\030\006 \003(\003B\002\020\001\022\027\n\013float_value\030\007 \003(\002B\002\020\001\022" +
+      "\030\n\014double_value\030\010 \003(\001B\002\020\001\022\026\n\nbool_value\030" +
+      "\t \003(\010B\002\020\001\"\333\001\n\nParamValue\022\013\n\001s\030\002 \001(\014H\000\022\013\n",
+      "\001i\030\003 \001(\003H\000\022\013\n\001f\030\004 \001(\002H\000\022\013\n\001d\030\005 \001(\001H\000\022\013\n\001" +
+      "b\030\006 \001(\010H\000\022/\n\004list\030\001 \001(\0132\037.deepwater.Para" +
+      "mValue.ListValueH\000\032R\n\tListValue\022\t\n\001s\030\002 \003" +
+      "(\014\022\r\n\001i\030\003 \003(\003B\002\020\001\022\r\n\001c\030\004 \003(\002B\002\020\001\022\r\n\001f\030\005 " +
+      "\003(\001B\002\020\001\022\r\n\001b\030\006 \003(\010B\002\020\001B\007\n\005value*r\n\010DataT" +
+      "ype\022\016\n\nDT_INVALID\020\000\022\016\n\nDT_FLOAT32\020\001\022\016\n\nD" +
+      "T_FLOAT64\020\002\022\014\n\010DT_INT32\020\003\022\014\n\010DT_INT64\020\004\022" +
+      "\013\n\007DT_BOOL\020\005\022\r\n\tDT_STRING\020\0062T\n\027DeepWater" +
+      "PredictBackend\0229\n\007Predict\022\031.deepwater.Pr" +
+      "edictRequest\032\021.deepwater.Status\"\0002\206\005\n\025De",
+      "epWaterTrainBackend\022N\n\013CreateModel\022\035.dee" +
+      "pwater.CreateModelRequest\032\036.deepwater.Cr" +
+      "eateModelResponse\"\000\022A\n\013DeleteModel\022\035.dee" +
+      "pwater.DeleteModelRequest\032\021.deepwater.St" +
+      "atus\"\000\022=\n\tLoadModel\022\033.deepwater.LoadMode" +
+      "lRequest\032\021.deepwater.Status\"\000\022=\n\tSaveMod" +
+      "el\022\033.deepwater.SaveModelRequest\032\021.deepwa" +
+      "ter.Status\"\000\022A\n\013LoadWeights\022\035.deepwater." +
+      "LoadWeightsRequest\032\021.deepwater.Status\"\000\022" +
+      "A\n\013SaveWeights\022\035.deepwater.SaveWeightsRe",
+      "quest\032\021.deepwater.Status\"\000\022T\n\rSetParamet" +
+      "ers\022\037.deepwater.SetParametersRequest\032 .d" +
+      "eepwater.SetParametersResponse\"\000\022<\n\005Trai" +
+      "n\022\027.deepwater.TrainRequest\032\030.deepwater.T" +
+      "rainResponse\"\000\022B\n\007Predict\022\031.deepwater.Pr" +
+      "edictRequest\032\032.deepwater.PredictResponse" +
+      "\"\000B8\n\036ai.h2o.deepwater.backends.grpcB\024De" +
+      "epWaterGRPCServiceP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -297,32 +312,44 @@ public final class DeepWaterGRPCService {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_deepwater_SetParametersRequest_ParamsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
-    internal_static_deepwater_TrainRequest_descriptor =
+    internal_static_deepwater_SetParametersResponse_descriptor =
       getDescriptor().getMessageTypes().get(11);
+    internal_static_deepwater_SetParametersResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_deepwater_SetParametersResponse_descriptor,
+        new java.lang.String[] { "Status", "Params", });
+    internal_static_deepwater_SetParametersResponse_ParamsEntry_descriptor =
+      internal_static_deepwater_SetParametersResponse_descriptor.getNestedTypes().get(0);
+    internal_static_deepwater_SetParametersResponse_ParamsEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_deepwater_SetParametersResponse_ParamsEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_deepwater_TrainRequest_descriptor =
+      getDescriptor().getMessageTypes().get(12);
     internal_static_deepwater_TrainRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_deepwater_TrainRequest_descriptor,
         new java.lang.String[] { "Model", "Feeds", "Fetches", });
     internal_static_deepwater_TrainResponse_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_deepwater_TrainResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_deepwater_TrainResponse_descriptor,
-        new java.lang.String[] { "Model", "Fetches", });
+        new java.lang.String[] { "Status", "Fetches", });
     internal_static_deepwater_PredictRequest_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_deepwater_PredictRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_deepwater_PredictRequest_descriptor,
         new java.lang.String[] { "Model", "Feeds", "Fetches", });
     internal_static_deepwater_PredictResponse_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_deepwater_PredictResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_deepwater_PredictResponse_descriptor,
-        new java.lang.String[] { "Fetches", "Status", });
+        new java.lang.String[] { "Status", "Fetches", });
     internal_static_deepwater_Shape_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_deepwater_Shape_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_deepwater_Shape_descriptor,
@@ -334,13 +361,13 @@ public final class DeepWaterGRPCService {
         internal_static_deepwater_Shape_Dim_descriptor,
         new java.lang.String[] { "Size", });
     internal_static_deepwater_Tensor_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_deepwater_Tensor_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_deepwater_Tensor_descriptor,
         new java.lang.String[] { "Shape", "Type", "Name", "StringValue", "Int32Value", "Int64Value", "FloatValue", "DoubleValue", "BoolValue", });
     internal_static_deepwater_ParamValue_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_deepwater_ParamValue_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_deepwater_ParamValue_descriptor,

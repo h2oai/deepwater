@@ -27,11 +27,11 @@ service DeepWaterTrainBackend {
 
     rpc SaveWeights(SaveWeightsRequest) returns (Status) {};
 
-    rpc SetParameters(SetParametersRequest) returns (Status) {};
+    rpc SetParameters(SetParametersRequest) returns (SetParametersResponse) {};
 
-    rpc Train(TrainRequest) returns (Status) {};
+    rpc Train(TrainRequest) returns (TrainResponse) {};
 
-    rpc Predict(PredictRequest) returns (Status) {};
+    rpc Predict(PredictRequest) returns (PredictResponse) {};
 }
 
 message Session {
@@ -89,6 +89,11 @@ message SetParametersRequest{
     map<string, ParamValue> params = 2;
 }
 
+message SetParametersResponse{
+    Status status = 1;
+    map<string, ParamValue> params = 2;
+}
+
 message TrainRequest {
     BackendModel model = 1;
     repeated Tensor feeds = 2;
@@ -96,8 +101,8 @@ message TrainRequest {
 }
 
 message TrainResponse {
-    BackendModel model = 1;
-    repeated Tensor fetches = 3;
+    Status status = 1;
+    repeated Tensor fetches = 2;
 }
 
 message PredictRequest {
@@ -107,8 +112,8 @@ message PredictRequest {
 }
 
 message PredictResponse {
-    repeated Tensor fetches = 1;
-    Status status = 2;
+    Status status = 1;
+    repeated Tensor fetches = 2;
 }
 
 enum DataType {

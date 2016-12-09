@@ -83,31 +83,31 @@ public class DeepWaterTrainBackendGrpc {
           io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.Status.getDefaultInstance()));
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.SetParametersRequest,
-      ai.h2o.deepwater.backends.grpc.Status> METHOD_SET_PARAMETERS =
+      ai.h2o.deepwater.backends.grpc.SetParametersResponse> METHOD_SET_PARAMETERS =
       io.grpc.MethodDescriptor.create(
           io.grpc.MethodDescriptor.MethodType.UNARY,
           generateFullMethodName(
               "deepwater.DeepWaterTrainBackend", "SetParameters"),
           io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.SetParametersRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.Status.getDefaultInstance()));
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.SetParametersResponse.getDefaultInstance()));
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.TrainRequest,
-      ai.h2o.deepwater.backends.grpc.Status> METHOD_TRAIN =
+      ai.h2o.deepwater.backends.grpc.TrainResponse> METHOD_TRAIN =
       io.grpc.MethodDescriptor.create(
           io.grpc.MethodDescriptor.MethodType.UNARY,
           generateFullMethodName(
               "deepwater.DeepWaterTrainBackend", "Train"),
           io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.TrainRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.Status.getDefaultInstance()));
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.TrainResponse.getDefaultInstance()));
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.PredictRequest,
-      ai.h2o.deepwater.backends.grpc.Status> METHOD_PREDICT =
+      ai.h2o.deepwater.backends.grpc.PredictResponse> METHOD_PREDICT =
       io.grpc.MethodDescriptor.create(
           io.grpc.MethodDescriptor.MethodType.UNARY,
           generateFullMethodName(
               "deepwater.DeepWaterTrainBackend", "Predict"),
           io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.PredictRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.Status.getDefaultInstance()));
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.PredictResponse.getDefaultInstance()));
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -181,21 +181,21 @@ public class DeepWaterTrainBackendGrpc {
     /**
      */
     public void setParameters(ai.h2o.deepwater.backends.grpc.SetParametersRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.SetParametersResponse> responseObserver) {
       asyncUnimplementedUnaryCall(METHOD_SET_PARAMETERS, responseObserver);
     }
 
     /**
      */
     public void train(ai.h2o.deepwater.backends.grpc.TrainRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.TrainResponse> responseObserver) {
       asyncUnimplementedUnaryCall(METHOD_TRAIN, responseObserver);
     }
 
     /**
      */
     public void predict(ai.h2o.deepwater.backends.grpc.PredictRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.PredictResponse> responseObserver) {
       asyncUnimplementedUnaryCall(METHOD_PREDICT, responseObserver);
     }
 
@@ -248,21 +248,21 @@ public class DeepWaterTrainBackendGrpc {
             asyncUnaryCall(
               new MethodHandlers<
                 ai.h2o.deepwater.backends.grpc.SetParametersRequest,
-                ai.h2o.deepwater.backends.grpc.Status>(
+                ai.h2o.deepwater.backends.grpc.SetParametersResponse>(
                   this, METHODID_SET_PARAMETERS)))
           .addMethod(
             METHOD_TRAIN,
             asyncUnaryCall(
               new MethodHandlers<
                 ai.h2o.deepwater.backends.grpc.TrainRequest,
-                ai.h2o.deepwater.backends.grpc.Status>(
+                ai.h2o.deepwater.backends.grpc.TrainResponse>(
                   this, METHODID_TRAIN)))
           .addMethod(
             METHOD_PREDICT,
             asyncUnaryCall(
               new MethodHandlers<
                 ai.h2o.deepwater.backends.grpc.PredictRequest,
-                ai.h2o.deepwater.backends.grpc.Status>(
+                ai.h2o.deepwater.backends.grpc.PredictResponse>(
                   this, METHODID_PREDICT)))
           .build();
     }
@@ -337,7 +337,7 @@ public class DeepWaterTrainBackendGrpc {
     /**
      */
     public void setParameters(ai.h2o.deepwater.backends.grpc.SetParametersRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.SetParametersResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(METHOD_SET_PARAMETERS, getCallOptions()), request, responseObserver);
     }
@@ -345,7 +345,7 @@ public class DeepWaterTrainBackendGrpc {
     /**
      */
     public void train(ai.h2o.deepwater.backends.grpc.TrainRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.TrainResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(METHOD_TRAIN, getCallOptions()), request, responseObserver);
     }
@@ -353,7 +353,7 @@ public class DeepWaterTrainBackendGrpc {
     /**
      */
     public void predict(ai.h2o.deepwater.backends.grpc.PredictRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.PredictResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(METHOD_PREDICT, getCallOptions()), request, responseObserver);
     }
@@ -421,21 +421,21 @@ public class DeepWaterTrainBackendGrpc {
 
     /**
      */
-    public ai.h2o.deepwater.backends.grpc.Status setParameters(ai.h2o.deepwater.backends.grpc.SetParametersRequest request) {
+    public ai.h2o.deepwater.backends.grpc.SetParametersResponse setParameters(ai.h2o.deepwater.backends.grpc.SetParametersRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_SET_PARAMETERS, getCallOptions(), request);
     }
 
     /**
      */
-    public ai.h2o.deepwater.backends.grpc.Status train(ai.h2o.deepwater.backends.grpc.TrainRequest request) {
+    public ai.h2o.deepwater.backends.grpc.TrainResponse train(ai.h2o.deepwater.backends.grpc.TrainRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_TRAIN, getCallOptions(), request);
     }
 
     /**
      */
-    public ai.h2o.deepwater.backends.grpc.Status predict(ai.h2o.deepwater.backends.grpc.PredictRequest request) {
+    public ai.h2o.deepwater.backends.grpc.PredictResponse predict(ai.h2o.deepwater.backends.grpc.PredictRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_PREDICT, getCallOptions(), request);
     }
@@ -509,7 +509,7 @@ public class DeepWaterTrainBackendGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.Status> setParameters(
+    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.SetParametersResponse> setParameters(
         ai.h2o.deepwater.backends.grpc.SetParametersRequest request) {
       return futureUnaryCall(
           getChannel().newCall(METHOD_SET_PARAMETERS, getCallOptions()), request);
@@ -517,7 +517,7 @@ public class DeepWaterTrainBackendGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.Status> train(
+    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.TrainResponse> train(
         ai.h2o.deepwater.backends.grpc.TrainRequest request) {
       return futureUnaryCall(
           getChannel().newCall(METHOD_TRAIN, getCallOptions()), request);
@@ -525,7 +525,7 @@ public class DeepWaterTrainBackendGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.Status> predict(
+    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.PredictResponse> predict(
         ai.h2o.deepwater.backends.grpc.PredictRequest request) {
       return futureUnaryCall(
           getChannel().newCall(METHOD_PREDICT, getCallOptions()), request);
@@ -585,15 +585,15 @@ public class DeepWaterTrainBackendGrpc {
           break;
         case METHODID_SET_PARAMETERS:
           serviceImpl.setParameters((ai.h2o.deepwater.backends.grpc.SetParametersRequest) request,
-              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status>) responseObserver);
+              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.SetParametersResponse>) responseObserver);
           break;
         case METHODID_TRAIN:
           serviceImpl.train((ai.h2o.deepwater.backends.grpc.TrainRequest) request,
-              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status>) responseObserver);
+              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.TrainResponse>) responseObserver);
           break;
         case METHODID_PREDICT:
           serviceImpl.predict((ai.h2o.deepwater.backends.grpc.PredictRequest) request,
-              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status>) responseObserver);
+              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.PredictResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
