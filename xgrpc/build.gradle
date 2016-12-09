@@ -10,10 +10,10 @@ apply plugin: 'scala'
 sourceSets {
     main {
         java {
-            srcDirs "${rootDir}/grpc/src/main/grpc"
+            srcDirs "${rootDir}/xgrpc/src/main/grpc"
         }
         scala {
-            srcDirs "${rootDir}/grpc/src/main/scala"
+            srcDirs "${rootDir}/xgrpc/src/main/scala"
         }
     }
 }

@@ -6,9 +6,27 @@ import deepwater.backends.BackendTrain;
 import deepwater.backends.RuntimeOptions;
 import deepwater.datasets.ImageDataSet;
 
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class GrpcBackendTrain implements BackendTrain {
 
+    // assumes the current class is called MyLogger
+    private final static Logger log = Logger.getLogger(GrpcBackendTrain.class.getName());
+
+    private final Client client;
+
+    public GrpcBackendTrain(String host, int port){
+        client = new Client(host, port);
+    }
+
     public void delete(BackendModel m) {
+        try {
+            client.deleteModel(m);
+        } catch (Exception e) {
+            log.log(Level.WARNING, e.getMessage());
+        }
 
     }
 
@@ -17,38 +35,82 @@ public class GrpcBackendTrain implements BackendTrain {
     }
 
     public void saveModel(BackendModel m, String model_path) {
-
+        try {
+            client.saveModel(m, model_path);
+        } catch (Exception e) {
+            log.log(Level.WARNING, e.getMessage());
+        }
     }
 
     public void loadParam(BackendModel m, String param_path) {
+        try {
+            client.loadWeights(m, param_path);
+        } catch (Exception e) {
+            log.log(Level.WARNING, e.getMessage());
+        }
 
     }
 
     public void saveParam(BackendModel m, String param_path) {
-
+        try {
+            client.saveWeights(m, param_path);
+        } catch (Exception e) {
+            log.log(Level.WARNING, e.getMessage());
+        }
     }
 
+    @Deprecated
     public float[] loadMeanImage(BackendModel m, String path) {
+        log.log(Level.WARNING, "DEPRECATED");
         return new float[0];
     }
 
+    @Deprecated
     public String toJson(BackendModel m) {
+        log.log(Level.WARNING, "DEPRECATED");
         return null;
     }
 
     public void setParameter(BackendModel m, String name, float value) {
+        try {
+            HashMap<String, Object> params = new HashMap<>();
+            params.put(name, value);
+            client.setParameters(m, params);
+        } catch (Exception e) {
+            log.log(Level.WARNING, e.getMessage());
+        }
 
     }
 
     public float[] train(BackendModel m, float[] data, float[] label) {
-        return new float[0];
+        try {
+            HashMap<String, float[]> params = new HashMap<>();
+            params.put("batch_image_data", data);
+            params.put("categorical_labels", label);
+            client.train(m, params);
+        } catch (Exception e) {
+            log.log(Level.WARNING, e.getMessage());
+        }
     }
 
-    public float[] predict(BackendModel m, float[] data, float[] label) {
-        return new float[0];
+    public float[] predict(BackendModel model, float[] data, float[] label) {
+        try {
+            HashMap<String, float[]> m = new HashMap<>();
+            m.put("batch_image_data", data);
+            m.put("categorical_labels", label);
+            client.predict(model, m);
+        } catch (Exception e) {
+            log.log(Level.WARNING, e.getMessage());
+        }
     }
 
-    public float[] predict(BackendModel m, float[] data) {
-        return new float[0];
+    public float[] predict(BackendModel model, float[] data) {
+        try {
+            HashMap<String, float[]> m = new HashMap<>();
+            m.put("batch_image_data", data);
+            client.predict(model, m);
+        } catch (Exception e) {
+            log.log(Level.WARNING, e.getMessage());
+        }
     }
 }

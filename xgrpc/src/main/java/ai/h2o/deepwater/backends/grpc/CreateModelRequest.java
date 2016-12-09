@@ -15,6 +15,7 @@ public  final class CreateModelRequest extends
     super(builder);
   }
   private CreateModelRequest() {
+    modelName_ = "";
   }
 
   @java.lang.Override
@@ -43,10 +44,16 @@ public  final class CreateModelRequest extends
             break;
           }
           case 10: {
-            if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            modelName_ = s;
+            break;
+          }
+          case 18: {
+            if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
               params_ = com.google.protobuf.MapField.newMapField(
                   ParamsDefaultEntryHolder.defaultEntry);
-              mutable_bitField0_ |= 0x00000001;
+              mutable_bitField0_ |= 0x00000002;
             }
             com.google.protobuf.MapEntry<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>
             params__ = input.readMessage(
@@ -75,7 +82,7 @@ public  final class CreateModelRequest extends
   protected com.google.protobuf.MapField internalGetMapField(
       int number) {
     switch (number) {
-      case 1:
+      case 2:
         return internalGetParams();
       default:
         throw new RuntimeException(
@@ -89,7 +96,42 @@ public  final class CreateModelRequest extends
             ai.h2o.deepwater.backends.grpc.CreateModelRequest.class, ai.h2o.deepwater.backends.grpc.CreateModelRequest.Builder.class);
   }
 
-  public static final int PARAMS_FIELD_NUMBER = 1;
+  private int bitField0_;
+  public static final int MODELNAME_FIELD_NUMBER = 1;
+  private volatile java.lang.Object modelName_;
+  /**
+   * <code>optional string modelName = 1;</code>
+   */
+  public java.lang.String getModelName() {
+    java.lang.Object ref = modelName_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      modelName_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>optional string modelName = 1;</code>
+   */
+  public com.google.protobuf.ByteString
+      getModelNameBytes() {
+    java.lang.Object ref = modelName_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      modelName_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int PARAMS_FIELD_NUMBER = 2;
   private static final class ParamsDefaultEntryHolder {
     static final com.google.protobuf.MapEntry<
         java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> defaultEntry =
@@ -116,7 +158,7 @@ public  final class CreateModelRequest extends
     return internalGetParams().getMap().size();
   }
   /**
-   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
    */
 
   public boolean containsParams(
@@ -132,14 +174,14 @@ public  final class CreateModelRequest extends
     return getParamsMap();
   }
   /**
-   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
    */
 
   public java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> getParamsMap() {
     return internalGetParams().getMap();
   }
   /**
-   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
    */
 
   public ai.h2o.deepwater.backends.grpc.ParamValue getParamsOrDefault(
@@ -151,7 +193,7 @@ public  final class CreateModelRequest extends
     return map.containsKey(key) ? map.get(key) : defaultValue;
   }
   /**
-   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
    */
 
   public ai.h2o.deepwater.backends.grpc.ParamValue getParamsOrThrow(
@@ -177,12 +219,15 @@ public  final class CreateModelRequest extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
+    if (!getModelNameBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, modelName_);
+    }
     com.google.protobuf.GeneratedMessageV3
       .serializeStringMapTo(
         output,
         internalGetParams(),
         ParamsDefaultEntryHolder.defaultEntry,
-        1);
+        2);
   }
 
   public int getSerializedSize() {
@@ -190,6 +235,9 @@ public  final class CreateModelRequest extends
     if (size != -1) return size;
 
     size = 0;
+    if (!getModelNameBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, modelName_);
+    }
     for (java.util.Map.Entry<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> entry
          : internalGetParams().getMap().entrySet()) {
       com.google.protobuf.MapEntry<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>
@@ -198,7 +246,7 @@ public  final class CreateModelRequest extends
           .setValue(entry.getValue())
           .build();
       size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, params__);
+          .computeMessageSize(2, params__);
     }
     memoizedSize = size;
     return size;
@@ -216,6 +264,8 @@ public  final class CreateModelRequest extends
     ai.h2o.deepwater.backends.grpc.CreateModelRequest other = (ai.h2o.deepwater.backends.grpc.CreateModelRequest) obj;
 
     boolean result = true;
+    result = result && getModelName()
+        .equals(other.getModelName());
     result = result && internalGetParams().equals(
         other.internalGetParams());
     return result;
@@ -228,6 +278,8 @@ public  final class CreateModelRequest extends
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (37 * hash) + MODELNAME_FIELD_NUMBER;
+    hash = (53 * hash) + getModelName().hashCode();
     if (!internalGetParams().getMap().isEmpty()) {
       hash = (37 * hash) + PARAMS_FIELD_NUMBER;
       hash = (53 * hash) + internalGetParams().hashCode();
@@ -330,7 +382,7 @@ public  final class CreateModelRequest extends
     protected com.google.protobuf.MapField internalGetMapField(
         int number) {
       switch (number) {
-        case 1:
+        case 2:
           return internalGetParams();
         default:
           throw new RuntimeException(
@@ -341,7 +393,7 @@ public  final class CreateModelRequest extends
     protected com.google.protobuf.MapField internalGetMutableMapField(
         int number) {
       switch (number) {
-        case 1:
+        case 2:
           return internalGetMutableParams();
         default:
           throw new RuntimeException(
@@ -372,6 +424,8 @@ public  final class CreateModelRequest extends
     }
     public Builder clear() {
       super.clear();
+      modelName_ = "";
+
       internalGetMutableParams().clear();
       return this;
     }
@@ -396,8 +450,11 @@ public  final class CreateModelRequest extends
     public ai.h2o.deepwater.backends.grpc.CreateModelRequest buildPartial() {
       ai.h2o.deepwater.backends.grpc.CreateModelRequest result = new ai.h2o.deepwater.backends.grpc.CreateModelRequest(this);
       int from_bitField0_ = bitField0_;
+      int to_bitField0_ = 0;
+      result.modelName_ = modelName_;
       result.params_ = internalGetParams();
       result.params_.makeImmutable();
+      result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
     }
@@ -439,6 +496,10 @@ public  final class CreateModelRequest extends
 
     public Builder mergeFrom(ai.h2o.deepwater.backends.grpc.CreateModelRequest other) {
       if (other == ai.h2o.deepwater.backends.grpc.CreateModelRequest.getDefaultInstance()) return this;
+      if (!other.getModelName().isEmpty()) {
+        modelName_ = other.modelName_;
+        onChanged();
+      }
       internalGetMutableParams().mergeFrom(
           other.internalGetParams());
       onChanged();
@@ -468,6 +529,75 @@ public  final class CreateModelRequest extends
     }
     private int bitField0_;
 
+    private java.lang.Object modelName_ = "";
+    /**
+     * <code>optional string modelName = 1;</code>
+     */
+    public java.lang.String getModelName() {
+      java.lang.Object ref = modelName_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        modelName_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>optional string modelName = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getModelNameBytes() {
+      java.lang.Object ref = modelName_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        modelName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>optional string modelName = 1;</code>
+     */
+    public Builder setModelName(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      modelName_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string modelName = 1;</code>
+     */
+    public Builder clearModelName() {
+      
+      modelName_ = getDefaultInstance().getModelName();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional string modelName = 1;</code>
+     */
+    public Builder setModelNameBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      modelName_ = value;
+      onChanged();
+      return this;
+    }
+
     private com.google.protobuf.MapField<
         java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> params_;
     private com.google.protobuf.MapField<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>
@@ -495,7 +625,7 @@ public  final class CreateModelRequest extends
       return internalGetParams().getMap().size();
     }
     /**
-     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
      */
 
     public boolean containsParams(
@@ -511,14 +641,14 @@ public  final class CreateModelRequest extends
       return getParamsMap();
     }
     /**
-     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
      */
 
     public java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> getParamsMap() {
       return internalGetParams().getMap();
     }
     /**
-     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
      */
 
     public ai.h2o.deepwater.backends.grpc.ParamValue getParamsOrDefault(
@@ -530,7 +660,7 @@ public  final class CreateModelRequest extends
       return map.containsKey(key) ? map.get(key) : defaultValue;
     }
     /**
-     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
      */
 
     public ai.h2o.deepwater.backends.grpc.ParamValue getParamsOrThrow(
@@ -549,7 +679,7 @@ public  final class CreateModelRequest extends
       return this;
     }
     /**
-     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
      */
 
     public Builder removeParams(
@@ -567,7 +697,7 @@ public  final class CreateModelRequest extends
       return internalGetMutableParams().getMutableMap();
     }
     /**
-     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
      */
     public Builder putParams(
         java.lang.String key,
@@ -578,7 +708,7 @@ public  final class CreateModelRequest extends
       return this;
     }
     /**
-     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
      */
 
     public Builder putAllParams(

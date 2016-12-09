@@ -8,11 +8,21 @@ public interface CreateModelRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+   * <code>optional string modelName = 1;</code>
+   */
+  java.lang.String getModelName();
+  /**
+   * <code>optional string modelName = 1;</code>
+   */
+  com.google.protobuf.ByteString
+      getModelNameBytes();
+
+  /**
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
    */
   int getParamsCount();
   /**
-   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
    */
   boolean containsParams(
       java.lang.String key);
@@ -23,19 +33,19 @@ public interface CreateModelRequestOrBuilder extends
   java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>
   getParams();
   /**
-   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
    */
   java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>
   getParamsMap();
   /**
-   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
    */
 
   ai.h2o.deepwater.backends.grpc.ParamValue getParamsOrDefault(
       java.lang.String key,
       ai.h2o.deepwater.backends.grpc.ParamValue defaultValue);
   /**
-   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 1;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
    */
 
   ai.h2o.deepwater.backends.grpc.ParamValue getParamsOrThrow(

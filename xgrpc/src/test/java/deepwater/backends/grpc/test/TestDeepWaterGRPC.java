@@ -54,7 +54,7 @@ public class TestDeepWaterGRPC {
     @Test
     public void testSimpleBuildNetwork() throws Exception {
 
-        BackendTrain backend = new GrpcBackendTrain();
+        BackendTrain backend = new GrpcBackendTrain("localhost", 50051);
 
         String name = "lenet";
         MNISTImageDataset dataset = new MNISTImageDataset();

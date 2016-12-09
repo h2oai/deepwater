@@ -4,18 +4,17 @@
 package ai.h2o.deepwater.backends.grpc;
 
 /**
- * Protobuf type {@code deepwater.PredictRequest}
+ * Protobuf type {@code deepwater.TrainResponse}
  */
-public  final class PredictRequest extends
+public  final class TrainResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:deepwater.PredictRequest)
-    PredictRequestOrBuilder {
-  // Use PredictRequest.newBuilder() to construct.
-  private PredictRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // @@protoc_insertion_point(message_implements:deepwater.TrainResponse)
+    TrainResponseOrBuilder {
+  // Use TrainResponse.newBuilder() to construct.
+  private TrainResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private PredictRequest() {
-    feeds_ = java.util.Collections.emptyList();
+  private TrainResponse() {
     fetches_ = java.util.Collections.emptyList();
   }
 
@@ -24,7 +23,7 @@ public  final class PredictRequest extends
   getUnknownFields() {
     return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
   }
-  private PredictRequest(
+  private TrainResponse(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -57,19 +56,10 @@ public  final class PredictRequest extends
 
             break;
           }
-          case 18: {
-            if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-              feeds_ = new java.util.ArrayList<ai.h2o.deepwater.backends.grpc.Tensor>();
-              mutable_bitField0_ |= 0x00000002;
-            }
-            feeds_.add(
-                input.readMessage(ai.h2o.deepwater.backends.grpc.Tensor.parser(), extensionRegistry));
-            break;
-          }
           case 26: {
-            if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+            if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
               fetches_ = new java.util.ArrayList<ai.h2o.deepwater.backends.grpc.Tensor>();
-              mutable_bitField0_ |= 0x00000004;
+              mutable_bitField0_ |= 0x00000002;
             }
             fetches_.add(
                 input.readMessage(ai.h2o.deepwater.backends.grpc.Tensor.parser(), extensionRegistry));
@@ -84,9 +74,6 @@ public  final class PredictRequest extends
           e).setUnfinishedMessage(this);
     } finally {
       if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-        feeds_ = java.util.Collections.unmodifiableList(feeds_);
-      }
-      if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
         fetches_ = java.util.Collections.unmodifiableList(fetches_);
       }
       makeExtensionsImmutable();
@@ -94,14 +81,14 @@ public  final class PredictRequest extends
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_PredictRequest_descriptor;
+    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_TrainResponse_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_PredictRequest_fieldAccessorTable
+    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_TrainResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            ai.h2o.deepwater.backends.grpc.PredictRequest.class, ai.h2o.deepwater.backends.grpc.PredictRequest.Builder.class);
+            ai.h2o.deepwater.backends.grpc.TrainResponse.class, ai.h2o.deepwater.backends.grpc.TrainResponse.Builder.class);
   }
 
   private int bitField0_;
@@ -124,41 +111,6 @@ public  final class PredictRequest extends
    */
   public ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder getModelOrBuilder() {
     return getModel();
-  }
-
-  public static final int FEEDS_FIELD_NUMBER = 2;
-  private java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> feeds_;
-  /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
-   */
-  public java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> getFeedsList() {
-    return feeds_;
-  }
-  /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
-   */
-  public java.util.List<? extends ai.h2o.deepwater.backends.grpc.TensorOrBuilder> 
-      getFeedsOrBuilderList() {
-    return feeds_;
-  }
-  /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
-   */
-  public int getFeedsCount() {
-    return feeds_.size();
-  }
-  /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
-   */
-  public ai.h2o.deepwater.backends.grpc.Tensor getFeeds(int index) {
-    return feeds_.get(index);
-  }
-  /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
-   */
-  public ai.h2o.deepwater.backends.grpc.TensorOrBuilder getFeedsOrBuilder(
-      int index) {
-    return feeds_.get(index);
   }
 
   public static final int FETCHES_FIELD_NUMBER = 3;
@@ -211,9 +163,6 @@ public  final class PredictRequest extends
     if (model_ != null) {
       output.writeMessage(1, getModel());
     }
-    for (int i = 0; i < feeds_.size(); i++) {
-      output.writeMessage(2, feeds_.get(i));
-    }
     for (int i = 0; i < fetches_.size(); i++) {
       output.writeMessage(3, fetches_.get(i));
     }
@@ -227,10 +176,6 @@ public  final class PredictRequest extends
     if (model_ != null) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(1, getModel());
-    }
-    for (int i = 0; i < feeds_.size(); i++) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(2, feeds_.get(i));
     }
     for (int i = 0; i < fetches_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
@@ -246,10 +191,10 @@ public  final class PredictRequest extends
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof ai.h2o.deepwater.backends.grpc.PredictRequest)) {
+    if (!(obj instanceof ai.h2o.deepwater.backends.grpc.TrainResponse)) {
       return super.equals(obj);
     }
-    ai.h2o.deepwater.backends.grpc.PredictRequest other = (ai.h2o.deepwater.backends.grpc.PredictRequest) obj;
+    ai.h2o.deepwater.backends.grpc.TrainResponse other = (ai.h2o.deepwater.backends.grpc.TrainResponse) obj;
 
     boolean result = true;
     result = result && (hasModel() == other.hasModel());
@@ -257,8 +202,6 @@ public  final class PredictRequest extends
       result = result && getModel()
           .equals(other.getModel());
     }
-    result = result && getFeedsList()
-        .equals(other.getFeedsList());
     result = result && getFetchesList()
         .equals(other.getFetchesList());
     return result;
@@ -275,10 +218,6 @@ public  final class PredictRequest extends
       hash = (37 * hash) + MODEL_FIELD_NUMBER;
       hash = (53 * hash) + getModel().hashCode();
     }
-    if (getFeedsCount() > 0) {
-      hash = (37 * hash) + FEEDS_FIELD_NUMBER;
-      hash = (53 * hash) + getFeedsList().hashCode();
-    }
     if (getFetchesCount() > 0) {
       hash = (37 * hash) + FETCHES_FIELD_NUMBER;
       hash = (53 * hash) + getFetchesList().hashCode();
@@ -288,58 +227,58 @@ public  final class PredictRequest extends
     return hash;
   }
 
-  public static ai.h2o.deepwater.backends.grpc.PredictRequest parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static ai.h2o.deepwater.backends.grpc.PredictRequest parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.PredictRequest parseFrom(byte[] data)
+  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static ai.h2o.deepwater.backends.grpc.PredictRequest parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.PredictRequest parseFrom(java.io.InputStream input)
+  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static ai.h2o.deepwater.backends.grpc.PredictRequest parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.PredictRequest parseDelimitedFrom(java.io.InputStream input)
+  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static ai.h2o.deepwater.backends.grpc.PredictRequest parseDelimitedFrom(
+  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.PredictRequest parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static ai.h2o.deepwater.backends.grpc.PredictRequest parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -351,7 +290,7 @@ public  final class PredictRequest extends
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(ai.h2o.deepwater.backends.grpc.PredictRequest prototype) {
+  public static Builder newBuilder(ai.h2o.deepwater.backends.grpc.TrainResponse prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() {
@@ -366,25 +305,25 @@ public  final class PredictRequest extends
     return builder;
   }
   /**
-   * Protobuf type {@code deepwater.PredictRequest}
+   * Protobuf type {@code deepwater.TrainResponse}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:deepwater.PredictRequest)
-      ai.h2o.deepwater.backends.grpc.PredictRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:deepwater.TrainResponse)
+      ai.h2o.deepwater.backends.grpc.TrainResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_PredictRequest_descriptor;
+      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_TrainResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_PredictRequest_fieldAccessorTable
+      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_TrainResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              ai.h2o.deepwater.backends.grpc.PredictRequest.class, ai.h2o.deepwater.backends.grpc.PredictRequest.Builder.class);
+              ai.h2o.deepwater.backends.grpc.TrainResponse.class, ai.h2o.deepwater.backends.grpc.TrainResponse.Builder.class);
     }
 
-    // Construct using ai.h2o.deepwater.backends.grpc.PredictRequest.newBuilder()
+    // Construct using ai.h2o.deepwater.backends.grpc.TrainResponse.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -397,7 +336,6 @@ public  final class PredictRequest extends
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessageV3
               .alwaysUseFieldBuilders) {
-        getFeedsFieldBuilder();
         getFetchesFieldBuilder();
       }
     }
@@ -409,15 +347,9 @@ public  final class PredictRequest extends
         model_ = null;
         modelBuilder_ = null;
       }
-      if (feedsBuilder_ == null) {
-        feeds_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
-      } else {
-        feedsBuilder_.clear();
-      }
       if (fetchesBuilder_ == null) {
         fetches_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
       } else {
         fetchesBuilder_.clear();
       }
@@ -426,23 +358,23 @@ public  final class PredictRequest extends
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_PredictRequest_descriptor;
+      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_TrainResponse_descriptor;
     }
 
-    public ai.h2o.deepwater.backends.grpc.PredictRequest getDefaultInstanceForType() {
-      return ai.h2o.deepwater.backends.grpc.PredictRequest.getDefaultInstance();
+    public ai.h2o.deepwater.backends.grpc.TrainResponse getDefaultInstanceForType() {
+      return ai.h2o.deepwater.backends.grpc.TrainResponse.getDefaultInstance();
     }
 
-    public ai.h2o.deepwater.backends.grpc.PredictRequest build() {
-      ai.h2o.deepwater.backends.grpc.PredictRequest result = buildPartial();
+    public ai.h2o.deepwater.backends.grpc.TrainResponse build() {
+      ai.h2o.deepwater.backends.grpc.TrainResponse result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public ai.h2o.deepwater.backends.grpc.PredictRequest buildPartial() {
-      ai.h2o.deepwater.backends.grpc.PredictRequest result = new ai.h2o.deepwater.backends.grpc.PredictRequest(this);
+    public ai.h2o.deepwater.backends.grpc.TrainResponse buildPartial() {
+      ai.h2o.deepwater.backends.grpc.TrainResponse result = new ai.h2o.deepwater.backends.grpc.TrainResponse(this);
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
       if (modelBuilder_ == null) {
@@ -450,19 +382,10 @@ public  final class PredictRequest extends
       } else {
         result.model_ = modelBuilder_.build();
       }
-      if (feedsBuilder_ == null) {
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          feeds_ = java.util.Collections.unmodifiableList(feeds_);
-          bitField0_ = (bitField0_ & ~0x00000002);
-        }
-        result.feeds_ = feeds_;
-      } else {
-        result.feeds_ = feedsBuilder_.build();
-      }
       if (fetchesBuilder_ == null) {
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
           fetches_ = java.util.Collections.unmodifiableList(fetches_);
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.fetches_ = fetches_;
       } else {
@@ -500,50 +423,24 @@ public  final class PredictRequest extends
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof ai.h2o.deepwater.backends.grpc.PredictRequest) {
-        return mergeFrom((ai.h2o.deepwater.backends.grpc.PredictRequest)other);
+      if (other instanceof ai.h2o.deepwater.backends.grpc.TrainResponse) {
+        return mergeFrom((ai.h2o.deepwater.backends.grpc.TrainResponse)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(ai.h2o.deepwater.backends.grpc.PredictRequest other) {
-      if (other == ai.h2o.deepwater.backends.grpc.PredictRequest.getDefaultInstance()) return this;
+    public Builder mergeFrom(ai.h2o.deepwater.backends.grpc.TrainResponse other) {
+      if (other == ai.h2o.deepwater.backends.grpc.TrainResponse.getDefaultInstance()) return this;
       if (other.hasModel()) {
         mergeModel(other.getModel());
-      }
-      if (feedsBuilder_ == null) {
-        if (!other.feeds_.isEmpty()) {
-          if (feeds_.isEmpty()) {
-            feeds_ = other.feeds_;
-            bitField0_ = (bitField0_ & ~0x00000002);
-          } else {
-            ensureFeedsIsMutable();
-            feeds_.addAll(other.feeds_);
-          }
-          onChanged();
-        }
-      } else {
-        if (!other.feeds_.isEmpty()) {
-          if (feedsBuilder_.isEmpty()) {
-            feedsBuilder_.dispose();
-            feedsBuilder_ = null;
-            feeds_ = other.feeds_;
-            bitField0_ = (bitField0_ & ~0x00000002);
-            feedsBuilder_ = 
-              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                 getFeedsFieldBuilder() : null;
-          } else {
-            feedsBuilder_.addAllMessages(other.feeds_);
-          }
-        }
       }
       if (fetchesBuilder_ == null) {
         if (!other.fetches_.isEmpty()) {
           if (fetches_.isEmpty()) {
             fetches_ = other.fetches_;
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000002);
           } else {
             ensureFetchesIsMutable();
             fetches_.addAll(other.fetches_);
@@ -556,7 +453,7 @@ public  final class PredictRequest extends
             fetchesBuilder_.dispose();
             fetchesBuilder_ = null;
             fetches_ = other.fetches_;
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000002);
             fetchesBuilder_ = 
               com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getFetchesFieldBuilder() : null;
@@ -577,11 +474,11 @@ public  final class PredictRequest extends
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      ai.h2o.deepwater.backends.grpc.PredictRequest parsedMessage = null;
+      ai.h2o.deepwater.backends.grpc.TrainResponse parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (ai.h2o.deepwater.backends.grpc.PredictRequest) e.getUnfinishedMessage();
+        parsedMessage = (ai.h2o.deepwater.backends.grpc.TrainResponse) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -709,252 +606,12 @@ public  final class PredictRequest extends
       return modelBuilder_;
     }
 
-    private java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> feeds_ =
-      java.util.Collections.emptyList();
-    private void ensureFeedsIsMutable() {
-      if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-        feeds_ = new java.util.ArrayList<ai.h2o.deepwater.backends.grpc.Tensor>(feeds_);
-        bitField0_ |= 0x00000002;
-       }
-    }
-
-    private com.google.protobuf.RepeatedFieldBuilderV3<
-        ai.h2o.deepwater.backends.grpc.Tensor, ai.h2o.deepwater.backends.grpc.Tensor.Builder, ai.h2o.deepwater.backends.grpc.TensorOrBuilder> feedsBuilder_;
-
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> getFeedsList() {
-      if (feedsBuilder_ == null) {
-        return java.util.Collections.unmodifiableList(feeds_);
-      } else {
-        return feedsBuilder_.getMessageList();
-      }
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public int getFeedsCount() {
-      if (feedsBuilder_ == null) {
-        return feeds_.size();
-      } else {
-        return feedsBuilder_.getCount();
-      }
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public ai.h2o.deepwater.backends.grpc.Tensor getFeeds(int index) {
-      if (feedsBuilder_ == null) {
-        return feeds_.get(index);
-      } else {
-        return feedsBuilder_.getMessage(index);
-      }
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public Builder setFeeds(
-        int index, ai.h2o.deepwater.backends.grpc.Tensor value) {
-      if (feedsBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureFeedsIsMutable();
-        feeds_.set(index, value);
-        onChanged();
-      } else {
-        feedsBuilder_.setMessage(index, value);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public Builder setFeeds(
-        int index, ai.h2o.deepwater.backends.grpc.Tensor.Builder builderForValue) {
-      if (feedsBuilder_ == null) {
-        ensureFeedsIsMutable();
-        feeds_.set(index, builderForValue.build());
-        onChanged();
-      } else {
-        feedsBuilder_.setMessage(index, builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public Builder addFeeds(ai.h2o.deepwater.backends.grpc.Tensor value) {
-      if (feedsBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureFeedsIsMutable();
-        feeds_.add(value);
-        onChanged();
-      } else {
-        feedsBuilder_.addMessage(value);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public Builder addFeeds(
-        int index, ai.h2o.deepwater.backends.grpc.Tensor value) {
-      if (feedsBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureFeedsIsMutable();
-        feeds_.add(index, value);
-        onChanged();
-      } else {
-        feedsBuilder_.addMessage(index, value);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public Builder addFeeds(
-        ai.h2o.deepwater.backends.grpc.Tensor.Builder builderForValue) {
-      if (feedsBuilder_ == null) {
-        ensureFeedsIsMutable();
-        feeds_.add(builderForValue.build());
-        onChanged();
-      } else {
-        feedsBuilder_.addMessage(builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public Builder addFeeds(
-        int index, ai.h2o.deepwater.backends.grpc.Tensor.Builder builderForValue) {
-      if (feedsBuilder_ == null) {
-        ensureFeedsIsMutable();
-        feeds_.add(index, builderForValue.build());
-        onChanged();
-      } else {
-        feedsBuilder_.addMessage(index, builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public Builder addAllFeeds(
-        java.lang.Iterable<? extends ai.h2o.deepwater.backends.grpc.Tensor> values) {
-      if (feedsBuilder_ == null) {
-        ensureFeedsIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, feeds_);
-        onChanged();
-      } else {
-        feedsBuilder_.addAllMessages(values);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public Builder clearFeeds() {
-      if (feedsBuilder_ == null) {
-        feeds_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
-        onChanged();
-      } else {
-        feedsBuilder_.clear();
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public Builder removeFeeds(int index) {
-      if (feedsBuilder_ == null) {
-        ensureFeedsIsMutable();
-        feeds_.remove(index);
-        onChanged();
-      } else {
-        feedsBuilder_.remove(index);
-      }
-      return this;
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public ai.h2o.deepwater.backends.grpc.Tensor.Builder getFeedsBuilder(
-        int index) {
-      return getFeedsFieldBuilder().getBuilder(index);
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public ai.h2o.deepwater.backends.grpc.TensorOrBuilder getFeedsOrBuilder(
-        int index) {
-      if (feedsBuilder_ == null) {
-        return feeds_.get(index);  } else {
-        return feedsBuilder_.getMessageOrBuilder(index);
-      }
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public java.util.List<? extends ai.h2o.deepwater.backends.grpc.TensorOrBuilder> 
-         getFeedsOrBuilderList() {
-      if (feedsBuilder_ != null) {
-        return feedsBuilder_.getMessageOrBuilderList();
-      } else {
-        return java.util.Collections.unmodifiableList(feeds_);
-      }
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public ai.h2o.deepwater.backends.grpc.Tensor.Builder addFeedsBuilder() {
-      return getFeedsFieldBuilder().addBuilder(
-          ai.h2o.deepwater.backends.grpc.Tensor.getDefaultInstance());
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public ai.h2o.deepwater.backends.grpc.Tensor.Builder addFeedsBuilder(
-        int index) {
-      return getFeedsFieldBuilder().addBuilder(
-          index, ai.h2o.deepwater.backends.grpc.Tensor.getDefaultInstance());
-    }
-    /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
-     */
-    public java.util.List<ai.h2o.deepwater.backends.grpc.Tensor.Builder> 
-         getFeedsBuilderList() {
-      return getFeedsFieldBuilder().getBuilderList();
-    }
-    private com.google.protobuf.RepeatedFieldBuilderV3<
-        ai.h2o.deepwater.backends.grpc.Tensor, ai.h2o.deepwater.backends.grpc.Tensor.Builder, ai.h2o.deepwater.backends.grpc.TensorOrBuilder> 
-        getFeedsFieldBuilder() {
-      if (feedsBuilder_ == null) {
-        feedsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-            ai.h2o.deepwater.backends.grpc.Tensor, ai.h2o.deepwater.backends.grpc.Tensor.Builder, ai.h2o.deepwater.backends.grpc.TensorOrBuilder>(
-                feeds_,
-                ((bitField0_ & 0x00000002) == 0x00000002),
-                getParentForChildren(),
-                isClean());
-        feeds_ = null;
-      }
-      return feedsBuilder_;
-    }
-
     private java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> fetches_ =
       java.util.Collections.emptyList();
     private void ensureFetchesIsMutable() {
-      if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (!((bitField0_ & 0x00000002) == 0x00000002)) {
         fetches_ = new java.util.ArrayList<ai.h2o.deepwater.backends.grpc.Tensor>(fetches_);
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000002;
        }
     }
 
@@ -1104,7 +761,7 @@ public  final class PredictRequest extends
     public Builder clearFetches() {
       if (fetchesBuilder_ == null) {
         fetches_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
       } else {
         fetchesBuilder_.clear();
@@ -1181,7 +838,7 @@ public  final class PredictRequest extends
         fetchesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             ai.h2o.deepwater.backends.grpc.Tensor, ai.h2o.deepwater.backends.grpc.Tensor.Builder, ai.h2o.deepwater.backends.grpc.TensorOrBuilder>(
                 fetches_,
-                ((bitField0_ & 0x00000004) == 0x00000004),
+                ((bitField0_ & 0x00000002) == 0x00000002),
                 getParentForChildren(),
                 isClean());
         fetches_ = null;
@@ -1199,39 +856,39 @@ public  final class PredictRequest extends
     }
 
 
-    // @@protoc_insertion_point(builder_scope:deepwater.PredictRequest)
+    // @@protoc_insertion_point(builder_scope:deepwater.TrainResponse)
   }
 
-  // @@protoc_insertion_point(class_scope:deepwater.PredictRequest)
-  private static final ai.h2o.deepwater.backends.grpc.PredictRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:deepwater.TrainResponse)
+  private static final ai.h2o.deepwater.backends.grpc.TrainResponse DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new ai.h2o.deepwater.backends.grpc.PredictRequest();
+    DEFAULT_INSTANCE = new ai.h2o.deepwater.backends.grpc.TrainResponse();
   }
 
-  public static ai.h2o.deepwater.backends.grpc.PredictRequest getDefaultInstance() {
+  public static ai.h2o.deepwater.backends.grpc.TrainResponse getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<PredictRequest>
-      PARSER = new com.google.protobuf.AbstractParser<PredictRequest>() {
-    public PredictRequest parsePartialFrom(
+  private static final com.google.protobuf.Parser<TrainResponse>
+      PARSER = new com.google.protobuf.AbstractParser<TrainResponse>() {
+    public TrainResponse parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PredictRequest(input, extensionRegistry);
+        return new TrainResponse(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<PredictRequest> parser() {
+  public static com.google.protobuf.Parser<TrainResponse> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<PredictRequest> getParserForType() {
+  public com.google.protobuf.Parser<TrainResponse> getParserForType() {
     return PARSER;
   }
 
-  public ai.h2o.deepwater.backends.grpc.PredictRequest getDefaultInstanceForType() {
+  public ai.h2o.deepwater.backends.grpc.TrainResponse getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

@@ -3,8 +3,8 @@
 
 package ai.h2o.deepwater.backends.grpc;
 
-public interface PredictRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:deepwater.PredictRequest)
+public interface TrainResponseOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:deepwater.TrainResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**
@@ -19,30 +19,6 @@ public interface PredictRequestOrBuilder extends
    * <code>optional .deepwater.BackendModel model = 1;</code>
    */
   ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder getModelOrBuilder();
-
-  /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
-   */
-  java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> 
-      getFeedsList();
-  /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
-   */
-  ai.h2o.deepwater.backends.grpc.Tensor getFeeds(int index);
-  /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
-   */
-  int getFeedsCount();
-  /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
-   */
-  java.util.List<? extends ai.h2o.deepwater.backends.grpc.TensorOrBuilder> 
-      getFeedsOrBuilderList();
-  /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
-   */
-  ai.h2o.deepwater.backends.grpc.TensorOrBuilder getFeedsOrBuilder(
-      int index);
 
   /**
    * <code>repeated .deepwater.Tensor fetches = 3;</code>

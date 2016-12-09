@@ -1,11 +1,27 @@
 package deepwater.backends.grpc;
 
+import ai.h2o.deepwater.backends.grpc.CreateModelRequest;
+import ai.h2o.deepwater.backends.grpc.CreateModelResponse;
 import ai.h2o.deepwater.backends.grpc.DeepWaterTrainBackendGrpc;
+import ai.h2o.deepwater.backends.grpc.DeleteModelRequest;
+import ai.h2o.deepwater.backends.grpc.LoadModelRequest;
+import ai.h2o.deepwater.backends.grpc.LoadWeightsRequest;
 import ai.h2o.deepwater.backends.grpc.ParamValue;
+import ai.h2o.deepwater.backends.grpc.PredictRequest;
+import ai.h2o.deepwater.backends.grpc.SaveModelRequest;
+import ai.h2o.deepwater.backends.grpc.SaveWeightsRequest;
+import ai.h2o.deepwater.backends.grpc.SetParametersRequest;
+import ai.h2o.deepwater.backends.grpc.Status;
+import ai.h2o.deepwater.backends.grpc.Tensor;
+import ai.h2o.deepwater.backends.grpc.TrainRequest;
+import com.google.common.primitives.Floats;
 import com.google.protobuf.ByteString;
+import deepwater.backends.BackendModel;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -15,7 +31,6 @@ public class Client {
     private final DeepWaterTrainBackendGrpc.DeepWaterTrainBackendBlockingStub blockingStub;
     private final ManagedChannel channel;
 
-    /** Construct client connecting to HelloWorld server at {@code host:port}. */
     public Client(String host, int port) {
         this(ManagedChannelBuilder.forAddress(host, port)
                 // Channels are secure by default (via SSL/TLS). For the example we disable TLS to avoid
@@ -65,17 +80,132 @@ public class Client {
         return ParamValue.newBuilder().setS(ByteString.copyFromUtf8(key)).build();
     }
 
-//    public MetaGraphDef BuildNetwork(String networkName, Map<String, Object> hashMap) throws Exception {
-//        .Builder requestBuilder = NetworkRequest.newBuilder();
-//        requestBuilder.putParams("name", asParam(networkName));
-//
-//        for (String key: hashMap.keySet()) {
-//            requestBuilder.putParams(key, asParam(hashMap.get(key)));
-//        }
-//
-//        NetworkResponse response;
-//        response = blockingStub.buildNetwork(requestBuilder.build());
-//        logger.info("buildNetwork: " + response);
-//        return response.getNetwork();
-//    }
+    public Map<String, ParamValue> asParams(Map<String, Object> params) throws Exception {
+        HashMap<String, ParamValue> map = new HashMap<>();
+        for (String key: params.keySet()) {
+            map.put(key, asParam(params.get(key)));
+        }
+        return map;
+    }
+
+    private void checkStatus(Status status) throws Exception {
+        assert(status != null);
+        if (!status.getOk()){
+            throw new Exception(status.getMessage());
+        }
+    }
+
+    public BackendModel createModel(String networkName, Map<String, Object> hashMap) throws Exception{
+        CreateModelRequest req = CreateModelRequest.newBuilder()
+                .putAllParams(asParams(hashMap))
+                .build();
+        CreateModelResponse response;
+        response = blockingStub.createModel(req);
+        checkStatus(response.getStatus());
+        return new XGRPCBackendSession(response.getNetwork());
+    }
+
+    public void deleteModel(BackendModel model) throws Exception{
+        DeleteModelRequest req = DeleteModelRequest.newBuilder()
+                .setModel(asSession(model))
+                .build();
+        checkStatus(blockingStub.deleteModel(req));
+    }
+
+    public void loadModel(BackendModel model, String path) throws Exception{
+        LoadModelRequest req = LoadModelRequest.newBuilder().build();
+        Status status = blockingStub.loadModel(req);
+        checkStatus(status);
+    }
+
+
+    public void saveModel(BackendModel model, String path) throws Exception{
+        SaveModelRequest req = SaveModelRequest.newBuilder().build();
+
+        Status status = blockingStub.saveModel(req);
+        checkStatus(status);
+    }
+
+
+    public void saveWeights(BackendModel model, String path) throws Exception{
+        SaveWeightsRequest req = SaveWeightsRequest.newBuilder().build();
+
+        Status status = blockingStub.saveWeights(req);
+        checkStatus(status);
+    }
+
+
+    public void loadWeights(BackendModel model, String path) throws Exception{
+        LoadWeightsRequest req = LoadWeightsRequest.newBuilder().build();
+
+        Status status = blockingStub.loadWeights(req);
+        checkStatus(status);
+    }
+
+
+    private ai.h2o.deepwater.backends.grpc.BackendModel asSession(BackendModel model) {
+        XGRPCBackendSession session = (XGRPCBackendSession) model;
+        ai.h2o.deepwater.backends.grpc.BackendModel remoteModel = ai.h2o.deepwater.backends.grpc.BackendModel.newBuilder()
+                .setState(session.getState())
+                .build();
+        return remoteModel;
+    }
+
+    private ai.h2o.deepwater.backends.grpc.BackendModel.Builder asSessionBuilder(BackendModel model) {
+        XGRPCBackendSession session = (XGRPCBackendSession) model;
+        return ai.h2o.deepwater.backends.grpc.BackendModel.newBuilder()
+                .setState(session.getState());
+    }
+
+
+    public void setParameters(BackendModel model, Map<String, Object> params) throws Exception {
+
+        SetParametersRequest req = SetParametersRequest.newBuilder()
+                .setModel(asSessionBuilder(model))
+                .putAllParams(asParams(params))
+                .build();
+
+        Status status = blockingStub.setParameters(req);
+
+        checkStatus(status);
+
+    }
+
+
+    public Map<String, float[]> train(BackendModel model, Map<String, float[]> m) throws Exception {
+        TrainRequest.Builder builder = TrainRequest.newBuilder();
+        int i = 0;
+        for (String key: m.keySet()) {
+            Tensor.Builder tb = Tensor.newBuilder()
+                    .addAllFloatValue(Floats.asList(m.get(key)));
+            builder.setFeeds(i, tb);
+            i++;
+        }
+
+        builder.setModel(asSessionBuilder(model));
+
+        Status status = blockingStub.train(builder.build());
+        
+        checkStatus(status);
+    }
+
+
+    public void predict(BackendModel model, Map<String, float[]> m) throws Exception {
+        PredictRequest.Builder builder= PredictRequest.newBuilder();
+
+        builder.setModel(asSession(model));
+        int i = 0;
+        for (String key: m.keySet()) {
+            Tensor.Builder tb = Tensor.newBuilder()
+                    .addAllFloatValue(Floats.asList(m.get(key)));
+                builder.setFeeds(i, tb);
+            i++;
+        }
+
+        Status status = blockingStub.predict(builder.build());
+
+        checkStatus(status);
+
+    }
+
 }

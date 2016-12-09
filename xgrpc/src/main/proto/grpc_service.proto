@@ -17,6 +17,10 @@ service DeepWaterTrainBackend {
 
     rpc CreateModel(CreateModelRequest) returns (CreateModelResponse) {};
 
+    rpc DeleteModel(DeleteModelRequest) returns (Status) {};
+
+    rpc LoadModel(LoadModelRequest) returns (Status) {};
+
     rpc SaveModel(SaveModelRequest) returns (Status) {};
 
     rpc LoadWeights(LoadWeightsRequest) returns (Status) {};
@@ -38,8 +42,13 @@ message BackendModel {
     bytes state = 1;
 }
 
+message DeleteModelRequest {
+    BackendModel model = 1;
+}
+
 message CreateModelRequest {
-    map<string, ParamValue> params = 1;
+    string modelName = 1;
+    map<string, ParamValue> params = 2;
 }
 
 message CreateModelResponse {
@@ -50,6 +59,12 @@ message CreateModelResponse {
 message Status {
     bool ok = 1;
     string message = 2;
+}
+
+message LoadModelRequest {
+    Session session = 1;
+    BackendModel model = 2;
+    bytes path = 3;
 }
 
 message SaveModelRequest {
@@ -80,8 +95,20 @@ message TrainRequest {
     repeated Tensor fetches = 3;
 }
 
+message TrainResponse {
+    BackendModel model = 1;
+    repeated Tensor fetches = 3;
+}
+
 message PredictRequest {
     BackendModel model = 1;
+    repeated Tensor feeds = 2;
+    repeated Tensor fetches = 3;
+}
+
+message PredictResponse {
+    repeated Tensor fetches = 1;
+    Status status = 2;
 }
 
 enum DataType {
