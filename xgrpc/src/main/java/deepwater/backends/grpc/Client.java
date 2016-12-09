@@ -100,6 +100,7 @@ public class Client {
 
     public BackendModel createModel(String networkName, Map<String, Object> hashMap) throws Exception{
         CreateModelRequest req = CreateModelRequest.newBuilder()
+                .setModelName(networkName)
                 .putAllParams(asParams(hashMap))
                 .build();
         CreateModelResponse response;

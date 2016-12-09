@@ -17,4 +17,8 @@ public class BackendParams {
   public Object get(String name){
     return values.get(name);
   }
+
+  public Map<String, Object> asMap() {
+    return values;
+  }
 }

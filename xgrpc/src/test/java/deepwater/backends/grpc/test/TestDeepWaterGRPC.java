@@ -5,7 +5,7 @@ import deepwater.backends.BackendParams;
 import deepwater.backends.BackendTrain;
 import deepwater.backends.RuntimeOptions;
 import deepwater.backends.grpc.Client;
-import deepwater.backends.grpc.GrpcBackendTrain;
+import deepwater.backends.grpc.GRPCBackendTrain;
 import deepwater.datasets.BatchIterator;
 import deepwater.datasets.ImageBatch;
 import deepwater.datasets.MNISTImageDataset;
@@ -54,9 +54,9 @@ public class TestDeepWaterGRPC {
     @Test
     public void testSimpleBuildNetwork() throws Exception {
 
-        BackendTrain backend = new GrpcBackendTrain("localhost", 50051);
+        BackendTrain backend = new GRPCBackendTrain("localhost", 50051);
 
-        String name = "lenet";
+        String name = "mlp";
         MNISTImageDataset dataset = new MNISTImageDataset();
 
         RuntimeOptions opts = new RuntimeOptions();

@@ -6,7 +6,6 @@ apply plugin: 'maven'
 apply plugin: 'com.google.protobuf'
 apply plugin: 'scala'
 
-
 sourceSets {
     main {
         java {

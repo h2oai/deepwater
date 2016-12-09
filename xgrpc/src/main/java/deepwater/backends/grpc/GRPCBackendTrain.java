@@ -11,14 +11,15 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class GrpcBackendTrain implements BackendTrain {
+
+public class GRPCBackendTrain implements BackendTrain {
 
     // assumes the current class is called MyLogger
-    private final static Logger log = Logger.getLogger(GrpcBackendTrain.class.getName());
+    private final static Logger log = Logger.getLogger(GRPCBackendTrain.class.getName());
 
     private final Client client;
 
-    public GrpcBackendTrain(String host, int port){
+    public GRPCBackendTrain(String host, int port){
         client = new Client(host, port);
     }
 
@@ -32,7 +33,12 @@ public class GrpcBackendTrain implements BackendTrain {
     }
 
     public BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts, BackendParams backend_params, int num_classes, String name) {
-        return null;
+        try {
+            return client.createModel(name, backend_params.asMap());
+        } catch (Exception e) {
+            log.log(Level.WARNING, e.getMessage());
+            return null;
+        }
     }
 
     public void saveModel(BackendModel m, String model_path) {

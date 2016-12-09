@@ -5,9 +5,17 @@ import os
 import time
 import json
 import grpc
+import traceback
 
 import tensorflow as tf
 import grpc_service_pb2 as pb
+
+import logging
+logger = logging.getLogger('tcpserver')
+
+from google.protobuf import text_format
+
+
 
 def _convert(req):
   result = {}
@@ -58,72 +66,103 @@ def _mlp(width=28, height=28, channels=1, classes=10):
     filename = "/tmp/lenet_tensorflow.meta"
     return tf.train.export_meta_graph(filename, saver_def=saver.as_saver_def())
 
+def convert(req):
+
+    "Convert from a pb request param to a python map"
+
+    result = {}
+    for key, param in req.params.iteritems():
+        field = param.WhichOneof('value')
+        value = getattr(param, field)
+        result[key] = value
+    return result
+
+def createModel(modelName, params):
+    if modelName == "mlp":
+        tf_model = _mlp(**params)
+        return text_format.MessageToString(tf_model)
+    raise Exception("unsupported model {}".format(modelName))
+
 
 class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
+
   """Provide DeepWaterGrpcService."""
 
   def CreateModel(self, req, ctx):
     try:
+      print("CreateModel Request")
+      model = createModel(req.modelName, convert(req))
+
       return pb.CreateModelResponse(
-          status=pb.Status(OK=True),
+          network=model,
+          status=pb.Status(ok=True),
       )
     except Exception as e:
+      traceback.print_exc()
       return pb.CreateModelResponse(
-          status=pb.Status(OK=False, message=e.message),
+          status=pb.Status(ok=False, message=e.message),
       )
 
   def SaveModel(self, req, ctx):
     try:
-      return pb.Status(OK=True)
+      return pb.Status(ok=True)
     except Exception as e:
-      return pb.Status(OK=False, message=e.message)
+      traceback.print_exc()
+      return pb.Status(ok=False, message=e.message)
 
   def LoadModel(self, req, ctx):
     try:
-      return pb.Status(OK=True)
+      return pb.Status(ok=True)
     except Exception as e:
-      return pb.Status(OK=False, message=e.message)
+      traceback.print_exc()
+      return pb.Status(ok=False, message=e.message)
 
   def LoadWeights(self, req, ctx):
     try:
-      return pb.Status(OK=True)
+      return pb.Status(ok=True)
     except Exception as e:
-      return pb.Status(OK=False, message=e.message)
+      traceback.print_exc()
+      return pb.Status(ok=False, message=e.message)
 
   def SaveWeights(self, req, ctx):
     try:
-      return pb.Status(OK=True)
+      return pb.Status(ok=True)
     except Exception as e:
-      return pb.Status(OK=False, message=e.message)
+      traceback.print_exc()
+      return pb.Status(ok=False, message=e.message)
 
   def SetParameters(self, req, ctx):
     try:
-      return pb.Status(OK=True)
+      return pb.SetParametersResponse(status=pb.Status(ok=True))
     except Exception as e:
-      return pb.Status(OK=False, message=e.message)
+      traceback.print_exc()
+      return pb.Status(ok=False, message=e.message)
 
   def Train(self, req, ctx):
     try:
       return pb.TrainResponse(
-          status=pb.Status(OK=True),
+          status=pb.Status(ok=True),
       )
     except Exception as e:
+      traceback.print_exc()
       return pb.TrainResponse(
-          status=pb.Status(OK=False, message=e.message),
+          status=pb.Status(ok=False, message=e.message),
       )
 
   def Predict(self, req, ctx):
     try:
       return pb.PredictResponse(
-          status=pb.Status(OK=True),
+          status=pb.Status(ok=True),
       )
     except Exception as e:
+      traceback.print_exc()
       return pb.PredictResponse(
-          status=pb.Status(OK=False, message=e.message),
+          status=pb.Status(ok=False, message=e.message),
       )
 
 
 def serve(infile, outfile):
+  print("starting DeepWater python Service")
   port = os.getenv('DEEPWATER_WORKER_PORT', '50051')
   max_workers = os.getenv('DEEPWATER_MAX_WORKERS', '10')
   port = int(port)
@@ -133,7 +172,7 @@ def serve(infile, outfile):
   server.add_insecure_port('[::]:%d' % port)
   server.start()
 
-  print("listening on port {}".format(port))
+  logging.debug("listening on port {}".format(port))
   try:
     while True:
       time.sleep(10)
