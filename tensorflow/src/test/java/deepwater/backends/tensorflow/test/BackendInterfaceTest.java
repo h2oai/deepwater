@@ -50,9 +50,13 @@ public class BackendInterfaceTest {
 
     private void printLoss(float[] loss) {
         System.out.print("Test accuracy:");
-        for (float los : loss) {
-            System.out.print(los + ",");
+        double average = 0.0;
+        double sum = 0.0;
+        for (float l : loss) {
+            sum += l;
         }
+        average = sum / (loss.length * 1.0);
+        System.out.print(average);
         System.out.println();
     }
 

@@ -26,9 +26,12 @@ def _mlp(width=28, height=28, channels=1, classes=10):
   with graph.as_default():
     size = width * height * channels
     x = tf.placeholder(tf.float32, [None, size], name="x")
-    w = tf.Variable(tf.zeros([size, classes]), name="W")
+    initialization = tf.truncated_normal([size, classes], mean=0.5, stddev=0.2)
+    w = tf.Variable(initialization, name="W")
     b = tf.Variable(tf.zeros([classes]), name="b")
     y = tf.matmul(x, w) + b
+
+    y = tf.nn.relu(y)
 
     # labels
     y_ = tf.placeholder(tf.float32, [None, classes], name="y")
@@ -61,44 +64,43 @@ def _mlp(width=28, height=28, channels=1, classes=10):
     tf.add_to_collection("meta", meta)
 
     # FIXME
-    filename = "/tmp/xxxlenet_tensorflow.meta"
     return tf.train.export_meta_graph(saver_def=saver.as_saver_def())
 
+
 def convert_fetches(params):
-    return [ p.name for p in params]
+  return [p.name for p in params]
+
 
 def convert_feeds(params):
-    feeds = {}
-    for p in params:
-      assert isinstance(p, pb.Tensor)
-      # FIXME
-      a = np.array(p.float_value)
-      # print(p.name)
-      # print(a.shape)
-      a = a.reshape((10, -1))
-      feeds[p.name] = a #np.array(p.float_value).reshape((-1, 10))
-
-    feeds['global_step'] = 0
-    return feeds
+  feeds = {}
+  for p in params:
+    assert isinstance(p, pb.Tensor)
+    # FIXME
+    a = np.array(p.float_value)
+    # print(p.name)
+    # print(a.shape)
+    a = a.reshape((10, -1))
+    feeds[p.name] = a  # np.array(p.float_value).reshape((-1, 10))
+  return feeds
 
 
 def convert_map(params):
+  "Convert from a pb request param to a python map"
 
-    "Convert from a pb request param to a python map"
+  result = {}
+  for key, param in params.items():
+    field = param.WhichOneof('value')
+    value = getattr(param, field)
+    result[key] = value
+  return result
 
-    result = {}
-    for key, param in params.items():
-        field = param.WhichOneof('value')
-        value = getattr(param, field)
-        result[key] = value
-    return result
 
 def createModel(modelName, params):
-    if modelName == "mlp":
-        tf_model = _mlp(**params)
-        serialized = tf_model.SerializeToString()
-        return serialized
-    raise Exception("unsupported model {}".format(modelName))
+  if modelName == "mlp":
+    tf_model = _mlp(**params)
+    serialized = tf_model.SerializeToString()
+    return serialized
+  raise Exception("unsupported model {}".format(modelName))
 
 
 def _checksum(data):
@@ -114,57 +116,67 @@ class _Session(object):
     self.options = options
     self.loaded_models = []
     self._session = None
-
+    self._global_step = 0
 
   def _init_session_if_required(self, meta_graph_def):
     if self._session:
       return
     graph = tf.Graph()
     with graph.as_default():
-        self._session = tf.Session(graph=graph)
+      self._session = tf.Session(graph=graph)
 
-        model = tf.train.import_meta_graph(meta_graph_def)
+      model = tf.train.import_meta_graph(meta_graph_def)
 
-        #model.restore(self._session, filename)
+      #model.restore(self._session, filename)
 
-        meta = graph.get_collection('meta')[0]
+      meta = graph.get_collection('meta')[0]
 
-        meta = json.loads(meta.decode('utf8'))
-        for k, v in list(meta.items()):
-            meta.update(v)
+      meta = json.loads(meta.decode('utf8'))
+      for k, v in list(meta.items()):
+        meta.update(v)
 
-        self._session.run(tf.initialize_all_variables())
+      self._session.run(tf.initialize_all_variables())
 
-        self._meta = meta
+      self._meta = meta
 
-        print(meta)
-
+      self._reverse_meta = {}
+      for k, v in meta.items():
+        if isinstance(v, str):
+          self._reverse_meta[v] = k
 
   def update_fetches(self, fetches):
-    return [ self._meta[k] if self._meta.get(k) else k for k in fetches ]
+    return [self._meta[k] if self._meta.get(k) else k for k in fetches]
 
   def update_feeds(self, feeds):
-    return dict( ((self._meta[k], v)
-                  if self._meta.get(k) else(k, v))
-                  for (k,v) in feeds.items())
+    return dict(((self._meta[k], v)
+                 if self._meta.get(k) else(k, v))
+                for (k, v) in feeds.items())
 
-  def train(self, model, fetches, feeds):
+  def run(self, model, fetches, feeds):
     self._init_session_if_required(model)
     fetches = self.update_fetches(fetches)
     feeds = self.update_feeds(feeds)
-    print("train", fetches)
-    return self._session.run(fetches, feed_dict=feeds)
+    self._global_step += 1
+    feeds[self._meta['global_step']] = self._global_step
 
-  def predict(self, model, fetches, feeds):
-    print("predict", fetches)
-    self._init_session_if_required(model)
-    fetches = self.update_fetches(fetches)
-    feeds = self.update_feeds(feeds)
+    # accuracy = self._session.run(self._meta['accuracy'], feed_dict=feeds)
+
     return self._session.run(fetches, feed_dict=feeds)
 
   def finalize(self):
     if self._session:
-        self._session.close()
+      self._session.close()
+
+
+def convert_tensors(fetches, numpy_tensor_list):
+  result = []
+  for name, np_array in zip(fetches, numpy_tensor_list):
+    proto_tensor = pb.Tensor(
+        name=name,
+        float_value=np_array.reshape((-1,)).tolist()
+    )
+    result.append(proto_tensor)
+  return result
 
 
 class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
@@ -180,10 +192,10 @@ class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
   def _get_model(self, req):
     model = self.__model_cache.get(req.model.id)
     if model is None:
-       meta_graph_def = meta_graph_pb2.MetaGraphDef()
-       meta_graph_def.ParseFromString(req.model.state)
-       self.__model_cache[req.model.id] = meta_graph_def
-       model = meta_graph_def
+      meta_graph_def = meta_graph_pb2.MetaGraphDef()
+      meta_graph_def.ParseFromString(req.model.state)
+      self.__model_cache[req.model.id] = meta_graph_def
+      model = meta_graph_def
     return model
 
   def CreateSession(self, req, ctx):
@@ -191,8 +203,8 @@ class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
       s = _Session()
       self.__session_cache[s.handle] = s
       return pb.CreateSessionResponse(
-          session = pb.Session(
-             handle = s.handle,
+          session=pb.Session(
+              handle=s.handle,
           ),
           status=pb.Status(ok=True),
       )
@@ -202,19 +214,17 @@ class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
           status=pb.Status(ok=False, message=str(e)),
       )
 
-
   def CreateModel(self, req, ctx):
     try:
       session = self._get_session(req)
       serialized = createModel(req.modelName, convert_map(req.params))
 
-      #serialized = model.SerializeToString()
       checksum = _checksum(serialized)
 
       return pb.CreateModelResponse(
-          model = pb.BackendModel(
-             id = checksum,
-             state = serialized
+          model=pb.BackendModel(
+              id=checksum,
+              state=serialized
           ),
           status=pb.Status(ok=True),
       )
@@ -228,7 +238,7 @@ class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
     try:
       session = self._get_session(req)
       model = self._get_model(req)
-      session.save(model)
+      session.save(model, req.path)
       return pb.Status(ok=True)
     except Exception as e:
       traceback.print_exc()
@@ -238,7 +248,7 @@ class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
     try:
       session = self._get_session(req)
       model = self._get_model(req)
-      session.load(model)
+      session.load(model, req.path)
       return pb.Status(ok=True)
     except Exception as e:
       traceback.print_exc()
@@ -274,37 +284,25 @@ class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
       traceback.print_exc()
       return pb.Status(ok=False, message=str(e))
 
-  def Train(self, req, ctx):
+  def Execute(self, req, ctx):
     try:
       session = self._get_session(req)
       model = self._get_model(req)
-      session.train(model,
-                convert_fetches(req.fetches),
-                convert_feeds(req.feeds))
-      return pb.TrainResponse(
-          status=pb.Status(ok=True),
-      )
-    except Exception as e:
-      traceback.print_exc()
-      return pb.TrainResponse(
-          status=pb.Status(ok=False, message=str(e)),
-      )
-
-  def Predict(self, req, ctx):
-    try:
-      session = self._get_session(req)
-      model = self._get_model(req)
-      result = session.predict(model,
-                            convert_fetches(req.fetches),
+      fetches_name_list = convert_fetches(req.fetches)
+      results = session.run(model,
+                            fetches_name_list,
                             convert_feeds(req.feeds))
 
+      results = convert_tensors(fetches_name_list, results)
 
-      return pb.PredictResponse(
+      response = pb.ExecuteResponse(
+          fetches=results,
           status=pb.Status(ok=True),
       )
+      return response
     except Exception as e:
       traceback.print_exc()
-      return pb.PredictResponse(
+      return pb.ExecuteResponse(
           status=pb.Status(ok=False, message=str(e)),
       )
 
@@ -316,10 +314,7 @@ class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
       return pb.Status(ok=True)
     except Exception as e:
       traceback.print_exc()
-      return pb.PredictResponse(
-          status=pb.Status(ok=False, message=str(e)),
-      )
-
+      return pb.Status(ok=False, message=str(e))
 
 
 def serve(infile, outfile):

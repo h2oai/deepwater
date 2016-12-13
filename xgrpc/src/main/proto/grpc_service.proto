@@ -10,7 +10,7 @@ option java_outer_classname = "DeepWaterGRPCService";
 package deepwater;
 
 service DeepWaterPredictBackend {
-    rpc Predict(PredictRequest) returns (Status) {};
+    rpc Execute(ExecuteRequest) returns (ExecuteResponse) {};
 }
 
 service DeepWaterTrainBackend {
@@ -31,9 +31,8 @@ service DeepWaterTrainBackend {
 
     rpc SetParameters(SetParametersRequest) returns (SetParametersResponse) {};
 
-    rpc Train(TrainRequest) returns (TrainResponse) {};
+    rpc Execute(ExecuteRequest) returns (ExecuteResponse) {};
 
-    rpc Predict(PredictRequest) returns (PredictResponse) {};
 }
 
 message Session {
@@ -116,26 +115,15 @@ message SetParametersResponse{
     map<string, ParamValue> params = 2;
 }
 
-message TrainRequest {
+
+message ExecuteRequest {
     Session session = 1;
     BackendModel model = 2;
     repeated Tensor feeds = 3;
     repeated Tensor fetches = 4;
 }
 
-message TrainResponse {
-    Status status = 1;
-    repeated Tensor fetches = 2;
-}
-
-message PredictRequest {
-    Session session = 1;
-    BackendModel model = 2;
-    repeated Tensor feeds = 3;
-    repeated Tensor fetches = 4;
-}
-
-message PredictResponse {
+message ExecuteResponse {
     Status status = 1;
     repeated Tensor fetches = 2;
 }

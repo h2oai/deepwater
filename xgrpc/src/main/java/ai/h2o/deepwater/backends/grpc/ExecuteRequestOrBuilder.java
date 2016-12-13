@@ -3,8 +3,8 @@
 
 package ai.h2o.deepwater.backends.grpc;
 
-public interface TrainRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:deepwater.TrainRequest)
+public interface ExecuteRequestOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:deepwater.ExecuteRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**

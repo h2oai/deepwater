@@ -58,8 +58,23 @@ public class TestDeepWaterGRPC {
     }
 
     @Test
-    public void testSimpleBuildNetwork() throws Exception {
+    public void testMLP() throws IOException{
+        backendCanSaveCheckpoint("mlp", 10);
+    }
 
+    private void printLoss(float[] loss) {
+        System.out.print("Test accuracy:");
+        double average = 0.0;
+        double sum = 0.0;
+        for (float l : loss) {
+            sum += l;
+        }
+        average = sum / (loss.length * 1.0);
+        System.out.print(average);
+        System.out.println();
+    }
+    @Test
+    public void testSimpleBuildNetwork() throws Exception {
         String name = "mlp";
         MNISTImageDataset dataset = new MNISTImageDataset();
 
@@ -77,19 +92,10 @@ public class TestDeepWaterGRPC {
         BatchIterator it = new BatchIterator(dataset, 1, images);
         ImageBatch b = new ImageBatch(dataset, 10);
 
-        // can train
-        while(it.nextEpochs()) {
-            while (it.next(b)) {
-                backend.train(model, b.getImages(), b.getLabels());
-                break;
-            }
-            testMNIST(model);
-        }
-
         // can predict
         while(it.next(b)){
-            backend.predict(model, b.getImages(), b.getLabels());
-            break;
+            float result[] = backend.predict(model, b.getImages(), b.getLabels());
+            printLoss(result);
         }
 
         backend.delete(model);
@@ -139,11 +145,6 @@ public class TestDeepWaterGRPC {
         backend.delete(model2);
     }
 
-    @Test
-    public void testMLP() throws IOException{
-        backendCanSaveCheckpoint("mlp", 10);
-    }
-
     private float testMNIST(BackendModel model) throws IOException {
 
         MNISTImageDataset dataset = new MNISTImageDataset();
@@ -157,7 +158,7 @@ public class TestDeepWaterGRPC {
 
         while(it.next(b)){
             float[] loss = backend.predict(model, b.getImages(), b.getLabels());
-            break;
+            printLoss(loss);
         }
 
 

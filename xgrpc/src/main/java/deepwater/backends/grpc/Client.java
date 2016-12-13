@@ -186,7 +186,7 @@ public class Client {
 
 
     public Map<String, float[]> train(XGRPCBackendSession session, XGRPCBackendModel model, Map<String, float[]> m, String[] fetches) throws Exception {
-        TrainRequest.Builder builder = TrainRequest.newBuilder();
+        ExecuteRequest.Builder builder = ExecuteRequest.newBuilder();
         int i = 0;
         for (String key: m.keySet()) {
             Tensor.Builder tb = Tensor.newBuilder()
@@ -208,7 +208,7 @@ public class Client {
         builder.setSession(asSession(session));
         builder.setModel(asModel(model));
 
-        TrainResponse response = blockingStub.train(builder.build());
+        ExecuteResponse response = blockingStub.execute(builder.build());
 
         checkStatus(response.getStatus());
 
@@ -224,7 +224,7 @@ public class Client {
 
     public Map<String, float[]> predict(XGRPCBackendSession session,
                                         XGRPCBackendModel model, Map<String, float[]> m, String[] fetches) throws Exception {
-        PredictRequest.Builder builder= PredictRequest.newBuilder();
+        ExecuteRequest.Builder builder= ExecuteRequest.newBuilder();
         builder.setSession(asSession(session));
         builder.setModel(asModel(model));
 
@@ -247,7 +247,7 @@ public class Client {
             i++;
         }
 
-        PredictResponse response = blockingStub.predict(builder.build());
+        ExecuteResponse response = blockingStub.execute(builder.build());
 
         checkStatus(response.getStatus());
 

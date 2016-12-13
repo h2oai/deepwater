@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='grpc_service.proto',
   package='deepwater',
   syntax='proto3',
-  serialized_pb=_b('\n\x12grpc_service.proto\x12\tdeepwater\"\x19\n\x07Session\x12\x0e\n\x06handle\x18\x01 \x01(\t\")\n\x0c\x42\x61\x63kendModel\x12\n\n\x02id\x18\x01 \x01(\x0c\x12\r\n\x05state\x18\x02 \x01(\x0c\"<\n\x12\x44\x65leteModelRequest\x12&\n\x05model\x18\x01 \x01(\x0b\x32\x17.deepwater.BackendModel\"\xcd\x01\n\x12\x43reateModelRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12\x11\n\tmodelName\x18\x02 \x01(\t\x12\x39\n\x06params\x18\x03 \x03(\x0b\x32).deepwater.CreateModelRequest.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"`\n\x13\x43reateModelResponse\x12&\n\x05model\x18\x01 \x01(\x0b\x32\x17.deepwater.BackendModel\x12!\n\x06status\x18\x02 \x01(\x0b\x32\x11.deepwater.Status\"\x9c\x01\n\x14\x43reateSessionRequest\x12=\n\x07options\x18\x01 \x03(\x0b\x32,.deepwater.CreateSessionRequest.OptionsEntry\x1a\x45\n\x0cOptionsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"_\n\x15\x43reateSessionResponse\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12!\n\x06status\x18\x02 \x01(\x0b\x32\x11.deepwater.Status\";\n\x14\x44\x65leteSessionRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\"%\n\x06Status\x12\n\n\x02ok\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"m\n\x10LoadModelRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12\x0c\n\x04path\x18\x03 \x01(\x0c\"m\n\x10SaveModelRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12\x0c\n\x04path\x18\x03 \x01(\x0c\"o\n\x12LoadWeightsRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12\x0c\n\x04path\x18\x03 \x01(\x0c\"o\n\x12SaveWeightsRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12\x0c\n\x04path\x18\x03 \x01(\x0c\"\xe6\x01\n\x14SetParametersRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12;\n\x06params\x18\x03 \x03(\x0b\x32+.deepwater.SetParametersRequest.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"\xbe\x01\n\x15SetParametersResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\x12<\n\x06params\x18\x02 \x03(\x0b\x32,.deepwater.SetParametersResponse.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"\xa1\x01\n\x0cTrainRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12 \n\x05\x66\x65\x65\x64s\x18\x03 \x03(\x0b\x32\x11.deepwater.Tensor\x12\"\n\x07\x66\x65tches\x18\x04 \x03(\x0b\x32\x11.deepwater.Tensor\"V\n\rTrainResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\x12\"\n\x07\x66\x65tches\x18\x02 \x03(\x0b\x32\x11.deepwater.Tensor\"\xa3\x01\n\x0ePredictRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12 \n\x05\x66\x65\x65\x64s\x18\x03 \x03(\x0b\x32\x11.deepwater.Tensor\x12\"\n\x07\x66\x65tches\x18\x04 \x03(\x0b\x32\x11.deepwater.Tensor\"X\n\x0fPredictResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\x12\"\n\x07\x66\x65tches\x18\x02 \x03(\x0b\x32\x11.deepwater.Tensor\"?\n\x05Shape\x12!\n\x03\x64im\x18\x02 \x03(\x0b\x32\x14.deepwater.Shape.Dim\x1a\x13\n\x03\x44im\x12\x0c\n\x04size\x18\x01 \x01(\x03\"\xed\x01\n\x06Tensor\x12\x1f\n\x05shape\x18\x01 \x01(\x0b\x32\x10.deepwater.Shape\x12!\n\x04type\x18\x02 \x01(\x0e\x32\x13.deepwater.DataType\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x14\n\x0cstring_value\x18\x04 \x03(\x0c\x12\x17\n\x0bint32_value\x18\x05 \x03(\x05\x42\x02\x10\x01\x12\x17\n\x0bint64_value\x18\x06 \x03(\x03\x42\x02\x10\x01\x12\x17\n\x0b\x66loat_value\x18\x07 \x03(\x02\x42\x02\x10\x01\x12\x18\n\x0c\x64ouble_value\x18\x08 \x03(\x01\x42\x02\x10\x01\x12\x16\n\nbool_value\x18\t \x03(\x08\x42\x02\x10\x01\"\xdb\x01\n\nParamValue\x12\x0b\n\x01s\x18\x02 \x01(\x0cH\x00\x12\x0b\n\x01i\x18\x03 \x01(\x03H\x00\x12\x0b\n\x01\x66\x18\x04 \x01(\x02H\x00\x12\x0b\n\x01\x64\x18\x05 \x01(\x01H\x00\x12\x0b\n\x01\x62\x18\x06 \x01(\x08H\x00\x12/\n\x04list\x18\x01 \x01(\x0b\x32\x1f.deepwater.ParamValue.ListValueH\x00\x1aR\n\tListValue\x12\t\n\x01s\x18\x02 \x03(\x0c\x12\r\n\x01i\x18\x03 \x03(\x03\x42\x02\x10\x01\x12\r\n\x01\x63\x18\x04 \x03(\x02\x42\x02\x10\x01\x12\r\n\x01\x66\x18\x05 \x03(\x01\x42\x02\x10\x01\x12\r\n\x01\x62\x18\x06 \x03(\x08\x42\x02\x10\x01\x42\x07\n\x05value*r\n\x08\x44\x61taType\x12\x0e\n\nDT_INVALID\x10\x00\x12\x0e\n\nDT_FLOAT32\x10\x01\x12\x0e\n\nDT_FLOAT64\x10\x02\x12\x0c\n\x08\x44T_INT32\x10\x03\x12\x0c\n\x08\x44T_INT64\x10\x04\x12\x0b\n\x07\x44T_BOOL\x10\x05\x12\r\n\tDT_STRING\x10\x06\x32T\n\x17\x44\x65\x65pWaterPredictBackend\x12\x39\n\x07Predict\x12\x19.deepwater.PredictRequest\x1a\x11.deepwater.Status\"\x00\x32\xe0\x05\n\x15\x44\x65\x65pWaterTrainBackend\x12N\n\x0b\x43reateModel\x12\x1d.deepwater.CreateModelRequest\x1a\x1e.deepwater.CreateModelResponse\"\x00\x12T\n\rCreateSession\x12\x1f.deepwater.CreateSessionRequest\x1a .deepwater.CreateSessionResponse\"\x00\x12\x45\n\rDeleteSession\x12\x1f.deepwater.DeleteSessionRequest\x1a\x11.deepwater.Status\"\x00\x12=\n\tLoadModel\x12\x1b.deepwater.LoadModelRequest\x1a\x11.deepwater.Status\"\x00\x12=\n\tSaveModel\x12\x1b.deepwater.SaveModelRequest\x1a\x11.deepwater.Status\"\x00\x12\x41\n\x0bLoadWeights\x12\x1d.deepwater.LoadWeightsRequest\x1a\x11.deepwater.Status\"\x00\x12\x41\n\x0bSaveWeights\x12\x1d.deepwater.SaveWeightsRequest\x1a\x11.deepwater.Status\"\x00\x12T\n\rSetParameters\x12\x1f.deepwater.SetParametersRequest\x1a .deepwater.SetParametersResponse\"\x00\x12<\n\x05Train\x12\x17.deepwater.TrainRequest\x1a\x18.deepwater.TrainResponse\"\x00\x12\x42\n\x07Predict\x12\x19.deepwater.PredictRequest\x1a\x1a.deepwater.PredictResponse\"\x00\x42\x38\n\x1e\x61i.h2o.deepwater.backends.grpcB\x14\x44\x65\x65pWaterGRPCServiceP\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x12grpc_service.proto\x12\tdeepwater\"\x19\n\x07Session\x12\x0e\n\x06handle\x18\x01 \x01(\t\")\n\x0c\x42\x61\x63kendModel\x12\n\n\x02id\x18\x01 \x01(\x0c\x12\r\n\x05state\x18\x02 \x01(\x0c\"<\n\x12\x44\x65leteModelRequest\x12&\n\x05model\x18\x01 \x01(\x0b\x32\x17.deepwater.BackendModel\"\xcd\x01\n\x12\x43reateModelRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12\x11\n\tmodelName\x18\x02 \x01(\t\x12\x39\n\x06params\x18\x03 \x03(\x0b\x32).deepwater.CreateModelRequest.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"`\n\x13\x43reateModelResponse\x12&\n\x05model\x18\x01 \x01(\x0b\x32\x17.deepwater.BackendModel\x12!\n\x06status\x18\x02 \x01(\x0b\x32\x11.deepwater.Status\"\x9c\x01\n\x14\x43reateSessionRequest\x12=\n\x07options\x18\x01 \x03(\x0b\x32,.deepwater.CreateSessionRequest.OptionsEntry\x1a\x45\n\x0cOptionsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"_\n\x15\x43reateSessionResponse\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12!\n\x06status\x18\x02 \x01(\x0b\x32\x11.deepwater.Status\";\n\x14\x44\x65leteSessionRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\"%\n\x06Status\x12\n\n\x02ok\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"m\n\x10LoadModelRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12\x0c\n\x04path\x18\x03 \x01(\x0c\"m\n\x10SaveModelRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12\x0c\n\x04path\x18\x03 \x01(\x0c\"o\n\x12LoadWeightsRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12\x0c\n\x04path\x18\x03 \x01(\x0c\"o\n\x12SaveWeightsRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12\x0c\n\x04path\x18\x03 \x01(\x0c\"\xe6\x01\n\x14SetParametersRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12;\n\x06params\x18\x03 \x03(\x0b\x32+.deepwater.SetParametersRequest.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"\xbe\x01\n\x15SetParametersResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\x12<\n\x06params\x18\x02 \x03(\x0b\x32,.deepwater.SetParametersResponse.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"\xa3\x01\n\x0e\x45xecuteRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12 \n\x05\x66\x65\x65\x64s\x18\x03 \x03(\x0b\x32\x11.deepwater.Tensor\x12\"\n\x07\x66\x65tches\x18\x04 \x03(\x0b\x32\x11.deepwater.Tensor\"X\n\x0f\x45xecuteResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\x12\"\n\x07\x66\x65tches\x18\x02 \x03(\x0b\x32\x11.deepwater.Tensor\"?\n\x05Shape\x12!\n\x03\x64im\x18\x02 \x03(\x0b\x32\x14.deepwater.Shape.Dim\x1a\x13\n\x03\x44im\x12\x0c\n\x04size\x18\x01 \x01(\x03\"\xed\x01\n\x06Tensor\x12\x1f\n\x05shape\x18\x01 \x01(\x0b\x32\x10.deepwater.Shape\x12!\n\x04type\x18\x02 \x01(\x0e\x32\x13.deepwater.DataType\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x14\n\x0cstring_value\x18\x04 \x03(\x0c\x12\x17\n\x0bint32_value\x18\x05 \x03(\x05\x42\x02\x10\x01\x12\x17\n\x0bint64_value\x18\x06 \x03(\x03\x42\x02\x10\x01\x12\x17\n\x0b\x66loat_value\x18\x07 \x03(\x02\x42\x02\x10\x01\x12\x18\n\x0c\x64ouble_value\x18\x08 \x03(\x01\x42\x02\x10\x01\x12\x16\n\nbool_value\x18\t \x03(\x08\x42\x02\x10\x01\"\xdb\x01\n\nParamValue\x12\x0b\n\x01s\x18\x02 \x01(\x0cH\x00\x12\x0b\n\x01i\x18\x03 \x01(\x03H\x00\x12\x0b\n\x01\x66\x18\x04 \x01(\x02H\x00\x12\x0b\n\x01\x64\x18\x05 \x01(\x01H\x00\x12\x0b\n\x01\x62\x18\x06 \x01(\x08H\x00\x12/\n\x04list\x18\x01 \x01(\x0b\x32\x1f.deepwater.ParamValue.ListValueH\x00\x1aR\n\tListValue\x12\t\n\x01s\x18\x02 \x03(\x0c\x12\r\n\x01i\x18\x03 \x03(\x03\x42\x02\x10\x01\x12\r\n\x01\x63\x18\x04 \x03(\x02\x42\x02\x10\x01\x12\r\n\x01\x66\x18\x05 \x03(\x01\x42\x02\x10\x01\x12\r\n\x01\x62\x18\x06 \x03(\x08\x42\x02\x10\x01\x42\x07\n\x05value*r\n\x08\x44\x61taType\x12\x0e\n\nDT_INVALID\x10\x00\x12\x0e\n\nDT_FLOAT32\x10\x01\x12\x0e\n\nDT_FLOAT64\x10\x02\x12\x0c\n\x08\x44T_INT32\x10\x03\x12\x0c\n\x08\x44T_INT64\x10\x04\x12\x0b\n\x07\x44T_BOOL\x10\x05\x12\r\n\tDT_STRING\x10\x06\x32]\n\x17\x44\x65\x65pWaterPredictBackend\x12\x42\n\x07\x45xecute\x12\x19.deepwater.ExecuteRequest\x1a\x1a.deepwater.ExecuteResponse\"\x00\x32\xa2\x05\n\x15\x44\x65\x65pWaterTrainBackend\x12N\n\x0b\x43reateModel\x12\x1d.deepwater.CreateModelRequest\x1a\x1e.deepwater.CreateModelResponse\"\x00\x12T\n\rCreateSession\x12\x1f.deepwater.CreateSessionRequest\x1a .deepwater.CreateSessionResponse\"\x00\x12\x45\n\rDeleteSession\x12\x1f.deepwater.DeleteSessionRequest\x1a\x11.deepwater.Status\"\x00\x12=\n\tLoadModel\x12\x1b.deepwater.LoadModelRequest\x1a\x11.deepwater.Status\"\x00\x12=\n\tSaveModel\x12\x1b.deepwater.SaveModelRequest\x1a\x11.deepwater.Status\"\x00\x12\x41\n\x0bLoadWeights\x12\x1d.deepwater.LoadWeightsRequest\x1a\x11.deepwater.Status\"\x00\x12\x41\n\x0bSaveWeights\x12\x1d.deepwater.SaveWeightsRequest\x1a\x11.deepwater.Status\"\x00\x12T\n\rSetParameters\x12\x1f.deepwater.SetParametersRequest\x1a .deepwater.SetParametersResponse\"\x00\x12\x42\n\x07\x45xecute\x12\x19.deepwater.ExecuteRequest\x1a\x1a.deepwater.ExecuteResponse\"\x00\x42\x38\n\x1e\x61i.h2o.deepwater.backends.grpcB\x14\x44\x65\x65pWaterGRPCServiceP\x01\x62\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -61,8 +61,8 @@ _DATATYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2736,
-  serialized_end=2850,
+  serialized_start=2484,
+  serialized_end=2598,
 )
 _sym_db.RegisterEnumDescriptor(_DATATYPE)
 
@@ -809,36 +809,36 @@ _SETPARAMETERSRESPONSE = _descriptor.Descriptor(
 )
 
 
-_TRAINREQUEST = _descriptor.Descriptor(
-  name='TrainRequest',
-  full_name='deepwater.TrainRequest',
+_EXECUTEREQUEST = _descriptor.Descriptor(
+  name='ExecuteRequest',
+  full_name='deepwater.ExecuteRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='session', full_name='deepwater.TrainRequest.session', index=0,
+      name='session', full_name='deepwater.ExecuteRequest.session', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='model', full_name='deepwater.TrainRequest.model', index=1,
+      name='model', full_name='deepwater.ExecuteRequest.model', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='feeds', full_name='deepwater.TrainRequest.feeds', index=2,
+      name='feeds', full_name='deepwater.ExecuteRequest.feeds', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='fetches', full_name='deepwater.TrainRequest.fetches', index=3,
+      name='fetches', full_name='deepwater.ExecuteRequest.fetches', index=3,
       number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -857,26 +857,26 @@ _TRAINREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=1702,
-  serialized_end=1863,
+  serialized_end=1865,
 )
 
 
-_TRAINRESPONSE = _descriptor.Descriptor(
-  name='TrainResponse',
-  full_name='deepwater.TrainResponse',
+_EXECUTERESPONSE = _descriptor.Descriptor(
+  name='ExecuteResponse',
+  full_name='deepwater.ExecuteResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='status', full_name='deepwater.TrainResponse.status', index=0,
+      name='status', full_name='deepwater.ExecuteResponse.status', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='fetches', full_name='deepwater.TrainResponse.fetches', index=1,
+      name='fetches', full_name='deepwater.ExecuteResponse.fetches', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -894,98 +894,8 @@ _TRAINRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1865,
-  serialized_end=1951,
-)
-
-
-_PREDICTREQUEST = _descriptor.Descriptor(
-  name='PredictRequest',
-  full_name='deepwater.PredictRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='session', full_name='deepwater.PredictRequest.session', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='model', full_name='deepwater.PredictRequest.model', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='feeds', full_name='deepwater.PredictRequest.feeds', index=2,
-      number=3, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='fetches', full_name='deepwater.PredictRequest.fetches', index=3,
-      number=4, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1954,
-  serialized_end=2117,
-)
-
-
-_PREDICTRESPONSE = _descriptor.Descriptor(
-  name='PredictResponse',
-  full_name='deepwater.PredictResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='status', full_name='deepwater.PredictResponse.status', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='fetches', full_name='deepwater.PredictResponse.fetches', index=1,
-      number=2, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2119,
-  serialized_end=2207,
+  serialized_start=1867,
+  serialized_end=1955,
 )
 
 
@@ -1015,8 +925,8 @@ _SHAPE_DIM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2253,
-  serialized_end=2272,
+  serialized_start=2001,
+  serialized_end=2020,
 )
 
 _SHAPE = _descriptor.Descriptor(
@@ -1045,8 +955,8 @@ _SHAPE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2209,
-  serialized_end=2272,
+  serialized_start=1957,
+  serialized_end=2020,
 )
 
 
@@ -1132,8 +1042,8 @@ _TENSOR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2275,
-  serialized_end=2512,
+  serialized_start=2023,
+  serialized_end=2260,
 )
 
 
@@ -1191,8 +1101,8 @@ _PARAMVALUE_LISTVALUE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2643,
-  serialized_end=2725,
+  serialized_start=2391,
+  serialized_end=2473,
 )
 
 _PARAMVALUE = _descriptor.Descriptor(
@@ -1259,8 +1169,8 @@ _PARAMVALUE = _descriptor.Descriptor(
       name='value', full_name='deepwater.ParamValue.value',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=2515,
-  serialized_end=2734,
+  serialized_start=2263,
+  serialized_end=2482,
 )
 
 _DELETEMODELREQUEST.fields_by_name['model'].message_type = _BACKENDMODEL
@@ -1293,18 +1203,12 @@ _SETPARAMETERSRESPONSE_PARAMSENTRY.fields_by_name['value'].message_type = _PARAM
 _SETPARAMETERSRESPONSE_PARAMSENTRY.containing_type = _SETPARAMETERSRESPONSE
 _SETPARAMETERSRESPONSE.fields_by_name['status'].message_type = _STATUS
 _SETPARAMETERSRESPONSE.fields_by_name['params'].message_type = _SETPARAMETERSRESPONSE_PARAMSENTRY
-_TRAINREQUEST.fields_by_name['session'].message_type = _SESSION
-_TRAINREQUEST.fields_by_name['model'].message_type = _BACKENDMODEL
-_TRAINREQUEST.fields_by_name['feeds'].message_type = _TENSOR
-_TRAINREQUEST.fields_by_name['fetches'].message_type = _TENSOR
-_TRAINRESPONSE.fields_by_name['status'].message_type = _STATUS
-_TRAINRESPONSE.fields_by_name['fetches'].message_type = _TENSOR
-_PREDICTREQUEST.fields_by_name['session'].message_type = _SESSION
-_PREDICTREQUEST.fields_by_name['model'].message_type = _BACKENDMODEL
-_PREDICTREQUEST.fields_by_name['feeds'].message_type = _TENSOR
-_PREDICTREQUEST.fields_by_name['fetches'].message_type = _TENSOR
-_PREDICTRESPONSE.fields_by_name['status'].message_type = _STATUS
-_PREDICTRESPONSE.fields_by_name['fetches'].message_type = _TENSOR
+_EXECUTEREQUEST.fields_by_name['session'].message_type = _SESSION
+_EXECUTEREQUEST.fields_by_name['model'].message_type = _BACKENDMODEL
+_EXECUTEREQUEST.fields_by_name['feeds'].message_type = _TENSOR
+_EXECUTEREQUEST.fields_by_name['fetches'].message_type = _TENSOR
+_EXECUTERESPONSE.fields_by_name['status'].message_type = _STATUS
+_EXECUTERESPONSE.fields_by_name['fetches'].message_type = _TENSOR
 _SHAPE_DIM.containing_type = _SHAPE
 _SHAPE.fields_by_name['dim'].message_type = _SHAPE_DIM
 _TENSOR.fields_by_name['shape'].message_type = _SHAPE
@@ -1344,10 +1248,8 @@ DESCRIPTOR.message_types_by_name['LoadWeightsRequest'] = _LOADWEIGHTSREQUEST
 DESCRIPTOR.message_types_by_name['SaveWeightsRequest'] = _SAVEWEIGHTSREQUEST
 DESCRIPTOR.message_types_by_name['SetParametersRequest'] = _SETPARAMETERSREQUEST
 DESCRIPTOR.message_types_by_name['SetParametersResponse'] = _SETPARAMETERSRESPONSE
-DESCRIPTOR.message_types_by_name['TrainRequest'] = _TRAINREQUEST
-DESCRIPTOR.message_types_by_name['TrainResponse'] = _TRAINRESPONSE
-DESCRIPTOR.message_types_by_name['PredictRequest'] = _PREDICTREQUEST
-DESCRIPTOR.message_types_by_name['PredictResponse'] = _PREDICTRESPONSE
+DESCRIPTOR.message_types_by_name['ExecuteRequest'] = _EXECUTEREQUEST
+DESCRIPTOR.message_types_by_name['ExecuteResponse'] = _EXECUTERESPONSE
 DESCRIPTOR.message_types_by_name['Shape'] = _SHAPE
 DESCRIPTOR.message_types_by_name['Tensor'] = _TENSOR
 DESCRIPTOR.message_types_by_name['ParamValue'] = _PARAMVALUE
@@ -1490,33 +1392,19 @@ SetParametersResponse = _reflection.GeneratedProtocolMessageType('SetParametersR
 _sym_db.RegisterMessage(SetParametersResponse)
 _sym_db.RegisterMessage(SetParametersResponse.ParamsEntry)
 
-TrainRequest = _reflection.GeneratedProtocolMessageType('TrainRequest', (_message.Message,), dict(
-  DESCRIPTOR = _TRAINREQUEST,
+ExecuteRequest = _reflection.GeneratedProtocolMessageType('ExecuteRequest', (_message.Message,), dict(
+  DESCRIPTOR = _EXECUTEREQUEST,
   __module__ = 'grpc_service_pb2'
-  # @@protoc_insertion_point(class_scope:deepwater.TrainRequest)
+  # @@protoc_insertion_point(class_scope:deepwater.ExecuteRequest)
   ))
-_sym_db.RegisterMessage(TrainRequest)
+_sym_db.RegisterMessage(ExecuteRequest)
 
-TrainResponse = _reflection.GeneratedProtocolMessageType('TrainResponse', (_message.Message,), dict(
-  DESCRIPTOR = _TRAINRESPONSE,
+ExecuteResponse = _reflection.GeneratedProtocolMessageType('ExecuteResponse', (_message.Message,), dict(
+  DESCRIPTOR = _EXECUTERESPONSE,
   __module__ = 'grpc_service_pb2'
-  # @@protoc_insertion_point(class_scope:deepwater.TrainResponse)
+  # @@protoc_insertion_point(class_scope:deepwater.ExecuteResponse)
   ))
-_sym_db.RegisterMessage(TrainResponse)
-
-PredictRequest = _reflection.GeneratedProtocolMessageType('PredictRequest', (_message.Message,), dict(
-  DESCRIPTOR = _PREDICTREQUEST,
-  __module__ = 'grpc_service_pb2'
-  # @@protoc_insertion_point(class_scope:deepwater.PredictRequest)
-  ))
-_sym_db.RegisterMessage(PredictRequest)
-
-PredictResponse = _reflection.GeneratedProtocolMessageType('PredictResponse', (_message.Message,), dict(
-  DESCRIPTOR = _PREDICTRESPONSE,
-  __module__ = 'grpc_service_pb2'
-  # @@protoc_insertion_point(class_scope:deepwater.PredictResponse)
-  ))
-_sym_db.RegisterMessage(PredictResponse)
+_sym_db.RegisterMessage(ExecuteResponse)
 
 Shape = _reflection.GeneratedProtocolMessageType('Shape', (_message.Message,), dict(
 
@@ -1584,438 +1472,407 @@ _PARAMVALUE_LISTVALUE.fields_by_name['f'].has_options = True
 _PARAMVALUE_LISTVALUE.fields_by_name['f']._options = _descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('\020\001'))
 _PARAMVALUE_LISTVALUE.fields_by_name['b'].has_options = True
 _PARAMVALUE_LISTVALUE.fields_by_name['b']._options = _descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('\020\001'))
-try:
-  # THESE ELEMENTS WILL BE DEPRECATED.
-  # Please use the generated *_pb2_grpc.py files instead.
-  import grpc
-  from grpc.framework.common import cardinality
-  from grpc.framework.interfaces.face import utilities as face_utilities
-  from grpc.beta import implementations as beta_implementations
-  from grpc.beta import interfaces as beta_interfaces
+import grpc
+from grpc.beta import implementations as beta_implementations
+from grpc.beta import interfaces as beta_interfaces
+from grpc.framework.common import cardinality
+from grpc.framework.interfaces.face import utilities as face_utilities
 
 
-  class DeepWaterPredictBackendStub(object):
+class DeepWaterPredictBackendStub(object):
 
-    def __init__(self, channel):
-      """Constructor.
+  def __init__(self, channel):
+    """Constructor.
 
-      Args:
-        channel: A grpc.Channel.
-      """
-      self.Predict = channel.unary_unary(
-          '/deepwater.DeepWaterPredictBackend/Predict',
-          request_serializer=PredictRequest.SerializeToString,
-          response_deserializer=Status.FromString,
-          )
-
-
-  class DeepWaterPredictBackendServicer(object):
-
-    def Predict(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
+    Args:
+      channel: A grpc.Channel.
+    """
+    self.Execute = channel.unary_unary(
+        '/deepwater.DeepWaterPredictBackend/Execute',
+        request_serializer=ExecuteRequest.SerializeToString,
+        response_deserializer=ExecuteResponse.FromString,
+        )
 
 
-  def add_DeepWaterPredictBackendServicer_to_server(servicer, server):
-    rpc_method_handlers = {
-        'Predict': grpc.unary_unary_rpc_method_handler(
-            servicer.Predict,
-            request_deserializer=PredictRequest.FromString,
-            response_serializer=Status.SerializeToString,
-        ),
-    }
-    generic_handler = grpc.method_handlers_generic_handler(
-        'deepwater.DeepWaterPredictBackend', rpc_method_handlers)
-    server.add_generic_rpc_handlers((generic_handler,))
+class DeepWaterPredictBackendServicer(object):
+
+  def Execute(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
 
 
-  class DeepWaterTrainBackendStub(object):
-
-    def __init__(self, channel):
-      """Constructor.
-
-      Args:
-        channel: A grpc.Channel.
-      """
-      self.CreateModel = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/CreateModel',
-          request_serializer=CreateModelRequest.SerializeToString,
-          response_deserializer=CreateModelResponse.FromString,
-          )
-      self.CreateSession = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/CreateSession',
-          request_serializer=CreateSessionRequest.SerializeToString,
-          response_deserializer=CreateSessionResponse.FromString,
-          )
-      self.DeleteSession = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/DeleteSession',
-          request_serializer=DeleteSessionRequest.SerializeToString,
-          response_deserializer=Status.FromString,
-          )
-      self.LoadModel = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/LoadModel',
-          request_serializer=LoadModelRequest.SerializeToString,
-          response_deserializer=Status.FromString,
-          )
-      self.SaveModel = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/SaveModel',
-          request_serializer=SaveModelRequest.SerializeToString,
-          response_deserializer=Status.FromString,
-          )
-      self.LoadWeights = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/LoadWeights',
-          request_serializer=LoadWeightsRequest.SerializeToString,
-          response_deserializer=Status.FromString,
-          )
-      self.SaveWeights = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/SaveWeights',
-          request_serializer=SaveWeightsRequest.SerializeToString,
-          response_deserializer=Status.FromString,
-          )
-      self.SetParameters = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/SetParameters',
-          request_serializer=SetParametersRequest.SerializeToString,
-          response_deserializer=SetParametersResponse.FromString,
-          )
-      self.Train = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/Train',
-          request_serializer=TrainRequest.SerializeToString,
-          response_deserializer=TrainResponse.FromString,
-          )
-      self.Predict = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/Predict',
-          request_serializer=PredictRequest.SerializeToString,
-          response_deserializer=PredictResponse.FromString,
-          )
+def add_DeepWaterPredictBackendServicer_to_server(servicer, server):
+  rpc_method_handlers = {
+      'Execute': grpc.unary_unary_rpc_method_handler(
+          servicer.Execute,
+          request_deserializer=ExecuteRequest.FromString,
+          response_serializer=ExecuteResponse.SerializeToString,
+      ),
+  }
+  generic_handler = grpc.method_handlers_generic_handler(
+      'deepwater.DeepWaterPredictBackend', rpc_method_handlers)
+  server.add_generic_rpc_handlers((generic_handler,))
 
 
-  class DeepWaterTrainBackendServicer(object):
+class BetaDeepWaterPredictBackendServicer(object):
+  """The Beta API is deprecated for 0.15.0 and later.
 
-    def CreateModel(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def CreateSession(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def DeleteSession(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def LoadModel(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def SaveModel(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def LoadWeights(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def SaveWeights(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def SetParameters(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def Train(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def Predict(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This class was generated
+  only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
+  def Execute(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
 
 
-  def add_DeepWaterTrainBackendServicer_to_server(servicer, server):
-    rpc_method_handlers = {
-        'CreateModel': grpc.unary_unary_rpc_method_handler(
-            servicer.CreateModel,
-            request_deserializer=CreateModelRequest.FromString,
-            response_serializer=CreateModelResponse.SerializeToString,
-        ),
-        'CreateSession': grpc.unary_unary_rpc_method_handler(
-            servicer.CreateSession,
-            request_deserializer=CreateSessionRequest.FromString,
-            response_serializer=CreateSessionResponse.SerializeToString,
-        ),
-        'DeleteSession': grpc.unary_unary_rpc_method_handler(
-            servicer.DeleteSession,
-            request_deserializer=DeleteSessionRequest.FromString,
-            response_serializer=Status.SerializeToString,
-        ),
-        'LoadModel': grpc.unary_unary_rpc_method_handler(
-            servicer.LoadModel,
-            request_deserializer=LoadModelRequest.FromString,
-            response_serializer=Status.SerializeToString,
-        ),
-        'SaveModel': grpc.unary_unary_rpc_method_handler(
-            servicer.SaveModel,
-            request_deserializer=SaveModelRequest.FromString,
-            response_serializer=Status.SerializeToString,
-        ),
-        'LoadWeights': grpc.unary_unary_rpc_method_handler(
-            servicer.LoadWeights,
-            request_deserializer=LoadWeightsRequest.FromString,
-            response_serializer=Status.SerializeToString,
-        ),
-        'SaveWeights': grpc.unary_unary_rpc_method_handler(
-            servicer.SaveWeights,
-            request_deserializer=SaveWeightsRequest.FromString,
-            response_serializer=Status.SerializeToString,
-        ),
-        'SetParameters': grpc.unary_unary_rpc_method_handler(
-            servicer.SetParameters,
-            request_deserializer=SetParametersRequest.FromString,
-            response_serializer=SetParametersResponse.SerializeToString,
-        ),
-        'Train': grpc.unary_unary_rpc_method_handler(
-            servicer.Train,
-            request_deserializer=TrainRequest.FromString,
-            response_serializer=TrainResponse.SerializeToString,
-        ),
-        'Predict': grpc.unary_unary_rpc_method_handler(
-            servicer.Predict,
-            request_deserializer=PredictRequest.FromString,
-            response_serializer=PredictResponse.SerializeToString,
-        ),
-    }
-    generic_handler = grpc.method_handlers_generic_handler(
-        'deepwater.DeepWaterTrainBackend', rpc_method_handlers)
-    server.add_generic_rpc_handlers((generic_handler,))
+class BetaDeepWaterPredictBackendStub(object):
+  """The Beta API is deprecated for 0.15.0 and later.
+
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This class was generated
+  only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
+  def Execute(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  Execute.future = None
 
 
-  class BetaDeepWaterPredictBackendServicer(object):
-    """The Beta API is deprecated for 0.15.0 and later.
+def beta_create_DeepWaterPredictBackend_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
+  """The Beta API is deprecated for 0.15.0 and later.
 
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This class was generated
-    only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
-    def Predict(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-
-
-  class BetaDeepWaterPredictBackendStub(object):
-    """The Beta API is deprecated for 0.15.0 and later.
-
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This class was generated
-    only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
-    def Predict(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    Predict.future = None
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This function was
+  generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
+  request_deserializers = {
+    ('deepwater.DeepWaterPredictBackend', 'Execute'): ExecuteRequest.FromString,
+  }
+  response_serializers = {
+    ('deepwater.DeepWaterPredictBackend', 'Execute'): ExecuteResponse.SerializeToString,
+  }
+  method_implementations = {
+    ('deepwater.DeepWaterPredictBackend', 'Execute'): face_utilities.unary_unary_inline(servicer.Execute),
+  }
+  server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
+  return beta_implementations.server(method_implementations, options=server_options)
 
 
-  def beta_create_DeepWaterPredictBackend_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
-    """The Beta API is deprecated for 0.15.0 and later.
+def beta_create_DeepWaterPredictBackend_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
+  """The Beta API is deprecated for 0.15.0 and later.
 
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This function was
-    generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
-    request_deserializers = {
-      ('deepwater.DeepWaterPredictBackend', 'Predict'): PredictRequest.FromString,
-    }
-    response_serializers = {
-      ('deepwater.DeepWaterPredictBackend', 'Predict'): Status.SerializeToString,
-    }
-    method_implementations = {
-      ('deepwater.DeepWaterPredictBackend', 'Predict'): face_utilities.unary_unary_inline(servicer.Predict),
-    }
-    server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
-    return beta_implementations.server(method_implementations, options=server_options)
-
-
-  def beta_create_DeepWaterPredictBackend_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
-    """The Beta API is deprecated for 0.15.0 and later.
-
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This function was
-    generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
-    request_serializers = {
-      ('deepwater.DeepWaterPredictBackend', 'Predict'): PredictRequest.SerializeToString,
-    }
-    response_deserializers = {
-      ('deepwater.DeepWaterPredictBackend', 'Predict'): Status.FromString,
-    }
-    cardinalities = {
-      'Predict': cardinality.Cardinality.UNARY_UNARY,
-    }
-    stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
-    return beta_implementations.dynamic_stub(channel, 'deepwater.DeepWaterPredictBackend', cardinalities, options=stub_options)
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This function was
+  generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
+  request_serializers = {
+    ('deepwater.DeepWaterPredictBackend', 'Execute'): ExecuteRequest.SerializeToString,
+  }
+  response_deserializers = {
+    ('deepwater.DeepWaterPredictBackend', 'Execute'): ExecuteResponse.FromString,
+  }
+  cardinalities = {
+    'Execute': cardinality.Cardinality.UNARY_UNARY,
+  }
+  stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
+  return beta_implementations.dynamic_stub(channel, 'deepwater.DeepWaterPredictBackend', cardinalities, options=stub_options)
 
 
-  class BetaDeepWaterTrainBackendServicer(object):
-    """The Beta API is deprecated for 0.15.0 and later.
+class DeepWaterTrainBackendStub(object):
 
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This class was generated
-    only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
-    def CreateModel(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def CreateSession(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def DeleteSession(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def LoadModel(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def SaveModel(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def LoadWeights(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def SaveWeights(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def SetParameters(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def Train(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def Predict(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def __init__(self, channel):
+    """Constructor.
 
-
-  class BetaDeepWaterTrainBackendStub(object):
-    """The Beta API is deprecated for 0.15.0 and later.
-
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This class was generated
-    only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
-    def CreateModel(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    CreateModel.future = None
-    def CreateSession(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    CreateSession.future = None
-    def DeleteSession(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    DeleteSession.future = None
-    def LoadModel(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    LoadModel.future = None
-    def SaveModel(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    SaveModel.future = None
-    def LoadWeights(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    LoadWeights.future = None
-    def SaveWeights(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    SaveWeights.future = None
-    def SetParameters(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    SetParameters.future = None
-    def Train(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    Train.future = None
-    def Predict(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    Predict.future = None
+    Args:
+      channel: A grpc.Channel.
+    """
+    self.CreateModel = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/CreateModel',
+        request_serializer=CreateModelRequest.SerializeToString,
+        response_deserializer=CreateModelResponse.FromString,
+        )
+    self.CreateSession = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/CreateSession',
+        request_serializer=CreateSessionRequest.SerializeToString,
+        response_deserializer=CreateSessionResponse.FromString,
+        )
+    self.DeleteSession = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/DeleteSession',
+        request_serializer=DeleteSessionRequest.SerializeToString,
+        response_deserializer=Status.FromString,
+        )
+    self.LoadModel = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/LoadModel',
+        request_serializer=LoadModelRequest.SerializeToString,
+        response_deserializer=Status.FromString,
+        )
+    self.SaveModel = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/SaveModel',
+        request_serializer=SaveModelRequest.SerializeToString,
+        response_deserializer=Status.FromString,
+        )
+    self.LoadWeights = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/LoadWeights',
+        request_serializer=LoadWeightsRequest.SerializeToString,
+        response_deserializer=Status.FromString,
+        )
+    self.SaveWeights = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/SaveWeights',
+        request_serializer=SaveWeightsRequest.SerializeToString,
+        response_deserializer=Status.FromString,
+        )
+    self.SetParameters = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/SetParameters',
+        request_serializer=SetParametersRequest.SerializeToString,
+        response_deserializer=SetParametersResponse.FromString,
+        )
+    self.Execute = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/Execute',
+        request_serializer=ExecuteRequest.SerializeToString,
+        response_deserializer=ExecuteResponse.FromString,
+        )
 
 
-  def beta_create_DeepWaterTrainBackend_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
-    """The Beta API is deprecated for 0.15.0 and later.
+class DeepWaterTrainBackendServicer(object):
 
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This function was
-    generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
-    request_deserializers = {
-      ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): DeleteSessionRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadModel'): LoadModelRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadWeights'): LoadWeightsRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'Predict'): PredictRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveModel'): SaveModelRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveWeights'): SaveWeightsRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'SetParameters'): SetParametersRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'Train'): TrainRequest.FromString,
-    }
-    response_serializers = {
-      ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelResponse.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionResponse.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): Status.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadModel'): Status.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadWeights'): Status.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'Predict'): PredictResponse.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveModel'): Status.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveWeights'): Status.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'SetParameters'): SetParametersResponse.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'Train'): TrainResponse.SerializeToString,
-    }
-    method_implementations = {
-      ('deepwater.DeepWaterTrainBackend', 'CreateModel'): face_utilities.unary_unary_inline(servicer.CreateModel),
-      ('deepwater.DeepWaterTrainBackend', 'CreateSession'): face_utilities.unary_unary_inline(servicer.CreateSession),
-      ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): face_utilities.unary_unary_inline(servicer.DeleteSession),
-      ('deepwater.DeepWaterTrainBackend', 'LoadModel'): face_utilities.unary_unary_inline(servicer.LoadModel),
-      ('deepwater.DeepWaterTrainBackend', 'LoadWeights'): face_utilities.unary_unary_inline(servicer.LoadWeights),
-      ('deepwater.DeepWaterTrainBackend', 'Predict'): face_utilities.unary_unary_inline(servicer.Predict),
-      ('deepwater.DeepWaterTrainBackend', 'SaveModel'): face_utilities.unary_unary_inline(servicer.SaveModel),
-      ('deepwater.DeepWaterTrainBackend', 'SaveWeights'): face_utilities.unary_unary_inline(servicer.SaveWeights),
-      ('deepwater.DeepWaterTrainBackend', 'SetParameters'): face_utilities.unary_unary_inline(servicer.SetParameters),
-      ('deepwater.DeepWaterTrainBackend', 'Train'): face_utilities.unary_unary_inline(servicer.Train),
-    }
-    server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
-    return beta_implementations.server(method_implementations, options=server_options)
+  def CreateModel(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def CreateSession(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def DeleteSession(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def LoadModel(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def SaveModel(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def LoadWeights(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def SaveWeights(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def SetParameters(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def Execute(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
 
 
-  def beta_create_DeepWaterTrainBackend_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
-    """The Beta API is deprecated for 0.15.0 and later.
+def add_DeepWaterTrainBackendServicer_to_server(servicer, server):
+  rpc_method_handlers = {
+      'CreateModel': grpc.unary_unary_rpc_method_handler(
+          servicer.CreateModel,
+          request_deserializer=CreateModelRequest.FromString,
+          response_serializer=CreateModelResponse.SerializeToString,
+      ),
+      'CreateSession': grpc.unary_unary_rpc_method_handler(
+          servicer.CreateSession,
+          request_deserializer=CreateSessionRequest.FromString,
+          response_serializer=CreateSessionResponse.SerializeToString,
+      ),
+      'DeleteSession': grpc.unary_unary_rpc_method_handler(
+          servicer.DeleteSession,
+          request_deserializer=DeleteSessionRequest.FromString,
+          response_serializer=Status.SerializeToString,
+      ),
+      'LoadModel': grpc.unary_unary_rpc_method_handler(
+          servicer.LoadModel,
+          request_deserializer=LoadModelRequest.FromString,
+          response_serializer=Status.SerializeToString,
+      ),
+      'SaveModel': grpc.unary_unary_rpc_method_handler(
+          servicer.SaveModel,
+          request_deserializer=SaveModelRequest.FromString,
+          response_serializer=Status.SerializeToString,
+      ),
+      'LoadWeights': grpc.unary_unary_rpc_method_handler(
+          servicer.LoadWeights,
+          request_deserializer=LoadWeightsRequest.FromString,
+          response_serializer=Status.SerializeToString,
+      ),
+      'SaveWeights': grpc.unary_unary_rpc_method_handler(
+          servicer.SaveWeights,
+          request_deserializer=SaveWeightsRequest.FromString,
+          response_serializer=Status.SerializeToString,
+      ),
+      'SetParameters': grpc.unary_unary_rpc_method_handler(
+          servicer.SetParameters,
+          request_deserializer=SetParametersRequest.FromString,
+          response_serializer=SetParametersResponse.SerializeToString,
+      ),
+      'Execute': grpc.unary_unary_rpc_method_handler(
+          servicer.Execute,
+          request_deserializer=ExecuteRequest.FromString,
+          response_serializer=ExecuteResponse.SerializeToString,
+      ),
+  }
+  generic_handler = grpc.method_handlers_generic_handler(
+      'deepwater.DeepWaterTrainBackend', rpc_method_handlers)
+  server.add_generic_rpc_handlers((generic_handler,))
 
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This function was
-    generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
-    request_serializers = {
-      ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): DeleteSessionRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadModel'): LoadModelRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadWeights'): LoadWeightsRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'Predict'): PredictRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveModel'): SaveModelRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveWeights'): SaveWeightsRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'SetParameters'): SetParametersRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'Train'): TrainRequest.SerializeToString,
-    }
-    response_deserializers = {
-      ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelResponse.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionResponse.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): Status.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadModel'): Status.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadWeights'): Status.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'Predict'): PredictResponse.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveModel'): Status.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveWeights'): Status.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'SetParameters'): SetParametersResponse.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'Train'): TrainResponse.FromString,
-    }
-    cardinalities = {
-      'CreateModel': cardinality.Cardinality.UNARY_UNARY,
-      'CreateSession': cardinality.Cardinality.UNARY_UNARY,
-      'DeleteSession': cardinality.Cardinality.UNARY_UNARY,
-      'LoadModel': cardinality.Cardinality.UNARY_UNARY,
-      'LoadWeights': cardinality.Cardinality.UNARY_UNARY,
-      'Predict': cardinality.Cardinality.UNARY_UNARY,
-      'SaveModel': cardinality.Cardinality.UNARY_UNARY,
-      'SaveWeights': cardinality.Cardinality.UNARY_UNARY,
-      'SetParameters': cardinality.Cardinality.UNARY_UNARY,
-      'Train': cardinality.Cardinality.UNARY_UNARY,
-    }
-    stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
-    return beta_implementations.dynamic_stub(channel, 'deepwater.DeepWaterTrainBackend', cardinalities, options=stub_options)
-except ImportError:
-  pass
+
+class BetaDeepWaterTrainBackendServicer(object):
+  """The Beta API is deprecated for 0.15.0 and later.
+
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This class was generated
+  only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
+  def CreateModel(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def CreateSession(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def DeleteSession(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def LoadModel(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def SaveModel(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def LoadWeights(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def SaveWeights(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def SetParameters(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def Execute(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+
+
+class BetaDeepWaterTrainBackendStub(object):
+  """The Beta API is deprecated for 0.15.0 and later.
+
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This class was generated
+  only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
+  def CreateModel(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  CreateModel.future = None
+  def CreateSession(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  CreateSession.future = None
+  def DeleteSession(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  DeleteSession.future = None
+  def LoadModel(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  LoadModel.future = None
+  def SaveModel(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  SaveModel.future = None
+  def LoadWeights(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  LoadWeights.future = None
+  def SaveWeights(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  SaveWeights.future = None
+  def SetParameters(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  SetParameters.future = None
+  def Execute(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  Execute.future = None
+
+
+def beta_create_DeepWaterTrainBackend_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
+  """The Beta API is deprecated for 0.15.0 and later.
+
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This function was
+  generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
+  request_deserializers = {
+    ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): DeleteSessionRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'Execute'): ExecuteRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadModel'): LoadModelRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadWeights'): LoadWeightsRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveModel'): SaveModelRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveWeights'): SaveWeightsRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'SetParameters'): SetParametersRequest.FromString,
+  }
+  response_serializers = {
+    ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelResponse.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionResponse.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): Status.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'Execute'): ExecuteResponse.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadModel'): Status.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadWeights'): Status.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveModel'): Status.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveWeights'): Status.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'SetParameters'): SetParametersResponse.SerializeToString,
+  }
+  method_implementations = {
+    ('deepwater.DeepWaterTrainBackend', 'CreateModel'): face_utilities.unary_unary_inline(servicer.CreateModel),
+    ('deepwater.DeepWaterTrainBackend', 'CreateSession'): face_utilities.unary_unary_inline(servicer.CreateSession),
+    ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): face_utilities.unary_unary_inline(servicer.DeleteSession),
+    ('deepwater.DeepWaterTrainBackend', 'Execute'): face_utilities.unary_unary_inline(servicer.Execute),
+    ('deepwater.DeepWaterTrainBackend', 'LoadModel'): face_utilities.unary_unary_inline(servicer.LoadModel),
+    ('deepwater.DeepWaterTrainBackend', 'LoadWeights'): face_utilities.unary_unary_inline(servicer.LoadWeights),
+    ('deepwater.DeepWaterTrainBackend', 'SaveModel'): face_utilities.unary_unary_inline(servicer.SaveModel),
+    ('deepwater.DeepWaterTrainBackend', 'SaveWeights'): face_utilities.unary_unary_inline(servicer.SaveWeights),
+    ('deepwater.DeepWaterTrainBackend', 'SetParameters'): face_utilities.unary_unary_inline(servicer.SetParameters),
+  }
+  server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
+  return beta_implementations.server(method_implementations, options=server_options)
+
+
+def beta_create_DeepWaterTrainBackend_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
+  """The Beta API is deprecated for 0.15.0 and later.
+
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This function was
+  generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
+  request_serializers = {
+    ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): DeleteSessionRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'Execute'): ExecuteRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadModel'): LoadModelRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadWeights'): LoadWeightsRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveModel'): SaveModelRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveWeights'): SaveWeightsRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'SetParameters'): SetParametersRequest.SerializeToString,
+  }
+  response_deserializers = {
+    ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelResponse.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionResponse.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): Status.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'Execute'): ExecuteResponse.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadModel'): Status.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadWeights'): Status.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveModel'): Status.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveWeights'): Status.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'SetParameters'): SetParametersResponse.FromString,
+  }
+  cardinalities = {
+    'CreateModel': cardinality.Cardinality.UNARY_UNARY,
+    'CreateSession': cardinality.Cardinality.UNARY_UNARY,
+    'DeleteSession': cardinality.Cardinality.UNARY_UNARY,
+    'Execute': cardinality.Cardinality.UNARY_UNARY,
+    'LoadModel': cardinality.Cardinality.UNARY_UNARY,
+    'LoadWeights': cardinality.Cardinality.UNARY_UNARY,
+    'SaveModel': cardinality.Cardinality.UNARY_UNARY,
+    'SaveWeights': cardinality.Cardinality.UNARY_UNARY,
+    'SetParameters': cardinality.Cardinality.UNARY_UNARY,
+  }
+  stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
+  return beta_implementations.dynamic_stub(channel, 'deepwater.DeepWaterTrainBackend', cardinalities, options=stub_options)
 # @@protoc_insertion_point(module_scope)

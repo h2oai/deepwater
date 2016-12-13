@@ -3,8 +3,8 @@
 
 package ai.h2o.deepwater.backends.grpc;
 
-public interface PredictResponseOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:deepwater.PredictResponse)
+public interface ExecuteResponseOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:deepwater.ExecuteResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**

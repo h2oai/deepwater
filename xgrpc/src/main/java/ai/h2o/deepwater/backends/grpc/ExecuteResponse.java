@@ -4,17 +4,17 @@
 package ai.h2o.deepwater.backends.grpc;
 
 /**
- * Protobuf type {@code deepwater.TrainResponse}
+ * Protobuf type {@code deepwater.ExecuteResponse}
  */
-public  final class TrainResponse extends
+public  final class ExecuteResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:deepwater.TrainResponse)
-    TrainResponseOrBuilder {
-  // Use TrainResponse.newBuilder() to construct.
-  private TrainResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // @@protoc_insertion_point(message_implements:deepwater.ExecuteResponse)
+    ExecuteResponseOrBuilder {
+  // Use ExecuteResponse.newBuilder() to construct.
+  private ExecuteResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private TrainResponse() {
+  private ExecuteResponse() {
     fetches_ = java.util.Collections.emptyList();
   }
 
@@ -23,7 +23,7 @@ public  final class TrainResponse extends
   getUnknownFields() {
     return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
   }
-  private TrainResponse(
+  private ExecuteResponse(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -81,14 +81,14 @@ public  final class TrainResponse extends
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_TrainResponse_descriptor;
+    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_ExecuteResponse_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_TrainResponse_fieldAccessorTable
+    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_ExecuteResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            ai.h2o.deepwater.backends.grpc.TrainResponse.class, ai.h2o.deepwater.backends.grpc.TrainResponse.Builder.class);
+            ai.h2o.deepwater.backends.grpc.ExecuteResponse.class, ai.h2o.deepwater.backends.grpc.ExecuteResponse.Builder.class);
   }
 
   private int bitField0_;
@@ -191,10 +191,10 @@ public  final class TrainResponse extends
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof ai.h2o.deepwater.backends.grpc.TrainResponse)) {
+    if (!(obj instanceof ai.h2o.deepwater.backends.grpc.ExecuteResponse)) {
       return super.equals(obj);
     }
-    ai.h2o.deepwater.backends.grpc.TrainResponse other = (ai.h2o.deepwater.backends.grpc.TrainResponse) obj;
+    ai.h2o.deepwater.backends.grpc.ExecuteResponse other = (ai.h2o.deepwater.backends.grpc.ExecuteResponse) obj;
 
     boolean result = true;
     result = result && (hasStatus() == other.hasStatus());
@@ -227,58 +227,58 @@ public  final class TrainResponse extends
     return hash;
   }
 
-  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.ExecuteResponse parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.ExecuteResponse parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(byte[] data)
+  public static ai.h2o.deepwater.backends.grpc.ExecuteResponse parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.ExecuteResponse parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(java.io.InputStream input)
+  public static ai.h2o.deepwater.backends.grpc.ExecuteResponse parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.ExecuteResponse parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseDelimitedFrom(java.io.InputStream input)
+  public static ai.h2o.deepwater.backends.grpc.ExecuteResponse parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseDelimitedFrom(
+  public static ai.h2o.deepwater.backends.grpc.ExecuteResponse parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.ExecuteResponse parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static ai.h2o.deepwater.backends.grpc.TrainResponse parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.ExecuteResponse parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -290,7 +290,7 @@ public  final class TrainResponse extends
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(ai.h2o.deepwater.backends.grpc.TrainResponse prototype) {
+  public static Builder newBuilder(ai.h2o.deepwater.backends.grpc.ExecuteResponse prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() {
@@ -305,25 +305,25 @@ public  final class TrainResponse extends
     return builder;
   }
   /**
-   * Protobuf type {@code deepwater.TrainResponse}
+   * Protobuf type {@code deepwater.ExecuteResponse}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:deepwater.TrainResponse)
-      ai.h2o.deepwater.backends.grpc.TrainResponseOrBuilder {
+      // @@protoc_insertion_point(builder_implements:deepwater.ExecuteResponse)
+      ai.h2o.deepwater.backends.grpc.ExecuteResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_TrainResponse_descriptor;
+      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_ExecuteResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_TrainResponse_fieldAccessorTable
+      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_ExecuteResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              ai.h2o.deepwater.backends.grpc.TrainResponse.class, ai.h2o.deepwater.backends.grpc.TrainResponse.Builder.class);
+              ai.h2o.deepwater.backends.grpc.ExecuteResponse.class, ai.h2o.deepwater.backends.grpc.ExecuteResponse.Builder.class);
     }
 
-    // Construct using ai.h2o.deepwater.backends.grpc.TrainResponse.newBuilder()
+    // Construct using ai.h2o.deepwater.backends.grpc.ExecuteResponse.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -358,23 +358,23 @@ public  final class TrainResponse extends
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_TrainResponse_descriptor;
+      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_ExecuteResponse_descriptor;
     }
 
-    public ai.h2o.deepwater.backends.grpc.TrainResponse getDefaultInstanceForType() {
-      return ai.h2o.deepwater.backends.grpc.TrainResponse.getDefaultInstance();
+    public ai.h2o.deepwater.backends.grpc.ExecuteResponse getDefaultInstanceForType() {
+      return ai.h2o.deepwater.backends.grpc.ExecuteResponse.getDefaultInstance();
     }
 
-    public ai.h2o.deepwater.backends.grpc.TrainResponse build() {
-      ai.h2o.deepwater.backends.grpc.TrainResponse result = buildPartial();
+    public ai.h2o.deepwater.backends.grpc.ExecuteResponse build() {
+      ai.h2o.deepwater.backends.grpc.ExecuteResponse result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public ai.h2o.deepwater.backends.grpc.TrainResponse buildPartial() {
-      ai.h2o.deepwater.backends.grpc.TrainResponse result = new ai.h2o.deepwater.backends.grpc.TrainResponse(this);
+    public ai.h2o.deepwater.backends.grpc.ExecuteResponse buildPartial() {
+      ai.h2o.deepwater.backends.grpc.ExecuteResponse result = new ai.h2o.deepwater.backends.grpc.ExecuteResponse(this);
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
       if (statusBuilder_ == null) {
@@ -423,16 +423,16 @@ public  final class TrainResponse extends
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof ai.h2o.deepwater.backends.grpc.TrainResponse) {
-        return mergeFrom((ai.h2o.deepwater.backends.grpc.TrainResponse)other);
+      if (other instanceof ai.h2o.deepwater.backends.grpc.ExecuteResponse) {
+        return mergeFrom((ai.h2o.deepwater.backends.grpc.ExecuteResponse)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(ai.h2o.deepwater.backends.grpc.TrainResponse other) {
-      if (other == ai.h2o.deepwater.backends.grpc.TrainResponse.getDefaultInstance()) return this;
+    public Builder mergeFrom(ai.h2o.deepwater.backends.grpc.ExecuteResponse other) {
+      if (other == ai.h2o.deepwater.backends.grpc.ExecuteResponse.getDefaultInstance()) return this;
       if (other.hasStatus()) {
         mergeStatus(other.getStatus());
       }
@@ -474,11 +474,11 @@ public  final class TrainResponse extends
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      ai.h2o.deepwater.backends.grpc.TrainResponse parsedMessage = null;
+      ai.h2o.deepwater.backends.grpc.ExecuteResponse parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (ai.h2o.deepwater.backends.grpc.TrainResponse) e.getUnfinishedMessage();
+        parsedMessage = (ai.h2o.deepwater.backends.grpc.ExecuteResponse) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -856,39 +856,39 @@ public  final class TrainResponse extends
     }
 
 
-    // @@protoc_insertion_point(builder_scope:deepwater.TrainResponse)
+    // @@protoc_insertion_point(builder_scope:deepwater.ExecuteResponse)
   }
 
-  // @@protoc_insertion_point(class_scope:deepwater.TrainResponse)
-  private static final ai.h2o.deepwater.backends.grpc.TrainResponse DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:deepwater.ExecuteResponse)
+  private static final ai.h2o.deepwater.backends.grpc.ExecuteResponse DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new ai.h2o.deepwater.backends.grpc.TrainResponse();
+    DEFAULT_INSTANCE = new ai.h2o.deepwater.backends.grpc.ExecuteResponse();
   }
 
-  public static ai.h2o.deepwater.backends.grpc.TrainResponse getDefaultInstance() {
+  public static ai.h2o.deepwater.backends.grpc.ExecuteResponse getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<TrainResponse>
-      PARSER = new com.google.protobuf.AbstractParser<TrainResponse>() {
-    public TrainResponse parsePartialFrom(
+  private static final com.google.protobuf.Parser<ExecuteResponse>
+      PARSER = new com.google.protobuf.AbstractParser<ExecuteResponse>() {
+    public ExecuteResponse parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TrainResponse(input, extensionRegistry);
+        return new ExecuteResponse(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<TrainResponse> parser() {
+  public static com.google.protobuf.Parser<ExecuteResponse> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<TrainResponse> getParserForType() {
+  public com.google.protobuf.Parser<ExecuteResponse> getParserForType() {
     return PARSER;
   }
 
-  public ai.h2o.deepwater.backends.grpc.TrainResponse getDefaultInstanceForType() {
+  public ai.h2o.deepwater.backends.grpc.ExecuteResponse getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 
