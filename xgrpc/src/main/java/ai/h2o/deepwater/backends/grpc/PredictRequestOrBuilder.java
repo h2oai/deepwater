@@ -8,62 +8,75 @@ public interface PredictRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>optional .deepwater.BackendModel model = 1;</code>
+   * <code>optional .deepwater.Session session = 1;</code>
+   */
+  boolean hasSession();
+  /**
+   * <code>optional .deepwater.Session session = 1;</code>
+   */
+  ai.h2o.deepwater.backends.grpc.Session getSession();
+  /**
+   * <code>optional .deepwater.Session session = 1;</code>
+   */
+  ai.h2o.deepwater.backends.grpc.SessionOrBuilder getSessionOrBuilder();
+
+  /**
+   * <code>optional .deepwater.BackendModel model = 2;</code>
    */
   boolean hasModel();
   /**
-   * <code>optional .deepwater.BackendModel model = 1;</code>
+   * <code>optional .deepwater.BackendModel model = 2;</code>
    */
   ai.h2o.deepwater.backends.grpc.BackendModel getModel();
   /**
-   * <code>optional .deepwater.BackendModel model = 1;</code>
+   * <code>optional .deepwater.BackendModel model = 2;</code>
    */
   ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder getModelOrBuilder();
 
   /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
+   * <code>repeated .deepwater.Tensor feeds = 3;</code>
    */
   java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> 
       getFeedsList();
   /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
+   * <code>repeated .deepwater.Tensor feeds = 3;</code>
    */
   ai.h2o.deepwater.backends.grpc.Tensor getFeeds(int index);
   /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
+   * <code>repeated .deepwater.Tensor feeds = 3;</code>
    */
   int getFeedsCount();
   /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
+   * <code>repeated .deepwater.Tensor feeds = 3;</code>
    */
   java.util.List<? extends ai.h2o.deepwater.backends.grpc.TensorOrBuilder> 
       getFeedsOrBuilderList();
   /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
+   * <code>repeated .deepwater.Tensor feeds = 3;</code>
    */
   ai.h2o.deepwater.backends.grpc.TensorOrBuilder getFeedsOrBuilder(
       int index);
 
   /**
-   * <code>repeated .deepwater.Tensor fetches = 3;</code>
+   * <code>repeated .deepwater.Tensor fetches = 4;</code>
    */
   java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> 
       getFetchesList();
   /**
-   * <code>repeated .deepwater.Tensor fetches = 3;</code>
+   * <code>repeated .deepwater.Tensor fetches = 4;</code>
    */
   ai.h2o.deepwater.backends.grpc.Tensor getFetches(int index);
   /**
-   * <code>repeated .deepwater.Tensor fetches = 3;</code>
+   * <code>repeated .deepwater.Tensor fetches = 4;</code>
    */
   int getFetchesCount();
   /**
-   * <code>repeated .deepwater.Tensor fetches = 3;</code>
+   * <code>repeated .deepwater.Tensor fetches = 4;</code>
    */
   java.util.List<? extends ai.h2o.deepwater.backends.grpc.TensorOrBuilder> 
       getFetchesOrBuilderList();
   /**
-   * <code>repeated .deepwater.Tensor fetches = 3;</code>
+   * <code>repeated .deepwater.Tensor fetches = 4;</code>
    */
   ai.h2o.deepwater.backends.grpc.TensorOrBuilder getFetchesOrBuilder(
       int index);

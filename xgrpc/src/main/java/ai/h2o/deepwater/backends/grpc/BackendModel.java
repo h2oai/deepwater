@@ -15,6 +15,7 @@ public  final class BackendModel extends
     super(builder);
   }
   private BackendModel() {
+    id_ = com.google.protobuf.ByteString.EMPTY;
     state_ = com.google.protobuf.ByteString.EMPTY;
   }
 
@@ -45,6 +46,11 @@ public  final class BackendModel extends
           }
           case 10: {
 
+            id_ = input.readBytes();
+            break;
+          }
+          case 18: {
+
             state_ = input.readBytes();
             break;
           }
@@ -71,10 +77,19 @@ public  final class BackendModel extends
             ai.h2o.deepwater.backends.grpc.BackendModel.class, ai.h2o.deepwater.backends.grpc.BackendModel.Builder.class);
   }
 
-  public static final int STATE_FIELD_NUMBER = 1;
+  public static final int ID_FIELD_NUMBER = 1;
+  private com.google.protobuf.ByteString id_;
+  /**
+   * <code>optional bytes id = 1;</code>
+   */
+  public com.google.protobuf.ByteString getId() {
+    return id_;
+  }
+
+  public static final int STATE_FIELD_NUMBER = 2;
   private com.google.protobuf.ByteString state_;
   /**
-   * <code>optional bytes state = 1;</code>
+   * <code>optional bytes state = 2;</code>
    */
   public com.google.protobuf.ByteString getState() {
     return state_;
@@ -92,8 +107,11 @@ public  final class BackendModel extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
+    if (!id_.isEmpty()) {
+      output.writeBytes(1, id_);
+    }
     if (!state_.isEmpty()) {
-      output.writeBytes(1, state_);
+      output.writeBytes(2, state_);
     }
   }
 
@@ -102,9 +120,13 @@ public  final class BackendModel extends
     if (size != -1) return size;
 
     size = 0;
+    if (!id_.isEmpty()) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(1, id_);
+    }
     if (!state_.isEmpty()) {
       size += com.google.protobuf.CodedOutputStream
-        .computeBytesSize(1, state_);
+        .computeBytesSize(2, state_);
     }
     memoizedSize = size;
     return size;
@@ -122,6 +144,8 @@ public  final class BackendModel extends
     ai.h2o.deepwater.backends.grpc.BackendModel other = (ai.h2o.deepwater.backends.grpc.BackendModel) obj;
 
     boolean result = true;
+    result = result && getId()
+        .equals(other.getId());
     result = result && getState()
         .equals(other.getState());
     return result;
@@ -134,6 +158,8 @@ public  final class BackendModel extends
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (37 * hash) + ID_FIELD_NUMBER;
+    hash = (53 * hash) + getId().hashCode();
     hash = (37 * hash) + STATE_FIELD_NUMBER;
     hash = (53 * hash) + getState().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
@@ -254,6 +280,8 @@ public  final class BackendModel extends
     }
     public Builder clear() {
       super.clear();
+      id_ = com.google.protobuf.ByteString.EMPTY;
+
       state_ = com.google.protobuf.ByteString.EMPTY;
 
       return this;
@@ -278,6 +306,7 @@ public  final class BackendModel extends
 
     public ai.h2o.deepwater.backends.grpc.BackendModel buildPartial() {
       ai.h2o.deepwater.backends.grpc.BackendModel result = new ai.h2o.deepwater.backends.grpc.BackendModel(this);
+      result.id_ = id_;
       result.state_ = state_;
       onBuilt();
       return result;
@@ -320,6 +349,9 @@ public  final class BackendModel extends
 
     public Builder mergeFrom(ai.h2o.deepwater.backends.grpc.BackendModel other) {
       if (other == ai.h2o.deepwater.backends.grpc.BackendModel.getDefaultInstance()) return this;
+      if (other.getId() != com.google.protobuf.ByteString.EMPTY) {
+        setId(other.getId());
+      }
       if (other.getState() != com.google.protobuf.ByteString.EMPTY) {
         setState(other.getState());
       }
@@ -349,15 +381,44 @@ public  final class BackendModel extends
       return this;
     }
 
+    private com.google.protobuf.ByteString id_ = com.google.protobuf.ByteString.EMPTY;
+    /**
+     * <code>optional bytes id = 1;</code>
+     */
+    public com.google.protobuf.ByteString getId() {
+      return id_;
+    }
+    /**
+     * <code>optional bytes id = 1;</code>
+     */
+    public Builder setId(com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      id_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional bytes id = 1;</code>
+     */
+    public Builder clearId() {
+      
+      id_ = getDefaultInstance().getId();
+      onChanged();
+      return this;
+    }
+
     private com.google.protobuf.ByteString state_ = com.google.protobuf.ByteString.EMPTY;
     /**
-     * <code>optional bytes state = 1;</code>
+     * <code>optional bytes state = 2;</code>
      */
     public com.google.protobuf.ByteString getState() {
       return state_;
     }
     /**
-     * <code>optional bytes state = 1;</code>
+     * <code>optional bytes state = 2;</code>
      */
     public Builder setState(com.google.protobuf.ByteString value) {
       if (value == null) {
@@ -369,7 +430,7 @@ public  final class BackendModel extends
       return this;
     }
     /**
-     * <code>optional bytes state = 1;</code>
+     * <code>optional bytes state = 2;</code>
      */
     public Builder clearState() {
       

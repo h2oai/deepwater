@@ -4,17 +4,17 @@
 package ai.h2o.deepwater.backends.grpc;
 
 /**
- * Protobuf type {@code deepwater.CreateModelResponse}
+ * Protobuf type {@code deepwater.CreateSessionResponse}
  */
-public  final class CreateModelResponse extends
+public  final class CreateSessionResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:deepwater.CreateModelResponse)
-    CreateModelResponseOrBuilder {
-  // Use CreateModelResponse.newBuilder() to construct.
-  private CreateModelResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // @@protoc_insertion_point(message_implements:deepwater.CreateSessionResponse)
+    CreateSessionResponseOrBuilder {
+  // Use CreateSessionResponse.newBuilder() to construct.
+  private CreateSessionResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private CreateModelResponse() {
+  private CreateSessionResponse() {
   }
 
   @java.lang.Override
@@ -22,7 +22,7 @@ public  final class CreateModelResponse extends
   getUnknownFields() {
     return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
   }
-  private CreateModelResponse(
+  private CreateSessionResponse(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -43,14 +43,14 @@ public  final class CreateModelResponse extends
             break;
           }
           case 10: {
-            ai.h2o.deepwater.backends.grpc.BackendModel.Builder subBuilder = null;
-            if (model_ != null) {
-              subBuilder = model_.toBuilder();
+            ai.h2o.deepwater.backends.grpc.Session.Builder subBuilder = null;
+            if (session_ != null) {
+              subBuilder = session_.toBuilder();
             }
-            model_ = input.readMessage(ai.h2o.deepwater.backends.grpc.BackendModel.parser(), extensionRegistry);
+            session_ = input.readMessage(ai.h2o.deepwater.backends.grpc.Session.parser(), extensionRegistry);
             if (subBuilder != null) {
-              subBuilder.mergeFrom(model_);
-              model_ = subBuilder.buildPartial();
+              subBuilder.mergeFrom(session_);
+              session_ = subBuilder.buildPartial();
             }
 
             break;
@@ -81,35 +81,35 @@ public  final class CreateModelResponse extends
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_CreateModelResponse_descriptor;
+    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_CreateSessionResponse_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_CreateModelResponse_fieldAccessorTable
+    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_CreateSessionResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            ai.h2o.deepwater.backends.grpc.CreateModelResponse.class, ai.h2o.deepwater.backends.grpc.CreateModelResponse.Builder.class);
+            ai.h2o.deepwater.backends.grpc.CreateSessionResponse.class, ai.h2o.deepwater.backends.grpc.CreateSessionResponse.Builder.class);
   }
 
-  public static final int MODEL_FIELD_NUMBER = 1;
-  private ai.h2o.deepwater.backends.grpc.BackendModel model_;
+  public static final int SESSION_FIELD_NUMBER = 1;
+  private ai.h2o.deepwater.backends.grpc.Session session_;
   /**
-   * <code>optional .deepwater.BackendModel model = 1;</code>
+   * <code>optional .deepwater.Session session = 1;</code>
    */
-  public boolean hasModel() {
-    return model_ != null;
+  public boolean hasSession() {
+    return session_ != null;
   }
   /**
-   * <code>optional .deepwater.BackendModel model = 1;</code>
+   * <code>optional .deepwater.Session session = 1;</code>
    */
-  public ai.h2o.deepwater.backends.grpc.BackendModel getModel() {
-    return model_ == null ? ai.h2o.deepwater.backends.grpc.BackendModel.getDefaultInstance() : model_;
+  public ai.h2o.deepwater.backends.grpc.Session getSession() {
+    return session_ == null ? ai.h2o.deepwater.backends.grpc.Session.getDefaultInstance() : session_;
   }
   /**
-   * <code>optional .deepwater.BackendModel model = 1;</code>
+   * <code>optional .deepwater.Session session = 1;</code>
    */
-  public ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder getModelOrBuilder() {
-    return getModel();
+  public ai.h2o.deepwater.backends.grpc.SessionOrBuilder getSessionOrBuilder() {
+    return getSession();
   }
 
   public static final int STATUS_FIELD_NUMBER = 2;
@@ -145,8 +145,8 @@ public  final class CreateModelResponse extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (model_ != null) {
-      output.writeMessage(1, getModel());
+    if (session_ != null) {
+      output.writeMessage(1, getSession());
     }
     if (status_ != null) {
       output.writeMessage(2, getStatus());
@@ -158,9 +158,9 @@ public  final class CreateModelResponse extends
     if (size != -1) return size;
 
     size = 0;
-    if (model_ != null) {
+    if (session_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(1, getModel());
+        .computeMessageSize(1, getSession());
     }
     if (status_ != null) {
       size += com.google.protobuf.CodedOutputStream
@@ -176,16 +176,16 @@ public  final class CreateModelResponse extends
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof ai.h2o.deepwater.backends.grpc.CreateModelResponse)) {
+    if (!(obj instanceof ai.h2o.deepwater.backends.grpc.CreateSessionResponse)) {
       return super.equals(obj);
     }
-    ai.h2o.deepwater.backends.grpc.CreateModelResponse other = (ai.h2o.deepwater.backends.grpc.CreateModelResponse) obj;
+    ai.h2o.deepwater.backends.grpc.CreateSessionResponse other = (ai.h2o.deepwater.backends.grpc.CreateSessionResponse) obj;
 
     boolean result = true;
-    result = result && (hasModel() == other.hasModel());
-    if (hasModel()) {
-      result = result && getModel()
-          .equals(other.getModel());
+    result = result && (hasSession() == other.hasSession());
+    if (hasSession()) {
+      result = result && getSession()
+          .equals(other.getSession());
     }
     result = result && (hasStatus() == other.hasStatus());
     if (hasStatus()) {
@@ -202,9 +202,9 @@ public  final class CreateModelResponse extends
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptorForType().hashCode();
-    if (hasModel()) {
-      hash = (37 * hash) + MODEL_FIELD_NUMBER;
-      hash = (53 * hash) + getModel().hashCode();
+    if (hasSession()) {
+      hash = (37 * hash) + SESSION_FIELD_NUMBER;
+      hash = (53 * hash) + getSession().hashCode();
     }
     if (hasStatus()) {
       hash = (37 * hash) + STATUS_FIELD_NUMBER;
@@ -215,58 +215,58 @@ public  final class CreateModelResponse extends
     return hash;
   }
 
-  public static ai.h2o.deepwater.backends.grpc.CreateModelResponse parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.CreateSessionResponse parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static ai.h2o.deepwater.backends.grpc.CreateModelResponse parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.CreateSessionResponse parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.CreateModelResponse parseFrom(byte[] data)
+  public static ai.h2o.deepwater.backends.grpc.CreateSessionResponse parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static ai.h2o.deepwater.backends.grpc.CreateModelResponse parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.CreateSessionResponse parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.CreateModelResponse parseFrom(java.io.InputStream input)
+  public static ai.h2o.deepwater.backends.grpc.CreateSessionResponse parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static ai.h2o.deepwater.backends.grpc.CreateModelResponse parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.CreateSessionResponse parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.CreateModelResponse parseDelimitedFrom(java.io.InputStream input)
+  public static ai.h2o.deepwater.backends.grpc.CreateSessionResponse parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static ai.h2o.deepwater.backends.grpc.CreateModelResponse parseDelimitedFrom(
+  public static ai.h2o.deepwater.backends.grpc.CreateSessionResponse parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.CreateModelResponse parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.CreateSessionResponse parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static ai.h2o.deepwater.backends.grpc.CreateModelResponse parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.CreateSessionResponse parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -278,7 +278,7 @@ public  final class CreateModelResponse extends
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(ai.h2o.deepwater.backends.grpc.CreateModelResponse prototype) {
+  public static Builder newBuilder(ai.h2o.deepwater.backends.grpc.CreateSessionResponse prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() {
@@ -293,25 +293,25 @@ public  final class CreateModelResponse extends
     return builder;
   }
   /**
-   * Protobuf type {@code deepwater.CreateModelResponse}
+   * Protobuf type {@code deepwater.CreateSessionResponse}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:deepwater.CreateModelResponse)
-      ai.h2o.deepwater.backends.grpc.CreateModelResponseOrBuilder {
+      // @@protoc_insertion_point(builder_implements:deepwater.CreateSessionResponse)
+      ai.h2o.deepwater.backends.grpc.CreateSessionResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_CreateModelResponse_descriptor;
+      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_CreateSessionResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_CreateModelResponse_fieldAccessorTable
+      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_CreateSessionResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              ai.h2o.deepwater.backends.grpc.CreateModelResponse.class, ai.h2o.deepwater.backends.grpc.CreateModelResponse.Builder.class);
+              ai.h2o.deepwater.backends.grpc.CreateSessionResponse.class, ai.h2o.deepwater.backends.grpc.CreateSessionResponse.Builder.class);
     }
 
-    // Construct using ai.h2o.deepwater.backends.grpc.CreateModelResponse.newBuilder()
+    // Construct using ai.h2o.deepwater.backends.grpc.CreateSessionResponse.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -328,11 +328,11 @@ public  final class CreateModelResponse extends
     }
     public Builder clear() {
       super.clear();
-      if (modelBuilder_ == null) {
-        model_ = null;
+      if (sessionBuilder_ == null) {
+        session_ = null;
       } else {
-        model_ = null;
-        modelBuilder_ = null;
+        session_ = null;
+        sessionBuilder_ = null;
       }
       if (statusBuilder_ == null) {
         status_ = null;
@@ -345,27 +345,27 @@ public  final class CreateModelResponse extends
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_CreateModelResponse_descriptor;
+      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_CreateSessionResponse_descriptor;
     }
 
-    public ai.h2o.deepwater.backends.grpc.CreateModelResponse getDefaultInstanceForType() {
-      return ai.h2o.deepwater.backends.grpc.CreateModelResponse.getDefaultInstance();
+    public ai.h2o.deepwater.backends.grpc.CreateSessionResponse getDefaultInstanceForType() {
+      return ai.h2o.deepwater.backends.grpc.CreateSessionResponse.getDefaultInstance();
     }
 
-    public ai.h2o.deepwater.backends.grpc.CreateModelResponse build() {
-      ai.h2o.deepwater.backends.grpc.CreateModelResponse result = buildPartial();
+    public ai.h2o.deepwater.backends.grpc.CreateSessionResponse build() {
+      ai.h2o.deepwater.backends.grpc.CreateSessionResponse result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public ai.h2o.deepwater.backends.grpc.CreateModelResponse buildPartial() {
-      ai.h2o.deepwater.backends.grpc.CreateModelResponse result = new ai.h2o.deepwater.backends.grpc.CreateModelResponse(this);
-      if (modelBuilder_ == null) {
-        result.model_ = model_;
+    public ai.h2o.deepwater.backends.grpc.CreateSessionResponse buildPartial() {
+      ai.h2o.deepwater.backends.grpc.CreateSessionResponse result = new ai.h2o.deepwater.backends.grpc.CreateSessionResponse(this);
+      if (sessionBuilder_ == null) {
+        result.session_ = session_;
       } else {
-        result.model_ = modelBuilder_.build();
+        result.session_ = sessionBuilder_.build();
       }
       if (statusBuilder_ == null) {
         result.status_ = status_;
@@ -403,18 +403,18 @@ public  final class CreateModelResponse extends
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof ai.h2o.deepwater.backends.grpc.CreateModelResponse) {
-        return mergeFrom((ai.h2o.deepwater.backends.grpc.CreateModelResponse)other);
+      if (other instanceof ai.h2o.deepwater.backends.grpc.CreateSessionResponse) {
+        return mergeFrom((ai.h2o.deepwater.backends.grpc.CreateSessionResponse)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(ai.h2o.deepwater.backends.grpc.CreateModelResponse other) {
-      if (other == ai.h2o.deepwater.backends.grpc.CreateModelResponse.getDefaultInstance()) return this;
-      if (other.hasModel()) {
-        mergeModel(other.getModel());
+    public Builder mergeFrom(ai.h2o.deepwater.backends.grpc.CreateSessionResponse other) {
+      if (other == ai.h2o.deepwater.backends.grpc.CreateSessionResponse.getDefaultInstance()) return this;
+      if (other.hasSession()) {
+        mergeSession(other.getSession());
       }
       if (other.hasStatus()) {
         mergeStatus(other.getStatus());
@@ -431,11 +431,11 @@ public  final class CreateModelResponse extends
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      ai.h2o.deepwater.backends.grpc.CreateModelResponse parsedMessage = null;
+      ai.h2o.deepwater.backends.grpc.CreateSessionResponse parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (ai.h2o.deepwater.backends.grpc.CreateModelResponse) e.getUnfinishedMessage();
+        parsedMessage = (ai.h2o.deepwater.backends.grpc.CreateSessionResponse) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -445,121 +445,121 @@ public  final class CreateModelResponse extends
       return this;
     }
 
-    private ai.h2o.deepwater.backends.grpc.BackendModel model_ = null;
+    private ai.h2o.deepwater.backends.grpc.Session session_ = null;
     private com.google.protobuf.SingleFieldBuilderV3<
-        ai.h2o.deepwater.backends.grpc.BackendModel, ai.h2o.deepwater.backends.grpc.BackendModel.Builder, ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder> modelBuilder_;
+        ai.h2o.deepwater.backends.grpc.Session, ai.h2o.deepwater.backends.grpc.Session.Builder, ai.h2o.deepwater.backends.grpc.SessionOrBuilder> sessionBuilder_;
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Session session = 1;</code>
      */
-    public boolean hasModel() {
-      return modelBuilder_ != null || model_ != null;
+    public boolean hasSession() {
+      return sessionBuilder_ != null || session_ != null;
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Session session = 1;</code>
      */
-    public ai.h2o.deepwater.backends.grpc.BackendModel getModel() {
-      if (modelBuilder_ == null) {
-        return model_ == null ? ai.h2o.deepwater.backends.grpc.BackendModel.getDefaultInstance() : model_;
+    public ai.h2o.deepwater.backends.grpc.Session getSession() {
+      if (sessionBuilder_ == null) {
+        return session_ == null ? ai.h2o.deepwater.backends.grpc.Session.getDefaultInstance() : session_;
       } else {
-        return modelBuilder_.getMessage();
+        return sessionBuilder_.getMessage();
       }
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Session session = 1;</code>
      */
-    public Builder setModel(ai.h2o.deepwater.backends.grpc.BackendModel value) {
-      if (modelBuilder_ == null) {
+    public Builder setSession(ai.h2o.deepwater.backends.grpc.Session value) {
+      if (sessionBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
-        model_ = value;
+        session_ = value;
         onChanged();
       } else {
-        modelBuilder_.setMessage(value);
+        sessionBuilder_.setMessage(value);
       }
 
       return this;
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Session session = 1;</code>
      */
-    public Builder setModel(
-        ai.h2o.deepwater.backends.grpc.BackendModel.Builder builderForValue) {
-      if (modelBuilder_ == null) {
-        model_ = builderForValue.build();
+    public Builder setSession(
+        ai.h2o.deepwater.backends.grpc.Session.Builder builderForValue) {
+      if (sessionBuilder_ == null) {
+        session_ = builderForValue.build();
         onChanged();
       } else {
-        modelBuilder_.setMessage(builderForValue.build());
+        sessionBuilder_.setMessage(builderForValue.build());
       }
 
       return this;
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Session session = 1;</code>
      */
-    public Builder mergeModel(ai.h2o.deepwater.backends.grpc.BackendModel value) {
-      if (modelBuilder_ == null) {
-        if (model_ != null) {
-          model_ =
-            ai.h2o.deepwater.backends.grpc.BackendModel.newBuilder(model_).mergeFrom(value).buildPartial();
+    public Builder mergeSession(ai.h2o.deepwater.backends.grpc.Session value) {
+      if (sessionBuilder_ == null) {
+        if (session_ != null) {
+          session_ =
+            ai.h2o.deepwater.backends.grpc.Session.newBuilder(session_).mergeFrom(value).buildPartial();
         } else {
-          model_ = value;
+          session_ = value;
         }
         onChanged();
       } else {
-        modelBuilder_.mergeFrom(value);
+        sessionBuilder_.mergeFrom(value);
       }
 
       return this;
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Session session = 1;</code>
      */
-    public Builder clearModel() {
-      if (modelBuilder_ == null) {
-        model_ = null;
+    public Builder clearSession() {
+      if (sessionBuilder_ == null) {
+        session_ = null;
         onChanged();
       } else {
-        model_ = null;
-        modelBuilder_ = null;
+        session_ = null;
+        sessionBuilder_ = null;
       }
 
       return this;
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Session session = 1;</code>
      */
-    public ai.h2o.deepwater.backends.grpc.BackendModel.Builder getModelBuilder() {
+    public ai.h2o.deepwater.backends.grpc.Session.Builder getSessionBuilder() {
       
       onChanged();
-      return getModelFieldBuilder().getBuilder();
+      return getSessionFieldBuilder().getBuilder();
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Session session = 1;</code>
      */
-    public ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder getModelOrBuilder() {
-      if (modelBuilder_ != null) {
-        return modelBuilder_.getMessageOrBuilder();
+    public ai.h2o.deepwater.backends.grpc.SessionOrBuilder getSessionOrBuilder() {
+      if (sessionBuilder_ != null) {
+        return sessionBuilder_.getMessageOrBuilder();
       } else {
-        return model_ == null ?
-            ai.h2o.deepwater.backends.grpc.BackendModel.getDefaultInstance() : model_;
+        return session_ == null ?
+            ai.h2o.deepwater.backends.grpc.Session.getDefaultInstance() : session_;
       }
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.Session session = 1;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        ai.h2o.deepwater.backends.grpc.BackendModel, ai.h2o.deepwater.backends.grpc.BackendModel.Builder, ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder> 
-        getModelFieldBuilder() {
-      if (modelBuilder_ == null) {
-        modelBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            ai.h2o.deepwater.backends.grpc.BackendModel, ai.h2o.deepwater.backends.grpc.BackendModel.Builder, ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder>(
-                getModel(),
+        ai.h2o.deepwater.backends.grpc.Session, ai.h2o.deepwater.backends.grpc.Session.Builder, ai.h2o.deepwater.backends.grpc.SessionOrBuilder> 
+        getSessionFieldBuilder() {
+      if (sessionBuilder_ == null) {
+        sessionBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            ai.h2o.deepwater.backends.grpc.Session, ai.h2o.deepwater.backends.grpc.Session.Builder, ai.h2o.deepwater.backends.grpc.SessionOrBuilder>(
+                getSession(),
                 getParentForChildren(),
                 isClean());
-        model_ = null;
+        session_ = null;
       }
-      return modelBuilder_;
+      return sessionBuilder_;
     }
 
     private ai.h2o.deepwater.backends.grpc.Status status_ = null;
@@ -689,39 +689,39 @@ public  final class CreateModelResponse extends
     }
 
 
-    // @@protoc_insertion_point(builder_scope:deepwater.CreateModelResponse)
+    // @@protoc_insertion_point(builder_scope:deepwater.CreateSessionResponse)
   }
 
-  // @@protoc_insertion_point(class_scope:deepwater.CreateModelResponse)
-  private static final ai.h2o.deepwater.backends.grpc.CreateModelResponse DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:deepwater.CreateSessionResponse)
+  private static final ai.h2o.deepwater.backends.grpc.CreateSessionResponse DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new ai.h2o.deepwater.backends.grpc.CreateModelResponse();
+    DEFAULT_INSTANCE = new ai.h2o.deepwater.backends.grpc.CreateSessionResponse();
   }
 
-  public static ai.h2o.deepwater.backends.grpc.CreateModelResponse getDefaultInstance() {
+  public static ai.h2o.deepwater.backends.grpc.CreateSessionResponse getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<CreateModelResponse>
-      PARSER = new com.google.protobuf.AbstractParser<CreateModelResponse>() {
-    public CreateModelResponse parsePartialFrom(
+  private static final com.google.protobuf.Parser<CreateSessionResponse>
+      PARSER = new com.google.protobuf.AbstractParser<CreateSessionResponse>() {
+    public CreateSessionResponse parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CreateModelResponse(input, extensionRegistry);
+        return new CreateSessionResponse(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<CreateModelResponse> parser() {
+  public static com.google.protobuf.Parser<CreateSessionResponse> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<CreateModelResponse> getParserForType() {
+  public com.google.protobuf.Parser<CreateSessionResponse> getParserForType() {
     return PARSER;
   }
 
-  public ai.h2o.deepwater.backends.grpc.CreateModelResponse getDefaultInstanceForType() {
+  public ai.h2o.deepwater.backends.grpc.CreateSessionResponse getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

@@ -25,17 +25,26 @@ public class GRPCBackendTrain implements BackendTrain {
 
     public void delete(BackendModel m) {
         try {
-            client.deleteModel(m);
+            XGRPCBackendModel model = (XGRPCBackendModel) m;
+            client.deleteSession(model.getSession(), m);
         } catch (Exception e) {
+            e.printStackTrace();
             log.log(Level.WARNING, e.getMessage());
         }
 
     }
 
-    public BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts, BackendParams backend_params, int num_classes, String name) {
+    public BackendModel buildNet(ImageDataSet dataset, RuntimeOptions runtimeOptions, BackendParams backend_params, int num_classes, String name) {
         try {
-            return client.createModel(name, backend_params.asMap());
+
+            XGRPCBackendSession session = client.createSession(runtimeOptions);
+
+            XGRPCBackendModel model = client.createModel(session, name, backend_params.asMap());
+            model.setSession(session);
+
+            return model;
         } catch (Exception e) {
+            e.printStackTrace();
             log.log(Level.WARNING, e.getMessage());
             return null;
         }
@@ -43,16 +52,20 @@ public class GRPCBackendTrain implements BackendTrain {
 
     public void saveModel(BackendModel m, String model_path) {
         try {
-            client.saveModel(m, model_path);
+            XGRPCBackendModel model = (XGRPCBackendModel) m;
+            client.saveModel(model.getSession(), model, model_path);
         } catch (Exception e) {
+            e.printStackTrace();
             log.log(Level.WARNING, e.getMessage());
         }
     }
 
     public void loadParam(BackendModel m, String param_path) {
         try {
-            client.loadWeights(m, param_path);
+            XGRPCBackendModel model = (XGRPCBackendModel) m;
+            client.loadWeights(model.getSession(), model, param_path);
         } catch (Exception e) {
+            e.printStackTrace();
             log.log(Level.WARNING, e.getMessage());
         }
 
@@ -60,8 +73,10 @@ public class GRPCBackendTrain implements BackendTrain {
 
     public void saveParam(BackendModel m, String param_path) {
         try {
-            client.saveWeights(m, param_path);
+            XGRPCBackendModel model = (XGRPCBackendModel) m;
+            client.saveWeights(model.getSession(), model, param_path);
         } catch (Exception e) {
+            e.printStackTrace();
             log.log(Level.WARNING, e.getMessage());
         }
     }
@@ -78,26 +93,40 @@ public class GRPCBackendTrain implements BackendTrain {
         return null;
     }
 
-    public void setParameter(BackendModel m, String name, float value) {
+    public void setParameter(BackendModel model, String name, float value) {
         try {
             HashMap<String, Object> params = new HashMap<>();
             params.put(name, value);
-            client.setParameters(m, params);
+            XGRPCBackendModel _model = (XGRPCBackendModel) model;
+            client.setParameters(_model.getSession(), _model, params);
         } catch (Exception e) {
+            e.printStackTrace();
             log.log(Level.WARNING, e.getMessage());
         }
 
     }
 
-    public float[] train(BackendModel m, float[] data, float[] label) {
+    public float[] train(BackendModel model, float[] data, float[] label) {
         try {
+             int batchSize =  10;
+             int classes = 10;
+
+                float[] labelData = new float[Math.toIntExact(batchSize * classes)];
+                for (int i = 0; i < batchSize; i++) {
+                    int idx = (int)label[i];
+                    labelData[i * classes + idx] = (float) 1.0;
+                }
+
+
             HashMap<String, float[]> params = new HashMap<>();
-            params.put("batch_image_data", data);
-            params.put("categorical_labels", label);
+            params.put("batch_image_input", data);
+            params.put("categorical_labels", labelData);
             String[] fetches = new String[]{"categorical_logits"};
-            Map<String, float[]> results = client.train(m, params, fetches);
+            XGRPCBackendModel _model = (XGRPCBackendModel) model;
+            Map<String, float[]> results = client.train(_model.getSession(), _model, params, fetches);
             return results.get("categorical_logits");
         } catch (Exception e) {
+            e.printStackTrace();
             log.log(Level.WARNING, e.getMessage());
             return new float[]{};
         }
@@ -105,13 +134,24 @@ public class GRPCBackendTrain implements BackendTrain {
 
     public float[] predict(BackendModel model, float[] data, float[] label) {
         try {
+            int batchSize =  10;
+            int classes = 10;
+
+            float[] labelData = new float[Math.toIntExact(batchSize * classes)];
+            for (int i = 0; i < batchSize; i++) {
+                int idx = (int)label[i];
+                labelData[i * classes + idx] = (float) 1.0;
+            }
+
             HashMap<String, float[]> m = new HashMap<>();
-            m.put("batch_image_data", data);
-            m.put("categorical_labels", label);
+            m.put("batch_image_input", data);
+            m.put("categorical_labels", labelData);
             String[] fetches = new String[]{"categorical_logits"};
-            Map<String, float[]> results = client.predict(model, m, fetches);
+            XGRPCBackendModel _model = (XGRPCBackendModel) model;
+            Map<String, float[]> results = client.predict(_model.getSession(), _model, m, fetches);
             return results.get("categorical_logits");
         } catch (Exception e) {
+            e.printStackTrace();
             log.log(Level.WARNING, e.getMessage());
             return new float[]{};
         }
@@ -120,11 +160,13 @@ public class GRPCBackendTrain implements BackendTrain {
     public float[] predict(BackendModel model, float[] data) {
         try {
             HashMap<String, float[]> m = new HashMap<>();
-            m.put("batch_image_data", data);
+            m.put("batch_image_input", data);
             String[] fetches = new String[]{"categorical_logits"};
-            Map<String, float[]> results = client.predict(model, m, fetches);
+            XGRPCBackendModel _model = (XGRPCBackendModel) model;
+            Map<String, float[]> results = client.predict(_model.getSession(), _model, m, fetches);
             return results.get(fetches[0]);
         } catch (Exception e) {
+            e.printStackTrace();
             log.log(Level.WARNING, e.getMessage());
             return new float[]{};
         }

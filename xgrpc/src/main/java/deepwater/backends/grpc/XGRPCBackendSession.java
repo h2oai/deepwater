@@ -1,16 +1,16 @@
 package deepwater.backends.grpc;
 
-import com.google.protobuf.ByteString;
 import deepwater.backends.BackendModel;
 
 public class XGRPCBackendSession implements BackendModel {
-    private final ByteString state;
 
-    public XGRPCBackendSession(ByteString network) {
-        this.state = network;
+    private final String handle;
+
+    public XGRPCBackendSession(String handle) {
+        this.handle = handle;
     }
 
-    public ByteString getState() {
-        return state;
+    public String getHandle() {
+        return handle;
     }
 }

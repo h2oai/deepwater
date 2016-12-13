@@ -3,22 +3,22 @@
 
 package ai.h2o.deepwater.backends.grpc;
 
-public interface CreateModelResponseOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:deepwater.CreateModelResponse)
+public interface CreateSessionResponseOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:deepwater.CreateSessionResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>optional .deepwater.BackendModel model = 1;</code>
+   * <code>optional .deepwater.Session session = 1;</code>
    */
-  boolean hasModel();
+  boolean hasSession();
   /**
-   * <code>optional .deepwater.BackendModel model = 1;</code>
+   * <code>optional .deepwater.Session session = 1;</code>
    */
-  ai.h2o.deepwater.backends.grpc.BackendModel getModel();
+  ai.h2o.deepwater.backends.grpc.Session getSession();
   /**
-   * <code>optional .deepwater.BackendModel model = 1;</code>
+   * <code>optional .deepwater.Session session = 1;</code>
    */
-  ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder getModelOrBuilder();
+  ai.h2o.deepwater.backends.grpc.SessionOrBuilder getSessionOrBuilder();
 
   /**
    * <code>optional .deepwater.Status status = 2;</code>

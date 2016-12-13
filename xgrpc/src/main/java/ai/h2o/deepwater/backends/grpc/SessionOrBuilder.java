@@ -8,12 +8,12 @@ public interface SessionOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>optional string id = 1;</code>
+   * <code>optional string handle = 1;</code>
    */
-  java.lang.String getId();
+  java.lang.String getHandle();
   /**
-   * <code>optional string id = 1;</code>
+   * <code>optional string handle = 1;</code>
    */
   com.google.protobuf.ByteString
-      getIdBytes();
+      getHandleBytes();
 }

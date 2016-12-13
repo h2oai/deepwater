@@ -1,25 +1,10 @@
 package deepwater.backends.grpc;
 
-import ai.h2o.deepwater.backends.grpc.CreateModelRequest;
-import ai.h2o.deepwater.backends.grpc.CreateModelResponse;
-import ai.h2o.deepwater.backends.grpc.DeepWaterTrainBackendGrpc;
-import ai.h2o.deepwater.backends.grpc.DeleteModelRequest;
-import ai.h2o.deepwater.backends.grpc.LoadModelRequest;
-import ai.h2o.deepwater.backends.grpc.LoadWeightsRequest;
-import ai.h2o.deepwater.backends.grpc.ParamValue;
-import ai.h2o.deepwater.backends.grpc.PredictRequest;
-import ai.h2o.deepwater.backends.grpc.PredictResponse;
-import ai.h2o.deepwater.backends.grpc.SaveModelRequest;
-import ai.h2o.deepwater.backends.grpc.SaveWeightsRequest;
-import ai.h2o.deepwater.backends.grpc.SetParametersRequest;
-import ai.h2o.deepwater.backends.grpc.SetParametersResponse;
-import ai.h2o.deepwater.backends.grpc.Status;
-import ai.h2o.deepwater.backends.grpc.Tensor;
-import ai.h2o.deepwater.backends.grpc.TrainRequest;
-import ai.h2o.deepwater.backends.grpc.TrainResponse;
+import ai.h2o.deepwater.backends.grpc.*;
 import com.google.common.primitives.Floats;
 import com.google.protobuf.ByteString;
 import deepwater.backends.BackendModel;
+import deepwater.backends.RuntimeOptions;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -98,74 +83,98 @@ public class Client {
         }
     }
 
-    public BackendModel createModel(String networkName, Map<String, Object> hashMap) throws Exception{
+    public XGRPCBackendModel createModel(XGRPCBackendSession session,
+                                         String networkName, Map<String, Object> hashMap) throws Exception{
         CreateModelRequest req = CreateModelRequest.newBuilder()
+                .setSession(asSession(session))
                 .setModelName(networkName)
                 .putAllParams(asParams(hashMap))
                 .build();
         CreateModelResponse response;
         response = blockingStub.createModel(req);
         checkStatus(response.getStatus());
-        return new XGRPCBackendSession(response.getNetwork());
+        ai.h2o.deepwater.backends.grpc.BackendModel model = response.getModel();
+        return new XGRPCBackendModel(model.getId().toByteArray(), model.getState().toByteArray());
     }
 
-    public void deleteModel(BackendModel model) throws Exception{
-        DeleteModelRequest req = DeleteModelRequest.newBuilder()
-                .setModel(asSession(model))
+    public void deleteSession(XGRPCBackendSession session, BackendModel model) throws Exception{
+        DeleteSessionRequest req = DeleteSessionRequest.newBuilder()
+                .setSession(asSession(session))
                 .build();
-        checkStatus(blockingStub.deleteModel(req));
+        checkStatus(blockingStub.deleteSession(req));
     }
 
-    public void loadModel(BackendModel model, String path) throws Exception{
-        LoadModelRequest req = LoadModelRequest.newBuilder().build();
+    public void loadModel(XGRPCBackendSession session, XGRPCBackendModel model, String path) throws Exception{
+        LoadModelRequest req = LoadModelRequest.newBuilder()
+                .setModel(asModel(model))
+                .setSession(asSession(session))
+                .setPath(asByteString(path))
+                .build();
         Status status = blockingStub.loadModel(req);
         checkStatus(status);
     }
 
+    private ByteString asByteString(String path) {
+        return ByteString.copyFrom(path.getBytes());
+    }
 
-    public void saveModel(BackendModel model, String path) throws Exception{
-        SaveModelRequest req = SaveModelRequest.newBuilder().build();
+    private ByteString asByteString(byte[] data) {
+        return ByteString.copyFrom(data);
+    }
+
+
+    public void saveModel(XGRPCBackendSession session, XGRPCBackendModel model, String path) throws Exception{
+        SaveModelRequest req = SaveModelRequest.newBuilder()
+                .setSession(asSession(session))
+                .setModel(asModel(model))
+                .setPath(asByteString(path))
+                .build();
 
         Status status = blockingStub.saveModel(req);
         checkStatus(status);
     }
 
 
-    public void saveWeights(BackendModel model, String path) throws Exception{
-        SaveWeightsRequest req = SaveWeightsRequest.newBuilder().build();
+    public void saveWeights(XGRPCBackendSession session, XGRPCBackendModel model, String path) throws Exception{
+        SaveWeightsRequest req = SaveWeightsRequest.newBuilder()
+                .setModel(asModel(model))
+                .setSession(asSession(session))
+                .setPath(asByteString(path))
+                .build();
 
         Status status = blockingStub.saveWeights(req);
         checkStatus(status);
     }
 
 
-    public void loadWeights(BackendModel model, String path) throws Exception{
-        LoadWeightsRequest req = LoadWeightsRequest.newBuilder().build();
-
+    public void loadWeights(XGRPCBackendSession session, XGRPCBackendModel model, String path) throws Exception{
+        LoadWeightsRequest req = LoadWeightsRequest.newBuilder()
+                .setModel(asModel(model))
+                .setSession(asSession(session))
+                .setPath(asByteString(path))
+                .build();
         Status status = blockingStub.loadWeights(req);
         checkStatus(status);
     }
 
 
-    private ai.h2o.deepwater.backends.grpc.BackendModel asSession(BackendModel model) {
-        XGRPCBackendSession session = (XGRPCBackendSession) model;
-        ai.h2o.deepwater.backends.grpc.BackendModel remoteModel = ai.h2o.deepwater.backends.grpc.BackendModel.newBuilder()
-                .setState(session.getState())
-                .build();
-        return remoteModel;
-    }
-
-    private ai.h2o.deepwater.backends.grpc.BackendModel.Builder asSessionBuilder(BackendModel model) {
-        XGRPCBackendSession session = (XGRPCBackendSession) model;
+    private ai.h2o.deepwater.backends.grpc.BackendModel.Builder asModel(XGRPCBackendModel model) {
         return ai.h2o.deepwater.backends.grpc.BackendModel.newBuilder()
-                .setState(session.getState());
+                .setId(asByteString(model.getUUID()))
+                .setState(asByteString(model.getState()));
+    }
+
+    private Session.Builder asSession(XGRPCBackendSession session) {
+        return ai.h2o.deepwater.backends.grpc.Session.newBuilder()
+                .setHandle(session.getHandle());
     }
 
 
-    public void setParameters(BackendModel model, Map<String, Object> params) throws Exception {
+    public void setParameters(XGRPCBackendSession session, XGRPCBackendModel model, Map<String, Object> params) throws Exception {
 
         SetParametersRequest req = SetParametersRequest.newBuilder()
-                .setModel(asSessionBuilder(model))
+                .setSession(asSession(session))
+                .setModel(asModel(model))
                 .putAllParams(asParams(params))
                 .build();
 
@@ -176,17 +185,28 @@ public class Client {
     }
 
 
-    public Map<String, float[]> train(BackendModel model, Map<String, float[]> m, String[] fetches) throws Exception {
+    public Map<String, float[]> train(XGRPCBackendSession session, XGRPCBackendModel model, Map<String, float[]> m, String[] fetches) throws Exception {
         TrainRequest.Builder builder = TrainRequest.newBuilder();
         int i = 0;
         for (String key: m.keySet()) {
             Tensor.Builder tb = Tensor.newBuilder()
+                    .setName(key)
                     .addAllFloatValue(Floats.asList(m.get(key)));
-            builder.setFeeds(i, tb);
+            builder.addFeeds(i, tb);
             i++;
         }
 
-        builder.setModel(asSessionBuilder(model));
+        // add fetches
+        i = 0;
+        for(String key: fetches){
+            Tensor.Builder tb = Tensor.newBuilder()
+                    .setName(key);
+            builder.addFetches(i, tb);
+            i++;
+        }
+
+        builder.setSession(asSession(session));
+        builder.setModel(asModel(model));
 
         TrainResponse response = blockingStub.train(builder.build());
 
@@ -202,15 +222,19 @@ public class Client {
     }
 
 
-    public Map<String, float[]> predict(BackendModel model, Map<String, float[]> m, String[] fetches) throws Exception {
+    public Map<String, float[]> predict(XGRPCBackendSession session,
+                                        XGRPCBackendModel model, Map<String, float[]> m, String[] fetches) throws Exception {
         PredictRequest.Builder builder= PredictRequest.newBuilder();
+        builder.setSession(asSession(session));
+        builder.setModel(asModel(model));
 
-        builder.setModel(asSession(model));
+        // add feed
         int i = 0;
         for (String key: m.keySet()) {
             Tensor.Builder tb = Tensor.newBuilder()
+                    .setName(key)
                     .addAllFloatValue(Floats.asList(m.get(key)));
-                builder.setFeeds(i, tb);
+                builder.addFeeds(i, tb);
             i++;
         }
 
@@ -219,7 +243,7 @@ public class Client {
         for(String key: fetches){
             Tensor.Builder tb = Tensor.newBuilder()
                     .setName(key);
-            builder.setFetches(i, tb);
+            builder.addFetches(i, tb);
             i++;
         }
 
@@ -236,4 +260,13 @@ public class Client {
         return results;
     }
 
+    public XGRPCBackendSession createSession(RuntimeOptions runtimeOptions) throws Exception {
+        // TODO ignore options
+        CreateSessionRequest req = CreateSessionRequest.newBuilder()
+                .build();
+        CreateSessionResponse response = blockingStub.createSession(req);
+        checkStatus(response.getStatus());
+        Session session = response.getSession();
+        return new XGRPCBackendSession(session.getHandle());
+    }
 }

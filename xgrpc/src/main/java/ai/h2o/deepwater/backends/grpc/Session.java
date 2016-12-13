@@ -15,7 +15,7 @@ public  final class Session extends
     super(builder);
   }
   private Session() {
-    id_ = "";
+    handle_ = "";
   }
 
   @java.lang.Override
@@ -46,7 +46,7 @@ public  final class Session extends
           case 10: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            id_ = s;
+            handle_ = s;
             break;
           }
         }
@@ -72,34 +72,34 @@ public  final class Session extends
             ai.h2o.deepwater.backends.grpc.Session.class, ai.h2o.deepwater.backends.grpc.Session.Builder.class);
   }
 
-  public static final int ID_FIELD_NUMBER = 1;
-  private volatile java.lang.Object id_;
+  public static final int HANDLE_FIELD_NUMBER = 1;
+  private volatile java.lang.Object handle_;
   /**
-   * <code>optional string id = 1;</code>
+   * <code>optional string handle = 1;</code>
    */
-  public java.lang.String getId() {
-    java.lang.Object ref = id_;
+  public java.lang.String getHandle() {
+    java.lang.Object ref = handle_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      id_ = s;
+      handle_ = s;
       return s;
     }
   }
   /**
-   * <code>optional string id = 1;</code>
+   * <code>optional string handle = 1;</code>
    */
   public com.google.protobuf.ByteString
-      getIdBytes() {
-    java.lang.Object ref = id_;
+      getHandleBytes() {
+    java.lang.Object ref = handle_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      id_ = b;
+      handle_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
@@ -118,8 +118,8 @@ public  final class Session extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getIdBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, id_);
+    if (!getHandleBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, handle_);
     }
   }
 
@@ -128,8 +128,8 @@ public  final class Session extends
     if (size != -1) return size;
 
     size = 0;
-    if (!getIdBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, id_);
+    if (!getHandleBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, handle_);
     }
     memoizedSize = size;
     return size;
@@ -147,8 +147,8 @@ public  final class Session extends
     ai.h2o.deepwater.backends.grpc.Session other = (ai.h2o.deepwater.backends.grpc.Session) obj;
 
     boolean result = true;
-    result = result && getId()
-        .equals(other.getId());
+    result = result && getHandle()
+        .equals(other.getHandle());
     return result;
   }
 
@@ -159,8 +159,8 @@ public  final class Session extends
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptorForType().hashCode();
-    hash = (37 * hash) + ID_FIELD_NUMBER;
-    hash = (53 * hash) + getId().hashCode();
+    hash = (37 * hash) + HANDLE_FIELD_NUMBER;
+    hash = (53 * hash) + getHandle().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -279,7 +279,7 @@ public  final class Session extends
     }
     public Builder clear() {
       super.clear();
-      id_ = "";
+      handle_ = "";
 
       return this;
     }
@@ -303,7 +303,7 @@ public  final class Session extends
 
     public ai.h2o.deepwater.backends.grpc.Session buildPartial() {
       ai.h2o.deepwater.backends.grpc.Session result = new ai.h2o.deepwater.backends.grpc.Session(this);
-      result.id_ = id_;
+      result.handle_ = handle_;
       onBuilt();
       return result;
     }
@@ -345,8 +345,8 @@ public  final class Session extends
 
     public Builder mergeFrom(ai.h2o.deepwater.backends.grpc.Session other) {
       if (other == ai.h2o.deepwater.backends.grpc.Session.getDefaultInstance()) return this;
-      if (!other.getId().isEmpty()) {
-        id_ = other.id_;
+      if (!other.getHandle().isEmpty()) {
+        handle_ = other.handle_;
         onChanged();
       }
       onChanged();
@@ -375,71 +375,71 @@ public  final class Session extends
       return this;
     }
 
-    private java.lang.Object id_ = "";
+    private java.lang.Object handle_ = "";
     /**
-     * <code>optional string id = 1;</code>
+     * <code>optional string handle = 1;</code>
      */
-    public java.lang.String getId() {
-      java.lang.Object ref = id_;
+    public java.lang.String getHandle() {
+      java.lang.Object ref = handle_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        id_ = s;
+        handle_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>optional string id = 1;</code>
+     * <code>optional string handle = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getIdBytes() {
-      java.lang.Object ref = id_;
+        getHandleBytes() {
+      java.lang.Object ref = handle_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        id_ = b;
+        handle_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>optional string id = 1;</code>
+     * <code>optional string handle = 1;</code>
      */
-    public Builder setId(
+    public Builder setHandle(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      id_ = value;
+      handle_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional string id = 1;</code>
+     * <code>optional string handle = 1;</code>
      */
-    public Builder clearId() {
+    public Builder clearHandle() {
       
-      id_ = getDefaultInstance().getId();
+      handle_ = getDefaultInstance().getHandle();
       onChanged();
       return this;
     }
     /**
-     * <code>optional string id = 1;</code>
+     * <code>optional string handle = 1;</code>
      */
-    public Builder setIdBytes(
+    public Builder setHandleBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      id_ = value;
+      handle_ = value;
       onChanged();
       return this;
     }

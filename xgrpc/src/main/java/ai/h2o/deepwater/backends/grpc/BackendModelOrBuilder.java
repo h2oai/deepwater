@@ -8,7 +8,12 @@ public interface BackendModelOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>optional bytes state = 1;</code>
+   * <code>optional bytes id = 1;</code>
+   */
+  com.google.protobuf.ByteString getId();
+
+  /**
+   * <code>optional bytes state = 2;</code>
    */
   com.google.protobuf.ByteString getState();
 }

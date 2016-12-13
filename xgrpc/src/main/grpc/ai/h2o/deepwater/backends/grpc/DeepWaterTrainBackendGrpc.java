@@ -37,13 +37,22 @@ public class DeepWaterTrainBackendGrpc {
           io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.CreateModelRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.CreateModelResponse.getDefaultInstance()));
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.DeleteModelRequest,
-      ai.h2o.deepwater.backends.grpc.Status> METHOD_DELETE_MODEL =
+  public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.CreateSessionRequest,
+      ai.h2o.deepwater.backends.grpc.CreateSessionResponse> METHOD_CREATE_SESSION =
       io.grpc.MethodDescriptor.create(
           io.grpc.MethodDescriptor.MethodType.UNARY,
           generateFullMethodName(
-              "deepwater.DeepWaterTrainBackend", "DeleteModel"),
-          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.DeleteModelRequest.getDefaultInstance()),
+              "deepwater.DeepWaterTrainBackend", "CreateSession"),
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.CreateSessionRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.CreateSessionResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.DeleteSessionRequest,
+      ai.h2o.deepwater.backends.grpc.Status> METHOD_DELETE_SESSION =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "deepwater.DeepWaterTrainBackend", "DeleteSession"),
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.DeleteSessionRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.Status.getDefaultInstance()));
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.LoadModelRequest,
@@ -145,9 +154,16 @@ public class DeepWaterTrainBackendGrpc {
 
     /**
      */
-    public void deleteModel(ai.h2o.deepwater.backends.grpc.DeleteModelRequest request,
+    public void createSession(ai.h2o.deepwater.backends.grpc.CreateSessionRequest request,
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.CreateSessionResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_CREATE_SESSION, responseObserver);
+    }
+
+    /**
+     */
+    public void deleteSession(ai.h2o.deepwater.backends.grpc.DeleteSessionRequest request,
         io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_DELETE_MODEL, responseObserver);
+      asyncUnimplementedUnaryCall(METHOD_DELETE_SESSION, responseObserver);
     }
 
     /**
@@ -209,12 +225,19 @@ public class DeepWaterTrainBackendGrpc {
                 ai.h2o.deepwater.backends.grpc.CreateModelResponse>(
                   this, METHODID_CREATE_MODEL)))
           .addMethod(
-            METHOD_DELETE_MODEL,
+            METHOD_CREATE_SESSION,
             asyncUnaryCall(
               new MethodHandlers<
-                ai.h2o.deepwater.backends.grpc.DeleteModelRequest,
+                ai.h2o.deepwater.backends.grpc.CreateSessionRequest,
+                ai.h2o.deepwater.backends.grpc.CreateSessionResponse>(
+                  this, METHODID_CREATE_SESSION)))
+          .addMethod(
+            METHOD_DELETE_SESSION,
+            asyncUnaryCall(
+              new MethodHandlers<
+                ai.h2o.deepwater.backends.grpc.DeleteSessionRequest,
                 ai.h2o.deepwater.backends.grpc.Status>(
-                  this, METHODID_DELETE_MODEL)))
+                  this, METHODID_DELETE_SESSION)))
           .addMethod(
             METHOD_LOAD_MODEL,
             asyncUnaryCall(
@@ -296,10 +319,18 @@ public class DeepWaterTrainBackendGrpc {
 
     /**
      */
-    public void deleteModel(ai.h2o.deepwater.backends.grpc.DeleteModelRequest request,
+    public void createSession(ai.h2o.deepwater.backends.grpc.CreateSessionRequest request,
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.CreateSessionResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_CREATE_SESSION, getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void deleteSession(ai.h2o.deepwater.backends.grpc.DeleteSessionRequest request,
         io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_DELETE_MODEL, getCallOptions()), request, responseObserver);
+          getChannel().newCall(METHOD_DELETE_SESSION, getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -386,9 +417,16 @@ public class DeepWaterTrainBackendGrpc {
 
     /**
      */
-    public ai.h2o.deepwater.backends.grpc.Status deleteModel(ai.h2o.deepwater.backends.grpc.DeleteModelRequest request) {
+    public ai.h2o.deepwater.backends.grpc.CreateSessionResponse createSession(ai.h2o.deepwater.backends.grpc.CreateSessionRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_DELETE_MODEL, getCallOptions(), request);
+          getChannel(), METHOD_CREATE_SESSION, getCallOptions(), request);
+    }
+
+    /**
+     */
+    public ai.h2o.deepwater.backends.grpc.Status deleteSession(ai.h2o.deepwater.backends.grpc.DeleteSessionRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_DELETE_SESSION, getCallOptions(), request);
     }
 
     /**
@@ -469,10 +507,18 @@ public class DeepWaterTrainBackendGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.Status> deleteModel(
-        ai.h2o.deepwater.backends.grpc.DeleteModelRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.CreateSessionResponse> createSession(
+        ai.h2o.deepwater.backends.grpc.CreateSessionRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_DELETE_MODEL, getCallOptions()), request);
+          getChannel().newCall(METHOD_CREATE_SESSION, getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.Status> deleteSession(
+        ai.h2o.deepwater.backends.grpc.DeleteSessionRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_DELETE_SESSION, getCallOptions()), request);
     }
 
     /**
@@ -533,14 +579,15 @@ public class DeepWaterTrainBackendGrpc {
   }
 
   private static final int METHODID_CREATE_MODEL = 0;
-  private static final int METHODID_DELETE_MODEL = 1;
-  private static final int METHODID_LOAD_MODEL = 2;
-  private static final int METHODID_SAVE_MODEL = 3;
-  private static final int METHODID_LOAD_WEIGHTS = 4;
-  private static final int METHODID_SAVE_WEIGHTS = 5;
-  private static final int METHODID_SET_PARAMETERS = 6;
-  private static final int METHODID_TRAIN = 7;
-  private static final int METHODID_PREDICT = 8;
+  private static final int METHODID_CREATE_SESSION = 1;
+  private static final int METHODID_DELETE_SESSION = 2;
+  private static final int METHODID_LOAD_MODEL = 3;
+  private static final int METHODID_SAVE_MODEL = 4;
+  private static final int METHODID_LOAD_WEIGHTS = 5;
+  private static final int METHODID_SAVE_WEIGHTS = 6;
+  private static final int METHODID_SET_PARAMETERS = 7;
+  private static final int METHODID_TRAIN = 8;
+  private static final int METHODID_PREDICT = 9;
 
   private static class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -563,8 +610,12 @@ public class DeepWaterTrainBackendGrpc {
           serviceImpl.createModel((ai.h2o.deepwater.backends.grpc.CreateModelRequest) request,
               (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.CreateModelResponse>) responseObserver);
           break;
-        case METHODID_DELETE_MODEL:
-          serviceImpl.deleteModel((ai.h2o.deepwater.backends.grpc.DeleteModelRequest) request,
+        case METHODID_CREATE_SESSION:
+          serviceImpl.createSession((ai.h2o.deepwater.backends.grpc.CreateSessionRequest) request,
+              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.CreateSessionResponse>) responseObserver);
+          break;
+        case METHODID_DELETE_SESSION:
+          serviceImpl.deleteSession((ai.h2o.deepwater.backends.grpc.DeleteSessionRequest) request,
               (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status>) responseObserver);
           break;
         case METHODID_LOAD_MODEL:
@@ -614,7 +665,8 @@ public class DeepWaterTrainBackendGrpc {
   public static io.grpc.ServiceDescriptor getServiceDescriptor() {
     return new io.grpc.ServiceDescriptor(SERVICE_NAME,
         METHOD_CREATE_MODEL,
-        METHOD_DELETE_MODEL,
+        METHOD_CREATE_SESSION,
+        METHOD_DELETE_SESSION,
         METHOD_LOAD_MODEL,
         METHOD_SAVE_MODEL,
         METHOD_LOAD_WEIGHTS,

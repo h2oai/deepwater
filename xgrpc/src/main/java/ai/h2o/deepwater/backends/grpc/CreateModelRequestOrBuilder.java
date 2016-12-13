@@ -8,21 +8,34 @@ public interface CreateModelRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>optional string modelName = 1;</code>
+   * <code>optional .deepwater.Session session = 1;</code>
+   */
+  boolean hasSession();
+  /**
+   * <code>optional .deepwater.Session session = 1;</code>
+   */
+  ai.h2o.deepwater.backends.grpc.Session getSession();
+  /**
+   * <code>optional .deepwater.Session session = 1;</code>
+   */
+  ai.h2o.deepwater.backends.grpc.SessionOrBuilder getSessionOrBuilder();
+
+  /**
+   * <code>optional string modelName = 2;</code>
    */
   java.lang.String getModelName();
   /**
-   * <code>optional string modelName = 1;</code>
+   * <code>optional string modelName = 2;</code>
    */
   com.google.protobuf.ByteString
       getModelNameBytes();
 
   /**
-   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
    */
   int getParamsCount();
   /**
-   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
    */
   boolean containsParams(
       java.lang.String key);
@@ -33,19 +46,19 @@ public interface CreateModelRequestOrBuilder extends
   java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>
   getParams();
   /**
-   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
    */
   java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>
   getParamsMap();
   /**
-   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
    */
 
   ai.h2o.deepwater.backends.grpc.ParamValue getParamsOrDefault(
       java.lang.String key,
       ai.h2o.deepwater.backends.grpc.ParamValue defaultValue);
   /**
-   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 2;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
    */
 
   ai.h2o.deepwater.backends.grpc.ParamValue getParamsOrThrow(

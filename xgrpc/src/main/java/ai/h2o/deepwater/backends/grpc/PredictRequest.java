@@ -45,6 +45,19 @@ public  final class PredictRequest extends
             break;
           }
           case 10: {
+            ai.h2o.deepwater.backends.grpc.Session.Builder subBuilder = null;
+            if (session_ != null) {
+              subBuilder = session_.toBuilder();
+            }
+            session_ = input.readMessage(ai.h2o.deepwater.backends.grpc.Session.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(session_);
+              session_ = subBuilder.buildPartial();
+            }
+
+            break;
+          }
+          case 18: {
             ai.h2o.deepwater.backends.grpc.BackendModel.Builder subBuilder = null;
             if (model_ != null) {
               subBuilder = model_.toBuilder();
@@ -57,19 +70,19 @@ public  final class PredictRequest extends
 
             break;
           }
-          case 18: {
-            if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          case 26: {
+            if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
               feeds_ = new java.util.ArrayList<ai.h2o.deepwater.backends.grpc.Tensor>();
-              mutable_bitField0_ |= 0x00000002;
+              mutable_bitField0_ |= 0x00000004;
             }
             feeds_.add(
                 input.readMessage(ai.h2o.deepwater.backends.grpc.Tensor.parser(), extensionRegistry));
             break;
           }
-          case 26: {
-            if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          case 34: {
+            if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
               fetches_ = new java.util.ArrayList<ai.h2o.deepwater.backends.grpc.Tensor>();
-              mutable_bitField0_ |= 0x00000004;
+              mutable_bitField0_ |= 0x00000008;
             }
             fetches_.add(
                 input.readMessage(ai.h2o.deepwater.backends.grpc.Tensor.parser(), extensionRegistry));
@@ -83,10 +96,10 @@ public  final class PredictRequest extends
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
-      if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
         feeds_ = java.util.Collections.unmodifiableList(feeds_);
       }
-      if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
         fetches_ = java.util.Collections.unmodifiableList(fetches_);
       }
       makeExtensionsImmutable();
@@ -105,91 +118,112 @@ public  final class PredictRequest extends
   }
 
   private int bitField0_;
-  public static final int MODEL_FIELD_NUMBER = 1;
+  public static final int SESSION_FIELD_NUMBER = 1;
+  private ai.h2o.deepwater.backends.grpc.Session session_;
+  /**
+   * <code>optional .deepwater.Session session = 1;</code>
+   */
+  public boolean hasSession() {
+    return session_ != null;
+  }
+  /**
+   * <code>optional .deepwater.Session session = 1;</code>
+   */
+  public ai.h2o.deepwater.backends.grpc.Session getSession() {
+    return session_ == null ? ai.h2o.deepwater.backends.grpc.Session.getDefaultInstance() : session_;
+  }
+  /**
+   * <code>optional .deepwater.Session session = 1;</code>
+   */
+  public ai.h2o.deepwater.backends.grpc.SessionOrBuilder getSessionOrBuilder() {
+    return getSession();
+  }
+
+  public static final int MODEL_FIELD_NUMBER = 2;
   private ai.h2o.deepwater.backends.grpc.BackendModel model_;
   /**
-   * <code>optional .deepwater.BackendModel model = 1;</code>
+   * <code>optional .deepwater.BackendModel model = 2;</code>
    */
   public boolean hasModel() {
     return model_ != null;
   }
   /**
-   * <code>optional .deepwater.BackendModel model = 1;</code>
+   * <code>optional .deepwater.BackendModel model = 2;</code>
    */
   public ai.h2o.deepwater.backends.grpc.BackendModel getModel() {
     return model_ == null ? ai.h2o.deepwater.backends.grpc.BackendModel.getDefaultInstance() : model_;
   }
   /**
-   * <code>optional .deepwater.BackendModel model = 1;</code>
+   * <code>optional .deepwater.BackendModel model = 2;</code>
    */
   public ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder getModelOrBuilder() {
     return getModel();
   }
 
-  public static final int FEEDS_FIELD_NUMBER = 2;
+  public static final int FEEDS_FIELD_NUMBER = 3;
   private java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> feeds_;
   /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
+   * <code>repeated .deepwater.Tensor feeds = 3;</code>
    */
   public java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> getFeedsList() {
     return feeds_;
   }
   /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
+   * <code>repeated .deepwater.Tensor feeds = 3;</code>
    */
   public java.util.List<? extends ai.h2o.deepwater.backends.grpc.TensorOrBuilder> 
       getFeedsOrBuilderList() {
     return feeds_;
   }
   /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
+   * <code>repeated .deepwater.Tensor feeds = 3;</code>
    */
   public int getFeedsCount() {
     return feeds_.size();
   }
   /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
+   * <code>repeated .deepwater.Tensor feeds = 3;</code>
    */
   public ai.h2o.deepwater.backends.grpc.Tensor getFeeds(int index) {
     return feeds_.get(index);
   }
   /**
-   * <code>repeated .deepwater.Tensor feeds = 2;</code>
+   * <code>repeated .deepwater.Tensor feeds = 3;</code>
    */
   public ai.h2o.deepwater.backends.grpc.TensorOrBuilder getFeedsOrBuilder(
       int index) {
     return feeds_.get(index);
   }
 
-  public static final int FETCHES_FIELD_NUMBER = 3;
+  public static final int FETCHES_FIELD_NUMBER = 4;
   private java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> fetches_;
   /**
-   * <code>repeated .deepwater.Tensor fetches = 3;</code>
+   * <code>repeated .deepwater.Tensor fetches = 4;</code>
    */
   public java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> getFetchesList() {
     return fetches_;
   }
   /**
-   * <code>repeated .deepwater.Tensor fetches = 3;</code>
+   * <code>repeated .deepwater.Tensor fetches = 4;</code>
    */
   public java.util.List<? extends ai.h2o.deepwater.backends.grpc.TensorOrBuilder> 
       getFetchesOrBuilderList() {
     return fetches_;
   }
   /**
-   * <code>repeated .deepwater.Tensor fetches = 3;</code>
+   * <code>repeated .deepwater.Tensor fetches = 4;</code>
    */
   public int getFetchesCount() {
     return fetches_.size();
   }
   /**
-   * <code>repeated .deepwater.Tensor fetches = 3;</code>
+   * <code>repeated .deepwater.Tensor fetches = 4;</code>
    */
   public ai.h2o.deepwater.backends.grpc.Tensor getFetches(int index) {
     return fetches_.get(index);
   }
   /**
-   * <code>repeated .deepwater.Tensor fetches = 3;</code>
+   * <code>repeated .deepwater.Tensor fetches = 4;</code>
    */
   public ai.h2o.deepwater.backends.grpc.TensorOrBuilder getFetchesOrBuilder(
       int index) {
@@ -208,14 +242,17 @@ public  final class PredictRequest extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
+    if (session_ != null) {
+      output.writeMessage(1, getSession());
+    }
     if (model_ != null) {
-      output.writeMessage(1, getModel());
+      output.writeMessage(2, getModel());
     }
     for (int i = 0; i < feeds_.size(); i++) {
-      output.writeMessage(2, feeds_.get(i));
+      output.writeMessage(3, feeds_.get(i));
     }
     for (int i = 0; i < fetches_.size(); i++) {
-      output.writeMessage(3, fetches_.get(i));
+      output.writeMessage(4, fetches_.get(i));
     }
   }
 
@@ -224,17 +261,21 @@ public  final class PredictRequest extends
     if (size != -1) return size;
 
     size = 0;
+    if (session_ != null) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(1, getSession());
+    }
     if (model_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(1, getModel());
+        .computeMessageSize(2, getModel());
     }
     for (int i = 0; i < feeds_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(2, feeds_.get(i));
+        .computeMessageSize(3, feeds_.get(i));
     }
     for (int i = 0; i < fetches_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(3, fetches_.get(i));
+        .computeMessageSize(4, fetches_.get(i));
     }
     memoizedSize = size;
     return size;
@@ -252,6 +293,11 @@ public  final class PredictRequest extends
     ai.h2o.deepwater.backends.grpc.PredictRequest other = (ai.h2o.deepwater.backends.grpc.PredictRequest) obj;
 
     boolean result = true;
+    result = result && (hasSession() == other.hasSession());
+    if (hasSession()) {
+      result = result && getSession()
+          .equals(other.getSession());
+    }
     result = result && (hasModel() == other.hasModel());
     if (hasModel()) {
       result = result && getModel()
@@ -271,6 +317,10 @@ public  final class PredictRequest extends
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptorForType().hashCode();
+    if (hasSession()) {
+      hash = (37 * hash) + SESSION_FIELD_NUMBER;
+      hash = (53 * hash) + getSession().hashCode();
+    }
     if (hasModel()) {
       hash = (37 * hash) + MODEL_FIELD_NUMBER;
       hash = (53 * hash) + getModel().hashCode();
@@ -403,6 +453,12 @@ public  final class PredictRequest extends
     }
     public Builder clear() {
       super.clear();
+      if (sessionBuilder_ == null) {
+        session_ = null;
+      } else {
+        session_ = null;
+        sessionBuilder_ = null;
+      }
       if (modelBuilder_ == null) {
         model_ = null;
       } else {
@@ -411,13 +467,13 @@ public  final class PredictRequest extends
       }
       if (feedsBuilder_ == null) {
         feeds_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
       } else {
         feedsBuilder_.clear();
       }
       if (fetchesBuilder_ == null) {
         fetches_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
       } else {
         fetchesBuilder_.clear();
       }
@@ -445,24 +501,29 @@ public  final class PredictRequest extends
       ai.h2o.deepwater.backends.grpc.PredictRequest result = new ai.h2o.deepwater.backends.grpc.PredictRequest(this);
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
+      if (sessionBuilder_ == null) {
+        result.session_ = session_;
+      } else {
+        result.session_ = sessionBuilder_.build();
+      }
       if (modelBuilder_ == null) {
         result.model_ = model_;
       } else {
         result.model_ = modelBuilder_.build();
       }
       if (feedsBuilder_ == null) {
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
           feeds_ = java.util.Collections.unmodifiableList(feeds_);
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.feeds_ = feeds_;
       } else {
         result.feeds_ = feedsBuilder_.build();
       }
       if (fetchesBuilder_ == null) {
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
           fetches_ = java.util.Collections.unmodifiableList(fetches_);
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000008);
         }
         result.fetches_ = fetches_;
       } else {
@@ -510,6 +571,9 @@ public  final class PredictRequest extends
 
     public Builder mergeFrom(ai.h2o.deepwater.backends.grpc.PredictRequest other) {
       if (other == ai.h2o.deepwater.backends.grpc.PredictRequest.getDefaultInstance()) return this;
+      if (other.hasSession()) {
+        mergeSession(other.getSession());
+      }
       if (other.hasModel()) {
         mergeModel(other.getModel());
       }
@@ -517,7 +581,7 @@ public  final class PredictRequest extends
         if (!other.feeds_.isEmpty()) {
           if (feeds_.isEmpty()) {
             feeds_ = other.feeds_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000004);
           } else {
             ensureFeedsIsMutable();
             feeds_.addAll(other.feeds_);
@@ -530,7 +594,7 @@ public  final class PredictRequest extends
             feedsBuilder_.dispose();
             feedsBuilder_ = null;
             feeds_ = other.feeds_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000004);
             feedsBuilder_ = 
               com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getFeedsFieldBuilder() : null;
@@ -543,7 +607,7 @@ public  final class PredictRequest extends
         if (!other.fetches_.isEmpty()) {
           if (fetches_.isEmpty()) {
             fetches_ = other.fetches_;
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000008);
           } else {
             ensureFetchesIsMutable();
             fetches_.addAll(other.fetches_);
@@ -556,7 +620,7 @@ public  final class PredictRequest extends
             fetchesBuilder_.dispose();
             fetchesBuilder_ = null;
             fetches_ = other.fetches_;
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000008);
             fetchesBuilder_ = 
               com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getFetchesFieldBuilder() : null;
@@ -592,17 +656,134 @@ public  final class PredictRequest extends
     }
     private int bitField0_;
 
+    private ai.h2o.deepwater.backends.grpc.Session session_ = null;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        ai.h2o.deepwater.backends.grpc.Session, ai.h2o.deepwater.backends.grpc.Session.Builder, ai.h2o.deepwater.backends.grpc.SessionOrBuilder> sessionBuilder_;
+    /**
+     * <code>optional .deepwater.Session session = 1;</code>
+     */
+    public boolean hasSession() {
+      return sessionBuilder_ != null || session_ != null;
+    }
+    /**
+     * <code>optional .deepwater.Session session = 1;</code>
+     */
+    public ai.h2o.deepwater.backends.grpc.Session getSession() {
+      if (sessionBuilder_ == null) {
+        return session_ == null ? ai.h2o.deepwater.backends.grpc.Session.getDefaultInstance() : session_;
+      } else {
+        return sessionBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>optional .deepwater.Session session = 1;</code>
+     */
+    public Builder setSession(ai.h2o.deepwater.backends.grpc.Session value) {
+      if (sessionBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        session_ = value;
+        onChanged();
+      } else {
+        sessionBuilder_.setMessage(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .deepwater.Session session = 1;</code>
+     */
+    public Builder setSession(
+        ai.h2o.deepwater.backends.grpc.Session.Builder builderForValue) {
+      if (sessionBuilder_ == null) {
+        session_ = builderForValue.build();
+        onChanged();
+      } else {
+        sessionBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .deepwater.Session session = 1;</code>
+     */
+    public Builder mergeSession(ai.h2o.deepwater.backends.grpc.Session value) {
+      if (sessionBuilder_ == null) {
+        if (session_ != null) {
+          session_ =
+            ai.h2o.deepwater.backends.grpc.Session.newBuilder(session_).mergeFrom(value).buildPartial();
+        } else {
+          session_ = value;
+        }
+        onChanged();
+      } else {
+        sessionBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .deepwater.Session session = 1;</code>
+     */
+    public Builder clearSession() {
+      if (sessionBuilder_ == null) {
+        session_ = null;
+        onChanged();
+      } else {
+        session_ = null;
+        sessionBuilder_ = null;
+      }
+
+      return this;
+    }
+    /**
+     * <code>optional .deepwater.Session session = 1;</code>
+     */
+    public ai.h2o.deepwater.backends.grpc.Session.Builder getSessionBuilder() {
+      
+      onChanged();
+      return getSessionFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>optional .deepwater.Session session = 1;</code>
+     */
+    public ai.h2o.deepwater.backends.grpc.SessionOrBuilder getSessionOrBuilder() {
+      if (sessionBuilder_ != null) {
+        return sessionBuilder_.getMessageOrBuilder();
+      } else {
+        return session_ == null ?
+            ai.h2o.deepwater.backends.grpc.Session.getDefaultInstance() : session_;
+      }
+    }
+    /**
+     * <code>optional .deepwater.Session session = 1;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        ai.h2o.deepwater.backends.grpc.Session, ai.h2o.deepwater.backends.grpc.Session.Builder, ai.h2o.deepwater.backends.grpc.SessionOrBuilder> 
+        getSessionFieldBuilder() {
+      if (sessionBuilder_ == null) {
+        sessionBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            ai.h2o.deepwater.backends.grpc.Session, ai.h2o.deepwater.backends.grpc.Session.Builder, ai.h2o.deepwater.backends.grpc.SessionOrBuilder>(
+                getSession(),
+                getParentForChildren(),
+                isClean());
+        session_ = null;
+      }
+      return sessionBuilder_;
+    }
+
     private ai.h2o.deepwater.backends.grpc.BackendModel model_ = null;
     private com.google.protobuf.SingleFieldBuilderV3<
         ai.h2o.deepwater.backends.grpc.BackendModel, ai.h2o.deepwater.backends.grpc.BackendModel.Builder, ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder> modelBuilder_;
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.BackendModel model = 2;</code>
      */
     public boolean hasModel() {
       return modelBuilder_ != null || model_ != null;
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.BackendModel model = 2;</code>
      */
     public ai.h2o.deepwater.backends.grpc.BackendModel getModel() {
       if (modelBuilder_ == null) {
@@ -612,7 +793,7 @@ public  final class PredictRequest extends
       }
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.BackendModel model = 2;</code>
      */
     public Builder setModel(ai.h2o.deepwater.backends.grpc.BackendModel value) {
       if (modelBuilder_ == null) {
@@ -628,7 +809,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.BackendModel model = 2;</code>
      */
     public Builder setModel(
         ai.h2o.deepwater.backends.grpc.BackendModel.Builder builderForValue) {
@@ -642,7 +823,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.BackendModel model = 2;</code>
      */
     public Builder mergeModel(ai.h2o.deepwater.backends.grpc.BackendModel value) {
       if (modelBuilder_ == null) {
@@ -660,7 +841,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.BackendModel model = 2;</code>
      */
     public Builder clearModel() {
       if (modelBuilder_ == null) {
@@ -674,7 +855,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.BackendModel model = 2;</code>
      */
     public ai.h2o.deepwater.backends.grpc.BackendModel.Builder getModelBuilder() {
       
@@ -682,7 +863,7 @@ public  final class PredictRequest extends
       return getModelFieldBuilder().getBuilder();
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.BackendModel model = 2;</code>
      */
     public ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder getModelOrBuilder() {
       if (modelBuilder_ != null) {
@@ -693,7 +874,7 @@ public  final class PredictRequest extends
       }
     }
     /**
-     * <code>optional .deepwater.BackendModel model = 1;</code>
+     * <code>optional .deepwater.BackendModel model = 2;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         ai.h2o.deepwater.backends.grpc.BackendModel, ai.h2o.deepwater.backends.grpc.BackendModel.Builder, ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder> 
@@ -712,9 +893,9 @@ public  final class PredictRequest extends
     private java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> feeds_ =
       java.util.Collections.emptyList();
     private void ensureFeedsIsMutable() {
-      if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (!((bitField0_ & 0x00000004) == 0x00000004)) {
         feeds_ = new java.util.ArrayList<ai.h2o.deepwater.backends.grpc.Tensor>(feeds_);
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
        }
     }
 
@@ -722,7 +903,7 @@ public  final class PredictRequest extends
         ai.h2o.deepwater.backends.grpc.Tensor, ai.h2o.deepwater.backends.grpc.Tensor.Builder, ai.h2o.deepwater.backends.grpc.TensorOrBuilder> feedsBuilder_;
 
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> getFeedsList() {
       if (feedsBuilder_ == null) {
@@ -732,7 +913,7 @@ public  final class PredictRequest extends
       }
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public int getFeedsCount() {
       if (feedsBuilder_ == null) {
@@ -742,7 +923,7 @@ public  final class PredictRequest extends
       }
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public ai.h2o.deepwater.backends.grpc.Tensor getFeeds(int index) {
       if (feedsBuilder_ == null) {
@@ -752,7 +933,7 @@ public  final class PredictRequest extends
       }
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public Builder setFeeds(
         int index, ai.h2o.deepwater.backends.grpc.Tensor value) {
@@ -769,7 +950,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public Builder setFeeds(
         int index, ai.h2o.deepwater.backends.grpc.Tensor.Builder builderForValue) {
@@ -783,7 +964,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public Builder addFeeds(ai.h2o.deepwater.backends.grpc.Tensor value) {
       if (feedsBuilder_ == null) {
@@ -799,7 +980,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public Builder addFeeds(
         int index, ai.h2o.deepwater.backends.grpc.Tensor value) {
@@ -816,7 +997,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public Builder addFeeds(
         ai.h2o.deepwater.backends.grpc.Tensor.Builder builderForValue) {
@@ -830,7 +1011,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public Builder addFeeds(
         int index, ai.h2o.deepwater.backends.grpc.Tensor.Builder builderForValue) {
@@ -844,7 +1025,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public Builder addAllFeeds(
         java.lang.Iterable<? extends ai.h2o.deepwater.backends.grpc.Tensor> values) {
@@ -859,12 +1040,12 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public Builder clearFeeds() {
       if (feedsBuilder_ == null) {
         feeds_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
       } else {
         feedsBuilder_.clear();
@@ -872,7 +1053,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public Builder removeFeeds(int index) {
       if (feedsBuilder_ == null) {
@@ -885,14 +1066,14 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public ai.h2o.deepwater.backends.grpc.Tensor.Builder getFeedsBuilder(
         int index) {
       return getFeedsFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public ai.h2o.deepwater.backends.grpc.TensorOrBuilder getFeedsOrBuilder(
         int index) {
@@ -902,7 +1083,7 @@ public  final class PredictRequest extends
       }
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public java.util.List<? extends ai.h2o.deepwater.backends.grpc.TensorOrBuilder> 
          getFeedsOrBuilderList() {
@@ -913,14 +1094,14 @@ public  final class PredictRequest extends
       }
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public ai.h2o.deepwater.backends.grpc.Tensor.Builder addFeedsBuilder() {
       return getFeedsFieldBuilder().addBuilder(
           ai.h2o.deepwater.backends.grpc.Tensor.getDefaultInstance());
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public ai.h2o.deepwater.backends.grpc.Tensor.Builder addFeedsBuilder(
         int index) {
@@ -928,7 +1109,7 @@ public  final class PredictRequest extends
           index, ai.h2o.deepwater.backends.grpc.Tensor.getDefaultInstance());
     }
     /**
-     * <code>repeated .deepwater.Tensor feeds = 2;</code>
+     * <code>repeated .deepwater.Tensor feeds = 3;</code>
      */
     public java.util.List<ai.h2o.deepwater.backends.grpc.Tensor.Builder> 
          getFeedsBuilderList() {
@@ -941,7 +1122,7 @@ public  final class PredictRequest extends
         feedsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             ai.h2o.deepwater.backends.grpc.Tensor, ai.h2o.deepwater.backends.grpc.Tensor.Builder, ai.h2o.deepwater.backends.grpc.TensorOrBuilder>(
                 feeds_,
-                ((bitField0_ & 0x00000002) == 0x00000002),
+                ((bitField0_ & 0x00000004) == 0x00000004),
                 getParentForChildren(),
                 isClean());
         feeds_ = null;
@@ -952,9 +1133,9 @@ public  final class PredictRequest extends
     private java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> fetches_ =
       java.util.Collections.emptyList();
     private void ensureFetchesIsMutable() {
-      if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (!((bitField0_ & 0x00000008) == 0x00000008)) {
         fetches_ = new java.util.ArrayList<ai.h2o.deepwater.backends.grpc.Tensor>(fetches_);
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
        }
     }
 
@@ -962,7 +1143,7 @@ public  final class PredictRequest extends
         ai.h2o.deepwater.backends.grpc.Tensor, ai.h2o.deepwater.backends.grpc.Tensor.Builder, ai.h2o.deepwater.backends.grpc.TensorOrBuilder> fetchesBuilder_;
 
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public java.util.List<ai.h2o.deepwater.backends.grpc.Tensor> getFetchesList() {
       if (fetchesBuilder_ == null) {
@@ -972,7 +1153,7 @@ public  final class PredictRequest extends
       }
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public int getFetchesCount() {
       if (fetchesBuilder_ == null) {
@@ -982,7 +1163,7 @@ public  final class PredictRequest extends
       }
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public ai.h2o.deepwater.backends.grpc.Tensor getFetches(int index) {
       if (fetchesBuilder_ == null) {
@@ -992,7 +1173,7 @@ public  final class PredictRequest extends
       }
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public Builder setFetches(
         int index, ai.h2o.deepwater.backends.grpc.Tensor value) {
@@ -1009,7 +1190,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public Builder setFetches(
         int index, ai.h2o.deepwater.backends.grpc.Tensor.Builder builderForValue) {
@@ -1023,7 +1204,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public Builder addFetches(ai.h2o.deepwater.backends.grpc.Tensor value) {
       if (fetchesBuilder_ == null) {
@@ -1039,7 +1220,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public Builder addFetches(
         int index, ai.h2o.deepwater.backends.grpc.Tensor value) {
@@ -1056,7 +1237,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public Builder addFetches(
         ai.h2o.deepwater.backends.grpc.Tensor.Builder builderForValue) {
@@ -1070,7 +1251,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public Builder addFetches(
         int index, ai.h2o.deepwater.backends.grpc.Tensor.Builder builderForValue) {
@@ -1084,7 +1265,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public Builder addAllFetches(
         java.lang.Iterable<? extends ai.h2o.deepwater.backends.grpc.Tensor> values) {
@@ -1099,12 +1280,12 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public Builder clearFetches() {
       if (fetchesBuilder_ == null) {
         fetches_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         onChanged();
       } else {
         fetchesBuilder_.clear();
@@ -1112,7 +1293,7 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public Builder removeFetches(int index) {
       if (fetchesBuilder_ == null) {
@@ -1125,14 +1306,14 @@ public  final class PredictRequest extends
       return this;
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public ai.h2o.deepwater.backends.grpc.Tensor.Builder getFetchesBuilder(
         int index) {
       return getFetchesFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public ai.h2o.deepwater.backends.grpc.TensorOrBuilder getFetchesOrBuilder(
         int index) {
@@ -1142,7 +1323,7 @@ public  final class PredictRequest extends
       }
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public java.util.List<? extends ai.h2o.deepwater.backends.grpc.TensorOrBuilder> 
          getFetchesOrBuilderList() {
@@ -1153,14 +1334,14 @@ public  final class PredictRequest extends
       }
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public ai.h2o.deepwater.backends.grpc.Tensor.Builder addFetchesBuilder() {
       return getFetchesFieldBuilder().addBuilder(
           ai.h2o.deepwater.backends.grpc.Tensor.getDefaultInstance());
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public ai.h2o.deepwater.backends.grpc.Tensor.Builder addFetchesBuilder(
         int index) {
@@ -1168,7 +1349,7 @@ public  final class PredictRequest extends
           index, ai.h2o.deepwater.backends.grpc.Tensor.getDefaultInstance());
     }
     /**
-     * <code>repeated .deepwater.Tensor fetches = 3;</code>
+     * <code>repeated .deepwater.Tensor fetches = 4;</code>
      */
     public java.util.List<ai.h2o.deepwater.backends.grpc.Tensor.Builder> 
          getFetchesBuilderList() {
@@ -1181,7 +1362,7 @@ public  final class PredictRequest extends
         fetchesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             ai.h2o.deepwater.backends.grpc.Tensor, ai.h2o.deepwater.backends.grpc.Tensor.Builder, ai.h2o.deepwater.backends.grpc.TensorOrBuilder>(
                 fetches_,
-                ((bitField0_ & 0x00000004) == 0x00000004),
+                ((bitField0_ & 0x00000008) == 0x00000008),
                 getParentForChildren(),
                 isClean());
         fetches_ = null;
