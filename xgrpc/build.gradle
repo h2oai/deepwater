@@ -6,13 +6,15 @@ apply plugin: 'maven'
 apply plugin: 'com.google.protobuf'
 apply plugin: 'scala'
 
+compileJava.enabled = false
+
 sourceSets {
     main {
-        java {
-            srcDirs "${rootDir}/xgrpc/src/main/grpc"
-        }
         scala {
-            srcDirs "${rootDir}/xgrpc/src/main/scala"
+            srcDirs += ["src/main/scala", "src/main/grpc", "src/main/java"]
+        }
+        java {
+            srcDirs = []
         }
     }
 }

@@ -4,7 +4,7 @@ import deepwater.backends.BackendModel;
 import deepwater.backends.BackendParams;
 import deepwater.backends.RuntimeOptions;
 import deepwater.backends.grpc.Client;
-import deepwater.backends.grpc.GRPCBackendTrain;
+import deepwater.backends.grpc.XGRPCBackendTrain;
 import deepwater.datasets.BatchIterator;
 import deepwater.datasets.ImageBatch;
 import deepwater.datasets.MNISTImageDataset;
@@ -27,7 +27,7 @@ public class TestDeepWaterGRPC {
     private static PythonWorkerPool pypool;
 
     private Client client;
-    private GRPCBackendTrain backend;
+    private XGRPCBackendTrain backend;
 
     @BeforeClass
     public static void startPythonDaemon(){
@@ -48,7 +48,7 @@ public class TestDeepWaterGRPC {
         pypool.createPythonWorker(userHome + "/anaconda3/envs/deepwater/bin/python", env);
         client = new Client("localhost", 50051);
 
-        backend = new GRPCBackendTrain("localhost", 50051);
+        backend = new XGRPCBackendTrain("localhost", 50051);
 
     }
 

@@ -10,16 +10,26 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import deepwater.utils.PythonWorkerPool;
 
-
-public class GRPCBackendTrain implements BackendTrain {
+public class XGRPCBackendTrain implements BackendTrain {
 
     // assumes the current class is called MyLogger
-    private final static Logger log = Logger.getLogger(GRPCBackendTrain.class.getName());
+    private final static Logger log = Logger.getLogger(XGRPCBackendTrain.class.getName());
 
     private final Client client;
 
-    public GRPCBackendTrain(String host, int port){
+    private static PythonWorkerPool pypool = new PythonWorkerPool();
+
+    public XGRPCBackendTrain() {
+        HashMap<String, String> env = new HashMap<>();
+        String userHome = System.getProperty("user.home");
+        env.put("PYTHONPATH", userHome + "/deepwater/xgrpc/src/main/python/");
+        env.put("LD_LIBRARY_PATH", "/usr/local/cuda/lib64");
+        pypool.createPythonWorker(userHome + "/anaconda3/envs/deepwater/bin/python", env);
+        client = new Client("localhost", 50051);
+    }
+    public XGRPCBackendTrain(String host, int port){
         client = new Client(host, port);
     }
 
