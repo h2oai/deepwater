@@ -42,6 +42,9 @@ public class Client {
         else if (value.getClass() == java.lang.Long.class){
             return asParam((Long) value);
         }
+        else if (value.getClass() == java.lang.Double.class){
+            return asParam((Double) value);
+        }
         else if (value.getClass() == java.lang.Integer.class){
             return asParam((Integer) value);
         }
@@ -60,9 +63,14 @@ public class Client {
         return ParamValue.newBuilder().setI(value).build();
     }
 
+    public ParamValue asParam(Double value){
+        return ParamValue.newBuilder().setD(value).build();
+    }
+
     public ParamValue asParam(Long value){
         return ParamValue.newBuilder().setI(value).build();
     }
+
 
     public ParamValue asParam(String key){
         return ParamValue.newBuilder().setS(ByteString.copyFromUtf8(key)).build();
