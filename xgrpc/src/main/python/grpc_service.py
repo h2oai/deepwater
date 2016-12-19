@@ -268,6 +268,27 @@ class _Session(object):
     if self._session:
       self._session.close()
 
+  def save_model(self, model, path):
+    self.__init_session_if_required(model)
+    return self._session.run(fetches, feed_dict=feeds)
+
+  def save_weights(self, model, path):
+    self.__init_session_if_required(model)
+    return self._session.run(fetches, feed_dict=feeds)
+
+  def load_weights(self, model, path):
+    self.__init_session_if_required(model)
+    feeds[self._meta['save_filename']] = path
+    feeds[self._meta['global_step']] = self._global_step
+
+    # accuracy = self._session.run(self._meta['accuracy'], feed_dict=feeds)
+
+    return self._session.run(fetches, feed_dict=feeds)
+
+  def save_model(self, model, path):
+    self.__init_session_if_required(model)
+    return self._session.run(fetches, feed_dict=feeds)
+
 
 def convert_tensors(fetches, numpy_tensor_list):
   result = []
@@ -339,7 +360,7 @@ class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
     try:
       session = self._get_session(req)
       model = self._get_model(req)
-      session.save(model, req.path)
+      session.save_model(model, req.path)
       return pb.Status(ok=True)
     except Exception as e:
       traceback.print_exc()
@@ -349,7 +370,7 @@ class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
     try:
       session = self._get_session(req)
       model = self._get_model(req)
-      session.load(model, req.path)
+      session.load_model(model, req.path)
       return pb.Status(ok=True)
     except Exception as e:
       traceback.print_exc()

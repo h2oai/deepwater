@@ -62,7 +62,7 @@ public class TestDeepWaterGRPC {
         backendCanSaveCheckpoint("mlp", 10);
     }
 
-    private void printLoss(float[] loss) {
+    private double printLoss(float[] loss) {
         System.out.print("Test accuracy:");
         double average = 0.0;
         double sum = 0.0;
@@ -72,34 +72,35 @@ public class TestDeepWaterGRPC {
         average = sum / (loss.length * 1.0);
         System.out.print(average);
         System.out.println();
+        return average;
     }
-    @Test
-    public void testSimpleBuildNetwork() throws Exception {
-        String name = "mlp";
-        MNISTImageDataset dataset = new MNISTImageDataset();
-
-        RuntimeOptions opts = new RuntimeOptions();
-        BackendParams backend_params = new BackendParams();
-        int num_classes = dataset.getNumClasses();
-
-        BackendModel model = backend.buildNet(dataset, opts, backend_params, num_classes, name);
-
-        String[] images = new String[]{
-                findFile("bigdata/laptop/mnist/t10k-images-idx3-ubyte.gz"),
-                findFile("bigdata/laptop/mnist/t10k-labels-idx1-ubyte.gz")
-        };
-
-        BatchIterator it = new BatchIterator(dataset, 1, images);
-        ImageBatch b = new ImageBatch(dataset, 10);
-
-        // can predict
-        while(it.next(b)){
-            float result[] = backend.predict(model, b.getImages(), b.getLabels());
-            printLoss(result);
-        }
-
-        backend.delete(model);
-    }
+//    @Test
+//    public void testSimpleBuildNetwork() throws Exception {
+//        String name = "mlp";
+//        MNISTImageDataset dataset = new MNISTImageDataset();
+//
+//        RuntimeOptions opts = new RuntimeOptions();
+//        BackendParams backend_params = new BackendParams();
+//        int num_classes = dataset.getNumClasses();
+//
+//        BackendModel model = backend.buildNet(dataset, opts, backend_params, num_classes, name);
+//
+//        String[] images = new String[]{
+//                findFile("bigdata/laptop/mnist/t10k-images-idx3-ubyte.gz"),
+//                findFile("bigdata/laptop/mnist/t10k-labels-idx1-ubyte.gz")
+//        };
+//
+//        BatchIterator it = new BatchIterator(dataset, 1, images);
+//        ImageBatch b = new ImageBatch(dataset, 10);
+//
+//        // can predict
+//        while(it.next(b)){
+//            float result[] = backend.predict(model, b.getImages(), b.getLabels());
+//            printLoss(result);
+//        }
+//
+//        backend.delete(model);
+//    }
 
 
     private void backendCanSaveCheckpoint(String modelName, int batchSize) throws IOException {
@@ -114,7 +115,7 @@ public class TestDeepWaterGRPC {
         BackendParams params = new BackendParams();
         BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelName);
 
-        float initial = testMNIST(model);
+        double initial = testMNIST(model);
 
         BatchIterator it = new BatchIterator(dataset, 1, train_images);
         ImageBatch b = new ImageBatch(dataset, batchSize);
@@ -123,7 +124,8 @@ public class TestDeepWaterGRPC {
                 backend.train(model, b.getImages(), b.getLabels());
             }
         }
-        float trained = testMNIST(model);
+
+        double trained = testMNIST(model);
 
         //create a temp file
         File modelFile = File.createTempFile("model", ".tmp");
@@ -136,16 +138,17 @@ public class TestDeepWaterGRPC {
 
         backend.loadParam(model2, modelParams.getAbsolutePath());
 
-        float loaded = testMNIST(model2);
+        double loaded = testMNIST(model2);
 
         assert initial < trained: initial;
         assert trained <= loaded: loaded;
 
         backend.delete(model);
+
         backend.delete(model2);
     }
 
-    private float testMNIST(BackendModel model) throws IOException {
+    private double testMNIST(BackendModel model) throws IOException {
 
         MNISTImageDataset dataset = new MNISTImageDataset();
         String[] images = new String[]{
@@ -156,12 +159,13 @@ public class TestDeepWaterGRPC {
         BatchIterator it = new BatchIterator(dataset, 1, images);
         ImageBatch b = new ImageBatch(dataset, 10);
 
+        double averageLoss = 0;
         while(it.next(b)){
             float[] loss = backend.predict(model, b.getImages(), b.getLabels());
-            printLoss(loss);
+            averageLoss = printLoss(loss);
         }
 
 
-        return 0;
+        return averageLoss;
     }
 }
