@@ -361,40 +361,50 @@ class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
       session = self._get_session(req)
       model = self._get_model(req)
       session.save_model(model, req.path)
-      return pb.Status(ok=True)
+      return pb.SaveModelResponse(
+              status=pb.Status(ok=True)
+            )
     except Exception as e:
       traceback.print_exc()
-      return pb.Status(ok=False, message=str(e))
+      return pb.SaveModelResponse(
+        status=pb.Status(ok=False, message=str(e))
+      )
 
   def LoadModel(self, req, ctx):
     try:
       session = self._get_session(req)
       model = self._get_model(req)
       session.load_model(model, req.path)
-      return pb.Status(ok=True)
+      return pb.LoadModelResponse(status=pb.Status(ok=True))
     except Exception as e:
       traceback.print_exc()
-      return pb.Status(ok=False, message=str(e))
+      return pb.LoadModelResponse( 
+        status=pb.Status(ok=False, message=str(e))
+      )
 
   def LoadWeights(self, req, ctx):
     try:
       session = self._get_session(req)
       model = self._get_model(req)
       session.load_weights(model, req.path)
-      return pb.Status(ok=True)
+      return pb.LoadWeightsResponse(status=pb.Status(ok=True))
     except Exception as e:
       traceback.print_exc()
-      return pb.Status(ok=False, message=str(e))
+      return pb.LoadWeightsResponse( 
+        status=pb.Status(ok=False, message=str(e))
+      )
 
   def SaveWeights(self, req, ctx):
     try:
       session = self._get_session(req)
       model = self._get_model(req)
       session.save_weights(model, req.path)
-      return pb.Status(ok=True)
+      return pb.SaveWeightsResponse(status=pb.Status(ok=True))
     except Exception as e:
       traceback.print_exc()
-      return pb.Status(ok=False, message=str(e))
+      return pb.SaveWeightsResponse(
+        status=pb.Status(ok=False, message=str(e))
+      )
 
   def SetParameters(self, req, ctx):
     try:
@@ -404,7 +414,9 @@ class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
       return pb.SetParametersResponse(status=pb.Status(ok=True))
     except Exception as e:
       traceback.print_exc()
-      return pb.Status(ok=False, message=str(e))
+      return pb.SetParametersResponse(
+        status=pb.Status(ok=False, message=str(e))
+      )
 
   def Execute(self, req, ctx):
     try:
@@ -433,10 +445,12 @@ class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
       session = self._get_session(req)
       session.finalize()
       del self.__session_cache[session.handle]
-      return pb.Status(ok=True)
+      return pb.DeleteSessionResponse(status=pb.Status(ok=True))
     except Exception as e:
       traceback.print_exc()
-      return pb.Status(ok=False, message=str(e))
+      return pb.DeleteSessionResponse(
+        status=pb.Status(ok=False, message=str(e))
+      )
 
 
 def serve(infile, outfile):

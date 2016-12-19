@@ -22,8 +22,6 @@ import grpc_service_pb2 as grpc__service__pb2
 import grpc_service_pb2 as grpc__service__pb2
 import grpc_service_pb2 as grpc__service__pb2
 import grpc_service_pb2 as grpc__service__pb2
-import grpc_service_pb2 as grpc__service__pb2
-import grpc_service_pb2 as grpc__service__pb2
 
 
 class DeepWaterPredictBackendStub(object):
@@ -34,16 +32,16 @@ class DeepWaterPredictBackendStub(object):
     Args:
       channel: A grpc.Channel.
     """
-    self.Predict = channel.unary_unary(
-        '/deepwater.DeepWaterPredictBackend/Predict',
-        request_serializer=grpc__service__pb2.PredictRequest.SerializeToString,
-        response_deserializer=grpc__service__pb2.Status.FromString,
+    self.Execute = channel.unary_unary(
+        '/deepwater.DeepWaterPredictBackend/Execute',
+        request_serializer=grpc__service__pb2.ExecuteRequest.SerializeToString,
+        response_deserializer=grpc__service__pb2.ExecuteResponse.FromString,
         )
 
 
 class DeepWaterPredictBackendServicer(object):
 
-  def Predict(self, request, context):
+  def Execute(self, request, context):
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
@@ -51,10 +49,10 @@ class DeepWaterPredictBackendServicer(object):
 
 def add_DeepWaterPredictBackendServicer_to_server(servicer, server):
   rpc_method_handlers = {
-      'Predict': grpc.unary_unary_rpc_method_handler(
-          servicer.Predict,
-          request_deserializer=grpc__service__pb2.PredictRequest.FromString,
-          response_serializer=grpc__service__pb2.Status.SerializeToString,
+      'Execute': grpc.unary_unary_rpc_method_handler(
+          servicer.Execute,
+          request_deserializer=grpc__service__pb2.ExecuteRequest.FromString,
+          response_serializer=grpc__service__pb2.ExecuteResponse.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
@@ -83,42 +81,37 @@ class DeepWaterTrainBackendStub(object):
     self.DeleteSession = channel.unary_unary(
         '/deepwater.DeepWaterTrainBackend/DeleteSession',
         request_serializer=grpc__service__pb2.DeleteSessionRequest.SerializeToString,
-        response_deserializer=grpc__service__pb2.Status.FromString,
+        response_deserializer=grpc__service__pb2.DeleteSessionResponse.FromString,
         )
     self.LoadModel = channel.unary_unary(
         '/deepwater.DeepWaterTrainBackend/LoadModel',
         request_serializer=grpc__service__pb2.LoadModelRequest.SerializeToString,
-        response_deserializer=grpc__service__pb2.Status.FromString,
+        response_deserializer=grpc__service__pb2.LoadModelResponse.FromString,
         )
     self.SaveModel = channel.unary_unary(
         '/deepwater.DeepWaterTrainBackend/SaveModel',
         request_serializer=grpc__service__pb2.SaveModelRequest.SerializeToString,
-        response_deserializer=grpc__service__pb2.Status.FromString,
+        response_deserializer=grpc__service__pb2.SaveModelResponse.FromString,
         )
     self.LoadWeights = channel.unary_unary(
         '/deepwater.DeepWaterTrainBackend/LoadWeights',
         request_serializer=grpc__service__pb2.LoadWeightsRequest.SerializeToString,
-        response_deserializer=grpc__service__pb2.Status.FromString,
+        response_deserializer=grpc__service__pb2.LoadWeightsResponse.FromString,
         )
     self.SaveWeights = channel.unary_unary(
         '/deepwater.DeepWaterTrainBackend/SaveWeights',
         request_serializer=grpc__service__pb2.SaveWeightsRequest.SerializeToString,
-        response_deserializer=grpc__service__pb2.Status.FromString,
+        response_deserializer=grpc__service__pb2.SaveWeightsResponse.FromString,
         )
     self.SetParameters = channel.unary_unary(
         '/deepwater.DeepWaterTrainBackend/SetParameters',
         request_serializer=grpc__service__pb2.SetParametersRequest.SerializeToString,
         response_deserializer=grpc__service__pb2.SetParametersResponse.FromString,
         )
-    self.Train = channel.unary_unary(
-        '/deepwater.DeepWaterTrainBackend/Train',
-        request_serializer=grpc__service__pb2.TrainRequest.SerializeToString,
-        response_deserializer=grpc__service__pb2.TrainResponse.FromString,
-        )
-    self.Predict = channel.unary_unary(
-        '/deepwater.DeepWaterTrainBackend/Predict',
-        request_serializer=grpc__service__pb2.PredictRequest.SerializeToString,
-        response_deserializer=grpc__service__pb2.PredictResponse.FromString,
+    self.Execute = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/Execute',
+        request_serializer=grpc__service__pb2.ExecuteRequest.SerializeToString,
+        response_deserializer=grpc__service__pb2.ExecuteResponse.FromString,
         )
 
 
@@ -164,12 +157,7 @@ class DeepWaterTrainBackendServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def Train(self, request, context):
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
-  def Predict(self, request, context):
+  def Execute(self, request, context):
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
@@ -190,42 +178,37 @@ def add_DeepWaterTrainBackendServicer_to_server(servicer, server):
       'DeleteSession': grpc.unary_unary_rpc_method_handler(
           servicer.DeleteSession,
           request_deserializer=grpc__service__pb2.DeleteSessionRequest.FromString,
-          response_serializer=grpc__service__pb2.Status.SerializeToString,
+          response_serializer=grpc__service__pb2.DeleteSessionResponse.SerializeToString,
       ),
       'LoadModel': grpc.unary_unary_rpc_method_handler(
           servicer.LoadModel,
           request_deserializer=grpc__service__pb2.LoadModelRequest.FromString,
-          response_serializer=grpc__service__pb2.Status.SerializeToString,
+          response_serializer=grpc__service__pb2.LoadModelResponse.SerializeToString,
       ),
       'SaveModel': grpc.unary_unary_rpc_method_handler(
           servicer.SaveModel,
           request_deserializer=grpc__service__pb2.SaveModelRequest.FromString,
-          response_serializer=grpc__service__pb2.Status.SerializeToString,
+          response_serializer=grpc__service__pb2.SaveModelResponse.SerializeToString,
       ),
       'LoadWeights': grpc.unary_unary_rpc_method_handler(
           servicer.LoadWeights,
           request_deserializer=grpc__service__pb2.LoadWeightsRequest.FromString,
-          response_serializer=grpc__service__pb2.Status.SerializeToString,
+          response_serializer=grpc__service__pb2.LoadWeightsResponse.SerializeToString,
       ),
       'SaveWeights': grpc.unary_unary_rpc_method_handler(
           servicer.SaveWeights,
           request_deserializer=grpc__service__pb2.SaveWeightsRequest.FromString,
-          response_serializer=grpc__service__pb2.Status.SerializeToString,
+          response_serializer=grpc__service__pb2.SaveWeightsResponse.SerializeToString,
       ),
       'SetParameters': grpc.unary_unary_rpc_method_handler(
           servicer.SetParameters,
           request_deserializer=grpc__service__pb2.SetParametersRequest.FromString,
           response_serializer=grpc__service__pb2.SetParametersResponse.SerializeToString,
       ),
-      'Train': grpc.unary_unary_rpc_method_handler(
-          servicer.Train,
-          request_deserializer=grpc__service__pb2.TrainRequest.FromString,
-          response_serializer=grpc__service__pb2.TrainResponse.SerializeToString,
-      ),
-      'Predict': grpc.unary_unary_rpc_method_handler(
-          servicer.Predict,
-          request_deserializer=grpc__service__pb2.PredictRequest.FromString,
-          response_serializer=grpc__service__pb2.PredictResponse.SerializeToString,
+      'Execute': grpc.unary_unary_rpc_method_handler(
+          servicer.Execute,
+          request_deserializer=grpc__service__pb2.ExecuteRequest.FromString,
+          response_serializer=grpc__service__pb2.ExecuteResponse.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

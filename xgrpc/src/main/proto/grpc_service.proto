@@ -19,15 +19,15 @@ service DeepWaterTrainBackend {
 
     rpc CreateSession(CreateSessionRequest) returns (CreateSessionResponse) {};
 
-    rpc DeleteSession(DeleteSessionRequest) returns (Status) {};
+    rpc DeleteSession(DeleteSessionRequest) returns (DeleteSessionResponse) {};
 
-    rpc LoadModel(LoadModelRequest) returns (Status) {};
+    rpc LoadModel(LoadModelRequest) returns (LoadModelResponse) {};
 
-    rpc SaveModel(SaveModelRequest) returns (Status) {};
+    rpc SaveModel(SaveModelRequest) returns (SaveModelResponse) {};
 
-    rpc LoadWeights(LoadWeightsRequest) returns (Status) {};
+    rpc LoadWeights(LoadWeightsRequest) returns (LoadWeightsResponse) {};
 
-    rpc SaveWeights(SaveWeightsRequest) returns (Status) {};
+    rpc SaveWeights(SaveWeightsRequest) returns (SaveWeightsResponse) {};
 
     rpc SetParameters(SetParametersRequest) returns (SetParametersResponse) {};
 
@@ -42,10 +42,6 @@ message Session {
 message BackendModel {
     bytes id = 1;
     bytes state = 2;
-}
-
-message DeleteModelRequest {
-    BackendModel model = 1;
 }
 
 message CreateModelRequest {
@@ -73,6 +69,10 @@ message DeleteSessionRequest {
     Session session = 1;
 }
 
+message DeleteSessionResponse {
+    Status  status = 1;
+}
+
 
 message Status {
     bool ok = 1;
@@ -86,10 +86,18 @@ message LoadModelRequest {
     bytes path = 3;
 }
 
+message LoadModelResponse {
+    Status  status = 1;
+}
+
 message SaveModelRequest {
     Session session = 1;
     BackendModel model = 2;
     bytes path = 3;
+}
+
+message SaveModelResponse {
+    Status  status = 1;
 }
 
 message LoadWeightsRequest {
@@ -98,10 +106,19 @@ message LoadWeightsRequest {
     bytes path = 3;
 }
 
+message LoadWeightsResponse {
+    Status  status = 1;
+}
+
+
 message SaveWeightsRequest {
     Session session = 1;
     BackendModel model = 2;
     bytes path = 3;
+}
+
+message SaveWeightsResponse {
+    Status  status = 1;
 }
 
 message SetParametersRequest{
@@ -175,4 +192,5 @@ message ParamValue {
         ListValue list = 1; // any "list(...)"
     }
 }
+
 
