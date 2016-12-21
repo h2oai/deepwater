@@ -4,17 +4,17 @@
 package ai.h2o.deepwater.backends.grpc;
 
 /**
- * Protobuf type {@code deepwater.SetParametersRequest}
+ * Protobuf type {@code deepwater.SetModelParametersRequest}
  */
-public  final class SetParametersRequest extends
+public  final class SetModelParametersRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:deepwater.SetParametersRequest)
-    SetParametersRequestOrBuilder {
-  // Use SetParametersRequest.newBuilder() to construct.
-  private SetParametersRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // @@protoc_insertion_point(message_implements:deepwater.SetModelParametersRequest)
+    SetModelParametersRequestOrBuilder {
+  // Use SetModelParametersRequest.newBuilder() to construct.
+  private SetModelParametersRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private SetParametersRequest() {
+  private SetModelParametersRequest() {
   }
 
   @java.lang.Override
@@ -22,7 +22,7 @@ public  final class SetParametersRequest extends
   getUnknownFields() {
     return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
   }
-  private SetParametersRequest(
+  private SetModelParametersRequest(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -94,7 +94,7 @@ public  final class SetParametersRequest extends
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SetParametersRequest_descriptor;
+    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SetModelParametersRequest_descriptor;
   }
 
   @SuppressWarnings({"rawtypes"})
@@ -110,9 +110,9 @@ public  final class SetParametersRequest extends
   }
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SetParametersRequest_fieldAccessorTable
+    return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SetModelParametersRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            ai.h2o.deepwater.backends.grpc.SetParametersRequest.class, ai.h2o.deepwater.backends.grpc.SetParametersRequest.Builder.class);
+            ai.h2o.deepwater.backends.grpc.SetModelParametersRequest.class, ai.h2o.deepwater.backends.grpc.SetModelParametersRequest.Builder.class);
   }
 
   private int bitField0_;
@@ -164,7 +164,7 @@ public  final class SetParametersRequest extends
         java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> defaultEntry =
             com.google.protobuf.MapEntry
             .<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>newDefaultInstance(
-                ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SetParametersRequest_ParamsEntry_descriptor, 
+                ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SetModelParametersRequest_ParamsEntry_descriptor, 
                 com.google.protobuf.WireFormat.FieldType.STRING,
                 "",
                 com.google.protobuf.WireFormat.FieldType.MESSAGE,
@@ -293,10 +293,10 @@ public  final class SetParametersRequest extends
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof ai.h2o.deepwater.backends.grpc.SetParametersRequest)) {
+    if (!(obj instanceof ai.h2o.deepwater.backends.grpc.SetModelParametersRequest)) {
       return super.equals(obj);
     }
-    ai.h2o.deepwater.backends.grpc.SetParametersRequest other = (ai.h2o.deepwater.backends.grpc.SetParametersRequest) obj;
+    ai.h2o.deepwater.backends.grpc.SetModelParametersRequest other = (ai.h2o.deepwater.backends.grpc.SetModelParametersRequest) obj;
 
     boolean result = true;
     result = result && (hasSession() == other.hasSession());
@@ -338,58 +338,58 @@ public  final class SetParametersRequest extends
     return hash;
   }
 
-  public static ai.h2o.deepwater.backends.grpc.SetParametersRequest parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.SetModelParametersRequest parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static ai.h2o.deepwater.backends.grpc.SetParametersRequest parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.SetModelParametersRequest parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.SetParametersRequest parseFrom(byte[] data)
+  public static ai.h2o.deepwater.backends.grpc.SetModelParametersRequest parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static ai.h2o.deepwater.backends.grpc.SetParametersRequest parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.SetModelParametersRequest parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.SetParametersRequest parseFrom(java.io.InputStream input)
+  public static ai.h2o.deepwater.backends.grpc.SetModelParametersRequest parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static ai.h2o.deepwater.backends.grpc.SetParametersRequest parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.SetModelParametersRequest parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.SetParametersRequest parseDelimitedFrom(java.io.InputStream input)
+  public static ai.h2o.deepwater.backends.grpc.SetModelParametersRequest parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static ai.h2o.deepwater.backends.grpc.SetParametersRequest parseDelimitedFrom(
+  public static ai.h2o.deepwater.backends.grpc.SetModelParametersRequest parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static ai.h2o.deepwater.backends.grpc.SetParametersRequest parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.SetModelParametersRequest parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static ai.h2o.deepwater.backends.grpc.SetParametersRequest parseFrom(
+  public static ai.h2o.deepwater.backends.grpc.SetModelParametersRequest parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -401,7 +401,7 @@ public  final class SetParametersRequest extends
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(ai.h2o.deepwater.backends.grpc.SetParametersRequest prototype) {
+  public static Builder newBuilder(ai.h2o.deepwater.backends.grpc.SetModelParametersRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() {
@@ -416,15 +416,15 @@ public  final class SetParametersRequest extends
     return builder;
   }
   /**
-   * Protobuf type {@code deepwater.SetParametersRequest}
+   * Protobuf type {@code deepwater.SetModelParametersRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:deepwater.SetParametersRequest)
-      ai.h2o.deepwater.backends.grpc.SetParametersRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:deepwater.SetModelParametersRequest)
+      ai.h2o.deepwater.backends.grpc.SetModelParametersRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SetParametersRequest_descriptor;
+      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SetModelParametersRequest_descriptor;
     }
 
     @SuppressWarnings({"rawtypes"})
@@ -451,12 +451,12 @@ public  final class SetParametersRequest extends
     }
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SetParametersRequest_fieldAccessorTable
+      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SetModelParametersRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              ai.h2o.deepwater.backends.grpc.SetParametersRequest.class, ai.h2o.deepwater.backends.grpc.SetParametersRequest.Builder.class);
+              ai.h2o.deepwater.backends.grpc.SetModelParametersRequest.class, ai.h2o.deepwater.backends.grpc.SetModelParametersRequest.Builder.class);
     }
 
-    // Construct using ai.h2o.deepwater.backends.grpc.SetParametersRequest.newBuilder()
+    // Construct using ai.h2o.deepwater.backends.grpc.SetModelParametersRequest.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -491,23 +491,23 @@ public  final class SetParametersRequest extends
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SetParametersRequest_descriptor;
+      return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SetModelParametersRequest_descriptor;
     }
 
-    public ai.h2o.deepwater.backends.grpc.SetParametersRequest getDefaultInstanceForType() {
-      return ai.h2o.deepwater.backends.grpc.SetParametersRequest.getDefaultInstance();
+    public ai.h2o.deepwater.backends.grpc.SetModelParametersRequest getDefaultInstanceForType() {
+      return ai.h2o.deepwater.backends.grpc.SetModelParametersRequest.getDefaultInstance();
     }
 
-    public ai.h2o.deepwater.backends.grpc.SetParametersRequest build() {
-      ai.h2o.deepwater.backends.grpc.SetParametersRequest result = buildPartial();
+    public ai.h2o.deepwater.backends.grpc.SetModelParametersRequest build() {
+      ai.h2o.deepwater.backends.grpc.SetModelParametersRequest result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public ai.h2o.deepwater.backends.grpc.SetParametersRequest buildPartial() {
-      ai.h2o.deepwater.backends.grpc.SetParametersRequest result = new ai.h2o.deepwater.backends.grpc.SetParametersRequest(this);
+    public ai.h2o.deepwater.backends.grpc.SetModelParametersRequest buildPartial() {
+      ai.h2o.deepwater.backends.grpc.SetModelParametersRequest result = new ai.h2o.deepwater.backends.grpc.SetModelParametersRequest(this);
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
       if (sessionBuilder_ == null) {
@@ -554,16 +554,16 @@ public  final class SetParametersRequest extends
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof ai.h2o.deepwater.backends.grpc.SetParametersRequest) {
-        return mergeFrom((ai.h2o.deepwater.backends.grpc.SetParametersRequest)other);
+      if (other instanceof ai.h2o.deepwater.backends.grpc.SetModelParametersRequest) {
+        return mergeFrom((ai.h2o.deepwater.backends.grpc.SetModelParametersRequest)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(ai.h2o.deepwater.backends.grpc.SetParametersRequest other) {
-      if (other == ai.h2o.deepwater.backends.grpc.SetParametersRequest.getDefaultInstance()) return this;
+    public Builder mergeFrom(ai.h2o.deepwater.backends.grpc.SetModelParametersRequest other) {
+      if (other == ai.h2o.deepwater.backends.grpc.SetModelParametersRequest.getDefaultInstance()) return this;
       if (other.hasSession()) {
         mergeSession(other.getSession());
       }
@@ -584,11 +584,11 @@ public  final class SetParametersRequest extends
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      ai.h2o.deepwater.backends.grpc.SetParametersRequest parsedMessage = null;
+      ai.h2o.deepwater.backends.grpc.SetModelParametersRequest parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (ai.h2o.deepwater.backends.grpc.SetParametersRequest) e.getUnfinishedMessage();
+        parsedMessage = (ai.h2o.deepwater.backends.grpc.SetModelParametersRequest) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -962,39 +962,39 @@ public  final class SetParametersRequest extends
     }
 
 
-    // @@protoc_insertion_point(builder_scope:deepwater.SetParametersRequest)
+    // @@protoc_insertion_point(builder_scope:deepwater.SetModelParametersRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:deepwater.SetParametersRequest)
-  private static final ai.h2o.deepwater.backends.grpc.SetParametersRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:deepwater.SetModelParametersRequest)
+  private static final ai.h2o.deepwater.backends.grpc.SetModelParametersRequest DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new ai.h2o.deepwater.backends.grpc.SetParametersRequest();
+    DEFAULT_INSTANCE = new ai.h2o.deepwater.backends.grpc.SetModelParametersRequest();
   }
 
-  public static ai.h2o.deepwater.backends.grpc.SetParametersRequest getDefaultInstance() {
+  public static ai.h2o.deepwater.backends.grpc.SetModelParametersRequest getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<SetParametersRequest>
-      PARSER = new com.google.protobuf.AbstractParser<SetParametersRequest>() {
-    public SetParametersRequest parsePartialFrom(
+  private static final com.google.protobuf.Parser<SetModelParametersRequest>
+      PARSER = new com.google.protobuf.AbstractParser<SetModelParametersRequest>() {
+    public SetModelParametersRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new SetParametersRequest(input, extensionRegistry);
+        return new SetModelParametersRequest(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<SetParametersRequest> parser() {
+  public static com.google.protobuf.Parser<SetModelParametersRequest> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<SetParametersRequest> getParserForType() {
+  public com.google.protobuf.Parser<SetModelParametersRequest> getParserForType() {
     return PARSER;
   }
 
-  public ai.h2o.deepwater.backends.grpc.SetParametersRequest getDefaultInstanceForType() {
+  public ai.h2o.deepwater.backends.grpc.SetModelParametersRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

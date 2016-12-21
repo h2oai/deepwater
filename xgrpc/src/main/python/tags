@@ -1,0 +1,338 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BackendModel	grpc_service_pb2.py	/^BackendModel = _reflection.GeneratedProtocolMessageType('BackendModel', (_message.Message,), dict($/;"	v
+BetaDeepWaterPredictBackendServicer	grpc_service_pb2.py	/^  class BetaDeepWaterPredictBackendServicer(object):$/;"	c	inherits:object
+BetaDeepWaterPredictBackendStub	grpc_service_pb2.py	/^  class BetaDeepWaterPredictBackendStub(object):$/;"	c	inherits:object
+BetaDeepWaterTrainBackendServicer	grpc_service_pb2.py	/^  class BetaDeepWaterTrainBackendServicer(object):$/;"	c	inherits:object
+BetaDeepWaterTrainBackendStub	grpc_service_pb2.py	/^  class BetaDeepWaterTrainBackendStub(object):$/;"	c	inherits:object
+CreateModel	grpc_service.py	/^  def CreateModel(self, req, ctx):$/;"	m	class:DeepWaterServer	access:public
+CreateModel	grpc_service_pb2.py	/^    def CreateModel(self, request, context):$/;"	m	class:BetaDeepWaterTrainBackendServicer	access:public
+CreateModel	grpc_service_pb2.py	/^    def CreateModel(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+CreateModel	grpc_service_pb2.py	/^    def CreateModel(self, request, timeout, metadata=None, with_call=False, protocol_options=None):$/;"	m	class:BetaDeepWaterTrainBackendStub	access:public
+CreateModel	grpc_service_pb2_grpc.py	/^  def CreateModel(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+CreateModelRequest	grpc_service_pb2.py	/^CreateModelRequest = _reflection.GeneratedProtocolMessageType('CreateModelRequest', (_message.Message,), dict($/;"	v
+CreateModelResponse	grpc_service_pb2.py	/^CreateModelResponse = _reflection.GeneratedProtocolMessageType('CreateModelResponse', (_message.Message,), dict($/;"	v
+CreateSession	grpc_service.py	/^  def CreateSession(self, req, ctx):$/;"	m	class:DeepWaterServer	access:public
+CreateSession	grpc_service_pb2.py	/^    def CreateSession(self, request, context):$/;"	m	class:BetaDeepWaterTrainBackendServicer	access:public
+CreateSession	grpc_service_pb2.py	/^    def CreateSession(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+CreateSession	grpc_service_pb2.py	/^    def CreateSession(self, request, timeout, metadata=None, with_call=False, protocol_options=None):$/;"	m	class:BetaDeepWaterTrainBackendStub	access:public
+CreateSession	grpc_service_pb2_grpc.py	/^  def CreateSession(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+CreateSessionRequest	grpc_service_pb2.py	/^CreateSessionRequest = _reflection.GeneratedProtocolMessageType('CreateSessionRequest', (_message.Message,), dict($/;"	v
+CreateSessionResponse	grpc_service_pb2.py	/^CreateSessionResponse = _reflection.GeneratedProtocolMessageType('CreateSessionResponse', (_message.Message,), dict($/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^    DESCRIPTOR = _CREATEMODELREQUEST_PARAMSENTRY,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^    DESCRIPTOR = _CREATESESSIONREQUEST_OPTIONSENTRY,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^    DESCRIPTOR = _PARAMVALUE_LISTVALUE,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^    DESCRIPTOR = _SETPARAMETERSREQUEST_PARAMSENTRY,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^    DESCRIPTOR = _SETPARAMETERSRESPONSE_PARAMSENTRY,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^    DESCRIPTOR = _SHAPE_DIM,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _BACKENDMODEL,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _CREATEMODELREQUEST,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _CREATEMODELRESPONSE,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _CREATESESSIONREQUEST,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _CREATESESSIONRESPONSE,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _DELETEMODELREQUEST,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _DELETESESSIONREQUEST,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _EXECUTEREQUEST,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _EXECUTERESPONSE,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _LOADMODELREQUEST,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _LOADWEIGHTSREQUEST,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _PARAMVALUE,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _SAVEMODELREQUEST,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _SAVEWEIGHTSREQUEST,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _SESSION,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _SETPARAMETERSREQUEST,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _SETPARAMETERSRESPONSE,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _SHAPE,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _STATUS,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^  DESCRIPTOR = _TENSOR,$/;"	v
+DESCRIPTOR	grpc_service_pb2.py	/^DESCRIPTOR = _descriptor.FileDescriptor($/;"	v
+DT_BOOL	grpc_service_pb2.py	/^DT_BOOL = 5$/;"	v
+DT_FLOAT32	grpc_service_pb2.py	/^DT_FLOAT32 = 1$/;"	v
+DT_FLOAT64	grpc_service_pb2.py	/^DT_FLOAT64 = 2$/;"	v
+DT_INT32	grpc_service_pb2.py	/^DT_INT32 = 3$/;"	v
+DT_INT64	grpc_service_pb2.py	/^DT_INT64 = 4$/;"	v
+DT_INVALID	grpc_service_pb2.py	/^DT_INVALID = 0$/;"	v
+DT_STRING	grpc_service_pb2.py	/^DT_STRING = 6$/;"	v
+DataType	grpc_service_pb2.py	/^DataType = enum_type_wrapper.EnumTypeWrapper(_DATATYPE)$/;"	v
+DeepWaterPredictBackendServicer	grpc_service_pb2.py	/^  class DeepWaterPredictBackendServicer(object):$/;"	c	inherits:object
+DeepWaterPredictBackendServicer	grpc_service_pb2_grpc.py	/^class DeepWaterPredictBackendServicer(object):$/;"	c	inherits:object
+DeepWaterPredictBackendStub	grpc_service_pb2.py	/^  class DeepWaterPredictBackendStub(object):$/;"	c	inherits:object
+DeepWaterPredictBackendStub	grpc_service_pb2_grpc.py	/^class DeepWaterPredictBackendStub(object):$/;"	c	inherits:object
+DeepWaterServer	grpc_service.py	/^class DeepWaterServer(pb.DeepWaterTrainBackendServicer):$/;"	c	inherits:pb.DeepWaterTrainBackendServicer
+DeepWaterTrainBackendServicer	grpc_service_pb2.py	/^  class DeepWaterTrainBackendServicer(object):$/;"	c	inherits:object
+DeepWaterTrainBackendServicer	grpc_service_pb2_grpc.py	/^class DeepWaterTrainBackendServicer(object):$/;"	c	inherits:object
+DeepWaterTrainBackendStub	grpc_service_pb2.py	/^  class DeepWaterTrainBackendStub(object):$/;"	c	inherits:object
+DeepWaterTrainBackendStub	grpc_service_pb2_grpc.py	/^class DeepWaterTrainBackendStub(object):$/;"	c	inherits:object
+DeleteModelRequest	grpc_service_pb2.py	/^DeleteModelRequest = _reflection.GeneratedProtocolMessageType('DeleteModelRequest', (_message.Message,), dict($/;"	v
+DeleteSession	grpc_service.py	/^  def DeleteSession(self, req, ctx):$/;"	m	class:DeepWaterServer	access:public
+DeleteSession	grpc_service_pb2.py	/^    def DeleteSession(self, request, context):$/;"	m	class:BetaDeepWaterTrainBackendServicer	access:public
+DeleteSession	grpc_service_pb2.py	/^    def DeleteSession(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+DeleteSession	grpc_service_pb2.py	/^    def DeleteSession(self, request, timeout, metadata=None, with_call=False, protocol_options=None):$/;"	m	class:BetaDeepWaterTrainBackendStub	access:public
+DeleteSession	grpc_service_pb2_grpc.py	/^  def DeleteSession(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+DeleteSessionRequest	grpc_service_pb2.py	/^DeleteSessionRequest = _reflection.GeneratedProtocolMessageType('DeleteSessionRequest', (_message.Message,), dict($/;"	v
+Dim	grpc_service_pb2.py	/^  Dim = _reflection.GeneratedProtocolMessageType('Dim', (_message.Message,), dict($/;"	v
+Execute	grpc_service.py	/^  def Execute(self, req, ctx):$/;"	m	class:DeepWaterServer	access:public
+Execute	grpc_service_pb2.py	/^    def Execute(self, request, context):$/;"	m	class:BetaDeepWaterPredictBackendServicer	access:public
+Execute	grpc_service_pb2.py	/^    def Execute(self, request, context):$/;"	m	class:BetaDeepWaterTrainBackendServicer	access:public
+Execute	grpc_service_pb2.py	/^    def Execute(self, request, context):$/;"	m	class:DeepWaterPredictBackendServicer	access:public
+Execute	grpc_service_pb2.py	/^    def Execute(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+Execute	grpc_service_pb2.py	/^    def Execute(self, request, timeout, metadata=None, with_call=False, protocol_options=None):$/;"	m	class:BetaDeepWaterPredictBackendStub	access:public
+Execute	grpc_service_pb2.py	/^    def Execute(self, request, timeout, metadata=None, with_call=False, protocol_options=None):$/;"	m	class:BetaDeepWaterTrainBackendStub	access:public
+Execute	grpc_service_pb2_grpc.py	/^  def Execute(self, request, context):$/;"	m	class:DeepWaterPredictBackendServicer	access:public
+Execute	grpc_service_pb2_grpc.py	/^  def Execute(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+ExecuteRequest	grpc_service_pb2.py	/^ExecuteRequest = _reflection.GeneratedProtocolMessageType('ExecuteRequest', (_message.Message,), dict($/;"	v
+ExecuteResponse	grpc_service_pb2.py	/^ExecuteResponse = _reflection.GeneratedProtocolMessageType('ExecuteResponse', (_message.Message,), dict($/;"	v
+ListValue	grpc_service_pb2.py	/^  ListValue = _reflection.GeneratedProtocolMessageType('ListValue', (_message.Message,), dict($/;"	v
+LoadModel	grpc_service.py	/^  def LoadModel(self, req, ctx):$/;"	m	class:DeepWaterServer	access:public
+LoadModel	grpc_service_pb2.py	/^    def LoadModel(self, request, context):$/;"	m	class:BetaDeepWaterTrainBackendServicer	access:public
+LoadModel	grpc_service_pb2.py	/^    def LoadModel(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+LoadModel	grpc_service_pb2.py	/^    def LoadModel(self, request, timeout, metadata=None, with_call=False, protocol_options=None):$/;"	m	class:BetaDeepWaterTrainBackendStub	access:public
+LoadModel	grpc_service_pb2_grpc.py	/^  def LoadModel(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+LoadModelRequest	grpc_service_pb2.py	/^LoadModelRequest = _reflection.GeneratedProtocolMessageType('LoadModelRequest', (_message.Message,), dict($/;"	v
+LoadWeights	grpc_service.py	/^  def LoadWeights(self, req, ctx):$/;"	m	class:DeepWaterServer	access:public
+LoadWeights	grpc_service_pb2.py	/^    def LoadWeights(self, request, context):$/;"	m	class:BetaDeepWaterTrainBackendServicer	access:public
+LoadWeights	grpc_service_pb2.py	/^    def LoadWeights(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+LoadWeights	grpc_service_pb2.py	/^    def LoadWeights(self, request, timeout, metadata=None, with_call=False, protocol_options=None):$/;"	m	class:BetaDeepWaterTrainBackendStub	access:public
+LoadWeights	grpc_service_pb2_grpc.py	/^  def LoadWeights(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+LoadWeightsRequest	grpc_service_pb2.py	/^LoadWeightsRequest = _reflection.GeneratedProtocolMessageType('LoadWeightsRequest', (_message.Message,), dict($/;"	v
+OptionsEntry	grpc_service_pb2.py	/^  OptionsEntry = _reflection.GeneratedProtocolMessageType('OptionsEntry', (_message.Message,), dict($/;"	v
+ParamValue	grpc_service_pb2.py	/^ParamValue = _reflection.GeneratedProtocolMessageType('ParamValue', (_message.Message,), dict($/;"	v
+ParamsEntry	grpc_service_pb2.py	/^  ParamsEntry = _reflection.GeneratedProtocolMessageType('ParamsEntry', (_message.Message,), dict($/;"	v
+SaveModel	grpc_service.py	/^  def SaveModel(self, req, ctx):$/;"	m	class:DeepWaterServer	access:public
+SaveModel	grpc_service_pb2.py	/^    def SaveModel(self, request, context):$/;"	m	class:BetaDeepWaterTrainBackendServicer	access:public
+SaveModel	grpc_service_pb2.py	/^    def SaveModel(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+SaveModel	grpc_service_pb2.py	/^    def SaveModel(self, request, timeout, metadata=None, with_call=False, protocol_options=None):$/;"	m	class:BetaDeepWaterTrainBackendStub	access:public
+SaveModel	grpc_service_pb2_grpc.py	/^  def SaveModel(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+SaveModelRequest	grpc_service_pb2.py	/^SaveModelRequest = _reflection.GeneratedProtocolMessageType('SaveModelRequest', (_message.Message,), dict($/;"	v
+SaveWeights	grpc_service.py	/^  def SaveWeights(self, req, ctx):$/;"	m	class:DeepWaterServer	access:public
+SaveWeights	grpc_service_pb2.py	/^    def SaveWeights(self, request, context):$/;"	m	class:BetaDeepWaterTrainBackendServicer	access:public
+SaveWeights	grpc_service_pb2.py	/^    def SaveWeights(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+SaveWeights	grpc_service_pb2.py	/^    def SaveWeights(self, request, timeout, metadata=None, with_call=False, protocol_options=None):$/;"	m	class:BetaDeepWaterTrainBackendStub	access:public
+SaveWeights	grpc_service_pb2_grpc.py	/^  def SaveWeights(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+SaveWeightsRequest	grpc_service_pb2.py	/^SaveWeightsRequest = _reflection.GeneratedProtocolMessageType('SaveWeightsRequest', (_message.Message,), dict($/;"	v
+Session	grpc_service_pb2.py	/^Session = _reflection.GeneratedProtocolMessageType('Session', (_message.Message,), dict($/;"	v
+SetParameters	grpc_service.py	/^  def SetParameters(self, req, ctx):$/;"	m	class:DeepWaterServer	access:public
+SetParameters	grpc_service_pb2.py	/^    def SetParameters(self, request, context):$/;"	m	class:BetaDeepWaterTrainBackendServicer	access:public
+SetParameters	grpc_service_pb2.py	/^    def SetParameters(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+SetParameters	grpc_service_pb2.py	/^    def SetParameters(self, request, timeout, metadata=None, with_call=False, protocol_options=None):$/;"	m	class:BetaDeepWaterTrainBackendStub	access:public
+SetParameters	grpc_service_pb2_grpc.py	/^  def SetParameters(self, request, context):$/;"	m	class:DeepWaterTrainBackendServicer	access:public
+SetParametersRequest	grpc_service_pb2.py	/^SetParametersRequest = _reflection.GeneratedProtocolMessageType('SetParametersRequest', (_message.Message,), dict($/;"	v
+SetParametersResponse	grpc_service_pb2.py	/^SetParametersResponse = _reflection.GeneratedProtocolMessageType('SetParametersResponse', (_message.Message,), dict($/;"	v
+Shape	grpc_service_pb2.py	/^Shape = _reflection.GeneratedProtocolMessageType('Shape', (_message.Message,), dict($/;"	v
+Status	grpc_service_pb2.py	/^Status = _reflection.GeneratedProtocolMessageType('Status', (_message.Message,), dict($/;"	v
+Tensor	grpc_service_pb2.py	/^Tensor = _reflection.GeneratedProtocolMessageType('Tensor', (_message.Message,), dict($/;"	v
+TestClientConnection	client_test.py	/^class TestClientConnection(unittest.TestCase):$/;"	c	inherits:unittest.TestCase
+_BACKENDMODEL	grpc_service_pb2.py	/^_BACKENDMODEL = _descriptor.Descriptor($/;"	v
+_CREATEMODELREQUEST	grpc_service_pb2.py	/^_CREATEMODELREQUEST = _descriptor.Descriptor($/;"	v
+_CREATEMODELREQUEST_PARAMSENTRY	grpc_service_pb2.py	/^_CREATEMODELREQUEST_PARAMSENTRY = _descriptor.Descriptor($/;"	v
+_CREATEMODELRESPONSE	grpc_service_pb2.py	/^_CREATEMODELRESPONSE = _descriptor.Descriptor($/;"	v
+_CREATESESSIONREQUEST	grpc_service_pb2.py	/^_CREATESESSIONREQUEST = _descriptor.Descriptor($/;"	v
+_CREATESESSIONREQUEST_OPTIONSENTRY	grpc_service_pb2.py	/^_CREATESESSIONREQUEST_OPTIONSENTRY = _descriptor.Descriptor($/;"	v
+_CREATESESSIONRESPONSE	grpc_service_pb2.py	/^_CREATESESSIONRESPONSE = _descriptor.Descriptor($/;"	v
+_DATATYPE	grpc_service_pb2.py	/^_DATATYPE = _descriptor.EnumDescriptor($/;"	v
+_DELETEMODELREQUEST	grpc_service_pb2.py	/^_DELETEMODELREQUEST = _descriptor.Descriptor($/;"	v
+_DELETESESSIONREQUEST	grpc_service_pb2.py	/^_DELETESESSIONREQUEST = _descriptor.Descriptor($/;"	v
+_EXECUTEREQUEST	grpc_service_pb2.py	/^_EXECUTEREQUEST = _descriptor.Descriptor($/;"	v
+_EXECUTERESPONSE	grpc_service_pb2.py	/^_EXECUTERESPONSE = _descriptor.Descriptor($/;"	v
+_LOADMODELREQUEST	grpc_service_pb2.py	/^_LOADMODELREQUEST = _descriptor.Descriptor($/;"	v
+_LOADWEIGHTSREQUEST	grpc_service_pb2.py	/^_LOADWEIGHTSREQUEST = _descriptor.Descriptor($/;"	v
+_PARAMVALUE	grpc_service_pb2.py	/^_PARAMVALUE = _descriptor.Descriptor($/;"	v
+_PARAMVALUE_LISTVALUE	grpc_service_pb2.py	/^_PARAMVALUE_LISTVALUE = _descriptor.Descriptor($/;"	v
+_SAVEMODELREQUEST	grpc_service_pb2.py	/^_SAVEMODELREQUEST = _descriptor.Descriptor($/;"	v
+_SAVEWEIGHTSREQUEST	grpc_service_pb2.py	/^_SAVEWEIGHTSREQUEST = _descriptor.Descriptor($/;"	v
+_SESSION	grpc_service_pb2.py	/^_SESSION = _descriptor.Descriptor($/;"	v
+_SETPARAMETERSREQUEST	grpc_service_pb2.py	/^_SETPARAMETERSREQUEST = _descriptor.Descriptor($/;"	v
+_SETPARAMETERSREQUEST_PARAMSENTRY	grpc_service_pb2.py	/^_SETPARAMETERSREQUEST_PARAMSENTRY = _descriptor.Descriptor($/;"	v
+_SETPARAMETERSRESPONSE	grpc_service_pb2.py	/^_SETPARAMETERSRESPONSE = _descriptor.Descriptor($/;"	v
+_SETPARAMETERSRESPONSE_PARAMSENTRY	grpc_service_pb2.py	/^_SETPARAMETERSRESPONSE_PARAMSENTRY = _descriptor.Descriptor($/;"	v
+_SHAPE	grpc_service_pb2.py	/^_SHAPE = _descriptor.Descriptor($/;"	v
+_SHAPE_DIM	grpc_service_pb2.py	/^_SHAPE_DIM = _descriptor.Descriptor($/;"	v
+_STATUS	grpc_service_pb2.py	/^_STATUS = _descriptor.Descriptor($/;"	v
+_Session	grpc_service.py	/^class _Session(object):$/;"	c	inherits:object
+_TENSOR	grpc_service_pb2.py	/^_TENSOR = _descriptor.Descriptor($/;"	v
+__init__	grpc_service.py	/^  def __init__(self, **options):$/;"	m	class:_Session	access:public
+__init__	grpc_service_pb2.py	/^    def __init__(self, channel):$/;"	m	class:DeepWaterPredictBackendStub	access:public
+__init__	grpc_service_pb2.py	/^    def __init__(self, channel):$/;"	m	class:DeepWaterTrainBackendStub	access:public
+__init__	grpc_service_pb2_grpc.py	/^  def __init__(self, channel):$/;"	m	class:DeepWaterPredictBackendStub	access:public
+__init__	grpc_service_pb2_grpc.py	/^  def __init__(self, channel):$/;"	m	class:DeepWaterTrainBackendStub	access:public
+__model_cache	grpc_service.py	/^  __model_cache = {}$/;"	v	class:DeepWaterServer
+__module__	grpc_service_pb2.py	/^    __module__ = 'grpc_service_pb2'$/;"	v
+__module__	grpc_service_pb2.py	/^  __module__ = 'grpc_service_pb2'$/;"	v
+__session_cache	grpc_service.py	/^  __session_cache = {}$/;"	v	class:DeepWaterServer
+_b	grpc_service_pb2.py	/^_b=sys.version_info[0]<3 and (lambda x:x) or (lambda x:x.encode('latin1'))$/;"	v
+_checksum	grpc_service.py	/^def _checksum(data):$/;"	f	access:public
+_get_model	grpc_service.py	/^  def _get_model(self, req):$/;"	m	class:DeepWaterServer	access:public
+_get_session	grpc_service.py	/^  def _get_session(self, req):$/;"	m	class:DeepWaterServer	access:public
+_init_session_if_required	grpc_service.py	/^  def _init_session_if_required(self, meta_graph_def):$/;"	m	class:_Session	access:public
+_lenet	grpc_service.py	/^def _lenet(width=28, height=28, channels=1, classes=10, clip_gradient=6, mini_batch_size=32):$/;"	f	access:public
+_mlp	grpc_service.py	/^def _mlp(width=28, height=28, channels=1, classes=10):$/;"	f	access:public
+_sym_db	grpc_service_pb2.py	/^_sym_db = _symbol_database.Default()$/;"	v
+add_DeepWaterPredictBackendServicer_to_server	grpc_service_pb2.py	/^  def add_DeepWaterPredictBackendServicer_to_server(servicer, server):$/;"	f	access:public
+add_DeepWaterPredictBackendServicer_to_server	grpc_service_pb2_grpc.py	/^def add_DeepWaterPredictBackendServicer_to_server(servicer, server):$/;"	f	access:public
+add_DeepWaterTrainBackendServicer_to_server	grpc_service_pb2.py	/^  def add_DeepWaterTrainBackendServicer_to_server(servicer, server):$/;"	f	access:public
+add_DeepWaterTrainBackendServicer_to_server	grpc_service_pb2_grpc.py	/^def add_DeepWaterTrainBackendServicer_to_server(servicer, server):$/;"	f	access:public
+beta_create_DeepWaterPredictBackend_server	grpc_service_pb2.py	/^  def beta_create_DeepWaterPredictBackend_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):$/;"	f	access:public
+beta_create_DeepWaterPredictBackend_stub	grpc_service_pb2.py	/^  def beta_create_DeepWaterPredictBackend_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):$/;"	f	access:public
+beta_create_DeepWaterTrainBackend_server	grpc_service_pb2.py	/^  def beta_create_DeepWaterTrainBackend_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):$/;"	f	access:public
+beta_create_DeepWaterTrainBackend_stub	grpc_service_pb2.py	/^  def beta_create_DeepWaterTrainBackend_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):$/;"	f	access:public
+bias_variable	grpc_service.py	/^    def bias_variable(shape):$/;"	f	function:_lenet	access:public
+check	client.py	/^def check(status):$/;"	f	access:public
+compute_real_exit_code	daemon.py	/^def compute_real_exit_code(exit_code):$/;"	f	access:public
+containing_type	grpc_service_pb2.py	/^  containing_type=None,$/;"	v
+conv2d	grpc_service.py	/^    def conv2d(x, W):$/;"	f	function:_lenet	access:public
+convert_feeds	grpc_service.py	/^def convert_feeds(params):$/;"	f	access:public
+convert_fetches	grpc_service.py	/^def convert_fetches(params):$/;"	f	access:public
+convert_map	grpc_service.py	/^def convert_map(params):$/;"	f	access:public
+convert_tensors	grpc_service.py	/^def convert_tensors(fetches, numpy_tensor_list):$/;"	f	access:public
+convert_value	client.py	/^def convert_value(value):$/;"	f	access:public
+createModel	grpc_service.py	/^def createModel(modelName, params):$/;"	f	access:public
+encode_params	client.py	/^def encode_params(options):$/;"	f	access:public
+enum_types	grpc_service_pb2.py	/^  enum_types=[$/;"	v
+extension_ranges	grpc_service_pb2.py	/^  extension_ranges=[],$/;"	v
+extensions	grpc_service_pb2.py	/^  extensions=[$/;"	v
+fields	grpc_service_pb2.py	/^  fields=[$/;"	v
+file	grpc_service_pb2.py	/^  file=DESCRIPTOR,$/;"	v
+filename	grpc_service_pb2.py	/^  filename=None,$/;"	v
+finalize	grpc_service.py	/^  def finalize(self):$/;"	m	class:_Session	access:public
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.BackendModel',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.CreateModelRequest',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.CreateModelRequest.ParamsEntry',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.CreateModelResponse',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.CreateSessionRequest',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.CreateSessionRequest.OptionsEntry',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.CreateSessionResponse',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.DataType',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.DeleteModelRequest',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.DeleteSessionRequest',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.ExecuteRequest',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.ExecuteResponse',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.LoadModelRequest',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.LoadWeightsRequest',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.ParamValue',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.ParamValue.ListValue',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.SaveModelRequest',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.SaveWeightsRequest',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.Session',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.SetParametersRequest',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.SetParametersRequest.ParamsEntry',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.SetParametersResponse',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.SetParametersResponse.ParamsEntry',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.Shape',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.Shape.Dim',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.Status',$/;"	v
+full_name	grpc_service_pb2.py	/^  full_name='deepwater.Tensor',$/;"	v
+handle_sigterm	daemon.py	/^  def handle_sigterm(*args):$/;"	f	function:manager	access:public
+is_extendable	grpc_service_pb2.py	/^  is_extendable=False,$/;"	v
+load_weights	grpc_service.py	/^  def load_weights(self, model, path):$/;"	m	class:_Session	access:public
+logger	grpc_service.py	/^logger = logging.getLogger('tcpserver')$/;"	v
+manager	daemon.py	/^def manager():$/;"	f	access:public
+max_pool_2x2	grpc_service.py	/^    def max_pool_2x2(x):$/;"	f	function:_lenet	access:public
+name	grpc_service_pb2.py	/^  name='BackendModel',$/;"	v
+name	grpc_service_pb2.py	/^  name='CreateModelRequest',$/;"	v
+name	grpc_service_pb2.py	/^  name='CreateModelResponse',$/;"	v
+name	grpc_service_pb2.py	/^  name='CreateSessionRequest',$/;"	v
+name	grpc_service_pb2.py	/^  name='CreateSessionResponse',$/;"	v
+name	grpc_service_pb2.py	/^  name='DataType',$/;"	v
+name	grpc_service_pb2.py	/^  name='DeleteModelRequest',$/;"	v
+name	grpc_service_pb2.py	/^  name='DeleteSessionRequest',$/;"	v
+name	grpc_service_pb2.py	/^  name='Dim',$/;"	v
+name	grpc_service_pb2.py	/^  name='ExecuteRequest',$/;"	v
+name	grpc_service_pb2.py	/^  name='ExecuteResponse',$/;"	v
+name	grpc_service_pb2.py	/^  name='ListValue',$/;"	v
+name	grpc_service_pb2.py	/^  name='LoadModelRequest',$/;"	v
+name	grpc_service_pb2.py	/^  name='LoadWeightsRequest',$/;"	v
+name	grpc_service_pb2.py	/^  name='OptionsEntry',$/;"	v
+name	grpc_service_pb2.py	/^  name='ParamValue',$/;"	v
+name	grpc_service_pb2.py	/^  name='ParamsEntry',$/;"	v
+name	grpc_service_pb2.py	/^  name='SaveModelRequest',$/;"	v
+name	grpc_service_pb2.py	/^  name='SaveWeightsRequest',$/;"	v
+name	grpc_service_pb2.py	/^  name='Session',$/;"	v
+name	grpc_service_pb2.py	/^  name='SetParametersRequest',$/;"	v
+name	grpc_service_pb2.py	/^  name='SetParametersResponse',$/;"	v
+name	grpc_service_pb2.py	/^  name='Shape',$/;"	v
+name	grpc_service_pb2.py	/^  name='Status',$/;"	v
+name	grpc_service_pb2.py	/^  name='Tensor',$/;"	v
+name	grpc_service_pb2.py	/^  name='grpc_service.proto',$/;"	v
+nested_types	grpc_service_pb2.py	/^  nested_types=[],$/;"	v
+nested_types	grpc_service_pb2.py	/^  nested_types=[_CREATEMODELREQUEST_PARAMSENTRY, ],$/;"	v
+nested_types	grpc_service_pb2.py	/^  nested_types=[_CREATESESSIONREQUEST_OPTIONSENTRY, ],$/;"	v
+nested_types	grpc_service_pb2.py	/^  nested_types=[_PARAMVALUE_LISTVALUE, ],$/;"	v
+nested_types	grpc_service_pb2.py	/^  nested_types=[_SETPARAMETERSREQUEST_PARAMSENTRY, ],$/;"	v
+nested_types	grpc_service_pb2.py	/^  nested_types=[_SETPARAMETERSRESPONSE_PARAMSENTRY, ],$/;"	v
+nested_types	grpc_service_pb2.py	/^  nested_types=[_SHAPE_DIM, ],$/;"	v
+oneofs	grpc_service_pb2.py	/^  oneofs=[$/;"	v
+options	grpc_service_pb2.py	/^      options=None),$/;"	v
+options	grpc_service_pb2.py	/^      options=None,$/;"	v
+options	grpc_service_pb2.py	/^      options=_descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('\\020\\001'))),$/;"	v
+options	grpc_service_pb2.py	/^  options=None,$/;"	v
+options	grpc_service_pb2.py	/^  options=_descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\\001')),$/;"	v
+package	grpc_service_pb2.py	/^  package='deepwater',$/;"	v
+read_int	daemon.py	/^def read_int(stream):$/;"	f	access:public
+run	client.py	/^def run():$/;"	f	access:public
+run	grpc_service.py	/^  def run(self, model, fetches, feeds):$/;"	m	class:_Session	access:public
+save_model	grpc_service.py	/^  def save_model(self, model, path):$/;"	m	class:_Session	access:public
+save_weights	grpc_service.py	/^  def save_weights(self, model, path):$/;"	m	class:_Session	access:public
+serialized_end	grpc_service_pb2.py	/^  serialized_end=101,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=1047,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=1160,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=1273,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=1506,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=163,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=1699,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=1865,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=1955,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=2020,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=2260,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=2473,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=2482,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=2598,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=371,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=469,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=58,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=628,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=725,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=786,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=825,$/;"	v
+serialized_end	grpc_service_pb2.py	/^  serialized_end=936,$/;"	v
+serialized_pb	grpc_service_pb2.py	/^  serialized_pb=_b('\\n\\x12grpc_service.proto\\x12\\tdeepwater\\"\\x19\\n\\x07Session\\x12\\x0e\\n\\x06handle\\x18\\x01 \\x01(\\t\\")\\n\\x0c\\x42\\x61\\x63kendModel\\x12\\n\\n\\x02id\\x18\\x01 \\x01(\\x0c\\x12\\r\\n\\x05state\\x18\\x02 \\x01(\\x0c\\"<\\n\\x12\\x44\\x65leteModelRequest\\x12&\\n\\x05model\\x18\\x01 \\x01(\\x0b\\x32\\x17.deepwater.BackendModel\\"\\xcd\\x01\\n\\x12\\x43reateModelRequest\\x12#\\n\\x07session\\x18\\x01 \\x01(\\x0b\\x32\\x12.deepwater.Session\\x12\\x11\\n\\tmodelName\\x18\\x02 \\x01(\\t\\x12\\x39\\n\\x06params\\x18\\x03 \\x03(\\x0b\\x32).deepwater.CreateModelRequest.ParamsEntry\\x1a\\x44\\n\\x0bParamsEntry\\x12\\x0b\\n\\x03key\\x18\\x01 \\x01(\\t\\x12$\\n\\x05value\\x18\\x02 \\x01(\\x0b\\x32\\x15.deepwater.ParamValue:\\x02\\x38\\x01\\"`\\n\\x13\\x43reateModelResponse\\x12&\\n\\x05model\\x18\\x01 \\x01(\\x0b\\x32\\x17.deepwater.BackendModel\\x12!\\n\\x06status\\x18\\x02 \\x01(\\x0b\\x32\\x11.deepwater.Status\\"\\x9c\\x01\\n\\x14\\x43reateSessionRequest\\x12=\\n\\x07options\\x18\\x01 \\x03(\\x0b\\x32,.deepwater.CreateSessionRequest.OptionsEntry\\x1a\\x45\\n\\x0cOptionsEntry\\x12\\x0b\\n\\x03key\\x18\\x01 \\x01(\\t\\x12$\\n\\x05value\\x18\\x02 \\x01(\\x0b\\x32\\x15.deepwater.ParamValue:\\x02\\x38\\x01\\"_\\n\\x15\\x43reateSessionResponse\\x12#\\n\\x07session\\x18\\x01 \\x01(\\x0b\\x32\\x12.deepwater.Session\\x12!\\n\\x06status\\x18\\x02 \\x01(\\x0b\\x32\\x11.deepwater.Status\\";\\n\\x14\\x44\\x65leteSessionRequest\\x12#\\n\\x07session\\x18\\x01 \\x01(\\x0b\\x32\\x12.deepwater.Session\\"%\\n\\x06Status\\x12\\n\\n\\x02ok\\x18\\x01 \\x01(\\x08\\x12\\x0f\\n\\x07message\\x18\\x02 \\x01(\\t\\"m\\n\\x10LoadModelRequest\\x12#\\n\\x07session\\x18\\x01 \\x01(\\x0b\\x32\\x12.deepwater.Session\\x12&\\n\\x05model\\x18\\x02 \\x01(\\x0b\\x32\\x17.deepwater.BackendModel\\x12\\x0c\\n\\x04path\\x18\\x03 \\x01(\\x0c\\"m\\n\\x10SaveModelRequest\\x12#\\n\\x07session\\x18\\x01 \\x01(\\x0b\\x32\\x12.deepwater.Session\\x12&\\n\\x05model\\x18\\x02 \\x01(\\x0b\\x32\\x17.deepwater.BackendModel\\x12\\x0c\\n\\x04path\\x18\\x03 \\x01(\\x0c\\"o\\n\\x12LoadWeightsRequest\\x12#\\n\\x07session\\x18\\x01 \\x01(\\x0b\\x32\\x12.deepwater.Session\\x12&\\n\\x05model\\x18\\x02 \\x01(\\x0b\\x32\\x17.deepwater.BackendModel\\x12\\x0c\\n\\x04path\\x18\\x03 \\x01(\\x0c\\"o\\n\\x12SaveWeightsRequest\\x12#\\n\\x07session\\x18\\x01 \\x01(\\x0b\\x32\\x12.deepwater.Session\\x12&\\n\\x05model\\x18\\x02 \\x01(\\x0b\\x32\\x17.deepwater.BackendModel\\x12\\x0c\\n\\x04path\\x18\\x03 \\x01(\\x0c\\"\\xe6\\x01\\n\\x14SetParametersRequest\\x12#\\n\\x07session\\x18\\x01 \\x01(\\x0b\\x32\\x12.deepwater.Session\\x12&\\n\\x05model\\x18\\x02 \\x01(\\x0b\\x32\\x17.deepwater.BackendModel\\x12;\\n\\x06params\\x18\\x03 \\x03(\\x0b\\x32+.deepwater.SetParametersRequest.ParamsEntry\\x1a\\x44\\n\\x0bParamsEntry\\x12\\x0b\\n\\x03key\\x18\\x01 \\x01(\\t\\x12$\\n\\x05value\\x18\\x02 \\x01(\\x0b\\x32\\x15.deepwater.ParamValue:\\x02\\x38\\x01\\"\\xbe\\x01\\n\\x15SetParametersResponse\\x12!\\n\\x06status\\x18\\x01 \\x01(\\x0b\\x32\\x11.deepwater.Status\\x12<\\n\\x06params\\x18\\x02 \\x03(\\x0b\\x32,.deepwater.SetParametersResponse.ParamsEntry\\x1a\\x44\\n\\x0bParamsEntry\\x12\\x0b\\n\\x03key\\x18\\x01 \\x01(\\t\\x12$\\n\\x05value\\x18\\x02 \\x01(\\x0b\\x32\\x15.deepwater.ParamValue:\\x02\\x38\\x01\\"\\xa3\\x01\\n\\x0e\\x45xecuteRequest\\x12#\\n\\x07session\\x18\\x01 \\x01(\\x0b\\x32\\x12.deepwater.Session\\x12&\\n\\x05model\\x18\\x02 \\x01(\\x0b\\x32\\x17.deepwater.BackendModel\\x12 \\n\\x05\\x66\\x65\\x65\\x64s\\x18\\x03 \\x03(\\x0b\\x32\\x11.deepwater.Tensor\\x12\\"\\n\\x07\\x66\\x65tches\\x18\\x04 \\x03(\\x0b\\x32\\x11.deepwater.Tensor\\"X\\n\\x0f\\x45xecuteResponse\\x12!\\n\\x06status\\x18\\x01 \\x01(\\x0b\\x32\\x11.deepwater.Status\\x12\\"\\n\\x07\\x66\\x65tches\\x18\\x02 \\x03(\\x0b\\x32\\x11.deepwater.Tensor\\"?\\n\\x05Shape\\x12!\\n\\x03\\x64im\\x18\\x02 \\x03(\\x0b\\x32\\x14.deepwater.Shape.Dim\\x1a\\x13\\n\\x03\\x44im\\x12\\x0c\\n\\x04size\\x18\\x01 \\x01(\\x03\\"\\xed\\x01\\n\\x06Tensor\\x12\\x1f\\n\\x05shape\\x18\\x01 \\x01(\\x0b\\x32\\x10.deepwater.Shape\\x12!\\n\\x04type\\x18\\x02 \\x01(\\x0e\\x32\\x13.deepwater.DataType\\x12\\x0c\\n\\x04name\\x18\\x03 \\x01(\\t\\x12\\x14\\n\\x0cstring_value\\x18\\x04 \\x03(\\x0c\\x12\\x17\\n\\x0bint32_value\\x18\\x05 \\x03(\\x05\\x42\\x02\\x10\\x01\\x12\\x17\\n\\x0bint64_value\\x18\\x06 \\x03(\\x03\\x42\\x02\\x10\\x01\\x12\\x17\\n\\x0b\\x66loat_value\\x18\\x07 \\x03(\\x02\\x42\\x02\\x10\\x01\\x12\\x18\\n\\x0c\\x64ouble_value\\x18\\x08 \\x03(\\x01\\x42\\x02\\x10\\x01\\x12\\x16\\n\\nbool_value\\x18\\t \\x03(\\x08\\x42\\x02\\x10\\x01\\"\\xdb\\x01\\n\\nParamValue\\x12\\x0b\\n\\x01s\\x18\\x02 \\x01(\\x0cH\\x00\\x12\\x0b\\n\\x01i\\x18\\x03 \\x01(\\x03H\\x00\\x12\\x0b\\n\\x01\\x66\\x18\\x04 \\x01(\\x02H\\x00\\x12\\x0b\\n\\x01\\x64\\x18\\x05 \\x01(\\x01H\\x00\\x12\\x0b\\n\\x01\\x62\\x18\\x06 \\x01(\\x08H\\x00\\x12\/\\n\\x04list\\x18\\x01 \\x01(\\x0b\\x32\\x1f.deepwater.ParamValue.ListValueH\\x00\\x1aR\\n\\tListValue\\x12\\t\\n\\x01s\\x18\\x02 \\x03(\\x0c\\x12\\r\\n\\x01i\\x18\\x03 \\x03(\\x03\\x42\\x02\\x10\\x01\\x12\\r\\n\\x01\\x63\\x18\\x04 \\x03(\\x02\\x42\\x02\\x10\\x01\\x12\\r\\n\\x01\\x66\\x18\\x05 \\x03(\\x01\\x42\\x02\\x10\\x01\\x12\\r\\n\\x01\\x62\\x18\\x06 \\x03(\\x08\\x42\\x02\\x10\\x01\\x42\\x07\\n\\x05value*r\\n\\x08\\x44\\x61taType\\x12\\x0e\\n\\nDT_INVALID\\x10\\x00\\x12\\x0e\\n\\nDT_FLOAT32\\x10\\x01\\x12\\x0e\\n\\nDT_FLOAT64\\x10\\x02\\x12\\x0c\\n\\x08\\x44T_INT32\\x10\\x03\\x12\\x0c\\n\\x08\\x44T_INT64\\x10\\x04\\x12\\x0b\\n\\x07\\x44T_BOOL\\x10\\x05\\x12\\r\\n\\tDT_STRING\\x10\\x06\\x32]\\n\\x17\\x44\\x65\\x65pWaterPredictBackend\\x12\\x42\\n\\x07\\x45xecute\\x12\\x19.deepwater.ExecuteRequest\\x1a\\x1a.deepwater.ExecuteResponse\\"\\x00\\x32\\xa2\\x05\\n\\x15\\x44\\x65\\x65pWaterTrainBackend\\x12N\\n\\x0b\\x43reateModel\\x12\\x1d.deepwater.CreateModelRequest\\x1a\\x1e.deepwater.CreateModelResponse\\"\\x00\\x12T\\n\\rCreateSession\\x12\\x1f.deepwater.CreateSessionRequest\\x1a .deepwater.CreateSessionResponse\\"\\x00\\x12\\x45\\n\\rDeleteSession\\x12\\x1f.deepwater.DeleteSessionRequest\\x1a\\x11.deepwater.Status\\"\\x00\\x12=\\n\\tLoadModel\\x12\\x1b.deepwater.LoadModelRequest\\x1a\\x11.deepwater.Status\\"\\x00\\x12=\\n\\tSaveModel\\x12\\x1b.deepwater.SaveModelRequest\\x1a\\x11.deepwater.Status\\"\\x00\\x12\\x41\\n\\x0bLoadWeights\\x12\\x1d.deepwater.LoadWeightsRequest\\x1a\\x11.deepwater.Status\\"\\x00\\x12\\x41\\n\\x0bSaveWeights\\x12\\x1d.deepwater.SaveWeightsRequest\\x1a\\x11.deepwater.Status\\"\\x00\\x12T\\n\\rSetParameters\\x12\\x1f.deepwater.SetParametersRequest\\x1a .deepwater.SetParametersResponse\\"\\x00\\x12\\x42\\n\\x07\\x45xecute\\x12\\x19.deepwater.ExecuteRequest\\x1a\\x1a.deepwater.ExecuteResponse\\"\\x00\\x42\\x38\\n\\x1e\\x61i.h2o.deepwater.backends.grpcB\\x14\\x44\\x65\\x65pWaterGRPCServiceP\\x01\\x62\\x06proto3')$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=103,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=1049,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=1162,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=1276,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=1509,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=166,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=1702,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=1867,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=1957,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=2001,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=2023,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=2263,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=2391,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=2484,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=303,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=33,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=373,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=472,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=559,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=60,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=630,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=727,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=788,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=827,$/;"	v
+serialized_start	grpc_service_pb2.py	/^  serialized_start=938,$/;"	v
+serve	grpc_service.py	/^def serve(infile, outfile):$/;"	f	access:public
+shutdown	daemon.py	/^  def shutdown(code):$/;"	f	function:manager	access:public
+syntax	grpc_service_pb2.py	/^  syntax='proto3',$/;"	v
+test_can_create_session	client_test.py	/^  def test_can_create_session(self):$/;"	m	class:TestClientConnection	access:public
+type	grpc_service_pb2.py	/^      type=None),$/;"	v
+update_feeds	grpc_service.py	/^  def update_feeds(self, feeds):$/;"	m	class:_Session	access:public
+update_fetches	grpc_service.py	/^  def update_fetches(self, fetches):$/;"	m	class:_Session	access:public
+values	grpc_service_pb2.py	/^  values=[$/;"	v
+weight_variable	grpc_service.py	/^    def weight_variable(shape):$/;"	f	function:_lenet	access:public
+worker	daemon.py	/^def worker(sock):$/;"	f	access:public
+worker_main	daemon.py	/^def worker_main(infile, outfile):$/;"	f	access:public
+write_int	daemon.py	/^def write_int(value, stream):$/;"	f	access:public

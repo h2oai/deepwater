@@ -57,8 +57,9 @@ public  final class ParamValue extends
             break;
           }
           case 18: {
+            java.lang.String s = input.readStringRequireUtf8();
             valueCase_ = 2;
-            value_ = input.readBytes();
+            value_ = s;
             break;
           }
           case 24: {
@@ -79,6 +80,11 @@ public  final class ParamValue extends
           case 48: {
             valueCase_ = 6;
             value_ = input.readBool();
+            break;
+          }
+          case 58: {
+            valueCase_ = 7;
+            value_ = input.readBytes();
             break;
           }
         }
@@ -113,15 +119,16 @@ public  final class ParamValue extends
      * "list(string)"
      * </pre>
      *
-     * <code>repeated bytes s = 2;</code>
+     * <code>repeated string s = 2;</code>
      */
-    java.util.List<com.google.protobuf.ByteString> getSList();
+    java.util.List<java.lang.String>
+        getSList();
     /**
      * <pre>
      * "list(string)"
      * </pre>
      *
-     * <code>repeated bytes s = 2;</code>
+     * <code>repeated string s = 2;</code>
      */
     int getSCount();
     /**
@@ -129,9 +136,18 @@ public  final class ParamValue extends
      * "list(string)"
      * </pre>
      *
-     * <code>repeated bytes s = 2;</code>
+     * <code>repeated string s = 2;</code>
      */
-    com.google.protobuf.ByteString getS(int index);
+    java.lang.String getS(int index);
+    /**
+     * <pre>
+     * "list(string)"
+     * </pre>
+     *
+     * <code>repeated string s = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getSBytes(int index);
 
     /**
      * <pre>
@@ -232,6 +248,19 @@ public  final class ParamValue extends
      * <code>repeated bool b = 6 [packed = true];</code>
      */
     boolean getB(int index);
+
+    /**
+     * <code>repeated bool bb = 7 [packed = true];</code>
+     */
+    java.util.List<java.lang.Boolean> getBbList();
+    /**
+     * <code>repeated bool bb = 7 [packed = true];</code>
+     */
+    int getBbCount();
+    /**
+     * <code>repeated bool bb = 7 [packed = true];</code>
+     */
+    boolean getBb(int index);
   }
   /**
    * Protobuf type {@code deepwater.ParamValue.ListValue}
@@ -245,11 +274,12 @@ public  final class ParamValue extends
       super(builder);
     }
     private ListValue() {
-      s_ = java.util.Collections.emptyList();
+      s_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       i_ = java.util.Collections.emptyList();
       c_ = java.util.Collections.emptyList();
       f_ = java.util.Collections.emptyList();
       b_ = java.util.Collections.emptyList();
+      bb_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -278,11 +308,12 @@ public  final class ParamValue extends
               break;
             }
             case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                s_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                s_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000001;
               }
-              s_.add(input.readBytes());
+              s_.add(s);
               break;
             }
             case 24: {
@@ -369,6 +400,27 @@ public  final class ParamValue extends
               input.popLimit(limit);
               break;
             }
+            case 56: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                bb_ = new java.util.ArrayList<java.lang.Boolean>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              bb_.add(input.readBool());
+              break;
+            }
+            case 58: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020) && input.getBytesUntilLimit() > 0) {
+                bb_ = new java.util.ArrayList<java.lang.Boolean>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                bb_.add(input.readBool());
+              }
+              input.popLimit(limit);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -378,7 +430,7 @@ public  final class ParamValue extends
             e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          s_ = java.util.Collections.unmodifiableList(s_);
+          s_ = s_.getUnmodifiableView();
         }
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           i_ = java.util.Collections.unmodifiableList(i_);
@@ -391,6 +443,9 @@ public  final class ParamValue extends
         }
         if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           b_ = java.util.Collections.unmodifiableList(b_);
+        }
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+          bb_ = java.util.Collections.unmodifiableList(bb_);
         }
         makeExtensionsImmutable();
       }
@@ -408,15 +463,15 @@ public  final class ParamValue extends
     }
 
     public static final int S_FIELD_NUMBER = 2;
-    private java.util.List<com.google.protobuf.ByteString> s_;
+    private com.google.protobuf.LazyStringList s_;
     /**
      * <pre>
      * "list(string)"
      * </pre>
      *
-     * <code>repeated bytes s = 2;</code>
+     * <code>repeated string s = 2;</code>
      */
-    public java.util.List<com.google.protobuf.ByteString>
+    public com.google.protobuf.ProtocolStringList
         getSList() {
       return s_;
     }
@@ -425,7 +480,7 @@ public  final class ParamValue extends
      * "list(string)"
      * </pre>
      *
-     * <code>repeated bytes s = 2;</code>
+     * <code>repeated string s = 2;</code>
      */
     public int getSCount() {
       return s_.size();
@@ -435,10 +490,21 @@ public  final class ParamValue extends
      * "list(string)"
      * </pre>
      *
-     * <code>repeated bytes s = 2;</code>
+     * <code>repeated string s = 2;</code>
      */
-    public com.google.protobuf.ByteString getS(int index) {
+    public java.lang.String getS(int index) {
       return s_.get(index);
+    }
+    /**
+     * <pre>
+     * "list(string)"
+     * </pre>
+     *
+     * <code>repeated string s = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSBytes(int index) {
+      return s_.getByteString(index);
     }
 
     public static final int I_FIELD_NUMBER = 3;
@@ -581,6 +647,29 @@ public  final class ParamValue extends
     }
     private int bMemoizedSerializedSize = -1;
 
+    public static final int BB_FIELD_NUMBER = 7;
+    private java.util.List<java.lang.Boolean> bb_;
+    /**
+     * <code>repeated bool bb = 7 [packed = true];</code>
+     */
+    public java.util.List<java.lang.Boolean>
+        getBbList() {
+      return bb_;
+    }
+    /**
+     * <code>repeated bool bb = 7 [packed = true];</code>
+     */
+    public int getBbCount() {
+      return bb_.size();
+    }
+    /**
+     * <code>repeated bool bb = 7 [packed = true];</code>
+     */
+    public boolean getBb(int index) {
+      return bb_.get(index);
+    }
+    private int bbMemoizedSerializedSize = -1;
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -595,7 +684,7 @@ public  final class ParamValue extends
                         throws java.io.IOException {
       getSerializedSize();
       for (int i = 0; i < s_.size(); i++) {
-        output.writeBytes(2, s_.get(i));
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, s_.getRaw(i));
       }
       if (getIList().size() > 0) {
         output.writeUInt32NoTag(26);
@@ -625,6 +714,13 @@ public  final class ParamValue extends
       for (int i = 0; i < b_.size(); i++) {
         output.writeBoolNoTag(b_.get(i));
       }
+      if (getBbList().size() > 0) {
+        output.writeUInt32NoTag(58);
+        output.writeUInt32NoTag(bbMemoizedSerializedSize);
+      }
+      for (int i = 0; i < bb_.size(); i++) {
+        output.writeBoolNoTag(bb_.get(i));
+      }
     }
 
     public int getSerializedSize() {
@@ -635,8 +731,7 @@ public  final class ParamValue extends
       {
         int dataSize = 0;
         for (int i = 0; i < s_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(s_.get(i));
+          dataSize += computeStringSizeNoTag(s_.getRaw(i));
         }
         size += dataSize;
         size += 1 * getSList().size();
@@ -688,6 +783,17 @@ public  final class ParamValue extends
         }
         bMemoizedSerializedSize = dataSize;
       }
+      {
+        int dataSize = 0;
+        dataSize = 1 * getBbList().size();
+        size += dataSize;
+        if (!getBbList().isEmpty()) {
+          size += 1;
+          size += com.google.protobuf.CodedOutputStream
+              .computeInt32SizeNoTag(dataSize);
+        }
+        bbMemoizedSerializedSize = dataSize;
+      }
       memoizedSize = size;
       return size;
     }
@@ -714,6 +820,8 @@ public  final class ParamValue extends
           .equals(other.getFList());
       result = result && getBList()
           .equals(other.getBList());
+      result = result && getBbList()
+          .equals(other.getBbList());
       return result;
     }
 
@@ -743,6 +851,10 @@ public  final class ParamValue extends
       if (getBCount() > 0) {
         hash = (37 * hash) + B_FIELD_NUMBER;
         hash = (53 * hash) + getBList().hashCode();
+      }
+      if (getBbCount() > 0) {
+        hash = (37 * hash) + BB_FIELD_NUMBER;
+        hash = (53 * hash) + getBbList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -862,7 +974,7 @@ public  final class ParamValue extends
       }
       public Builder clear() {
         super.clear();
-        s_ = java.util.Collections.emptyList();
+        s_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
         i_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -872,6 +984,8 @@ public  final class ParamValue extends
         bitField0_ = (bitField0_ & ~0x00000008);
         b_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000010);
+        bb_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -896,7 +1010,7 @@ public  final class ParamValue extends
         ai.h2o.deepwater.backends.grpc.ParamValue.ListValue result = new ai.h2o.deepwater.backends.grpc.ParamValue.ListValue(this);
         int from_bitField0_ = bitField0_;
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          s_ = java.util.Collections.unmodifiableList(s_);
+          s_ = s_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.s_ = s_;
@@ -920,6 +1034,11 @@ public  final class ParamValue extends
           bitField0_ = (bitField0_ & ~0x00000010);
         }
         result.b_ = b_;
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          bb_ = java.util.Collections.unmodifiableList(bb_);
+          bitField0_ = (bitField0_ & ~0x00000020);
+        }
+        result.bb_ = bb_;
         onBuilt();
         return result;
       }
@@ -1011,6 +1130,16 @@ public  final class ParamValue extends
           }
           onChanged();
         }
+        if (!other.bb_.isEmpty()) {
+          if (bb_.isEmpty()) {
+            bb_ = other.bb_;
+            bitField0_ = (bitField0_ & ~0x00000020);
+          } else {
+            ensureBbIsMutable();
+            bb_.addAll(other.bb_);
+          }
+          onChanged();
+        }
         onChanged();
         return this;
       }
@@ -1038,10 +1167,10 @@ public  final class ParamValue extends
       }
       private int bitField0_;
 
-      private java.util.List<com.google.protobuf.ByteString> s_ = java.util.Collections.emptyList();
+      private com.google.protobuf.LazyStringList s_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureSIsMutable() {
         if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          s_ = new java.util.ArrayList<com.google.protobuf.ByteString>(s_);
+          s_ = new com.google.protobuf.LazyStringArrayList(s_);
           bitField0_ |= 0x00000001;
          }
       }
@@ -1050,18 +1179,18 @@ public  final class ParamValue extends
        * "list(string)"
        * </pre>
        *
-       * <code>repeated bytes s = 2;</code>
+       * <code>repeated string s = 2;</code>
        */
-      public java.util.List<com.google.protobuf.ByteString>
+      public com.google.protobuf.ProtocolStringList
           getSList() {
-        return java.util.Collections.unmodifiableList(s_);
+        return s_.getUnmodifiableView();
       }
       /**
        * <pre>
        * "list(string)"
        * </pre>
        *
-       * <code>repeated bytes s = 2;</code>
+       * <code>repeated string s = 2;</code>
        */
       public int getSCount() {
         return s_.size();
@@ -1071,9 +1200,9 @@ public  final class ParamValue extends
        * "list(string)"
        * </pre>
        *
-       * <code>repeated bytes s = 2;</code>
+       * <code>repeated string s = 2;</code>
        */
-      public com.google.protobuf.ByteString getS(int index) {
+      public java.lang.String getS(int index) {
         return s_.get(index);
       }
       /**
@@ -1081,10 +1210,21 @@ public  final class ParamValue extends
        * "list(string)"
        * </pre>
        *
-       * <code>repeated bytes s = 2;</code>
+       * <code>repeated string s = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSBytes(int index) {
+        return s_.getByteString(index);
+      }
+      /**
+       * <pre>
+       * "list(string)"
+       * </pre>
+       *
+       * <code>repeated string s = 2;</code>
        */
       public Builder setS(
-          int index, com.google.protobuf.ByteString value) {
+          int index, java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -1098,9 +1238,10 @@ public  final class ParamValue extends
        * "list(string)"
        * </pre>
        *
-       * <code>repeated bytes s = 2;</code>
+       * <code>repeated string s = 2;</code>
        */
-      public Builder addS(com.google.protobuf.ByteString value) {
+      public Builder addS(
+          java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -1114,10 +1255,10 @@ public  final class ParamValue extends
        * "list(string)"
        * </pre>
        *
-       * <code>repeated bytes s = 2;</code>
+       * <code>repeated string s = 2;</code>
        */
       public Builder addAllS(
-          java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+          java.lang.Iterable<java.lang.String> values) {
         ensureSIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
             values, s_);
@@ -1129,11 +1270,29 @@ public  final class ParamValue extends
        * "list(string)"
        * </pre>
        *
-       * <code>repeated bytes s = 2;</code>
+       * <code>repeated string s = 2;</code>
        */
       public Builder clearS() {
-        s_ = java.util.Collections.emptyList();
+        s_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * "list(string)"
+       * </pre>
+       *
+       * <code>repeated string s = 2;</code>
+       */
+      public Builder addSBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureSIsMutable();
+        s_.add(value);
         onChanged();
         return this;
       }
@@ -1513,6 +1672,72 @@ public  final class ParamValue extends
         onChanged();
         return this;
       }
+
+      private java.util.List<java.lang.Boolean> bb_ = java.util.Collections.emptyList();
+      private void ensureBbIsMutable() {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+          bb_ = new java.util.ArrayList<java.lang.Boolean>(bb_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+      /**
+       * <code>repeated bool bb = 7 [packed = true];</code>
+       */
+      public java.util.List<java.lang.Boolean>
+          getBbList() {
+        return java.util.Collections.unmodifiableList(bb_);
+      }
+      /**
+       * <code>repeated bool bb = 7 [packed = true];</code>
+       */
+      public int getBbCount() {
+        return bb_.size();
+      }
+      /**
+       * <code>repeated bool bb = 7 [packed = true];</code>
+       */
+      public boolean getBb(int index) {
+        return bb_.get(index);
+      }
+      /**
+       * <code>repeated bool bb = 7 [packed = true];</code>
+       */
+      public Builder setBb(
+          int index, boolean value) {
+        ensureBbIsMutable();
+        bb_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bool bb = 7 [packed = true];</code>
+       */
+      public Builder addBb(boolean value) {
+        ensureBbIsMutable();
+        bb_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bool bb = 7 [packed = true];</code>
+       */
+      public Builder addAllBb(
+          java.lang.Iterable<? extends java.lang.Boolean> values) {
+        ensureBbIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, bb_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bool bb = 7 [packed = true];</code>
+       */
+      public Builder clearBb() {
+        bb_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return this;
@@ -1571,6 +1796,7 @@ public  final class ParamValue extends
     F(4),
     D(5),
     B(6),
+    BB(7),
     LIST(1),
     VALUE_NOT_SET(0);
     private final int value;
@@ -1592,6 +1818,7 @@ public  final class ParamValue extends
         case 4: return F;
         case 5: return D;
         case 6: return B;
+        case 7: return BB;
         case 1: return LIST;
         case 0: return VALUE_NOT_SET;
         default: return null;
@@ -1614,13 +1841,49 @@ public  final class ParamValue extends
    * "string"
    * </pre>
    *
-   * <code>optional bytes s = 2;</code>
+   * <code>optional string s = 2;</code>
    */
-  public com.google.protobuf.ByteString getS() {
+  public java.lang.String getS() {
+    java.lang.Object ref = "";
     if (valueCase_ == 2) {
-      return (com.google.protobuf.ByteString) value_;
+      ref = value_;
     }
-    return com.google.protobuf.ByteString.EMPTY;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (valueCase_ == 2) {
+        value_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <pre>
+   * "string"
+   * </pre>
+   *
+   * <code>optional string s = 2;</code>
+   */
+  public com.google.protobuf.ByteString
+      getSBytes() {
+    java.lang.Object ref = "";
+    if (valueCase_ == 2) {
+      ref = value_;
+    }
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      if (valueCase_ == 2) {
+        value_ = b;
+      }
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
   }
 
   public static final int I_FIELD_NUMBER = 3;
@@ -1683,6 +1946,21 @@ public  final class ParamValue extends
     return false;
   }
 
+  public static final int BB_FIELD_NUMBER = 7;
+  /**
+   * <pre>
+   * "string"
+   * </pre>
+   *
+   * <code>optional bytes bb = 7;</code>
+   */
+  public com.google.protobuf.ByteString getBb() {
+    if (valueCase_ == 7) {
+      return (com.google.protobuf.ByteString) value_;
+    }
+    return com.google.protobuf.ByteString.EMPTY;
+  }
+
   public static final int LIST_FIELD_NUMBER = 1;
   /**
    * <pre>
@@ -1727,8 +2005,7 @@ public  final class ParamValue extends
       output.writeMessage(1, (ai.h2o.deepwater.backends.grpc.ParamValue.ListValue) value_);
     }
     if (valueCase_ == 2) {
-      output.writeBytes(
-          2, (com.google.protobuf.ByteString)((com.google.protobuf.ByteString) value_));
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, value_);
     }
     if (valueCase_ == 3) {
       output.writeInt64(
@@ -1746,6 +2023,10 @@ public  final class ParamValue extends
       output.writeBool(
           6, (boolean)((java.lang.Boolean) value_));
     }
+    if (valueCase_ == 7) {
+      output.writeBytes(
+          7, (com.google.protobuf.ByteString)((com.google.protobuf.ByteString) value_));
+    }
   }
 
   public int getSerializedSize() {
@@ -1758,9 +2039,7 @@ public  final class ParamValue extends
         .computeMessageSize(1, (ai.h2o.deepwater.backends.grpc.ParamValue.ListValue) value_);
     }
     if (valueCase_ == 2) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeBytesSize(
-            2, (com.google.protobuf.ByteString)((com.google.protobuf.ByteString) value_));
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, value_);
     }
     if (valueCase_ == 3) {
       size += com.google.protobuf.CodedOutputStream
@@ -1781,6 +2060,11 @@ public  final class ParamValue extends
       size += com.google.protobuf.CodedOutputStream
         .computeBoolSize(
             6, (boolean)((java.lang.Boolean) value_));
+    }
+    if (valueCase_ == 7) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(
+            7, (com.google.protobuf.ByteString)((com.google.protobuf.ByteString) value_));
     }
     memoizedSize = size;
     return size;
@@ -1826,6 +2110,10 @@ public  final class ParamValue extends
         result = result && (getB()
             == other.getB());
         break;
+      case 7:
+        result = result && getBb()
+            .equals(other.getBb());
+        break;
       case 1:
         result = result && getList()
             .equals(other.getList());
@@ -1867,6 +2155,10 @@ public  final class ParamValue extends
         hash = (37 * hash) + B_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
             getB());
+        break;
+      case 7:
+        hash = (37 * hash) + BB_FIELD_NUMBER;
+        hash = (53 * hash) + getBb().hashCode();
         break;
       case 1:
         hash = (37 * hash) + LIST_FIELD_NUMBER;
@@ -2032,6 +2324,9 @@ public  final class ParamValue extends
       if (valueCase_ == 6) {
         result.value_ = value_;
       }
+      if (valueCase_ == 7) {
+        result.value_ = value_;
+      }
       if (valueCase_ == 1) {
         if (listBuilder_ == null) {
           result.value_ = value_;
@@ -2083,7 +2378,9 @@ public  final class ParamValue extends
       if (other == ai.h2o.deepwater.backends.grpc.ParamValue.getDefaultInstance()) return this;
       switch (other.getValueCase()) {
         case S: {
-          setS(other.getS());
+          valueCase_ = 2;
+          value_ = other.value_;
+          onChanged();
           break;
         }
         case I: {
@@ -2100,6 +2397,10 @@ public  final class ParamValue extends
         }
         case B: {
           setB(other.getB());
+          break;
+        }
+        case BB: {
+          setBb(other.getBb());
           break;
         }
         case LIST: {
@@ -2156,22 +2457,59 @@ public  final class ParamValue extends
      * "string"
      * </pre>
      *
-     * <code>optional bytes s = 2;</code>
+     * <code>optional string s = 2;</code>
      */
-    public com.google.protobuf.ByteString getS() {
+    public java.lang.String getS() {
+      java.lang.Object ref = "";
       if (valueCase_ == 2) {
-        return (com.google.protobuf.ByteString) value_;
+        ref = value_;
       }
-      return com.google.protobuf.ByteString.EMPTY;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (valueCase_ == 2) {
+          value_ = s;
+        }
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
     }
     /**
      * <pre>
      * "string"
      * </pre>
      *
-     * <code>optional bytes s = 2;</code>
+     * <code>optional string s = 2;</code>
      */
-    public Builder setS(com.google.protobuf.ByteString value) {
+    public com.google.protobuf.ByteString
+        getSBytes() {
+      java.lang.Object ref = "";
+      if (valueCase_ == 2) {
+        ref = value_;
+      }
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        if (valueCase_ == 2) {
+          value_ = b;
+        }
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <pre>
+     * "string"
+     * </pre>
+     *
+     * <code>optional string s = 2;</code>
+     */
+    public Builder setS(
+        java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
@@ -2185,7 +2523,7 @@ public  final class ParamValue extends
      * "string"
      * </pre>
      *
-     * <code>optional bytes s = 2;</code>
+     * <code>optional string s = 2;</code>
      */
     public Builder clearS() {
       if (valueCase_ == 2) {
@@ -2193,6 +2531,24 @@ public  final class ParamValue extends
         value_ = null;
         onChanged();
       }
+      return this;
+    }
+    /**
+     * <pre>
+     * "string"
+     * </pre>
+     *
+     * <code>optional string s = 2;</code>
+     */
+    public Builder setSBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      valueCase_ = 2;
+      value_ = value;
+      onChanged();
       return this;
     }
 
@@ -2357,6 +2713,51 @@ public  final class ParamValue extends
      */
     public Builder clearB() {
       if (valueCase_ == 6) {
+        valueCase_ = 0;
+        value_ = null;
+        onChanged();
+      }
+      return this;
+    }
+
+    /**
+     * <pre>
+     * "string"
+     * </pre>
+     *
+     * <code>optional bytes bb = 7;</code>
+     */
+    public com.google.protobuf.ByteString getBb() {
+      if (valueCase_ == 7) {
+        return (com.google.protobuf.ByteString) value_;
+      }
+      return com.google.protobuf.ByteString.EMPTY;
+    }
+    /**
+     * <pre>
+     * "string"
+     * </pre>
+     *
+     * <code>optional bytes bb = 7;</code>
+     */
+    public Builder setBb(com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  valueCase_ = 7;
+      value_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * "string"
+     * </pre>
+     *
+     * <code>optional bytes bb = 7;</code>
+     */
+    public Builder clearBb() {
+      if (valueCase_ == 7) {
         valueCase_ = 0;
         value_ = null;
         onChanged();

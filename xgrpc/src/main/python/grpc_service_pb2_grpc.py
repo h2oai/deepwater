@@ -93,20 +93,20 @@ class DeepWaterTrainBackendStub(object):
         request_serializer=grpc__service__pb2.SaveModelRequest.SerializeToString,
         response_deserializer=grpc__service__pb2.SaveModelResponse.FromString,
         )
-    self.LoadWeights = channel.unary_unary(
-        '/deepwater.DeepWaterTrainBackend/LoadWeights',
-        request_serializer=grpc__service__pb2.LoadWeightsRequest.SerializeToString,
-        response_deserializer=grpc__service__pb2.LoadWeightsResponse.FromString,
+    self.LoadModelWeights = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/LoadModelWeights',
+        request_serializer=grpc__service__pb2.LoadModelWeightsRequest.SerializeToString,
+        response_deserializer=grpc__service__pb2.LoadModelWeightsResponse.FromString,
         )
-    self.SaveWeights = channel.unary_unary(
-        '/deepwater.DeepWaterTrainBackend/SaveWeights',
-        request_serializer=grpc__service__pb2.SaveWeightsRequest.SerializeToString,
-        response_deserializer=grpc__service__pb2.SaveWeightsResponse.FromString,
+    self.SaveModelWeights = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/SaveModelWeights',
+        request_serializer=grpc__service__pb2.SaveModelWeightsRequest.SerializeToString,
+        response_deserializer=grpc__service__pb2.SaveModelWeightsResponse.FromString,
         )
-    self.SetParameters = channel.unary_unary(
-        '/deepwater.DeepWaterTrainBackend/SetParameters',
-        request_serializer=grpc__service__pb2.SetParametersRequest.SerializeToString,
-        response_deserializer=grpc__service__pb2.SetParametersResponse.FromString,
+    self.SetModelParameters = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/SetModelParameters',
+        request_serializer=grpc__service__pb2.SetModelParametersRequest.SerializeToString,
+        response_deserializer=grpc__service__pb2.SetModelParametersResponse.FromString,
         )
     self.Execute = channel.unary_unary(
         '/deepwater.DeepWaterTrainBackend/Execute',
@@ -142,17 +142,17 @@ class DeepWaterTrainBackendServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def LoadWeights(self, request, context):
+  def LoadModelWeights(self, request, context):
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def SaveWeights(self, request, context):
+  def SaveModelWeights(self, request, context):
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def SetParameters(self, request, context):
+  def SetModelParameters(self, request, context):
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
@@ -190,20 +190,20 @@ def add_DeepWaterTrainBackendServicer_to_server(servicer, server):
           request_deserializer=grpc__service__pb2.SaveModelRequest.FromString,
           response_serializer=grpc__service__pb2.SaveModelResponse.SerializeToString,
       ),
-      'LoadWeights': grpc.unary_unary_rpc_method_handler(
-          servicer.LoadWeights,
-          request_deserializer=grpc__service__pb2.LoadWeightsRequest.FromString,
-          response_serializer=grpc__service__pb2.LoadWeightsResponse.SerializeToString,
+      'LoadModelWeights': grpc.unary_unary_rpc_method_handler(
+          servicer.LoadModelWeights,
+          request_deserializer=grpc__service__pb2.LoadModelWeightsRequest.FromString,
+          response_serializer=grpc__service__pb2.LoadModelWeightsResponse.SerializeToString,
       ),
-      'SaveWeights': grpc.unary_unary_rpc_method_handler(
-          servicer.SaveWeights,
-          request_deserializer=grpc__service__pb2.SaveWeightsRequest.FromString,
-          response_serializer=grpc__service__pb2.SaveWeightsResponse.SerializeToString,
+      'SaveModelWeights': grpc.unary_unary_rpc_method_handler(
+          servicer.SaveModelWeights,
+          request_deserializer=grpc__service__pb2.SaveModelWeightsRequest.FromString,
+          response_serializer=grpc__service__pb2.SaveModelWeightsResponse.SerializeToString,
       ),
-      'SetParameters': grpc.unary_unary_rpc_method_handler(
-          servicer.SetParameters,
-          request_deserializer=grpc__service__pb2.SetParametersRequest.FromString,
-          response_serializer=grpc__service__pb2.SetParametersResponse.SerializeToString,
+      'SetModelParameters': grpc.unary_unary_rpc_method_handler(
+          servicer.SetModelParameters,
+          request_deserializer=grpc__service__pb2.SetModelParametersRequest.FromString,
+          response_serializer=grpc__service__pb2.SetModelParametersResponse.SerializeToString,
       ),
       'Execute': grpc.unary_unary_rpc_method_handler(
           servicer.Execute,

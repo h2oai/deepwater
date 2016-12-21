@@ -73,7 +73,7 @@ public class Client {
 
 
     public ParamValue asParam(String key){
-        return ParamValue.newBuilder().setS(ByteString.copyFromUtf8(key)).build();
+        return ParamValue.newBuilder().setS(key).build();
     }
 
     public Map<String, ParamValue> asParams(Map<String, Object> params) throws Exception {
@@ -109,17 +109,21 @@ public class Client {
         DeleteSessionRequest req = DeleteSessionRequest.newBuilder()
                 .setSession(asSession(session))
                 .build();
-        checkStatus(blockingStub.deleteSession(req));
+        checkStatus(blockingStub.deleteSession(req).getStatus());
     }
 
-    public void loadModel(XGRPCBackendSession session, XGRPCBackendModel model, String path) throws Exception{
+    public XGRPCBackendModel loadModel(XGRPCBackendSession session, String path) throws Exception{
+        Map<String, Object> params = new HashMap<>();
+        params.put("path", path);
         LoadModelRequest req = LoadModelRequest.newBuilder()
-                .setModel(asModel(model))
                 .setSession(asSession(session))
-                .setPath(asByteString(path))
+                .putAllParams(asParams(params))
                 .build();
-        Status status = blockingStub.loadModel(req);
-        checkStatus(status);
+        LoadModelResponse response = blockingStub.loadModel(req);
+        checkStatus(response.getStatus());
+
+        ai.h2o.deepwater.backends.grpc.BackendModel model = response.getModel();
+        return new XGRPCBackendModel(model.getId().toByteArray(), model.getState().toByteArray());
     }
 
     private ByteString asByteString(String path) {
@@ -132,37 +136,45 @@ public class Client {
 
 
     public void saveModel(XGRPCBackendSession session, XGRPCBackendModel model, String path) throws Exception{
+        Map<String, Object> params = new HashMap<>();
+        params.put("path", path);
         SaveModelRequest req = SaveModelRequest.newBuilder()
                 .setSession(asSession(session))
                 .setModel(asModel(model))
-                .setPath(asByteString(path))
+                .putAllParams(asParams(params))
                 .build();
 
-        Status status = blockingStub.saveModel(req);
-        checkStatus(status);
+        SaveModelResponse response = blockingStub.saveModel(req);
+        checkStatus(response.getStatus());
     }
 
 
-    public void saveWeights(XGRPCBackendSession session, XGRPCBackendModel model, String path) throws Exception{
-        SaveWeightsRequest req = SaveWeightsRequest.newBuilder()
+    public void saveModelVariables(XGRPCBackendSession session, XGRPCBackendModel model, String path) throws Exception{
+        Map<String, Object> params = new HashMap<>();
+        params.put("path", path);
+        SaveModelVariablesRequest req = SaveModelVariablesRequest.newBuilder()
                 .setModel(asModel(model))
                 .setSession(asSession(session))
-                .setPath(asByteString(path))
+                .putAllParams(asParams(params))
                 .build();
 
-        Status status = blockingStub.saveWeights(req);
-        checkStatus(status);
+        SaveModelVariablesResponse response = blockingStub.saveModelVariables(req);
+        checkStatus(response.getStatus());
     }
 
 
-    public void loadWeights(XGRPCBackendSession session, XGRPCBackendModel model, String path) throws Exception{
-        LoadWeightsRequest req = LoadWeightsRequest.newBuilder()
+    public void loadModelVariables(XGRPCBackendSession session, XGRPCBackendModel model, String path) throws Exception{
+        Map<String, Object> params = new HashMap<>();
+        params.put("path", path);
+
+
+        LoadModelVariablesRequest req = LoadModelVariablesRequest.newBuilder()
                 .setModel(asModel(model))
                 .setSession(asSession(session))
-                .setPath(asByteString(path))
+                .putAllParams(asParams(params))
                 .build();
-        Status status = blockingStub.loadWeights(req);
-        checkStatus(status);
+        LoadModelVariablesResponse response = blockingStub.loadModelVariables(req);
+        checkStatus(response.getStatus());
     }
 
 
@@ -180,13 +192,13 @@ public class Client {
 
     public void setParameters(XGRPCBackendSession session, XGRPCBackendModel model, Map<String, Object> params) throws Exception {
 
-        SetParametersRequest req = SetParametersRequest.newBuilder()
+        SetModelParametersRequest req = SetModelParametersRequest.newBuilder()
                 .setSession(asSession(session))
                 .setModel(asModel(model))
                 .putAllParams(asParams(params))
                 .build();
 
-        SetParametersResponse response = blockingStub.setParameters(req);
+        SetModelParametersResponse response = blockingStub.setModelParameters(req);
 
         checkStatus(response.getStatus());
 

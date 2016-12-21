@@ -12,9 +12,18 @@ public interface ParamValueOrBuilder extends
    * "string"
    * </pre>
    *
-   * <code>optional bytes s = 2;</code>
+   * <code>optional string s = 2;</code>
    */
-  com.google.protobuf.ByteString getS();
+  java.lang.String getS();
+  /**
+   * <pre>
+   * "string"
+   * </pre>
+   *
+   * <code>optional string s = 2;</code>
+   */
+  com.google.protobuf.ByteString
+      getSBytes();
 
   /**
    * <pre>
@@ -51,6 +60,15 @@ public interface ParamValueOrBuilder extends
    * <code>optional bool b = 6;</code>
    */
   boolean getB();
+
+  /**
+   * <pre>
+   * "string"
+   * </pre>
+   *
+   * <code>optional bytes bb = 7;</code>
+   */
+  com.google.protobuf.ByteString getBb();
 
   /**
    * <pre>

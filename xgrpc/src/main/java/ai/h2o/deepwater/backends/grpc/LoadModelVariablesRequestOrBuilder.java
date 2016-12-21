@@ -3,8 +3,8 @@
 
 package ai.h2o.deepwater.backends.grpc;
 
-public interface SaveModelRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:deepwater.SaveModelRequest)
+public interface LoadModelVariablesRequestOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:deepwater.LoadModelVariablesRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**

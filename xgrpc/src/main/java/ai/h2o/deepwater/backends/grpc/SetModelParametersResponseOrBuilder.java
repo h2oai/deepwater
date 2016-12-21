@@ -3,8 +3,8 @@
 
 package ai.h2o.deepwater.backends.grpc;
 
-public interface SetParametersResponseOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:deepwater.SetParametersResponse)
+public interface SetModelParametersResponseOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:deepwater.SetModelParametersResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**

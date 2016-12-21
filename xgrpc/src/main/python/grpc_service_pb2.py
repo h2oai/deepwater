@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='grpc_service.proto',
   package='deepwater',
   syntax='proto3',
-  serialized_pb=_b('\n\x12grpc_service.proto\x12\tdeepwater\"\x19\n\x07Session\x12\x0e\n\x06handle\x18\x01 \x01(\t\")\n\x0c\x42\x61\x63kendModel\x12\n\n\x02id\x18\x01 \x01(\x0c\x12\r\n\x05state\x18\x02 \x01(\x0c\"\xcd\x01\n\x12\x43reateModelRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12\x11\n\tmodelName\x18\x02 \x01(\t\x12\x39\n\x06params\x18\x03 \x03(\x0b\x32).deepwater.CreateModelRequest.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"`\n\x13\x43reateModelResponse\x12&\n\x05model\x18\x01 \x01(\x0b\x32\x17.deepwater.BackendModel\x12!\n\x06status\x18\x02 \x01(\x0b\x32\x11.deepwater.Status\"\x9c\x01\n\x14\x43reateSessionRequest\x12=\n\x07options\x18\x01 \x03(\x0b\x32,.deepwater.CreateSessionRequest.OptionsEntry\x1a\x45\n\x0cOptionsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"_\n\x15\x43reateSessionResponse\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12!\n\x06status\x18\x02 \x01(\x0b\x32\x11.deepwater.Status\";\n\x14\x44\x65leteSessionRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\":\n\x15\x44\x65leteSessionResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\"%\n\x06Status\x12\n\n\x02ok\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"m\n\x10LoadModelRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12\x0c\n\x04path\x18\x03 \x01(\x0c\"6\n\x11LoadModelResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\"m\n\x10SaveModelRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12\x0c\n\x04path\x18\x03 \x01(\x0c\"6\n\x11SaveModelResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\"o\n\x12LoadWeightsRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12\x0c\n\x04path\x18\x03 \x01(\x0c\"8\n\x13LoadWeightsResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\"o\n\x12SaveWeightsRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12\x0c\n\x04path\x18\x03 \x01(\x0c\"8\n\x13SaveWeightsResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\"\xe6\x01\n\x14SetParametersRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12;\n\x06params\x18\x03 \x03(\x0b\x32+.deepwater.SetParametersRequest.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"\xbe\x01\n\x15SetParametersResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\x12<\n\x06params\x18\x02 \x03(\x0b\x32,.deepwater.SetParametersResponse.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"\xa3\x01\n\x0e\x45xecuteRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12 \n\x05\x66\x65\x65\x64s\x18\x03 \x03(\x0b\x32\x11.deepwater.Tensor\x12\"\n\x07\x66\x65tches\x18\x04 \x03(\x0b\x32\x11.deepwater.Tensor\"X\n\x0f\x45xecuteResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\x12\"\n\x07\x66\x65tches\x18\x02 \x03(\x0b\x32\x11.deepwater.Tensor\"?\n\x05Shape\x12!\n\x03\x64im\x18\x02 \x03(\x0b\x32\x14.deepwater.Shape.Dim\x1a\x13\n\x03\x44im\x12\x0c\n\x04size\x18\x01 \x01(\x03\"\xed\x01\n\x06Tensor\x12\x1f\n\x05shape\x18\x01 \x01(\x0b\x32\x10.deepwater.Shape\x12!\n\x04type\x18\x02 \x01(\x0e\x32\x13.deepwater.DataType\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x14\n\x0cstring_value\x18\x04 \x03(\x0c\x12\x17\n\x0bint32_value\x18\x05 \x03(\x05\x42\x02\x10\x01\x12\x17\n\x0bint64_value\x18\x06 \x03(\x03\x42\x02\x10\x01\x12\x17\n\x0b\x66loat_value\x18\x07 \x03(\x02\x42\x02\x10\x01\x12\x18\n\x0c\x64ouble_value\x18\x08 \x03(\x01\x42\x02\x10\x01\x12\x16\n\nbool_value\x18\t \x03(\x08\x42\x02\x10\x01\"\xdb\x01\n\nParamValue\x12\x0b\n\x01s\x18\x02 \x01(\x0cH\x00\x12\x0b\n\x01i\x18\x03 \x01(\x03H\x00\x12\x0b\n\x01\x66\x18\x04 \x01(\x02H\x00\x12\x0b\n\x01\x64\x18\x05 \x01(\x01H\x00\x12\x0b\n\x01\x62\x18\x06 \x01(\x08H\x00\x12/\n\x04list\x18\x01 \x01(\x0b\x32\x1f.deepwater.ParamValue.ListValueH\x00\x1aR\n\tListValue\x12\t\n\x01s\x18\x02 \x03(\x0c\x12\r\n\x01i\x18\x03 \x03(\x03\x42\x02\x10\x01\x12\r\n\x01\x63\x18\x04 \x03(\x02\x42\x02\x10\x01\x12\r\n\x01\x66\x18\x05 \x03(\x01\x42\x02\x10\x01\x12\r\n\x01\x62\x18\x06 \x03(\x08\x42\x02\x10\x01\x42\x07\n\x05value*r\n\x08\x44\x61taType\x12\x0e\n\nDT_INVALID\x10\x00\x12\x0e\n\nDT_FLOAT32\x10\x01\x12\x0e\n\nDT_FLOAT64\x10\x02\x12\x0c\n\x08\x44T_INT32\x10\x03\x12\x0c\n\x08\x44T_INT64\x10\x04\x12\x0b\n\x07\x44T_BOOL\x10\x05\x12\r\n\tDT_STRING\x10\x06\x32]\n\x17\x44\x65\x65pWaterPredictBackend\x12\x42\n\x07\x45xecute\x12\x19.deepwater.ExecuteRequest\x1a\x1a.deepwater.ExecuteResponse\"\x00\x32\xe1\x05\n\x15\x44\x65\x65pWaterTrainBackend\x12N\n\x0b\x43reateModel\x12\x1d.deepwater.CreateModelRequest\x1a\x1e.deepwater.CreateModelResponse\"\x00\x12T\n\rCreateSession\x12\x1f.deepwater.CreateSessionRequest\x1a .deepwater.CreateSessionResponse\"\x00\x12T\n\rDeleteSession\x12\x1f.deepwater.DeleteSessionRequest\x1a .deepwater.DeleteSessionResponse\"\x00\x12H\n\tLoadModel\x12\x1b.deepwater.LoadModelRequest\x1a\x1c.deepwater.LoadModelResponse\"\x00\x12H\n\tSaveModel\x12\x1b.deepwater.SaveModelRequest\x1a\x1c.deepwater.SaveModelResponse\"\x00\x12N\n\x0bLoadWeights\x12\x1d.deepwater.LoadWeightsRequest\x1a\x1e.deepwater.LoadWeightsResponse\"\x00\x12N\n\x0bSaveWeights\x12\x1d.deepwater.SaveWeightsRequest\x1a\x1e.deepwater.SaveWeightsResponse\"\x00\x12T\n\rSetParameters\x12\x1f.deepwater.SetParametersRequest\x1a .deepwater.SetParametersResponse\"\x00\x12\x42\n\x07\x45xecute\x12\x19.deepwater.ExecuteRequest\x1a\x1a.deepwater.ExecuteResponse\"\x00\x42\x38\n\x1e\x61i.h2o.deepwater.backends.grpcB\x14\x44\x65\x65pWaterGRPCServiceP\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x12grpc_service.proto\x12\tdeepwater\"\x19\n\x07Session\x12\x0e\n\x06handle\x18\x01 \x01(\t\")\n\x0c\x42\x61\x63kendModel\x12\n\n\x02id\x18\x01 \x01(\x0c\x12\r\n\x05state\x18\x02 \x01(\x0c\"\xcd\x01\n\x12\x43reateModelRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12\x11\n\tmodelName\x18\x02 \x01(\t\x12\x39\n\x06params\x18\x03 \x03(\x0b\x32).deepwater.CreateModelRequest.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"`\n\x13\x43reateModelResponse\x12&\n\x05model\x18\x01 \x01(\x0b\x32\x17.deepwater.BackendModel\x12!\n\x06status\x18\x02 \x01(\x0b\x32\x11.deepwater.Status\"\x9c\x01\n\x14\x43reateSessionRequest\x12=\n\x07options\x18\x01 \x03(\x0b\x32,.deepwater.CreateSessionRequest.OptionsEntry\x1a\x45\n\x0cOptionsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"_\n\x15\x43reateSessionResponse\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12!\n\x06status\x18\x02 \x01(\x0b\x32\x11.deepwater.Status\";\n\x14\x44\x65leteSessionRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\":\n\x15\x44\x65leteSessionResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\"%\n\x06Status\x12\n\n\x02ok\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"\xb6\x01\n\x10LoadModelRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12\x37\n\x06params\x18\x03 \x03(\x0b\x32\'.deepwater.LoadModelRequest.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"^\n\x11LoadModelResponse\x12&\n\x05model\x18\x01 \x01(\x0b\x32\x17.deepwater.BackendModel\x12!\n\x06status\x18\x02 \x01(\x0b\x32\x11.deepwater.Status\"\xde\x01\n\x10SaveModelRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12\x37\n\x06params\x18\x03 \x03(\x0b\x32\'.deepwater.SaveModelRequest.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"6\n\x11SaveModelResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\"\xf0\x01\n\x19LoadModelVariablesRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12@\n\x06params\x18\x03 \x03(\x0b\x32\x30.deepwater.LoadModelVariablesRequest.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"?\n\x1aLoadModelVariablesResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\"\xf0\x01\n\x19SaveModelVariablesRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12@\n\x06params\x18\x03 \x03(\x0b\x32\x30.deepwater.SaveModelVariablesRequest.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"?\n\x1aSaveModelVariablesResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\"\xf0\x01\n\x19SetModelParametersRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12@\n\x06params\x18\x03 \x03(\x0b\x32\x30.deepwater.SetModelParametersRequest.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"\xc8\x01\n\x1aSetModelParametersResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\x12\x41\n\x06params\x18\x02 \x03(\x0b\x32\x31.deepwater.SetModelParametersResponse.ParamsEntry\x1a\x44\n\x0bParamsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12$\n\x05value\x18\x02 \x01(\x0b\x32\x15.deepwater.ParamValue:\x02\x38\x01\"\xa3\x01\n\x0e\x45xecuteRequest\x12#\n\x07session\x18\x01 \x01(\x0b\x32\x12.deepwater.Session\x12&\n\x05model\x18\x02 \x01(\x0b\x32\x17.deepwater.BackendModel\x12 \n\x05\x66\x65\x65\x64s\x18\x03 \x03(\x0b\x32\x11.deepwater.Tensor\x12\"\n\x07\x66\x65tches\x18\x04 \x03(\x0b\x32\x11.deepwater.Tensor\"X\n\x0f\x45xecuteResponse\x12!\n\x06status\x18\x01 \x01(\x0b\x32\x11.deepwater.Status\x12\"\n\x07\x66\x65tches\x18\x02 \x03(\x0b\x32\x11.deepwater.Tensor\"?\n\x05Shape\x12!\n\x03\x64im\x18\x02 \x03(\x0b\x32\x14.deepwater.Shape.Dim\x1a\x13\n\x03\x44im\x12\x0c\n\x04size\x18\x01 \x01(\x03\"\xed\x01\n\x06Tensor\x12\x1f\n\x05shape\x18\x01 \x01(\x0b\x32\x10.deepwater.Shape\x12!\n\x04type\x18\x02 \x01(\x0e\x32\x13.deepwater.DataType\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x14\n\x0cstring_value\x18\x04 \x03(\x0c\x12\x17\n\x0bint32_value\x18\x05 \x03(\x05\x42\x02\x10\x01\x12\x17\n\x0bint64_value\x18\x06 \x03(\x03\x42\x02\x10\x01\x12\x17\n\x0b\x66loat_value\x18\x07 \x03(\x02\x42\x02\x10\x01\x12\x18\n\x0c\x64ouble_value\x18\x08 \x03(\x01\x42\x02\x10\x01\x12\x16\n\nbool_value\x18\t \x03(\x08\x42\x02\x10\x01\"\xf9\x01\n\nParamValue\x12\x0b\n\x01s\x18\x02 \x01(\tH\x00\x12\x0b\n\x01i\x18\x03 \x01(\x03H\x00\x12\x0b\n\x01\x66\x18\x04 \x01(\x02H\x00\x12\x0b\n\x01\x64\x18\x05 \x01(\x01H\x00\x12\x0b\n\x01\x62\x18\x06 \x01(\x08H\x00\x12\x0c\n\x02\x62\x62\x18\x07 \x01(\x0cH\x00\x12/\n\x04list\x18\x01 \x01(\x0b\x32\x1f.deepwater.ParamValue.ListValueH\x00\x1a\x62\n\tListValue\x12\t\n\x01s\x18\x02 \x03(\t\x12\r\n\x01i\x18\x03 \x03(\x03\x42\x02\x10\x01\x12\r\n\x01\x63\x18\x04 \x03(\x02\x42\x02\x10\x01\x12\r\n\x01\x66\x18\x05 \x03(\x01\x42\x02\x10\x01\x12\r\n\x01\x62\x18\x06 \x03(\x08\x42\x02\x10\x01\x12\x0e\n\x02\x62\x62\x18\x07 \x03(\x08\x42\x02\x10\x01\x42\x07\n\x05value*r\n\x08\x44\x61taType\x12\x0e\n\nDT_INVALID\x10\x00\x12\x0e\n\nDT_FLOAT32\x10\x01\x12\x0e\n\nDT_FLOAT64\x10\x02\x12\x0c\n\x08\x44T_INT32\x10\x03\x12\x0c\n\x08\x44T_INT64\x10\x04\x12\x0b\n\x07\x44T_BOOL\x10\x05\x12\r\n\tDT_STRING\x10\x06\x32]\n\x17\x44\x65\x65pWaterPredictBackend\x12\x42\n\x07\x45xecute\x12\x19.deepwater.ExecuteRequest\x1a\x1a.deepwater.ExecuteResponse\"\x00\x32\x9a\x06\n\x15\x44\x65\x65pWaterTrainBackend\x12N\n\x0b\x43reateModel\x12\x1d.deepwater.CreateModelRequest\x1a\x1e.deepwater.CreateModelResponse\"\x00\x12T\n\rCreateSession\x12\x1f.deepwater.CreateSessionRequest\x1a .deepwater.CreateSessionResponse\"\x00\x12T\n\rDeleteSession\x12\x1f.deepwater.DeleteSessionRequest\x1a .deepwater.DeleteSessionResponse\"\x00\x12H\n\tLoadModel\x12\x1b.deepwater.LoadModelRequest\x1a\x1c.deepwater.LoadModelResponse\"\x00\x12H\n\tSaveModel\x12\x1b.deepwater.SaveModelRequest\x1a\x1c.deepwater.SaveModelResponse\"\x00\x12\x63\n\x12LoadModelVariables\x12$.deepwater.LoadModelVariablesRequest\x1a%.deepwater.LoadModelVariablesResponse\"\x00\x12\x63\n\x12SaveModelVariables\x12$.deepwater.SaveModelVariablesRequest\x1a%.deepwater.SaveModelVariablesResponse\"\x00\x12\x63\n\x12SetModelParameters\x12$.deepwater.SetModelParametersRequest\x1a%.deepwater.SetModelParametersResponse\"\x00\x12\x42\n\x07\x45xecute\x12\x19.deepwater.ExecuteRequest\x1a\x1a.deepwater.ExecuteResponse\"\x00\x42\x38\n\x1e\x61i.h2o.deepwater.backends.grpcB\x14\x44\x65\x65pWaterGRPCServiceP\x01\x62\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -61,8 +61,8 @@ _DATATYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2710,
-  serialized_end=2824,
+  serialized_start=3262,
+  serialized_end=3376,
 )
 _sym_db.RegisterEnumDescriptor(_DATATYPE)
 
@@ -472,6 +472,43 @@ _STATUS = _descriptor.Descriptor(
 )
 
 
+_LOADMODELREQUEST_PARAMSENTRY = _descriptor.Descriptor(
+  name='ParamsEntry',
+  full_name='deepwater.LoadModelRequest.ParamsEntry',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='key', full_name='deepwater.LoadModelRequest.ParamsEntry.key', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='deepwater.LoadModelRequest.ParamsEntry.value', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=_descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001')),
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=241,
+  serialized_end=309,
+)
+
 _LOADMODELREQUEST = _descriptor.Descriptor(
   name='LoadModelRequest',
   full_name='deepwater.LoadModelRequest',
@@ -487,23 +524,16 @@ _LOADMODELREQUEST = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='model', full_name='deepwater.LoadModelRequest.model', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='path', full_name='deepwater.LoadModelRequest.path', index=2,
-      number=3, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b(""),
+      name='params', full_name='deepwater.LoadModelRequest.params', index=1,
+      number=3, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
   ],
   extensions=[
   ],
-  nested_types=[],
+  nested_types=[_LOADMODELREQUEST_PARAMSENTRY, ],
   enum_types=[
   ],
   options=None,
@@ -512,8 +542,8 @@ _LOADMODELREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=825,
-  serialized_end=934,
+  serialized_start=826,
+  serialized_end=1008,
 )
 
 
@@ -525,8 +555,15 @@ _LOADMODELRESPONSE = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='status', full_name='deepwater.LoadModelResponse.status', index=0,
+      name='model', full_name='deepwater.LoadModelResponse.model', index=0,
       number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='deepwater.LoadModelResponse.status', index=1,
+      number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -543,10 +580,47 @@ _LOADMODELRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=936,
-  serialized_end=990,
+  serialized_start=1010,
+  serialized_end=1104,
 )
 
+
+_SAVEMODELREQUEST_PARAMSENTRY = _descriptor.Descriptor(
+  name='ParamsEntry',
+  full_name='deepwater.SaveModelRequest.ParamsEntry',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='key', full_name='deepwater.SaveModelRequest.ParamsEntry.key', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='deepwater.SaveModelRequest.ParamsEntry.value', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=_descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001')),
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=241,
+  serialized_end=309,
+)
 
 _SAVEMODELREQUEST = _descriptor.Descriptor(
   name='SaveModelRequest',
@@ -570,16 +644,16 @@ _SAVEMODELREQUEST = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='path', full_name='deepwater.SaveModelRequest.path', index=2,
-      number=3, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b(""),
+      name='params', full_name='deepwater.SaveModelRequest.params', index=2,
+      number=3, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
   ],
   extensions=[
   ],
-  nested_types=[],
+  nested_types=[_SAVEMODELREQUEST_PARAMSENTRY, ],
   enum_types=[
   ],
   options=None,
@@ -588,8 +662,8 @@ _SAVEMODELREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=992,
-  serialized_end=1101,
+  serialized_start=1107,
+  serialized_end=1329,
 )
 
 
@@ -619,179 +693,27 @@ _SAVEMODELRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1103,
-  serialized_end=1157,
+  serialized_start=1331,
+  serialized_end=1385,
 )
 
 
-_LOADWEIGHTSREQUEST = _descriptor.Descriptor(
-  name='LoadWeightsRequest',
-  full_name='deepwater.LoadWeightsRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='session', full_name='deepwater.LoadWeightsRequest.session', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='model', full_name='deepwater.LoadWeightsRequest.model', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='path', full_name='deepwater.LoadWeightsRequest.path', index=2,
-      number=3, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b(""),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1159,
-  serialized_end=1270,
-)
-
-
-_LOADWEIGHTSRESPONSE = _descriptor.Descriptor(
-  name='LoadWeightsResponse',
-  full_name='deepwater.LoadWeightsResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='status', full_name='deepwater.LoadWeightsResponse.status', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1272,
-  serialized_end=1328,
-)
-
-
-_SAVEWEIGHTSREQUEST = _descriptor.Descriptor(
-  name='SaveWeightsRequest',
-  full_name='deepwater.SaveWeightsRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='session', full_name='deepwater.SaveWeightsRequest.session', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='model', full_name='deepwater.SaveWeightsRequest.model', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='path', full_name='deepwater.SaveWeightsRequest.path', index=2,
-      number=3, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b(""),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1330,
-  serialized_end=1441,
-)
-
-
-_SAVEWEIGHTSRESPONSE = _descriptor.Descriptor(
-  name='SaveWeightsResponse',
-  full_name='deepwater.SaveWeightsResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='status', full_name='deepwater.SaveWeightsResponse.status', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1443,
-  serialized_end=1499,
-)
-
-
-_SETPARAMETERSREQUEST_PARAMSENTRY = _descriptor.Descriptor(
+_LOADMODELVARIABLESREQUEST_PARAMSENTRY = _descriptor.Descriptor(
   name='ParamsEntry',
-  full_name='deepwater.SetParametersRequest.ParamsEntry',
+  full_name='deepwater.LoadModelVariablesRequest.ParamsEntry',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='key', full_name='deepwater.SetParametersRequest.ParamsEntry.key', index=0,
+      name='key', full_name='deepwater.LoadModelVariablesRequest.ParamsEntry.key', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='value', full_name='deepwater.SetParametersRequest.ParamsEntry.value', index=1,
+      name='value', full_name='deepwater.LoadModelVariablesRequest.ParamsEntry.value', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -813,29 +735,29 @@ _SETPARAMETERSREQUEST_PARAMSENTRY = _descriptor.Descriptor(
   serialized_end=309,
 )
 
-_SETPARAMETERSREQUEST = _descriptor.Descriptor(
-  name='SetParametersRequest',
-  full_name='deepwater.SetParametersRequest',
+_LOADMODELVARIABLESREQUEST = _descriptor.Descriptor(
+  name='LoadModelVariablesRequest',
+  full_name='deepwater.LoadModelVariablesRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='session', full_name='deepwater.SetParametersRequest.session', index=0,
+      name='session', full_name='deepwater.LoadModelVariablesRequest.session', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='model', full_name='deepwater.SetParametersRequest.model', index=1,
+      name='model', full_name='deepwater.LoadModelVariablesRequest.model', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='params', full_name='deepwater.SetParametersRequest.params', index=2,
+      name='params', full_name='deepwater.LoadModelVariablesRequest.params', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -844,7 +766,7 @@ _SETPARAMETERSREQUEST = _descriptor.Descriptor(
   ],
   extensions=[
   ],
-  nested_types=[_SETPARAMETERSREQUEST_PARAMSENTRY, ],
+  nested_types=[_LOADMODELVARIABLESREQUEST_PARAMSENTRY, ],
   enum_types=[
   ],
   options=None,
@@ -853,27 +775,58 @@ _SETPARAMETERSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1502,
-  serialized_end=1732,
+  serialized_start=1388,
+  serialized_end=1628,
 )
 
 
-_SETPARAMETERSRESPONSE_PARAMSENTRY = _descriptor.Descriptor(
-  name='ParamsEntry',
-  full_name='deepwater.SetParametersResponse.ParamsEntry',
+_LOADMODELVARIABLESRESPONSE = _descriptor.Descriptor(
+  name='LoadModelVariablesResponse',
+  full_name='deepwater.LoadModelVariablesResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='key', full_name='deepwater.SetParametersResponse.ParamsEntry.key', index=0,
+      name='status', full_name='deepwater.LoadModelVariablesResponse.status', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1630,
+  serialized_end=1693,
+)
+
+
+_SAVEMODELVARIABLESREQUEST_PARAMSENTRY = _descriptor.Descriptor(
+  name='ParamsEntry',
+  full_name='deepwater.SaveModelVariablesRequest.ParamsEntry',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='key', full_name='deepwater.SaveModelVariablesRequest.ParamsEntry.key', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='value', full_name='deepwater.SetParametersResponse.ParamsEntry.value', index=1,
+      name='value', full_name='deepwater.SaveModelVariablesRequest.ParamsEntry.value', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -895,23 +848,30 @@ _SETPARAMETERSRESPONSE_PARAMSENTRY = _descriptor.Descriptor(
   serialized_end=309,
 )
 
-_SETPARAMETERSRESPONSE = _descriptor.Descriptor(
-  name='SetParametersResponse',
-  full_name='deepwater.SetParametersResponse',
+_SAVEMODELVARIABLESREQUEST = _descriptor.Descriptor(
+  name='SaveModelVariablesRequest',
+  full_name='deepwater.SaveModelVariablesRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='status', full_name='deepwater.SetParametersResponse.status', index=0,
+      name='session', full_name='deepwater.SaveModelVariablesRequest.session', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='params', full_name='deepwater.SetParametersResponse.params', index=1,
-      number=2, type=11, cpp_type=10, label=3,
+      name='model', full_name='deepwater.SaveModelVariablesRequest.model', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='params', full_name='deepwater.SaveModelVariablesRequest.params', index=2,
+      number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -919,7 +879,7 @@ _SETPARAMETERSRESPONSE = _descriptor.Descriptor(
   ],
   extensions=[
   ],
-  nested_types=[_SETPARAMETERSRESPONSE_PARAMSENTRY, ],
+  nested_types=[_SAVEMODELVARIABLESREQUEST_PARAMSENTRY, ],
   enum_types=[
   ],
   options=None,
@@ -928,8 +888,196 @@ _SETPARAMETERSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1735,
-  serialized_end=1925,
+  serialized_start=1696,
+  serialized_end=1936,
+)
+
+
+_SAVEMODELVARIABLESRESPONSE = _descriptor.Descriptor(
+  name='SaveModelVariablesResponse',
+  full_name='deepwater.SaveModelVariablesResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='status', full_name='deepwater.SaveModelVariablesResponse.status', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1938,
+  serialized_end=2001,
+)
+
+
+_SETMODELPARAMETERSREQUEST_PARAMSENTRY = _descriptor.Descriptor(
+  name='ParamsEntry',
+  full_name='deepwater.SetModelParametersRequest.ParamsEntry',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='key', full_name='deepwater.SetModelParametersRequest.ParamsEntry.key', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='deepwater.SetModelParametersRequest.ParamsEntry.value', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=_descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001')),
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=241,
+  serialized_end=309,
+)
+
+_SETMODELPARAMETERSREQUEST = _descriptor.Descriptor(
+  name='SetModelParametersRequest',
+  full_name='deepwater.SetModelParametersRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='session', full_name='deepwater.SetModelParametersRequest.session', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='model', full_name='deepwater.SetModelParametersRequest.model', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='params', full_name='deepwater.SetModelParametersRequest.params', index=2,
+      number=3, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[_SETMODELPARAMETERSREQUEST_PARAMSENTRY, ],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2004,
+  serialized_end=2244,
+)
+
+
+_SETMODELPARAMETERSRESPONSE_PARAMSENTRY = _descriptor.Descriptor(
+  name='ParamsEntry',
+  full_name='deepwater.SetModelParametersResponse.ParamsEntry',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='key', full_name='deepwater.SetModelParametersResponse.ParamsEntry.key', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='deepwater.SetModelParametersResponse.ParamsEntry.value', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=_descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001')),
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=241,
+  serialized_end=309,
+)
+
+_SETMODELPARAMETERSRESPONSE = _descriptor.Descriptor(
+  name='SetModelParametersResponse',
+  full_name='deepwater.SetModelParametersResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='status', full_name='deepwater.SetModelParametersResponse.status', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='params', full_name='deepwater.SetModelParametersResponse.params', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[_SETMODELPARAMETERSRESPONSE_PARAMSENTRY, ],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2247,
+  serialized_end=2447,
 )
 
 
@@ -980,8 +1128,8 @@ _EXECUTEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1928,
-  serialized_end=2091,
+  serialized_start=2450,
+  serialized_end=2613,
 )
 
 
@@ -1018,8 +1166,8 @@ _EXECUTERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2093,
-  serialized_end=2181,
+  serialized_start=2615,
+  serialized_end=2703,
 )
 
 
@@ -1049,8 +1197,8 @@ _SHAPE_DIM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2227,
-  serialized_end=2246,
+  serialized_start=2749,
+  serialized_end=2768,
 )
 
 _SHAPE = _descriptor.Descriptor(
@@ -1079,8 +1227,8 @@ _SHAPE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2183,
-  serialized_end=2246,
+  serialized_start=2705,
+  serialized_end=2768,
 )
 
 
@@ -1166,8 +1314,8 @@ _TENSOR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2249,
-  serialized_end=2486,
+  serialized_start=2771,
+  serialized_end=3008,
 )
 
 
@@ -1180,7 +1328,7 @@ _PARAMVALUE_LISTVALUE = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='s', full_name='deepwater.ParamValue.ListValue.s', index=0,
-      number=2, type=12, cpp_type=9, label=3,
+      number=2, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -1213,6 +1361,13 @@ _PARAMVALUE_LISTVALUE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=_descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('\020\001'))),
+    _descriptor.FieldDescriptor(
+      name='bb', full_name='deepwater.ParamValue.ListValue.bb', index=5,
+      number=7, type=8, cpp_type=7, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=_descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('\020\001'))),
   ],
   extensions=[
   ],
@@ -1225,8 +1380,8 @@ _PARAMVALUE_LISTVALUE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2617,
-  serialized_end=2699,
+  serialized_start=3153,
+  serialized_end=3251,
 )
 
 _PARAMVALUE = _descriptor.Descriptor(
@@ -1238,8 +1393,8 @@ _PARAMVALUE = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='s', full_name='deepwater.ParamValue.s', index=0,
-      number=2, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b(""),
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -1272,7 +1427,14 @@ _PARAMVALUE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='list', full_name='deepwater.ParamValue.list', index=5,
+      name='bb', full_name='deepwater.ParamValue.bb', index=5,
+      number=7, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='list', full_name='deepwater.ParamValue.list', index=6,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -1293,8 +1455,8 @@ _PARAMVALUE = _descriptor.Descriptor(
       name='value', full_name='deepwater.ParamValue.value',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=2489,
-  serialized_end=2708,
+  serialized_start=3011,
+  serialized_end=3260,
 )
 
 _CREATEMODELREQUEST_PARAMSENTRY.fields_by_name['value'].message_type = _PARAMVALUE
@@ -1310,27 +1472,39 @@ _CREATESESSIONRESPONSE.fields_by_name['session'].message_type = _SESSION
 _CREATESESSIONRESPONSE.fields_by_name['status'].message_type = _STATUS
 _DELETESESSIONREQUEST.fields_by_name['session'].message_type = _SESSION
 _DELETESESSIONRESPONSE.fields_by_name['status'].message_type = _STATUS
+_LOADMODELREQUEST_PARAMSENTRY.fields_by_name['value'].message_type = _PARAMVALUE
+_LOADMODELREQUEST_PARAMSENTRY.containing_type = _LOADMODELREQUEST
 _LOADMODELREQUEST.fields_by_name['session'].message_type = _SESSION
-_LOADMODELREQUEST.fields_by_name['model'].message_type = _BACKENDMODEL
+_LOADMODELREQUEST.fields_by_name['params'].message_type = _LOADMODELREQUEST_PARAMSENTRY
+_LOADMODELRESPONSE.fields_by_name['model'].message_type = _BACKENDMODEL
 _LOADMODELRESPONSE.fields_by_name['status'].message_type = _STATUS
+_SAVEMODELREQUEST_PARAMSENTRY.fields_by_name['value'].message_type = _PARAMVALUE
+_SAVEMODELREQUEST_PARAMSENTRY.containing_type = _SAVEMODELREQUEST
 _SAVEMODELREQUEST.fields_by_name['session'].message_type = _SESSION
 _SAVEMODELREQUEST.fields_by_name['model'].message_type = _BACKENDMODEL
+_SAVEMODELREQUEST.fields_by_name['params'].message_type = _SAVEMODELREQUEST_PARAMSENTRY
 _SAVEMODELRESPONSE.fields_by_name['status'].message_type = _STATUS
-_LOADWEIGHTSREQUEST.fields_by_name['session'].message_type = _SESSION
-_LOADWEIGHTSREQUEST.fields_by_name['model'].message_type = _BACKENDMODEL
-_LOADWEIGHTSRESPONSE.fields_by_name['status'].message_type = _STATUS
-_SAVEWEIGHTSREQUEST.fields_by_name['session'].message_type = _SESSION
-_SAVEWEIGHTSREQUEST.fields_by_name['model'].message_type = _BACKENDMODEL
-_SAVEWEIGHTSRESPONSE.fields_by_name['status'].message_type = _STATUS
-_SETPARAMETERSREQUEST_PARAMSENTRY.fields_by_name['value'].message_type = _PARAMVALUE
-_SETPARAMETERSREQUEST_PARAMSENTRY.containing_type = _SETPARAMETERSREQUEST
-_SETPARAMETERSREQUEST.fields_by_name['session'].message_type = _SESSION
-_SETPARAMETERSREQUEST.fields_by_name['model'].message_type = _BACKENDMODEL
-_SETPARAMETERSREQUEST.fields_by_name['params'].message_type = _SETPARAMETERSREQUEST_PARAMSENTRY
-_SETPARAMETERSRESPONSE_PARAMSENTRY.fields_by_name['value'].message_type = _PARAMVALUE
-_SETPARAMETERSRESPONSE_PARAMSENTRY.containing_type = _SETPARAMETERSRESPONSE
-_SETPARAMETERSRESPONSE.fields_by_name['status'].message_type = _STATUS
-_SETPARAMETERSRESPONSE.fields_by_name['params'].message_type = _SETPARAMETERSRESPONSE_PARAMSENTRY
+_LOADMODELVARIABLESREQUEST_PARAMSENTRY.fields_by_name['value'].message_type = _PARAMVALUE
+_LOADMODELVARIABLESREQUEST_PARAMSENTRY.containing_type = _LOADMODELVARIABLESREQUEST
+_LOADMODELVARIABLESREQUEST.fields_by_name['session'].message_type = _SESSION
+_LOADMODELVARIABLESREQUEST.fields_by_name['model'].message_type = _BACKENDMODEL
+_LOADMODELVARIABLESREQUEST.fields_by_name['params'].message_type = _LOADMODELVARIABLESREQUEST_PARAMSENTRY
+_LOADMODELVARIABLESRESPONSE.fields_by_name['status'].message_type = _STATUS
+_SAVEMODELVARIABLESREQUEST_PARAMSENTRY.fields_by_name['value'].message_type = _PARAMVALUE
+_SAVEMODELVARIABLESREQUEST_PARAMSENTRY.containing_type = _SAVEMODELVARIABLESREQUEST
+_SAVEMODELVARIABLESREQUEST.fields_by_name['session'].message_type = _SESSION
+_SAVEMODELVARIABLESREQUEST.fields_by_name['model'].message_type = _BACKENDMODEL
+_SAVEMODELVARIABLESREQUEST.fields_by_name['params'].message_type = _SAVEMODELVARIABLESREQUEST_PARAMSENTRY
+_SAVEMODELVARIABLESRESPONSE.fields_by_name['status'].message_type = _STATUS
+_SETMODELPARAMETERSREQUEST_PARAMSENTRY.fields_by_name['value'].message_type = _PARAMVALUE
+_SETMODELPARAMETERSREQUEST_PARAMSENTRY.containing_type = _SETMODELPARAMETERSREQUEST
+_SETMODELPARAMETERSREQUEST.fields_by_name['session'].message_type = _SESSION
+_SETMODELPARAMETERSREQUEST.fields_by_name['model'].message_type = _BACKENDMODEL
+_SETMODELPARAMETERSREQUEST.fields_by_name['params'].message_type = _SETMODELPARAMETERSREQUEST_PARAMSENTRY
+_SETMODELPARAMETERSRESPONSE_PARAMSENTRY.fields_by_name['value'].message_type = _PARAMVALUE
+_SETMODELPARAMETERSRESPONSE_PARAMSENTRY.containing_type = _SETMODELPARAMETERSRESPONSE
+_SETMODELPARAMETERSRESPONSE.fields_by_name['status'].message_type = _STATUS
+_SETMODELPARAMETERSRESPONSE.fields_by_name['params'].message_type = _SETMODELPARAMETERSRESPONSE_PARAMSENTRY
 _EXECUTEREQUEST.fields_by_name['session'].message_type = _SESSION
 _EXECUTEREQUEST.fields_by_name['model'].message_type = _BACKENDMODEL
 _EXECUTEREQUEST.fields_by_name['feeds'].message_type = _TENSOR
@@ -1359,6 +1533,9 @@ _PARAMVALUE.oneofs_by_name['value'].fields.append(
   _PARAMVALUE.fields_by_name['b'])
 _PARAMVALUE.fields_by_name['b'].containing_oneof = _PARAMVALUE.oneofs_by_name['value']
 _PARAMVALUE.oneofs_by_name['value'].fields.append(
+  _PARAMVALUE.fields_by_name['bb'])
+_PARAMVALUE.fields_by_name['bb'].containing_oneof = _PARAMVALUE.oneofs_by_name['value']
+_PARAMVALUE.oneofs_by_name['value'].fields.append(
   _PARAMVALUE.fields_by_name['list'])
 _PARAMVALUE.fields_by_name['list'].containing_oneof = _PARAMVALUE.oneofs_by_name['value']
 DESCRIPTOR.message_types_by_name['Session'] = _SESSION
@@ -1374,12 +1551,12 @@ DESCRIPTOR.message_types_by_name['LoadModelRequest'] = _LOADMODELREQUEST
 DESCRIPTOR.message_types_by_name['LoadModelResponse'] = _LOADMODELRESPONSE
 DESCRIPTOR.message_types_by_name['SaveModelRequest'] = _SAVEMODELREQUEST
 DESCRIPTOR.message_types_by_name['SaveModelResponse'] = _SAVEMODELRESPONSE
-DESCRIPTOR.message_types_by_name['LoadWeightsRequest'] = _LOADWEIGHTSREQUEST
-DESCRIPTOR.message_types_by_name['LoadWeightsResponse'] = _LOADWEIGHTSRESPONSE
-DESCRIPTOR.message_types_by_name['SaveWeightsRequest'] = _SAVEWEIGHTSREQUEST
-DESCRIPTOR.message_types_by_name['SaveWeightsResponse'] = _SAVEWEIGHTSRESPONSE
-DESCRIPTOR.message_types_by_name['SetParametersRequest'] = _SETPARAMETERSREQUEST
-DESCRIPTOR.message_types_by_name['SetParametersResponse'] = _SETPARAMETERSRESPONSE
+DESCRIPTOR.message_types_by_name['LoadModelVariablesRequest'] = _LOADMODELVARIABLESREQUEST
+DESCRIPTOR.message_types_by_name['LoadModelVariablesResponse'] = _LOADMODELVARIABLESRESPONSE
+DESCRIPTOR.message_types_by_name['SaveModelVariablesRequest'] = _SAVEMODELVARIABLESREQUEST
+DESCRIPTOR.message_types_by_name['SaveModelVariablesResponse'] = _SAVEMODELVARIABLESRESPONSE
+DESCRIPTOR.message_types_by_name['SetModelParametersRequest'] = _SETMODELPARAMETERSREQUEST
+DESCRIPTOR.message_types_by_name['SetModelParametersResponse'] = _SETMODELPARAMETERSRESPONSE
 DESCRIPTOR.message_types_by_name['ExecuteRequest'] = _EXECUTEREQUEST
 DESCRIPTOR.message_types_by_name['ExecuteResponse'] = _EXECUTERESPONSE
 DESCRIPTOR.message_types_by_name['Shape'] = _SHAPE
@@ -1467,11 +1644,19 @@ Status = _reflection.GeneratedProtocolMessageType('Status', (_message.Message,),
 _sym_db.RegisterMessage(Status)
 
 LoadModelRequest = _reflection.GeneratedProtocolMessageType('LoadModelRequest', (_message.Message,), dict(
+
+  ParamsEntry = _reflection.GeneratedProtocolMessageType('ParamsEntry', (_message.Message,), dict(
+    DESCRIPTOR = _LOADMODELREQUEST_PARAMSENTRY,
+    __module__ = 'grpc_service_pb2'
+    # @@protoc_insertion_point(class_scope:deepwater.LoadModelRequest.ParamsEntry)
+    ))
+  ,
   DESCRIPTOR = _LOADMODELREQUEST,
   __module__ = 'grpc_service_pb2'
   # @@protoc_insertion_point(class_scope:deepwater.LoadModelRequest)
   ))
 _sym_db.RegisterMessage(LoadModelRequest)
+_sym_db.RegisterMessage(LoadModelRequest.ParamsEntry)
 
 LoadModelResponse = _reflection.GeneratedProtocolMessageType('LoadModelResponse', (_message.Message,), dict(
   DESCRIPTOR = _LOADMODELRESPONSE,
@@ -1481,11 +1666,19 @@ LoadModelResponse = _reflection.GeneratedProtocolMessageType('LoadModelResponse'
 _sym_db.RegisterMessage(LoadModelResponse)
 
 SaveModelRequest = _reflection.GeneratedProtocolMessageType('SaveModelRequest', (_message.Message,), dict(
+
+  ParamsEntry = _reflection.GeneratedProtocolMessageType('ParamsEntry', (_message.Message,), dict(
+    DESCRIPTOR = _SAVEMODELREQUEST_PARAMSENTRY,
+    __module__ = 'grpc_service_pb2'
+    # @@protoc_insertion_point(class_scope:deepwater.SaveModelRequest.ParamsEntry)
+    ))
+  ,
   DESCRIPTOR = _SAVEMODELREQUEST,
   __module__ = 'grpc_service_pb2'
   # @@protoc_insertion_point(class_scope:deepwater.SaveModelRequest)
   ))
 _sym_db.RegisterMessage(SaveModelRequest)
+_sym_db.RegisterMessage(SaveModelRequest.ParamsEntry)
 
 SaveModelResponse = _reflection.GeneratedProtocolMessageType('SaveModelResponse', (_message.Message,), dict(
   DESCRIPTOR = _SAVEMODELRESPONSE,
@@ -1494,63 +1687,79 @@ SaveModelResponse = _reflection.GeneratedProtocolMessageType('SaveModelResponse'
   ))
 _sym_db.RegisterMessage(SaveModelResponse)
 
-LoadWeightsRequest = _reflection.GeneratedProtocolMessageType('LoadWeightsRequest', (_message.Message,), dict(
-  DESCRIPTOR = _LOADWEIGHTSREQUEST,
-  __module__ = 'grpc_service_pb2'
-  # @@protoc_insertion_point(class_scope:deepwater.LoadWeightsRequest)
-  ))
-_sym_db.RegisterMessage(LoadWeightsRequest)
-
-LoadWeightsResponse = _reflection.GeneratedProtocolMessageType('LoadWeightsResponse', (_message.Message,), dict(
-  DESCRIPTOR = _LOADWEIGHTSRESPONSE,
-  __module__ = 'grpc_service_pb2'
-  # @@protoc_insertion_point(class_scope:deepwater.LoadWeightsResponse)
-  ))
-_sym_db.RegisterMessage(LoadWeightsResponse)
-
-SaveWeightsRequest = _reflection.GeneratedProtocolMessageType('SaveWeightsRequest', (_message.Message,), dict(
-  DESCRIPTOR = _SAVEWEIGHTSREQUEST,
-  __module__ = 'grpc_service_pb2'
-  # @@protoc_insertion_point(class_scope:deepwater.SaveWeightsRequest)
-  ))
-_sym_db.RegisterMessage(SaveWeightsRequest)
-
-SaveWeightsResponse = _reflection.GeneratedProtocolMessageType('SaveWeightsResponse', (_message.Message,), dict(
-  DESCRIPTOR = _SAVEWEIGHTSRESPONSE,
-  __module__ = 'grpc_service_pb2'
-  # @@protoc_insertion_point(class_scope:deepwater.SaveWeightsResponse)
-  ))
-_sym_db.RegisterMessage(SaveWeightsResponse)
-
-SetParametersRequest = _reflection.GeneratedProtocolMessageType('SetParametersRequest', (_message.Message,), dict(
+LoadModelVariablesRequest = _reflection.GeneratedProtocolMessageType('LoadModelVariablesRequest', (_message.Message,), dict(
 
   ParamsEntry = _reflection.GeneratedProtocolMessageType('ParamsEntry', (_message.Message,), dict(
-    DESCRIPTOR = _SETPARAMETERSREQUEST_PARAMSENTRY,
+    DESCRIPTOR = _LOADMODELVARIABLESREQUEST_PARAMSENTRY,
     __module__ = 'grpc_service_pb2'
-    # @@protoc_insertion_point(class_scope:deepwater.SetParametersRequest.ParamsEntry)
+    # @@protoc_insertion_point(class_scope:deepwater.LoadModelVariablesRequest.ParamsEntry)
     ))
   ,
-  DESCRIPTOR = _SETPARAMETERSREQUEST,
+  DESCRIPTOR = _LOADMODELVARIABLESREQUEST,
   __module__ = 'grpc_service_pb2'
-  # @@protoc_insertion_point(class_scope:deepwater.SetParametersRequest)
+  # @@protoc_insertion_point(class_scope:deepwater.LoadModelVariablesRequest)
   ))
-_sym_db.RegisterMessage(SetParametersRequest)
-_sym_db.RegisterMessage(SetParametersRequest.ParamsEntry)
+_sym_db.RegisterMessage(LoadModelVariablesRequest)
+_sym_db.RegisterMessage(LoadModelVariablesRequest.ParamsEntry)
 
-SetParametersResponse = _reflection.GeneratedProtocolMessageType('SetParametersResponse', (_message.Message,), dict(
+LoadModelVariablesResponse = _reflection.GeneratedProtocolMessageType('LoadModelVariablesResponse', (_message.Message,), dict(
+  DESCRIPTOR = _LOADMODELVARIABLESRESPONSE,
+  __module__ = 'grpc_service_pb2'
+  # @@protoc_insertion_point(class_scope:deepwater.LoadModelVariablesResponse)
+  ))
+_sym_db.RegisterMessage(LoadModelVariablesResponse)
+
+SaveModelVariablesRequest = _reflection.GeneratedProtocolMessageType('SaveModelVariablesRequest', (_message.Message,), dict(
 
   ParamsEntry = _reflection.GeneratedProtocolMessageType('ParamsEntry', (_message.Message,), dict(
-    DESCRIPTOR = _SETPARAMETERSRESPONSE_PARAMSENTRY,
+    DESCRIPTOR = _SAVEMODELVARIABLESREQUEST_PARAMSENTRY,
     __module__ = 'grpc_service_pb2'
-    # @@protoc_insertion_point(class_scope:deepwater.SetParametersResponse.ParamsEntry)
+    # @@protoc_insertion_point(class_scope:deepwater.SaveModelVariablesRequest.ParamsEntry)
     ))
   ,
-  DESCRIPTOR = _SETPARAMETERSRESPONSE,
+  DESCRIPTOR = _SAVEMODELVARIABLESREQUEST,
   __module__ = 'grpc_service_pb2'
-  # @@protoc_insertion_point(class_scope:deepwater.SetParametersResponse)
+  # @@protoc_insertion_point(class_scope:deepwater.SaveModelVariablesRequest)
   ))
-_sym_db.RegisterMessage(SetParametersResponse)
-_sym_db.RegisterMessage(SetParametersResponse.ParamsEntry)
+_sym_db.RegisterMessage(SaveModelVariablesRequest)
+_sym_db.RegisterMessage(SaveModelVariablesRequest.ParamsEntry)
+
+SaveModelVariablesResponse = _reflection.GeneratedProtocolMessageType('SaveModelVariablesResponse', (_message.Message,), dict(
+  DESCRIPTOR = _SAVEMODELVARIABLESRESPONSE,
+  __module__ = 'grpc_service_pb2'
+  # @@protoc_insertion_point(class_scope:deepwater.SaveModelVariablesResponse)
+  ))
+_sym_db.RegisterMessage(SaveModelVariablesResponse)
+
+SetModelParametersRequest = _reflection.GeneratedProtocolMessageType('SetModelParametersRequest', (_message.Message,), dict(
+
+  ParamsEntry = _reflection.GeneratedProtocolMessageType('ParamsEntry', (_message.Message,), dict(
+    DESCRIPTOR = _SETMODELPARAMETERSREQUEST_PARAMSENTRY,
+    __module__ = 'grpc_service_pb2'
+    # @@protoc_insertion_point(class_scope:deepwater.SetModelParametersRequest.ParamsEntry)
+    ))
+  ,
+  DESCRIPTOR = _SETMODELPARAMETERSREQUEST,
+  __module__ = 'grpc_service_pb2'
+  # @@protoc_insertion_point(class_scope:deepwater.SetModelParametersRequest)
+  ))
+_sym_db.RegisterMessage(SetModelParametersRequest)
+_sym_db.RegisterMessage(SetModelParametersRequest.ParamsEntry)
+
+SetModelParametersResponse = _reflection.GeneratedProtocolMessageType('SetModelParametersResponse', (_message.Message,), dict(
+
+  ParamsEntry = _reflection.GeneratedProtocolMessageType('ParamsEntry', (_message.Message,), dict(
+    DESCRIPTOR = _SETMODELPARAMETERSRESPONSE_PARAMSENTRY,
+    __module__ = 'grpc_service_pb2'
+    # @@protoc_insertion_point(class_scope:deepwater.SetModelParametersResponse.ParamsEntry)
+    ))
+  ,
+  DESCRIPTOR = _SETMODELPARAMETERSRESPONSE,
+  __module__ = 'grpc_service_pb2'
+  # @@protoc_insertion_point(class_scope:deepwater.SetModelParametersResponse)
+  ))
+_sym_db.RegisterMessage(SetModelParametersResponse)
+_sym_db.RegisterMessage(SetModelParametersResponse.ParamsEntry)
 
 ExecuteRequest = _reflection.GeneratedProtocolMessageType('ExecuteRequest', (_message.Message,), dict(
   DESCRIPTOR = _EXECUTEREQUEST,
@@ -1610,10 +1819,18 @@ _CREATEMODELREQUEST_PARAMSENTRY.has_options = True
 _CREATEMODELREQUEST_PARAMSENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
 _CREATESESSIONREQUEST_OPTIONSENTRY.has_options = True
 _CREATESESSIONREQUEST_OPTIONSENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
-_SETPARAMETERSREQUEST_PARAMSENTRY.has_options = True
-_SETPARAMETERSREQUEST_PARAMSENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
-_SETPARAMETERSRESPONSE_PARAMSENTRY.has_options = True
-_SETPARAMETERSRESPONSE_PARAMSENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
+_LOADMODELREQUEST_PARAMSENTRY.has_options = True
+_LOADMODELREQUEST_PARAMSENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
+_SAVEMODELREQUEST_PARAMSENTRY.has_options = True
+_SAVEMODELREQUEST_PARAMSENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
+_LOADMODELVARIABLESREQUEST_PARAMSENTRY.has_options = True
+_LOADMODELVARIABLESREQUEST_PARAMSENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
+_SAVEMODELVARIABLESREQUEST_PARAMSENTRY.has_options = True
+_SAVEMODELVARIABLESREQUEST_PARAMSENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
+_SETMODELPARAMETERSREQUEST_PARAMSENTRY.has_options = True
+_SETMODELPARAMETERSREQUEST_PARAMSENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
+_SETMODELPARAMETERSRESPONSE_PARAMSENTRY.has_options = True
+_SETMODELPARAMETERSRESPONSE_PARAMSENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
 _TENSOR.fields_by_name['int32_value'].has_options = True
 _TENSOR.fields_by_name['int32_value']._options = _descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('\020\001'))
 _TENSOR.fields_by_name['int64_value'].has_options = True
@@ -1632,412 +1849,409 @@ _PARAMVALUE_LISTVALUE.fields_by_name['f'].has_options = True
 _PARAMVALUE_LISTVALUE.fields_by_name['f']._options = _descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('\020\001'))
 _PARAMVALUE_LISTVALUE.fields_by_name['b'].has_options = True
 _PARAMVALUE_LISTVALUE.fields_by_name['b']._options = _descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('\020\001'))
-try:
-  # THESE ELEMENTS WILL BE DEPRECATED.
-  # Please use the generated *_pb2_grpc.py files instead.
-  import grpc
-  from grpc.framework.common import cardinality
-  from grpc.framework.interfaces.face import utilities as face_utilities
-  from grpc.beta import implementations as beta_implementations
-  from grpc.beta import interfaces as beta_interfaces
+_PARAMVALUE_LISTVALUE.fields_by_name['bb'].has_options = True
+_PARAMVALUE_LISTVALUE.fields_by_name['bb']._options = _descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('\020\001'))
+import grpc
+from grpc.beta import implementations as beta_implementations
+from grpc.beta import interfaces as beta_interfaces
+from grpc.framework.common import cardinality
+from grpc.framework.interfaces.face import utilities as face_utilities
 
 
-  class DeepWaterPredictBackendStub(object):
+class DeepWaterPredictBackendStub(object):
 
-    def __init__(self, channel):
-      """Constructor.
+  def __init__(self, channel):
+    """Constructor.
 
-      Args:
-        channel: A grpc.Channel.
-      """
-      self.Execute = channel.unary_unary(
-          '/deepwater.DeepWaterPredictBackend/Execute',
-          request_serializer=ExecuteRequest.SerializeToString,
-          response_deserializer=ExecuteResponse.FromString,
-          )
-
-
-  class DeepWaterPredictBackendServicer(object):
-
-    def Execute(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
+    Args:
+      channel: A grpc.Channel.
+    """
+    self.Execute = channel.unary_unary(
+        '/deepwater.DeepWaterPredictBackend/Execute',
+        request_serializer=ExecuteRequest.SerializeToString,
+        response_deserializer=ExecuteResponse.FromString,
+        )
 
 
-  def add_DeepWaterPredictBackendServicer_to_server(servicer, server):
-    rpc_method_handlers = {
-        'Execute': grpc.unary_unary_rpc_method_handler(
-            servicer.Execute,
-            request_deserializer=ExecuteRequest.FromString,
-            response_serializer=ExecuteResponse.SerializeToString,
-        ),
-    }
-    generic_handler = grpc.method_handlers_generic_handler(
-        'deepwater.DeepWaterPredictBackend', rpc_method_handlers)
-    server.add_generic_rpc_handlers((generic_handler,))
+class DeepWaterPredictBackendServicer(object):
+
+  def Execute(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
 
 
-  class DeepWaterTrainBackendStub(object):
-
-    def __init__(self, channel):
-      """Constructor.
-
-      Args:
-        channel: A grpc.Channel.
-      """
-      self.CreateModel = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/CreateModel',
-          request_serializer=CreateModelRequest.SerializeToString,
-          response_deserializer=CreateModelResponse.FromString,
-          )
-      self.CreateSession = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/CreateSession',
-          request_serializer=CreateSessionRequest.SerializeToString,
-          response_deserializer=CreateSessionResponse.FromString,
-          )
-      self.DeleteSession = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/DeleteSession',
-          request_serializer=DeleteSessionRequest.SerializeToString,
-          response_deserializer=DeleteSessionResponse.FromString,
-          )
-      self.LoadModel = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/LoadModel',
-          request_serializer=LoadModelRequest.SerializeToString,
-          response_deserializer=LoadModelResponse.FromString,
-          )
-      self.SaveModel = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/SaveModel',
-          request_serializer=SaveModelRequest.SerializeToString,
-          response_deserializer=SaveModelResponse.FromString,
-          )
-      self.LoadWeights = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/LoadWeights',
-          request_serializer=LoadWeightsRequest.SerializeToString,
-          response_deserializer=LoadWeightsResponse.FromString,
-          )
-      self.SaveWeights = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/SaveWeights',
-          request_serializer=SaveWeightsRequest.SerializeToString,
-          response_deserializer=SaveWeightsResponse.FromString,
-          )
-      self.SetParameters = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/SetParameters',
-          request_serializer=SetParametersRequest.SerializeToString,
-          response_deserializer=SetParametersResponse.FromString,
-          )
-      self.Execute = channel.unary_unary(
-          '/deepwater.DeepWaterTrainBackend/Execute',
-          request_serializer=ExecuteRequest.SerializeToString,
-          response_deserializer=ExecuteResponse.FromString,
-          )
+def add_DeepWaterPredictBackendServicer_to_server(servicer, server):
+  rpc_method_handlers = {
+      'Execute': grpc.unary_unary_rpc_method_handler(
+          servicer.Execute,
+          request_deserializer=ExecuteRequest.FromString,
+          response_serializer=ExecuteResponse.SerializeToString,
+      ),
+  }
+  generic_handler = grpc.method_handlers_generic_handler(
+      'deepwater.DeepWaterPredictBackend', rpc_method_handlers)
+  server.add_generic_rpc_handlers((generic_handler,))
 
 
-  class DeepWaterTrainBackendServicer(object):
+class BetaDeepWaterPredictBackendServicer(object):
+  """The Beta API is deprecated for 0.15.0 and later.
 
-    def CreateModel(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def CreateSession(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def DeleteSession(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def LoadModel(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def SaveModel(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def LoadWeights(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def SaveWeights(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def SetParameters(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def Execute(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This class was generated
+  only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
+  def Execute(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
 
 
-  def add_DeepWaterTrainBackendServicer_to_server(servicer, server):
-    rpc_method_handlers = {
-        'CreateModel': grpc.unary_unary_rpc_method_handler(
-            servicer.CreateModel,
-            request_deserializer=CreateModelRequest.FromString,
-            response_serializer=CreateModelResponse.SerializeToString,
-        ),
-        'CreateSession': grpc.unary_unary_rpc_method_handler(
-            servicer.CreateSession,
-            request_deserializer=CreateSessionRequest.FromString,
-            response_serializer=CreateSessionResponse.SerializeToString,
-        ),
-        'DeleteSession': grpc.unary_unary_rpc_method_handler(
-            servicer.DeleteSession,
-            request_deserializer=DeleteSessionRequest.FromString,
-            response_serializer=DeleteSessionResponse.SerializeToString,
-        ),
-        'LoadModel': grpc.unary_unary_rpc_method_handler(
-            servicer.LoadModel,
-            request_deserializer=LoadModelRequest.FromString,
-            response_serializer=LoadModelResponse.SerializeToString,
-        ),
-        'SaveModel': grpc.unary_unary_rpc_method_handler(
-            servicer.SaveModel,
-            request_deserializer=SaveModelRequest.FromString,
-            response_serializer=SaveModelResponse.SerializeToString,
-        ),
-        'LoadWeights': grpc.unary_unary_rpc_method_handler(
-            servicer.LoadWeights,
-            request_deserializer=LoadWeightsRequest.FromString,
-            response_serializer=LoadWeightsResponse.SerializeToString,
-        ),
-        'SaveWeights': grpc.unary_unary_rpc_method_handler(
-            servicer.SaveWeights,
-            request_deserializer=SaveWeightsRequest.FromString,
-            response_serializer=SaveWeightsResponse.SerializeToString,
-        ),
-        'SetParameters': grpc.unary_unary_rpc_method_handler(
-            servicer.SetParameters,
-            request_deserializer=SetParametersRequest.FromString,
-            response_serializer=SetParametersResponse.SerializeToString,
-        ),
-        'Execute': grpc.unary_unary_rpc_method_handler(
-            servicer.Execute,
-            request_deserializer=ExecuteRequest.FromString,
-            response_serializer=ExecuteResponse.SerializeToString,
-        ),
-    }
-    generic_handler = grpc.method_handlers_generic_handler(
-        'deepwater.DeepWaterTrainBackend', rpc_method_handlers)
-    server.add_generic_rpc_handlers((generic_handler,))
+class BetaDeepWaterPredictBackendStub(object):
+  """The Beta API is deprecated for 0.15.0 and later.
+
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This class was generated
+  only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
+  def Execute(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  Execute.future = None
 
 
-  class BetaDeepWaterPredictBackendServicer(object):
-    """The Beta API is deprecated for 0.15.0 and later.
+def beta_create_DeepWaterPredictBackend_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
+  """The Beta API is deprecated for 0.15.0 and later.
 
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This class was generated
-    only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
-    def Execute(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-
-
-  class BetaDeepWaterPredictBackendStub(object):
-    """The Beta API is deprecated for 0.15.0 and later.
-
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This class was generated
-    only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
-    def Execute(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    Execute.future = None
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This function was
+  generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
+  request_deserializers = {
+    ('deepwater.DeepWaterPredictBackend', 'Execute'): ExecuteRequest.FromString,
+  }
+  response_serializers = {
+    ('deepwater.DeepWaterPredictBackend', 'Execute'): ExecuteResponse.SerializeToString,
+  }
+  method_implementations = {
+    ('deepwater.DeepWaterPredictBackend', 'Execute'): face_utilities.unary_unary_inline(servicer.Execute),
+  }
+  server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
+  return beta_implementations.server(method_implementations, options=server_options)
 
 
-  def beta_create_DeepWaterPredictBackend_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
-    """The Beta API is deprecated for 0.15.0 and later.
+def beta_create_DeepWaterPredictBackend_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
+  """The Beta API is deprecated for 0.15.0 and later.
 
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This function was
-    generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
-    request_deserializers = {
-      ('deepwater.DeepWaterPredictBackend', 'Execute'): ExecuteRequest.FromString,
-    }
-    response_serializers = {
-      ('deepwater.DeepWaterPredictBackend', 'Execute'): ExecuteResponse.SerializeToString,
-    }
-    method_implementations = {
-      ('deepwater.DeepWaterPredictBackend', 'Execute'): face_utilities.unary_unary_inline(servicer.Execute),
-    }
-    server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
-    return beta_implementations.server(method_implementations, options=server_options)
-
-
-  def beta_create_DeepWaterPredictBackend_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
-    """The Beta API is deprecated for 0.15.0 and later.
-
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This function was
-    generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
-    request_serializers = {
-      ('deepwater.DeepWaterPredictBackend', 'Execute'): ExecuteRequest.SerializeToString,
-    }
-    response_deserializers = {
-      ('deepwater.DeepWaterPredictBackend', 'Execute'): ExecuteResponse.FromString,
-    }
-    cardinalities = {
-      'Execute': cardinality.Cardinality.UNARY_UNARY,
-    }
-    stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
-    return beta_implementations.dynamic_stub(channel, 'deepwater.DeepWaterPredictBackend', cardinalities, options=stub_options)
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This function was
+  generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
+  request_serializers = {
+    ('deepwater.DeepWaterPredictBackend', 'Execute'): ExecuteRequest.SerializeToString,
+  }
+  response_deserializers = {
+    ('deepwater.DeepWaterPredictBackend', 'Execute'): ExecuteResponse.FromString,
+  }
+  cardinalities = {
+    'Execute': cardinality.Cardinality.UNARY_UNARY,
+  }
+  stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
+  return beta_implementations.dynamic_stub(channel, 'deepwater.DeepWaterPredictBackend', cardinalities, options=stub_options)
 
 
-  class BetaDeepWaterTrainBackendServicer(object):
-    """The Beta API is deprecated for 0.15.0 and later.
+class DeepWaterTrainBackendStub(object):
 
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This class was generated
-    only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
-    def CreateModel(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def CreateSession(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def DeleteSession(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def LoadModel(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def SaveModel(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def LoadWeights(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def SaveWeights(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def SetParameters(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def Execute(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def __init__(self, channel):
+    """Constructor.
 
-
-  class BetaDeepWaterTrainBackendStub(object):
-    """The Beta API is deprecated for 0.15.0 and later.
-
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This class was generated
-    only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
-    def CreateModel(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    CreateModel.future = None
-    def CreateSession(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    CreateSession.future = None
-    def DeleteSession(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    DeleteSession.future = None
-    def LoadModel(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    LoadModel.future = None
-    def SaveModel(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    SaveModel.future = None
-    def LoadWeights(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    LoadWeights.future = None
-    def SaveWeights(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    SaveWeights.future = None
-    def SetParameters(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    SetParameters.future = None
-    def Execute(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    Execute.future = None
+    Args:
+      channel: A grpc.Channel.
+    """
+    self.CreateModel = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/CreateModel',
+        request_serializer=CreateModelRequest.SerializeToString,
+        response_deserializer=CreateModelResponse.FromString,
+        )
+    self.CreateSession = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/CreateSession',
+        request_serializer=CreateSessionRequest.SerializeToString,
+        response_deserializer=CreateSessionResponse.FromString,
+        )
+    self.DeleteSession = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/DeleteSession',
+        request_serializer=DeleteSessionRequest.SerializeToString,
+        response_deserializer=DeleteSessionResponse.FromString,
+        )
+    self.LoadModel = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/LoadModel',
+        request_serializer=LoadModelRequest.SerializeToString,
+        response_deserializer=LoadModelResponse.FromString,
+        )
+    self.SaveModel = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/SaveModel',
+        request_serializer=SaveModelRequest.SerializeToString,
+        response_deserializer=SaveModelResponse.FromString,
+        )
+    self.LoadModelVariables = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/LoadModelVariables',
+        request_serializer=LoadModelVariablesRequest.SerializeToString,
+        response_deserializer=LoadModelVariablesResponse.FromString,
+        )
+    self.SaveModelVariables = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/SaveModelVariables',
+        request_serializer=SaveModelVariablesRequest.SerializeToString,
+        response_deserializer=SaveModelVariablesResponse.FromString,
+        )
+    self.SetModelParameters = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/SetModelParameters',
+        request_serializer=SetModelParametersRequest.SerializeToString,
+        response_deserializer=SetModelParametersResponse.FromString,
+        )
+    self.Execute = channel.unary_unary(
+        '/deepwater.DeepWaterTrainBackend/Execute',
+        request_serializer=ExecuteRequest.SerializeToString,
+        response_deserializer=ExecuteResponse.FromString,
+        )
 
 
-  def beta_create_DeepWaterTrainBackend_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
-    """The Beta API is deprecated for 0.15.0 and later.
+class DeepWaterTrainBackendServicer(object):
 
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This function was
-    generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
-    request_deserializers = {
-      ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): DeleteSessionRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'Execute'): ExecuteRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadModel'): LoadModelRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadWeights'): LoadWeightsRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveModel'): SaveModelRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveWeights'): SaveWeightsRequest.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'SetParameters'): SetParametersRequest.FromString,
-    }
-    response_serializers = {
-      ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelResponse.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionResponse.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): DeleteSessionResponse.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'Execute'): ExecuteResponse.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadModel'): LoadModelResponse.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadWeights'): LoadWeightsResponse.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveModel'): SaveModelResponse.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveWeights'): SaveWeightsResponse.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'SetParameters'): SetParametersResponse.SerializeToString,
-    }
-    method_implementations = {
-      ('deepwater.DeepWaterTrainBackend', 'CreateModel'): face_utilities.unary_unary_inline(servicer.CreateModel),
-      ('deepwater.DeepWaterTrainBackend', 'CreateSession'): face_utilities.unary_unary_inline(servicer.CreateSession),
-      ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): face_utilities.unary_unary_inline(servicer.DeleteSession),
-      ('deepwater.DeepWaterTrainBackend', 'Execute'): face_utilities.unary_unary_inline(servicer.Execute),
-      ('deepwater.DeepWaterTrainBackend', 'LoadModel'): face_utilities.unary_unary_inline(servicer.LoadModel),
-      ('deepwater.DeepWaterTrainBackend', 'LoadWeights'): face_utilities.unary_unary_inline(servicer.LoadWeights),
-      ('deepwater.DeepWaterTrainBackend', 'SaveModel'): face_utilities.unary_unary_inline(servicer.SaveModel),
-      ('deepwater.DeepWaterTrainBackend', 'SaveWeights'): face_utilities.unary_unary_inline(servicer.SaveWeights),
-      ('deepwater.DeepWaterTrainBackend', 'SetParameters'): face_utilities.unary_unary_inline(servicer.SetParameters),
-    }
-    server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
-    return beta_implementations.server(method_implementations, options=server_options)
+  def CreateModel(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def CreateSession(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def DeleteSession(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def LoadModel(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def SaveModel(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def LoadModelVariables(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def SaveModelVariables(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def SetModelParameters(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def Execute(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
 
 
-  def beta_create_DeepWaterTrainBackend_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
-    """The Beta API is deprecated for 0.15.0 and later.
+def add_DeepWaterTrainBackendServicer_to_server(servicer, server):
+  rpc_method_handlers = {
+      'CreateModel': grpc.unary_unary_rpc_method_handler(
+          servicer.CreateModel,
+          request_deserializer=CreateModelRequest.FromString,
+          response_serializer=CreateModelResponse.SerializeToString,
+      ),
+      'CreateSession': grpc.unary_unary_rpc_method_handler(
+          servicer.CreateSession,
+          request_deserializer=CreateSessionRequest.FromString,
+          response_serializer=CreateSessionResponse.SerializeToString,
+      ),
+      'DeleteSession': grpc.unary_unary_rpc_method_handler(
+          servicer.DeleteSession,
+          request_deserializer=DeleteSessionRequest.FromString,
+          response_serializer=DeleteSessionResponse.SerializeToString,
+      ),
+      'LoadModel': grpc.unary_unary_rpc_method_handler(
+          servicer.LoadModel,
+          request_deserializer=LoadModelRequest.FromString,
+          response_serializer=LoadModelResponse.SerializeToString,
+      ),
+      'SaveModel': grpc.unary_unary_rpc_method_handler(
+          servicer.SaveModel,
+          request_deserializer=SaveModelRequest.FromString,
+          response_serializer=SaveModelResponse.SerializeToString,
+      ),
+      'LoadModelVariables': grpc.unary_unary_rpc_method_handler(
+          servicer.LoadModelVariables,
+          request_deserializer=LoadModelVariablesRequest.FromString,
+          response_serializer=LoadModelVariablesResponse.SerializeToString,
+      ),
+      'SaveModelVariables': grpc.unary_unary_rpc_method_handler(
+          servicer.SaveModelVariables,
+          request_deserializer=SaveModelVariablesRequest.FromString,
+          response_serializer=SaveModelVariablesResponse.SerializeToString,
+      ),
+      'SetModelParameters': grpc.unary_unary_rpc_method_handler(
+          servicer.SetModelParameters,
+          request_deserializer=SetModelParametersRequest.FromString,
+          response_serializer=SetModelParametersResponse.SerializeToString,
+      ),
+      'Execute': grpc.unary_unary_rpc_method_handler(
+          servicer.Execute,
+          request_deserializer=ExecuteRequest.FromString,
+          response_serializer=ExecuteResponse.SerializeToString,
+      ),
+  }
+  generic_handler = grpc.method_handlers_generic_handler(
+      'deepwater.DeepWaterTrainBackend', rpc_method_handlers)
+  server.add_generic_rpc_handlers((generic_handler,))
 
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This function was
-    generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
-    request_serializers = {
-      ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): DeleteSessionRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'Execute'): ExecuteRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadModel'): LoadModelRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadWeights'): LoadWeightsRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveModel'): SaveModelRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveWeights'): SaveWeightsRequest.SerializeToString,
-      ('deepwater.DeepWaterTrainBackend', 'SetParameters'): SetParametersRequest.SerializeToString,
-    }
-    response_deserializers = {
-      ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelResponse.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionResponse.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): DeleteSessionResponse.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'Execute'): ExecuteResponse.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadModel'): LoadModelResponse.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'LoadWeights'): LoadWeightsResponse.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveModel'): SaveModelResponse.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'SaveWeights'): SaveWeightsResponse.FromString,
-      ('deepwater.DeepWaterTrainBackend', 'SetParameters'): SetParametersResponse.FromString,
-    }
-    cardinalities = {
-      'CreateModel': cardinality.Cardinality.UNARY_UNARY,
-      'CreateSession': cardinality.Cardinality.UNARY_UNARY,
-      'DeleteSession': cardinality.Cardinality.UNARY_UNARY,
-      'Execute': cardinality.Cardinality.UNARY_UNARY,
-      'LoadModel': cardinality.Cardinality.UNARY_UNARY,
-      'LoadWeights': cardinality.Cardinality.UNARY_UNARY,
-      'SaveModel': cardinality.Cardinality.UNARY_UNARY,
-      'SaveWeights': cardinality.Cardinality.UNARY_UNARY,
-      'SetParameters': cardinality.Cardinality.UNARY_UNARY,
-    }
-    stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
-    return beta_implementations.dynamic_stub(channel, 'deepwater.DeepWaterTrainBackend', cardinalities, options=stub_options)
-except ImportError:
-  pass
+
+class BetaDeepWaterTrainBackendServicer(object):
+  """The Beta API is deprecated for 0.15.0 and later.
+
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This class was generated
+  only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
+  def CreateModel(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def CreateSession(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def DeleteSession(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def LoadModel(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def SaveModel(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def LoadModelVariables(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def SaveModelVariables(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def SetModelParameters(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+  def Execute(self, request, context):
+    context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
+
+
+class BetaDeepWaterTrainBackendStub(object):
+  """The Beta API is deprecated for 0.15.0 and later.
+
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This class was generated
+  only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
+  def CreateModel(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  CreateModel.future = None
+  def CreateSession(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  CreateSession.future = None
+  def DeleteSession(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  DeleteSession.future = None
+  def LoadModel(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  LoadModel.future = None
+  def SaveModel(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  SaveModel.future = None
+  def LoadModelVariables(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  LoadModelVariables.future = None
+  def SaveModelVariables(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  SaveModelVariables.future = None
+  def SetModelParameters(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  SetModelParameters.future = None
+  def Execute(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    raise NotImplementedError()
+  Execute.future = None
+
+
+def beta_create_DeepWaterTrainBackend_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
+  """The Beta API is deprecated for 0.15.0 and later.
+
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This function was
+  generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
+  request_deserializers = {
+    ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): DeleteSessionRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'Execute'): ExecuteRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadModel'): LoadModelRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadModelVariables'): LoadModelVariablesRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveModel'): SaveModelRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveModelVariables'): SaveModelVariablesRequest.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'SetModelParameters'): SetModelParametersRequest.FromString,
+  }
+  response_serializers = {
+    ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelResponse.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionResponse.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): DeleteSessionResponse.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'Execute'): ExecuteResponse.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadModel'): LoadModelResponse.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadModelVariables'): LoadModelVariablesResponse.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveModel'): SaveModelResponse.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveModelVariables'): SaveModelVariablesResponse.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'SetModelParameters'): SetModelParametersResponse.SerializeToString,
+  }
+  method_implementations = {
+    ('deepwater.DeepWaterTrainBackend', 'CreateModel'): face_utilities.unary_unary_inline(servicer.CreateModel),
+    ('deepwater.DeepWaterTrainBackend', 'CreateSession'): face_utilities.unary_unary_inline(servicer.CreateSession),
+    ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): face_utilities.unary_unary_inline(servicer.DeleteSession),
+    ('deepwater.DeepWaterTrainBackend', 'Execute'): face_utilities.unary_unary_inline(servicer.Execute),
+    ('deepwater.DeepWaterTrainBackend', 'LoadModel'): face_utilities.unary_unary_inline(servicer.LoadModel),
+    ('deepwater.DeepWaterTrainBackend', 'LoadModelVariables'): face_utilities.unary_unary_inline(servicer.LoadModelVariables),
+    ('deepwater.DeepWaterTrainBackend', 'SaveModel'): face_utilities.unary_unary_inline(servicer.SaveModel),
+    ('deepwater.DeepWaterTrainBackend', 'SaveModelVariables'): face_utilities.unary_unary_inline(servicer.SaveModelVariables),
+    ('deepwater.DeepWaterTrainBackend', 'SetModelParameters'): face_utilities.unary_unary_inline(servicer.SetModelParameters),
+  }
+  server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
+  return beta_implementations.server(method_implementations, options=server_options)
+
+
+def beta_create_DeepWaterTrainBackend_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
+  """The Beta API is deprecated for 0.15.0 and later.
+
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This function was
+  generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
+  request_serializers = {
+    ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): DeleteSessionRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'Execute'): ExecuteRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadModel'): LoadModelRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadModelVariables'): LoadModelVariablesRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveModel'): SaveModelRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveModelVariables'): SaveModelVariablesRequest.SerializeToString,
+    ('deepwater.DeepWaterTrainBackend', 'SetModelParameters'): SetModelParametersRequest.SerializeToString,
+  }
+  response_deserializers = {
+    ('deepwater.DeepWaterTrainBackend', 'CreateModel'): CreateModelResponse.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'CreateSession'): CreateSessionResponse.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'DeleteSession'): DeleteSessionResponse.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'Execute'): ExecuteResponse.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadModel'): LoadModelResponse.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'LoadModelVariables'): LoadModelVariablesResponse.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveModel'): SaveModelResponse.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'SaveModelVariables'): SaveModelVariablesResponse.FromString,
+    ('deepwater.DeepWaterTrainBackend', 'SetModelParameters'): SetModelParametersResponse.FromString,
+  }
+  cardinalities = {
+    'CreateModel': cardinality.Cardinality.UNARY_UNARY,
+    'CreateSession': cardinality.Cardinality.UNARY_UNARY,
+    'DeleteSession': cardinality.Cardinality.UNARY_UNARY,
+    'Execute': cardinality.Cardinality.UNARY_UNARY,
+    'LoadModel': cardinality.Cardinality.UNARY_UNARY,
+    'LoadModelVariables': cardinality.Cardinality.UNARY_UNARY,
+    'SaveModel': cardinality.Cardinality.UNARY_UNARY,
+    'SaveModelVariables': cardinality.Cardinality.UNARY_UNARY,
+    'SetModelParameters': cardinality.Cardinality.UNARY_UNARY,
+  }
+  stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
+  return beta_implementations.dynamic_stub(channel, 'deepwater.DeepWaterTrainBackend', cardinalities, options=stub_options)
 # @@protoc_insertion_point(module_scope)

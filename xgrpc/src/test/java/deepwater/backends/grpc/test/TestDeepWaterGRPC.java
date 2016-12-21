@@ -2,6 +2,7 @@ package deepwater.backends.grpc.test;
 
 import deepwater.backends.BackendModel;
 import deepwater.backends.BackendParams;
+import deepwater.backends.BackendTrain;
 import deepwater.backends.RuntimeOptions;
 import deepwater.backends.grpc.Client;
 import deepwater.backends.grpc.XGRPCBackendTrain;
@@ -58,8 +59,15 @@ public class TestDeepWaterGRPC {
     }
 
     @Test
+    public void testLenet() throws IOException{
+        backendCanTrainMNIST("lenet", 50, 100);
+        backendCanSaveCheckpoint("lenet", 50);
+    }
+
+    @Test
     public void testMLP() throws IOException{
-        backendCanSaveCheckpoint("mlp", 10);
+        backendCanTrainMNIST("mlp", 50, 100);
+        backendCanSaveCheckpoint("mlp", 50);
     }
 
     private double printLoss(float[] loss) {
@@ -74,34 +82,6 @@ public class TestDeepWaterGRPC {
         System.out.println();
         return average;
     }
-//    @Test
-//    public void testSimpleBuildNetwork() throws Exception {
-//        String name = "mlp";
-//        MNISTImageDataset dataset = new MNISTImageDataset();
-//
-//        RuntimeOptions opts = new RuntimeOptions();
-//        BackendParams backend_params = new BackendParams();
-//        int num_classes = dataset.getNumClasses();
-//
-//        BackendModel model = backend.buildNet(dataset, opts, backend_params, num_classes, name);
-//
-//        String[] images = new String[]{
-//                findFile("bigdata/laptop/mnist/t10k-images-idx3-ubyte.gz"),
-//                findFile("bigdata/laptop/mnist/t10k-labels-idx1-ubyte.gz")
-//        };
-//
-//        BatchIterator it = new BatchIterator(dataset, 1, images);
-//        ImageBatch b = new ImageBatch(dataset, 10);
-//
-//        // can predict
-//        while(it.next(b)){
-//            float result[] = backend.predict(model, b.getImages(), b.getLabels());
-//            printLoss(result);
-//        }
-//
-//        backend.delete(model);
-//    }
-
 
     private void backendCanSaveCheckpoint(String modelName, int batchSize) throws IOException {
 
@@ -157,7 +137,7 @@ public class TestDeepWaterGRPC {
         };
 
         BatchIterator it = new BatchIterator(dataset, 1, images);
-        ImageBatch b = new ImageBatch(dataset, 10);
+        ImageBatch b = new ImageBatch(dataset, 50);
 
         double averageLoss = 0;
         while(it.next(b)){
@@ -168,4 +148,31 @@ public class TestDeepWaterGRPC {
 
         return averageLoss;
     }
+
+   private void backendCanTrainMNIST(String modelName, int batchSize, int epochs) throws IOException {
+
+       MNISTImageDataset dataset = new MNISTImageDataset();
+
+       RuntimeOptions opts = new RuntimeOptions();
+       BackendParams params = new BackendParams();
+
+       BackendModel model = backend.buildNet(dataset, opts, params,
+               dataset.getNumClasses(), modelName);
+
+       BatchIterator it = new BatchIterator(dataset, epochs, mnistTrainData);
+       ImageBatch b = new ImageBatch(dataset, batchSize);
+
+       while (it.nextEpochs()) {
+           while (it.next(b)) {
+               backend.train(model, b.getImages(), b.getLabels());
+           }
+           testMNIST(model);
+       }
+       backend.delete(model);
+   }
+
+    private String[] mnistTrainData = new String[]{
+            findFile("bigdata/laptop/mnist/train-images-idx3-ubyte.gz"),
+            findFile("bigdata/laptop/mnist/train-labels-idx1-ubyte.gz"),
+    };
 }

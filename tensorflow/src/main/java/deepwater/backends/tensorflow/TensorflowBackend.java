@@ -74,6 +74,7 @@ public class TensorflowBackend implements BackendTrain {
             String modelName = name + '_' + dataset.getWidth() + "x" +
                     dataset.getHeight() + "x" + dataset.getChannels() + "_" + dataset.getNumClasses();
             String resourceModelName = ModelFactory.convertToCanonicalName(modelName);
+
             try {
                 resourceModelName = ModelFactory.findResource(resourceModelName);
             } catch (IOException e) {

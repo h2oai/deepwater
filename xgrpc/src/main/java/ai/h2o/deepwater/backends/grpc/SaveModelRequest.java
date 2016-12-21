@@ -15,7 +15,6 @@ public  final class SaveModelRequest extends
     super(builder);
   }
   private SaveModelRequest() {
-    path_ = com.google.protobuf.ByteString.EMPTY;
   }
 
   @java.lang.Override
@@ -70,8 +69,16 @@ public  final class SaveModelRequest extends
             break;
           }
           case 26: {
-
-            path_ = input.readBytes();
+            if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              params_ = com.google.protobuf.MapField.newMapField(
+                  ParamsDefaultEntryHolder.defaultEntry);
+              mutable_bitField0_ |= 0x00000004;
+            }
+            com.google.protobuf.MapEntry<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>
+            params__ = input.readMessage(
+                ParamsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+            params_.getMutableMap().put(
+                params__.getKey(), params__.getValue());
             break;
           }
         }
@@ -90,6 +97,17 @@ public  final class SaveModelRequest extends
     return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SaveModelRequest_descriptor;
   }
 
+  @SuppressWarnings({"rawtypes"})
+  protected com.google.protobuf.MapField internalGetMapField(
+      int number) {
+    switch (number) {
+      case 3:
+        return internalGetParams();
+      default:
+        throw new RuntimeException(
+            "Invalid map field number: " + number);
+    }
+  }
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SaveModelRequest_fieldAccessorTable
@@ -97,6 +115,7 @@ public  final class SaveModelRequest extends
             ai.h2o.deepwater.backends.grpc.SaveModelRequest.class, ai.h2o.deepwater.backends.grpc.SaveModelRequest.Builder.class);
   }
 
+  private int bitField0_;
   public static final int SESSION_FIELD_NUMBER = 1;
   private ai.h2o.deepwater.backends.grpc.Session session_;
   /**
@@ -139,13 +158,80 @@ public  final class SaveModelRequest extends
     return getModel();
   }
 
-  public static final int PATH_FIELD_NUMBER = 3;
-  private com.google.protobuf.ByteString path_;
+  public static final int PARAMS_FIELD_NUMBER = 3;
+  private static final class ParamsDefaultEntryHolder {
+    static final com.google.protobuf.MapEntry<
+        java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> defaultEntry =
+            com.google.protobuf.MapEntry
+            .<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>newDefaultInstance(
+                ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SaveModelRequest_ParamsEntry_descriptor, 
+                com.google.protobuf.WireFormat.FieldType.STRING,
+                "",
+                com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                ai.h2o.deepwater.backends.grpc.ParamValue.getDefaultInstance());
+  }
+  private com.google.protobuf.MapField<
+      java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> params_;
+  private com.google.protobuf.MapField<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>
+  internalGetParams() {
+    if (params_ == null) {
+      return com.google.protobuf.MapField.emptyMapField(
+          ParamsDefaultEntryHolder.defaultEntry);
+    }
+    return params_;
+  }
+
+  public int getParamsCount() {
+    return internalGetParams().getMap().size();
+  }
   /**
-   * <code>optional bytes path = 3;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
    */
-  public com.google.protobuf.ByteString getPath() {
-    return path_;
+
+  public boolean containsParams(
+      java.lang.String key) {
+    if (key == null) { throw new java.lang.NullPointerException(); }
+    return internalGetParams().getMap().containsKey(key);
+  }
+  /**
+   * Use {@link #getParamsMap()} instead.
+   */
+  @java.lang.Deprecated
+  public java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> getParams() {
+    return getParamsMap();
+  }
+  /**
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
+   */
+
+  public java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> getParamsMap() {
+    return internalGetParams().getMap();
+  }
+  /**
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
+   */
+
+  public ai.h2o.deepwater.backends.grpc.ParamValue getParamsOrDefault(
+      java.lang.String key,
+      ai.h2o.deepwater.backends.grpc.ParamValue defaultValue) {
+    if (key == null) { throw new java.lang.NullPointerException(); }
+    java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> map =
+        internalGetParams().getMap();
+    return map.containsKey(key) ? map.get(key) : defaultValue;
+  }
+  /**
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
+   */
+
+  public ai.h2o.deepwater.backends.grpc.ParamValue getParamsOrThrow(
+      java.lang.String key) {
+    if (key == null) { throw new java.lang.NullPointerException(); }
+    java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> map =
+        internalGetParams().getMap();
+    if (!map.containsKey(key)) {
+      throw new java.lang.IllegalArgumentException();
+    }
+    return map.get(key);
   }
 
   private byte memoizedIsInitialized = -1;
@@ -166,9 +252,12 @@ public  final class SaveModelRequest extends
     if (model_ != null) {
       output.writeMessage(2, getModel());
     }
-    if (!path_.isEmpty()) {
-      output.writeBytes(3, path_);
-    }
+    com.google.protobuf.GeneratedMessageV3
+      .serializeStringMapTo(
+        output,
+        internalGetParams(),
+        ParamsDefaultEntryHolder.defaultEntry,
+        3);
   }
 
   public int getSerializedSize() {
@@ -184,9 +273,15 @@ public  final class SaveModelRequest extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(2, getModel());
     }
-    if (!path_.isEmpty()) {
+    for (java.util.Map.Entry<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> entry
+         : internalGetParams().getMap().entrySet()) {
+      com.google.protobuf.MapEntry<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>
+      params__ = ParamsDefaultEntryHolder.defaultEntry.newBuilderForType()
+          .setKey(entry.getKey())
+          .setValue(entry.getValue())
+          .build();
       size += com.google.protobuf.CodedOutputStream
-        .computeBytesSize(3, path_);
+          .computeMessageSize(3, params__);
     }
     memoizedSize = size;
     return size;
@@ -214,8 +309,8 @@ public  final class SaveModelRequest extends
       result = result && getModel()
           .equals(other.getModel());
     }
-    result = result && getPath()
-        .equals(other.getPath());
+    result = result && internalGetParams().equals(
+        other.internalGetParams());
     return result;
   }
 
@@ -234,8 +329,10 @@ public  final class SaveModelRequest extends
       hash = (37 * hash) + MODEL_FIELD_NUMBER;
       hash = (53 * hash) + getModel().hashCode();
     }
-    hash = (37 * hash) + PATH_FIELD_NUMBER;
-    hash = (53 * hash) + getPath().hashCode();
+    if (!internalGetParams().getMap().isEmpty()) {
+      hash = (37 * hash) + PARAMS_FIELD_NUMBER;
+      hash = (53 * hash) + internalGetParams().hashCode();
+    }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -330,6 +427,28 @@ public  final class SaveModelRequest extends
       return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SaveModelRequest_descriptor;
     }
 
+    @SuppressWarnings({"rawtypes"})
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 3:
+          return internalGetParams();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
+    @SuppressWarnings({"rawtypes"})
+    protected com.google.protobuf.MapField internalGetMutableMapField(
+        int number) {
+      switch (number) {
+        case 3:
+          return internalGetMutableParams();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return ai.h2o.deepwater.backends.grpc.DeepWaterGRPCService.internal_static_deepwater_SaveModelRequest_fieldAccessorTable
@@ -366,8 +485,7 @@ public  final class SaveModelRequest extends
         model_ = null;
         modelBuilder_ = null;
       }
-      path_ = com.google.protobuf.ByteString.EMPTY;
-
+      internalGetMutableParams().clear();
       return this;
     }
 
@@ -390,6 +508,8 @@ public  final class SaveModelRequest extends
 
     public ai.h2o.deepwater.backends.grpc.SaveModelRequest buildPartial() {
       ai.h2o.deepwater.backends.grpc.SaveModelRequest result = new ai.h2o.deepwater.backends.grpc.SaveModelRequest(this);
+      int from_bitField0_ = bitField0_;
+      int to_bitField0_ = 0;
       if (sessionBuilder_ == null) {
         result.session_ = session_;
       } else {
@@ -400,7 +520,9 @@ public  final class SaveModelRequest extends
       } else {
         result.model_ = modelBuilder_.build();
       }
-      result.path_ = path_;
+      result.params_ = internalGetParams();
+      result.params_.makeImmutable();
+      result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
     }
@@ -448,9 +570,8 @@ public  final class SaveModelRequest extends
       if (other.hasModel()) {
         mergeModel(other.getModel());
       }
-      if (other.getPath() != com.google.protobuf.ByteString.EMPTY) {
-        setPath(other.getPath());
-      }
+      internalGetMutableParams().mergeFrom(
+          other.internalGetParams());
       onChanged();
       return this;
     }
@@ -476,6 +597,7 @@ public  final class SaveModelRequest extends
       }
       return this;
     }
+    private int bitField0_;
 
     private ai.h2o.deepwater.backends.grpc.Session session_ = null;
     private com.google.protobuf.SingleFieldBuilderV3<
@@ -711,32 +833,122 @@ public  final class SaveModelRequest extends
       return modelBuilder_;
     }
 
-    private com.google.protobuf.ByteString path_ = com.google.protobuf.ByteString.EMPTY;
-    /**
-     * <code>optional bytes path = 3;</code>
-     */
-    public com.google.protobuf.ByteString getPath() {
-      return path_;
+    private com.google.protobuf.MapField<
+        java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> params_;
+    private com.google.protobuf.MapField<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>
+    internalGetParams() {
+      if (params_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            ParamsDefaultEntryHolder.defaultEntry);
+      }
+      return params_;
+    }
+    private com.google.protobuf.MapField<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>
+    internalGetMutableParams() {
+      onChanged();;
+      if (params_ == null) {
+        params_ = com.google.protobuf.MapField.newMapField(
+            ParamsDefaultEntryHolder.defaultEntry);
+      }
+      if (!params_.isMutable()) {
+        params_ = params_.copy();
+      }
+      return params_;
+    }
+
+    public int getParamsCount() {
+      return internalGetParams().getMap().size();
     }
     /**
-     * <code>optional bytes path = 3;</code>
+     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
      */
-    public Builder setPath(com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      path_ = value;
-      onChanged();
+
+    public boolean containsParams(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      return internalGetParams().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getParamsMap()} instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> getParams() {
+      return getParamsMap();
+    }
+    /**
+     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
+     */
+
+    public java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> getParamsMap() {
+      return internalGetParams().getMap();
+    }
+    /**
+     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
+     */
+
+    public ai.h2o.deepwater.backends.grpc.ParamValue getParamsOrDefault(
+        java.lang.String key,
+        ai.h2o.deepwater.backends.grpc.ParamValue defaultValue) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> map =
+          internalGetParams().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
+     */
+
+    public ai.h2o.deepwater.backends.grpc.ParamValue getParamsOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> map =
+          internalGetParams().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
+    public Builder clearParams() {
+      getMutableParams().clear();
       return this;
     }
     /**
-     * <code>optional bytes path = 3;</code>
+     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
      */
-    public Builder clearPath() {
-      
-      path_ = getDefaultInstance().getPath();
-      onChanged();
+
+    public Builder removeParams(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      getMutableParams().remove(key);
+      return this;
+    }
+    /**
+     * Use alternate mutation accessors instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>
+    getMutableParams() {
+      return internalGetMutableParams().getMutableMap();
+    }
+    /**
+     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
+     */
+    public Builder putParams(
+        java.lang.String key,
+        ai.h2o.deepwater.backends.grpc.ParamValue value) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      if (value == null) { throw new java.lang.NullPointerException(); }
+      getMutableParams().put(key, value);
+      return this;
+    }
+    /**
+     * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
+     */
+
+    public Builder putAllParams(
+        java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue> values) {
+      getMutableParams().putAll(values);
       return this;
     }
     public final Builder setUnknownFields(

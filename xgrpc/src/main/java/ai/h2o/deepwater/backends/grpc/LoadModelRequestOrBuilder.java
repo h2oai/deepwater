@@ -21,20 +21,36 @@ public interface LoadModelRequestOrBuilder extends
   ai.h2o.deepwater.backends.grpc.SessionOrBuilder getSessionOrBuilder();
 
   /**
-   * <code>optional .deepwater.BackendModel model = 2;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
    */
-  boolean hasModel();
+  int getParamsCount();
   /**
-   * <code>optional .deepwater.BackendModel model = 2;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
    */
-  ai.h2o.deepwater.backends.grpc.BackendModel getModel();
+  boolean containsParams(
+      java.lang.String key);
   /**
-   * <code>optional .deepwater.BackendModel model = 2;</code>
+   * Use {@link #getParamsMap()} instead.
    */
-  ai.h2o.deepwater.backends.grpc.BackendModelOrBuilder getModelOrBuilder();
+  @java.lang.Deprecated
+  java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>
+  getParams();
+  /**
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
+   */
+  java.util.Map<java.lang.String, ai.h2o.deepwater.backends.grpc.ParamValue>
+  getParamsMap();
+  /**
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
+   */
 
+  ai.h2o.deepwater.backends.grpc.ParamValue getParamsOrDefault(
+      java.lang.String key,
+      ai.h2o.deepwater.backends.grpc.ParamValue defaultValue);
   /**
-   * <code>optional bytes path = 3;</code>
+   * <code>map&lt;string, .deepwater.ParamValue&gt; params = 3;</code>
    */
-  com.google.protobuf.ByteString getPath();
+
+  ai.h2o.deepwater.backends.grpc.ParamValue getParamsOrThrow(
+      java.lang.String key);
 }

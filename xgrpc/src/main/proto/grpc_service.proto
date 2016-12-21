@@ -25,11 +25,13 @@ service DeepWaterTrainBackend {
 
     rpc SaveModel(SaveModelRequest) returns (SaveModelResponse) {};
 
-    rpc LoadWeights(LoadWeightsRequest) returns (LoadWeightsResponse) {};
+    rpc LoadModelVariables(LoadModelVariablesRequest)
+    returns(LoadModelVariablesResponse) {};
 
-    rpc SaveWeights(SaveWeightsRequest) returns (SaveWeightsResponse) {};
+    rpc SaveModelVariables(SaveModelVariablesRequest) returns
+    (SaveModelVariablesResponse) {};
 
-    rpc SetParameters(SetParametersRequest) returns (SetParametersResponse) {};
+    rpc SetModelParameters(SetModelParametersRequest) returns (SetModelParametersResponse) {};
 
     rpc Execute(ExecuteRequest) returns (ExecuteResponse) {};
 
@@ -82,52 +84,52 @@ message Status {
 
 message LoadModelRequest {
     Session session = 1;
-    BackendModel model = 2;
-    bytes path = 3;
+    map<string, ParamValue> params = 3;
 }
 
 message LoadModelResponse {
-    Status  status = 1;
+    BackendModel model = 1;
+    Status  status = 2;
 }
 
 message SaveModelRequest {
     Session session = 1;
     BackendModel model = 2;
-    bytes path = 3;
+    map<string, ParamValue> params = 3;
 }
 
 message SaveModelResponse {
     Status  status = 1;
 }
 
-message LoadWeightsRequest {
-    Session session = 1;
-    BackendModel model = 2;
-    bytes path = 3;
-}
-
-message LoadWeightsResponse {
-    Status  status = 1;
-}
-
-
-message SaveWeightsRequest {
-    Session session = 1;
-    BackendModel model = 2;
-    bytes path = 3;
-}
-
-message SaveWeightsResponse {
-    Status  status = 1;
-}
-
-message SetParametersRequest{
+message LoadModelVariablesRequest {
     Session session = 1;
     BackendModel model = 2;
     map<string, ParamValue> params = 3;
 }
 
-message SetParametersResponse{
+message LoadModelVariablesResponse {
+    Status  status = 1;
+}
+
+
+message SaveModelVariablesRequest {
+    Session session = 1;
+    BackendModel model = 2;
+    map<string, ParamValue> params = 3;
+}
+
+message SaveModelVariablesResponse {
+    Status  status = 1;
+}
+
+message SetModelParametersRequest{
+    Session session = 1;
+    BackendModel model = 2;
+    map<string, ParamValue> params = 3;
+}
+
+message SetModelParametersResponse{
     Status status = 1;
     map<string, ParamValue> params = 2;
 }
@@ -176,19 +178,21 @@ message Tensor {
 
 message ParamValue {
     message ListValue {
-        repeated bytes s = 2;                        // "list(string)"
+        repeated string s = 2;                        // "list(string)"
         repeated int64 i = 3 [packed = true];        // "list(int)"
         repeated float c = 4 [packed = true];        // "list(float)"
         repeated double f = 5 [packed = true];        // "list(double)"
         repeated bool b = 6 [packed = true];         // "list(bool)"
+        repeated bool bb = 7 [packed = true];
     }
 
     oneof value {
-        bytes s = 2; // "string"
+        string s = 2; // "string"
         int64 i = 3; // "int"
         float f = 4; // "float"
         double d = 5; // "float"
         bool b = 6; // "bool"
+        bytes bb = 7; // "string"
         ListValue list = 1; // any "list(...)"
     }
 }

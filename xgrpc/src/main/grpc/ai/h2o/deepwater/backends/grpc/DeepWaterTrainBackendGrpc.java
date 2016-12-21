@@ -47,58 +47,58 @@ public class DeepWaterTrainBackendGrpc {
           io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.CreateSessionResponse.getDefaultInstance()));
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.DeleteSessionRequest,
-      ai.h2o.deepwater.backends.grpc.Status> METHOD_DELETE_SESSION =
+      ai.h2o.deepwater.backends.grpc.DeleteSessionResponse> METHOD_DELETE_SESSION =
       io.grpc.MethodDescriptor.create(
           io.grpc.MethodDescriptor.MethodType.UNARY,
           generateFullMethodName(
               "deepwater.DeepWaterTrainBackend", "DeleteSession"),
           io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.DeleteSessionRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.Status.getDefaultInstance()));
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.DeleteSessionResponse.getDefaultInstance()));
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.LoadModelRequest,
-      ai.h2o.deepwater.backends.grpc.Status> METHOD_LOAD_MODEL =
+      ai.h2o.deepwater.backends.grpc.LoadModelResponse> METHOD_LOAD_MODEL =
       io.grpc.MethodDescriptor.create(
           io.grpc.MethodDescriptor.MethodType.UNARY,
           generateFullMethodName(
               "deepwater.DeepWaterTrainBackend", "LoadModel"),
           io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.LoadModelRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.Status.getDefaultInstance()));
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.LoadModelResponse.getDefaultInstance()));
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.SaveModelRequest,
-      ai.h2o.deepwater.backends.grpc.Status> METHOD_SAVE_MODEL =
+      ai.h2o.deepwater.backends.grpc.SaveModelResponse> METHOD_SAVE_MODEL =
       io.grpc.MethodDescriptor.create(
           io.grpc.MethodDescriptor.MethodType.UNARY,
           generateFullMethodName(
               "deepwater.DeepWaterTrainBackend", "SaveModel"),
           io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.SaveModelRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.Status.getDefaultInstance()));
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.SaveModelResponse.getDefaultInstance()));
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.LoadWeightsRequest,
-      ai.h2o.deepwater.backends.grpc.Status> METHOD_LOAD_WEIGHTS =
+  public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.LoadModelVariablesRequest,
+      ai.h2o.deepwater.backends.grpc.LoadModelVariablesResponse> METHOD_LOAD_MODEL_VARIABLES =
       io.grpc.MethodDescriptor.create(
           io.grpc.MethodDescriptor.MethodType.UNARY,
           generateFullMethodName(
-              "deepwater.DeepWaterTrainBackend", "LoadWeights"),
-          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.LoadWeightsRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.Status.getDefaultInstance()));
+              "deepwater.DeepWaterTrainBackend", "LoadModelVariables"),
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.LoadModelVariablesRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.LoadModelVariablesResponse.getDefaultInstance()));
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.SaveWeightsRequest,
-      ai.h2o.deepwater.backends.grpc.Status> METHOD_SAVE_WEIGHTS =
+  public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.SaveModelVariablesRequest,
+      ai.h2o.deepwater.backends.grpc.SaveModelVariablesResponse> METHOD_SAVE_MODEL_VARIABLES =
       io.grpc.MethodDescriptor.create(
           io.grpc.MethodDescriptor.MethodType.UNARY,
           generateFullMethodName(
-              "deepwater.DeepWaterTrainBackend", "SaveWeights"),
-          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.SaveWeightsRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.Status.getDefaultInstance()));
+              "deepwater.DeepWaterTrainBackend", "SaveModelVariables"),
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.SaveModelVariablesRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.SaveModelVariablesResponse.getDefaultInstance()));
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.SetParametersRequest,
-      ai.h2o.deepwater.backends.grpc.SetParametersResponse> METHOD_SET_PARAMETERS =
+  public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.SetModelParametersRequest,
+      ai.h2o.deepwater.backends.grpc.SetModelParametersResponse> METHOD_SET_MODEL_PARAMETERS =
       io.grpc.MethodDescriptor.create(
           io.grpc.MethodDescriptor.MethodType.UNARY,
           generateFullMethodName(
-              "deepwater.DeepWaterTrainBackend", "SetParameters"),
-          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.SetParametersRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.SetParametersResponse.getDefaultInstance()));
+              "deepwater.DeepWaterTrainBackend", "SetModelParameters"),
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.SetModelParametersRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(ai.h2o.deepwater.backends.grpc.SetModelParametersResponse.getDefaultInstance()));
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<ai.h2o.deepwater.backends.grpc.ExecuteRequest,
       ai.h2o.deepwater.backends.grpc.ExecuteResponse> METHOD_EXECUTE =
@@ -153,43 +153,43 @@ public class DeepWaterTrainBackendGrpc {
     /**
      */
     public void deleteSession(ai.h2o.deepwater.backends.grpc.DeleteSessionRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.DeleteSessionResponse> responseObserver) {
       asyncUnimplementedUnaryCall(METHOD_DELETE_SESSION, responseObserver);
     }
 
     /**
      */
     public void loadModel(ai.h2o.deepwater.backends.grpc.LoadModelRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.LoadModelResponse> responseObserver) {
       asyncUnimplementedUnaryCall(METHOD_LOAD_MODEL, responseObserver);
     }
 
     /**
      */
     public void saveModel(ai.h2o.deepwater.backends.grpc.SaveModelRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.SaveModelResponse> responseObserver) {
       asyncUnimplementedUnaryCall(METHOD_SAVE_MODEL, responseObserver);
     }
 
     /**
      */
-    public void loadWeights(ai.h2o.deepwater.backends.grpc.LoadWeightsRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_LOAD_WEIGHTS, responseObserver);
+    public void loadModelVariables(ai.h2o.deepwater.backends.grpc.LoadModelVariablesRequest request,
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.LoadModelVariablesResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_LOAD_MODEL_VARIABLES, responseObserver);
     }
 
     /**
      */
-    public void saveWeights(ai.h2o.deepwater.backends.grpc.SaveWeightsRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_SAVE_WEIGHTS, responseObserver);
+    public void saveModelVariables(ai.h2o.deepwater.backends.grpc.SaveModelVariablesRequest request,
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.SaveModelVariablesResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_SAVE_MODEL_VARIABLES, responseObserver);
     }
 
     /**
      */
-    public void setParameters(ai.h2o.deepwater.backends.grpc.SetParametersRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.SetParametersResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_SET_PARAMETERS, responseObserver);
+    public void setModelParameters(ai.h2o.deepwater.backends.grpc.SetModelParametersRequest request,
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.SetModelParametersResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_SET_MODEL_PARAMETERS, responseObserver);
     }
 
     /**
@@ -220,43 +220,43 @@ public class DeepWaterTrainBackendGrpc {
             asyncUnaryCall(
               new MethodHandlers<
                 ai.h2o.deepwater.backends.grpc.DeleteSessionRequest,
-                ai.h2o.deepwater.backends.grpc.Status>(
+                ai.h2o.deepwater.backends.grpc.DeleteSessionResponse>(
                   this, METHODID_DELETE_SESSION)))
           .addMethod(
             METHOD_LOAD_MODEL,
             asyncUnaryCall(
               new MethodHandlers<
                 ai.h2o.deepwater.backends.grpc.LoadModelRequest,
-                ai.h2o.deepwater.backends.grpc.Status>(
+                ai.h2o.deepwater.backends.grpc.LoadModelResponse>(
                   this, METHODID_LOAD_MODEL)))
           .addMethod(
             METHOD_SAVE_MODEL,
             asyncUnaryCall(
               new MethodHandlers<
                 ai.h2o.deepwater.backends.grpc.SaveModelRequest,
-                ai.h2o.deepwater.backends.grpc.Status>(
+                ai.h2o.deepwater.backends.grpc.SaveModelResponse>(
                   this, METHODID_SAVE_MODEL)))
           .addMethod(
-            METHOD_LOAD_WEIGHTS,
+            METHOD_LOAD_MODEL_VARIABLES,
             asyncUnaryCall(
               new MethodHandlers<
-                ai.h2o.deepwater.backends.grpc.LoadWeightsRequest,
-                ai.h2o.deepwater.backends.grpc.Status>(
-                  this, METHODID_LOAD_WEIGHTS)))
+                ai.h2o.deepwater.backends.grpc.LoadModelVariablesRequest,
+                ai.h2o.deepwater.backends.grpc.LoadModelVariablesResponse>(
+                  this, METHODID_LOAD_MODEL_VARIABLES)))
           .addMethod(
-            METHOD_SAVE_WEIGHTS,
+            METHOD_SAVE_MODEL_VARIABLES,
             asyncUnaryCall(
               new MethodHandlers<
-                ai.h2o.deepwater.backends.grpc.SaveWeightsRequest,
-                ai.h2o.deepwater.backends.grpc.Status>(
-                  this, METHODID_SAVE_WEIGHTS)))
+                ai.h2o.deepwater.backends.grpc.SaveModelVariablesRequest,
+                ai.h2o.deepwater.backends.grpc.SaveModelVariablesResponse>(
+                  this, METHODID_SAVE_MODEL_VARIABLES)))
           .addMethod(
-            METHOD_SET_PARAMETERS,
+            METHOD_SET_MODEL_PARAMETERS,
             asyncUnaryCall(
               new MethodHandlers<
-                ai.h2o.deepwater.backends.grpc.SetParametersRequest,
-                ai.h2o.deepwater.backends.grpc.SetParametersResponse>(
-                  this, METHODID_SET_PARAMETERS)))
+                ai.h2o.deepwater.backends.grpc.SetModelParametersRequest,
+                ai.h2o.deepwater.backends.grpc.SetModelParametersResponse>(
+                  this, METHODID_SET_MODEL_PARAMETERS)))
           .addMethod(
             METHOD_EXECUTE,
             asyncUnaryCall(
@@ -305,7 +305,7 @@ public class DeepWaterTrainBackendGrpc {
     /**
      */
     public void deleteSession(ai.h2o.deepwater.backends.grpc.DeleteSessionRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.DeleteSessionResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(METHOD_DELETE_SESSION, getCallOptions()), request, responseObserver);
     }
@@ -313,7 +313,7 @@ public class DeepWaterTrainBackendGrpc {
     /**
      */
     public void loadModel(ai.h2o.deepwater.backends.grpc.LoadModelRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.LoadModelResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(METHOD_LOAD_MODEL, getCallOptions()), request, responseObserver);
     }
@@ -321,33 +321,33 @@ public class DeepWaterTrainBackendGrpc {
     /**
      */
     public void saveModel(ai.h2o.deepwater.backends.grpc.SaveModelRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.SaveModelResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(METHOD_SAVE_MODEL, getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void loadWeights(ai.h2o.deepwater.backends.grpc.LoadWeightsRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
+    public void loadModelVariables(ai.h2o.deepwater.backends.grpc.LoadModelVariablesRequest request,
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.LoadModelVariablesResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_LOAD_WEIGHTS, getCallOptions()), request, responseObserver);
+          getChannel().newCall(METHOD_LOAD_MODEL_VARIABLES, getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void saveWeights(ai.h2o.deepwater.backends.grpc.SaveWeightsRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status> responseObserver) {
+    public void saveModelVariables(ai.h2o.deepwater.backends.grpc.SaveModelVariablesRequest request,
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.SaveModelVariablesResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_SAVE_WEIGHTS, getCallOptions()), request, responseObserver);
+          getChannel().newCall(METHOD_SAVE_MODEL_VARIABLES, getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void setParameters(ai.h2o.deepwater.backends.grpc.SetParametersRequest request,
-        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.SetParametersResponse> responseObserver) {
+    public void setModelParameters(ai.h2o.deepwater.backends.grpc.SetModelParametersRequest request,
+        io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.SetModelParametersResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_SET_PARAMETERS, getCallOptions()), request, responseObserver);
+          getChannel().newCall(METHOD_SET_MODEL_PARAMETERS, getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -393,44 +393,44 @@ public class DeepWaterTrainBackendGrpc {
 
     /**
      */
-    public ai.h2o.deepwater.backends.grpc.Status deleteSession(ai.h2o.deepwater.backends.grpc.DeleteSessionRequest request) {
+    public ai.h2o.deepwater.backends.grpc.DeleteSessionResponse deleteSession(ai.h2o.deepwater.backends.grpc.DeleteSessionRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_DELETE_SESSION, getCallOptions(), request);
     }
 
     /**
      */
-    public ai.h2o.deepwater.backends.grpc.Status loadModel(ai.h2o.deepwater.backends.grpc.LoadModelRequest request) {
+    public ai.h2o.deepwater.backends.grpc.LoadModelResponse loadModel(ai.h2o.deepwater.backends.grpc.LoadModelRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_LOAD_MODEL, getCallOptions(), request);
     }
 
     /**
      */
-    public ai.h2o.deepwater.backends.grpc.Status saveModel(ai.h2o.deepwater.backends.grpc.SaveModelRequest request) {
+    public ai.h2o.deepwater.backends.grpc.SaveModelResponse saveModel(ai.h2o.deepwater.backends.grpc.SaveModelRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_SAVE_MODEL, getCallOptions(), request);
     }
 
     /**
      */
-    public ai.h2o.deepwater.backends.grpc.Status loadWeights(ai.h2o.deepwater.backends.grpc.LoadWeightsRequest request) {
+    public ai.h2o.deepwater.backends.grpc.LoadModelVariablesResponse loadModelVariables(ai.h2o.deepwater.backends.grpc.LoadModelVariablesRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_LOAD_WEIGHTS, getCallOptions(), request);
+          getChannel(), METHOD_LOAD_MODEL_VARIABLES, getCallOptions(), request);
     }
 
     /**
      */
-    public ai.h2o.deepwater.backends.grpc.Status saveWeights(ai.h2o.deepwater.backends.grpc.SaveWeightsRequest request) {
+    public ai.h2o.deepwater.backends.grpc.SaveModelVariablesResponse saveModelVariables(ai.h2o.deepwater.backends.grpc.SaveModelVariablesRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_SAVE_WEIGHTS, getCallOptions(), request);
+          getChannel(), METHOD_SAVE_MODEL_VARIABLES, getCallOptions(), request);
     }
 
     /**
      */
-    public ai.h2o.deepwater.backends.grpc.SetParametersResponse setParameters(ai.h2o.deepwater.backends.grpc.SetParametersRequest request) {
+    public ai.h2o.deepwater.backends.grpc.SetModelParametersResponse setModelParameters(ai.h2o.deepwater.backends.grpc.SetModelParametersRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_SET_PARAMETERS, getCallOptions(), request);
+          getChannel(), METHOD_SET_MODEL_PARAMETERS, getCallOptions(), request);
     }
 
     /**
@@ -477,7 +477,7 @@ public class DeepWaterTrainBackendGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.Status> deleteSession(
+    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.DeleteSessionResponse> deleteSession(
         ai.h2o.deepwater.backends.grpc.DeleteSessionRequest request) {
       return futureUnaryCall(
           getChannel().newCall(METHOD_DELETE_SESSION, getCallOptions()), request);
@@ -485,7 +485,7 @@ public class DeepWaterTrainBackendGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.Status> loadModel(
+    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.LoadModelResponse> loadModel(
         ai.h2o.deepwater.backends.grpc.LoadModelRequest request) {
       return futureUnaryCall(
           getChannel().newCall(METHOD_LOAD_MODEL, getCallOptions()), request);
@@ -493,7 +493,7 @@ public class DeepWaterTrainBackendGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.Status> saveModel(
+    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.SaveModelResponse> saveModel(
         ai.h2o.deepwater.backends.grpc.SaveModelRequest request) {
       return futureUnaryCall(
           getChannel().newCall(METHOD_SAVE_MODEL, getCallOptions()), request);
@@ -501,26 +501,26 @@ public class DeepWaterTrainBackendGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.Status> loadWeights(
-        ai.h2o.deepwater.backends.grpc.LoadWeightsRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.LoadModelVariablesResponse> loadModelVariables(
+        ai.h2o.deepwater.backends.grpc.LoadModelVariablesRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_LOAD_WEIGHTS, getCallOptions()), request);
+          getChannel().newCall(METHOD_LOAD_MODEL_VARIABLES, getCallOptions()), request);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.Status> saveWeights(
-        ai.h2o.deepwater.backends.grpc.SaveWeightsRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.SaveModelVariablesResponse> saveModelVariables(
+        ai.h2o.deepwater.backends.grpc.SaveModelVariablesRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_SAVE_WEIGHTS, getCallOptions()), request);
+          getChannel().newCall(METHOD_SAVE_MODEL_VARIABLES, getCallOptions()), request);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.SetParametersResponse> setParameters(
-        ai.h2o.deepwater.backends.grpc.SetParametersRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<ai.h2o.deepwater.backends.grpc.SetModelParametersResponse> setModelParameters(
+        ai.h2o.deepwater.backends.grpc.SetModelParametersRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_SET_PARAMETERS, getCallOptions()), request);
+          getChannel().newCall(METHOD_SET_MODEL_PARAMETERS, getCallOptions()), request);
     }
 
     /**
@@ -537,9 +537,9 @@ public class DeepWaterTrainBackendGrpc {
   private static final int METHODID_DELETE_SESSION = 2;
   private static final int METHODID_LOAD_MODEL = 3;
   private static final int METHODID_SAVE_MODEL = 4;
-  private static final int METHODID_LOAD_WEIGHTS = 5;
-  private static final int METHODID_SAVE_WEIGHTS = 6;
-  private static final int METHODID_SET_PARAMETERS = 7;
+  private static final int METHODID_LOAD_MODEL_VARIABLES = 5;
+  private static final int METHODID_SAVE_MODEL_VARIABLES = 6;
+  private static final int METHODID_SET_MODEL_PARAMETERS = 7;
   private static final int METHODID_EXECUTE = 8;
 
   private static class MethodHandlers<Req, Resp> implements
@@ -569,27 +569,27 @@ public class DeepWaterTrainBackendGrpc {
           break;
         case METHODID_DELETE_SESSION:
           serviceImpl.deleteSession((ai.h2o.deepwater.backends.grpc.DeleteSessionRequest) request,
-              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status>) responseObserver);
+              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.DeleteSessionResponse>) responseObserver);
           break;
         case METHODID_LOAD_MODEL:
           serviceImpl.loadModel((ai.h2o.deepwater.backends.grpc.LoadModelRequest) request,
-              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status>) responseObserver);
+              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.LoadModelResponse>) responseObserver);
           break;
         case METHODID_SAVE_MODEL:
           serviceImpl.saveModel((ai.h2o.deepwater.backends.grpc.SaveModelRequest) request,
-              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status>) responseObserver);
+              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.SaveModelResponse>) responseObserver);
           break;
-        case METHODID_LOAD_WEIGHTS:
-          serviceImpl.loadWeights((ai.h2o.deepwater.backends.grpc.LoadWeightsRequest) request,
-              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status>) responseObserver);
+        case METHODID_LOAD_MODEL_VARIABLES:
+          serviceImpl.loadModelVariables((ai.h2o.deepwater.backends.grpc.LoadModelVariablesRequest) request,
+              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.LoadModelVariablesResponse>) responseObserver);
           break;
-        case METHODID_SAVE_WEIGHTS:
-          serviceImpl.saveWeights((ai.h2o.deepwater.backends.grpc.SaveWeightsRequest) request,
-              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.Status>) responseObserver);
+        case METHODID_SAVE_MODEL_VARIABLES:
+          serviceImpl.saveModelVariables((ai.h2o.deepwater.backends.grpc.SaveModelVariablesRequest) request,
+              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.SaveModelVariablesResponse>) responseObserver);
           break;
-        case METHODID_SET_PARAMETERS:
-          serviceImpl.setParameters((ai.h2o.deepwater.backends.grpc.SetParametersRequest) request,
-              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.SetParametersResponse>) responseObserver);
+        case METHODID_SET_MODEL_PARAMETERS:
+          serviceImpl.setModelParameters((ai.h2o.deepwater.backends.grpc.SetModelParametersRequest) request,
+              (io.grpc.stub.StreamObserver<ai.h2o.deepwater.backends.grpc.SetModelParametersResponse>) responseObserver);
           break;
         case METHODID_EXECUTE:
           serviceImpl.execute((ai.h2o.deepwater.backends.grpc.ExecuteRequest) request,
@@ -618,9 +618,9 @@ public class DeepWaterTrainBackendGrpc {
         METHOD_DELETE_SESSION,
         METHOD_LOAD_MODEL,
         METHOD_SAVE_MODEL,
-        METHOD_LOAD_WEIGHTS,
-        METHOD_SAVE_WEIGHTS,
-        METHOD_SET_PARAMETERS,
+        METHOD_LOAD_MODEL_VARIABLES,
+        METHOD_SAVE_MODEL_VARIABLES,
+        METHOD_SET_MODEL_PARAMETERS,
         METHOD_EXECUTE);
   }
 
