@@ -39,7 +39,8 @@ def variable_summaries(var, name):
     tf.histogram_summary(name, var)
 
 
-def deepwater_image_classification_model(x, y, logits, loss, accuracy, optimizer):
+def deepwater_image_classification_model(
+    x, y, logits, loss, accuracy, optimizer):
     # This is required by the h2o tensorflow backend
 
     # train
@@ -87,7 +88,7 @@ def _mlp(width=28, height=28, channels=1, classes=10):
         size = width * height * channels
         x = tf.placeholder(tf.float32, [None, size], name="x")
         initialization = tf.truncated_normal(
-            [size, classes], mean=0.2, stddev=0.1)
+            [size, classes], mean=0.2, stddev=0.)
 
         w = tf.Variable(initialization, name="W")
         b = tf.Variable(tf.zeros([classes]), name="b")
@@ -115,6 +116,8 @@ def _mlp(width=28, height=28, channels=1, classes=10):
         return deepwater_image_classification_model(x, y_, y, loss, accuracy,
                 optimizer)
 # LeNet
+
+
 def _lenet(width=28, height=28, channels=1, classes=10,
            clip_gradient=6, mini_batch_size=32):
     graph = tf.Graph()
@@ -125,7 +128,7 @@ def _lenet(width=28, height=28, channels=1, classes=10,
         # https://www.tensorflow.org/versions/r0.10/tutorials/mnist/pros/
 
         def weight_variable(shape, name):
-            initial = tf.truncated_normal(shape, mean=0.5, stddev=0.1)
+            initial = tf.truncated_normal(shape, mean=0.1, stddev=0.1)
             var = tf.Variable(initial, name=name)
             variable_summaries(var, name)
             return var
@@ -167,25 +170,27 @@ def _lenet(width=28, height=28, channels=1, classes=10,
         h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
         W_fc2 = weight_variable([1024, classes], 'fc1/W')
-        b_fc2 = bias_variable([classes],'fc1/bias')
+        b_fc2 = bias_variable([classes], 'fc1/bias')
 
-        y_conv = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
-        y = y_conv
+        y = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
 
         # labels
-        y_ = tf.placeholder(tf.float32, [None, classes], name="y")
+        y_= tf.placeholder(tf.float32, [None, classes], name = "y")
 
         # accuracy
-        correct_prediction = tf.equal(tf.argmax(y, 1),
+        correct_prediction=tf.equal(tf.argmax(y, 1),
                                       tf.argmax(y_, 1))
-        accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+        accuracy=tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-        loss = tf.reduce_mean(
+        loss=tf.reduce_mean(
             tf.nn.softmax_cross_entropy_with_logits(y, y_))
-        # optimizer = tf.train.AdamOptimizer(1e-4)
-        optimizer = tf.train.GradientDescentOptimizer(0.01)
 
-        return deepwater_image_classification_model(x, y_, y, loss, accuracy,
+        optimizer = tf.train.AdamOptimizer(1e-4)
+        # optimizer = tf.train.GradientDescentOptimizer(0.01)
+
+        return deepwater_image_classification_model(x, y_, y, 
+                loss, 
+                accuracy,
                 optimizer) 
 
 
