@@ -38,14 +38,24 @@ source activate deepwater
 conda install numpy=1.10
 ```
 #### Install SWIG
+For Linux:
 ```
 sudo apt-get install swig
 ```
 
+For Mac:
+```
+brew install swig
+```
 
 #### Install Maven
+For Linux:
 ```
 sudo apt install maven
+```
+
+For Mac:
+```
 brew install maven
 ```
 
