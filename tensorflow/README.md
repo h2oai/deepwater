@@ -16,6 +16,8 @@ exit
 ```
 
 For Mac:
+(Optional) MacOs X Sierra needs a Bazel >=0.4 version due to bugs in 0.3.1, it can be installed with `brew install bazel`
+
 ```
 curl -L -O https://github.com/bazelbuild/bazel/releases/download/0.3.1/bazel-0.3.1-installer-darwin-x86_64.sh
 sudo bash bazel-0.3.1-installer-darwin-x86_64.sh
@@ -67,6 +69,8 @@ cd ../..
 ```
 
 #### Build TF Java bindings
+(Optional) To build bindings for GPU disabled TF comment out `export TF_NEED_CUDA=1` line and remove `-conf=cuda` in `thirdparty/javacpp-presets/tensorflow/cppbuild.sh` for your platform.
+
 ```
 cd thirdparty/javacpp-presets
 mvn -T 20 install --projects .,tensorflow
