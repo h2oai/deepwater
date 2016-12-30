@@ -1,23 +1,18 @@
 package deepwater.backends.tensorflow.test;
 
-import com.google.common.collect.ImmutableMap;
 import deepwater.backends.BackendModel;
-import deepwater.backends.BackendTrain;
+import deepwater.backends.BackendAPI;
 import deepwater.backends.tensorflow.Client;
 import deepwater.backends.tensorflow.ModelParams;
 import deepwater.backends.tensorflow.TensorflowBackend;
-import deepwater.backends.tensorflow.models.ModelFactory;
-import deepwater.backends.tensorflow.models.TensorflowModel;
 import deepwater.datasets.BatchIterator;
 import deepwater.datasets.ImageBatch;
 import deepwater.datasets.MNISTImageDataset;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.tensorflow.framework.MetaGraphDef;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import static deepwater.datasets.FileUtils.findFile;
 
@@ -54,7 +49,7 @@ public class TestGRPC {
     }
 
     public float testMNIST(BackendModel model) throws IOException {
-        BackendTrain backend = new TensorflowBackend();
+        BackendAPI backend = new TensorflowBackend();
         MNISTImageDataset dataset = new MNISTImageDataset();
         String[] images = new String[]{
                 findFile("bigdata/laptop/mnist/t10k-images-idx3-ubyte.gz"),

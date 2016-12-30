@@ -2,10 +2,9 @@ package deepwater.backends.grpc.test;
 
 import deepwater.backends.BackendModel;
 import deepwater.backends.BackendParams;
-import deepwater.backends.BackendTrain;
 import deepwater.backends.RuntimeOptions;
 import deepwater.backends.grpc.Client;
-import deepwater.backends.grpc.XGRPCBackendTrain;
+import deepwater.backends.grpc.XGRPCBackendAPI;
 import deepwater.datasets.BatchIterator;
 import deepwater.datasets.ImageBatch;
 import deepwater.datasets.MNISTImageDataset;
@@ -28,7 +27,7 @@ public class TestDeepWaterGRPC {
     private static PythonWorkerPool pypool;
 
     private Client client;
-    private XGRPCBackendTrain backend;
+    private XGRPCBackendAPI backend;
 
     @BeforeClass
     public static void startPythonDaemon(){
@@ -49,7 +48,7 @@ public class TestDeepWaterGRPC {
         pypool.createPythonWorker(userHome + "/anaconda3/envs/deepwater/bin/python", env);
         client = new Client("localhost", 50051);
 
-        backend = new XGRPCBackendTrain("localhost", 50051);
+        backend = new XGRPCBackendAPI("localhost", 50051);
 
     }
 
@@ -94,6 +93,8 @@ public class TestDeepWaterGRPC {
         RuntimeOptions opts = new RuntimeOptions();
         BackendParams params = new BackendParams();
         BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelName);
+
+        backend.setParameter(model, "dropout", 1.0f);
 
         double initial = testMNIST(model);
 
@@ -141,8 +142,7 @@ public class TestDeepWaterGRPC {
 
         double averageLoss = 0;
         while(it.next(b)){
-            float[] loss = backend.predict(model, b.getImages(), b.getLabels());
-            averageLoss = printLoss(loss);
+            backend.predict(model, b.getImages(), b.getLabels());
         }
 
 

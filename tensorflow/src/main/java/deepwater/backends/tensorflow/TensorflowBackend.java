@@ -3,7 +3,7 @@ package deepwater.backends.tensorflow;
 import com.google.common.primitives.Floats;
 import deepwater.backends.BackendModel;
 import deepwater.backends.BackendParams;
-import deepwater.backends.BackendTrain;
+import deepwater.backends.BackendAPI;
 import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.backends.tensorflow.models.TensorflowModel;
@@ -33,7 +33,7 @@ import static org.bytedeco.javacpp.tensorflow.TensorShape;
 import static org.bytedeco.javacpp.tensorflow.TensorVector;
 
 
-public class TensorflowBackend implements BackendTrain {
+public class TensorflowBackend implements BackendAPI {
 
     private Map<TensorflowModel, Integer> global_step = new HashMap<>();
     private SessionOptions sessionOptions;

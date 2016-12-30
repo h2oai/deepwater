@@ -2,13 +2,13 @@ package deepwater.backends.mxnet;
 
 import deepwater.backends.BackendModel;
 import deepwater.backends.BackendParams;
-import deepwater.backends.BackendTrain;
+import deepwater.backends.BackendAPI;
 import deepwater.backends.RuntimeOptions;
 import deepwater.datasets.ImageDataSet;
 
 import java.io.*;
 
-public class MXNetBackend implements BackendTrain {
+public class MXNetBackend implements BackendAPI {
 
   static private class MXNetLoader {
     static { //only load libraries once

@@ -175,7 +175,7 @@ def _lenet(width=28, height=28, channels=1, classes=10,
         y = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
 
         # labels
-        y_= tf.placeholder(tf.float32, [None, classes], name = "y")
+        y_ = tf.placeholder(tf.float32, [None, classes], name = "y")
 
         # accuracy
         correct_prediction=tf.equal(tf.argmax(y, 1),
@@ -329,7 +329,9 @@ class DeepWaterServer(pb.DeepWaterTrainBackendServicer):
     __model_cache = {}
 
     def _get_session(self, req):
-        return self.__session_cache.get(req.session.handle)
+        session = self.__session_cache.get(req.session.handle)
+        assert session, "no session found with handle:"+req.session.handle
+        return session
 
     def _get_model(self, req):
         model = self.__model_cache.get(req.model.id)

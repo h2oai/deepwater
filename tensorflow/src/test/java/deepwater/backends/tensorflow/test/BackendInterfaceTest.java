@@ -2,7 +2,7 @@ package deepwater.backends.tensorflow.test;
 
 import deepwater.backends.BackendModel;
 import deepwater.backends.BackendParams;
-import deepwater.backends.BackendTrain;
+import deepwater.backends.BackendAPI;
 import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.TensorflowBackend;
 import deepwater.backends.tensorflow.models.ModelFactory;
@@ -27,7 +27,7 @@ public class BackendInterfaceTest {
     };
 
     private float testMXnet(BackendModel model) throws IOException {
-        BackendTrain backend = new TensorflowBackend();
+        BackendAPI backend = new TensorflowBackend();
         MNISTImageDataset dataset = new MNISTImageDataset();
         String[] images = new String[]{
                 findFile("bigdata/laptop/mnist/t10k-images-idx3-ubyte.gz"),
@@ -75,7 +75,7 @@ public class BackendInterfaceTest {
     }
 
     private void backendCanTrainMNIST(String modelName, int batchSize, int epochs) throws IOException {
-        BackendTrain backend = new TensorflowBackend();
+        BackendAPI backend = new TensorflowBackend();
 
         MNISTImageDataset dataset = new MNISTImageDataset();
 
@@ -98,7 +98,7 @@ public class BackendInterfaceTest {
     }
 
     private void backendCanTrainCifar10(String modelName, int batchSize, int epochs) throws IOException {
-        BackendTrain backend = new TensorflowBackend();
+        BackendAPI backend = new TensorflowBackend();
 
         CIFAR10ImageDataset dataset = new CIFAR10ImageDataset();
 
@@ -143,7 +143,7 @@ public class BackendInterfaceTest {
 
     private void backendCanSaveCheckpoint(String modelName, int batchSize) throws IOException {
 
-        BackendTrain backend = new TensorflowBackend();
+        BackendAPI backend = new TensorflowBackend();
 
         String[] train_images = new String[]{
                 findFile("bigdata/laptop/mnist/train-images-idx3-ubyte.gz"),
@@ -193,7 +193,7 @@ public class BackendInterfaceTest {
 
         MNISTImageDataset dataset = new MNISTImageDataset();
 
-        BackendTrain backend = new TensorflowBackend();
+        BackendAPI backend = new TensorflowBackend();
         RuntimeOptions opts = new RuntimeOptions();
         BackendParams params = new BackendParams();
 
