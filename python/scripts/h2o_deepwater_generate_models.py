@@ -14,7 +14,7 @@ from tensorflow.python.framework import ops
 
 from google.protobuf import text_format
 
-from deepwater.models import (lenet, mlp)
+from deepwater.models import (lenet, mlp, alexnet)
 from deepwater import train, optimizers
 
 
@@ -22,7 +22,7 @@ tf.logging.set_verbosity(tf.logging.INFO)
 
 
 def test_cifar10(modelClass, optimizerClass, 
-                 epochs=20, batch_size=512):
+                 epochs=20, batch_size=1):
     data = {'data': [], 'labels': []}
     for batch in range(1, 6):
         filename = '/datasets/cifar-10-batches-py/data_batch_%d' % batch
@@ -196,6 +196,8 @@ if __name__ == "__main__":
     modelClass = mlp.MultiLayerPerceptron
 
     modelClass = lenet.LeNet
+
+    modelClass = alexnet.AlexNet
 
     test_cifar10(modelClass, optimizers.DefaultOptimizer)
 

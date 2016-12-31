@@ -26,9 +26,9 @@ class BaseOptimizer(object):
 class DefaultOptimizer(BaseOptimizer):
 
     def __init__(self,
-                 initial_learning_rate=0.1,
+                 initial_learning_rate=0.01,
                  num_steps_per_decay=1000,
-                 decay_rate=0.95):
+                 decay_rate=0.96):
 
         self._global_step = tf.Variable(0, name="global_step", trainable=False)
 
