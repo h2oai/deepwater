@@ -22,7 +22,7 @@ tf.logging.set_verbosity(tf.logging.INFO)
 
 
 def test_cifar10(modelClass, optimizerClass, 
-                 epochs=20, batch_size=1):
+                 epochs=20, batch_size=128):
     data = {'data': [], 'labels': []}
     for batch in range(1, 6):
         filename = '/datasets/cifar-10-batches-py/data_batch_%d' % batch
@@ -36,13 +36,7 @@ def test_cifar10(modelClass, optimizerClass,
         modelClass, optimizerClass, 32, 32, 3, 10)
 
     with tf.Session(graph=trainStrategy.graph) as sess:
-        from tensorflow.python import debug as tf_debug
-
         sess.run(tf.get_collection('init')[0])
-
-        sess = tf_debug.LocalCLIDebugWrapperSession(sess)
-        sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)
-
         for epoch in range(epochs):
             x_batch = []
             y_batch = []
