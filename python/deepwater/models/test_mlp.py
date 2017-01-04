@@ -30,95 +30,104 @@ def generate_train_graph(modelClass, optimizerClass,
     return trainStrategy
 
 
+class BaseImageClassificationTest(unittest.TestCase):
+    pass
+
+
 def MNIST_must_converge(modelClass, optimizerClass,
                  epochs=20, batch_size=128):
     trainStrategy = generate_train_graph(
         modelClass, optimizerClass, 28, 28, 1, 10)
 
-    with tf.Session(graph=trainStrategy.graph) as sess:
-        sess.run(tf.get_collection('init')[0])
-        dataset = read_data_sets('/tmp/deepwater/datasets/')
-        for epoch in range(epochs):
-            while epoch == dataset.train.epochs_completed:
-                x_batch, y_batch = dataset.train.next_batch(batch_size)
-                # one hot encode 
-                y_batch = np.eye(10)[y_batch]
-                opt = trainStrategy.optimize
-                feed_dict = {
-                    trainStrategy.inputs: x_batch,
-                    trainStrategy.labels: y_batch,
-                }
-                fetches = [trainStrategy.optimize,
-                           trainStrategy.loss,
-                           trainStrategy.global_step
-                           ]
-
-                _, loss, global_step = sess.run(
-                    fetches, feed_dict=feed_dict)
-
-                print(epoch, global_step, loss)
-
-            while epoch == dataset.test.epochs_completed:
-                x_batch, y_batch = dataset.test.next_batch(batch_size)
-                # one hot encode 
-                y_batch = np.eye(10)[y_batch]
-                opt = trainStrategy.optimize
-                feed_dict = {
-                    trainStrategy.inputs: x_batch,
-                    trainStrategy.labels: y_batch,
-                }
-                fetches = [
-                           trainStrategy.loss,
-                           trainStrategy.global_step
-                           ]
-
-                _, loss, global_step = sess.run(
-                    fetches, feed_dict=feed_dict)
-
-                print("test:", epoch, global_step, loss)
-
-        epoch = 0
-        while epoch == dataset.validation.epochs_completed:
-            x_batch, y_batch = dataset.validation.next_batch(batch_size)
+    def train(epoch, dataset, batch_size, sess):
+        average_loss = []
+        average_error = []
+        eye = np.eye(10)
+        while epoch == dataset.epochs_completed:
+            x_batch, label_batch = dataset.next_batch(batch_size)
             # one hot encode 
-            y_batch = np.eye(10)[y_batch]
+            y_batch = eye[label_batch]
             opt = trainStrategy.optimize
             feed_dict = {
                 trainStrategy.inputs: x_batch,
                 trainStrategy.labels: y_batch,
             }
-            fetches = [
+
+            feed_dict.update(trainStrategy.train_parameters)
+
+            fetches = [trainStrategy.optimize,
                        trainStrategy.loss,
-                       trainStrategy.global_step
+                       trainStrategy.global_step,
+                       trainStrategy.predictions,
                        ]
 
-            _, loss, global_step = sess.run(
+            _, loss, global_step, predictions = sess.run(
+                fetches, feed_dict=feed_dict)
+            error = 0. 
+            for a,b in zip([p.argmax() for p in predictions[:]], label_batch):
+                if a != b:
+                   error += 1 
+                else:
+                   error = 0.
+            average_loss.append(loss)
+            average_error.append(error)
+        return np.mean(average_loss), np.mean(average_error)
+
+    def test(epoch, dataset, batch_size, sess):
+        average_error = []
+        while epoch == dataset.epochs_completed:
+            x_batch, label_batch = dataset.next_batch(batch_size)
+
+            feed_dict = {
+                trainStrategy.inputs: x_batch,
+            }
+
+            fetches = [trainStrategy.predictions,]
+
+            predictions = sess.run(
                 fetches, feed_dict=feed_dict)
 
-            print("validation:", epoch, global_step, loss)
+            error = 0. 
+            for a,b in zip([p.argmax() for p in predictions[:]], label_batch):
+                if a != b:
+                   error += 1.0
+                else:
+                   error = 0.
+            average_error.append(error)
+        return np.mean(average_error)
 
+    with tf.Session(graph=trainStrategy.graph) as sess:
+        sess.run(tf.get_collection('init')[0])
+        dataset = read_data_sets('/tmp/deepwater/datasets/')
+        for epoch in range(epochs):
+            train_loss, train_error = train(epoch, dataset.train, batch_size, sess)
+            test_error = test(epoch, dataset.test, batch_size, sess)
+            print('epoch:', epoch, 'train loss:', train_loss, 
+                    'train error:', train_error,
+                    'test error:', test_error)
+
+        epoch = 0
+        validation_err = test(epoch, dataset.validation, batch_size, sess)
+        print('validation error:', validation_err)
 
 from functools import partial
 
 class TestMLP(unittest.TestCase):
 
-    def _test_single_layer(self):
+    def test_single_layer(self):
         hidden_layers = [100]
-        dropout = [1.0]
         model = mlp.MultiLayerPerceptron
-        # (
-        #         hidden_layers=hidden_layers, 
-        #         dropout=dropout)
 
         MNIST_must_converge(model, optimizers.DefaultOptimizer, epochs=10)
 
-    def test_single_layer_with_dropout(self):
-        hidden_layers = [100]
-        dropout = [0.5]
+    def XXtest_single_layer_with_dropout(self):
+        hidden_layers = [1024, 1024]
+        dropout = [0.8, 0.5, 0.5, ]
+        dropout = []
         model = partial(mlp.MultiLayerPerceptron, hidden_layers=hidden_layers,
                 dropout=dropout)
 
-        MNIST_must_converge(model, optimizers.DefaultOptimizer, epochs=10)
+        MNIST_must_converge(model, optimizers.DefaultOptimizer, epochs=20)
 
 if __name__ == "__main__":
     unittest.main()

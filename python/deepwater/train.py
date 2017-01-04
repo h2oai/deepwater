@@ -22,7 +22,11 @@ class ImageClassificationTrainStrategy(object):
         self._optimizer.apply(self._loss)
         if add_summaries:
             self._add_summaries()
-        self._summary_op = tf.merge_all_summaries()
+        self._summary_op = tf.summary.merge_all()
+
+    @property
+    def train_parameters(self):
+        return self._model.train_dict
 
     @property
     def global_step(self):
@@ -47,6 +51,11 @@ class ImageClassificationTrainStrategy(object):
         return self._labels
 
     @property
+    def predictions(self):
+        """ Returns the tensor containing the loss value """
+        return self._model.predictions
+
+    @property
     def loss(self):
         """ Returns the tensor containing the loss value """
         return self._loss
@@ -66,7 +75,7 @@ class ImageClassificationTrainStrategy(object):
         return self._graph
 
     def _add_summaries(self):
-        tf.scalar_summary("loss", self.loss)
+        tf.summary.scalar("loss", self.loss)
 
         for grad, var in self._optimizer.grads_and_vars:
             self._add_variable_summaries(var, var.name)
@@ -76,13 +85,13 @@ class ImageClassificationTrainStrategy(object):
         """Attach summaries to a Tensor."""
         with tf.name_scope('summaries'):
             mean = tf.reduce_mean(var)
-            tf.scalar_summary('mean/' + name, mean)
+            tf.summary.scalar('mean/' + name, mean)
             with tf.name_scope('stddev'):
                 stddev = tf.sqrt(tf.reduce_mean(tf.square(var - mean)))
-            tf.scalar_summary('sttdev/' + name, stddev)
-            tf.scalar_summary('max/' + name, tf.reduce_max(var))
-            tf.scalar_summary('min/' + name, tf.reduce_min(var))
-            tf.histogram_summary(name, var)
+            tf.summary.scalar('sttdev/' + name, stddev)
+            tf.summary.scalar('max/' + name, tf.reduce_max(var))
+            tf.summary.scalar('min/' + name, tf.reduce_min(var))
+            tf.summary.histogram(name, var)
 
 
 def deepwater_image_classification_model(
@@ -96,18 +105,13 @@ def deepwater_image_classification_model(
     train_op = optimizer.apply_gradients(grads_and_vars=grads)
     global_step = tf.Variable(0, name="global_step", trainable=False)
 
-    tf.scalar_summary("loss", loss)
-    tf.scalar_summary("accuracy", accuracy)
+    tf.summary.scalar("loss", loss)
+    tf.summary.scalar("accuracy", accuracy)
 
     for var in tf.trainable_variables():
         tf.histogram_summary(var.name, var)
 
-    for grad, var in grads:
-        mean = tf.reduce_mean(var)
-        tf.scalar_summary('mean/' + var.name + '/gradient', mean)
-        tf.histogram_summary(var.name + '/gradient', grad)
-
-    summary_op = tf.merge_all_summaries()
+    summary_op = tf.summary.merge()
 
     tf.add_to_collection("train", train_op)
     tf.add_to_collection("summary", summary_op)
