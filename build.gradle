@@ -118,7 +118,7 @@ dependencies {
 
     if (!buildOnlyBackendApi) {
       compile project('deepwater-mxnet')
-      compile project('deepwater-tensorflow')
+//      compile project('deepwater-tensorflow')
     }
 
     // Test stuff
