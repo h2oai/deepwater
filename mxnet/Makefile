@@ -111,6 +111,10 @@ net_def_test: $(MXNET_OBJS) clean_test
 	$(CXX) -o net_def_test net_def_test.o $(MXNET_OBJS) $(MXLIB)
 	./net_def_test
 
+lstm_test: $(MXNET_OBJS) clean_test
+	$(CXX) -c -fPIC $(CXXFLAGS) ./test/lstm_test.cxx -o lstm_test.o
+	$(CXX) -o lstm_test lstm_test.o $(MXNET_OBJS) $(MXLIB)
+
 swig_test: clean_test
 	swig -c++ -java -package test.swig ./test/swigtest.i
 	$(CXX) -c -fPIC $(CXXFLAGS) ./test/swigtest.cxx -o ./test/swigtest.o
