@@ -20,7 +20,7 @@ For the following system dependencies, we provide recent builds for your conveni
 * Ubuntu 16.04 LTS
 * Latest NVIDIA Display driver
 * CUDA 8 (latest available) in /usr/local/cuda
-* CUDNN 5 (inside of lib and include directories in /usr/local/cuda/)
+* CUDNN 5.1 (placed inside of lib and include directories in /usr/local/cuda/)
 
 In the future, we'll have more pre-built jars for more OS/CUDA combinations.
 
