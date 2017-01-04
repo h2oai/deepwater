@@ -44,6 +44,7 @@ allprojects {
         mavenCentral()
     }
 
+/*
     protobuf {
         generatedFilesBaseDir = "$projectDir/src/"
 
@@ -63,6 +64,7 @@ allprojects {
             }
         }
     }
+*/
 
 
 }
