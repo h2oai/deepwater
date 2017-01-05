@@ -41,6 +41,10 @@ class ImageClassificationTrainStrategy(object):
         self._summary_op = tf.summary.merge_all()
 
     @property
+    def summary_op(self):
+        return self._summary_op
+
+    @property
     def train_parameters(self):
         return self._model.train_dict
 

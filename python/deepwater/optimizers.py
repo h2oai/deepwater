@@ -44,7 +44,11 @@ class MomentumOptimizer(BaseOptimizer):
         trainables = tf.trainable_variables()
         grads_and_vars = self._optimizer.compute_gradients(loss, trainables)
         self._grads_and_vars = grads_and_vars
-        self._optimize_op = self._optimizer.apply_gradients(grads_and_vars,
+        # clipped_var_grads = [(tf.clip_by_value(grad, -1.0, 1.0), var) for grad, var
+        #         in  grads_and_vars]
+        clipped_var_grads = [(tf.clip_by_norm(grad, 1.0), var) for grad, var
+                in  grads_and_vars]
+        self._optimize_op = self._optimizer.apply_gradients(clipped_var_grads,
                                                             global_step=self._global_step)
 
     @property

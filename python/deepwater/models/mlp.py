@@ -15,7 +15,7 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
         x = tf.placeholder(tf.float32, [None, size], name="x")
         self._dropout_train_values = dropout
         dropout_shape = [len(dropout)]
-        droupout_default = tf.ones(dropout_shape, dtype=tf.float32)
+        droupout_default = tf.zeros(dropout_shape, dtype=tf.float32)
         self._dropout_var = tf.placeholder_with_default(droupout_default,
                                                   dropout_shape,
                                                   name="dropout")
@@ -43,12 +43,12 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
                 y = tf.matmul(x, w) + b
                 y = tf.nn.relu(y)
 
-            with tf.variable_scope("dropout%d" % idx):
-                if self._dropout_var.get_shape()[0] < idx:
+            if self._dropout_var.get_shape()[0] > idx:
+                with tf.variable_scope("dropout%d" % idx):
                     y = tf.nn.dropout(y, keep_prob=1.0-self._dropout_var[idx])
 
             x = y
-        print(y)
+
         self._logits = y
         self._predictions = tf.nn.softmax(y)
 
