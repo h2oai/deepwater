@@ -18,8 +18,24 @@ class ImageClassificationTrainStrategy(object):
         self._loss = tf.reduce_mean(
             tf.nn.softmax_cross_entropy_with_logits(logits, labels))
 
+        a = tf.argmax(model.predictions, 1) 
+        b = tf.argmax(self._labels, 1)
+        correct_predictions = tf.equal(a, b)
+        wrong_predictions = tf.not_equal(a, b)
+
+        self._accuracy = tf.reduce_mean(tf.cast(correct_predictions,
+            tf.float32))
+        self._error = tf.reduce_mean(tf.cast(wrong_predictions,
+            tf.float32))
+
         self._optimizer = optimizer
         self._optimizer.apply(self._loss)
+
+        max_norm_constraint = True 
+        if max_norm_constraint:
+            for _, var in self._optimizer.grads_and_vars:
+                var.assign(tf.clip_by_norm(var, 2.0))
+
         if add_summaries:
             self._add_summaries()
         self._summary_op = tf.summary.merge_all()
@@ -27,6 +43,10 @@ class ImageClassificationTrainStrategy(object):
     @property
     def train_parameters(self):
         return self._model.train_dict
+
+    @property
+    def learning_rate(self):
+        return self._optimizer._learning_rate
 
     @property
     def global_step(self):
@@ -54,6 +74,16 @@ class ImageClassificationTrainStrategy(object):
     def predictions(self):
         """ Returns the tensor containing the loss value """
         return self._model.predictions
+
+    @property
+    def categorical_error(self):
+        """ Returns the tensor containing the categorical error"""
+        return self._error
+
+    @property
+    def accuracy(self):
+        """ Returns the tensor containing the loss value """
+        return self._accuracy
 
     @property
     def loss(self):
