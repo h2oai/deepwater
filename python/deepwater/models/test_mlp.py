@@ -48,14 +48,14 @@ def MNIST_must_converge(modelClass, optimizerClass,
         error = 0
 
         def step_decay(epoch):
-            return 0.1
-            initial_lrate = 0.2
+            initial_lrate = 0.1
             drop = 0.5
             epochs_drop = 10.0
             lrate = initial_lrate * math.pow(drop, math.floor((1+epoch)/epochs_drop))
             return lrate 
         
         learning_rate = step_decay(epoch)
+        #learning_rate = 0.1
         print(learning_rate)
 
         while total_examples != total:
@@ -68,7 +68,7 @@ def MNIST_must_converge(modelClass, optimizerClass,
             feed_dict = {
                 trainStrategy.inputs: x_batch,
                 trainStrategy.labels: y_batch,
-                #trainStrategy.learning_rate: learning_rate,
+                trainStrategy.learning_rate: learning_rate,
             }
 
             feed_dict.update(trainStrategy.train_parameters)
@@ -123,8 +123,8 @@ def MNIST_must_converge(modelClass, optimizerClass,
         print('%initial test error:', test_error)
 
         for epoch in range(epochs):
-            global_step, train_loss, train_error = train(epoch, 
-                    dataset.train, batch_size, 
+            global_step, train_loss, train_error = train(epoch,
+                    dataset.train, batch_size,
                     dataset.train.num_examples,
                     sess)
             test_error = test(epoch, dataset.test, batch_size,
@@ -140,17 +140,22 @@ class TestMLP(unittest.TestCase):
 
     def xxxtest_single_layer(self):
         model = mlp.MultiLayerPerceptron
-        MNIST_must_converge(model, optimizers.MomentumOptimizer,
+        MNIST_must_converge(model, 
+                optimizers.MomentumOptimizer,
+                batch_size=100,
                 epochs=30)
 
     def test_mlp_layer_with_dropout(self):
-        hidden_layers = [1024, 1024, 1024]
-        dropout = [0.2, 0.5, 0.5]
-        model = partial(mlp.MultiLayerPerceptron, 
+        hidden_layers = [1024,] # 1024, 1024]
+        dropout = [0.2, ] #0.5, 0.5]
+        model = partial(mlp.MultiLayerPerceptron,
                 hidden_layers=hidden_layers,
                 dropout=dropout)
 
-        MNIST_must_converge(model, optimizers.GradientDescentOptimizer, epochs=200)
+        MNIST_must_converge(model,
+                optimizers.MomentumOptimizer,
+                batch_size=100,
+                epochs=30)
 
     def xxx_test_mlp_2048_2048_DP(self):
         hidden_layers = [2048, 2048]
