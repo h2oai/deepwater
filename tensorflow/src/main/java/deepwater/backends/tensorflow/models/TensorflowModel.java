@@ -23,6 +23,10 @@ public class TensorflowModel implements BackendModel {
     private GraphDef graph;
     private Map<String, Float> parameters;
     private byte[] modelGraphData;
+    public int miniBatchSize;
+    public String[] activations;
+    public double inputDropoutRatio;
+    public double[] hiddenDropoutRatios;
 
     TensorflowModel(TensorflowMetaModel meta, GraphDef graph, byte[] definition) {
         this.meta = meta;
@@ -45,6 +49,10 @@ public class TensorflowModel implements BackendModel {
 
     public void setParameter(String name, float value) {
         parameters.put(name, value);
+    }
+
+    public float getParameter(String name) {
+        return parameters.get(name);
     }
 
     public void saveModel(String path) throws IOException {

@@ -51,7 +51,7 @@ public class TensorflowBackend implements BackendTrain {
 
     @Override
     public BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts,
-                  BackendParams backend_params, int num_classes, String name)
+                  BackendParams bparms, int num_classes, String name)
     {
         TensorflowModel model;
 
@@ -72,7 +72,6 @@ public class TensorflowBackend implements BackendTrain {
             model = ModelFactory.LoadModelFromFile(resourceModelName);
         }
 
-
         sessionOptions = new SessionOptions();
         session = new Session(sessionOptions);
 
@@ -81,6 +80,11 @@ public class TensorflowBackend implements BackendTrain {
 
         model.frameSize = dataset.getWidth() * dataset.getHeight() * dataset.getChannels();
         model.classes = num_classes;
+        model.miniBatchSize = (Integer) bparms.get("mini_batch_size");
+        model.activations = (String[]) bparms.get("activations");
+        model.inputDropoutRatio = (Double) bparms.get("input_dropout_ratio");
+        model.hiddenDropoutRatios = (double[]) bparms.get("hidden_dropout_ratios");
+
         if (!model.meta.init.isEmpty()) {
             TensorVector outputs = new TensorVector();
             status = session.Run(
@@ -170,13 +174,21 @@ public class TensorflowBackend implements BackendTrain {
     public void setParameter(BackendModel m, String name, float value) {
         TensorflowModel model = (TensorflowModel) m;
         model.setParameter(name, value);
+        if (name.equals("learning_rate")) {
+            model.setParameter("learning_rate", value);
+        }
+        else if (name.equals("momentum")) {
+            model.setParameter("momentum", value);
+        }
     }
 
     @Override
     public float[] train(BackendModel m, float[] data, float[] labels) {
         TensorflowModel model = (TensorflowModel) m;
         TensorVector outputs = new TensorVector();
-        final long batchSize = data.length / model.frameSize;
+        final long batchSize = model.miniBatchSize;
+
+        assert data.length == model.frameSize * batchSize: "input data length is not equal to expected value";
 
         long [] labelShape = new long[]{ batchSize, model.classes};
         float [] labelData = labels;
@@ -199,12 +211,26 @@ public class TensorflowBackend implements BackendTrain {
         Integer step = global_step.get(model);
 
         StringTensorPairVector feedDict = convertData(
-                new float[][]{data, labelData, new float[]{step.floatValue()}},
-                new long[][]{new long[]{batchSize, model.frameSize}, labelShape, new long[]{1}},
+                new float[][]{
+                        data, /* batch_image_input */
+                        labelData, /* categorical_labels */
+                        new float[]{step.floatValue()},
+                        new float[]{model.getParameter("learning_rate")},
+                        new float[]{model.getParameter("momentum")},
+                },
+                new long[][]{
+                        new long[]{batchSize, model.frameSize}, /* batch_image_input */
+                        labelShape,    /* categorical_labels */
+                        new long[]{1}, /* global_ste */
+                        new long[]{1}, /* learning_rate */
+                        new long[]{1}, /* momentum */
+                },
                 new String[]{
                         model.meta.inputs.get("batch_image_input"),
                         model.meta.inputs.get("categorical_labels"),
                         model.meta.parameters.get("global_step"),
+                        "learning_rate",
+                        "momentum"
                 }
         );
 
@@ -225,7 +251,10 @@ public class TensorflowBackend implements BackendTrain {
     public float[] predict(BackendModel m, float[] data, float[] labels) {
         TensorflowModel model = (TensorflowModel) m;
         TensorVector outputs = new TensorVector();
-        final long batchSize = data.length / model.frameSize;
+        final long batchSize = model.miniBatchSize;
+
+        assert data.length == model.frameSize * batchSize: "input data length is not equal to expected value";
+        assert labels.length == batchSize: "input labels length is not equal to expected value";
 
         float[] labelData = labels;
         long[] labelShape = new long[]{batchSize, model.classes};
@@ -268,7 +297,9 @@ public class TensorflowBackend implements BackendTrain {
     public float[] predict(BackendModel m, float[] data) {
         TensorflowModel model = (TensorflowModel) m;
         TensorVector outputs = new TensorVector();
-        final long batchSize = data.length / model.frameSize;
+        final long batchSize = model.miniBatchSize;
+
+        assert data.length == model.frameSize * batchSize: "input data length is not equal to expected value";
 
         StringTensorPairVector feedDict = convertData(
                 new float[][]{data, },
@@ -301,6 +332,9 @@ public class TensorflowBackend implements BackendTrain {
         return result;
     }
 
+    /*
+     * convertData: given a set of inputs convert them to a StringTensorPairVector
+     */
     private StringTensorPairVector convertData(float[][] inputs, long[][] shapes, String[] tensors){
         assert inputs.length == shapes.length:  shapes.length;
         assert inputs.length == tensors.length: inputs.length;
