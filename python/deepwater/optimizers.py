@@ -74,8 +74,7 @@ class MomentumOptimizer(BaseOptimizer):
 class GradientDescentOptimizer(BaseOptimizer):
 
     def __init__(self,
-                 initial_learning_rate=0.95,
-                 initial_momentum=0.95,
+                 initial_learning_rate=0.1,
                  ):
 
         self._global_step = tf.Variable(0, name="global_step", trainable=False)
@@ -92,7 +91,6 @@ class GradientDescentOptimizer(BaseOptimizer):
         self._grads_and_vars = grads_and_vars
         self._optimize_op = self._optimizer.apply_gradients(grads_and_vars,
                                                             global_step=self._global_step)
-
 
     @property
     def grads_and_vars(self):
