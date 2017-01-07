@@ -80,10 +80,13 @@ public class TensorflowBackend implements BackendTrain {
 
         model.frameSize = dataset.getWidth() * dataset.getHeight() * dataset.getChannels();
         model.classes = num_classes;
-        model.miniBatchSize = (Integer) bparms.get("mini_batch_size");
-        model.activations = (String[]) bparms.get("activations");
-        model.inputDropoutRatio = (Double) bparms.get("input_dropout_ratio");
-        model.hiddenDropoutRatios = (double[]) bparms.get("hidden_dropout_ratios");
+        model.miniBatchSize = (int) bparms.get("mini_batch_size");
+
+        if (name.toLowerCase().equals("mlp")) {
+            model.activations = (String[]) bparms.get("activations");
+            model.inputDropoutRatio = (Double) bparms.get("input_dropout_ratio");
+            model.hiddenDropoutRatios = (double[]) bparms.get("hidden_dropout_ratios");
+        }
 
         if (!model.meta.init.isEmpty()) {
             TensorVector outputs = new TensorVector();
@@ -229,8 +232,8 @@ public class TensorflowBackend implements BackendTrain {
                         model.meta.inputs.get("batch_image_input"),
                         model.meta.inputs.get("categorical_labels"),
                         model.meta.parameters.get("global_step"),
-                        "learning_rate",
-                        "momentum"
+                        model.meta.parameters.get("learning_rate"),
+                        model.meta.parameters.get("momentum")
                 }
         );
 

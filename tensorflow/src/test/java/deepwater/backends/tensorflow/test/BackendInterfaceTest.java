@@ -78,8 +78,13 @@ public class BackendInterfaceTest {
         RuntimeOptions opts = new RuntimeOptions();
         BackendParams params = new BackendParams();
 
+        params.set("mini_batch_size", batchSize);
+
         BackendModel model = backend.buildNet(dataset, opts, params,
                                             dataset.getNumClasses(), modelName);
+
+        backend.setParameter(model, "learning_rate", 0.1f);
+        backend.setParameter(model, "momentum", 0.8f);
 
         BatchIterator it = new BatchIterator(dataset, epochs, mnistTrainData);
         ImageBatch b = new ImageBatch(dataset, batchSize);
