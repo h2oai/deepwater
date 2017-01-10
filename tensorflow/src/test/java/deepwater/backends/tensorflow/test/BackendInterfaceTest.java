@@ -15,6 +15,8 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static deepwater.datasets.FileUtils.findFile;
 
@@ -26,7 +28,7 @@ public class BackendInterfaceTest {
             findFile("bigdata/laptop/mnist/train-labels-idx1-ubyte.gz"),
     };
 
-    private float testMXnet(BackendModel model) throws IOException {
+    private double computeTestError(BackendModel model, int batchSize) throws IOException {
         BackendTrain backend = new TensorflowBackend();
         MNISTImageDataset dataset = new MNISTImageDataset();
         String[] images = new String[]{
@@ -35,17 +37,39 @@ public class BackendInterfaceTest {
         };
 
         BatchIterator it = new BatchIterator(dataset, 1, images);
-        ImageBatch b = new ImageBatch(dataset, 1024);
+        ImageBatch b = new ImageBatch(dataset, batchSize);
+
+        List<float[]> lossValues = new ArrayList<>();
+
+        int classNum = 10;
+        double error = 0.0;
+        double total = 0.0;
 
         while(it.next(b)){
-            float[] loss = backend.predict(model, b.getImages(), b.getLabels());
-
-            printLoss(loss);
-            return loss[0];
+            float[] predictions = backend.predict(model, b.getImages(), b.getLabels());
+            float[] labels = b.getLabels();
+            for (int i = 0, j = 0; i < predictions.length; i += classNum, j++) {
+                int classPrediction = argmax(predictions, i, i + 10);
+                if (classPrediction != labels[j]){
+                   error++;
+                }
+                total++;
+            }
         }
 
+        return error/total;
+    }
 
-        return 0;
+    private int argmax(float[] values, int start, int end){
+        int argmax = 0;
+        float maxvalue = 0;
+        for (int i = start; i < end; i++) {
+           if (values[i] > maxvalue){
+                argmax = i;
+                maxvalue = values[i];
+           }
+        }
+        return argmax - start;
     }
 
     private void printLoss(float[] loss) {
@@ -57,9 +81,21 @@ public class BackendInterfaceTest {
     }
 
     @Test
+    public void testMLP() throws IOException{
+        backendCanTrainMNIST("mlp", 32, 3);
+        backendCanSaveCheckpoint("mlp", 32);
+    }
+
+    @Test
     public void testLenet() throws IOException{
         backendCanTrainMNIST("lenet", 32, 3);
         backendCanSaveCheckpoint("lenet", 32);
+    }
+
+    @Test
+    public void testAlexnet() throws IOException{
+        backendCanTrainMNIST("alexnet", 32, 3);
+        backendCanSaveCheckpoint("alexnet", 32);
     }
 
     @Ignore
@@ -93,9 +129,12 @@ public class BackendInterfaceTest {
             while (it.next(b)) {
                 backend.train(model, b.getImages(), b.getLabels());
             }
-            testMXnet(model);
+
         }
+        double testError = computeTestError(model, batchSize);
+
         backend.delete(model);
+        System.out.println("final test error:" + testError);
     }
 
     private void backendCanTrainCifar10(String modelName, int batchSize, int epochs) throws IOException {
@@ -105,6 +144,7 @@ public class BackendInterfaceTest {
 
         RuntimeOptions opts = new RuntimeOptions();
         BackendParams params = new BackendParams();
+
 
         BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelName);
 
@@ -154,9 +194,13 @@ public class BackendInterfaceTest {
 
         RuntimeOptions opts = new RuntimeOptions();
         BackendParams params = new BackendParams();
+        params.set("mini_batch_size", batchSize);
         BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelName);
 
-        float initial = testMXnet(model);
+        double initial = computeTestError(model, batchSize);
+
+        backend.setParameter(model, "learning_rate", 0.1f);
+        backend.setParameter(model, "momentum", 0.8f);
 
         BatchIterator it = new BatchIterator(dataset, 1, train_images);
         ImageBatch b = new ImageBatch(dataset, batchSize);
@@ -165,7 +209,7 @@ public class BackendInterfaceTest {
                 backend.train(model, b.getImages(), b.getLabels());
             }
         }
-        float trained = testMXnet(model);
+        double trained = computeTestError(model, batchSize);
 
         //create a temp file
         File modelFile = File.createTempFile("model", ".tmp");
@@ -178,9 +222,9 @@ public class BackendInterfaceTest {
 
         backend.loadParam(model2, modelParams.getAbsolutePath());
 
-        float loaded = testMXnet(model2);
+        double loaded = computeTestError(model2, batchSize);
 
-        assert initial < trained: initial;
+        assert initial > trained: ("initial error rate:" + initial + " is less than after being trained: " + trained);
         assert trained <= loaded: loaded;
 
         backend.delete(model);
@@ -190,14 +234,14 @@ public class BackendInterfaceTest {
 
     @Test
     public void backendCanLoadMetaGraph() throws Exception {
-        final String meta_model = ModelFactory.findResource("my-model-20001.meta");
+        final String meta_model = ModelFactory.findResource("mlp_10x1x1_1.meta");
 
         MNISTImageDataset dataset = new MNISTImageDataset();
 
         BackendTrain backend = new TensorflowBackend();
         RuntimeOptions opts = new RuntimeOptions();
         BackendParams params = new BackendParams();
-
+        params.set("mini_batch_size", 1);
         BackendModel model = backend.buildNet(dataset, opts, params,
                 dataset.getNumClasses(),
                 meta_model);
@@ -211,6 +255,7 @@ public class BackendInterfaceTest {
 
         opts = new RuntimeOptions();
         params = new BackendParams();
+        params.set("mini_batch_size", 1);
 
         BackendModel model2 = backend.buildNet(dataset, opts, params,
                 dataset.getNumClasses(),

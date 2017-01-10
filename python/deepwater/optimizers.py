@@ -64,6 +64,10 @@ class MomentumOptimizer(BaseOptimizer):
         return self._learning_rate
 
     @property
+    def momentum(self):
+        return self._momentum
+
+    @property
     def global_step(self):
         return self._global_step
 

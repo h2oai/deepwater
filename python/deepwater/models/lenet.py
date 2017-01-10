@@ -1,14 +1,23 @@
 import tensorflow as tf
+import math
+
 
 from deepwater.models import BaseImageClassificationModel
 
 def weight_variable(shape, name):
-    initial = tf.truncated_normal(shape, mean=0.1, stddev=0.1)
-    var = tf.Variable(initial, name=name)
+    # Delving deep into Rectifier
+    n = shape[0] 
+    factor=2.0 
+    stddev=math.sqrt(1.3 * factor/n)
+
+    initialization = tf.truncated_normal(
+        shape, mean=0.0, stddev=stddev)
+
+    var = tf.Variable(initialization, name=name)
     return var
 
 def bias_variable(shape, name):
-    initial = tf.constant(0.1, shape=shape)
+    initial = tf.constant(0.0, shape=shape)
     var = tf.Variable(initial)
     return var
 
@@ -56,7 +65,7 @@ class LeNet(BaseImageClassificationModel):
         h_pool2_flat = tf.reshape(h_pool2, [-1, dim * dim * 64])
         h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 
-        keep_prob = tf.placeholder_with_default(1.0, [], name="dropout")
+        self._dropout = keep_prob = tf.placeholder_with_default(1.0, [], name="dropout")
         h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
         W_fc2 = weight_variable([1024, classes], 'fc1/W')
@@ -65,6 +74,12 @@ class LeNet(BaseImageClassificationModel):
         self._logits = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
 
         self._predictions = tf.nn.softmax(self._logits)
+
+    @property
+    def train_dict(self):
+        return {
+            self._dropout: 1.0,
+        }
 
     @property
     def name(self):

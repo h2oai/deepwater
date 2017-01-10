@@ -1,6 +1,8 @@
 from __future__ import division
 from __future__ import print_function
 
+import os
+
 import locale
 import json
 
@@ -155,11 +157,21 @@ def generate_train_graph(modelClass, optimizerClass,
 
 
 def export_train_graph(modelClass, optimizerClass,
-                       width, height, channels, classes):
+                       height, width, channels, classes):
     graph = tf.Graph()
     with graph.as_default():
         # 1. instantiate the model
         model = modelClass(width, height, channels, classes)
+
+        # 4. export train graph
+        filename = "%s_%dx%dx%d_%d.meta" % (model.name.lower(), 
+                height, 
+                width, 
+                channels,
+                classes)
+        if os.path.exists(filename):
+            print("file %s exists. skipping" % filename)
+            return
 
         # 2. instantiate the optimizer
         optimizer = optimizerClass()
@@ -169,16 +181,14 @@ def export_train_graph(modelClass, optimizerClass,
             graph,
             model, optimizer)
 
-        # 4. export train graph
-        filename = "%s_%dx%dx%d_%d.pb" % (model.name, 
-                height, 
-                width, 
-                channels,
-                classes)
 
         saver = tf.train.Saver()
         init = tf.global_variables_initializer()
         tf.add_to_collection("init", init.name)
+        tf.add_to_collection("train", trainStrategy.optimize)
+        tf.add_to_collection("logits", trainStrategy.logits)
+        tf.add_to_collection("summaries", trainStrategy.summary_op)
+        tf.add_to_collection("predictions", model.predictions)
 
         meta = json.dumps({
             "inputs": {"batch_image_input": trainStrategy.inputs.name,
@@ -186,7 +196,10 @@ def export_train_graph(modelClass, optimizerClass,
             "outputs": {"categorical_logits": model.logits.name},
             "metrics": {"accuracy": trainStrategy.accuracy.name,
                         "total_loss": trainStrategy.loss.name},
-            "parameters": {"global_step": trainStrategy.global_step.name},
+            "parameters": {
+                "global_step": trainStrategy.global_step.name,
+                "learning_rate": trainStrategy._optimizer.learning_rate.name,
+                "momentum": trainStrategy._optimizer.momentum.name},
         })
 
         tf.add_to_collection("meta", meta)
@@ -195,11 +208,22 @@ def export_train_graph(modelClass, optimizerClass,
                                    saver_def=saver.as_saver_def())
         print("model exported to ", filename)
 
-def export_model_graph(modelClass):
+
+def export_linear_model_graph(modelClass):
+    classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50, 100, 1000]
+
+    for linear in [2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 20, 23, 25, 27, 30, 40, 50, 60, 70, 80, 90,
+            100, 3796]:
+        for class_n in classes:
+            m = export_train_graph(modelClass,
+                    optimizers.MomentumOptimizer, linear, 1, 1, class_n)
+
+
+def export_image_classifier_model_graph(modelClass):
+    classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50, 100, 1000]
     height = [28, 32, 224]
     width = [28, 32, 224]
     channels = [1, 3]
-    classes = [2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50, 100, 1000]
     for (h, w) in zip(height, width):
         for ch in channels:
             for class_n in classes:
@@ -213,7 +237,8 @@ if __name__ == "__main__":
                         hidden_layers=[2048, 2048, 2048], 
                         dropout=[0.2, 0.5, 0.5]) 
 
-    gen = export_model_graph(default_mlp)
+    export_linear_model_graph(default_mlp)
+    export_image_classifier_model_graph(default_mlp)
 
     for model in ( lenet.LeNet, alexnet.AlexNet ):
-        export_model_graph(model)
+        export_image_classifier_model_graph(model)

@@ -51,7 +51,10 @@ public class TensorflowModel implements BackendModel {
         parameters.put(name, value);
     }
 
-    public float getParameter(String name) {
+    public float getParameter(String name, float defaultValue) {
+        if (!parameters.containsKey(name)){
+            return defaultValue;
+        }
         return parameters.get(name);
     }
 

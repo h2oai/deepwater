@@ -22,4 +22,11 @@ public class BackendParams<T> {
     return values.get(name) != null;
   }
 
+  public Object get(String key, Object deflt) {
+    Object value = values.get(key);
+    if (value == null){
+      return deflt;
+    }
+    return value;
+  }
 }

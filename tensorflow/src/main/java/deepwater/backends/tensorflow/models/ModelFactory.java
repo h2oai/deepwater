@@ -96,8 +96,6 @@ public class ModelFactory {
         // initialize the meta framework
         String metaJson = getFirstOperationFromCollection(metaGraphDef, "meta");
 
-        System.out.println(metaJson);
-
         Gson gson = new Gson();
         TensorflowMetaModel meta;
 
@@ -115,13 +113,14 @@ public class ModelFactory {
 
 
         meta.summary_op = getFirstOperationFromCollection(metaGraphDef, "summaries");
-        meta.predict_op = getFirstOperationFromCollection(metaGraphDef, "logits");
+        meta.predict_op = getFirstOperationFromCollection(metaGraphDef, "predictions");
         meta.train_op =  getFirstOperationFromCollection(metaGraphDef, "train");
         meta.init = getFirstOperationFromCollection(metaGraphDef, "init");
 
         getOperationsFromCollection(metaGraphDef, "variables");
         getOperationsFromCollection(metaGraphDef, "trainable_variables");
 
+        /*
         for(Map.Entry<String, SignatureDef> entry: metaGraphDef.getSignatureDefMap().entrySet()) {
 
             System.out.println("signature: " + entry.getKey());
@@ -137,6 +136,7 @@ public class ModelFactory {
         for(String name: getAllCollections(metaGraphDef)){
             System.out.println("collection: " + name);
         }
+        */
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         graphDef.writeTo(output);

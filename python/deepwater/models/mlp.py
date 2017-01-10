@@ -50,7 +50,10 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
             x = y
 
         self._logits = y
-        self._predictions = tf.nn.softmax(y)
+        if classes > 1:
+            self._predictions = tf.nn.softmax(y)
+        else:
+            self._predictions = self._logits
 
     @property
     def train_dict(self):
@@ -60,7 +63,7 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
 
     @property
     def name(self):
-        return "MultiLayerPerceptron"
+        return "mlp"
 
     @property
     def number_of_classes(self):

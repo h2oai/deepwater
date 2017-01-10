@@ -7,6 +7,7 @@ if tf.__version__ < (0,13):
     tf.summary.histogram = tf.histogram_summary
     tf.summary.merge_all = tf.merge_all_summaries
     tf.global_variables_initializer = tf.initialize_all_variables
+    tf.summary.FileWriter = tf.train.SummaryWriter
 
 
 class ImageClassificationTrainStrategy(object):
@@ -84,8 +85,13 @@ class ImageClassificationTrainStrategy(object):
 
     @property
     def predictions(self):
-        """ Returns the tensor containing the loss value """
+        """ Returns the tensor containing the scaled predictins values """
         return self._model.predictions
+
+    @property
+    def logits(self):
+        """ Returns the tensor containing the logits value """
+        return self._model.logits
 
     @property
     def categorical_error(self):
@@ -94,7 +100,7 @@ class ImageClassificationTrainStrategy(object):
 
     @property
     def accuracy(self):
-        """ Returns the tensor containing the loss value """
+        """ Returns the tensor containing the accuracy"""
         return self._accuracy
 
     @property
