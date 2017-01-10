@@ -81,6 +81,11 @@ Copy the freshly created jar file `build/libs/deepwater-all.jar` from the previo
 
 This H2O version will now have GPU Deep Learning support!
 
+To use the GPU, please make sure to set your path to your CUDA installation:
+
+```
+export CUDA_PATH=/usr/local/cuda
+```
 
 
 ##### Install the Python wheel:
