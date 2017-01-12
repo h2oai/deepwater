@@ -99,6 +99,8 @@ class VGG(BaseImageClassificationModel):
 
         out = tf.reshape(out, [-1, int(flatten_size)])
 
+        print(out.get_shape())
+
         # fully connected
         out = fc(out, [int(flatten_size), 4096])
         out = fc(out, [4096, 4096])

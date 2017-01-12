@@ -40,7 +40,7 @@ class ImageClassificationTrainStrategy(object):
         self._optimizer = optimizer
         self._optimizer.apply(self._loss)
 
-        max_norm_constraint = True 
+        max_norm_constraint = False 
         if max_norm_constraint:
             for _, var in self._optimizer.grads_and_vars:
                 var.assign(tf.clip_by_norm(var, 2.0))
