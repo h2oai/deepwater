@@ -41,8 +41,8 @@ def CIFAR10_must_converge(modelClass, optimizerClass,
     trainStrategy = generate_train_graph(
         modelClass, optimizerClass, 32, 32, 3, 10)
 
-    train_writer = tf.summary.FileWriter("/tmp/%s/train" % "test")
-    test_writer = tf.summary.FileWriter("/tmp/%s/test" % "test")
+    train_writer = tf.summary.FileWriter("/tmp/%s/train" % modelClass.name)
+    test_writer = tf.summary.FileWriter("/tmp/%s/test" % modelClass.name)
 
     print("logging at %s" % "/tmp/test/")
 
@@ -134,10 +134,10 @@ def CIFAR10_must_converge(modelClass, optimizerClass,
         tf.set_random_seed(12345678)
         sess.run(tf.get_collection('init')[0])
 
-        from tensorflow.python import debug as tf_debug                                                                                                                                                                                                                                
-        sess = tf_debug.LocalCLIDebugWrapperSession(sess)    
-        sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)       
-        summaries = False
+        # from tensorflow.python import debug as tf_debug                                                                                                                                                                                                                                
+        # sess = tf_debug.LocalCLIDebugWrapperSession(sess)    
+        # sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)       
+        summaries = True 
 
         dataset = cifar.read_data_sets('/tmp/deepwater/cifar10/', validation_size=0)
 
