@@ -35,8 +35,8 @@ cd ..
 
 ```
 conda create --name deepwater python=2.7
-conda install numpy=1.10 # The numpy version is important
 source activate deepwater
+conda install numpy=1.10 # The numpy version is important
 ```
 #### Install SWIG
 For Linux:
