@@ -55,6 +55,16 @@ public interface GraphOptionsOrBuilder extends
 
   /**
    * <pre>
+   * The number of steps to skip before collecting statistics for the
+   * cost model.
+   * </pre>
+   *
+   * <code>optional int64 build_cost_model_after = 9;</code>
+   */
+  long getBuildCostModelAfter();
+
+  /**
+   * <pre>
    * Annotate each Node with Op output shape data, to the extent it can
    * be statically inferred.
    * </pre>
@@ -76,4 +86,23 @@ public interface GraphOptionsOrBuilder extends
    * <code>optional bool place_pruned_graph = 6;</code>
    */
   boolean getPlacePrunedGraph();
+
+  /**
+   * <pre>
+   * If true, transfer float values between processes as bfloat16.
+   * </pre>
+   *
+   * <code>optional bool enable_bfloat16_sendrecv = 7;</code>
+   */
+  boolean getEnableBfloat16Sendrecv();
+
+  /**
+   * <pre>
+   * If &gt; 0, record a timeline every this many steps.
+   * EXPERIMENTAL: This currently has no effect in MasterSession.
+   * </pre>
+   *
+   * <code>optional int32 timeline_step = 8;</code>
+   */
+  int getTimelineStep();
 }

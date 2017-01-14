@@ -67,4 +67,48 @@ public interface GPUOptionsOrBuilder extends
    * <code>optional bool allow_growth = 4;</code>
    */
   boolean getAllowGrowth();
+
+  /**
+   * <pre>
+   * A comma-separated list of GPU ids that determines the 'visible'
+   * to 'virtual' mapping of GPU devices.  For example, if TensorFlow
+   * can see 8 GPU devices in the process, and one wanted to map
+   * visible GPU devices 5 and 3 as "/gpu:0", and "/gpu:1", then one
+   * would specify this field as "5,3".  This field is similar in
+   * spirit to the CUDA_VISIBLE_DEVICES environment variable, except
+   * it applies to the visible GPU devices in the process.
+   * NOTE: The GPU driver provides the process with the visible GPUs
+   * in an order which is not guaranteed to have any correlation to
+   * the *physical* GPU id in the machine.  This field is used for
+   * remapping "visible" to "virtual", which means this operates only
+   * after the process starts.  Users are required to use vendor
+   * specific mechanisms (e.g., CUDA_VISIBLE_DEVICES) to control the
+   * physical to visible device mapping prior to invoking TensorFlow.
+   * </pre>
+   *
+   * <code>optional string visible_device_list = 5;</code>
+   */
+  java.lang.String getVisibleDeviceList();
+  /**
+   * <pre>
+   * A comma-separated list of GPU ids that determines the 'visible'
+   * to 'virtual' mapping of GPU devices.  For example, if TensorFlow
+   * can see 8 GPU devices in the process, and one wanted to map
+   * visible GPU devices 5 and 3 as "/gpu:0", and "/gpu:1", then one
+   * would specify this field as "5,3".  This field is similar in
+   * spirit to the CUDA_VISIBLE_DEVICES environment variable, except
+   * it applies to the visible GPU devices in the process.
+   * NOTE: The GPU driver provides the process with the visible GPUs
+   * in an order which is not guaranteed to have any correlation to
+   * the *physical* GPU id in the machine.  This field is used for
+   * remapping "visible" to "virtual", which means this operates only
+   * after the process starts.  Users are required to use vendor
+   * specific mechanisms (e.g., CUDA_VISIBLE_DEVICES) to control the
+   * physical to visible device mapping prior to invoking TensorFlow.
+   * </pre>
+   *
+   * <code>optional string visible_device_list = 5;</code>
+   */
+  com.google.protobuf.ByteString
+      getVisibleDeviceListBytes();
 }

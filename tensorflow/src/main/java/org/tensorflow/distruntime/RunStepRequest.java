@@ -19,6 +19,7 @@ public  final class RunStepRequest extends
     feed_ = java.util.Collections.emptyList();
     fetch_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     target_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    partialRunHandle_ = "";
   }
 
   @java.lang.Override
@@ -90,6 +91,12 @@ public  final class RunStepRequest extends
               options_ = subBuilder.buildPartial();
             }
 
+            break;
+          }
+          case 50: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            partialRunHandle_ = s;
             break;
           }
         }
@@ -359,6 +366,50 @@ public  final class RunStepRequest extends
     return getOptions();
   }
 
+  public static final int PARTIAL_RUN_HANDLE_FIELD_NUMBER = 6;
+  private volatile java.lang.Object partialRunHandle_;
+  /**
+   * <pre>
+   * Partial run handle (optional). If specified, this will be a partial run
+   * execution, run up to the specified fetches.
+   * </pre>
+   *
+   * <code>optional string partial_run_handle = 6;</code>
+   */
+  public java.lang.String getPartialRunHandle() {
+    java.lang.Object ref = partialRunHandle_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      partialRunHandle_ = s;
+      return s;
+    }
+  }
+  /**
+   * <pre>
+   * Partial run handle (optional). If specified, this will be a partial run
+   * execution, run up to the specified fetches.
+   * </pre>
+   *
+   * <code>optional string partial_run_handle = 6;</code>
+   */
+  public com.google.protobuf.ByteString
+      getPartialRunHandleBytes() {
+    java.lang.Object ref = partialRunHandle_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      partialRunHandle_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -385,6 +436,9 @@ public  final class RunStepRequest extends
     }
     if (options_ != null) {
       output.writeMessage(5, getOptions());
+    }
+    if (!getPartialRunHandleBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 6, partialRunHandle_);
     }
   }
 
@@ -420,6 +474,9 @@ public  final class RunStepRequest extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(5, getOptions());
     }
+    if (!getPartialRunHandleBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, partialRunHandle_);
+    }
     memoizedSize = size;
     return size;
   }
@@ -449,6 +506,8 @@ public  final class RunStepRequest extends
       result = result && getOptions()
           .equals(other.getOptions());
     }
+    result = result && getPartialRunHandle()
+        .equals(other.getPartialRunHandle());
     return result;
   }
 
@@ -477,6 +536,8 @@ public  final class RunStepRequest extends
       hash = (37 * hash) + OPTIONS_FIELD_NUMBER;
       hash = (53 * hash) + getOptions().hashCode();
     }
+    hash = (37 * hash) + PARTIAL_RUN_HANDLE_FIELD_NUMBER;
+    hash = (53 * hash) + getPartialRunHandle().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -614,6 +675,8 @@ public  final class RunStepRequest extends
         options_ = null;
         optionsBuilder_ = null;
       }
+      partialRunHandle_ = "";
+
       return this;
     }
 
@@ -663,6 +726,7 @@ public  final class RunStepRequest extends
       } else {
         result.options_ = optionsBuilder_.build();
       }
+      result.partialRunHandle_ = partialRunHandle_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -757,6 +821,10 @@ public  final class RunStepRequest extends
       }
       if (other.hasOptions()) {
         mergeOptions(other.getOptions());
+      }
+      if (!other.getPartialRunHandle().isEmpty()) {
+        partialRunHandle_ = other.partialRunHandle_;
+        onChanged();
       }
       onChanged();
       return this;
@@ -1629,6 +1697,100 @@ public  final class RunStepRequest extends
         options_ = null;
       }
       return optionsBuilder_;
+    }
+
+    private java.lang.Object partialRunHandle_ = "";
+    /**
+     * <pre>
+     * Partial run handle (optional). If specified, this will be a partial run
+     * execution, run up to the specified fetches.
+     * </pre>
+     *
+     * <code>optional string partial_run_handle = 6;</code>
+     */
+    public java.lang.String getPartialRunHandle() {
+      java.lang.Object ref = partialRunHandle_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        partialRunHandle_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <pre>
+     * Partial run handle (optional). If specified, this will be a partial run
+     * execution, run up to the specified fetches.
+     * </pre>
+     *
+     * <code>optional string partial_run_handle = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPartialRunHandleBytes() {
+      java.lang.Object ref = partialRunHandle_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        partialRunHandle_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <pre>
+     * Partial run handle (optional). If specified, this will be a partial run
+     * execution, run up to the specified fetches.
+     * </pre>
+     *
+     * <code>optional string partial_run_handle = 6;</code>
+     */
+    public Builder setPartialRunHandle(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      partialRunHandle_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * Partial run handle (optional). If specified, this will be a partial run
+     * execution, run up to the specified fetches.
+     * </pre>
+     *
+     * <code>optional string partial_run_handle = 6;</code>
+     */
+    public Builder clearPartialRunHandle() {
+      
+      partialRunHandle_ = getDefaultInstance().getPartialRunHandle();
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * Partial run handle (optional). If specified, this will be a partial run
+     * execution, run up to the specified fetches.
+     * </pre>
+     *
+     * <code>optional string partial_run_handle = 6;</code>
+     */
+    public Builder setPartialRunHandleBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      partialRunHandle_ = value;
+      onChanged();
+      return this;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

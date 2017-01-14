@@ -107,10 +107,9 @@ public  final class SignatureDef extends
               mutable_bitField0_ |= 0x00000001;
             }
             com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.TensorInfo>
-            inputs__ = input.readMessage(
+            inputs = input.readMessage(
                 InputsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-            inputs_.getMutableMap().put(
-                inputs__.getKey(), inputs__.getValue());
+            inputs_.getMutableMap().put(inputs.getKey(), inputs.getValue());
             break;
           }
           case 18: {
@@ -120,10 +119,9 @@ public  final class SignatureDef extends
               mutable_bitField0_ |= 0x00000002;
             }
             com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.TensorInfo>
-            outputs__ = input.readMessage(
+            outputs = input.readMessage(
                 OutputsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-            outputs_.getMutableMap().put(
-                outputs__.getKey(), outputs__.getValue());
+            outputs_.getMutableMap().put(outputs.getKey(), outputs.getValue());
             break;
           }
           case 26: {
@@ -419,18 +417,24 @@ public  final class SignatureDef extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    com.google.protobuf.GeneratedMessageV3
-      .serializeStringMapTo(
-        output,
-        internalGetInputs(),
-        InputsDefaultEntryHolder.defaultEntry,
-        1);
-    com.google.protobuf.GeneratedMessageV3
-      .serializeStringMapTo(
-        output,
-        internalGetOutputs(),
-        OutputsDefaultEntryHolder.defaultEntry,
-        2);
+    for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.TensorInfo> entry
+         : internalGetInputs().getMap().entrySet()) {
+      com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.TensorInfo>
+      inputs = InputsDefaultEntryHolder.defaultEntry.newBuilderForType()
+          .setKey(entry.getKey())
+          .setValue(entry.getValue())
+          .build();
+      output.writeMessage(1, inputs);
+    }
+    for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.TensorInfo> entry
+         : internalGetOutputs().getMap().entrySet()) {
+      com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.TensorInfo>
+      outputs = OutputsDefaultEntryHolder.defaultEntry.newBuilderForType()
+          .setKey(entry.getKey())
+          .setValue(entry.getValue())
+          .build();
+      output.writeMessage(2, outputs);
+    }
     if (!getMethodNameBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 3, methodName_);
     }
@@ -444,22 +448,22 @@ public  final class SignatureDef extends
     for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.TensorInfo> entry
          : internalGetInputs().getMap().entrySet()) {
       com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.TensorInfo>
-      inputs__ = InputsDefaultEntryHolder.defaultEntry.newBuilderForType()
+      inputs = InputsDefaultEntryHolder.defaultEntry.newBuilderForType()
           .setKey(entry.getKey())
           .setValue(entry.getValue())
           .build();
       size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, inputs__);
+          .computeMessageSize(1, inputs);
     }
     for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.TensorInfo> entry
          : internalGetOutputs().getMap().entrySet()) {
       com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.TensorInfo>
-      outputs__ = OutputsDefaultEntryHolder.defaultEntry.newBuilderForType()
+      outputs = OutputsDefaultEntryHolder.defaultEntry.newBuilderForType()
           .setKey(entry.getKey())
           .setValue(entry.getValue())
           .build();
       size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, outputs__);
+          .computeMessageSize(2, outputs);
     }
     if (!getMethodNameBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, methodName_);

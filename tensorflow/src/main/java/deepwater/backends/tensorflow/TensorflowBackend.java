@@ -8,41 +8,24 @@ import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.backends.tensorflow.models.TensorflowModel;
 import deepwater.datasets.ImageDataSet;
-import org.bytedeco.javacpp.tensorflow;
+import org.tensorflow.Session;
+import org.tensorflow.Tensor;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.FloatBuffer;
-import java.nio.LongBuffer;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.bytedeco.javacpp.tensorflow.DT_FLOAT;
-import static org.bytedeco.javacpp.tensorflow.DT_INT32;
-import static org.bytedeco.javacpp.tensorflow.DT_INT64;
-import static org.bytedeco.javacpp.tensorflow.DT_STRING;
-import static org.bytedeco.javacpp.tensorflow.Session;
-import static org.bytedeco.javacpp.tensorflow.SessionOptions;
-import static org.bytedeco.javacpp.tensorflow.Status;
-import static org.bytedeco.javacpp.tensorflow.StringArray;
-import static org.bytedeco.javacpp.tensorflow.StringTensorPairVector;
-import static org.bytedeco.javacpp.tensorflow.StringVector;
-import static org.bytedeco.javacpp.tensorflow.Tensor;
-import static org.bytedeco.javacpp.tensorflow.TensorShape;
-import static org.bytedeco.javacpp.tensorflow.TensorVector;
+import java.util.List;
 
 
 public class TensorflowBackend implements BackendTrain {
 
-    private Map<TensorflowModel, Integer> global_step = new HashMap<>();
-    private SessionOptions sessionOptions;
+    //private Map<TensorflowModel, Integer> global_step = new HashMap<>();
+    //private SessionOptions sessionOptions;
     private Session session;
 
     @Override
     public void delete(BackendModel m) {
         TensorflowModel model = (TensorflowModel) m;
-        Status status = model.getSession().Close();
-        checkStatus(status);
+        model.setSession(null);
     }
 
     @Override
@@ -73,14 +56,13 @@ public class TensorflowBackend implements BackendTrain {
             model = ModelFactory.LoadModelFromFile(resourceModelName);
         }
 
-        sessionOptions = new SessionOptions();
-        sessionOptions.config().gpu_options().set_allow_growth(true);
-        sessionOptions.config().set_allow_soft_placement(true);
+//        sessionOptions = new SessionOptions();
+//        sessionOptions.config().gpu_options().set_allow_growth(true);
+//        sessionOptions.config().set_allow_soft_placement(true);
         //sessionOptions.config().set_log_device_placement(true);
-        session = new Session(sessionOptions);
+        session = new Session(model.getGraph());
+//        this.session = new Session(sessionOptions);
 
-        Status status = session.Create(model.getGraph());
-        checkStatus(status);
 
         model.frameSize = width * height * channels;
         model.classes = num_classes;
@@ -93,19 +75,10 @@ public class TensorflowBackend implements BackendTrain {
         }
 
         if (!model.meta.init.isEmpty()) {
-            TensorVector outputs = new TensorVector();
-            status = session.Run(
-                    new StringTensorPairVector(
-                            new String[]{},
-                            new Tensor[]{}
-                    ),
-                    new StringVector(),
-                    new StringVector(model.meta.init),
-                    outputs);
-
-            checkStatus(status);
+            Session.Runner runner = session.runner();
+            runner.addTarget(model.meta.init).run();
         }
-        model.setSession(session);
+        model.setSession(this.session);
         return model;
     }
 
@@ -121,50 +94,26 @@ public class TensorflowBackend implements BackendTrain {
 
     @Override
     public void loadParam(BackendModel m, String param_path) {
-        // here the model should have already a pre-set of
-        // graph operations that will handle the loading
-        TensorVector outputs = new TensorVector();
         TensorflowModel model = (TensorflowModel) m;
-        Tensor model_path_t = new Tensor(DT_STRING, new TensorShape(1));
-        StringArray a = model_path_t.createStringArray();
-        for (int i = 0; i < a.capacity(); i++) {
-            a.position(i).put(param_path);
-        }
 
-        Status status = model.getSession().Run(
-                new StringTensorPairVector(
-                        new String[]{model.meta.save_filename},
-                        new Tensor[]{model_path_t}
-                ),
-                new StringVector(),
-                new StringVector(model.meta.restore_op),
-                outputs
-        );
+        Session.Runner runner = model.getSession().runner();
 
-        checkStatus(status);
+        runner.feed(normalize(model.meta.save_filename), Tensor.create(param_path.getBytes()));
+        runner.addTarget(model.meta.restore_op);
+        runner.run();
+    }
+
+    private String normalize(String name){
+       return name.split(":")[0];
     }
 
     @Override
     public void saveParam(BackendModel m, String param_path) {
-        TensorVector outputs = new TensorVector();
         TensorflowModel model = (TensorflowModel) m;
-        Tensor model_path_t = new Tensor(DT_STRING, new TensorShape(1));
-        StringArray a = model_path_t.createStringArray();
-        for (int i = 0; i < a.capacity(); i++) {
-            a.position(i).put(param_path);
-        }
-
-        Status status = model.getSession().Run(
-                new StringTensorPairVector(
-                        new String[]{model.meta.save_filename},
-                        new Tensor[]{model_path_t}
-                ),
-                new StringVector(model.meta.save_op),
-                new StringVector(),
-                outputs
-        );
-
-        checkStatus(status);
+        Session.Runner runner = model.getSession().runner();
+        runner.feed(normalize(model.meta.save_filename), Tensor.create(param_path.getBytes()));
+        runner.addTarget(normalize(model.meta.save_op));
+        runner.run();
     }
 
     @Override
@@ -192,62 +141,71 @@ public class TensorflowBackend implements BackendTrain {
     @Override
     public float[] train(BackendModel m, float[] data, float[] labels) {
         TensorflowModel model = (TensorflowModel) m;
-        TensorVector outputs = new TensorVector();
         final long batchSize = model.miniBatchSize;
 
         assert data.length == model.frameSize * batchSize: "input data length is not equal to expected value";
 
         long [] labelShape = new long[]{ batchSize, model.classes};
-        float [] labelData = labels;
+        float [][] labelData = new float[][]{ labels};
 
         if (model.classes > 1) { //one-hot encoder
-            labelData = new float[Math.toIntExact(batchSize * model.classes)];
+            labelData = new float[Math.toIntExact(batchSize)][model.classes];
             for (int i = 0; i < batchSize; i++) {
                 int idx = (int)labels[i];
-                labelData[i * model.classes + idx] = (float) 1.0;
+                labelData[i][idx] = 1.0f;
             }
-
-            labelShape = new long[]{ batchSize, model.classes };
         }
 
+        float [][]dataMatrix = new float[Math.toIntExact(batchSize)][model.frameSize];
+        int start = 0;
+        for (int i = 0; i < batchSize; i++) {
+            System.arraycopy(data, start, dataMatrix[i], 0, model.frameSize);
+            start += model.frameSize;
+        }
 
-        StringTensorPairVector feedDict = convertData(
-                new float[][]{
-                        data, /* batch_image_input */
-                        labelData, /* categorical_labels */
-                        new float[]{model.getParameter("learning_rate", 0.1f)},
-                        new float[]{model.getParameter("momentum", 0.8f)},
-                },
-                new long[][]{
-                        new long[]{batchSize, model.frameSize}, /* batch_image_input */
-                        labelShape,    /* categorical_labels */
-                        new long[]{1}, /* learning_rate */
-                        new long[]{1}, /* momentum */
-                },
-                new String[]{
-                        model.meta.inputs.get("batch_image_input"),
-                        model.meta.inputs.get("categorical_labels"),
-                        model.meta.parameters.get("learning_rate"),
-                        model.meta.parameters.get("momentum")
-                }
-        );
+        Session.Runner runner = model.getSession().runner();
 
-        Status status = model.getSession().Run(
-                feedDict,
-                new StringVector(model.meta.metrics.get("accuracy"), model.meta.metrics.get("total_loss")),
-                new StringVector(model.meta.train_op),
-                outputs
-        );
+        runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataMatrix));
+        runner.feed(normalize(model.meta.inputs.get("categorical_labels")), Tensor.create(labelData));
 
-        checkStatus(status);
+        runner.feed(normalize(model.meta.parameters.get("learning_rate")), Tensor.create(model.getParameter("learning_rate", 0.1f)));
+        runner.feed(normalize(model.meta.parameters.get("momentum")), Tensor.create(model.getParameter("momentum", 0.8f)));
 
-        return flatten(outputs);
+//        StringTensorPairVector feedDict = convertData(
+//                new float[][]{
+//                        data, /* batch_image_input */
+//                        labelData, /* categorical_labels */
+//                        new float[]{model.getParameter("learning_rate", 0.1f)},
+//                        new float[]{model.getParameter("momentum", 0.8f)},
+//                },
+//                new long[][]{
+//                        new long[]{batchSize, model.frameSize}, /* batch_image_input */
+//                        labelShape,    /* categorical_labels */
+//                        new long[]{1}, /* learning_rate */
+//                        new long[]{1}, /* momentum */
+//                },
+//                new String[]{
+//                        model.meta.inputs.get("batch_image_input"),
+//                        model.meta.inputs.get("categorical_labels"),
+//                        model.meta.parameters.get("learning_rate"),
+//                        model.meta.parameters.get("momentum")
+//                }
+//        );
+
+        //runner.fetch(normalize(model.meta.metrics.get("accuracy")));
+        //runner.fetch(normalize(model.meta.metrics.get("total_loss")));
+        runner.addTarget(normalize(model.meta.train_op));
+        List<Tensor> tensors = runner.run();
+
+        return new float[]{
+//                tensors.get(0).floatValue(),
+//                tensors.get(1).floatValue()
+        };
     }
 
     @Override
     public float[] predict(BackendModel m, float[] data, float[] labels) {
         TensorflowModel model = (TensorflowModel) m;
-        TensorVector outputs = new TensorVector();
         final long batchSize = model.miniBatchSize;
 
         assert data.length == model.frameSize * batchSize: (
@@ -260,150 +218,66 @@ public class TensorflowBackend implements BackendTrain {
                    " is not equal to expected value: " + batchSize
         );
 
-        float[] labelData = labels;
-        long[] labelShape = new long[]{batchSize, model.classes};
-
-        if (model.classes > 1) { //one-hot encoder
-            labelData = new float[Math.toIntExact(batchSize * model.classes)];
-            for (int i = 0; i < batchSize; i++) {
-                int idx = (int) labels[i];
-                labelData[i * model.classes + idx] = (float) 1.0;
-            }
-
-            labelShape = new long[]{batchSize, model.classes};
+        float [][]dataMatrix = new float[Math.toIntExact(batchSize)][model.frameSize];
+        int start = 0;
+        for (int i = 0; i < batchSize; i++) {
+           System.arraycopy(data, start, dataMatrix[i], 0, model.frameSize);
+           start += model.frameSize;
         }
 
-        StringTensorPairVector feedDict = convertData(
-                new float[][]{data, labelData},
-                new long[][]{new long[]{batchSize, model.frameSize}, labelShape},
-                new String[]{ model.meta.inputs.get("batch_image_input"), model.meta.inputs.get("categorical_labels")}
-        );
+        Session.Runner runner = model.getSession().runner();
 
-        Status status = model.getSession().Run(
-                feedDict,
-                new StringVector(model.meta.predict_op),
-                new StringVector(),
-                outputs
-        );
+        runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataMatrix));
 
-        checkStatus(status);
+        runner.fetch(normalize(model.meta.predict_op));
+        List<Tensor> results = runner.run();
+        float[][] predictions = new float[Math.toIntExact(batchSize)][model.classes];
+        results.get(0).copyTo(predictions);
 
-        return flatten(outputs);
-    }
+        float[] flatten = new float[Math.toIntExact(batchSize) * model.classes];
 
-    private void checkStatus(Status status) {
-        if (!status.ok()){
-            throw new InternalError(status.error_message().getString());
+        start = 0;
+        int length = model.classes;
+        for (int i = 0; i < predictions.length; i++) {
+            System.arraycopy(predictions[i], 0, flatten, start, length);
+            start += model.classes;
         }
+        return flatten;
     }
 
     @Override
     public float[] predict(BackendModel m, float[] data) {
         TensorflowModel model = (TensorflowModel) m;
-        TensorVector outputs = new TensorVector();
         final long batchSize = model.miniBatchSize;
 
         assert data.length == model.frameSize * batchSize: "input data length is not equal to expected value";
 
-        StringTensorPairVector feedDict = convertData(
-                new float[][]{data, },
-                new long[][]{ new long[]{batchSize, model.frameSize}, },
-                new String[]{model.meta.inputs.get("batch_image_input"), }
-        );
-
-        Status status = model.getSession().Run(
-                feedDict,
-                new StringVector(model.meta.predict_op), //model.meta.predict_op, model.meta.accuracy, model.meta.total_loss),
-                new StringVector(),
-                outputs
-        );
-
-        checkStatus(status);
-       return flatten(outputs);
-    }
-
-    private float[] convertFloat(Tensor in) {
-        FloatBuffer buffer = in.createBuffer();
-        float[] result = new float[buffer.limit()];
-        buffer.get(result);
-        return result;
-    }
-
-    private long[] convertLong(Tensor in) {
-        LongBuffer buffer = in.createBuffer();
-        long[] result = new long[buffer.limit()];
-        buffer.get(result);
-        return result;
-    }
-
-    /*
-     * convertData: given a set of inputs convert them to a StringTensorPairVector
-     */
-    private StringTensorPairVector convertData(float[][] inputs, long[][] shapes, String[] tensors){
-        assert inputs.length == shapes.length:  shapes.length;
-        assert inputs.length == tensors.length: inputs.length;
-
-        Tensor[] t = new Tensor[inputs.length];
-
-        for (int i = 0; i < inputs.length; i++) {
-            Tensor data_t;
-            if (shapes[i].length == 1 && shapes[i][0] == 1){
-                data_t = new Tensor(DT_FLOAT, new TensorShape());
-                assert data_t.NumElements() == 1: "Num elements != 1 but "+data_t.NumElements();
-            } else {
-                data_t = new Tensor(DT_FLOAT, new TensorShape(shapes[i]));
-            }
-
-            FloatBuffer data_flat =  data_t.createBuffer();
-            data_flat.put(inputs[i]);
-            t[i] = data_t;
+        float [][]dataMatrix = new float[Math.toIntExact(batchSize)][model.frameSize];
+        int start = 0;
+        for (int i = 0; i < batchSize; i++) {
+            System.arraycopy(data, start, dataMatrix[i], 0, model.frameSize);
+            start += model.frameSize;
         }
 
-        return new StringTensorPairVector(tensors, t);
-    }
+        Session session = model.getSession();
+        Session.Runner runner = session.runner();
+        runner.feed(model.meta.inputs.get("batch_image_input"), Tensor.create(dataMatrix));
+        runner.fetch(model.meta.predict_op);
 
-    private float[] toFloatArray(long[] arr) {
-        if (arr == null) return null;
-        int n = arr.length;
-        float[] ret = new float[n];
-        for (int i = 0; i < n; i++) {
-            ret[i] = (float)arr[i];
+        List<Tensor> results = runner.run();
+
+        // extract predictions
+        float[][] predictions = new float[Math.toIntExact(batchSize)][model.classes];
+        results.get(0).copyTo(predictions);
+        float[] flatten = new float[Math.toIntExact(batchSize) * model.classes];
+
+        start = 0;
+        int length = model.classes;
+        for (int i = 0; i < predictions.length; i++) {
+            System.arraycopy(predictions[i], 0, flatten, start, length);
+            start += model.classes;
         }
-        return ret;
+        return flatten;
     }
 
-    private float[] flatten(TensorVector arr) {
-        if (arr == null) return null;
-        int n = (int)arr.size();
-        float[][] ret = new float[n][];
-        for (int i = 0; i < n; i++) {
-            switch(arr.get(i).dtype()){
-                case DT_FLOAT:
-                    ret[i] = convertFloat(arr.get(i));
-                    if (ret[i] == null){
-                        ret[i] = new float[]{};
-                    }
-                    continue;
-                case DT_INT64:
-                case DT_INT32:
-                    ret[i] = toFloatArray(convertLong(arr.get(i)));
-                    if (ret[i] == null){
-                        ret[i] = new float[]{};
-                    }
-                    continue;
-                default:
-                    //throw new DeepwaterBackendException("unsupported");
-                    System.err.println("dtype not supported:" + arr.get(i).dtype());
-                    if (ret[i] == null){
-                        ret[i] = new float[]{};
-                    }
-            }
-        }
-        return flattenFloat(ret);
-    }
-
-    private float[] flattenFloat(float[]... args) {
-        if (args == null) return null;
-        return Floats.concat(args);
-    }
 }

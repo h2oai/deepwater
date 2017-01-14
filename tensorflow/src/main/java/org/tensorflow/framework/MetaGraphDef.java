@@ -31,6 +31,7 @@ public  final class MetaGraphDef extends
     super(builder);
   }
   private MetaGraphDef() {
+    assetFileDef_ = java.util.Collections.emptyList();
   }
 
   @java.lang.Override
@@ -104,10 +105,9 @@ public  final class MetaGraphDef extends
               mutable_bitField0_ |= 0x00000008;
             }
             com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.CollectionDef>
-            collectionDef__ = input.readMessage(
+            collectionDef = input.readMessage(
                 CollectionDefDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-            collectionDef_.getMutableMap().put(
-                collectionDef__.getKey(), collectionDef__.getValue());
+            collectionDef_.getMutableMap().put(collectionDef.getKey(), collectionDef.getValue());
             break;
           }
           case 42: {
@@ -117,10 +117,18 @@ public  final class MetaGraphDef extends
               mutable_bitField0_ |= 0x00000010;
             }
             com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.SignatureDef>
-            signatureDef__ = input.readMessage(
+            signatureDef = input.readMessage(
                 SignatureDefDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-            signatureDef_.getMutableMap().put(
-                signatureDef__.getKey(), signatureDef__.getValue());
+            signatureDef_.getMutableMap().put(signatureDef.getKey(), signatureDef.getValue());
+            break;
+          }
+          case 50: {
+            if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+              assetFileDef_ = new java.util.ArrayList<org.tensorflow.framework.AssetFileDef>();
+              mutable_bitField0_ |= 0x00000020;
+            }
+            assetFileDef_.add(
+                input.readMessage(org.tensorflow.framework.AssetFileDef.parser(), extensionRegistry));
             break;
           }
         }
@@ -131,6 +139,9 @@ public  final class MetaGraphDef extends
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
+      if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+        assetFileDef_ = java.util.Collections.unmodifiableList(assetFileDef_);
+      }
       makeExtensionsImmutable();
     }
   }
@@ -165,8 +176,8 @@ public  final class MetaGraphDef extends
 
     /**
      * <pre>
-     * Version string. Can be the name of the model and revision, steps this
-     * model has been trained to, etc.
+     * User specified Version string. Can be the name of the model and revision,
+     * steps this model has been trained to, etc.
      * </pre>
      *
      * <code>optional string meta_graph_version = 1;</code>
@@ -174,8 +185,8 @@ public  final class MetaGraphDef extends
     java.lang.String getMetaGraphVersion();
     /**
      * <pre>
-     * Version string. Can be the name of the model and revision, steps this
-     * model has been trained to, etc.
+     * User specified Version string. Can be the name of the model and revision,
+     * steps this model has been trained to, etc.
      * </pre>
      *
      * <code>optional string meta_graph_version = 1;</code>
@@ -289,6 +300,50 @@ public  final class MetaGraphDef extends
      */
     com.google.protobuf.ByteString
         getTagsBytes(int index);
+
+    /**
+     * <pre>
+     * The __version__ string of the tensorflow build used to write this graph.
+     * This will be populated by the framework, which will overwrite any user
+     * supplied value.
+     * </pre>
+     *
+     * <code>optional string tensorflow_version = 5;</code>
+     */
+    java.lang.String getTensorflowVersion();
+    /**
+     * <pre>
+     * The __version__ string of the tensorflow build used to write this graph.
+     * This will be populated by the framework, which will overwrite any user
+     * supplied value.
+     * </pre>
+     *
+     * <code>optional string tensorflow_version = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getTensorflowVersionBytes();
+
+    /**
+     * <pre>
+     * The __git_version__ string of the tensorflow build used to write this
+     * graph. This will be populated by the framework, which will overwrite any
+     * user supplied value.
+     * </pre>
+     *
+     * <code>optional string tensorflow_git_version = 6;</code>
+     */
+    java.lang.String getTensorflowGitVersion();
+    /**
+     * <pre>
+     * The __git_version__ string of the tensorflow build used to write this
+     * graph. This will be populated by the framework, which will overwrite any
+     * user supplied value.
+     * </pre>
+     *
+     * <code>optional string tensorflow_git_version = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getTensorflowGitVersionBytes();
   }
   /**
    * <pre>
@@ -309,6 +364,8 @@ public  final class MetaGraphDef extends
     private MetaInfoDef() {
       metaGraphVersion_ = "";
       tags_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      tensorflowVersion_ = "";
+      tensorflowGitVersion_ = "";
     }
 
     @java.lang.Override
@@ -377,6 +434,18 @@ public  final class MetaGraphDef extends
               tags_.add(s);
               break;
             }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              tensorflowVersion_ = s;
+              break;
+            }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              tensorflowGitVersion_ = s;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -408,8 +477,8 @@ public  final class MetaGraphDef extends
     private volatile java.lang.Object metaGraphVersion_;
     /**
      * <pre>
-     * Version string. Can be the name of the model and revision, steps this
-     * model has been trained to, etc.
+     * User specified Version string. Can be the name of the model and revision,
+     * steps this model has been trained to, etc.
      * </pre>
      *
      * <code>optional string meta_graph_version = 1;</code>
@@ -428,8 +497,8 @@ public  final class MetaGraphDef extends
     }
     /**
      * <pre>
-     * Version string. Can be the name of the model and revision, steps this
-     * model has been trained to, etc.
+     * User specified Version string. Can be the name of the model and revision,
+     * steps this model has been trained to, etc.
      * </pre>
      *
      * <code>optional string meta_graph_version = 1;</code>
@@ -581,6 +650,98 @@ public  final class MetaGraphDef extends
       return tags_.getByteString(index);
     }
 
+    public static final int TENSORFLOW_VERSION_FIELD_NUMBER = 5;
+    private volatile java.lang.Object tensorflowVersion_;
+    /**
+     * <pre>
+     * The __version__ string of the tensorflow build used to write this graph.
+     * This will be populated by the framework, which will overwrite any user
+     * supplied value.
+     * </pre>
+     *
+     * <code>optional string tensorflow_version = 5;</code>
+     */
+    public java.lang.String getTensorflowVersion() {
+      java.lang.Object ref = tensorflowVersion_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        tensorflowVersion_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * The __version__ string of the tensorflow build used to write this graph.
+     * This will be populated by the framework, which will overwrite any user
+     * supplied value.
+     * </pre>
+     *
+     * <code>optional string tensorflow_version = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTensorflowVersionBytes() {
+      java.lang.Object ref = tensorflowVersion_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tensorflowVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TENSORFLOW_GIT_VERSION_FIELD_NUMBER = 6;
+    private volatile java.lang.Object tensorflowGitVersion_;
+    /**
+     * <pre>
+     * The __git_version__ string of the tensorflow build used to write this
+     * graph. This will be populated by the framework, which will overwrite any
+     * user supplied value.
+     * </pre>
+     *
+     * <code>optional string tensorflow_git_version = 6;</code>
+     */
+    public java.lang.String getTensorflowGitVersion() {
+      java.lang.Object ref = tensorflowGitVersion_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        tensorflowGitVersion_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * The __git_version__ string of the tensorflow build used to write this
+     * graph. This will be populated by the framework, which will overwrite any
+     * user supplied value.
+     * </pre>
+     *
+     * <code>optional string tensorflow_git_version = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTensorflowGitVersionBytes() {
+      java.lang.Object ref = tensorflowGitVersion_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tensorflowGitVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -604,6 +765,12 @@ public  final class MetaGraphDef extends
       }
       for (int i = 0; i < tags_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, tags_.getRaw(i));
+      }
+      if (!getTensorflowVersionBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, tensorflowVersion_);
+      }
+      if (!getTensorflowGitVersionBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, tensorflowGitVersion_);
       }
     }
 
@@ -630,6 +797,12 @@ public  final class MetaGraphDef extends
         }
         size += dataSize;
         size += 1 * getTagsList().size();
+      }
+      if (!getTensorflowVersionBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, tensorflowVersion_);
+      }
+      if (!getTensorflowGitVersionBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, tensorflowGitVersion_);
       }
       memoizedSize = size;
       return size;
@@ -661,6 +834,10 @@ public  final class MetaGraphDef extends
       }
       result = result && getTagsList()
           .equals(other.getTagsList());
+      result = result && getTensorflowVersion()
+          .equals(other.getTensorflowVersion());
+      result = result && getTensorflowGitVersion()
+          .equals(other.getTensorflowGitVersion());
       return result;
     }
 
@@ -685,6 +862,10 @@ public  final class MetaGraphDef extends
         hash = (37 * hash) + TAGS_FIELD_NUMBER;
         hash = (53 * hash) + getTagsList().hashCode();
       }
+      hash = (37 * hash) + TENSORFLOW_VERSION_FIELD_NUMBER;
+      hash = (53 * hash) + getTensorflowVersion().hashCode();
+      hash = (37 * hash) + TENSORFLOW_GIT_VERSION_FIELD_NUMBER;
+      hash = (53 * hash) + getTensorflowGitVersion().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -824,6 +1005,10 @@ public  final class MetaGraphDef extends
         }
         tags_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000008);
+        tensorflowVersion_ = "";
+
+        tensorflowGitVersion_ = "";
+
         return this;
       }
 
@@ -864,6 +1049,8 @@ public  final class MetaGraphDef extends
           bitField0_ = (bitField0_ & ~0x00000008);
         }
         result.tags_ = tags_;
+        result.tensorflowVersion_ = tensorflowVersion_;
+        result.tensorflowGitVersion_ = tensorflowGitVersion_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -926,6 +1113,14 @@ public  final class MetaGraphDef extends
           }
           onChanged();
         }
+        if (!other.getTensorflowVersion().isEmpty()) {
+          tensorflowVersion_ = other.tensorflowVersion_;
+          onChanged();
+        }
+        if (!other.getTensorflowGitVersion().isEmpty()) {
+          tensorflowGitVersion_ = other.tensorflowGitVersion_;
+          onChanged();
+        }
         onChanged();
         return this;
       }
@@ -956,8 +1151,8 @@ public  final class MetaGraphDef extends
       private java.lang.Object metaGraphVersion_ = "";
       /**
        * <pre>
-       * Version string. Can be the name of the model and revision, steps this
-       * model has been trained to, etc.
+       * User specified Version string. Can be the name of the model and revision,
+       * steps this model has been trained to, etc.
        * </pre>
        *
        * <code>optional string meta_graph_version = 1;</code>
@@ -976,8 +1171,8 @@ public  final class MetaGraphDef extends
       }
       /**
        * <pre>
-       * Version string. Can be the name of the model and revision, steps this
-       * model has been trained to, etc.
+       * User specified Version string. Can be the name of the model and revision,
+       * steps this model has been trained to, etc.
        * </pre>
        *
        * <code>optional string meta_graph_version = 1;</code>
@@ -997,8 +1192,8 @@ public  final class MetaGraphDef extends
       }
       /**
        * <pre>
-       * Version string. Can be the name of the model and revision, steps this
-       * model has been trained to, etc.
+       * User specified Version string. Can be the name of the model and revision,
+       * steps this model has been trained to, etc.
        * </pre>
        *
        * <code>optional string meta_graph_version = 1;</code>
@@ -1015,8 +1210,8 @@ public  final class MetaGraphDef extends
       }
       /**
        * <pre>
-       * Version string. Can be the name of the model and revision, steps this
-       * model has been trained to, etc.
+       * User specified Version string. Can be the name of the model and revision,
+       * steps this model has been trained to, etc.
        * </pre>
        *
        * <code>optional string meta_graph_version = 1;</code>
@@ -1029,8 +1224,8 @@ public  final class MetaGraphDef extends
       }
       /**
        * <pre>
-       * Version string. Can be the name of the model and revision, steps this
-       * model has been trained to, etc.
+       * User specified Version string. Can be the name of the model and revision,
+       * steps this model has been trained to, etc.
        * </pre>
        *
        * <code>optional string meta_graph_version = 1;</code>
@@ -1536,6 +1731,204 @@ public  final class MetaGraphDef extends
         onChanged();
         return this;
       }
+
+      private java.lang.Object tensorflowVersion_ = "";
+      /**
+       * <pre>
+       * The __version__ string of the tensorflow build used to write this graph.
+       * This will be populated by the framework, which will overwrite any user
+       * supplied value.
+       * </pre>
+       *
+       * <code>optional string tensorflow_version = 5;</code>
+       */
+      public java.lang.String getTensorflowVersion() {
+        java.lang.Object ref = tensorflowVersion_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          tensorflowVersion_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The __version__ string of the tensorflow build used to write this graph.
+       * This will be populated by the framework, which will overwrite any user
+       * supplied value.
+       * </pre>
+       *
+       * <code>optional string tensorflow_version = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTensorflowVersionBytes() {
+        java.lang.Object ref = tensorflowVersion_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tensorflowVersion_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The __version__ string of the tensorflow build used to write this graph.
+       * This will be populated by the framework, which will overwrite any user
+       * supplied value.
+       * </pre>
+       *
+       * <code>optional string tensorflow_version = 5;</code>
+       */
+      public Builder setTensorflowVersion(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        tensorflowVersion_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The __version__ string of the tensorflow build used to write this graph.
+       * This will be populated by the framework, which will overwrite any user
+       * supplied value.
+       * </pre>
+       *
+       * <code>optional string tensorflow_version = 5;</code>
+       */
+      public Builder clearTensorflowVersion() {
+        
+        tensorflowVersion_ = getDefaultInstance().getTensorflowVersion();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The __version__ string of the tensorflow build used to write this graph.
+       * This will be populated by the framework, which will overwrite any user
+       * supplied value.
+       * </pre>
+       *
+       * <code>optional string tensorflow_version = 5;</code>
+       */
+      public Builder setTensorflowVersionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        tensorflowVersion_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object tensorflowGitVersion_ = "";
+      /**
+       * <pre>
+       * The __git_version__ string of the tensorflow build used to write this
+       * graph. This will be populated by the framework, which will overwrite any
+       * user supplied value.
+       * </pre>
+       *
+       * <code>optional string tensorflow_git_version = 6;</code>
+       */
+      public java.lang.String getTensorflowGitVersion() {
+        java.lang.Object ref = tensorflowGitVersion_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          tensorflowGitVersion_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The __git_version__ string of the tensorflow build used to write this
+       * graph. This will be populated by the framework, which will overwrite any
+       * user supplied value.
+       * </pre>
+       *
+       * <code>optional string tensorflow_git_version = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTensorflowGitVersionBytes() {
+        java.lang.Object ref = tensorflowGitVersion_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tensorflowGitVersion_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The __git_version__ string of the tensorflow build used to write this
+       * graph. This will be populated by the framework, which will overwrite any
+       * user supplied value.
+       * </pre>
+       *
+       * <code>optional string tensorflow_git_version = 6;</code>
+       */
+      public Builder setTensorflowGitVersion(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        tensorflowGitVersion_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The __git_version__ string of the tensorflow build used to write this
+       * graph. This will be populated by the framework, which will overwrite any
+       * user supplied value.
+       * </pre>
+       *
+       * <code>optional string tensorflow_git_version = 6;</code>
+       */
+      public Builder clearTensorflowGitVersion() {
+        
+        tensorflowGitVersion_ = getDefaultInstance().getTensorflowGitVersion();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The __git_version__ string of the tensorflow build used to write this
+       * graph. This will be populated by the framework, which will overwrite any
+       * user supplied value.
+       * </pre>
+       *
+       * <code>optional string tensorflow_git_version = 6;</code>
+       */
+      public Builder setTensorflowGitVersionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        tensorflowGitVersion_ = value;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return this;
@@ -1865,6 +2258,61 @@ public  final class MetaGraphDef extends
     return map.get(key);
   }
 
+  public static final int ASSET_FILE_DEF_FIELD_NUMBER = 6;
+  private java.util.List<org.tensorflow.framework.AssetFileDef> assetFileDef_;
+  /**
+   * <pre>
+   * Asset file def to be used with the defined graph.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+   */
+  public java.util.List<org.tensorflow.framework.AssetFileDef> getAssetFileDefList() {
+    return assetFileDef_;
+  }
+  /**
+   * <pre>
+   * Asset file def to be used with the defined graph.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+   */
+  public java.util.List<? extends org.tensorflow.framework.AssetFileDefOrBuilder> 
+      getAssetFileDefOrBuilderList() {
+    return assetFileDef_;
+  }
+  /**
+   * <pre>
+   * Asset file def to be used with the defined graph.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+   */
+  public int getAssetFileDefCount() {
+    return assetFileDef_.size();
+  }
+  /**
+   * <pre>
+   * Asset file def to be used with the defined graph.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+   */
+  public org.tensorflow.framework.AssetFileDef getAssetFileDef(int index) {
+    return assetFileDef_.get(index);
+  }
+  /**
+   * <pre>
+   * Asset file def to be used with the defined graph.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+   */
+  public org.tensorflow.framework.AssetFileDefOrBuilder getAssetFileDefOrBuilder(
+      int index) {
+    return assetFileDef_.get(index);
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -1886,18 +2334,27 @@ public  final class MetaGraphDef extends
     if (saverDef_ != null) {
       output.writeMessage(3, getSaverDef());
     }
-    com.google.protobuf.GeneratedMessageV3
-      .serializeStringMapTo(
-        output,
-        internalGetCollectionDef(),
-        CollectionDefDefaultEntryHolder.defaultEntry,
-        4);
-    com.google.protobuf.GeneratedMessageV3
-      .serializeStringMapTo(
-        output,
-        internalGetSignatureDef(),
-        SignatureDefDefaultEntryHolder.defaultEntry,
-        5);
+    for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.CollectionDef> entry
+         : internalGetCollectionDef().getMap().entrySet()) {
+      com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.CollectionDef>
+      collectionDef = CollectionDefDefaultEntryHolder.defaultEntry.newBuilderForType()
+          .setKey(entry.getKey())
+          .setValue(entry.getValue())
+          .build();
+      output.writeMessage(4, collectionDef);
+    }
+    for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.SignatureDef> entry
+         : internalGetSignatureDef().getMap().entrySet()) {
+      com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.SignatureDef>
+      signatureDef = SignatureDefDefaultEntryHolder.defaultEntry.newBuilderForType()
+          .setKey(entry.getKey())
+          .setValue(entry.getValue())
+          .build();
+      output.writeMessage(5, signatureDef);
+    }
+    for (int i = 0; i < assetFileDef_.size(); i++) {
+      output.writeMessage(6, assetFileDef_.get(i));
+    }
   }
 
   public int getSerializedSize() {
@@ -1920,22 +2377,26 @@ public  final class MetaGraphDef extends
     for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.CollectionDef> entry
          : internalGetCollectionDef().getMap().entrySet()) {
       com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.CollectionDef>
-      collectionDef__ = CollectionDefDefaultEntryHolder.defaultEntry.newBuilderForType()
+      collectionDef = CollectionDefDefaultEntryHolder.defaultEntry.newBuilderForType()
           .setKey(entry.getKey())
           .setValue(entry.getValue())
           .build();
       size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, collectionDef__);
+          .computeMessageSize(4, collectionDef);
     }
     for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.SignatureDef> entry
          : internalGetSignatureDef().getMap().entrySet()) {
       com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.SignatureDef>
-      signatureDef__ = SignatureDefDefaultEntryHolder.defaultEntry.newBuilderForType()
+      signatureDef = SignatureDefDefaultEntryHolder.defaultEntry.newBuilderForType()
           .setKey(entry.getKey())
           .setValue(entry.getValue())
           .build();
       size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, signatureDef__);
+          .computeMessageSize(5, signatureDef);
+    }
+    for (int i = 0; i < assetFileDef_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(6, assetFileDef_.get(i));
     }
     memoizedSize = size;
     return size;
@@ -1972,6 +2433,8 @@ public  final class MetaGraphDef extends
         other.internalGetCollectionDef());
     result = result && internalGetSignatureDef().equals(
         other.internalGetSignatureDef());
+    result = result && getAssetFileDefList()
+        .equals(other.getAssetFileDefList());
     return result;
   }
 
@@ -2001,6 +2464,10 @@ public  final class MetaGraphDef extends
     if (!internalGetSignatureDef().getMap().isEmpty()) {
       hash = (37 * hash) + SIGNATURE_DEF_FIELD_NUMBER;
       hash = (53 * hash) + internalGetSignatureDef().hashCode();
+    }
+    if (getAssetFileDefCount() > 0) {
+      hash = (37 * hash) + ASSET_FILE_DEF_FIELD_NUMBER;
+      hash = (53 * hash) + getAssetFileDefList().hashCode();
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -2158,6 +2625,7 @@ public  final class MetaGraphDef extends
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessageV3
               .alwaysUseFieldBuilders) {
+        getAssetFileDefFieldBuilder();
       }
     }
     public Builder clear() {
@@ -2182,6 +2650,12 @@ public  final class MetaGraphDef extends
       }
       internalGetMutableCollectionDef().clear();
       internalGetMutableSignatureDef().clear();
+      if (assetFileDefBuilder_ == null) {
+        assetFileDef_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
+      } else {
+        assetFileDefBuilder_.clear();
+      }
       return this;
     }
 
@@ -2225,6 +2699,15 @@ public  final class MetaGraphDef extends
       result.collectionDef_.makeImmutable();
       result.signatureDef_ = internalGetSignatureDef();
       result.signatureDef_.makeImmutable();
+      if (assetFileDefBuilder_ == null) {
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          assetFileDef_ = java.util.Collections.unmodifiableList(assetFileDef_);
+          bitField0_ = (bitField0_ & ~0x00000020);
+        }
+        result.assetFileDef_ = assetFileDef_;
+      } else {
+        result.assetFileDef_ = assetFileDefBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -2280,6 +2763,32 @@ public  final class MetaGraphDef extends
           other.internalGetCollectionDef());
       internalGetMutableSignatureDef().mergeFrom(
           other.internalGetSignatureDef());
+      if (assetFileDefBuilder_ == null) {
+        if (!other.assetFileDef_.isEmpty()) {
+          if (assetFileDef_.isEmpty()) {
+            assetFileDef_ = other.assetFileDef_;
+            bitField0_ = (bitField0_ & ~0x00000020);
+          } else {
+            ensureAssetFileDefIsMutable();
+            assetFileDef_.addAll(other.assetFileDef_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.assetFileDef_.isEmpty()) {
+          if (assetFileDefBuilder_.isEmpty()) {
+            assetFileDefBuilder_.dispose();
+            assetFileDefBuilder_ = null;
+            assetFileDef_ = other.assetFileDef_;
+            bitField0_ = (bitField0_ & ~0x00000020);
+            assetFileDefBuilder_ = 
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                 getAssetFileDefFieldBuilder() : null;
+          } else {
+            assetFileDefBuilder_.addAllMessages(other.assetFileDef_);
+          }
+        }
+      }
       onChanged();
       return this;
     }
@@ -3036,6 +3545,318 @@ public  final class MetaGraphDef extends
         java.util.Map<java.lang.String, org.tensorflow.framework.SignatureDef> values) {
       getMutableSignatureDef().putAll(values);
       return this;
+    }
+
+    private java.util.List<org.tensorflow.framework.AssetFileDef> assetFileDef_ =
+      java.util.Collections.emptyList();
+    private void ensureAssetFileDefIsMutable() {
+      if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+        assetFileDef_ = new java.util.ArrayList<org.tensorflow.framework.AssetFileDef>(assetFileDef_);
+        bitField0_ |= 0x00000020;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        org.tensorflow.framework.AssetFileDef, org.tensorflow.framework.AssetFileDef.Builder, org.tensorflow.framework.AssetFileDefOrBuilder> assetFileDefBuilder_;
+
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public java.util.List<org.tensorflow.framework.AssetFileDef> getAssetFileDefList() {
+      if (assetFileDefBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(assetFileDef_);
+      } else {
+        return assetFileDefBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public int getAssetFileDefCount() {
+      if (assetFileDefBuilder_ == null) {
+        return assetFileDef_.size();
+      } else {
+        return assetFileDefBuilder_.getCount();
+      }
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public org.tensorflow.framework.AssetFileDef getAssetFileDef(int index) {
+      if (assetFileDefBuilder_ == null) {
+        return assetFileDef_.get(index);
+      } else {
+        return assetFileDefBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public Builder setAssetFileDef(
+        int index, org.tensorflow.framework.AssetFileDef value) {
+      if (assetFileDefBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureAssetFileDefIsMutable();
+        assetFileDef_.set(index, value);
+        onChanged();
+      } else {
+        assetFileDefBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public Builder setAssetFileDef(
+        int index, org.tensorflow.framework.AssetFileDef.Builder builderForValue) {
+      if (assetFileDefBuilder_ == null) {
+        ensureAssetFileDefIsMutable();
+        assetFileDef_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        assetFileDefBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public Builder addAssetFileDef(org.tensorflow.framework.AssetFileDef value) {
+      if (assetFileDefBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureAssetFileDefIsMutable();
+        assetFileDef_.add(value);
+        onChanged();
+      } else {
+        assetFileDefBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public Builder addAssetFileDef(
+        int index, org.tensorflow.framework.AssetFileDef value) {
+      if (assetFileDefBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureAssetFileDefIsMutable();
+        assetFileDef_.add(index, value);
+        onChanged();
+      } else {
+        assetFileDefBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public Builder addAssetFileDef(
+        org.tensorflow.framework.AssetFileDef.Builder builderForValue) {
+      if (assetFileDefBuilder_ == null) {
+        ensureAssetFileDefIsMutable();
+        assetFileDef_.add(builderForValue.build());
+        onChanged();
+      } else {
+        assetFileDefBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public Builder addAssetFileDef(
+        int index, org.tensorflow.framework.AssetFileDef.Builder builderForValue) {
+      if (assetFileDefBuilder_ == null) {
+        ensureAssetFileDefIsMutable();
+        assetFileDef_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        assetFileDefBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public Builder addAllAssetFileDef(
+        java.lang.Iterable<? extends org.tensorflow.framework.AssetFileDef> values) {
+      if (assetFileDefBuilder_ == null) {
+        ensureAssetFileDefIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, assetFileDef_);
+        onChanged();
+      } else {
+        assetFileDefBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public Builder clearAssetFileDef() {
+      if (assetFileDefBuilder_ == null) {
+        assetFileDef_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
+        onChanged();
+      } else {
+        assetFileDefBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public Builder removeAssetFileDef(int index) {
+      if (assetFileDefBuilder_ == null) {
+        ensureAssetFileDefIsMutable();
+        assetFileDef_.remove(index);
+        onChanged();
+      } else {
+        assetFileDefBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public org.tensorflow.framework.AssetFileDef.Builder getAssetFileDefBuilder(
+        int index) {
+      return getAssetFileDefFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public org.tensorflow.framework.AssetFileDefOrBuilder getAssetFileDefOrBuilder(
+        int index) {
+      if (assetFileDefBuilder_ == null) {
+        return assetFileDef_.get(index);  } else {
+        return assetFileDefBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public java.util.List<? extends org.tensorflow.framework.AssetFileDefOrBuilder> 
+         getAssetFileDefOrBuilderList() {
+      if (assetFileDefBuilder_ != null) {
+        return assetFileDefBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(assetFileDef_);
+      }
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public org.tensorflow.framework.AssetFileDef.Builder addAssetFileDefBuilder() {
+      return getAssetFileDefFieldBuilder().addBuilder(
+          org.tensorflow.framework.AssetFileDef.getDefaultInstance());
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public org.tensorflow.framework.AssetFileDef.Builder addAssetFileDefBuilder(
+        int index) {
+      return getAssetFileDefFieldBuilder().addBuilder(
+          index, org.tensorflow.framework.AssetFileDef.getDefaultInstance());
+    }
+    /**
+     * <pre>
+     * Asset file def to be used with the defined graph.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+     */
+    public java.util.List<org.tensorflow.framework.AssetFileDef.Builder> 
+         getAssetFileDefBuilderList() {
+      return getAssetFileDefFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        org.tensorflow.framework.AssetFileDef, org.tensorflow.framework.AssetFileDef.Builder, org.tensorflow.framework.AssetFileDefOrBuilder> 
+        getAssetFileDefFieldBuilder() {
+      if (assetFileDefBuilder_ == null) {
+        assetFileDefBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+            org.tensorflow.framework.AssetFileDef, org.tensorflow.framework.AssetFileDef.Builder, org.tensorflow.framework.AssetFileDefOrBuilder>(
+                assetFileDef_,
+                ((bitField0_ & 0x00000020) == 0x00000020),
+                getParentForChildren(),
+                isClean());
+        assetFileDef_ = null;
+      }
+      return assetFileDefBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

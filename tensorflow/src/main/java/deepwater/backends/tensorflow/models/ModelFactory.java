@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.ProtocolStringList;
 import deepwater.backends.tensorflow.TensorflowMetaModel;
-import org.bytedeco.javacpp.tensorflow;
+import org.tensorflow.Graph;
 import org.tensorflow.framework.CollectionDef;
 import org.tensorflow.framework.MetaGraphDef;
 import org.tensorflow.framework.OpDef;
@@ -16,8 +16,6 @@ import org.tensorflow.framework.TensorInfo;
 import org.tensorflow.util.SaverDef;
 
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,9 +36,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import static deepwater.datasets.FileUtils.findFile;
-import static org.bytedeco.javacpp.tensorflow.ReadBinaryProto;
-import static org.bytedeco.javacpp.tensorflow.Status;
-import static org.tensorflow.framework.CollectionDef.KindCase;
+import static org.tensorflow.framework.CollectionDef.KindCase.ANY_LIST;
+import static org.tensorflow.framework.CollectionDef.KindCase.BYTES_LIST;
+import static org.tensorflow.framework.CollectionDef.KindCase.FLOAT_LIST;
+import static org.tensorflow.framework.CollectionDef.KindCase.INT64_LIST;
+import static org.tensorflow.framework.CollectionDef.KindCase.KIND_NOT_SET;
+import static org.tensorflow.framework.CollectionDef.KindCase.NODE_LIST;
 
 
 public class ModelFactory {
@@ -78,19 +79,21 @@ public class ModelFactory {
 
         MetaGraphDef metaGraphDef = MetaGraphDef.parseFrom(new FileInputStream(metaPath));
         org.tensorflow.framework.GraphDef graphDef = metaGraphDef.getGraphDef();
-        // Tags
-        for( String tag: metaGraphDef.getMetaInfoDef().getTagsList()) {
-            System.out.println(tag);
-        }
 
 
         OpList ops = metaGraphDef.getMetaInfoDef().getStrippedOpList();
-        for( OpDef op: ops.getOpList()){
-            System.out.println("stripped op: "+ op.getName());
-        }
+        if (false) {
+            // Tags
+            for (String tag : metaGraphDef.getMetaInfoDef().getTagsList()) {
+                System.out.println(tag);
+            }
+            for (OpDef op : ops.getOpList()) {
+                System.out.println("stripped op: " + op.getName());
+            }
 
-        for (Map.Entry<String, CollectionDef> entry : metaGraphDef.getCollectionDefMap().entrySet()) {
-            System.out.println(entry.getKey() + ":" + entry.getValue());
+            for (Map.Entry<String, CollectionDef> entry : metaGraphDef.getCollectionDefMap().entrySet()) {
+                System.out.println(entry.getKey() + ":" + entry.getValue());
+            }
         }
 
         // initialize the meta framework
@@ -120,33 +123,29 @@ public class ModelFactory {
         getOperationsFromCollection(metaGraphDef, "variables");
         getOperationsFromCollection(metaGraphDef, "trainable_variables");
 
-        /*
-        for(Map.Entry<String, SignatureDef> entry: metaGraphDef.getSignatureDefMap().entrySet()) {
+        if (false) {
+            for (Map.Entry<String, SignatureDef> entry : metaGraphDef.getSignatureDefMap().entrySet()) {
 
-            System.out.println("signature: " + entry.getKey());
-            for(Map.Entry<String, TensorInfo> input: entry.getValue().getInputsMap().entrySet() ) {
-                System.out.println("\tinput: " + input.getKey());
+                System.out.println("signature: " + entry.getKey());
+                for (Map.Entry<String, TensorInfo> input : entry.getValue().getInputsMap().entrySet()) {
+                    System.out.println("\tinput: " + input.getKey());
+                }
+
+                for (Map.Entry<String, TensorInfo> output : entry.getValue().getOutputsMap().entrySet()) {
+                    System.out.println("\toutput: " + output.getKey());
+                }
             }
 
-            for(Map.Entry<String, TensorInfo> output: entry.getValue().getOutputsMap().entrySet() ) {
-                System.out.println("\toutput: " + output.getKey());
+            for (String name : getAllCollections(metaGraphDef)) {
+                System.out.println("collection: " + name);
             }
         }
 
-        for(String name: getAllCollections(metaGraphDef)){
-            System.out.println("collection: " + name);
-        }
-        */
+        byte[] graphDefBytes = graphDef.toByteArray();
 
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        graphDef.writeTo(output);
-
-        String graphPath = saveToTempFile(new ByteArrayInputStream(output.toByteArray()));
-
-        tensorflow.GraphDef gdef = new tensorflow.GraphDef();
-        Status status = ReadBinaryProto(tensorflow.Env.Default(), graphPath, gdef);
-        checkStatus(status);
-        return new TensorflowModel(meta, gdef, data);
+        Graph g = new Graph();
+        g.importGraphDef(graphDefBytes);
+        return new TensorflowModel(meta, g, data);
     }
 
     private static String[] getAllCollections(MetaGraphDef metaGraphDef) throws Exception {
@@ -168,7 +167,7 @@ public class ModelFactory {
     private static String[] getOperationsFromCollection(MetaGraphDef metaGraphDef, String collectionName) throws Exception {
         for(Map.Entry<String, CollectionDef> entry: metaGraphDef.getCollectionDefMap().entrySet()) {
             if (entry.getKey().equals(collectionName)) {
-               KindCase kase = entry.getValue().getKindCase();
+               CollectionDef.KindCase kase = entry.getValue().getKindCase();
 
                switch(kase) {
                    case NODE_LIST: {
@@ -217,12 +216,6 @@ public class ModelFactory {
 
     public static String convertToCanonicalName(String model_name) {
         return model_name.toLowerCase() + ".meta";
-    }
-
-    static void checkStatus(Status status) {
-        if (!status.ok()) {
-            throw new InternalError(status.error_message().getString());
-        }
     }
 
     public static TensorflowModel LoadModelFromFile(String path) {

@@ -48,35 +48,51 @@ public interface RecvTensorRequestOrBuilder extends
 
   /**
    * <pre>
-   * NIC bus preference on the request originator side
+   * Optional information on client-side device locality.
    * </pre>
    *
-   * <code>optional .tensorflow.BusAdjacency client_bus_adjacency = 4;</code>
+   * <code>optional .tensorflow.DeviceLocality client_locality = 4;</code>
    */
-  int getClientBusAdjacencyValue();
+  boolean hasClientLocality();
   /**
    * <pre>
-   * NIC bus preference on the request originator side
+   * Optional information on client-side device locality.
    * </pre>
    *
-   * <code>optional .tensorflow.BusAdjacency client_bus_adjacency = 4;</code>
+   * <code>optional .tensorflow.DeviceLocality client_locality = 4;</code>
    */
-  org.tensorflow.framework.BusAdjacency getClientBusAdjacency();
+  org.tensorflow.framework.DeviceLocality getClientLocality();
+  /**
+   * <pre>
+   * Optional information on client-side device locality.
+   * </pre>
+   *
+   * <code>optional .tensorflow.DeviceLocality client_locality = 4;</code>
+   */
+  org.tensorflow.framework.DeviceLocalityOrBuilder getClientLocalityOrBuilder();
 
   /**
    * <pre>
-   * NIC bus preference on the request receiver side
+   * Optional information on server-side device locality.
    * </pre>
    *
-   * <code>optional .tensorflow.BusAdjacency server_bus_adjacency = 5;</code>
+   * <code>optional .tensorflow.DeviceLocality server_locality = 5;</code>
    */
-  int getServerBusAdjacencyValue();
+  boolean hasServerLocality();
   /**
    * <pre>
-   * NIC bus preference on the request receiver side
+   * Optional information on server-side device locality.
    * </pre>
    *
-   * <code>optional .tensorflow.BusAdjacency server_bus_adjacency = 5;</code>
+   * <code>optional .tensorflow.DeviceLocality server_locality = 5;</code>
    */
-  org.tensorflow.framework.BusAdjacency getServerBusAdjacency();
+  org.tensorflow.framework.DeviceLocality getServerLocality();
+  /**
+   * <pre>
+   * Optional information on server-side device locality.
+   * </pre>
+   *
+   * <code>optional .tensorflow.DeviceLocality server_locality = 5;</code>
+   */
+  org.tensorflow.framework.DeviceLocalityOrBuilder getServerLocalityOrBuilder();
 }

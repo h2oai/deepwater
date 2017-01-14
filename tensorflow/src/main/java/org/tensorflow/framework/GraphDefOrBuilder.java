@@ -83,7 +83,7 @@ public interface GraphDefOrBuilder extends
    *     different orgs. E.g.,
    *     { "/google/nn", { ... }},
    *     { "/google/vision", { ... }}
-   *     { "/org_foo/module_bar", {...}}
+   *     { "/org_foo/module_bar", { ... }}
    *     map&lt;string, FunctionDefLib&gt; named_lib;
    *   * If node[i].op is the name of one function in "library",
    *     node[i] is deemed as a function call. Otherwise, node[i].op
@@ -112,7 +112,7 @@ public interface GraphDefOrBuilder extends
    *     different orgs. E.g.,
    *     { "/google/nn", { ... }},
    *     { "/google/vision", { ... }}
-   *     { "/org_foo/module_bar", {...}}
+   *     { "/org_foo/module_bar", { ... }}
    *     map&lt;string, FunctionDefLib&gt; named_lib;
    *   * If node[i].op is the name of one function in "library",
    *     node[i] is deemed as a function call. Otherwise, node[i].op
@@ -141,7 +141,7 @@ public interface GraphDefOrBuilder extends
    *     different orgs. E.g.,
    *     { "/google/nn", { ... }},
    *     { "/google/vision", { ... }}
-   *     { "/org_foo/module_bar", {...}}
+   *     { "/org_foo/module_bar", { ... }}
    *     map&lt;string, FunctionDefLib&gt; named_lib;
    *   * If node[i].op is the name of one function in "library",
    *     node[i] is deemed as a function call. Otherwise, node[i].op

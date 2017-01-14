@@ -25,21 +25,23 @@ public final class MasterServiceProtos {
     java.lang.String[] descriptorData = {
       "\n-tensorflow/core/protobuf/master_servic" +
       "e.proto\022\017tensorflow.grpc\032%tensorflow/cor" +
-      "e/protobuf/master.proto2\340\003\n\rMasterServic" +
+      "e/protobuf/master.proto2\274\004\n\rMasterServic" +
       "e\022T\n\rCreateSession\022 .tensorflow.CreateSe" +
       "ssionRequest\032!.tensorflow.CreateSessionR" +
       "esponse\022T\n\rExtendSession\022 .tensorflow.Ex" +
       "tendSessionRequest\032!.tensorflow.ExtendSe" +
-      "ssionResponse\022B\n\007RunStep\022\032.tensorflow.Ru" +
-      "nStepRequest\032\033.tensorflow.RunStepRespons" +
-      "e\022Q\n\014CloseSession\022\037.tensorflow.CloseSess",
-      "ionRequest\032 .tensorflow.CloseSessionResp" +
-      "onse\022N\n\013ListDevices\022\036.tensorflow.ListDev" +
-      "icesRequest\032\037.tensorflow.ListDevicesResp" +
-      "onse\022<\n\005Reset\022\030.tensorflow.ResetRequest\032" +
-      "\031.tensorflow.ResetResponseB3\n\032org.tensor" +
-      "flow.distruntimeB\023MasterServiceProtosP\001b" +
-      "\006proto3"
+      "ssionResponse\022Z\n\017PartialRunSetup\022\".tenso" +
+      "rflow.PartialRunSetupRequest\032#.tensorflo" +
+      "w.PartialRunSetupResponse\022B\n\007RunStep\022\032.t",
+      "ensorflow.RunStepRequest\032\033.tensorflow.Ru" +
+      "nStepResponse\022Q\n\014CloseSession\022\037.tensorfl" +
+      "ow.CloseSessionRequest\032 .tensorflow.Clos" +
+      "eSessionResponse\022N\n\013ListDevices\022\036.tensor" +
+      "flow.ListDevicesRequest\032\037.tensorflow.Lis" +
+      "tDevicesResponse\022<\n\005Reset\022\030.tensorflow.R" +
+      "esetRequest\032\031.tensorflow.ResetResponseB3" +
+      "\n\032org.tensorflow.distruntimeB\023MasterServ" +
+      "iceProtosP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

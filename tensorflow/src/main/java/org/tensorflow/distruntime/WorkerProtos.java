@@ -55,11 +55,6 @@ public final class WorkerProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_CleanupAllResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_tensorflow_NamedTensor_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_tensorflow_NamedTensor_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_ExecutorOpts_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -135,56 +130,59 @@ public final class WorkerProtos {
     java.lang.String[] descriptorData = {
       "\n%tensorflow/core/protobuf/worker.proto\022" +
       "\ntensorflow\032\031google/protobuf/any.proto\032*" +
-      "tensorflow/core/framework/step_stats.pro" +
-      "to\0321tensorflow/core/framework/device_att" +
-      "ributes.proto\032%tensorflow/core/framework" +
-      "/graph.proto\032&tensorflow/core/framework/" +
-      "tensor.proto\032%tensorflow/core/protobuf/c" +
-      "onfig.proto\"\022\n\020GetStatusRequest\"L\n\021GetSt" +
-      "atusResponse\0227\n\021device_attributes\030\001 \003(\0132" +
-      "\034.tensorflow.DeviceAttributes\"\246\001\n\024Regist",
-      "erGraphRequest\022\026\n\016session_handle\030\001 \001(\t\022\'" +
-      "\n\tgraph_def\030\002 \001(\0132\024.tensorflow.GraphDef\022" +
-      "\034\n\020has_control_flow\030\003 \001(\010B\002\030\001\022/\n\rgraph_o" +
-      "ptions\030\004 \001(\0132\030.tensorflow.GraphOptions\"-" +
-      "\n\025RegisterGraphResponse\022\024\n\014graph_handle\030" +
-      "\001 \001(\t\".\n\026DeregisterGraphRequest\022\024\n\014graph" +
-      "_handle\030\001 \001(\t\"\031\n\027DeregisterGraphResponse" +
-      "\"&\n\021CleanupAllRequest\022\021\n\tcontainer\030\001 \003(\t" +
-      "\"\024\n\022CleanupAllResponse\"@\n\013NamedTensor\022\013\n" +
-      "\003key\030\001 \001(\t\022$\n\003val\030\002 \001(\0132\027.tensorflow.Ten",
-      "sorProto\"=\n\014ExecutorOpts\022\024\n\014record_costs" +
-      "\030\001 \001(\010\022\027\n\017record_timeline\030\003 \001(\010\"\236\001\n\017RunG" +
-      "raphRequest\022\024\n\014graph_handle\030\001 \001(\t\022\017\n\007ste" +
-      "p_id\030\002 \001(\003\022+\n\texec_opts\030\005 \001(\0132\030.tensorfl" +
-      "ow.ExecutorOpts\022%\n\004send\030\003 \003(\0132\027.tensorfl" +
-      "ow.NamedTensor\022\020\n\010recv_key\030\004 \003(\t\"d\n\020RunG" +
-      "raphResponse\022%\n\004recv\030\001 \003(\0132\027.tensorflow." +
-      "NamedTensor\022)\n\nstep_stats\030\002 \001(\0132\025.tensor" +
-      "flow.StepStats\"&\n\023CleanupGraphRequest\022\017\n" +
-      "\007step_id\030\001 \001(\003\"\026\n\024CleanupGraphResponse\"\274",
-      "\001\n\021RecvTensorRequest\022\017\n\007step_id\030\001 \001(\003\022\026\n" +
-      "\016rendezvous_key\030\002 \001(\t\022\016\n\006dma_ok\030\003 \001(\010\0226\n" +
-      "\024client_bus_adjacency\030\004 \001(\0162\030.tensorflow" +
-      ".BusAdjacency\0226\n\024server_bus_adjacency\030\005 " +
-      "\001(\0162\030.tensorflow.BusAdjacency\"\232\001\n\022RecvTe" +
-      "nsorResponse\022\'\n\006tensor\030\001 \001(\0132\027.tensorflo" +
-      "w.TensorProto\022\017\n\007is_dead\030\002 \001(\010\022\031\n\021send_s" +
-      "tart_micros\030\003 \001(\003\022/\n\021transport_options\030\004" +
-      " \001(\0132\024.google.protobuf.Any\"K\n\016LoggingReq" +
-      "uest\022\023\n\013rpc_logging\030\001 \001(\010\022\r\n\005clear\030\002 \001(\010",
-      "\022\025\n\rfetch_step_id\030\003 \003(\003\"N\n\020LabeledStepSt" +
-      "ats\022\017\n\007step_id\030\001 \001(\003\022)\n\nstep_stats\030\002 \001(\013" +
-      "2\025.tensorflow.StepStats\"=\n\017LoggingRespon" +
-      "se\022*\n\004step\030\001 \003(\0132\034.tensorflow.LabeledSte" +
-      "pStats\"\253\001\n\tTraceOpts\022\020\n\010duration\030\001 \001(\001\022\031" +
-      "\n\021use_step_profiler\030\002 \001(\010\022\033\n\023use_kernel_" +
-      "profiler\030\003 \001(\010\022\035\n\025use_extended_profiler\030" +
-      "\004 \001(\010\022\030\n\020use_gpu_profiler\030\005 \001(\010\022\033\n\023use_s" +
-      "ample_profiler\030\006 \001(\010\"8\n\016TracingRequest\022&" +
-      "\n\007options\030\001 \001(\0132\025.tensorflow.TraceOpts\"\021",
-      "\n\017TracingResponseB/\n\032org.tensorflow.dist" +
-      "runtimeB\014WorkerProtosP\001\370\001\001b\006proto3"
+      "tensorflow/core/framework/cost_graph.pro" +
+      "to\032*tensorflow/core/framework/step_stats" +
+      ".proto\0321tensorflow/core/framework/device" +
+      "_attributes.proto\032%tensorflow/core/frame" +
+      "work/graph.proto\032&tensorflow/core/framew" +
+      "ork/tensor.proto\032%tensorflow/core/protob" +
+      "uf/config.proto\032+tensorflow/core/protobu" +
+      "f/named_tensor.proto\"\022\n\020GetStatusRequest",
+      "\"L\n\021GetStatusResponse\0227\n\021device_attribut" +
+      "es\030\001 \003(\0132\034.tensorflow.DeviceAttributes\"\246" +
+      "\001\n\024RegisterGraphRequest\022\026\n\016session_handl" +
+      "e\030\001 \001(\t\022\'\n\tgraph_def\030\002 \001(\0132\024.tensorflow." +
+      "GraphDef\022\034\n\020has_control_flow\030\003 \001(\010B\002\030\001\022/" +
+      "\n\rgraph_options\030\004 \001(\0132\030.tensorflow.Graph" +
+      "Options\"-\n\025RegisterGraphResponse\022\024\n\014grap" +
+      "h_handle\030\001 \001(\t\".\n\026DeregisterGraphRequest" +
+      "\022\024\n\014graph_handle\030\001 \001(\t\"\031\n\027DeregisterGrap" +
+      "hResponse\"&\n\021CleanupAllRequest\022\021\n\tcontai",
+      "ner\030\001 \003(\t\"\024\n\022CleanupAllResponse\"=\n\014Execu" +
+      "torOpts\022\024\n\014record_costs\030\001 \001(\010\022\027\n\017record_" +
+      "timeline\030\003 \001(\010\"\324\001\n\017RunGraphRequest\022\024\n\014gr" +
+      "aph_handle\030\001 \001(\t\022\017\n\007step_id\030\002 \001(\003\022+\n\texe" +
+      "c_opts\030\005 \001(\0132\030.tensorflow.ExecutorOpts\022*" +
+      "\n\004send\030\003 \003(\0132\034.tensorflow.NamedTensorPro" +
+      "to\022\020\n\010recv_key\030\004 \003(\t\022\022\n\nis_partial\030\006 \001(\010" +
+      "\022\033\n\023is_last_partial_run\030\007 \001(\010\"\227\001\n\020RunGra" +
+      "phResponse\022*\n\004recv\030\001 \003(\0132\034.tensorflow.Na" +
+      "medTensorProto\022)\n\nstep_stats\030\002 \001(\0132\025.ten",
+      "sorflow.StepStats\022,\n\ncost_graph\030\003 \001(\0132\030." +
+      "tensorflow.CostGraphDef\"&\n\023CleanupGraphR" +
+      "equest\022\017\n\007step_id\030\001 \001(\003\"\026\n\024CleanupGraphR" +
+      "esponse\"\266\001\n\021RecvTensorRequest\022\017\n\007step_id" +
+      "\030\001 \001(\003\022\026\n\016rendezvous_key\030\002 \001(\t\022\016\n\006dma_ok" +
+      "\030\003 \001(\010\0223\n\017client_locality\030\004 \001(\0132\032.tensor" +
+      "flow.DeviceLocality\0223\n\017server_locality\030\005" +
+      " \001(\0132\032.tensorflow.DeviceLocality\"\232\001\n\022Rec" +
+      "vTensorResponse\022\'\n\006tensor\030\001 \001(\0132\027.tensor" +
+      "flow.TensorProto\022\017\n\007is_dead\030\002 \001(\010\022\031\n\021sen",
+      "d_start_micros\030\003 \001(\003\022/\n\021transport_option" +
+      "s\030\004 \001(\0132\024.google.protobuf.Any\"K\n\016Logging" +
+      "Request\022\023\n\013rpc_logging\030\001 \001(\010\022\r\n\005clear\030\002 " +
+      "\001(\010\022\025\n\rfetch_step_id\030\003 \003(\003\"N\n\020LabeledSte" +
+      "pStats\022\017\n\007step_id\030\001 \001(\003\022)\n\nstep_stats\030\002 " +
+      "\001(\0132\025.tensorflow.StepStats\"=\n\017LoggingRes" +
+      "ponse\022*\n\004step\030\001 \003(\0132\034.tensorflow.Labeled" +
+      "StepStats\"\253\001\n\tTraceOpts\022\020\n\010duration\030\001 \001(" +
+      "\001\022\031\n\021use_step_profiler\030\002 \001(\010\022\033\n\023use_kern" +
+      "el_profiler\030\003 \001(\010\022\035\n\025use_extended_profil",
+      "er\030\004 \001(\010\022\030\n\020use_gpu_profiler\030\005 \001(\010\022\033\n\023us" +
+      "e_sample_profiler\030\006 \001(\010\"8\n\016TracingReques" +
+      "t\022&\n\007options\030\001 \001(\0132\025.tensorflow.TraceOpt" +
+      "s\"\021\n\017TracingResponseB/\n\032org.tensorflow.d" +
+      "istruntimeB\014WorkerProtosP\001\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -198,11 +196,13 @@ public final class WorkerProtos {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.google.protobuf.AnyProto.getDescriptor(),
+          org.tensorflow.framework.CostGraphProtos.getDescriptor(),
           org.tensorflow.framework.StepStatsProtos.getDescriptor(),
           org.tensorflow.framework.DeviceAttributesProtos.getDescriptor(),
           org.tensorflow.framework.GraphProtos.getDescriptor(),
           org.tensorflow.framework.TensorProtos.getDescriptor(),
           org.tensorflow.framework.ConfigProtos.getDescriptor(),
+          org.tensorflow.framework.NamedTensorProtos.getDescriptor(),
         }, assigner);
     internal_static_tensorflow_GetStatusRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -252,96 +252,92 @@ public final class WorkerProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_CleanupAllResponse_descriptor,
         new java.lang.String[] { });
-    internal_static_tensorflow_NamedTensor_descriptor =
-      getDescriptor().getMessageTypes().get(8);
-    internal_static_tensorflow_NamedTensor_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_tensorflow_NamedTensor_descriptor,
-        new java.lang.String[] { "Key", "Val", });
     internal_static_tensorflow_ExecutorOpts_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_tensorflow_ExecutorOpts_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_ExecutorOpts_descriptor,
         new java.lang.String[] { "RecordCosts", "RecordTimeline", });
     internal_static_tensorflow_RunGraphRequest_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_tensorflow_RunGraphRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_RunGraphRequest_descriptor,
-        new java.lang.String[] { "GraphHandle", "StepId", "ExecOpts", "Send", "RecvKey", });
+        new java.lang.String[] { "GraphHandle", "StepId", "ExecOpts", "Send", "RecvKey", "IsPartial", "IsLastPartialRun", });
     internal_static_tensorflow_RunGraphResponse_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_tensorflow_RunGraphResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_RunGraphResponse_descriptor,
-        new java.lang.String[] { "Recv", "StepStats", });
+        new java.lang.String[] { "Recv", "StepStats", "CostGraph", });
     internal_static_tensorflow_CleanupGraphRequest_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_tensorflow_CleanupGraphRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_CleanupGraphRequest_descriptor,
         new java.lang.String[] { "StepId", });
     internal_static_tensorflow_CleanupGraphResponse_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_tensorflow_CleanupGraphResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_CleanupGraphResponse_descriptor,
         new java.lang.String[] { });
     internal_static_tensorflow_RecvTensorRequest_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_tensorflow_RecvTensorRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_RecvTensorRequest_descriptor,
-        new java.lang.String[] { "StepId", "RendezvousKey", "DmaOk", "ClientBusAdjacency", "ServerBusAdjacency", });
+        new java.lang.String[] { "StepId", "RendezvousKey", "DmaOk", "ClientLocality", "ServerLocality", });
     internal_static_tensorflow_RecvTensorResponse_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_tensorflow_RecvTensorResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_RecvTensorResponse_descriptor,
         new java.lang.String[] { "Tensor", "IsDead", "SendStartMicros", "TransportOptions", });
     internal_static_tensorflow_LoggingRequest_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_tensorflow_LoggingRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_LoggingRequest_descriptor,
         new java.lang.String[] { "RpcLogging", "Clear", "FetchStepId", });
     internal_static_tensorflow_LabeledStepStats_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_tensorflow_LabeledStepStats_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_LabeledStepStats_descriptor,
         new java.lang.String[] { "StepId", "StepStats", });
     internal_static_tensorflow_LoggingResponse_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_tensorflow_LoggingResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_LoggingResponse_descriptor,
         new java.lang.String[] { "Step", });
     internal_static_tensorflow_TraceOpts_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_tensorflow_TraceOpts_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_TraceOpts_descriptor,
         new java.lang.String[] { "Duration", "UseStepProfiler", "UseKernelProfiler", "UseExtendedProfiler", "UseGpuProfiler", "UseSampleProfiler", });
     internal_static_tensorflow_TracingRequest_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_tensorflow_TracingRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_TracingRequest_descriptor,
         new java.lang.String[] { "Options", });
     internal_static_tensorflow_TracingResponse_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_tensorflow_TracingResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_TracingResponse_descriptor,
         new java.lang.String[] { });
     com.google.protobuf.AnyProto.getDescriptor();
+    org.tensorflow.framework.CostGraphProtos.getDescriptor();
     org.tensorflow.framework.StepStatsProtos.getDescriptor();
     org.tensorflow.framework.DeviceAttributesProtos.getDescriptor();
     org.tensorflow.framework.GraphProtos.getDescriptor();
     org.tensorflow.framework.TensorProtos.getDescriptor();
     org.tensorflow.framework.ConfigProtos.getDescriptor();
+    org.tensorflow.framework.NamedTensorProtos.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

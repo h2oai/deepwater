@@ -62,4 +62,48 @@ public interface RunMetadataOrBuilder extends
    * <code>optional .tensorflow.CostGraphDef cost_graph = 2;</code>
    */
   org.tensorflow.framework.CostGraphDefOrBuilder getCostGraphOrBuilder();
+
+  /**
+   * <pre>
+   * Graphs of the partitions executed by executors.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+   */
+  java.util.List<org.tensorflow.framework.GraphDef> 
+      getPartitionGraphsList();
+  /**
+   * <pre>
+   * Graphs of the partitions executed by executors.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+   */
+  org.tensorflow.framework.GraphDef getPartitionGraphs(int index);
+  /**
+   * <pre>
+   * Graphs of the partitions executed by executors.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+   */
+  int getPartitionGraphsCount();
+  /**
+   * <pre>
+   * Graphs of the partitions executed by executors.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+   */
+  java.util.List<? extends org.tensorflow.framework.GraphDefOrBuilder> 
+      getPartitionGraphsOrBuilderList();
+  /**
+   * <pre>
+   * Graphs of the partitions executed by executors.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+   */
+  org.tensorflow.framework.GraphDefOrBuilder getPartitionGraphsOrBuilder(
+      int index);
 }

@@ -54,7 +54,7 @@ package org.tensorflow.framework;
  *                                from_proto=YourPythonObject.from_proto)
  *    These functions will be invoked to serialize and de-serialize the
  *    collection. For example,
- *    ops.register_proto_function(ops.GraphKeys.VARIABLES,
+ *    ops.register_proto_function(ops.GraphKeys.GLOBAL_VARIABLES,
  *                                proto_type=variable_pb2.VariableDef,
  *                                to_proto=Variable.to_proto,
  *                                from_proto=Variable.from_proto)
@@ -3572,7 +3572,7 @@ public  final class CollectionDef extends
    *                                from_proto=YourPythonObject.from_proto)
    *    These functions will be invoked to serialize and de-serialize the
    *    collection. For example,
-   *    ops.register_proto_function(ops.GraphKeys.VARIABLES,
+   *    ops.register_proto_function(ops.GraphKeys.GLOBAL_VARIABLES,
    *                                proto_type=variable_pb2.VariableDef,
    *                                to_proto=Variable.to_proto,
    *                                from_proto=Variable.from_proto)

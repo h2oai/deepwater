@@ -30,15 +30,15 @@ public interface SaveSliceInfoDefOrBuilder extends
    * Shape of the full variable.
    * </pre>
    *
-   * <code>repeated int32 full_shape = 2;</code>
+   * <code>repeated int64 full_shape = 2;</code>
    */
-  java.util.List<java.lang.Integer> getFullShapeList();
+  java.util.List<java.lang.Long> getFullShapeList();
   /**
    * <pre>
    * Shape of the full variable.
    * </pre>
    *
-   * <code>repeated int32 full_shape = 2;</code>
+   * <code>repeated int64 full_shape = 2;</code>
    */
   int getFullShapeCount();
   /**
@@ -46,24 +46,24 @@ public interface SaveSliceInfoDefOrBuilder extends
    * Shape of the full variable.
    * </pre>
    *
-   * <code>repeated int32 full_shape = 2;</code>
+   * <code>repeated int64 full_shape = 2;</code>
    */
-  int getFullShape(int index);
+  long getFullShape(int index);
 
   /**
    * <pre>
    * Offset of this variable into the full variable.
    * </pre>
    *
-   * <code>repeated int32 var_offset = 3;</code>
+   * <code>repeated int64 var_offset = 3;</code>
    */
-  java.util.List<java.lang.Integer> getVarOffsetList();
+  java.util.List<java.lang.Long> getVarOffsetList();
   /**
    * <pre>
    * Offset of this variable into the full variable.
    * </pre>
    *
-   * <code>repeated int32 var_offset = 3;</code>
+   * <code>repeated int64 var_offset = 3;</code>
    */
   int getVarOffsetCount();
   /**
@@ -71,24 +71,24 @@ public interface SaveSliceInfoDefOrBuilder extends
    * Offset of this variable into the full variable.
    * </pre>
    *
-   * <code>repeated int32 var_offset = 3;</code>
+   * <code>repeated int64 var_offset = 3;</code>
    */
-  int getVarOffset(int index);
+  long getVarOffset(int index);
 
   /**
    * <pre>
    * Shape of this variable.
    * </pre>
    *
-   * <code>repeated int32 var_shape = 4;</code>
+   * <code>repeated int64 var_shape = 4;</code>
    */
-  java.util.List<java.lang.Integer> getVarShapeList();
+  java.util.List<java.lang.Long> getVarShapeList();
   /**
    * <pre>
    * Shape of this variable.
    * </pre>
    *
-   * <code>repeated int32 var_shape = 4;</code>
+   * <code>repeated int64 var_shape = 4;</code>
    */
   int getVarShapeCount();
   /**
@@ -96,7 +96,7 @@ public interface SaveSliceInfoDefOrBuilder extends
    * Shape of this variable.
    * </pre>
    *
-   * <code>repeated int32 var_shape = 4;</code>
+   * <code>repeated int64 var_shape = 4;</code>
    */
-  int getVarShape(int index);
+  long getVarShape(int index);
 }

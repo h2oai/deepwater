@@ -177,4 +177,24 @@ public interface RunStepRequestOrBuilder extends
    * <code>optional .tensorflow.RunOptions options = 5;</code>
    */
   org.tensorflow.framework.RunOptionsOrBuilder getOptionsOrBuilder();
+
+  /**
+   * <pre>
+   * Partial run handle (optional). If specified, this will be a partial run
+   * execution, run up to the specified fetches.
+   * </pre>
+   *
+   * <code>optional string partial_run_handle = 6;</code>
+   */
+  java.lang.String getPartialRunHandle();
+  /**
+   * <pre>
+   * Partial run handle (optional). If specified, this will be a partial run
+   * execution, run up to the specified fetches.
+   * </pre>
+   *
+   * <code>optional string partial_run_handle = 6;</code>
+   */
+  com.google.protobuf.ByteString
+      getPartialRunHandleBytes();
 }

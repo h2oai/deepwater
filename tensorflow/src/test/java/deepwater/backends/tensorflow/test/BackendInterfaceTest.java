@@ -82,7 +82,7 @@ public class BackendInterfaceTest {
 
     @Test
     public void testMLP() throws IOException{
-        backendCanTrainMNIST("mlp", 32, 3);
+        backendCanTrainMNIST("mlp", 32, 1);
         backendCanSaveCheckpoint("mlp", 32);
     }
 
@@ -129,7 +129,6 @@ public class BackendInterfaceTest {
             while (it.next(b)) {
                 backend.train(model, b.getImages(), b.getLabels());
             }
-
         }
         double testError = computeTestError(model, batchSize);
 

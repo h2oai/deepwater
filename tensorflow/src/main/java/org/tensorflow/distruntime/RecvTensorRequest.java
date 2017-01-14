@@ -18,8 +18,6 @@ public  final class RecvTensorRequest extends
     stepId_ = 0L;
     rendezvousKey_ = "";
     dmaOk_ = false;
-    clientBusAdjacency_ = 0;
-    serverBusAdjacency_ = 0;
   }
 
   @java.lang.Override
@@ -63,16 +61,30 @@ public  final class RecvTensorRequest extends
             dmaOk_ = input.readBool();
             break;
           }
-          case 32: {
-            int rawValue = input.readEnum();
+          case 34: {
+            org.tensorflow.framework.DeviceLocality.Builder subBuilder = null;
+            if (clientLocality_ != null) {
+              subBuilder = clientLocality_.toBuilder();
+            }
+            clientLocality_ = input.readMessage(org.tensorflow.framework.DeviceLocality.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(clientLocality_);
+              clientLocality_ = subBuilder.buildPartial();
+            }
 
-            clientBusAdjacency_ = rawValue;
             break;
           }
-          case 40: {
-            int rawValue = input.readEnum();
+          case 42: {
+            org.tensorflow.framework.DeviceLocality.Builder subBuilder = null;
+            if (serverLocality_ != null) {
+              subBuilder = serverLocality_.toBuilder();
+            }
+            serverLocality_ = input.readMessage(org.tensorflow.framework.DeviceLocality.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(serverLocality_);
+              serverLocality_ = subBuilder.buildPartial();
+            }
 
-            serverBusAdjacency_ = rawValue;
             break;
           }
         }
@@ -169,52 +181,70 @@ public  final class RecvTensorRequest extends
     return dmaOk_;
   }
 
-  public static final int CLIENT_BUS_ADJACENCY_FIELD_NUMBER = 4;
-  private int clientBusAdjacency_;
+  public static final int CLIENT_LOCALITY_FIELD_NUMBER = 4;
+  private org.tensorflow.framework.DeviceLocality clientLocality_;
   /**
    * <pre>
-   * NIC bus preference on the request originator side
+   * Optional information on client-side device locality.
    * </pre>
    *
-   * <code>optional .tensorflow.BusAdjacency client_bus_adjacency = 4;</code>
+   * <code>optional .tensorflow.DeviceLocality client_locality = 4;</code>
    */
-  public int getClientBusAdjacencyValue() {
-    return clientBusAdjacency_;
+  public boolean hasClientLocality() {
+    return clientLocality_ != null;
   }
   /**
    * <pre>
-   * NIC bus preference on the request originator side
+   * Optional information on client-side device locality.
    * </pre>
    *
-   * <code>optional .tensorflow.BusAdjacency client_bus_adjacency = 4;</code>
+   * <code>optional .tensorflow.DeviceLocality client_locality = 4;</code>
    */
-  public org.tensorflow.framework.BusAdjacency getClientBusAdjacency() {
-    org.tensorflow.framework.BusAdjacency result = org.tensorflow.framework.BusAdjacency.valueOf(clientBusAdjacency_);
-    return result == null ? org.tensorflow.framework.BusAdjacency.UNRECOGNIZED : result;
+  public org.tensorflow.framework.DeviceLocality getClientLocality() {
+    return clientLocality_ == null ? org.tensorflow.framework.DeviceLocality.getDefaultInstance() : clientLocality_;
+  }
+  /**
+   * <pre>
+   * Optional information on client-side device locality.
+   * </pre>
+   *
+   * <code>optional .tensorflow.DeviceLocality client_locality = 4;</code>
+   */
+  public org.tensorflow.framework.DeviceLocalityOrBuilder getClientLocalityOrBuilder() {
+    return getClientLocality();
   }
 
-  public static final int SERVER_BUS_ADJACENCY_FIELD_NUMBER = 5;
-  private int serverBusAdjacency_;
+  public static final int SERVER_LOCALITY_FIELD_NUMBER = 5;
+  private org.tensorflow.framework.DeviceLocality serverLocality_;
   /**
    * <pre>
-   * NIC bus preference on the request receiver side
+   * Optional information on server-side device locality.
    * </pre>
    *
-   * <code>optional .tensorflow.BusAdjacency server_bus_adjacency = 5;</code>
+   * <code>optional .tensorflow.DeviceLocality server_locality = 5;</code>
    */
-  public int getServerBusAdjacencyValue() {
-    return serverBusAdjacency_;
+  public boolean hasServerLocality() {
+    return serverLocality_ != null;
   }
   /**
    * <pre>
-   * NIC bus preference on the request receiver side
+   * Optional information on server-side device locality.
    * </pre>
    *
-   * <code>optional .tensorflow.BusAdjacency server_bus_adjacency = 5;</code>
+   * <code>optional .tensorflow.DeviceLocality server_locality = 5;</code>
    */
-  public org.tensorflow.framework.BusAdjacency getServerBusAdjacency() {
-    org.tensorflow.framework.BusAdjacency result = org.tensorflow.framework.BusAdjacency.valueOf(serverBusAdjacency_);
-    return result == null ? org.tensorflow.framework.BusAdjacency.UNRECOGNIZED : result;
+  public org.tensorflow.framework.DeviceLocality getServerLocality() {
+    return serverLocality_ == null ? org.tensorflow.framework.DeviceLocality.getDefaultInstance() : serverLocality_;
+  }
+  /**
+   * <pre>
+   * Optional information on server-side device locality.
+   * </pre>
+   *
+   * <code>optional .tensorflow.DeviceLocality server_locality = 5;</code>
+   */
+  public org.tensorflow.framework.DeviceLocalityOrBuilder getServerLocalityOrBuilder() {
+    return getServerLocality();
   }
 
   private byte memoizedIsInitialized = -1;
@@ -238,11 +268,11 @@ public  final class RecvTensorRequest extends
     if (dmaOk_ != false) {
       output.writeBool(3, dmaOk_);
     }
-    if (clientBusAdjacency_ != org.tensorflow.framework.BusAdjacency.BUS_0.getNumber()) {
-      output.writeEnum(4, clientBusAdjacency_);
+    if (clientLocality_ != null) {
+      output.writeMessage(4, getClientLocality());
     }
-    if (serverBusAdjacency_ != org.tensorflow.framework.BusAdjacency.BUS_0.getNumber()) {
-      output.writeEnum(5, serverBusAdjacency_);
+    if (serverLocality_ != null) {
+      output.writeMessage(5, getServerLocality());
     }
   }
 
@@ -262,13 +292,13 @@ public  final class RecvTensorRequest extends
       size += com.google.protobuf.CodedOutputStream
         .computeBoolSize(3, dmaOk_);
     }
-    if (clientBusAdjacency_ != org.tensorflow.framework.BusAdjacency.BUS_0.getNumber()) {
+    if (clientLocality_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(4, clientBusAdjacency_);
+        .computeMessageSize(4, getClientLocality());
     }
-    if (serverBusAdjacency_ != org.tensorflow.framework.BusAdjacency.BUS_0.getNumber()) {
+    if (serverLocality_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(5, serverBusAdjacency_);
+        .computeMessageSize(5, getServerLocality());
     }
     memoizedSize = size;
     return size;
@@ -292,8 +322,16 @@ public  final class RecvTensorRequest extends
         .equals(other.getRendezvousKey());
     result = result && (getDmaOk()
         == other.getDmaOk());
-    result = result && clientBusAdjacency_ == other.clientBusAdjacency_;
-    result = result && serverBusAdjacency_ == other.serverBusAdjacency_;
+    result = result && (hasClientLocality() == other.hasClientLocality());
+    if (hasClientLocality()) {
+      result = result && getClientLocality()
+          .equals(other.getClientLocality());
+    }
+    result = result && (hasServerLocality() == other.hasServerLocality());
+    if (hasServerLocality()) {
+      result = result && getServerLocality()
+          .equals(other.getServerLocality());
+    }
     return result;
   }
 
@@ -312,10 +350,14 @@ public  final class RecvTensorRequest extends
     hash = (37 * hash) + DMA_OK_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
         getDmaOk());
-    hash = (37 * hash) + CLIENT_BUS_ADJACENCY_FIELD_NUMBER;
-    hash = (53 * hash) + clientBusAdjacency_;
-    hash = (37 * hash) + SERVER_BUS_ADJACENCY_FIELD_NUMBER;
-    hash = (53 * hash) + serverBusAdjacency_;
+    if (hasClientLocality()) {
+      hash = (37 * hash) + CLIENT_LOCALITY_FIELD_NUMBER;
+      hash = (53 * hash) + getClientLocality().hashCode();
+    }
+    if (hasServerLocality()) {
+      hash = (37 * hash) + SERVER_LOCALITY_FIELD_NUMBER;
+      hash = (53 * hash) + getServerLocality().hashCode();
+    }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -440,10 +482,18 @@ public  final class RecvTensorRequest extends
 
       dmaOk_ = false;
 
-      clientBusAdjacency_ = 0;
-
-      serverBusAdjacency_ = 0;
-
+      if (clientLocalityBuilder_ == null) {
+        clientLocality_ = null;
+      } else {
+        clientLocality_ = null;
+        clientLocalityBuilder_ = null;
+      }
+      if (serverLocalityBuilder_ == null) {
+        serverLocality_ = null;
+      } else {
+        serverLocality_ = null;
+        serverLocalityBuilder_ = null;
+      }
       return this;
     }
 
@@ -469,8 +519,16 @@ public  final class RecvTensorRequest extends
       result.stepId_ = stepId_;
       result.rendezvousKey_ = rendezvousKey_;
       result.dmaOk_ = dmaOk_;
-      result.clientBusAdjacency_ = clientBusAdjacency_;
-      result.serverBusAdjacency_ = serverBusAdjacency_;
+      if (clientLocalityBuilder_ == null) {
+        result.clientLocality_ = clientLocality_;
+      } else {
+        result.clientLocality_ = clientLocalityBuilder_.build();
+      }
+      if (serverLocalityBuilder_ == null) {
+        result.serverLocality_ = serverLocality_;
+      } else {
+        result.serverLocality_ = serverLocalityBuilder_.build();
+      }
       onBuilt();
       return result;
     }
@@ -522,11 +580,11 @@ public  final class RecvTensorRequest extends
       if (other.getDmaOk() != false) {
         setDmaOk(other.getDmaOk());
       }
-      if (other.clientBusAdjacency_ != 0) {
-        setClientBusAdjacencyValue(other.getClientBusAdjacencyValue());
+      if (other.hasClientLocality()) {
+        mergeClientLocality(other.getClientLocality());
       }
-      if (other.serverBusAdjacency_ != 0) {
-        setServerBusAdjacencyValue(other.getServerBusAdjacencyValue());
+      if (other.hasServerLocality()) {
+        mergeServerLocality(other.getServerLocality());
       }
       onChanged();
       return this;
@@ -728,132 +786,310 @@ public  final class RecvTensorRequest extends
       return this;
     }
 
-    private int clientBusAdjacency_ = 0;
+    private org.tensorflow.framework.DeviceLocality clientLocality_ = null;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.tensorflow.framework.DeviceLocality, org.tensorflow.framework.DeviceLocality.Builder, org.tensorflow.framework.DeviceLocalityOrBuilder> clientLocalityBuilder_;
     /**
      * <pre>
-     * NIC bus preference on the request originator side
+     * Optional information on client-side device locality.
      * </pre>
      *
-     * <code>optional .tensorflow.BusAdjacency client_bus_adjacency = 4;</code>
+     * <code>optional .tensorflow.DeviceLocality client_locality = 4;</code>
      */
-    public int getClientBusAdjacencyValue() {
-      return clientBusAdjacency_;
+    public boolean hasClientLocality() {
+      return clientLocalityBuilder_ != null || clientLocality_ != null;
     }
     /**
      * <pre>
-     * NIC bus preference on the request originator side
+     * Optional information on client-side device locality.
      * </pre>
      *
-     * <code>optional .tensorflow.BusAdjacency client_bus_adjacency = 4;</code>
+     * <code>optional .tensorflow.DeviceLocality client_locality = 4;</code>
      */
-    public Builder setClientBusAdjacencyValue(int value) {
-      clientBusAdjacency_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * NIC bus preference on the request originator side
-     * </pre>
-     *
-     * <code>optional .tensorflow.BusAdjacency client_bus_adjacency = 4;</code>
-     */
-    public org.tensorflow.framework.BusAdjacency getClientBusAdjacency() {
-      org.tensorflow.framework.BusAdjacency result = org.tensorflow.framework.BusAdjacency.valueOf(clientBusAdjacency_);
-      return result == null ? org.tensorflow.framework.BusAdjacency.UNRECOGNIZED : result;
-    }
-    /**
-     * <pre>
-     * NIC bus preference on the request originator side
-     * </pre>
-     *
-     * <code>optional .tensorflow.BusAdjacency client_bus_adjacency = 4;</code>
-     */
-    public Builder setClientBusAdjacency(org.tensorflow.framework.BusAdjacency value) {
-      if (value == null) {
-        throw new NullPointerException();
+    public org.tensorflow.framework.DeviceLocality getClientLocality() {
+      if (clientLocalityBuilder_ == null) {
+        return clientLocality_ == null ? org.tensorflow.framework.DeviceLocality.getDefaultInstance() : clientLocality_;
+      } else {
+        return clientLocalityBuilder_.getMessage();
       }
-      
-      clientBusAdjacency_ = value.getNumber();
-      onChanged();
+    }
+    /**
+     * <pre>
+     * Optional information on client-side device locality.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DeviceLocality client_locality = 4;</code>
+     */
+    public Builder setClientLocality(org.tensorflow.framework.DeviceLocality value) {
+      if (clientLocalityBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        clientLocality_ = value;
+        onChanged();
+      } else {
+        clientLocalityBuilder_.setMessage(value);
+      }
+
       return this;
     }
     /**
      * <pre>
-     * NIC bus preference on the request originator side
+     * Optional information on client-side device locality.
      * </pre>
      *
-     * <code>optional .tensorflow.BusAdjacency client_bus_adjacency = 4;</code>
+     * <code>optional .tensorflow.DeviceLocality client_locality = 4;</code>
      */
-    public Builder clearClientBusAdjacency() {
-      
-      clientBusAdjacency_ = 0;
-      onChanged();
+    public Builder setClientLocality(
+        org.tensorflow.framework.DeviceLocality.Builder builderForValue) {
+      if (clientLocalityBuilder_ == null) {
+        clientLocality_ = builderForValue.build();
+        onChanged();
+      } else {
+        clientLocalityBuilder_.setMessage(builderForValue.build());
+      }
+
       return this;
+    }
+    /**
+     * <pre>
+     * Optional information on client-side device locality.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DeviceLocality client_locality = 4;</code>
+     */
+    public Builder mergeClientLocality(org.tensorflow.framework.DeviceLocality value) {
+      if (clientLocalityBuilder_ == null) {
+        if (clientLocality_ != null) {
+          clientLocality_ =
+            org.tensorflow.framework.DeviceLocality.newBuilder(clientLocality_).mergeFrom(value).buildPartial();
+        } else {
+          clientLocality_ = value;
+        }
+        onChanged();
+      } else {
+        clientLocalityBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <pre>
+     * Optional information on client-side device locality.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DeviceLocality client_locality = 4;</code>
+     */
+    public Builder clearClientLocality() {
+      if (clientLocalityBuilder_ == null) {
+        clientLocality_ = null;
+        onChanged();
+      } else {
+        clientLocality_ = null;
+        clientLocalityBuilder_ = null;
+      }
+
+      return this;
+    }
+    /**
+     * <pre>
+     * Optional information on client-side device locality.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DeviceLocality client_locality = 4;</code>
+     */
+    public org.tensorflow.framework.DeviceLocality.Builder getClientLocalityBuilder() {
+      
+      onChanged();
+      return getClientLocalityFieldBuilder().getBuilder();
+    }
+    /**
+     * <pre>
+     * Optional information on client-side device locality.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DeviceLocality client_locality = 4;</code>
+     */
+    public org.tensorflow.framework.DeviceLocalityOrBuilder getClientLocalityOrBuilder() {
+      if (clientLocalityBuilder_ != null) {
+        return clientLocalityBuilder_.getMessageOrBuilder();
+      } else {
+        return clientLocality_ == null ?
+            org.tensorflow.framework.DeviceLocality.getDefaultInstance() : clientLocality_;
+      }
+    }
+    /**
+     * <pre>
+     * Optional information on client-side device locality.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DeviceLocality client_locality = 4;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.tensorflow.framework.DeviceLocality, org.tensorflow.framework.DeviceLocality.Builder, org.tensorflow.framework.DeviceLocalityOrBuilder> 
+        getClientLocalityFieldBuilder() {
+      if (clientLocalityBuilder_ == null) {
+        clientLocalityBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.tensorflow.framework.DeviceLocality, org.tensorflow.framework.DeviceLocality.Builder, org.tensorflow.framework.DeviceLocalityOrBuilder>(
+                getClientLocality(),
+                getParentForChildren(),
+                isClean());
+        clientLocality_ = null;
+      }
+      return clientLocalityBuilder_;
     }
 
-    private int serverBusAdjacency_ = 0;
+    private org.tensorflow.framework.DeviceLocality serverLocality_ = null;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.tensorflow.framework.DeviceLocality, org.tensorflow.framework.DeviceLocality.Builder, org.tensorflow.framework.DeviceLocalityOrBuilder> serverLocalityBuilder_;
     /**
      * <pre>
-     * NIC bus preference on the request receiver side
+     * Optional information on server-side device locality.
      * </pre>
      *
-     * <code>optional .tensorflow.BusAdjacency server_bus_adjacency = 5;</code>
+     * <code>optional .tensorflow.DeviceLocality server_locality = 5;</code>
      */
-    public int getServerBusAdjacencyValue() {
-      return serverBusAdjacency_;
+    public boolean hasServerLocality() {
+      return serverLocalityBuilder_ != null || serverLocality_ != null;
     }
     /**
      * <pre>
-     * NIC bus preference on the request receiver side
+     * Optional information on server-side device locality.
      * </pre>
      *
-     * <code>optional .tensorflow.BusAdjacency server_bus_adjacency = 5;</code>
+     * <code>optional .tensorflow.DeviceLocality server_locality = 5;</code>
      */
-    public Builder setServerBusAdjacencyValue(int value) {
-      serverBusAdjacency_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * NIC bus preference on the request receiver side
-     * </pre>
-     *
-     * <code>optional .tensorflow.BusAdjacency server_bus_adjacency = 5;</code>
-     */
-    public org.tensorflow.framework.BusAdjacency getServerBusAdjacency() {
-      org.tensorflow.framework.BusAdjacency result = org.tensorflow.framework.BusAdjacency.valueOf(serverBusAdjacency_);
-      return result == null ? org.tensorflow.framework.BusAdjacency.UNRECOGNIZED : result;
-    }
-    /**
-     * <pre>
-     * NIC bus preference on the request receiver side
-     * </pre>
-     *
-     * <code>optional .tensorflow.BusAdjacency server_bus_adjacency = 5;</code>
-     */
-    public Builder setServerBusAdjacency(org.tensorflow.framework.BusAdjacency value) {
-      if (value == null) {
-        throw new NullPointerException();
+    public org.tensorflow.framework.DeviceLocality getServerLocality() {
+      if (serverLocalityBuilder_ == null) {
+        return serverLocality_ == null ? org.tensorflow.framework.DeviceLocality.getDefaultInstance() : serverLocality_;
+      } else {
+        return serverLocalityBuilder_.getMessage();
       }
-      
-      serverBusAdjacency_ = value.getNumber();
-      onChanged();
+    }
+    /**
+     * <pre>
+     * Optional information on server-side device locality.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DeviceLocality server_locality = 5;</code>
+     */
+    public Builder setServerLocality(org.tensorflow.framework.DeviceLocality value) {
+      if (serverLocalityBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        serverLocality_ = value;
+        onChanged();
+      } else {
+        serverLocalityBuilder_.setMessage(value);
+      }
+
       return this;
     }
     /**
      * <pre>
-     * NIC bus preference on the request receiver side
+     * Optional information on server-side device locality.
      * </pre>
      *
-     * <code>optional .tensorflow.BusAdjacency server_bus_adjacency = 5;</code>
+     * <code>optional .tensorflow.DeviceLocality server_locality = 5;</code>
      */
-    public Builder clearServerBusAdjacency() {
-      
-      serverBusAdjacency_ = 0;
-      onChanged();
+    public Builder setServerLocality(
+        org.tensorflow.framework.DeviceLocality.Builder builderForValue) {
+      if (serverLocalityBuilder_ == null) {
+        serverLocality_ = builderForValue.build();
+        onChanged();
+      } else {
+        serverLocalityBuilder_.setMessage(builderForValue.build());
+      }
+
       return this;
+    }
+    /**
+     * <pre>
+     * Optional information on server-side device locality.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DeviceLocality server_locality = 5;</code>
+     */
+    public Builder mergeServerLocality(org.tensorflow.framework.DeviceLocality value) {
+      if (serverLocalityBuilder_ == null) {
+        if (serverLocality_ != null) {
+          serverLocality_ =
+            org.tensorflow.framework.DeviceLocality.newBuilder(serverLocality_).mergeFrom(value).buildPartial();
+        } else {
+          serverLocality_ = value;
+        }
+        onChanged();
+      } else {
+        serverLocalityBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <pre>
+     * Optional information on server-side device locality.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DeviceLocality server_locality = 5;</code>
+     */
+    public Builder clearServerLocality() {
+      if (serverLocalityBuilder_ == null) {
+        serverLocality_ = null;
+        onChanged();
+      } else {
+        serverLocality_ = null;
+        serverLocalityBuilder_ = null;
+      }
+
+      return this;
+    }
+    /**
+     * <pre>
+     * Optional information on server-side device locality.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DeviceLocality server_locality = 5;</code>
+     */
+    public org.tensorflow.framework.DeviceLocality.Builder getServerLocalityBuilder() {
+      
+      onChanged();
+      return getServerLocalityFieldBuilder().getBuilder();
+    }
+    /**
+     * <pre>
+     * Optional information on server-side device locality.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DeviceLocality server_locality = 5;</code>
+     */
+    public org.tensorflow.framework.DeviceLocalityOrBuilder getServerLocalityOrBuilder() {
+      if (serverLocalityBuilder_ != null) {
+        return serverLocalityBuilder_.getMessageOrBuilder();
+      } else {
+        return serverLocality_ == null ?
+            org.tensorflow.framework.DeviceLocality.getDefaultInstance() : serverLocality_;
+      }
+    }
+    /**
+     * <pre>
+     * Optional information on server-side device locality.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DeviceLocality server_locality = 5;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.tensorflow.framework.DeviceLocality, org.tensorflow.framework.DeviceLocality.Builder, org.tensorflow.framework.DeviceLocalityOrBuilder> 
+        getServerLocalityFieldBuilder() {
+      if (serverLocalityBuilder_ == null) {
+        serverLocalityBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.tensorflow.framework.DeviceLocality, org.tensorflow.framework.DeviceLocality.Builder, org.tensorflow.framework.DeviceLocalityOrBuilder>(
+                getServerLocality(),
+                getParentForChildren(),
+                isClean());
+        serverLocality_ = null;
+      }
+      return serverLocalityBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

@@ -17,8 +17,11 @@ public  final class GraphOptions extends
   private GraphOptions() {
     enableRecvScheduling_ = false;
     buildCostModel_ = 0L;
+    buildCostModelAfter_ = 0L;
     inferShapes_ = false;
     placePrunedGraph_ = false;
+    enableBfloat16Sendrecv_ = false;
+    timelineStep_ = 0;
   }
 
   @java.lang.Override
@@ -77,6 +80,21 @@ public  final class GraphOptions extends
           case 48: {
 
             placePrunedGraph_ = input.readBool();
+            break;
+          }
+          case 56: {
+
+            enableBfloat16Sendrecv_ = input.readBool();
+            break;
+          }
+          case 64: {
+
+            timelineStep_ = input.readInt32();
+            break;
+          }
+          case 72: {
+
+            buildCostModelAfter_ = input.readInt64();
             break;
           }
         }
@@ -164,6 +182,20 @@ public  final class GraphOptions extends
     return buildCostModel_;
   }
 
+  public static final int BUILD_COST_MODEL_AFTER_FIELD_NUMBER = 9;
+  private long buildCostModelAfter_;
+  /**
+   * <pre>
+   * The number of steps to skip before collecting statistics for the
+   * cost model.
+   * </pre>
+   *
+   * <code>optional int64 build_cost_model_after = 9;</code>
+   */
+  public long getBuildCostModelAfter() {
+    return buildCostModelAfter_;
+  }
+
   public static final int INFER_SHAPES_FIELD_NUMBER = 5;
   private boolean inferShapes_;
   /**
@@ -196,6 +228,33 @@ public  final class GraphOptions extends
     return placePrunedGraph_;
   }
 
+  public static final int ENABLE_BFLOAT16_SENDRECV_FIELD_NUMBER = 7;
+  private boolean enableBfloat16Sendrecv_;
+  /**
+   * <pre>
+   * If true, transfer float values between processes as bfloat16.
+   * </pre>
+   *
+   * <code>optional bool enable_bfloat16_sendrecv = 7;</code>
+   */
+  public boolean getEnableBfloat16Sendrecv() {
+    return enableBfloat16Sendrecv_;
+  }
+
+  public static final int TIMELINE_STEP_FIELD_NUMBER = 8;
+  private int timelineStep_;
+  /**
+   * <pre>
+   * If &gt; 0, record a timeline every this many steps.
+   * EXPERIMENTAL: This currently has no effect in MasterSession.
+   * </pre>
+   *
+   * <code>optional int32 timeline_step = 8;</code>
+   */
+  public int getTimelineStep() {
+    return timelineStep_;
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -222,6 +281,15 @@ public  final class GraphOptions extends
     }
     if (placePrunedGraph_ != false) {
       output.writeBool(6, placePrunedGraph_);
+    }
+    if (enableBfloat16Sendrecv_ != false) {
+      output.writeBool(7, enableBfloat16Sendrecv_);
+    }
+    if (timelineStep_ != 0) {
+      output.writeInt32(8, timelineStep_);
+    }
+    if (buildCostModelAfter_ != 0L) {
+      output.writeInt64(9, buildCostModelAfter_);
     }
   }
 
@@ -250,6 +318,18 @@ public  final class GraphOptions extends
       size += com.google.protobuf.CodedOutputStream
         .computeBoolSize(6, placePrunedGraph_);
     }
+    if (enableBfloat16Sendrecv_ != false) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(7, enableBfloat16Sendrecv_);
+    }
+    if (timelineStep_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(8, timelineStep_);
+    }
+    if (buildCostModelAfter_ != 0L) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt64Size(9, buildCostModelAfter_);
+    }
     memoizedSize = size;
     return size;
   }
@@ -275,10 +355,16 @@ public  final class GraphOptions extends
     }
     result = result && (getBuildCostModel()
         == other.getBuildCostModel());
+    result = result && (getBuildCostModelAfter()
+        == other.getBuildCostModelAfter());
     result = result && (getInferShapes()
         == other.getInferShapes());
     result = result && (getPlacePrunedGraph()
         == other.getPlacePrunedGraph());
+    result = result && (getEnableBfloat16Sendrecv()
+        == other.getEnableBfloat16Sendrecv());
+    result = result && (getTimelineStep()
+        == other.getTimelineStep());
     return result;
   }
 
@@ -299,12 +385,20 @@ public  final class GraphOptions extends
     hash = (37 * hash) + BUILD_COST_MODEL_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
         getBuildCostModel());
+    hash = (37 * hash) + BUILD_COST_MODEL_AFTER_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getBuildCostModelAfter());
     hash = (37 * hash) + INFER_SHAPES_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
         getInferShapes());
     hash = (37 * hash) + PLACE_PRUNED_GRAPH_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
         getPlacePrunedGraph());
+    hash = (37 * hash) + ENABLE_BFLOAT16_SENDRECV_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getEnableBfloat16Sendrecv());
+    hash = (37 * hash) + TIMELINE_STEP_FIELD_NUMBER;
+    hash = (53 * hash) + getTimelineStep();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -433,9 +527,15 @@ public  final class GraphOptions extends
       }
       buildCostModel_ = 0L;
 
+      buildCostModelAfter_ = 0L;
+
       inferShapes_ = false;
 
       placePrunedGraph_ = false;
+
+      enableBfloat16Sendrecv_ = false;
+
+      timelineStep_ = 0;
 
       return this;
     }
@@ -466,8 +566,11 @@ public  final class GraphOptions extends
         result.optimizerOptions_ = optimizerOptionsBuilder_.build();
       }
       result.buildCostModel_ = buildCostModel_;
+      result.buildCostModelAfter_ = buildCostModelAfter_;
       result.inferShapes_ = inferShapes_;
       result.placePrunedGraph_ = placePrunedGraph_;
+      result.enableBfloat16Sendrecv_ = enableBfloat16Sendrecv_;
+      result.timelineStep_ = timelineStep_;
       onBuilt();
       return result;
     }
@@ -518,11 +621,20 @@ public  final class GraphOptions extends
       if (other.getBuildCostModel() != 0L) {
         setBuildCostModel(other.getBuildCostModel());
       }
+      if (other.getBuildCostModelAfter() != 0L) {
+        setBuildCostModelAfter(other.getBuildCostModelAfter());
+      }
       if (other.getInferShapes() != false) {
         setInferShapes(other.getInferShapes());
       }
       if (other.getPlacePrunedGraph() != false) {
         setPlacePrunedGraph(other.getPlacePrunedGraph());
+      }
+      if (other.getEnableBfloat16Sendrecv() != false) {
+        setEnableBfloat16Sendrecv(other.getEnableBfloat16Sendrecv());
+      }
+      if (other.getTimelineStep() != 0) {
+        setTimelineStep(other.getTimelineStep());
       }
       onChanged();
       return this;
@@ -788,6 +900,47 @@ public  final class GraphOptions extends
       return this;
     }
 
+    private long buildCostModelAfter_ ;
+    /**
+     * <pre>
+     * The number of steps to skip before collecting statistics for the
+     * cost model.
+     * </pre>
+     *
+     * <code>optional int64 build_cost_model_after = 9;</code>
+     */
+    public long getBuildCostModelAfter() {
+      return buildCostModelAfter_;
+    }
+    /**
+     * <pre>
+     * The number of steps to skip before collecting statistics for the
+     * cost model.
+     * </pre>
+     *
+     * <code>optional int64 build_cost_model_after = 9;</code>
+     */
+    public Builder setBuildCostModelAfter(long value) {
+      
+      buildCostModelAfter_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * The number of steps to skip before collecting statistics for the
+     * cost model.
+     * </pre>
+     *
+     * <code>optional int64 build_cost_model_after = 9;</code>
+     */
+    public Builder clearBuildCostModelAfter() {
+      
+      buildCostModelAfter_ = 0L;
+      onChanged();
+      return this;
+    }
+
     private boolean inferShapes_ ;
     /**
      * <pre>
@@ -878,6 +1031,85 @@ public  final class GraphOptions extends
     public Builder clearPlacePrunedGraph() {
       
       placePrunedGraph_ = false;
+      onChanged();
+      return this;
+    }
+
+    private boolean enableBfloat16Sendrecv_ ;
+    /**
+     * <pre>
+     * If true, transfer float values between processes as bfloat16.
+     * </pre>
+     *
+     * <code>optional bool enable_bfloat16_sendrecv = 7;</code>
+     */
+    public boolean getEnableBfloat16Sendrecv() {
+      return enableBfloat16Sendrecv_;
+    }
+    /**
+     * <pre>
+     * If true, transfer float values between processes as bfloat16.
+     * </pre>
+     *
+     * <code>optional bool enable_bfloat16_sendrecv = 7;</code>
+     */
+    public Builder setEnableBfloat16Sendrecv(boolean value) {
+      
+      enableBfloat16Sendrecv_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * If true, transfer float values between processes as bfloat16.
+     * </pre>
+     *
+     * <code>optional bool enable_bfloat16_sendrecv = 7;</code>
+     */
+    public Builder clearEnableBfloat16Sendrecv() {
+      
+      enableBfloat16Sendrecv_ = false;
+      onChanged();
+      return this;
+    }
+
+    private int timelineStep_ ;
+    /**
+     * <pre>
+     * If &gt; 0, record a timeline every this many steps.
+     * EXPERIMENTAL: This currently has no effect in MasterSession.
+     * </pre>
+     *
+     * <code>optional int32 timeline_step = 8;</code>
+     */
+    public int getTimelineStep() {
+      return timelineStep_;
+    }
+    /**
+     * <pre>
+     * If &gt; 0, record a timeline every this many steps.
+     * EXPERIMENTAL: This currently has no effect in MasterSession.
+     * </pre>
+     *
+     * <code>optional int32 timeline_step = 8;</code>
+     */
+    public Builder setTimelineStep(int value) {
+      
+      timelineStep_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * If &gt; 0, record a timeline every this many steps.
+     * EXPERIMENTAL: This currently has no effect in MasterSession.
+     * </pre>
+     *
+     * <code>optional int32 timeline_step = 8;</code>
+     */
+    public Builder clearTimelineStep() {
+      
+      timelineStep_ = 0;
       onChanged();
       return this;
     }

@@ -22,7 +22,7 @@ public  final class RunOptions extends
     traceLevel_ = 0;
     timeoutInMs_ = 0L;
     interOpThreadPool_ = 0;
-    debugTensorWatchOpts_ = java.util.Collections.emptyList();
+    outputPartitionGraphs_ = false;
   }
 
   @java.lang.Override
@@ -66,13 +66,22 @@ public  final class RunOptions extends
             interOpThreadPool_ = input.readInt32();
             break;
           }
-          case 34: {
-            if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-              debugTensorWatchOpts_ = new java.util.ArrayList<org.tensorflow.framework.DebugTensorWatch>();
-              mutable_bitField0_ |= 0x00000008;
+          case 40: {
+
+            outputPartitionGraphs_ = input.readBool();
+            break;
+          }
+          case 50: {
+            org.tensorflow.framework.DebugOptions.Builder subBuilder = null;
+            if (debugOptions_ != null) {
+              subBuilder = debugOptions_.toBuilder();
             }
-            debugTensorWatchOpts_.add(
-                input.readMessage(org.tensorflow.framework.DebugTensorWatch.parser(), extensionRegistry));
+            debugOptions_ = input.readMessage(org.tensorflow.framework.DebugOptions.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(debugOptions_);
+              debugOptions_ = subBuilder.buildPartial();
+            }
+
             break;
           }
         }
@@ -83,9 +92,6 @@ public  final class RunOptions extends
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
-      if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-        debugTensorWatchOpts_ = java.util.Collections.unmodifiableList(debugTensorWatchOpts_);
-      }
       makeExtensionsImmutable();
     }
   }
@@ -222,7 +228,6 @@ public  final class RunOptions extends
     // @@protoc_insertion_point(enum_scope:tensorflow.RunOptions.TraceLevel)
   }
 
-  private int bitField0_;
   public static final int TRACE_LEVEL_FIELD_NUMBER = 1;
   private int traceLevel_;
   /**
@@ -265,59 +270,51 @@ public  final class RunOptions extends
     return interOpThreadPool_;
   }
 
-  public static final int DEBUG_TENSOR_WATCH_OPTS_FIELD_NUMBER = 4;
-  private java.util.List<org.tensorflow.framework.DebugTensorWatch> debugTensorWatchOpts_;
+  public static final int OUTPUT_PARTITION_GRAPHS_FIELD_NUMBER = 5;
+  private boolean outputPartitionGraphs_;
   /**
    * <pre>
-   * Debugging options
+   * Whether the partition graph(s) executed by the executor(s) should be
+   * outputted via RunMetadata.
    * </pre>
    *
-   * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
+   * <code>optional bool output_partition_graphs = 5;</code>
    */
-  public java.util.List<org.tensorflow.framework.DebugTensorWatch> getDebugTensorWatchOptsList() {
-    return debugTensorWatchOpts_;
+  public boolean getOutputPartitionGraphs() {
+    return outputPartitionGraphs_;
+  }
+
+  public static final int DEBUG_OPTIONS_FIELD_NUMBER = 6;
+  private org.tensorflow.framework.DebugOptions debugOptions_;
+  /**
+   * <pre>
+   * EXPERIMENTAL.  Options used to initialize DebuggerState, if enabled.
+   * </pre>
+   *
+   * <code>optional .tensorflow.DebugOptions debug_options = 6;</code>
+   */
+  public boolean hasDebugOptions() {
+    return debugOptions_ != null;
   }
   /**
    * <pre>
-   * Debugging options
+   * EXPERIMENTAL.  Options used to initialize DebuggerState, if enabled.
    * </pre>
    *
-   * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
+   * <code>optional .tensorflow.DebugOptions debug_options = 6;</code>
    */
-  public java.util.List<? extends org.tensorflow.framework.DebugTensorWatchOrBuilder> 
-      getDebugTensorWatchOptsOrBuilderList() {
-    return debugTensorWatchOpts_;
+  public org.tensorflow.framework.DebugOptions getDebugOptions() {
+    return debugOptions_ == null ? org.tensorflow.framework.DebugOptions.getDefaultInstance() : debugOptions_;
   }
   /**
    * <pre>
-   * Debugging options
+   * EXPERIMENTAL.  Options used to initialize DebuggerState, if enabled.
    * </pre>
    *
-   * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
+   * <code>optional .tensorflow.DebugOptions debug_options = 6;</code>
    */
-  public int getDebugTensorWatchOptsCount() {
-    return debugTensorWatchOpts_.size();
-  }
-  /**
-   * <pre>
-   * Debugging options
-   * </pre>
-   *
-   * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-   */
-  public org.tensorflow.framework.DebugTensorWatch getDebugTensorWatchOpts(int index) {
-    return debugTensorWatchOpts_.get(index);
-  }
-  /**
-   * <pre>
-   * Debugging options
-   * </pre>
-   *
-   * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-   */
-  public org.tensorflow.framework.DebugTensorWatchOrBuilder getDebugTensorWatchOptsOrBuilder(
-      int index) {
-    return debugTensorWatchOpts_.get(index);
+  public org.tensorflow.framework.DebugOptionsOrBuilder getDebugOptionsOrBuilder() {
+    return getDebugOptions();
   }
 
   private byte memoizedIsInitialized = -1;
@@ -341,8 +338,11 @@ public  final class RunOptions extends
     if (interOpThreadPool_ != 0) {
       output.writeInt32(3, interOpThreadPool_);
     }
-    for (int i = 0; i < debugTensorWatchOpts_.size(); i++) {
-      output.writeMessage(4, debugTensorWatchOpts_.get(i));
+    if (outputPartitionGraphs_ != false) {
+      output.writeBool(5, outputPartitionGraphs_);
+    }
+    if (debugOptions_ != null) {
+      output.writeMessage(6, getDebugOptions());
     }
   }
 
@@ -363,9 +363,13 @@ public  final class RunOptions extends
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(3, interOpThreadPool_);
     }
-    for (int i = 0; i < debugTensorWatchOpts_.size(); i++) {
+    if (outputPartitionGraphs_ != false) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(4, debugTensorWatchOpts_.get(i));
+        .computeBoolSize(5, outputPartitionGraphs_);
+    }
+    if (debugOptions_ != null) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(6, getDebugOptions());
     }
     memoizedSize = size;
     return size;
@@ -388,8 +392,13 @@ public  final class RunOptions extends
         == other.getTimeoutInMs());
     result = result && (getInterOpThreadPool()
         == other.getInterOpThreadPool());
-    result = result && getDebugTensorWatchOptsList()
-        .equals(other.getDebugTensorWatchOptsList());
+    result = result && (getOutputPartitionGraphs()
+        == other.getOutputPartitionGraphs());
+    result = result && (hasDebugOptions() == other.hasDebugOptions());
+    if (hasDebugOptions()) {
+      result = result && getDebugOptions()
+          .equals(other.getDebugOptions());
+    }
     return result;
   }
 
@@ -407,9 +416,12 @@ public  final class RunOptions extends
         getTimeoutInMs());
     hash = (37 * hash) + INTER_OP_THREAD_POOL_FIELD_NUMBER;
     hash = (53 * hash) + getInterOpThreadPool();
-    if (getDebugTensorWatchOptsCount() > 0) {
-      hash = (37 * hash) + DEBUG_TENSOR_WATCH_OPTS_FIELD_NUMBER;
-      hash = (53 * hash) + getDebugTensorWatchOptsList().hashCode();
+    hash = (37 * hash) + OUTPUT_PARTITION_GRAPHS_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getOutputPartitionGraphs());
+    if (hasDebugOptions()) {
+      hash = (37 * hash) + DEBUG_OPTIONS_FIELD_NUMBER;
+      hash = (53 * hash) + getDebugOptions().hashCode();
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -529,7 +541,6 @@ public  final class RunOptions extends
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessageV3
               .alwaysUseFieldBuilders) {
-        getDebugTensorWatchOptsFieldBuilder();
       }
     }
     public Builder clear() {
@@ -540,11 +551,13 @@ public  final class RunOptions extends
 
       interOpThreadPool_ = 0;
 
-      if (debugTensorWatchOptsBuilder_ == null) {
-        debugTensorWatchOpts_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000008);
+      outputPartitionGraphs_ = false;
+
+      if (debugOptionsBuilder_ == null) {
+        debugOptions_ = null;
       } else {
-        debugTensorWatchOptsBuilder_.clear();
+        debugOptions_ = null;
+        debugOptionsBuilder_ = null;
       }
       return this;
     }
@@ -568,21 +581,15 @@ public  final class RunOptions extends
 
     public org.tensorflow.framework.RunOptions buildPartial() {
       org.tensorflow.framework.RunOptions result = new org.tensorflow.framework.RunOptions(this);
-      int from_bitField0_ = bitField0_;
-      int to_bitField0_ = 0;
       result.traceLevel_ = traceLevel_;
       result.timeoutInMs_ = timeoutInMs_;
       result.interOpThreadPool_ = interOpThreadPool_;
-      if (debugTensorWatchOptsBuilder_ == null) {
-        if (((bitField0_ & 0x00000008) == 0x00000008)) {
-          debugTensorWatchOpts_ = java.util.Collections.unmodifiableList(debugTensorWatchOpts_);
-          bitField0_ = (bitField0_ & ~0x00000008);
-        }
-        result.debugTensorWatchOpts_ = debugTensorWatchOpts_;
+      result.outputPartitionGraphs_ = outputPartitionGraphs_;
+      if (debugOptionsBuilder_ == null) {
+        result.debugOptions_ = debugOptions_;
       } else {
-        result.debugTensorWatchOpts_ = debugTensorWatchOptsBuilder_.build();
+        result.debugOptions_ = debugOptionsBuilder_.build();
       }
-      result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
     }
@@ -633,31 +640,11 @@ public  final class RunOptions extends
       if (other.getInterOpThreadPool() != 0) {
         setInterOpThreadPool(other.getInterOpThreadPool());
       }
-      if (debugTensorWatchOptsBuilder_ == null) {
-        if (!other.debugTensorWatchOpts_.isEmpty()) {
-          if (debugTensorWatchOpts_.isEmpty()) {
-            debugTensorWatchOpts_ = other.debugTensorWatchOpts_;
-            bitField0_ = (bitField0_ & ~0x00000008);
-          } else {
-            ensureDebugTensorWatchOptsIsMutable();
-            debugTensorWatchOpts_.addAll(other.debugTensorWatchOpts_);
-          }
-          onChanged();
-        }
-      } else {
-        if (!other.debugTensorWatchOpts_.isEmpty()) {
-          if (debugTensorWatchOptsBuilder_.isEmpty()) {
-            debugTensorWatchOptsBuilder_.dispose();
-            debugTensorWatchOptsBuilder_ = null;
-            debugTensorWatchOpts_ = other.debugTensorWatchOpts_;
-            bitField0_ = (bitField0_ & ~0x00000008);
-            debugTensorWatchOptsBuilder_ = 
-              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                 getDebugTensorWatchOptsFieldBuilder() : null;
-          } else {
-            debugTensorWatchOptsBuilder_.addAllMessages(other.debugTensorWatchOpts_);
-          }
-        }
+      if (other.getOutputPartitionGraphs() != false) {
+        setOutputPartitionGraphs(other.getOutputPartitionGraphs());
+      }
+      if (other.hasDebugOptions()) {
+        mergeDebugOptions(other.getDebugOptions());
       }
       onChanged();
       return this;
@@ -684,7 +671,6 @@ public  final class RunOptions extends
       }
       return this;
     }
-    private int bitField0_;
 
     private int traceLevel_ = 0;
     /**
@@ -806,316 +792,198 @@ public  final class RunOptions extends
       return this;
     }
 
-    private java.util.List<org.tensorflow.framework.DebugTensorWatch> debugTensorWatchOpts_ =
-      java.util.Collections.emptyList();
-    private void ensureDebugTensorWatchOptsIsMutable() {
-      if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-        debugTensorWatchOpts_ = new java.util.ArrayList<org.tensorflow.framework.DebugTensorWatch>(debugTensorWatchOpts_);
-        bitField0_ |= 0x00000008;
-       }
+    private boolean outputPartitionGraphs_ ;
+    /**
+     * <pre>
+     * Whether the partition graph(s) executed by the executor(s) should be
+     * outputted via RunMetadata.
+     * </pre>
+     *
+     * <code>optional bool output_partition_graphs = 5;</code>
+     */
+    public boolean getOutputPartitionGraphs() {
+      return outputPartitionGraphs_;
+    }
+    /**
+     * <pre>
+     * Whether the partition graph(s) executed by the executor(s) should be
+     * outputted via RunMetadata.
+     * </pre>
+     *
+     * <code>optional bool output_partition_graphs = 5;</code>
+     */
+    public Builder setOutputPartitionGraphs(boolean value) {
+      
+      outputPartitionGraphs_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * Whether the partition graph(s) executed by the executor(s) should be
+     * outputted via RunMetadata.
+     * </pre>
+     *
+     * <code>optional bool output_partition_graphs = 5;</code>
+     */
+    public Builder clearOutputPartitionGraphs() {
+      
+      outputPartitionGraphs_ = false;
+      onChanged();
+      return this;
     }
 
-    private com.google.protobuf.RepeatedFieldBuilderV3<
-        org.tensorflow.framework.DebugTensorWatch, org.tensorflow.framework.DebugTensorWatch.Builder, org.tensorflow.framework.DebugTensorWatchOrBuilder> debugTensorWatchOptsBuilder_;
+    private org.tensorflow.framework.DebugOptions debugOptions_ = null;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.tensorflow.framework.DebugOptions, org.tensorflow.framework.DebugOptions.Builder, org.tensorflow.framework.DebugOptionsOrBuilder> debugOptionsBuilder_;
+    /**
+     * <pre>
+     * EXPERIMENTAL.  Options used to initialize DebuggerState, if enabled.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DebugOptions debug_options = 6;</code>
+     */
+    public boolean hasDebugOptions() {
+      return debugOptionsBuilder_ != null || debugOptions_ != null;
+    }
+    /**
+     * <pre>
+     * EXPERIMENTAL.  Options used to initialize DebuggerState, if enabled.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DebugOptions debug_options = 6;</code>
+     */
+    public org.tensorflow.framework.DebugOptions getDebugOptions() {
+      if (debugOptionsBuilder_ == null) {
+        return debugOptions_ == null ? org.tensorflow.framework.DebugOptions.getDefaultInstance() : debugOptions_;
+      } else {
+        return debugOptionsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <pre>
+     * EXPERIMENTAL.  Options used to initialize DebuggerState, if enabled.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DebugOptions debug_options = 6;</code>
+     */
+    public Builder setDebugOptions(org.tensorflow.framework.DebugOptions value) {
+      if (debugOptionsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        debugOptions_ = value;
+        onChanged();
+      } else {
+        debugOptionsBuilder_.setMessage(value);
+      }
 
-    /**
-     * <pre>
-     * Debugging options
-     * </pre>
-     *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-     */
-    public java.util.List<org.tensorflow.framework.DebugTensorWatch> getDebugTensorWatchOptsList() {
-      if (debugTensorWatchOptsBuilder_ == null) {
-        return java.util.Collections.unmodifiableList(debugTensorWatchOpts_);
-      } else {
-        return debugTensorWatchOptsBuilder_.getMessageList();
-      }
+      return this;
     }
     /**
      * <pre>
-     * Debugging options
+     * EXPERIMENTAL.  Options used to initialize DebuggerState, if enabled.
      * </pre>
      *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
+     * <code>optional .tensorflow.DebugOptions debug_options = 6;</code>
      */
-    public int getDebugTensorWatchOptsCount() {
-      if (debugTensorWatchOptsBuilder_ == null) {
-        return debugTensorWatchOpts_.size();
+    public Builder setDebugOptions(
+        org.tensorflow.framework.DebugOptions.Builder builderForValue) {
+      if (debugOptionsBuilder_ == null) {
+        debugOptions_ = builderForValue.build();
+        onChanged();
       } else {
-        return debugTensorWatchOptsBuilder_.getCount();
+        debugOptionsBuilder_.setMessage(builderForValue.build());
       }
+
+      return this;
     }
     /**
      * <pre>
-     * Debugging options
+     * EXPERIMENTAL.  Options used to initialize DebuggerState, if enabled.
      * </pre>
      *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
+     * <code>optional .tensorflow.DebugOptions debug_options = 6;</code>
      */
-    public org.tensorflow.framework.DebugTensorWatch getDebugTensorWatchOpts(int index) {
-      if (debugTensorWatchOptsBuilder_ == null) {
-        return debugTensorWatchOpts_.get(index);
-      } else {
-        return debugTensorWatchOptsBuilder_.getMessage(index);
-      }
-    }
-    /**
-     * <pre>
-     * Debugging options
-     * </pre>
-     *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-     */
-    public Builder setDebugTensorWatchOpts(
-        int index, org.tensorflow.framework.DebugTensorWatch value) {
-      if (debugTensorWatchOptsBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
+    public Builder mergeDebugOptions(org.tensorflow.framework.DebugOptions value) {
+      if (debugOptionsBuilder_ == null) {
+        if (debugOptions_ != null) {
+          debugOptions_ =
+            org.tensorflow.framework.DebugOptions.newBuilder(debugOptions_).mergeFrom(value).buildPartial();
+        } else {
+          debugOptions_ = value;
         }
-        ensureDebugTensorWatchOptsIsMutable();
-        debugTensorWatchOpts_.set(index, value);
         onChanged();
       } else {
-        debugTensorWatchOptsBuilder_.setMessage(index, value);
+        debugOptionsBuilder_.mergeFrom(value);
       }
+
       return this;
     }
     /**
      * <pre>
-     * Debugging options
+     * EXPERIMENTAL.  Options used to initialize DebuggerState, if enabled.
      * </pre>
      *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
+     * <code>optional .tensorflow.DebugOptions debug_options = 6;</code>
      */
-    public Builder setDebugTensorWatchOpts(
-        int index, org.tensorflow.framework.DebugTensorWatch.Builder builderForValue) {
-      if (debugTensorWatchOptsBuilder_ == null) {
-        ensureDebugTensorWatchOptsIsMutable();
-        debugTensorWatchOpts_.set(index, builderForValue.build());
+    public Builder clearDebugOptions() {
+      if (debugOptionsBuilder_ == null) {
+        debugOptions_ = null;
         onChanged();
       } else {
-        debugTensorWatchOptsBuilder_.setMessage(index, builderForValue.build());
+        debugOptions_ = null;
+        debugOptionsBuilder_ = null;
       }
+
       return this;
     }
     /**
      * <pre>
-     * Debugging options
+     * EXPERIMENTAL.  Options used to initialize DebuggerState, if enabled.
      * </pre>
      *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
+     * <code>optional .tensorflow.DebugOptions debug_options = 6;</code>
      */
-    public Builder addDebugTensorWatchOpts(org.tensorflow.framework.DebugTensorWatch value) {
-      if (debugTensorWatchOptsBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureDebugTensorWatchOptsIsMutable();
-        debugTensorWatchOpts_.add(value);
-        onChanged();
+    public org.tensorflow.framework.DebugOptions.Builder getDebugOptionsBuilder() {
+      
+      onChanged();
+      return getDebugOptionsFieldBuilder().getBuilder();
+    }
+    /**
+     * <pre>
+     * EXPERIMENTAL.  Options used to initialize DebuggerState, if enabled.
+     * </pre>
+     *
+     * <code>optional .tensorflow.DebugOptions debug_options = 6;</code>
+     */
+    public org.tensorflow.framework.DebugOptionsOrBuilder getDebugOptionsOrBuilder() {
+      if (debugOptionsBuilder_ != null) {
+        return debugOptionsBuilder_.getMessageOrBuilder();
       } else {
-        debugTensorWatchOptsBuilder_.addMessage(value);
-      }
-      return this;
-    }
-    /**
-     * <pre>
-     * Debugging options
-     * </pre>
-     *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-     */
-    public Builder addDebugTensorWatchOpts(
-        int index, org.tensorflow.framework.DebugTensorWatch value) {
-      if (debugTensorWatchOptsBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        ensureDebugTensorWatchOptsIsMutable();
-        debugTensorWatchOpts_.add(index, value);
-        onChanged();
-      } else {
-        debugTensorWatchOptsBuilder_.addMessage(index, value);
-      }
-      return this;
-    }
-    /**
-     * <pre>
-     * Debugging options
-     * </pre>
-     *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-     */
-    public Builder addDebugTensorWatchOpts(
-        org.tensorflow.framework.DebugTensorWatch.Builder builderForValue) {
-      if (debugTensorWatchOptsBuilder_ == null) {
-        ensureDebugTensorWatchOptsIsMutable();
-        debugTensorWatchOpts_.add(builderForValue.build());
-        onChanged();
-      } else {
-        debugTensorWatchOptsBuilder_.addMessage(builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <pre>
-     * Debugging options
-     * </pre>
-     *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-     */
-    public Builder addDebugTensorWatchOpts(
-        int index, org.tensorflow.framework.DebugTensorWatch.Builder builderForValue) {
-      if (debugTensorWatchOptsBuilder_ == null) {
-        ensureDebugTensorWatchOptsIsMutable();
-        debugTensorWatchOpts_.add(index, builderForValue.build());
-        onChanged();
-      } else {
-        debugTensorWatchOptsBuilder_.addMessage(index, builderForValue.build());
-      }
-      return this;
-    }
-    /**
-     * <pre>
-     * Debugging options
-     * </pre>
-     *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-     */
-    public Builder addAllDebugTensorWatchOpts(
-        java.lang.Iterable<? extends org.tensorflow.framework.DebugTensorWatch> values) {
-      if (debugTensorWatchOptsBuilder_ == null) {
-        ensureDebugTensorWatchOptsIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, debugTensorWatchOpts_);
-        onChanged();
-      } else {
-        debugTensorWatchOptsBuilder_.addAllMessages(values);
-      }
-      return this;
-    }
-    /**
-     * <pre>
-     * Debugging options
-     * </pre>
-     *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-     */
-    public Builder clearDebugTensorWatchOpts() {
-      if (debugTensorWatchOptsBuilder_ == null) {
-        debugTensorWatchOpts_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000008);
-        onChanged();
-      } else {
-        debugTensorWatchOptsBuilder_.clear();
-      }
-      return this;
-    }
-    /**
-     * <pre>
-     * Debugging options
-     * </pre>
-     *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-     */
-    public Builder removeDebugTensorWatchOpts(int index) {
-      if (debugTensorWatchOptsBuilder_ == null) {
-        ensureDebugTensorWatchOptsIsMutable();
-        debugTensorWatchOpts_.remove(index);
-        onChanged();
-      } else {
-        debugTensorWatchOptsBuilder_.remove(index);
-      }
-      return this;
-    }
-    /**
-     * <pre>
-     * Debugging options
-     * </pre>
-     *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-     */
-    public org.tensorflow.framework.DebugTensorWatch.Builder getDebugTensorWatchOptsBuilder(
-        int index) {
-      return getDebugTensorWatchOptsFieldBuilder().getBuilder(index);
-    }
-    /**
-     * <pre>
-     * Debugging options
-     * </pre>
-     *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-     */
-    public org.tensorflow.framework.DebugTensorWatchOrBuilder getDebugTensorWatchOptsOrBuilder(
-        int index) {
-      if (debugTensorWatchOptsBuilder_ == null) {
-        return debugTensorWatchOpts_.get(index);  } else {
-        return debugTensorWatchOptsBuilder_.getMessageOrBuilder(index);
+        return debugOptions_ == null ?
+            org.tensorflow.framework.DebugOptions.getDefaultInstance() : debugOptions_;
       }
     }
     /**
      * <pre>
-     * Debugging options
+     * EXPERIMENTAL.  Options used to initialize DebuggerState, if enabled.
      * </pre>
      *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
+     * <code>optional .tensorflow.DebugOptions debug_options = 6;</code>
      */
-    public java.util.List<? extends org.tensorflow.framework.DebugTensorWatchOrBuilder> 
-         getDebugTensorWatchOptsOrBuilderList() {
-      if (debugTensorWatchOptsBuilder_ != null) {
-        return debugTensorWatchOptsBuilder_.getMessageOrBuilderList();
-      } else {
-        return java.util.Collections.unmodifiableList(debugTensorWatchOpts_);
-      }
-    }
-    /**
-     * <pre>
-     * Debugging options
-     * </pre>
-     *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-     */
-    public org.tensorflow.framework.DebugTensorWatch.Builder addDebugTensorWatchOptsBuilder() {
-      return getDebugTensorWatchOptsFieldBuilder().addBuilder(
-          org.tensorflow.framework.DebugTensorWatch.getDefaultInstance());
-    }
-    /**
-     * <pre>
-     * Debugging options
-     * </pre>
-     *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-     */
-    public org.tensorflow.framework.DebugTensorWatch.Builder addDebugTensorWatchOptsBuilder(
-        int index) {
-      return getDebugTensorWatchOptsFieldBuilder().addBuilder(
-          index, org.tensorflow.framework.DebugTensorWatch.getDefaultInstance());
-    }
-    /**
-     * <pre>
-     * Debugging options
-     * </pre>
-     *
-     * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-     */
-    public java.util.List<org.tensorflow.framework.DebugTensorWatch.Builder> 
-         getDebugTensorWatchOptsBuilderList() {
-      return getDebugTensorWatchOptsFieldBuilder().getBuilderList();
-    }
-    private com.google.protobuf.RepeatedFieldBuilderV3<
-        org.tensorflow.framework.DebugTensorWatch, org.tensorflow.framework.DebugTensorWatch.Builder, org.tensorflow.framework.DebugTensorWatchOrBuilder> 
-        getDebugTensorWatchOptsFieldBuilder() {
-      if (debugTensorWatchOptsBuilder_ == null) {
-        debugTensorWatchOptsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-            org.tensorflow.framework.DebugTensorWatch, org.tensorflow.framework.DebugTensorWatch.Builder, org.tensorflow.framework.DebugTensorWatchOrBuilder>(
-                debugTensorWatchOpts_,
-                ((bitField0_ & 0x00000008) == 0x00000008),
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.tensorflow.framework.DebugOptions, org.tensorflow.framework.DebugOptions.Builder, org.tensorflow.framework.DebugOptionsOrBuilder> 
+        getDebugOptionsFieldBuilder() {
+      if (debugOptionsBuilder_ == null) {
+        debugOptionsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.tensorflow.framework.DebugOptions, org.tensorflow.framework.DebugOptions.Builder, org.tensorflow.framework.DebugOptionsOrBuilder>(
+                getDebugOptions(),
                 getParentForChildren(),
                 isClean());
-        debugTensorWatchOpts_ = null;
+        debugOptions_ = null;
       }
-      return debugTensorWatchOptsBuilder_;
+      return debugOptionsBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

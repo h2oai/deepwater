@@ -13,9 +13,9 @@ public interface RunGraphResponseOrBuilder extends
    * `RunGraphRequest.recv_key`.
    * </pre>
    *
-   * <code>repeated .tensorflow.NamedTensor recv = 1;</code>
+   * <code>repeated .tensorflow.NamedTensorProto recv = 1;</code>
    */
-  java.util.List<org.tensorflow.distruntime.NamedTensor> 
+  java.util.List<org.tensorflow.framework.NamedTensorProto> 
       getRecvList();
   /**
    * <pre>
@@ -23,16 +23,16 @@ public interface RunGraphResponseOrBuilder extends
    * `RunGraphRequest.recv_key`.
    * </pre>
    *
-   * <code>repeated .tensorflow.NamedTensor recv = 1;</code>
+   * <code>repeated .tensorflow.NamedTensorProto recv = 1;</code>
    */
-  org.tensorflow.distruntime.NamedTensor getRecv(int index);
+  org.tensorflow.framework.NamedTensorProto getRecv(int index);
   /**
    * <pre>
    * A list of tensors corresponding to those requested by
    * `RunGraphRequest.recv_key`.
    * </pre>
    *
-   * <code>repeated .tensorflow.NamedTensor recv = 1;</code>
+   * <code>repeated .tensorflow.NamedTensorProto recv = 1;</code>
    */
   int getRecvCount();
   /**
@@ -41,9 +41,9 @@ public interface RunGraphResponseOrBuilder extends
    * `RunGraphRequest.recv_key`.
    * </pre>
    *
-   * <code>repeated .tensorflow.NamedTensor recv = 1;</code>
+   * <code>repeated .tensorflow.NamedTensorProto recv = 1;</code>
    */
-  java.util.List<? extends org.tensorflow.distruntime.NamedTensorOrBuilder> 
+  java.util.List<? extends org.tensorflow.framework.NamedTensorProtoOrBuilder> 
       getRecvOrBuilderList();
   /**
    * <pre>
@@ -51,14 +51,15 @@ public interface RunGraphResponseOrBuilder extends
    * `RunGraphRequest.recv_key`.
    * </pre>
    *
-   * <code>repeated .tensorflow.NamedTensor recv = 1;</code>
+   * <code>repeated .tensorflow.NamedTensorProto recv = 1;</code>
    */
-  org.tensorflow.distruntime.NamedTensorOrBuilder getRecvOrBuilder(
+  org.tensorflow.framework.NamedTensorProtoOrBuilder getRecvOrBuilder(
       int index);
 
   /**
    * <pre>
-   * If the request asked for execution stats, these are returned here.
+   * If the request asked for execution stats or cost graph, these are returned
+   * here.
    * </pre>
    *
    * <code>optional .tensorflow.StepStats step_stats = 2;</code>
@@ -66,7 +67,8 @@ public interface RunGraphResponseOrBuilder extends
   boolean hasStepStats();
   /**
    * <pre>
-   * If the request asked for execution stats, these are returned here.
+   * If the request asked for execution stats or cost graph, these are returned
+   * here.
    * </pre>
    *
    * <code>optional .tensorflow.StepStats step_stats = 2;</code>
@@ -74,10 +76,24 @@ public interface RunGraphResponseOrBuilder extends
   org.tensorflow.framework.StepStats getStepStats();
   /**
    * <pre>
-   * If the request asked for execution stats, these are returned here.
+   * If the request asked for execution stats or cost graph, these are returned
+   * here.
    * </pre>
    *
    * <code>optional .tensorflow.StepStats step_stats = 2;</code>
    */
   org.tensorflow.framework.StepStatsOrBuilder getStepStatsOrBuilder();
+
+  /**
+   * <code>optional .tensorflow.CostGraphDef cost_graph = 3;</code>
+   */
+  boolean hasCostGraph();
+  /**
+   * <code>optional .tensorflow.CostGraphDef cost_graph = 3;</code>
+   */
+  org.tensorflow.framework.CostGraphDef getCostGraph();
+  /**
+   * <code>optional .tensorflow.CostGraphDef cost_graph = 3;</code>
+   */
+  org.tensorflow.framework.CostGraphDefOrBuilder getCostGraphOrBuilder();
 }

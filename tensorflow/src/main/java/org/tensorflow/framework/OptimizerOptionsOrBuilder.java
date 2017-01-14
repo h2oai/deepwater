@@ -42,4 +42,13 @@ public interface OptimizerOptionsOrBuilder extends
    * <code>optional .tensorflow.OptimizerOptions.Level opt_level = 3;</code>
    */
   org.tensorflow.framework.OptimizerOptions.Level getOptLevel();
+
+  /**
+   * <code>optional .tensorflow.OptimizerOptions.GlobalJitLevel global_jit_level = 5;</code>
+   */
+  int getGlobalJitLevelValue();
+  /**
+   * <code>optional .tensorflow.OptimizerOptions.GlobalJitLevel global_jit_level = 5;</code>
+   */
+  org.tensorflow.framework.OptimizerOptions.GlobalJitLevel getGlobalJitLevel();
 }

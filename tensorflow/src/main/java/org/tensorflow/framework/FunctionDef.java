@@ -23,7 +23,7 @@ public  final class FunctionDef extends
     super(builder);
   }
   private FunctionDef() {
-    node_ = java.util.Collections.emptyList();
+    nodeDef_ = java.util.Collections.emptyList();
   }
 
   @java.lang.Override
@@ -64,13 +64,37 @@ public  final class FunctionDef extends
 
             break;
           }
-          case 18: {
+          case 26: {
+            if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              nodeDef_ = new java.util.ArrayList<org.tensorflow.framework.NodeDef>();
+              mutable_bitField0_ |= 0x00000004;
+            }
+            nodeDef_.add(
+                input.readMessage(org.tensorflow.framework.NodeDef.parser(), extensionRegistry));
+            break;
+          }
+          case 34: {
+            if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              ret_ = com.google.protobuf.MapField.newMapField(
+                  RetDefaultEntryHolder.defaultEntry);
+              mutable_bitField0_ |= 0x00000008;
+            }
+            com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+            ret = input.readMessage(
+                RetDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+            ret_.getMutableMap().put(ret.getKey(), ret.getValue());
+            break;
+          }
+          case 42: {
             if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-              node_ = new java.util.ArrayList<org.tensorflow.framework.FunctionDef.Node>();
+              attr_ = com.google.protobuf.MapField.newMapField(
+                  AttrDefaultEntryHolder.defaultEntry);
               mutable_bitField0_ |= 0x00000002;
             }
-            node_.add(
-                input.readMessage(org.tensorflow.framework.FunctionDef.Node.parser(), extensionRegistry));
+            com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.AttrValue>
+            attr = input.readMessage(
+                AttrDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+            attr_.getMutableMap().put(attr.getKey(), attr.getValue());
             break;
           }
         }
@@ -81,8 +105,8 @@ public  final class FunctionDef extends
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
-      if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-        node_ = java.util.Collections.unmodifiableList(node_);
+      if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        nodeDef_ = java.util.Collections.unmodifiableList(nodeDef_);
       }
       makeExtensionsImmutable();
     }
@@ -92,1939 +116,24 @@ public  final class FunctionDef extends
     return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_descriptor;
   }
 
+  @SuppressWarnings({"rawtypes"})
+  protected com.google.protobuf.MapField internalGetMapField(
+      int number) {
+    switch (number) {
+      case 5:
+        return internalGetAttr();
+      case 4:
+        return internalGetRet();
+      default:
+        throw new RuntimeException(
+            "Invalid map field number: " + number);
+    }
+  }
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             org.tensorflow.framework.FunctionDef.class, org.tensorflow.framework.FunctionDef.Builder.class);
-  }
-
-  public interface NodeOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:tensorflow.FunctionDef.Node)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <pre>
-     * This node produces multiple outputs. They are named ret[0],
-     * ret[1], ..., etc.
-     * REQUIRES: function.node.ret[*] are unique across all nodes.
-     * REQUIRES: ret.size == func/op def's number of output args.
-     * </pre>
-     *
-     * <code>repeated string ret = 1;</code>
-     */
-    java.util.List<java.lang.String>
-        getRetList();
-    /**
-     * <pre>
-     * This node produces multiple outputs. They are named ret[0],
-     * ret[1], ..., etc.
-     * REQUIRES: function.node.ret[*] are unique across all nodes.
-     * REQUIRES: ret.size == func/op def's number of output args.
-     * </pre>
-     *
-     * <code>repeated string ret = 1;</code>
-     */
-    int getRetCount();
-    /**
-     * <pre>
-     * This node produces multiple outputs. They are named ret[0],
-     * ret[1], ..., etc.
-     * REQUIRES: function.node.ret[*] are unique across all nodes.
-     * REQUIRES: ret.size == func/op def's number of output args.
-     * </pre>
-     *
-     * <code>repeated string ret = 1;</code>
-     */
-    java.lang.String getRet(int index);
-    /**
-     * <pre>
-     * This node produces multiple outputs. They are named ret[0],
-     * ret[1], ..., etc.
-     * REQUIRES: function.node.ret[*] are unique across all nodes.
-     * REQUIRES: ret.size == func/op def's number of output args.
-     * </pre>
-     *
-     * <code>repeated string ret = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getRetBytes(int index);
-
-    /**
-     * <pre>
-     * The op/function name.
-     * </pre>
-     *
-     * <code>optional string op = 2;</code>
-     */
-    java.lang.String getOp();
-    /**
-     * <pre>
-     * The op/function name.
-     * </pre>
-     *
-     * <code>optional string op = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getOpBytes();
-
-    /**
-     * <pre>
-     * Arguments passed to this func/op.
-     * arg[i] must be either one of
-     * function.signature.input_args[*].name or one of
-     * function.node[*].ret[*].
-     * REQUIRES: arg.size == func/op def's number of input args.
-     * </pre>
-     *
-     * <code>repeated string arg = 3;</code>
-     */
-    java.util.List<java.lang.String>
-        getArgList();
-    /**
-     * <pre>
-     * Arguments passed to this func/op.
-     * arg[i] must be either one of
-     * function.signature.input_args[*].name or one of
-     * function.node[*].ret[*].
-     * REQUIRES: arg.size == func/op def's number of input args.
-     * </pre>
-     *
-     * <code>repeated string arg = 3;</code>
-     */
-    int getArgCount();
-    /**
-     * <pre>
-     * Arguments passed to this func/op.
-     * arg[i] must be either one of
-     * function.signature.input_args[*].name or one of
-     * function.node[*].ret[*].
-     * REQUIRES: arg.size == func/op def's number of input args.
-     * </pre>
-     *
-     * <code>repeated string arg = 3;</code>
-     */
-    java.lang.String getArg(int index);
-    /**
-     * <pre>
-     * Arguments passed to this func/op.
-     * arg[i] must be either one of
-     * function.signature.input_args[*].name or one of
-     * function.node[*].ret[*].
-     * REQUIRES: arg.size == func/op def's number of input args.
-     * </pre>
-     *
-     * <code>repeated string arg = 3;</code>
-     */
-    com.google.protobuf.ByteString
-        getArgBytes(int index);
-
-    /**
-     * <pre>
-     * Control dependencies.
-     * dep[i] must be one of function.node[*].ret[*] or one of
-     * function.signature.input_args[*].name.
-     * </pre>
-     *
-     * <code>repeated string dep = 4;</code>
-     */
-    java.util.List<java.lang.String>
-        getDepList();
-    /**
-     * <pre>
-     * Control dependencies.
-     * dep[i] must be one of function.node[*].ret[*] or one of
-     * function.signature.input_args[*].name.
-     * </pre>
-     *
-     * <code>repeated string dep = 4;</code>
-     */
-    int getDepCount();
-    /**
-     * <pre>
-     * Control dependencies.
-     * dep[i] must be one of function.node[*].ret[*] or one of
-     * function.signature.input_args[*].name.
-     * </pre>
-     *
-     * <code>repeated string dep = 4;</code>
-     */
-    java.lang.String getDep(int index);
-    /**
-     * <pre>
-     * Control dependencies.
-     * dep[i] must be one of function.node[*].ret[*] or one of
-     * function.signature.input_args[*].name.
-     * </pre>
-     *
-     * <code>repeated string dep = 4;</code>
-     */
-    com.google.protobuf.ByteString
-        getDepBytes(int index);
-
-    /**
-     * <pre>
-     * Attrs.
-     * 'attr' maps names defined by 'func's attr defs to attr values.
-     * attr values may have placeholders which are substituted
-     * recursively by concrete values when this node is instantiated.
-     * These placeholders must name an attr listed in the FunctionDef's
-     * signature.
-     * </pre>
-     *
-     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-     */
-    int getAttrCount();
-    /**
-     * <pre>
-     * Attrs.
-     * 'attr' maps names defined by 'func's attr defs to attr values.
-     * attr values may have placeholders which are substituted
-     * recursively by concrete values when this node is instantiated.
-     * These placeholders must name an attr listed in the FunctionDef's
-     * signature.
-     * </pre>
-     *
-     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-     */
-    boolean containsAttr(
-        java.lang.String key);
-    /**
-     * Use {@link #getAttrMap()} instead.
-     */
-    @java.lang.Deprecated
-    java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue>
-    getAttr();
-    /**
-     * <pre>
-     * Attrs.
-     * 'attr' maps names defined by 'func's attr defs to attr values.
-     * attr values may have placeholders which are substituted
-     * recursively by concrete values when this node is instantiated.
-     * These placeholders must name an attr listed in the FunctionDef's
-     * signature.
-     * </pre>
-     *
-     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-     */
-    java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue>
-    getAttrMap();
-    /**
-     * <pre>
-     * Attrs.
-     * 'attr' maps names defined by 'func's attr defs to attr values.
-     * attr values may have placeholders which are substituted
-     * recursively by concrete values when this node is instantiated.
-     * These placeholders must name an attr listed in the FunctionDef's
-     * signature.
-     * </pre>
-     *
-     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-     */
-
-    org.tensorflow.framework.AttrValue getAttrOrDefault(
-        java.lang.String key,
-        org.tensorflow.framework.AttrValue defaultValue);
-    /**
-     * <pre>
-     * Attrs.
-     * 'attr' maps names defined by 'func's attr defs to attr values.
-     * attr values may have placeholders which are substituted
-     * recursively by concrete values when this node is instantiated.
-     * These placeholders must name an attr listed in the FunctionDef's
-     * signature.
-     * </pre>
-     *
-     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-     */
-
-    org.tensorflow.framework.AttrValue getAttrOrThrow(
-        java.lang.String key);
-  }
-  /**
-   * <pre>
-   * A node is a multi-value assignment:
-   *   (ret[0], ret[1], ...) = func(arg[0], arg[1], ...)
-   * By convention, "func" is resolved by consulting with a user-defined
-   * library first. If not resolved, "func" is assumed to be a builtin op.
-   * </pre>
-   *
-   * Protobuf type {@code tensorflow.FunctionDef.Node}
-   */
-  public  static final class Node extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:tensorflow.FunctionDef.Node)
-      NodeOrBuilder {
-    // Use Node.newBuilder() to construct.
-    private Node(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private Node() {
-      ret_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      op_ = "";
-      arg_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      dep_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
-    }
-    private Node(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!input.skipField(tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                ret_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              ret_.add(s);
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              op_ = s;
-              break;
-            }
-            case 26: {
-              java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                arg_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              arg_.add(s);
-              break;
-            }
-            case 34: {
-              java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                dep_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000008;
-              }
-              dep_.add(s);
-              break;
-            }
-            case 42: {
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-                attr_ = com.google.protobuf.MapField.newMapField(
-                    AttrDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000010;
-              }
-              com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.AttrValue>
-              attr__ = input.readMessage(
-                  AttrDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-              attr_.getMutableMap().put(
-                  attr__.getKey(), attr__.getValue());
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          ret_ = ret_.getUnmodifiableView();
-        }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          arg_ = arg_.getUnmodifiableView();
-        }
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-          dep_ = dep_.getUnmodifiableView();
-        }
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_Node_descriptor;
-    }
-
-    @SuppressWarnings({"rawtypes"})
-    protected com.google.protobuf.MapField internalGetMapField(
-        int number) {
-      switch (number) {
-        case 5:
-          return internalGetAttr();
-        default:
-          throw new RuntimeException(
-              "Invalid map field number: " + number);
-      }
-    }
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_Node_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              org.tensorflow.framework.FunctionDef.Node.class, org.tensorflow.framework.FunctionDef.Node.Builder.class);
-    }
-
-    private int bitField0_;
-    public static final int RET_FIELD_NUMBER = 1;
-    private com.google.protobuf.LazyStringList ret_;
-    /**
-     * <pre>
-     * This node produces multiple outputs. They are named ret[0],
-     * ret[1], ..., etc.
-     * REQUIRES: function.node.ret[*] are unique across all nodes.
-     * REQUIRES: ret.size == func/op def's number of output args.
-     * </pre>
-     *
-     * <code>repeated string ret = 1;</code>
-     */
-    public com.google.protobuf.ProtocolStringList
-        getRetList() {
-      return ret_;
-    }
-    /**
-     * <pre>
-     * This node produces multiple outputs. They are named ret[0],
-     * ret[1], ..., etc.
-     * REQUIRES: function.node.ret[*] are unique across all nodes.
-     * REQUIRES: ret.size == func/op def's number of output args.
-     * </pre>
-     *
-     * <code>repeated string ret = 1;</code>
-     */
-    public int getRetCount() {
-      return ret_.size();
-    }
-    /**
-     * <pre>
-     * This node produces multiple outputs. They are named ret[0],
-     * ret[1], ..., etc.
-     * REQUIRES: function.node.ret[*] are unique across all nodes.
-     * REQUIRES: ret.size == func/op def's number of output args.
-     * </pre>
-     *
-     * <code>repeated string ret = 1;</code>
-     */
-    public java.lang.String getRet(int index) {
-      return ret_.get(index);
-    }
-    /**
-     * <pre>
-     * This node produces multiple outputs. They are named ret[0],
-     * ret[1], ..., etc.
-     * REQUIRES: function.node.ret[*] are unique across all nodes.
-     * REQUIRES: ret.size == func/op def's number of output args.
-     * </pre>
-     *
-     * <code>repeated string ret = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getRetBytes(int index) {
-      return ret_.getByteString(index);
-    }
-
-    public static final int OP_FIELD_NUMBER = 2;
-    private volatile java.lang.Object op_;
-    /**
-     * <pre>
-     * The op/function name.
-     * </pre>
-     *
-     * <code>optional string op = 2;</code>
-     */
-    public java.lang.String getOp() {
-      java.lang.Object ref = op_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        op_ = s;
-        return s;
-      }
-    }
-    /**
-     * <pre>
-     * The op/function name.
-     * </pre>
-     *
-     * <code>optional string op = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getOpBytes() {
-      java.lang.Object ref = op_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        op_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int ARG_FIELD_NUMBER = 3;
-    private com.google.protobuf.LazyStringList arg_;
-    /**
-     * <pre>
-     * Arguments passed to this func/op.
-     * arg[i] must be either one of
-     * function.signature.input_args[*].name or one of
-     * function.node[*].ret[*].
-     * REQUIRES: arg.size == func/op def's number of input args.
-     * </pre>
-     *
-     * <code>repeated string arg = 3;</code>
-     */
-    public com.google.protobuf.ProtocolStringList
-        getArgList() {
-      return arg_;
-    }
-    /**
-     * <pre>
-     * Arguments passed to this func/op.
-     * arg[i] must be either one of
-     * function.signature.input_args[*].name or one of
-     * function.node[*].ret[*].
-     * REQUIRES: arg.size == func/op def's number of input args.
-     * </pre>
-     *
-     * <code>repeated string arg = 3;</code>
-     */
-    public int getArgCount() {
-      return arg_.size();
-    }
-    /**
-     * <pre>
-     * Arguments passed to this func/op.
-     * arg[i] must be either one of
-     * function.signature.input_args[*].name or one of
-     * function.node[*].ret[*].
-     * REQUIRES: arg.size == func/op def's number of input args.
-     * </pre>
-     *
-     * <code>repeated string arg = 3;</code>
-     */
-    public java.lang.String getArg(int index) {
-      return arg_.get(index);
-    }
-    /**
-     * <pre>
-     * Arguments passed to this func/op.
-     * arg[i] must be either one of
-     * function.signature.input_args[*].name or one of
-     * function.node[*].ret[*].
-     * REQUIRES: arg.size == func/op def's number of input args.
-     * </pre>
-     *
-     * <code>repeated string arg = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-        getArgBytes(int index) {
-      return arg_.getByteString(index);
-    }
-
-    public static final int DEP_FIELD_NUMBER = 4;
-    private com.google.protobuf.LazyStringList dep_;
-    /**
-     * <pre>
-     * Control dependencies.
-     * dep[i] must be one of function.node[*].ret[*] or one of
-     * function.signature.input_args[*].name.
-     * </pre>
-     *
-     * <code>repeated string dep = 4;</code>
-     */
-    public com.google.protobuf.ProtocolStringList
-        getDepList() {
-      return dep_;
-    }
-    /**
-     * <pre>
-     * Control dependencies.
-     * dep[i] must be one of function.node[*].ret[*] or one of
-     * function.signature.input_args[*].name.
-     * </pre>
-     *
-     * <code>repeated string dep = 4;</code>
-     */
-    public int getDepCount() {
-      return dep_.size();
-    }
-    /**
-     * <pre>
-     * Control dependencies.
-     * dep[i] must be one of function.node[*].ret[*] or one of
-     * function.signature.input_args[*].name.
-     * </pre>
-     *
-     * <code>repeated string dep = 4;</code>
-     */
-    public java.lang.String getDep(int index) {
-      return dep_.get(index);
-    }
-    /**
-     * <pre>
-     * Control dependencies.
-     * dep[i] must be one of function.node[*].ret[*] or one of
-     * function.signature.input_args[*].name.
-     * </pre>
-     *
-     * <code>repeated string dep = 4;</code>
-     */
-    public com.google.protobuf.ByteString
-        getDepBytes(int index) {
-      return dep_.getByteString(index);
-    }
-
-    public static final int ATTR_FIELD_NUMBER = 5;
-    private static final class AttrDefaultEntryHolder {
-      static final com.google.protobuf.MapEntry<
-          java.lang.String, org.tensorflow.framework.AttrValue> defaultEntry =
-              com.google.protobuf.MapEntry
-              .<java.lang.String, org.tensorflow.framework.AttrValue>newDefaultInstance(
-                  org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_Node_AttrEntry_descriptor, 
-                  com.google.protobuf.WireFormat.FieldType.STRING,
-                  "",
-                  com.google.protobuf.WireFormat.FieldType.MESSAGE,
-                  org.tensorflow.framework.AttrValue.getDefaultInstance());
-    }
-    private com.google.protobuf.MapField<
-        java.lang.String, org.tensorflow.framework.AttrValue> attr_;
-    private com.google.protobuf.MapField<java.lang.String, org.tensorflow.framework.AttrValue>
-    internalGetAttr() {
-      if (attr_ == null) {
-        return com.google.protobuf.MapField.emptyMapField(
-            AttrDefaultEntryHolder.defaultEntry);
-      }
-      return attr_;
-    }
-
-    public int getAttrCount() {
-      return internalGetAttr().getMap().size();
-    }
-    /**
-     * <pre>
-     * Attrs.
-     * 'attr' maps names defined by 'func's attr defs to attr values.
-     * attr values may have placeholders which are substituted
-     * recursively by concrete values when this node is instantiated.
-     * These placeholders must name an attr listed in the FunctionDef's
-     * signature.
-     * </pre>
-     *
-     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-     */
-
-    public boolean containsAttr(
-        java.lang.String key) {
-      if (key == null) { throw new java.lang.NullPointerException(); }
-      return internalGetAttr().getMap().containsKey(key);
-    }
-    /**
-     * Use {@link #getAttrMap()} instead.
-     */
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> getAttr() {
-      return getAttrMap();
-    }
-    /**
-     * <pre>
-     * Attrs.
-     * 'attr' maps names defined by 'func's attr defs to attr values.
-     * attr values may have placeholders which are substituted
-     * recursively by concrete values when this node is instantiated.
-     * These placeholders must name an attr listed in the FunctionDef's
-     * signature.
-     * </pre>
-     *
-     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-     */
-
-    public java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> getAttrMap() {
-      return internalGetAttr().getMap();
-    }
-    /**
-     * <pre>
-     * Attrs.
-     * 'attr' maps names defined by 'func's attr defs to attr values.
-     * attr values may have placeholders which are substituted
-     * recursively by concrete values when this node is instantiated.
-     * These placeholders must name an attr listed in the FunctionDef's
-     * signature.
-     * </pre>
-     *
-     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-     */
-
-    public org.tensorflow.framework.AttrValue getAttrOrDefault(
-        java.lang.String key,
-        org.tensorflow.framework.AttrValue defaultValue) {
-      if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> map =
-          internalGetAttr().getMap();
-      return map.containsKey(key) ? map.get(key) : defaultValue;
-    }
-    /**
-     * <pre>
-     * Attrs.
-     * 'attr' maps names defined by 'func's attr defs to attr values.
-     * attr values may have placeholders which are substituted
-     * recursively by concrete values when this node is instantiated.
-     * These placeholders must name an attr listed in the FunctionDef's
-     * signature.
-     * </pre>
-     *
-     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-     */
-
-    public org.tensorflow.framework.AttrValue getAttrOrThrow(
-        java.lang.String key) {
-      if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> map =
-          internalGetAttr().getMap();
-      if (!map.containsKey(key)) {
-        throw new java.lang.IllegalArgumentException();
-      }
-      return map.get(key);
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      for (int i = 0; i < ret_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, ret_.getRaw(i));
-      }
-      if (!getOpBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, op_);
-      }
-      for (int i = 0; i < arg_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, arg_.getRaw(i));
-      }
-      for (int i = 0; i < dep_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, dep_.getRaw(i));
-      }
-      com.google.protobuf.GeneratedMessageV3
-        .serializeStringMapTo(
-          output,
-          internalGetAttr(),
-          AttrDefaultEntryHolder.defaultEntry,
-          5);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      {
-        int dataSize = 0;
-        for (int i = 0; i < ret_.size(); i++) {
-          dataSize += computeStringSizeNoTag(ret_.getRaw(i));
-        }
-        size += dataSize;
-        size += 1 * getRetList().size();
-      }
-      if (!getOpBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, op_);
-      }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < arg_.size(); i++) {
-          dataSize += computeStringSizeNoTag(arg_.getRaw(i));
-        }
-        size += dataSize;
-        size += 1 * getArgList().size();
-      }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < dep_.size(); i++) {
-          dataSize += computeStringSizeNoTag(dep_.getRaw(i));
-        }
-        size += dataSize;
-        size += 1 * getDepList().size();
-      }
-      for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.AttrValue> entry
-           : internalGetAttr().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.AttrValue>
-        attr__ = AttrDefaultEntryHolder.defaultEntry.newBuilderForType()
-            .setKey(entry.getKey())
-            .setValue(entry.getValue())
-            .build();
-        size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(5, attr__);
-      }
-      memoizedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof org.tensorflow.framework.FunctionDef.Node)) {
-        return super.equals(obj);
-      }
-      org.tensorflow.framework.FunctionDef.Node other = (org.tensorflow.framework.FunctionDef.Node) obj;
-
-      boolean result = true;
-      result = result && getRetList()
-          .equals(other.getRetList());
-      result = result && getOp()
-          .equals(other.getOp());
-      result = result && getArgList()
-          .equals(other.getArgList());
-      result = result && getDepList()
-          .equals(other.getDepList());
-      result = result && internalGetAttr().equals(
-          other.internalGetAttr());
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptorForType().hashCode();
-      if (getRetCount() > 0) {
-        hash = (37 * hash) + RET_FIELD_NUMBER;
-        hash = (53 * hash) + getRetList().hashCode();
-      }
-      hash = (37 * hash) + OP_FIELD_NUMBER;
-      hash = (53 * hash) + getOp().hashCode();
-      if (getArgCount() > 0) {
-        hash = (37 * hash) + ARG_FIELD_NUMBER;
-        hash = (53 * hash) + getArgList().hashCode();
-      }
-      if (getDepCount() > 0) {
-        hash = (37 * hash) + DEP_FIELD_NUMBER;
-        hash = (53 * hash) + getDepList().hashCode();
-      }
-      if (!internalGetAttr().getMap().isEmpty()) {
-        hash = (37 * hash) + ATTR_FIELD_NUMBER;
-        hash = (53 * hash) + internalGetAttr().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static org.tensorflow.framework.FunctionDef.Node parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static org.tensorflow.framework.FunctionDef.Node parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static org.tensorflow.framework.FunctionDef.Node parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static org.tensorflow.framework.FunctionDef.Node parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static org.tensorflow.framework.FunctionDef.Node parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static org.tensorflow.framework.FunctionDef.Node parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static org.tensorflow.framework.FunctionDef.Node parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static org.tensorflow.framework.FunctionDef.Node parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static org.tensorflow.framework.FunctionDef.Node parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static org.tensorflow.framework.FunctionDef.Node parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(org.tensorflow.framework.FunctionDef.Node prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * <pre>
-     * A node is a multi-value assignment:
-     *   (ret[0], ret[1], ...) = func(arg[0], arg[1], ...)
-     * By convention, "func" is resolved by consulting with a user-defined
-     * library first. If not resolved, "func" is assumed to be a builtin op.
-     * </pre>
-     *
-     * Protobuf type {@code tensorflow.FunctionDef.Node}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:tensorflow.FunctionDef.Node)
-        org.tensorflow.framework.FunctionDef.NodeOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_Node_descriptor;
-      }
-
-      @SuppressWarnings({"rawtypes"})
-      protected com.google.protobuf.MapField internalGetMapField(
-          int number) {
-        switch (number) {
-          case 5:
-            return internalGetAttr();
-          default:
-            throw new RuntimeException(
-                "Invalid map field number: " + number);
-        }
-      }
-      @SuppressWarnings({"rawtypes"})
-      protected com.google.protobuf.MapField internalGetMutableMapField(
-          int number) {
-        switch (number) {
-          case 5:
-            return internalGetMutableAttr();
-          default:
-            throw new RuntimeException(
-                "Invalid map field number: " + number);
-        }
-      }
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_Node_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                org.tensorflow.framework.FunctionDef.Node.class, org.tensorflow.framework.FunctionDef.Node.Builder.class);
-      }
-
-      // Construct using org.tensorflow.framework.FunctionDef.Node.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        ret_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        op_ = "";
-
-        arg_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        dep_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        internalGetMutableAttr().clear();
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_Node_descriptor;
-      }
-
-      public org.tensorflow.framework.FunctionDef.Node getDefaultInstanceForType() {
-        return org.tensorflow.framework.FunctionDef.Node.getDefaultInstance();
-      }
-
-      public org.tensorflow.framework.FunctionDef.Node build() {
-        org.tensorflow.framework.FunctionDef.Node result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public org.tensorflow.framework.FunctionDef.Node buildPartial() {
-        org.tensorflow.framework.FunctionDef.Node result = new org.tensorflow.framework.FunctionDef.Node(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          ret_ = ret_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        }
-        result.ret_ = ret_;
-        result.op_ = op_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          arg_ = arg_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000004);
-        }
-        result.arg_ = arg_;
-        if (((bitField0_ & 0x00000008) == 0x00000008)) {
-          dep_ = dep_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000008);
-        }
-        result.dep_ = dep_;
-        result.attr_ = internalGetAttr();
-        result.attr_.makeImmutable();
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.tensorflow.framework.FunctionDef.Node) {
-          return mergeFrom((org.tensorflow.framework.FunctionDef.Node)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(org.tensorflow.framework.FunctionDef.Node other) {
-        if (other == org.tensorflow.framework.FunctionDef.Node.getDefaultInstance()) return this;
-        if (!other.ret_.isEmpty()) {
-          if (ret_.isEmpty()) {
-            ret_ = other.ret_;
-            bitField0_ = (bitField0_ & ~0x00000001);
-          } else {
-            ensureRetIsMutable();
-            ret_.addAll(other.ret_);
-          }
-          onChanged();
-        }
-        if (!other.getOp().isEmpty()) {
-          op_ = other.op_;
-          onChanged();
-        }
-        if (!other.arg_.isEmpty()) {
-          if (arg_.isEmpty()) {
-            arg_ = other.arg_;
-            bitField0_ = (bitField0_ & ~0x00000004);
-          } else {
-            ensureArgIsMutable();
-            arg_.addAll(other.arg_);
-          }
-          onChanged();
-        }
-        if (!other.dep_.isEmpty()) {
-          if (dep_.isEmpty()) {
-            dep_ = other.dep_;
-            bitField0_ = (bitField0_ & ~0x00000008);
-          } else {
-            ensureDepIsMutable();
-            dep_.addAll(other.dep_);
-          }
-          onChanged();
-        }
-        internalGetMutableAttr().mergeFrom(
-            other.internalGetAttr());
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        org.tensorflow.framework.FunctionDef.Node parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (org.tensorflow.framework.FunctionDef.Node) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private com.google.protobuf.LazyStringList ret_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      private void ensureRetIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          ret_ = new com.google.protobuf.LazyStringArrayList(ret_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-      /**
-       * <pre>
-       * This node produces multiple outputs. They are named ret[0],
-       * ret[1], ..., etc.
-       * REQUIRES: function.node.ret[*] are unique across all nodes.
-       * REQUIRES: ret.size == func/op def's number of output args.
-       * </pre>
-       *
-       * <code>repeated string ret = 1;</code>
-       */
-      public com.google.protobuf.ProtocolStringList
-          getRetList() {
-        return ret_.getUnmodifiableView();
-      }
-      /**
-       * <pre>
-       * This node produces multiple outputs. They are named ret[0],
-       * ret[1], ..., etc.
-       * REQUIRES: function.node.ret[*] are unique across all nodes.
-       * REQUIRES: ret.size == func/op def's number of output args.
-       * </pre>
-       *
-       * <code>repeated string ret = 1;</code>
-       */
-      public int getRetCount() {
-        return ret_.size();
-      }
-      /**
-       * <pre>
-       * This node produces multiple outputs. They are named ret[0],
-       * ret[1], ..., etc.
-       * REQUIRES: function.node.ret[*] are unique across all nodes.
-       * REQUIRES: ret.size == func/op def's number of output args.
-       * </pre>
-       *
-       * <code>repeated string ret = 1;</code>
-       */
-      public java.lang.String getRet(int index) {
-        return ret_.get(index);
-      }
-      /**
-       * <pre>
-       * This node produces multiple outputs. They are named ret[0],
-       * ret[1], ..., etc.
-       * REQUIRES: function.node.ret[*] are unique across all nodes.
-       * REQUIRES: ret.size == func/op def's number of output args.
-       * </pre>
-       *
-       * <code>repeated string ret = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getRetBytes(int index) {
-        return ret_.getByteString(index);
-      }
-      /**
-       * <pre>
-       * This node produces multiple outputs. They are named ret[0],
-       * ret[1], ..., etc.
-       * REQUIRES: function.node.ret[*] are unique across all nodes.
-       * REQUIRES: ret.size == func/op def's number of output args.
-       * </pre>
-       *
-       * <code>repeated string ret = 1;</code>
-       */
-      public Builder setRet(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureRetIsMutable();
-        ret_.set(index, value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * This node produces multiple outputs. They are named ret[0],
-       * ret[1], ..., etc.
-       * REQUIRES: function.node.ret[*] are unique across all nodes.
-       * REQUIRES: ret.size == func/op def's number of output args.
-       * </pre>
-       *
-       * <code>repeated string ret = 1;</code>
-       */
-      public Builder addRet(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureRetIsMutable();
-        ret_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * This node produces multiple outputs. They are named ret[0],
-       * ret[1], ..., etc.
-       * REQUIRES: function.node.ret[*] are unique across all nodes.
-       * REQUIRES: ret.size == func/op def's number of output args.
-       * </pre>
-       *
-       * <code>repeated string ret = 1;</code>
-       */
-      public Builder addAllRet(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureRetIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, ret_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * This node produces multiple outputs. They are named ret[0],
-       * ret[1], ..., etc.
-       * REQUIRES: function.node.ret[*] are unique across all nodes.
-       * REQUIRES: ret.size == func/op def's number of output args.
-       * </pre>
-       *
-       * <code>repeated string ret = 1;</code>
-       */
-      public Builder clearRet() {
-        ret_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * This node produces multiple outputs. They are named ret[0],
-       * ret[1], ..., etc.
-       * REQUIRES: function.node.ret[*] are unique across all nodes.
-       * REQUIRES: ret.size == func/op def's number of output args.
-       * </pre>
-       *
-       * <code>repeated string ret = 1;</code>
-       */
-      public Builder addRetBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        ensureRetIsMutable();
-        ret_.add(value);
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object op_ = "";
-      /**
-       * <pre>
-       * The op/function name.
-       * </pre>
-       *
-       * <code>optional string op = 2;</code>
-       */
-      public java.lang.String getOp() {
-        java.lang.Object ref = op_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          op_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <pre>
-       * The op/function name.
-       * </pre>
-       *
-       * <code>optional string op = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getOpBytes() {
-        java.lang.Object ref = op_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          op_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <pre>
-       * The op/function name.
-       * </pre>
-       *
-       * <code>optional string op = 2;</code>
-       */
-      public Builder setOp(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        op_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * The op/function name.
-       * </pre>
-       *
-       * <code>optional string op = 2;</code>
-       */
-      public Builder clearOp() {
-        
-        op_ = getDefaultInstance().getOp();
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * The op/function name.
-       * </pre>
-       *
-       * <code>optional string op = 2;</code>
-       */
-      public Builder setOpBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        op_ = value;
-        onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.LazyStringList arg_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      private void ensureArgIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          arg_ = new com.google.protobuf.LazyStringArrayList(arg_);
-          bitField0_ |= 0x00000004;
-         }
-      }
-      /**
-       * <pre>
-       * Arguments passed to this func/op.
-       * arg[i] must be either one of
-       * function.signature.input_args[*].name or one of
-       * function.node[*].ret[*].
-       * REQUIRES: arg.size == func/op def's number of input args.
-       * </pre>
-       *
-       * <code>repeated string arg = 3;</code>
-       */
-      public com.google.protobuf.ProtocolStringList
-          getArgList() {
-        return arg_.getUnmodifiableView();
-      }
-      /**
-       * <pre>
-       * Arguments passed to this func/op.
-       * arg[i] must be either one of
-       * function.signature.input_args[*].name or one of
-       * function.node[*].ret[*].
-       * REQUIRES: arg.size == func/op def's number of input args.
-       * </pre>
-       *
-       * <code>repeated string arg = 3;</code>
-       */
-      public int getArgCount() {
-        return arg_.size();
-      }
-      /**
-       * <pre>
-       * Arguments passed to this func/op.
-       * arg[i] must be either one of
-       * function.signature.input_args[*].name or one of
-       * function.node[*].ret[*].
-       * REQUIRES: arg.size == func/op def's number of input args.
-       * </pre>
-       *
-       * <code>repeated string arg = 3;</code>
-       */
-      public java.lang.String getArg(int index) {
-        return arg_.get(index);
-      }
-      /**
-       * <pre>
-       * Arguments passed to this func/op.
-       * arg[i] must be either one of
-       * function.signature.input_args[*].name or one of
-       * function.node[*].ret[*].
-       * REQUIRES: arg.size == func/op def's number of input args.
-       * </pre>
-       *
-       * <code>repeated string arg = 3;</code>
-       */
-      public com.google.protobuf.ByteString
-          getArgBytes(int index) {
-        return arg_.getByteString(index);
-      }
-      /**
-       * <pre>
-       * Arguments passed to this func/op.
-       * arg[i] must be either one of
-       * function.signature.input_args[*].name or one of
-       * function.node[*].ret[*].
-       * REQUIRES: arg.size == func/op def's number of input args.
-       * </pre>
-       *
-       * <code>repeated string arg = 3;</code>
-       */
-      public Builder setArg(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureArgIsMutable();
-        arg_.set(index, value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * Arguments passed to this func/op.
-       * arg[i] must be either one of
-       * function.signature.input_args[*].name or one of
-       * function.node[*].ret[*].
-       * REQUIRES: arg.size == func/op def's number of input args.
-       * </pre>
-       *
-       * <code>repeated string arg = 3;</code>
-       */
-      public Builder addArg(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureArgIsMutable();
-        arg_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * Arguments passed to this func/op.
-       * arg[i] must be either one of
-       * function.signature.input_args[*].name or one of
-       * function.node[*].ret[*].
-       * REQUIRES: arg.size == func/op def's number of input args.
-       * </pre>
-       *
-       * <code>repeated string arg = 3;</code>
-       */
-      public Builder addAllArg(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureArgIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, arg_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * Arguments passed to this func/op.
-       * arg[i] must be either one of
-       * function.signature.input_args[*].name or one of
-       * function.node[*].ret[*].
-       * REQUIRES: arg.size == func/op def's number of input args.
-       * </pre>
-       *
-       * <code>repeated string arg = 3;</code>
-       */
-      public Builder clearArg() {
-        arg_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * Arguments passed to this func/op.
-       * arg[i] must be either one of
-       * function.signature.input_args[*].name or one of
-       * function.node[*].ret[*].
-       * REQUIRES: arg.size == func/op def's number of input args.
-       * </pre>
-       *
-       * <code>repeated string arg = 3;</code>
-       */
-      public Builder addArgBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        ensureArgIsMutable();
-        arg_.add(value);
-        onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.LazyStringList dep_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      private void ensureDepIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          dep_ = new com.google.protobuf.LazyStringArrayList(dep_);
-          bitField0_ |= 0x00000008;
-         }
-      }
-      /**
-       * <pre>
-       * Control dependencies.
-       * dep[i] must be one of function.node[*].ret[*] or one of
-       * function.signature.input_args[*].name.
-       * </pre>
-       *
-       * <code>repeated string dep = 4;</code>
-       */
-      public com.google.protobuf.ProtocolStringList
-          getDepList() {
-        return dep_.getUnmodifiableView();
-      }
-      /**
-       * <pre>
-       * Control dependencies.
-       * dep[i] must be one of function.node[*].ret[*] or one of
-       * function.signature.input_args[*].name.
-       * </pre>
-       *
-       * <code>repeated string dep = 4;</code>
-       */
-      public int getDepCount() {
-        return dep_.size();
-      }
-      /**
-       * <pre>
-       * Control dependencies.
-       * dep[i] must be one of function.node[*].ret[*] or one of
-       * function.signature.input_args[*].name.
-       * </pre>
-       *
-       * <code>repeated string dep = 4;</code>
-       */
-      public java.lang.String getDep(int index) {
-        return dep_.get(index);
-      }
-      /**
-       * <pre>
-       * Control dependencies.
-       * dep[i] must be one of function.node[*].ret[*] or one of
-       * function.signature.input_args[*].name.
-       * </pre>
-       *
-       * <code>repeated string dep = 4;</code>
-       */
-      public com.google.protobuf.ByteString
-          getDepBytes(int index) {
-        return dep_.getByteString(index);
-      }
-      /**
-       * <pre>
-       * Control dependencies.
-       * dep[i] must be one of function.node[*].ret[*] or one of
-       * function.signature.input_args[*].name.
-       * </pre>
-       *
-       * <code>repeated string dep = 4;</code>
-       */
-      public Builder setDep(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureDepIsMutable();
-        dep_.set(index, value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * Control dependencies.
-       * dep[i] must be one of function.node[*].ret[*] or one of
-       * function.signature.input_args[*].name.
-       * </pre>
-       *
-       * <code>repeated string dep = 4;</code>
-       */
-      public Builder addDep(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureDepIsMutable();
-        dep_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * Control dependencies.
-       * dep[i] must be one of function.node[*].ret[*] or one of
-       * function.signature.input_args[*].name.
-       * </pre>
-       *
-       * <code>repeated string dep = 4;</code>
-       */
-      public Builder addAllDep(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureDepIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, dep_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * Control dependencies.
-       * dep[i] must be one of function.node[*].ret[*] or one of
-       * function.signature.input_args[*].name.
-       * </pre>
-       *
-       * <code>repeated string dep = 4;</code>
-       */
-      public Builder clearDep() {
-        dep_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * Control dependencies.
-       * dep[i] must be one of function.node[*].ret[*] or one of
-       * function.signature.input_args[*].name.
-       * </pre>
-       *
-       * <code>repeated string dep = 4;</code>
-       */
-      public Builder addDepBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        ensureDepIsMutable();
-        dep_.add(value);
-        onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.MapField<
-          java.lang.String, org.tensorflow.framework.AttrValue> attr_;
-      private com.google.protobuf.MapField<java.lang.String, org.tensorflow.framework.AttrValue>
-      internalGetAttr() {
-        if (attr_ == null) {
-          return com.google.protobuf.MapField.emptyMapField(
-              AttrDefaultEntryHolder.defaultEntry);
-        }
-        return attr_;
-      }
-      private com.google.protobuf.MapField<java.lang.String, org.tensorflow.framework.AttrValue>
-      internalGetMutableAttr() {
-        onChanged();;
-        if (attr_ == null) {
-          attr_ = com.google.protobuf.MapField.newMapField(
-              AttrDefaultEntryHolder.defaultEntry);
-        }
-        if (!attr_.isMutable()) {
-          attr_ = attr_.copy();
-        }
-        return attr_;
-      }
-
-      public int getAttrCount() {
-        return internalGetAttr().getMap().size();
-      }
-      /**
-       * <pre>
-       * Attrs.
-       * 'attr' maps names defined by 'func's attr defs to attr values.
-       * attr values may have placeholders which are substituted
-       * recursively by concrete values when this node is instantiated.
-       * These placeholders must name an attr listed in the FunctionDef's
-       * signature.
-       * </pre>
-       *
-       * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-       */
-
-      public boolean containsAttr(
-          java.lang.String key) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        return internalGetAttr().getMap().containsKey(key);
-      }
-      /**
-       * Use {@link #getAttrMap()} instead.
-       */
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> getAttr() {
-        return getAttrMap();
-      }
-      /**
-       * <pre>
-       * Attrs.
-       * 'attr' maps names defined by 'func's attr defs to attr values.
-       * attr values may have placeholders which are substituted
-       * recursively by concrete values when this node is instantiated.
-       * These placeholders must name an attr listed in the FunctionDef's
-       * signature.
-       * </pre>
-       *
-       * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-       */
-
-      public java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> getAttrMap() {
-        return internalGetAttr().getMap();
-      }
-      /**
-       * <pre>
-       * Attrs.
-       * 'attr' maps names defined by 'func's attr defs to attr values.
-       * attr values may have placeholders which are substituted
-       * recursively by concrete values when this node is instantiated.
-       * These placeholders must name an attr listed in the FunctionDef's
-       * signature.
-       * </pre>
-       *
-       * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-       */
-
-      public org.tensorflow.framework.AttrValue getAttrOrDefault(
-          java.lang.String key,
-          org.tensorflow.framework.AttrValue defaultValue) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> map =
-            internalGetAttr().getMap();
-        return map.containsKey(key) ? map.get(key) : defaultValue;
-      }
-      /**
-       * <pre>
-       * Attrs.
-       * 'attr' maps names defined by 'func's attr defs to attr values.
-       * attr values may have placeholders which are substituted
-       * recursively by concrete values when this node is instantiated.
-       * These placeholders must name an attr listed in the FunctionDef's
-       * signature.
-       * </pre>
-       *
-       * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-       */
-
-      public org.tensorflow.framework.AttrValue getAttrOrThrow(
-          java.lang.String key) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> map =
-            internalGetAttr().getMap();
-        if (!map.containsKey(key)) {
-          throw new java.lang.IllegalArgumentException();
-        }
-        return map.get(key);
-      }
-
-      public Builder clearAttr() {
-        getMutableAttr().clear();
-        return this;
-      }
-      /**
-       * <pre>
-       * Attrs.
-       * 'attr' maps names defined by 'func's attr defs to attr values.
-       * attr values may have placeholders which are substituted
-       * recursively by concrete values when this node is instantiated.
-       * These placeholders must name an attr listed in the FunctionDef's
-       * signature.
-       * </pre>
-       *
-       * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-       */
-
-      public Builder removeAttr(
-          java.lang.String key) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        getMutableAttr().remove(key);
-        return this;
-      }
-      /**
-       * Use alternate mutation accessors instead.
-       */
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue>
-      getMutableAttr() {
-        return internalGetMutableAttr().getMutableMap();
-      }
-      /**
-       * <pre>
-       * Attrs.
-       * 'attr' maps names defined by 'func's attr defs to attr values.
-       * attr values may have placeholders which are substituted
-       * recursively by concrete values when this node is instantiated.
-       * These placeholders must name an attr listed in the FunctionDef's
-       * signature.
-       * </pre>
-       *
-       * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-       */
-      public Builder putAttr(
-          java.lang.String key,
-          org.tensorflow.framework.AttrValue value) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        if (value == null) { throw new java.lang.NullPointerException(); }
-        getMutableAttr().put(key, value);
-        return this;
-      }
-      /**
-       * <pre>
-       * Attrs.
-       * 'attr' maps names defined by 'func's attr defs to attr values.
-       * attr values may have placeholders which are substituted
-       * recursively by concrete values when this node is instantiated.
-       * These placeholders must name an attr listed in the FunctionDef's
-       * signature.
-       * </pre>
-       *
-       * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
-       */
-
-      public Builder putAllAttr(
-          java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> values) {
-        getMutableAttr().putAll(values);
-        return this;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:tensorflow.FunctionDef.Node)
-    }
-
-    // @@protoc_insertion_point(class_scope:tensorflow.FunctionDef.Node)
-    private static final org.tensorflow.framework.FunctionDef.Node DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new org.tensorflow.framework.FunctionDef.Node();
-    }
-
-    public static org.tensorflow.framework.FunctionDef.Node getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<Node>
-        PARSER = new com.google.protobuf.AbstractParser<Node>() {
-      public Node parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Node(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<Node> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<Node> getParserForType() {
-      return PARSER;
-    }
-
-    public org.tensorflow.framework.FunctionDef.Node getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
   }
 
   private int bitField0_;
@@ -2064,59 +173,257 @@ public  final class FunctionDef extends
     return getSignature();
   }
 
-  public static final int NODE_FIELD_NUMBER = 2;
-  private java.util.List<org.tensorflow.framework.FunctionDef.Node> node_;
-  /**
-   * <pre>
-   * The body of the function.
-   * </pre>
-   *
-   * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
-   */
-  public java.util.List<org.tensorflow.framework.FunctionDef.Node> getNodeList() {
-    return node_;
+  public static final int ATTR_FIELD_NUMBER = 5;
+  private static final class AttrDefaultEntryHolder {
+    static final com.google.protobuf.MapEntry<
+        java.lang.String, org.tensorflow.framework.AttrValue> defaultEntry =
+            com.google.protobuf.MapEntry
+            .<java.lang.String, org.tensorflow.framework.AttrValue>newDefaultInstance(
+                org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_AttrEntry_descriptor, 
+                com.google.protobuf.WireFormat.FieldType.STRING,
+                "",
+                com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                org.tensorflow.framework.AttrValue.getDefaultInstance());
+  }
+  private com.google.protobuf.MapField<
+      java.lang.String, org.tensorflow.framework.AttrValue> attr_;
+  private com.google.protobuf.MapField<java.lang.String, org.tensorflow.framework.AttrValue>
+  internalGetAttr() {
+    if (attr_ == null) {
+      return com.google.protobuf.MapField.emptyMapField(
+          AttrDefaultEntryHolder.defaultEntry);
+    }
+    return attr_;
+  }
+
+  public int getAttrCount() {
+    return internalGetAttr().getMap().size();
   }
   /**
    * <pre>
-   * The body of the function.
+   * Attributes specific to this function definition.
    * </pre>
    *
-   * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+   * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
    */
-  public java.util.List<? extends org.tensorflow.framework.FunctionDef.NodeOrBuilder> 
-      getNodeOrBuilderList() {
-    return node_;
+
+  public boolean containsAttr(
+      java.lang.String key) {
+    if (key == null) { throw new java.lang.NullPointerException(); }
+    return internalGetAttr().getMap().containsKey(key);
+  }
+  /**
+   * Use {@link #getAttrMap()} instead.
+   */
+  @java.lang.Deprecated
+  public java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> getAttr() {
+    return getAttrMap();
   }
   /**
    * <pre>
-   * The body of the function.
+   * Attributes specific to this function definition.
    * </pre>
    *
-   * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+   * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
    */
-  public int getNodeCount() {
-    return node_.size();
+
+  public java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> getAttrMap() {
+    return internalGetAttr().getMap();
   }
   /**
    * <pre>
-   * The body of the function.
+   * Attributes specific to this function definition.
    * </pre>
    *
-   * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+   * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
    */
-  public org.tensorflow.framework.FunctionDef.Node getNode(int index) {
-    return node_.get(index);
+
+  public org.tensorflow.framework.AttrValue getAttrOrDefault(
+      java.lang.String key,
+      org.tensorflow.framework.AttrValue defaultValue) {
+    if (key == null) { throw new java.lang.NullPointerException(); }
+    java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> map =
+        internalGetAttr().getMap();
+    return map.containsKey(key) ? map.get(key) : defaultValue;
   }
   /**
    * <pre>
-   * The body of the function.
+   * Attributes specific to this function definition.
    * </pre>
    *
-   * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+   * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
    */
-  public org.tensorflow.framework.FunctionDef.NodeOrBuilder getNodeOrBuilder(
+
+  public org.tensorflow.framework.AttrValue getAttrOrThrow(
+      java.lang.String key) {
+    if (key == null) { throw new java.lang.NullPointerException(); }
+    java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> map =
+        internalGetAttr().getMap();
+    if (!map.containsKey(key)) {
+      throw new java.lang.IllegalArgumentException();
+    }
+    return map.get(key);
+  }
+
+  public static final int NODE_DEF_FIELD_NUMBER = 3;
+  private java.util.List<org.tensorflow.framework.NodeDef> nodeDef_;
+  /**
+   * <pre>
+   * By convention, "op" in node_def is resolved by consulting with a
+   * user-defined library first. If not resolved, "func" is assumed to
+   * be a builtin op.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+   */
+  public java.util.List<org.tensorflow.framework.NodeDef> getNodeDefList() {
+    return nodeDef_;
+  }
+  /**
+   * <pre>
+   * By convention, "op" in node_def is resolved by consulting with a
+   * user-defined library first. If not resolved, "func" is assumed to
+   * be a builtin op.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+   */
+  public java.util.List<? extends org.tensorflow.framework.NodeDefOrBuilder> 
+      getNodeDefOrBuilderList() {
+    return nodeDef_;
+  }
+  /**
+   * <pre>
+   * By convention, "op" in node_def is resolved by consulting with a
+   * user-defined library first. If not resolved, "func" is assumed to
+   * be a builtin op.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+   */
+  public int getNodeDefCount() {
+    return nodeDef_.size();
+  }
+  /**
+   * <pre>
+   * By convention, "op" in node_def is resolved by consulting with a
+   * user-defined library first. If not resolved, "func" is assumed to
+   * be a builtin op.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+   */
+  public org.tensorflow.framework.NodeDef getNodeDef(int index) {
+    return nodeDef_.get(index);
+  }
+  /**
+   * <pre>
+   * By convention, "op" in node_def is resolved by consulting with a
+   * user-defined library first. If not resolved, "func" is assumed to
+   * be a builtin op.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
+   */
+  public org.tensorflow.framework.NodeDefOrBuilder getNodeDefOrBuilder(
       int index) {
-    return node_.get(index);
+    return nodeDef_.get(index);
+  }
+
+  public static final int RET_FIELD_NUMBER = 4;
+  private static final class RetDefaultEntryHolder {
+    static final com.google.protobuf.MapEntry<
+        java.lang.String, java.lang.String> defaultEntry =
+            com.google.protobuf.MapEntry
+            .<java.lang.String, java.lang.String>newDefaultInstance(
+                org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_RetEntry_descriptor, 
+                com.google.protobuf.WireFormat.FieldType.STRING,
+                "",
+                com.google.protobuf.WireFormat.FieldType.STRING,
+                "");
+  }
+  private com.google.protobuf.MapField<
+      java.lang.String, java.lang.String> ret_;
+  private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+  internalGetRet() {
+    if (ret_ == null) {
+      return com.google.protobuf.MapField.emptyMapField(
+          RetDefaultEntryHolder.defaultEntry);
+    }
+    return ret_;
+  }
+
+  public int getRetCount() {
+    return internalGetRet().getMap().size();
+  }
+  /**
+   * <pre>
+   * A mapping from the output arg names from `signature` to the
+   * outputs from `node_def` that should be returned by the function.
+   * </pre>
+   *
+   * <code>map&lt;string, string&gt; ret = 4;</code>
+   */
+
+  public boolean containsRet(
+      java.lang.String key) {
+    if (key == null) { throw new java.lang.NullPointerException(); }
+    return internalGetRet().getMap().containsKey(key);
+  }
+  /**
+   * Use {@link #getRetMap()} instead.
+   */
+  @java.lang.Deprecated
+  public java.util.Map<java.lang.String, java.lang.String> getRet() {
+    return getRetMap();
+  }
+  /**
+   * <pre>
+   * A mapping from the output arg names from `signature` to the
+   * outputs from `node_def` that should be returned by the function.
+   * </pre>
+   *
+   * <code>map&lt;string, string&gt; ret = 4;</code>
+   */
+
+  public java.util.Map<java.lang.String, java.lang.String> getRetMap() {
+    return internalGetRet().getMap();
+  }
+  /**
+   * <pre>
+   * A mapping from the output arg names from `signature` to the
+   * outputs from `node_def` that should be returned by the function.
+   * </pre>
+   *
+   * <code>map&lt;string, string&gt; ret = 4;</code>
+   */
+
+  public java.lang.String getRetOrDefault(
+      java.lang.String key,
+      java.lang.String defaultValue) {
+    if (key == null) { throw new java.lang.NullPointerException(); }
+    java.util.Map<java.lang.String, java.lang.String> map =
+        internalGetRet().getMap();
+    return map.containsKey(key) ? map.get(key) : defaultValue;
+  }
+  /**
+   * <pre>
+   * A mapping from the output arg names from `signature` to the
+   * outputs from `node_def` that should be returned by the function.
+   * </pre>
+   *
+   * <code>map&lt;string, string&gt; ret = 4;</code>
+   */
+
+  public java.lang.String getRetOrThrow(
+      java.lang.String key) {
+    if (key == null) { throw new java.lang.NullPointerException(); }
+    java.util.Map<java.lang.String, java.lang.String> map =
+        internalGetRet().getMap();
+    if (!map.containsKey(key)) {
+      throw new java.lang.IllegalArgumentException();
+    }
+    return map.get(key);
   }
 
   private byte memoizedIsInitialized = -1;
@@ -2134,8 +441,26 @@ public  final class FunctionDef extends
     if (signature_ != null) {
       output.writeMessage(1, getSignature());
     }
-    for (int i = 0; i < node_.size(); i++) {
-      output.writeMessage(2, node_.get(i));
+    for (int i = 0; i < nodeDef_.size(); i++) {
+      output.writeMessage(3, nodeDef_.get(i));
+    }
+    for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+         : internalGetRet().getMap().entrySet()) {
+      com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+      ret = RetDefaultEntryHolder.defaultEntry.newBuilderForType()
+          .setKey(entry.getKey())
+          .setValue(entry.getValue())
+          .build();
+      output.writeMessage(4, ret);
+    }
+    for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.AttrValue> entry
+         : internalGetAttr().getMap().entrySet()) {
+      com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.AttrValue>
+      attr = AttrDefaultEntryHolder.defaultEntry.newBuilderForType()
+          .setKey(entry.getKey())
+          .setValue(entry.getValue())
+          .build();
+      output.writeMessage(5, attr);
     }
   }
 
@@ -2148,9 +473,29 @@ public  final class FunctionDef extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(1, getSignature());
     }
-    for (int i = 0; i < node_.size(); i++) {
+    for (int i = 0; i < nodeDef_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(2, node_.get(i));
+        .computeMessageSize(3, nodeDef_.get(i));
+    }
+    for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+         : internalGetRet().getMap().entrySet()) {
+      com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+      ret = RetDefaultEntryHolder.defaultEntry.newBuilderForType()
+          .setKey(entry.getKey())
+          .setValue(entry.getValue())
+          .build();
+      size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, ret);
+    }
+    for (java.util.Map.Entry<java.lang.String, org.tensorflow.framework.AttrValue> entry
+         : internalGetAttr().getMap().entrySet()) {
+      com.google.protobuf.MapEntry<java.lang.String, org.tensorflow.framework.AttrValue>
+      attr = AttrDefaultEntryHolder.defaultEntry.newBuilderForType()
+          .setKey(entry.getKey())
+          .setValue(entry.getValue())
+          .build();
+      size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, attr);
     }
     memoizedSize = size;
     return size;
@@ -2173,8 +518,12 @@ public  final class FunctionDef extends
       result = result && getSignature()
           .equals(other.getSignature());
     }
-    result = result && getNodeList()
-        .equals(other.getNodeList());
+    result = result && internalGetAttr().equals(
+        other.internalGetAttr());
+    result = result && getNodeDefList()
+        .equals(other.getNodeDefList());
+    result = result && internalGetRet().equals(
+        other.internalGetRet());
     return result;
   }
 
@@ -2189,9 +538,17 @@ public  final class FunctionDef extends
       hash = (37 * hash) + SIGNATURE_FIELD_NUMBER;
       hash = (53 * hash) + getSignature().hashCode();
     }
-    if (getNodeCount() > 0) {
-      hash = (37 * hash) + NODE_FIELD_NUMBER;
-      hash = (53 * hash) + getNodeList().hashCode();
+    if (!internalGetAttr().getMap().isEmpty()) {
+      hash = (37 * hash) + ATTR_FIELD_NUMBER;
+      hash = (53 * hash) + internalGetAttr().hashCode();
+    }
+    if (getNodeDefCount() > 0) {
+      hash = (37 * hash) + NODE_DEF_FIELD_NUMBER;
+      hash = (53 * hash) + getNodeDefList().hashCode();
+    }
+    if (!internalGetRet().getMap().isEmpty()) {
+      hash = (37 * hash) + RET_FIELD_NUMBER;
+      hash = (53 * hash) + internalGetRet().hashCode();
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -2295,6 +652,32 @@ public  final class FunctionDef extends
       return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_descriptor;
     }
 
+    @SuppressWarnings({"rawtypes"})
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 5:
+          return internalGetAttr();
+        case 4:
+          return internalGetRet();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
+    @SuppressWarnings({"rawtypes"})
+    protected com.google.protobuf.MapField internalGetMutableMapField(
+        int number) {
+      switch (number) {
+        case 5:
+          return internalGetMutableAttr();
+        case 4:
+          return internalGetMutableRet();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return org.tensorflow.framework.FunctionProtos.internal_static_tensorflow_FunctionDef_fieldAccessorTable
@@ -2315,7 +698,7 @@ public  final class FunctionDef extends
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessageV3
               .alwaysUseFieldBuilders) {
-        getNodeFieldBuilder();
+        getNodeDefFieldBuilder();
       }
     }
     public Builder clear() {
@@ -2326,12 +709,14 @@ public  final class FunctionDef extends
         signature_ = null;
         signatureBuilder_ = null;
       }
-      if (nodeBuilder_ == null) {
-        node_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+      internalGetMutableAttr().clear();
+      if (nodeDefBuilder_ == null) {
+        nodeDef_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000004);
       } else {
-        nodeBuilder_.clear();
+        nodeDefBuilder_.clear();
       }
+      internalGetMutableRet().clear();
       return this;
     }
 
@@ -2361,15 +746,19 @@ public  final class FunctionDef extends
       } else {
         result.signature_ = signatureBuilder_.build();
       }
-      if (nodeBuilder_ == null) {
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          node_ = java.util.Collections.unmodifiableList(node_);
-          bitField0_ = (bitField0_ & ~0x00000002);
+      result.attr_ = internalGetAttr();
+      result.attr_.makeImmutable();
+      if (nodeDefBuilder_ == null) {
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          nodeDef_ = java.util.Collections.unmodifiableList(nodeDef_);
+          bitField0_ = (bitField0_ & ~0x00000004);
         }
-        result.node_ = node_;
+        result.nodeDef_ = nodeDef_;
       } else {
-        result.node_ = nodeBuilder_.build();
+        result.nodeDef_ = nodeDefBuilder_.build();
       }
+      result.ret_ = internalGetRet();
+      result.ret_.makeImmutable();
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -2415,32 +804,36 @@ public  final class FunctionDef extends
       if (other.hasSignature()) {
         mergeSignature(other.getSignature());
       }
-      if (nodeBuilder_ == null) {
-        if (!other.node_.isEmpty()) {
-          if (node_.isEmpty()) {
-            node_ = other.node_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+      internalGetMutableAttr().mergeFrom(
+          other.internalGetAttr());
+      if (nodeDefBuilder_ == null) {
+        if (!other.nodeDef_.isEmpty()) {
+          if (nodeDef_.isEmpty()) {
+            nodeDef_ = other.nodeDef_;
+            bitField0_ = (bitField0_ & ~0x00000004);
           } else {
-            ensureNodeIsMutable();
-            node_.addAll(other.node_);
+            ensureNodeDefIsMutable();
+            nodeDef_.addAll(other.nodeDef_);
           }
           onChanged();
         }
       } else {
-        if (!other.node_.isEmpty()) {
-          if (nodeBuilder_.isEmpty()) {
-            nodeBuilder_.dispose();
-            nodeBuilder_ = null;
-            node_ = other.node_;
-            bitField0_ = (bitField0_ & ~0x00000002);
-            nodeBuilder_ = 
+        if (!other.nodeDef_.isEmpty()) {
+          if (nodeDefBuilder_.isEmpty()) {
+            nodeDefBuilder_.dispose();
+            nodeDefBuilder_ = null;
+            nodeDef_ = other.nodeDef_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+            nodeDefBuilder_ = 
               com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                 getNodeFieldBuilder() : null;
+                 getNodeDefFieldBuilder() : null;
           } else {
-            nodeBuilder_.addAllMessages(other.node_);
+            nodeDefBuilder_.addAllMessages(other.nodeDef_);
           }
         }
       }
+      internalGetMutableRet().mergeFrom(
+          other.internalGetRet());
       onChanged();
       return this;
     }
@@ -2630,316 +1023,653 @@ public  final class FunctionDef extends
       return signatureBuilder_;
     }
 
-    private java.util.List<org.tensorflow.framework.FunctionDef.Node> node_ =
+    private com.google.protobuf.MapField<
+        java.lang.String, org.tensorflow.framework.AttrValue> attr_;
+    private com.google.protobuf.MapField<java.lang.String, org.tensorflow.framework.AttrValue>
+    internalGetAttr() {
+      if (attr_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            AttrDefaultEntryHolder.defaultEntry);
+      }
+      return attr_;
+    }
+    private com.google.protobuf.MapField<java.lang.String, org.tensorflow.framework.AttrValue>
+    internalGetMutableAttr() {
+      onChanged();;
+      if (attr_ == null) {
+        attr_ = com.google.protobuf.MapField.newMapField(
+            AttrDefaultEntryHolder.defaultEntry);
+      }
+      if (!attr_.isMutable()) {
+        attr_ = attr_.copy();
+      }
+      return attr_;
+    }
+
+    public int getAttrCount() {
+      return internalGetAttr().getMap().size();
+    }
+    /**
+     * <pre>
+     * Attributes specific to this function definition.
+     * </pre>
+     *
+     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+     */
+
+    public boolean containsAttr(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      return internalGetAttr().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getAttrMap()} instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> getAttr() {
+      return getAttrMap();
+    }
+    /**
+     * <pre>
+     * Attributes specific to this function definition.
+     * </pre>
+     *
+     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+     */
+
+    public java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> getAttrMap() {
+      return internalGetAttr().getMap();
+    }
+    /**
+     * <pre>
+     * Attributes specific to this function definition.
+     * </pre>
+     *
+     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+     */
+
+    public org.tensorflow.framework.AttrValue getAttrOrDefault(
+        java.lang.String key,
+        org.tensorflow.framework.AttrValue defaultValue) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> map =
+          internalGetAttr().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <pre>
+     * Attributes specific to this function definition.
+     * </pre>
+     *
+     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+     */
+
+    public org.tensorflow.framework.AttrValue getAttrOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> map =
+          internalGetAttr().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
+    public Builder clearAttr() {
+      getMutableAttr().clear();
+      return this;
+    }
+    /**
+     * <pre>
+     * Attributes specific to this function definition.
+     * </pre>
+     *
+     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+     */
+
+    public Builder removeAttr(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      getMutableAttr().remove(key);
+      return this;
+    }
+    /**
+     * Use alternate mutation accessors instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue>
+    getMutableAttr() {
+      return internalGetMutableAttr().getMutableMap();
+    }
+    /**
+     * <pre>
+     * Attributes specific to this function definition.
+     * </pre>
+     *
+     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+     */
+    public Builder putAttr(
+        java.lang.String key,
+        org.tensorflow.framework.AttrValue value) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      if (value == null) { throw new java.lang.NullPointerException(); }
+      getMutableAttr().put(key, value);
+      return this;
+    }
+    /**
+     * <pre>
+     * Attributes specific to this function definition.
+     * </pre>
+     *
+     * <code>map&lt;string, .tensorflow.AttrValue&gt; attr = 5;</code>
+     */
+
+    public Builder putAllAttr(
+        java.util.Map<java.lang.String, org.tensorflow.framework.AttrValue> values) {
+      getMutableAttr().putAll(values);
+      return this;
+    }
+
+    private java.util.List<org.tensorflow.framework.NodeDef> nodeDef_ =
       java.util.Collections.emptyList();
-    private void ensureNodeIsMutable() {
-      if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-        node_ = new java.util.ArrayList<org.tensorflow.framework.FunctionDef.Node>(node_);
-        bitField0_ |= 0x00000002;
+    private void ensureNodeDefIsMutable() {
+      if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        nodeDef_ = new java.util.ArrayList<org.tensorflow.framework.NodeDef>(nodeDef_);
+        bitField0_ |= 0x00000004;
        }
     }
 
     private com.google.protobuf.RepeatedFieldBuilderV3<
-        org.tensorflow.framework.FunctionDef.Node, org.tensorflow.framework.FunctionDef.Node.Builder, org.tensorflow.framework.FunctionDef.NodeOrBuilder> nodeBuilder_;
+        org.tensorflow.framework.NodeDef, org.tensorflow.framework.NodeDef.Builder, org.tensorflow.framework.NodeDefOrBuilder> nodeDefBuilder_;
 
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public java.util.List<org.tensorflow.framework.FunctionDef.Node> getNodeList() {
-      if (nodeBuilder_ == null) {
-        return java.util.Collections.unmodifiableList(node_);
+    public java.util.List<org.tensorflow.framework.NodeDef> getNodeDefList() {
+      if (nodeDefBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(nodeDef_);
       } else {
-        return nodeBuilder_.getMessageList();
+        return nodeDefBuilder_.getMessageList();
       }
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public int getNodeCount() {
-      if (nodeBuilder_ == null) {
-        return node_.size();
+    public int getNodeDefCount() {
+      if (nodeDefBuilder_ == null) {
+        return nodeDef_.size();
       } else {
-        return nodeBuilder_.getCount();
+        return nodeDefBuilder_.getCount();
       }
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public org.tensorflow.framework.FunctionDef.Node getNode(int index) {
-      if (nodeBuilder_ == null) {
-        return node_.get(index);
+    public org.tensorflow.framework.NodeDef getNodeDef(int index) {
+      if (nodeDefBuilder_ == null) {
+        return nodeDef_.get(index);
       } else {
-        return nodeBuilder_.getMessage(index);
+        return nodeDefBuilder_.getMessage(index);
       }
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public Builder setNode(
-        int index, org.tensorflow.framework.FunctionDef.Node value) {
-      if (nodeBuilder_ == null) {
+    public Builder setNodeDef(
+        int index, org.tensorflow.framework.NodeDef value) {
+      if (nodeDefBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
-        ensureNodeIsMutable();
-        node_.set(index, value);
+        ensureNodeDefIsMutable();
+        nodeDef_.set(index, value);
         onChanged();
       } else {
-        nodeBuilder_.setMessage(index, value);
+        nodeDefBuilder_.setMessage(index, value);
       }
       return this;
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public Builder setNode(
-        int index, org.tensorflow.framework.FunctionDef.Node.Builder builderForValue) {
-      if (nodeBuilder_ == null) {
-        ensureNodeIsMutable();
-        node_.set(index, builderForValue.build());
+    public Builder setNodeDef(
+        int index, org.tensorflow.framework.NodeDef.Builder builderForValue) {
+      if (nodeDefBuilder_ == null) {
+        ensureNodeDefIsMutable();
+        nodeDef_.set(index, builderForValue.build());
         onChanged();
       } else {
-        nodeBuilder_.setMessage(index, builderForValue.build());
+        nodeDefBuilder_.setMessage(index, builderForValue.build());
       }
       return this;
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public Builder addNode(org.tensorflow.framework.FunctionDef.Node value) {
-      if (nodeBuilder_ == null) {
+    public Builder addNodeDef(org.tensorflow.framework.NodeDef value) {
+      if (nodeDefBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
-        ensureNodeIsMutable();
-        node_.add(value);
+        ensureNodeDefIsMutable();
+        nodeDef_.add(value);
         onChanged();
       } else {
-        nodeBuilder_.addMessage(value);
+        nodeDefBuilder_.addMessage(value);
       }
       return this;
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public Builder addNode(
-        int index, org.tensorflow.framework.FunctionDef.Node value) {
-      if (nodeBuilder_ == null) {
+    public Builder addNodeDef(
+        int index, org.tensorflow.framework.NodeDef value) {
+      if (nodeDefBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
-        ensureNodeIsMutable();
-        node_.add(index, value);
+        ensureNodeDefIsMutable();
+        nodeDef_.add(index, value);
         onChanged();
       } else {
-        nodeBuilder_.addMessage(index, value);
+        nodeDefBuilder_.addMessage(index, value);
       }
       return this;
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public Builder addNode(
-        org.tensorflow.framework.FunctionDef.Node.Builder builderForValue) {
-      if (nodeBuilder_ == null) {
-        ensureNodeIsMutable();
-        node_.add(builderForValue.build());
+    public Builder addNodeDef(
+        org.tensorflow.framework.NodeDef.Builder builderForValue) {
+      if (nodeDefBuilder_ == null) {
+        ensureNodeDefIsMutable();
+        nodeDef_.add(builderForValue.build());
         onChanged();
       } else {
-        nodeBuilder_.addMessage(builderForValue.build());
+        nodeDefBuilder_.addMessage(builderForValue.build());
       }
       return this;
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public Builder addNode(
-        int index, org.tensorflow.framework.FunctionDef.Node.Builder builderForValue) {
-      if (nodeBuilder_ == null) {
-        ensureNodeIsMutable();
-        node_.add(index, builderForValue.build());
+    public Builder addNodeDef(
+        int index, org.tensorflow.framework.NodeDef.Builder builderForValue) {
+      if (nodeDefBuilder_ == null) {
+        ensureNodeDefIsMutable();
+        nodeDef_.add(index, builderForValue.build());
         onChanged();
       } else {
-        nodeBuilder_.addMessage(index, builderForValue.build());
+        nodeDefBuilder_.addMessage(index, builderForValue.build());
       }
       return this;
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public Builder addAllNode(
-        java.lang.Iterable<? extends org.tensorflow.framework.FunctionDef.Node> values) {
-      if (nodeBuilder_ == null) {
-        ensureNodeIsMutable();
+    public Builder addAllNodeDef(
+        java.lang.Iterable<? extends org.tensorflow.framework.NodeDef> values) {
+      if (nodeDefBuilder_ == null) {
+        ensureNodeDefIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, node_);
+            values, nodeDef_);
         onChanged();
       } else {
-        nodeBuilder_.addAllMessages(values);
+        nodeDefBuilder_.addAllMessages(values);
       }
       return this;
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public Builder clearNode() {
-      if (nodeBuilder_ == null) {
-        node_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+    public Builder clearNodeDef() {
+      if (nodeDefBuilder_ == null) {
+        nodeDef_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
       } else {
-        nodeBuilder_.clear();
+        nodeDefBuilder_.clear();
       }
       return this;
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public Builder removeNode(int index) {
-      if (nodeBuilder_ == null) {
-        ensureNodeIsMutable();
-        node_.remove(index);
+    public Builder removeNodeDef(int index) {
+      if (nodeDefBuilder_ == null) {
+        ensureNodeDefIsMutable();
+        nodeDef_.remove(index);
         onChanged();
       } else {
-        nodeBuilder_.remove(index);
+        nodeDefBuilder_.remove(index);
       }
       return this;
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public org.tensorflow.framework.FunctionDef.Node.Builder getNodeBuilder(
+    public org.tensorflow.framework.NodeDef.Builder getNodeDefBuilder(
         int index) {
-      return getNodeFieldBuilder().getBuilder(index);
+      return getNodeDefFieldBuilder().getBuilder(index);
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public org.tensorflow.framework.FunctionDef.NodeOrBuilder getNodeOrBuilder(
+    public org.tensorflow.framework.NodeDefOrBuilder getNodeDefOrBuilder(
         int index) {
-      if (nodeBuilder_ == null) {
-        return node_.get(index);  } else {
-        return nodeBuilder_.getMessageOrBuilder(index);
+      if (nodeDefBuilder_ == null) {
+        return nodeDef_.get(index);  } else {
+        return nodeDefBuilder_.getMessageOrBuilder(index);
       }
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public java.util.List<? extends org.tensorflow.framework.FunctionDef.NodeOrBuilder> 
-         getNodeOrBuilderList() {
-      if (nodeBuilder_ != null) {
-        return nodeBuilder_.getMessageOrBuilderList();
+    public java.util.List<? extends org.tensorflow.framework.NodeDefOrBuilder> 
+         getNodeDefOrBuilderList() {
+      if (nodeDefBuilder_ != null) {
+        return nodeDefBuilder_.getMessageOrBuilderList();
       } else {
-        return java.util.Collections.unmodifiableList(node_);
+        return java.util.Collections.unmodifiableList(nodeDef_);
       }
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public org.tensorflow.framework.FunctionDef.Node.Builder addNodeBuilder() {
-      return getNodeFieldBuilder().addBuilder(
-          org.tensorflow.framework.FunctionDef.Node.getDefaultInstance());
+    public org.tensorflow.framework.NodeDef.Builder addNodeDefBuilder() {
+      return getNodeDefFieldBuilder().addBuilder(
+          org.tensorflow.framework.NodeDef.getDefaultInstance());
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public org.tensorflow.framework.FunctionDef.Node.Builder addNodeBuilder(
+    public org.tensorflow.framework.NodeDef.Builder addNodeDefBuilder(
         int index) {
-      return getNodeFieldBuilder().addBuilder(
-          index, org.tensorflow.framework.FunctionDef.Node.getDefaultInstance());
+      return getNodeDefFieldBuilder().addBuilder(
+          index, org.tensorflow.framework.NodeDef.getDefaultInstance());
     }
     /**
      * <pre>
-     * The body of the function.
+     * By convention, "op" in node_def is resolved by consulting with a
+     * user-defined library first. If not resolved, "func" is assumed to
+     * be a builtin op.
      * </pre>
      *
-     * <code>repeated .tensorflow.FunctionDef.Node node = 2;</code>
+     * <code>repeated .tensorflow.NodeDef node_def = 3;</code>
      */
-    public java.util.List<org.tensorflow.framework.FunctionDef.Node.Builder> 
-         getNodeBuilderList() {
-      return getNodeFieldBuilder().getBuilderList();
+    public java.util.List<org.tensorflow.framework.NodeDef.Builder> 
+         getNodeDefBuilderList() {
+      return getNodeDefFieldBuilder().getBuilderList();
     }
     private com.google.protobuf.RepeatedFieldBuilderV3<
-        org.tensorflow.framework.FunctionDef.Node, org.tensorflow.framework.FunctionDef.Node.Builder, org.tensorflow.framework.FunctionDef.NodeOrBuilder> 
-        getNodeFieldBuilder() {
-      if (nodeBuilder_ == null) {
-        nodeBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-            org.tensorflow.framework.FunctionDef.Node, org.tensorflow.framework.FunctionDef.Node.Builder, org.tensorflow.framework.FunctionDef.NodeOrBuilder>(
-                node_,
-                ((bitField0_ & 0x00000002) == 0x00000002),
+        org.tensorflow.framework.NodeDef, org.tensorflow.framework.NodeDef.Builder, org.tensorflow.framework.NodeDefOrBuilder> 
+        getNodeDefFieldBuilder() {
+      if (nodeDefBuilder_ == null) {
+        nodeDefBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+            org.tensorflow.framework.NodeDef, org.tensorflow.framework.NodeDef.Builder, org.tensorflow.framework.NodeDefOrBuilder>(
+                nodeDef_,
+                ((bitField0_ & 0x00000004) == 0x00000004),
                 getParentForChildren(),
                 isClean());
-        node_ = null;
+        nodeDef_ = null;
       }
-      return nodeBuilder_;
+      return nodeDefBuilder_;
+    }
+
+    private com.google.protobuf.MapField<
+        java.lang.String, java.lang.String> ret_;
+    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+    internalGetRet() {
+      if (ret_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            RetDefaultEntryHolder.defaultEntry);
+      }
+      return ret_;
+    }
+    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+    internalGetMutableRet() {
+      onChanged();;
+      if (ret_ == null) {
+        ret_ = com.google.protobuf.MapField.newMapField(
+            RetDefaultEntryHolder.defaultEntry);
+      }
+      if (!ret_.isMutable()) {
+        ret_ = ret_.copy();
+      }
+      return ret_;
+    }
+
+    public int getRetCount() {
+      return internalGetRet().getMap().size();
+    }
+    /**
+     * <pre>
+     * A mapping from the output arg names from `signature` to the
+     * outputs from `node_def` that should be returned by the function.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; ret = 4;</code>
+     */
+
+    public boolean containsRet(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      return internalGetRet().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getRetMap()} instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, java.lang.String> getRet() {
+      return getRetMap();
+    }
+    /**
+     * <pre>
+     * A mapping from the output arg names from `signature` to the
+     * outputs from `node_def` that should be returned by the function.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; ret = 4;</code>
+     */
+
+    public java.util.Map<java.lang.String, java.lang.String> getRetMap() {
+      return internalGetRet().getMap();
+    }
+    /**
+     * <pre>
+     * A mapping from the output arg names from `signature` to the
+     * outputs from `node_def` that should be returned by the function.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; ret = 4;</code>
+     */
+
+    public java.lang.String getRetOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetRet().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <pre>
+     * A mapping from the output arg names from `signature` to the
+     * outputs from `node_def` that should be returned by the function.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; ret = 4;</code>
+     */
+
+    public java.lang.String getRetOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetRet().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
+    public Builder clearRet() {
+      getMutableRet().clear();
+      return this;
+    }
+    /**
+     * <pre>
+     * A mapping from the output arg names from `signature` to the
+     * outputs from `node_def` that should be returned by the function.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; ret = 4;</code>
+     */
+
+    public Builder removeRet(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      getMutableRet().remove(key);
+      return this;
+    }
+    /**
+     * Use alternate mutation accessors instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, java.lang.String>
+    getMutableRet() {
+      return internalGetMutableRet().getMutableMap();
+    }
+    /**
+     * <pre>
+     * A mapping from the output arg names from `signature` to the
+     * outputs from `node_def` that should be returned by the function.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; ret = 4;</code>
+     */
+    public Builder putRet(
+        java.lang.String key,
+        java.lang.String value) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      if (value == null) { throw new java.lang.NullPointerException(); }
+      getMutableRet().put(key, value);
+      return this;
+    }
+    /**
+     * <pre>
+     * A mapping from the output arg names from `signature` to the
+     * outputs from `node_def` that should be returned by the function.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; ret = 4;</code>
+     */
+
+    public Builder putAllRet(
+        java.util.Map<java.lang.String, java.lang.String> values) {
+      getMutableRet().putAll(values);
+      return this;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

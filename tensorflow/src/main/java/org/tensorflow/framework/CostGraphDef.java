@@ -84,7 +84,7 @@ public  final class CostGraphDef extends
 
     /**
      * <pre>
-     * The name of the node.
+     * The name of the node. Names are globally unique.
      * </pre>
      *
      * <code>optional string name = 1;</code>
@@ -92,7 +92,7 @@ public  final class CostGraphDef extends
     java.lang.String getName();
     /**
      * <pre>
-     * The name of the node.
+     * The name of the node. Names are globally unique.
      * </pre>
      *
      * <code>optional string name = 1;</code>
@@ -102,7 +102,8 @@ public  final class CostGraphDef extends
 
     /**
      * <pre>
-     * The device of the node.
+     * The device of the node. Can be empty if the node is mapped to the
+     * default partition or partitioning hasn't been run yet.
      * </pre>
      *
      * <code>optional string device = 2;</code>
@@ -110,7 +111,8 @@ public  final class CostGraphDef extends
     java.lang.String getDevice();
     /**
      * <pre>
-     * The device of the node.
+     * The device of the node. Can be empty if the node is mapped to the
+     * default partition or partitioning hasn't been run yet.
      * </pre>
      *
      * <code>optional string device = 2;</code>
@@ -120,7 +122,7 @@ public  final class CostGraphDef extends
 
     /**
      * <pre>
-     * The id of the node.
+     * The id of the node. Node ids are only unique inside a partition.
      * </pre>
      *
      * <code>optional int32 id = 3;</code>
@@ -186,6 +188,15 @@ public  final class CostGraphDef extends
 
     /**
      * <pre>
+     * Estimate of the computational cost of this node.
+     * </pre>
+     *
+     * <code>optional int64 compute_cost = 9;</code>
+     */
+    long getComputeCost();
+
+    /**
+     * <pre>
      * If true, the output is permanent: it can't be discarded, because this
      * node is part of the "final output". Nodes may depend on final nodes.
      * </pre>
@@ -237,6 +248,7 @@ public  final class CostGraphDef extends
       inputInfo_ = java.util.Collections.emptyList();
       outputInfo_ = java.util.Collections.emptyList();
       temporaryMemorySize_ = 0L;
+      computeCost_ = 0L;
       isFinal_ = false;
       controlInput_ = java.util.Collections.emptyList();
     }
@@ -312,9 +324,9 @@ public  final class CostGraphDef extends
               break;
             }
             case 64: {
-              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
                 controlInput_ = new java.util.ArrayList<java.lang.Integer>();
-                mutable_bitField0_ |= 0x00000080;
+                mutable_bitField0_ |= 0x00000100;
               }
               controlInput_.add(input.readInt32());
               break;
@@ -322,14 +334,19 @@ public  final class CostGraphDef extends
             case 66: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080) && input.getBytesUntilLimit() > 0) {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100) && input.getBytesUntilLimit() > 0) {
                 controlInput_ = new java.util.ArrayList<java.lang.Integer>();
-                mutable_bitField0_ |= 0x00000080;
+                mutable_bitField0_ |= 0x00000100;
               }
               while (input.getBytesUntilLimit() > 0) {
                 controlInput_.add(input.readInt32());
               }
               input.popLimit(limit);
+              break;
+            }
+            case 72: {
+
+              computeCost_ = input.readInt64();
               break;
             }
           }
@@ -346,7 +363,7 @@ public  final class CostGraphDef extends
         if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           outputInfo_ = java.util.Collections.unmodifiableList(outputInfo_);
         }
-        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
           controlInput_ = java.util.Collections.unmodifiableList(controlInput_);
         }
         makeExtensionsImmutable();
@@ -887,6 +904,28 @@ public  final class CostGraphDef extends
        * <code>optional int64 alias_input_port = 2;</code>
        */
       long getAliasInputPort();
+
+      /**
+       * <code>optional .tensorflow.TensorShapeProto shape = 3;</code>
+       */
+      boolean hasShape();
+      /**
+       * <code>optional .tensorflow.TensorShapeProto shape = 3;</code>
+       */
+      org.tensorflow.framework.TensorShapeProto getShape();
+      /**
+       * <code>optional .tensorflow.TensorShapeProto shape = 3;</code>
+       */
+      org.tensorflow.framework.TensorShapeProtoOrBuilder getShapeOrBuilder();
+
+      /**
+       * <code>optional .tensorflow.DataType dtype = 4;</code>
+       */
+      int getDtypeValue();
+      /**
+       * <code>optional .tensorflow.DataType dtype = 4;</code>
+       */
+      org.tensorflow.framework.DataType getDtype();
     }
     /**
      * <pre>
@@ -906,6 +945,7 @@ public  final class CostGraphDef extends
       private OutputInfo() {
         size_ = 0L;
         aliasInputPort_ = 0L;
+        dtype_ = 0;
       }
 
       @java.lang.Override
@@ -941,6 +981,25 @@ public  final class CostGraphDef extends
               case 16: {
 
                 aliasInputPort_ = input.readInt64();
+                break;
+              }
+              case 26: {
+                org.tensorflow.framework.TensorShapeProto.Builder subBuilder = null;
+                if (shape_ != null) {
+                  subBuilder = shape_.toBuilder();
+                }
+                shape_ = input.readMessage(org.tensorflow.framework.TensorShapeProto.parser(), extensionRegistry);
+                if (subBuilder != null) {
+                  subBuilder.mergeFrom(shape_);
+                  shape_ = subBuilder.buildPartial();
+                }
+
+                break;
+              }
+              case 32: {
+                int rawValue = input.readEnum();
+
+                dtype_ = rawValue;
                 break;
               }
             }
@@ -990,6 +1049,43 @@ public  final class CostGraphDef extends
         return aliasInputPort_;
       }
 
+      public static final int SHAPE_FIELD_NUMBER = 3;
+      private org.tensorflow.framework.TensorShapeProto shape_;
+      /**
+       * <code>optional .tensorflow.TensorShapeProto shape = 3;</code>
+       */
+      public boolean hasShape() {
+        return shape_ != null;
+      }
+      /**
+       * <code>optional .tensorflow.TensorShapeProto shape = 3;</code>
+       */
+      public org.tensorflow.framework.TensorShapeProto getShape() {
+        return shape_ == null ? org.tensorflow.framework.TensorShapeProto.getDefaultInstance() : shape_;
+      }
+      /**
+       * <code>optional .tensorflow.TensorShapeProto shape = 3;</code>
+       */
+      public org.tensorflow.framework.TensorShapeProtoOrBuilder getShapeOrBuilder() {
+        return getShape();
+      }
+
+      public static final int DTYPE_FIELD_NUMBER = 4;
+      private int dtype_;
+      /**
+       * <code>optional .tensorflow.DataType dtype = 4;</code>
+       */
+      public int getDtypeValue() {
+        return dtype_;
+      }
+      /**
+       * <code>optional .tensorflow.DataType dtype = 4;</code>
+       */
+      public org.tensorflow.framework.DataType getDtype() {
+        org.tensorflow.framework.DataType result = org.tensorflow.framework.DataType.valueOf(dtype_);
+        return result == null ? org.tensorflow.framework.DataType.UNRECOGNIZED : result;
+      }
+
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
@@ -1008,6 +1104,12 @@ public  final class CostGraphDef extends
         if (aliasInputPort_ != 0L) {
           output.writeInt64(2, aliasInputPort_);
         }
+        if (shape_ != null) {
+          output.writeMessage(3, getShape());
+        }
+        if (dtype_ != org.tensorflow.framework.DataType.DT_INVALID.getNumber()) {
+          output.writeEnum(4, dtype_);
+        }
       }
 
       public int getSerializedSize() {
@@ -1022,6 +1124,14 @@ public  final class CostGraphDef extends
         if (aliasInputPort_ != 0L) {
           size += com.google.protobuf.CodedOutputStream
             .computeInt64Size(2, aliasInputPort_);
+        }
+        if (shape_ != null) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(3, getShape());
+        }
+        if (dtype_ != org.tensorflow.framework.DataType.DT_INVALID.getNumber()) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeEnumSize(4, dtype_);
         }
         memoizedSize = size;
         return size;
@@ -1043,6 +1153,12 @@ public  final class CostGraphDef extends
             == other.getSize());
         result = result && (getAliasInputPort()
             == other.getAliasInputPort());
+        result = result && (hasShape() == other.hasShape());
+        if (hasShape()) {
+          result = result && getShape()
+              .equals(other.getShape());
+        }
+        result = result && dtype_ == other.dtype_;
         return result;
       }
 
@@ -1059,6 +1175,12 @@ public  final class CostGraphDef extends
         hash = (37 * hash) + ALIAS_INPUT_PORT_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
             getAliasInputPort());
+        if (hasShape()) {
+          hash = (37 * hash) + SHAPE_FIELD_NUMBER;
+          hash = (53 * hash) + getShape().hashCode();
+        }
+        hash = (37 * hash) + DTYPE_FIELD_NUMBER;
+        hash = (53 * hash) + dtype_;
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -1185,6 +1307,14 @@ public  final class CostGraphDef extends
 
           aliasInputPort_ = 0L;
 
+          if (shapeBuilder_ == null) {
+            shape_ = null;
+          } else {
+            shape_ = null;
+            shapeBuilder_ = null;
+          }
+          dtype_ = 0;
+
           return this;
         }
 
@@ -1209,6 +1339,12 @@ public  final class CostGraphDef extends
           org.tensorflow.framework.CostGraphDef.Node.OutputInfo result = new org.tensorflow.framework.CostGraphDef.Node.OutputInfo(this);
           result.size_ = size_;
           result.aliasInputPort_ = aliasInputPort_;
+          if (shapeBuilder_ == null) {
+            result.shape_ = shape_;
+          } else {
+            result.shape_ = shapeBuilder_.build();
+          }
+          result.dtype_ = dtype_;
           onBuilt();
           return result;
         }
@@ -1255,6 +1391,12 @@ public  final class CostGraphDef extends
           }
           if (other.getAliasInputPort() != 0L) {
             setAliasInputPort(other.getAliasInputPort());
+          }
+          if (other.hasShape()) {
+            mergeShape(other.getShape());
+          }
+          if (other.dtype_ != 0) {
+            setDtypeValue(other.getDtypeValue());
           }
           onChanged();
           return this;
@@ -1351,6 +1493,167 @@ public  final class CostGraphDef extends
           onChanged();
           return this;
         }
+
+        private org.tensorflow.framework.TensorShapeProto shape_ = null;
+        private com.google.protobuf.SingleFieldBuilderV3<
+            org.tensorflow.framework.TensorShapeProto, org.tensorflow.framework.TensorShapeProto.Builder, org.tensorflow.framework.TensorShapeProtoOrBuilder> shapeBuilder_;
+        /**
+         * <code>optional .tensorflow.TensorShapeProto shape = 3;</code>
+         */
+        public boolean hasShape() {
+          return shapeBuilder_ != null || shape_ != null;
+        }
+        /**
+         * <code>optional .tensorflow.TensorShapeProto shape = 3;</code>
+         */
+        public org.tensorflow.framework.TensorShapeProto getShape() {
+          if (shapeBuilder_ == null) {
+            return shape_ == null ? org.tensorflow.framework.TensorShapeProto.getDefaultInstance() : shape_;
+          } else {
+            return shapeBuilder_.getMessage();
+          }
+        }
+        /**
+         * <code>optional .tensorflow.TensorShapeProto shape = 3;</code>
+         */
+        public Builder setShape(org.tensorflow.framework.TensorShapeProto value) {
+          if (shapeBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            shape_ = value;
+            onChanged();
+          } else {
+            shapeBuilder_.setMessage(value);
+          }
+
+          return this;
+        }
+        /**
+         * <code>optional .tensorflow.TensorShapeProto shape = 3;</code>
+         */
+        public Builder setShape(
+            org.tensorflow.framework.TensorShapeProto.Builder builderForValue) {
+          if (shapeBuilder_ == null) {
+            shape_ = builderForValue.build();
+            onChanged();
+          } else {
+            shapeBuilder_.setMessage(builderForValue.build());
+          }
+
+          return this;
+        }
+        /**
+         * <code>optional .tensorflow.TensorShapeProto shape = 3;</code>
+         */
+        public Builder mergeShape(org.tensorflow.framework.TensorShapeProto value) {
+          if (shapeBuilder_ == null) {
+            if (shape_ != null) {
+              shape_ =
+                org.tensorflow.framework.TensorShapeProto.newBuilder(shape_).mergeFrom(value).buildPartial();
+            } else {
+              shape_ = value;
+            }
+            onChanged();
+          } else {
+            shapeBuilder_.mergeFrom(value);
+          }
+
+          return this;
+        }
+        /**
+         * <code>optional .tensorflow.TensorShapeProto shape = 3;</code>
+         */
+        public Builder clearShape() {
+          if (shapeBuilder_ == null) {
+            shape_ = null;
+            onChanged();
+          } else {
+            shape_ = null;
+            shapeBuilder_ = null;
+          }
+
+          return this;
+        }
+        /**
+         * <code>optional .tensorflow.TensorShapeProto shape = 3;</code>
+         */
+        public org.tensorflow.framework.TensorShapeProto.Builder getShapeBuilder() {
+          
+          onChanged();
+          return getShapeFieldBuilder().getBuilder();
+        }
+        /**
+         * <code>optional .tensorflow.TensorShapeProto shape = 3;</code>
+         */
+        public org.tensorflow.framework.TensorShapeProtoOrBuilder getShapeOrBuilder() {
+          if (shapeBuilder_ != null) {
+            return shapeBuilder_.getMessageOrBuilder();
+          } else {
+            return shape_ == null ?
+                org.tensorflow.framework.TensorShapeProto.getDefaultInstance() : shape_;
+          }
+        }
+        /**
+         * <code>optional .tensorflow.TensorShapeProto shape = 3;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilderV3<
+            org.tensorflow.framework.TensorShapeProto, org.tensorflow.framework.TensorShapeProto.Builder, org.tensorflow.framework.TensorShapeProtoOrBuilder> 
+            getShapeFieldBuilder() {
+          if (shapeBuilder_ == null) {
+            shapeBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+                org.tensorflow.framework.TensorShapeProto, org.tensorflow.framework.TensorShapeProto.Builder, org.tensorflow.framework.TensorShapeProtoOrBuilder>(
+                    getShape(),
+                    getParentForChildren(),
+                    isClean());
+            shape_ = null;
+          }
+          return shapeBuilder_;
+        }
+
+        private int dtype_ = 0;
+        /**
+         * <code>optional .tensorflow.DataType dtype = 4;</code>
+         */
+        public int getDtypeValue() {
+          return dtype_;
+        }
+        /**
+         * <code>optional .tensorflow.DataType dtype = 4;</code>
+         */
+        public Builder setDtypeValue(int value) {
+          dtype_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional .tensorflow.DataType dtype = 4;</code>
+         */
+        public org.tensorflow.framework.DataType getDtype() {
+          org.tensorflow.framework.DataType result = org.tensorflow.framework.DataType.valueOf(dtype_);
+          return result == null ? org.tensorflow.framework.DataType.UNRECOGNIZED : result;
+        }
+        /**
+         * <code>optional .tensorflow.DataType dtype = 4;</code>
+         */
+        public Builder setDtype(org.tensorflow.framework.DataType value) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          
+          dtype_ = value.getNumber();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional .tensorflow.DataType dtype = 4;</code>
+         */
+        public Builder clearDtype() {
+          
+          dtype_ = 0;
+          onChanged();
+          return this;
+        }
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return this;
@@ -1405,7 +1708,7 @@ public  final class CostGraphDef extends
     private volatile java.lang.Object name_;
     /**
      * <pre>
-     * The name of the node.
+     * The name of the node. Names are globally unique.
      * </pre>
      *
      * <code>optional string name = 1;</code>
@@ -1424,7 +1727,7 @@ public  final class CostGraphDef extends
     }
     /**
      * <pre>
-     * The name of the node.
+     * The name of the node. Names are globally unique.
      * </pre>
      *
      * <code>optional string name = 1;</code>
@@ -1447,7 +1750,8 @@ public  final class CostGraphDef extends
     private volatile java.lang.Object device_;
     /**
      * <pre>
-     * The device of the node.
+     * The device of the node. Can be empty if the node is mapped to the
+     * default partition or partitioning hasn't been run yet.
      * </pre>
      *
      * <code>optional string device = 2;</code>
@@ -1466,7 +1770,8 @@ public  final class CostGraphDef extends
     }
     /**
      * <pre>
-     * The device of the node.
+     * The device of the node. Can be empty if the node is mapped to the
+     * default partition or partitioning hasn't been run yet.
      * </pre>
      *
      * <code>optional string device = 2;</code>
@@ -1489,7 +1794,7 @@ public  final class CostGraphDef extends
     private int id_;
     /**
      * <pre>
-     * The id of the node.
+     * The id of the node. Node ids are only unique inside a partition.
      * </pre>
      *
      * <code>optional int32 id = 3;</code>
@@ -1579,6 +1884,19 @@ public  final class CostGraphDef extends
      */
     public long getTemporaryMemorySize() {
       return temporaryMemorySize_;
+    }
+
+    public static final int COMPUTE_COST_FIELD_NUMBER = 9;
+    private long computeCost_;
+    /**
+     * <pre>
+     * Estimate of the computational cost of this node.
+     * </pre>
+     *
+     * <code>optional int64 compute_cost = 9;</code>
+     */
+    public long getComputeCost() {
+      return computeCost_;
     }
 
     public static final int IS_FINAL_FIELD_NUMBER = 7;
@@ -1671,6 +1989,9 @@ public  final class CostGraphDef extends
       for (int i = 0; i < controlInput_.size(); i++) {
         output.writeInt32NoTag(controlInput_.get(i));
       }
+      if (computeCost_ != 0L) {
+        output.writeInt64(9, computeCost_);
+      }
     }
 
     public int getSerializedSize() {
@@ -1718,6 +2039,10 @@ public  final class CostGraphDef extends
         }
         controlInputMemoizedSerializedSize = dataSize;
       }
+      if (computeCost_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(9, computeCost_);
+      }
       memoizedSize = size;
       return size;
     }
@@ -1746,6 +2071,8 @@ public  final class CostGraphDef extends
           .equals(other.getOutputInfoList());
       result = result && (getTemporaryMemorySize()
           == other.getTemporaryMemorySize());
+      result = result && (getComputeCost()
+          == other.getComputeCost());
       result = result && (getIsFinal()
           == other.getIsFinal());
       result = result && getControlInputList()
@@ -1777,6 +2104,9 @@ public  final class CostGraphDef extends
       hash = (37 * hash) + TEMPORARY_MEMORY_SIZE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getTemporaryMemorySize());
+      hash = (37 * hash) + COMPUTE_COST_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getComputeCost());
       hash = (37 * hash) + IS_FINAL_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getIsFinal());
@@ -1924,10 +2254,12 @@ public  final class CostGraphDef extends
         }
         temporaryMemorySize_ = 0L;
 
+        computeCost_ = 0L;
+
         isFinal_ = false;
 
         controlInput_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
@@ -1974,10 +2306,11 @@ public  final class CostGraphDef extends
           result.outputInfo_ = outputInfoBuilder_.build();
         }
         result.temporaryMemorySize_ = temporaryMemorySize_;
+        result.computeCost_ = computeCost_;
         result.isFinal_ = isFinal_;
-        if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((bitField0_ & 0x00000100) == 0x00000100)) {
           controlInput_ = java.util.Collections.unmodifiableList(controlInput_);
-          bitField0_ = (bitField0_ & ~0x00000080);
+          bitField0_ = (bitField0_ & ~0x00000100);
         }
         result.controlInput_ = controlInput_;
         result.bitField0_ = to_bitField0_;
@@ -2088,13 +2421,16 @@ public  final class CostGraphDef extends
         if (other.getTemporaryMemorySize() != 0L) {
           setTemporaryMemorySize(other.getTemporaryMemorySize());
         }
+        if (other.getComputeCost() != 0L) {
+          setComputeCost(other.getComputeCost());
+        }
         if (other.getIsFinal() != false) {
           setIsFinal(other.getIsFinal());
         }
         if (!other.controlInput_.isEmpty()) {
           if (controlInput_.isEmpty()) {
             controlInput_ = other.controlInput_;
-            bitField0_ = (bitField0_ & ~0x00000080);
+            bitField0_ = (bitField0_ & ~0x00000100);
           } else {
             ensureControlInputIsMutable();
             controlInput_.addAll(other.controlInput_);
@@ -2131,7 +2467,7 @@ public  final class CostGraphDef extends
       private java.lang.Object name_ = "";
       /**
        * <pre>
-       * The name of the node.
+       * The name of the node. Names are globally unique.
        * </pre>
        *
        * <code>optional string name = 1;</code>
@@ -2150,7 +2486,7 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The name of the node.
+       * The name of the node. Names are globally unique.
        * </pre>
        *
        * <code>optional string name = 1;</code>
@@ -2170,7 +2506,7 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The name of the node.
+       * The name of the node. Names are globally unique.
        * </pre>
        *
        * <code>optional string name = 1;</code>
@@ -2187,7 +2523,7 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The name of the node.
+       * The name of the node. Names are globally unique.
        * </pre>
        *
        * <code>optional string name = 1;</code>
@@ -2200,7 +2536,7 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The name of the node.
+       * The name of the node. Names are globally unique.
        * </pre>
        *
        * <code>optional string name = 1;</code>
@@ -2220,7 +2556,8 @@ public  final class CostGraphDef extends
       private java.lang.Object device_ = "";
       /**
        * <pre>
-       * The device of the node.
+       * The device of the node. Can be empty if the node is mapped to the
+       * default partition or partitioning hasn't been run yet.
        * </pre>
        *
        * <code>optional string device = 2;</code>
@@ -2239,7 +2576,8 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The device of the node.
+       * The device of the node. Can be empty if the node is mapped to the
+       * default partition or partitioning hasn't been run yet.
        * </pre>
        *
        * <code>optional string device = 2;</code>
@@ -2259,7 +2597,8 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The device of the node.
+       * The device of the node. Can be empty if the node is mapped to the
+       * default partition or partitioning hasn't been run yet.
        * </pre>
        *
        * <code>optional string device = 2;</code>
@@ -2276,7 +2615,8 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The device of the node.
+       * The device of the node. Can be empty if the node is mapped to the
+       * default partition or partitioning hasn't been run yet.
        * </pre>
        *
        * <code>optional string device = 2;</code>
@@ -2289,7 +2629,8 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The device of the node.
+       * The device of the node. Can be empty if the node is mapped to the
+       * default partition or partitioning hasn't been run yet.
        * </pre>
        *
        * <code>optional string device = 2;</code>
@@ -2309,7 +2650,7 @@ public  final class CostGraphDef extends
       private int id_ ;
       /**
        * <pre>
-       * The id of the node.
+       * The id of the node. Node ids are only unique inside a partition.
        * </pre>
        *
        * <code>optional int32 id = 3;</code>
@@ -2319,7 +2660,7 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The id of the node.
+       * The id of the node. Node ids are only unique inside a partition.
        * </pre>
        *
        * <code>optional int32 id = 3;</code>
@@ -2332,7 +2673,7 @@ public  final class CostGraphDef extends
       }
       /**
        * <pre>
-       * The id of the node.
+       * The id of the node. Node ids are only unique inside a partition.
        * </pre>
        *
        * <code>optional int32 id = 3;</code>
@@ -2862,6 +3203,44 @@ public  final class CostGraphDef extends
         return this;
       }
 
+      private long computeCost_ ;
+      /**
+       * <pre>
+       * Estimate of the computational cost of this node.
+       * </pre>
+       *
+       * <code>optional int64 compute_cost = 9;</code>
+       */
+      public long getComputeCost() {
+        return computeCost_;
+      }
+      /**
+       * <pre>
+       * Estimate of the computational cost of this node.
+       * </pre>
+       *
+       * <code>optional int64 compute_cost = 9;</code>
+       */
+      public Builder setComputeCost(long value) {
+        
+        computeCost_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Estimate of the computational cost of this node.
+       * </pre>
+       *
+       * <code>optional int64 compute_cost = 9;</code>
+       */
+      public Builder clearComputeCost() {
+        
+        computeCost_ = 0L;
+        onChanged();
+        return this;
+      }
+
       private boolean isFinal_ ;
       /**
        * <pre>
@@ -2905,9 +3284,9 @@ public  final class CostGraphDef extends
 
       private java.util.List<java.lang.Integer> controlInput_ = java.util.Collections.emptyList();
       private void ensureControlInputIsMutable() {
-        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
+        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
           controlInput_ = new java.util.ArrayList<java.lang.Integer>(controlInput_);
-          bitField0_ |= 0x00000080;
+          bitField0_ |= 0x00000100;
          }
       }
       /**
@@ -2992,7 +3371,7 @@ public  final class CostGraphDef extends
        */
       public Builder clearControlInput() {
         controlInput_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         onChanged();
         return this;
       }

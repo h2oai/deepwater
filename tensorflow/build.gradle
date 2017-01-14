@@ -6,6 +6,7 @@ apply plugin: 'maven'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 sourceSets {
@@ -20,15 +21,7 @@ dependencies {
 
     def presets = "${rootDir}/thirdparty/javacpp-presets"
 
-    compile files("${presets}/target/javacpp.jar")
-    compile files("${presets}/tensorflow/target/tensorflow.jar")
-
-    if (new File("${presets}/tensorflow/target/tensorflow-linux-x86_64.jar").exists()) {
-        compile files("${presets}/tensorflow/target/tensorflow-linux-x86_64.jar")
-    }
-    else if (new File("${presets}/tensorflow/target/tensorflow-macosx-x86_64.jar").exists()) {
-        compile files("${presets}/tensorflow/target/tensorflow-macosx-x86_64.jar")
-    }
+    compile 'org.tensorflow:libtensorflow:0.12.head'
 
     compile project (':deepwater-backend-api')
     compile "com.google.protobuf:protobuf-java:3.1.0"

@@ -4,15 +4,13 @@ package deepwater.backends.tensorflow.models;
 import com.google.common.io.ByteSink;
 import deepwater.backends.BackendModel;
 import deepwater.backends.tensorflow.TensorflowMetaModel;
+import org.tensorflow.Graph;
+import org.tensorflow.Session;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.bytedeco.javacpp.tensorflow.GraphDef;
-import static org.bytedeco.javacpp.tensorflow.Session;
-
 
 public class TensorflowModel implements BackendModel {
 
@@ -20,7 +18,7 @@ public class TensorflowModel implements BackendModel {
     public int classes;
     public int frameSize;
     protected Session session;
-    private GraphDef graph;
+    private Graph graph;
     private Map<String, Float> parameters;
     private byte[] modelGraphData;
     public int miniBatchSize;
@@ -28,14 +26,14 @@ public class TensorflowModel implements BackendModel {
     public double inputDropoutRatio;
     public double[] hiddenDropoutRatios;
 
-    TensorflowModel(TensorflowMetaModel meta, GraphDef graph, byte[] definition) {
+    TensorflowModel(TensorflowMetaModel meta, Graph graph, byte[] definition) {
         this.meta = meta;
         this.graph = graph;
         this.parameters = new HashMap<>();
         modelGraphData = definition;
     }
 
-    public GraphDef getGraph() {
+    public Graph getGraph() {
         return graph;
     }
 

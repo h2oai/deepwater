@@ -54,63 +54,63 @@ public  final class SaveSliceInfoDef extends
           }
           case 16: {
             if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-              fullShape_ = new java.util.ArrayList<java.lang.Integer>();
+              fullShape_ = new java.util.ArrayList<java.lang.Long>();
               mutable_bitField0_ |= 0x00000002;
             }
-            fullShape_.add(input.readInt32());
+            fullShape_.add(input.readInt64());
             break;
           }
           case 18: {
             int length = input.readRawVarint32();
             int limit = input.pushLimit(length);
             if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
-              fullShape_ = new java.util.ArrayList<java.lang.Integer>();
+              fullShape_ = new java.util.ArrayList<java.lang.Long>();
               mutable_bitField0_ |= 0x00000002;
             }
             while (input.getBytesUntilLimit() > 0) {
-              fullShape_.add(input.readInt32());
+              fullShape_.add(input.readInt64());
             }
             input.popLimit(limit);
             break;
           }
           case 24: {
             if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-              varOffset_ = new java.util.ArrayList<java.lang.Integer>();
+              varOffset_ = new java.util.ArrayList<java.lang.Long>();
               mutable_bitField0_ |= 0x00000004;
             }
-            varOffset_.add(input.readInt32());
+            varOffset_.add(input.readInt64());
             break;
           }
           case 26: {
             int length = input.readRawVarint32();
             int limit = input.pushLimit(length);
             if (!((mutable_bitField0_ & 0x00000004) == 0x00000004) && input.getBytesUntilLimit() > 0) {
-              varOffset_ = new java.util.ArrayList<java.lang.Integer>();
+              varOffset_ = new java.util.ArrayList<java.lang.Long>();
               mutable_bitField0_ |= 0x00000004;
             }
             while (input.getBytesUntilLimit() > 0) {
-              varOffset_.add(input.readInt32());
+              varOffset_.add(input.readInt64());
             }
             input.popLimit(limit);
             break;
           }
           case 32: {
             if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-              varShape_ = new java.util.ArrayList<java.lang.Integer>();
+              varShape_ = new java.util.ArrayList<java.lang.Long>();
               mutable_bitField0_ |= 0x00000008;
             }
-            varShape_.add(input.readInt32());
+            varShape_.add(input.readInt64());
             break;
           }
           case 34: {
             int length = input.readRawVarint32();
             int limit = input.pushLimit(length);
             if (!((mutable_bitField0_ & 0x00000008) == 0x00000008) && input.getBytesUntilLimit() > 0) {
-              varShape_ = new java.util.ArrayList<java.lang.Integer>();
+              varShape_ = new java.util.ArrayList<java.lang.Long>();
               mutable_bitField0_ |= 0x00000008;
             }
             while (input.getBytesUntilLimit() > 0) {
-              varShape_.add(input.readInt32());
+              varShape_.add(input.readInt64());
             }
             input.popLimit(limit);
             break;
@@ -191,15 +191,15 @@ public  final class SaveSliceInfoDef extends
   }
 
   public static final int FULL_SHAPE_FIELD_NUMBER = 2;
-  private java.util.List<java.lang.Integer> fullShape_;
+  private java.util.List<java.lang.Long> fullShape_;
   /**
    * <pre>
    * Shape of the full variable.
    * </pre>
    *
-   * <code>repeated int32 full_shape = 2;</code>
+   * <code>repeated int64 full_shape = 2;</code>
    */
-  public java.util.List<java.lang.Integer>
+  public java.util.List<java.lang.Long>
       getFullShapeList() {
     return fullShape_;
   }
@@ -208,7 +208,7 @@ public  final class SaveSliceInfoDef extends
    * Shape of the full variable.
    * </pre>
    *
-   * <code>repeated int32 full_shape = 2;</code>
+   * <code>repeated int64 full_shape = 2;</code>
    */
   public int getFullShapeCount() {
     return fullShape_.size();
@@ -218,23 +218,23 @@ public  final class SaveSliceInfoDef extends
    * Shape of the full variable.
    * </pre>
    *
-   * <code>repeated int32 full_shape = 2;</code>
+   * <code>repeated int64 full_shape = 2;</code>
    */
-  public int getFullShape(int index) {
+  public long getFullShape(int index) {
     return fullShape_.get(index);
   }
   private int fullShapeMemoizedSerializedSize = -1;
 
   public static final int VAR_OFFSET_FIELD_NUMBER = 3;
-  private java.util.List<java.lang.Integer> varOffset_;
+  private java.util.List<java.lang.Long> varOffset_;
   /**
    * <pre>
    * Offset of this variable into the full variable.
    * </pre>
    *
-   * <code>repeated int32 var_offset = 3;</code>
+   * <code>repeated int64 var_offset = 3;</code>
    */
-  public java.util.List<java.lang.Integer>
+  public java.util.List<java.lang.Long>
       getVarOffsetList() {
     return varOffset_;
   }
@@ -243,7 +243,7 @@ public  final class SaveSliceInfoDef extends
    * Offset of this variable into the full variable.
    * </pre>
    *
-   * <code>repeated int32 var_offset = 3;</code>
+   * <code>repeated int64 var_offset = 3;</code>
    */
   public int getVarOffsetCount() {
     return varOffset_.size();
@@ -253,23 +253,23 @@ public  final class SaveSliceInfoDef extends
    * Offset of this variable into the full variable.
    * </pre>
    *
-   * <code>repeated int32 var_offset = 3;</code>
+   * <code>repeated int64 var_offset = 3;</code>
    */
-  public int getVarOffset(int index) {
+  public long getVarOffset(int index) {
     return varOffset_.get(index);
   }
   private int varOffsetMemoizedSerializedSize = -1;
 
   public static final int VAR_SHAPE_FIELD_NUMBER = 4;
-  private java.util.List<java.lang.Integer> varShape_;
+  private java.util.List<java.lang.Long> varShape_;
   /**
    * <pre>
    * Shape of this variable.
    * </pre>
    *
-   * <code>repeated int32 var_shape = 4;</code>
+   * <code>repeated int64 var_shape = 4;</code>
    */
-  public java.util.List<java.lang.Integer>
+  public java.util.List<java.lang.Long>
       getVarShapeList() {
     return varShape_;
   }
@@ -278,7 +278,7 @@ public  final class SaveSliceInfoDef extends
    * Shape of this variable.
    * </pre>
    *
-   * <code>repeated int32 var_shape = 4;</code>
+   * <code>repeated int64 var_shape = 4;</code>
    */
   public int getVarShapeCount() {
     return varShape_.size();
@@ -288,9 +288,9 @@ public  final class SaveSliceInfoDef extends
    * Shape of this variable.
    * </pre>
    *
-   * <code>repeated int32 var_shape = 4;</code>
+   * <code>repeated int64 var_shape = 4;</code>
    */
-  public int getVarShape(int index) {
+  public long getVarShape(int index) {
     return varShape_.get(index);
   }
   private int varShapeMemoizedSerializedSize = -1;
@@ -316,21 +316,21 @@ public  final class SaveSliceInfoDef extends
       output.writeUInt32NoTag(fullShapeMemoizedSerializedSize);
     }
     for (int i = 0; i < fullShape_.size(); i++) {
-      output.writeInt32NoTag(fullShape_.get(i));
+      output.writeInt64NoTag(fullShape_.get(i));
     }
     if (getVarOffsetList().size() > 0) {
       output.writeUInt32NoTag(26);
       output.writeUInt32NoTag(varOffsetMemoizedSerializedSize);
     }
     for (int i = 0; i < varOffset_.size(); i++) {
-      output.writeInt32NoTag(varOffset_.get(i));
+      output.writeInt64NoTag(varOffset_.get(i));
     }
     if (getVarShapeList().size() > 0) {
       output.writeUInt32NoTag(34);
       output.writeUInt32NoTag(varShapeMemoizedSerializedSize);
     }
     for (int i = 0; i < varShape_.size(); i++) {
-      output.writeInt32NoTag(varShape_.get(i));
+      output.writeInt64NoTag(varShape_.get(i));
     }
   }
 
@@ -346,7 +346,7 @@ public  final class SaveSliceInfoDef extends
       int dataSize = 0;
       for (int i = 0; i < fullShape_.size(); i++) {
         dataSize += com.google.protobuf.CodedOutputStream
-          .computeInt32SizeNoTag(fullShape_.get(i));
+          .computeInt64SizeNoTag(fullShape_.get(i));
       }
       size += dataSize;
       if (!getFullShapeList().isEmpty()) {
@@ -360,7 +360,7 @@ public  final class SaveSliceInfoDef extends
       int dataSize = 0;
       for (int i = 0; i < varOffset_.size(); i++) {
         dataSize += com.google.protobuf.CodedOutputStream
-          .computeInt32SizeNoTag(varOffset_.get(i));
+          .computeInt64SizeNoTag(varOffset_.get(i));
       }
       size += dataSize;
       if (!getVarOffsetList().isEmpty()) {
@@ -374,7 +374,7 @@ public  final class SaveSliceInfoDef extends
       int dataSize = 0;
       for (int i = 0; i < varShape_.size(); i++) {
         dataSize += com.google.protobuf.CodedOutputStream
-          .computeInt32SizeNoTag(varShape_.get(i));
+          .computeInt64SizeNoTag(varShape_.get(i));
       }
       size += dataSize;
       if (!getVarShapeList().isEmpty()) {
@@ -790,10 +790,10 @@ public  final class SaveSliceInfoDef extends
       return this;
     }
 
-    private java.util.List<java.lang.Integer> fullShape_ = java.util.Collections.emptyList();
+    private java.util.List<java.lang.Long> fullShape_ = java.util.Collections.emptyList();
     private void ensureFullShapeIsMutable() {
       if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-        fullShape_ = new java.util.ArrayList<java.lang.Integer>(fullShape_);
+        fullShape_ = new java.util.ArrayList<java.lang.Long>(fullShape_);
         bitField0_ |= 0x00000002;
        }
     }
@@ -802,9 +802,9 @@ public  final class SaveSliceInfoDef extends
      * Shape of the full variable.
      * </pre>
      *
-     * <code>repeated int32 full_shape = 2;</code>
+     * <code>repeated int64 full_shape = 2;</code>
      */
-    public java.util.List<java.lang.Integer>
+    public java.util.List<java.lang.Long>
         getFullShapeList() {
       return java.util.Collections.unmodifiableList(fullShape_);
     }
@@ -813,7 +813,7 @@ public  final class SaveSliceInfoDef extends
      * Shape of the full variable.
      * </pre>
      *
-     * <code>repeated int32 full_shape = 2;</code>
+     * <code>repeated int64 full_shape = 2;</code>
      */
     public int getFullShapeCount() {
       return fullShape_.size();
@@ -823,9 +823,9 @@ public  final class SaveSliceInfoDef extends
      * Shape of the full variable.
      * </pre>
      *
-     * <code>repeated int32 full_shape = 2;</code>
+     * <code>repeated int64 full_shape = 2;</code>
      */
-    public int getFullShape(int index) {
+    public long getFullShape(int index) {
       return fullShape_.get(index);
     }
     /**
@@ -833,10 +833,10 @@ public  final class SaveSliceInfoDef extends
      * Shape of the full variable.
      * </pre>
      *
-     * <code>repeated int32 full_shape = 2;</code>
+     * <code>repeated int64 full_shape = 2;</code>
      */
     public Builder setFullShape(
-        int index, int value) {
+        int index, long value) {
       ensureFullShapeIsMutable();
       fullShape_.set(index, value);
       onChanged();
@@ -847,9 +847,9 @@ public  final class SaveSliceInfoDef extends
      * Shape of the full variable.
      * </pre>
      *
-     * <code>repeated int32 full_shape = 2;</code>
+     * <code>repeated int64 full_shape = 2;</code>
      */
-    public Builder addFullShape(int value) {
+    public Builder addFullShape(long value) {
       ensureFullShapeIsMutable();
       fullShape_.add(value);
       onChanged();
@@ -860,10 +860,10 @@ public  final class SaveSliceInfoDef extends
      * Shape of the full variable.
      * </pre>
      *
-     * <code>repeated int32 full_shape = 2;</code>
+     * <code>repeated int64 full_shape = 2;</code>
      */
     public Builder addAllFullShape(
-        java.lang.Iterable<? extends java.lang.Integer> values) {
+        java.lang.Iterable<? extends java.lang.Long> values) {
       ensureFullShapeIsMutable();
       com.google.protobuf.AbstractMessageLite.Builder.addAll(
           values, fullShape_);
@@ -875,7 +875,7 @@ public  final class SaveSliceInfoDef extends
      * Shape of the full variable.
      * </pre>
      *
-     * <code>repeated int32 full_shape = 2;</code>
+     * <code>repeated int64 full_shape = 2;</code>
      */
     public Builder clearFullShape() {
       fullShape_ = java.util.Collections.emptyList();
@@ -884,10 +884,10 @@ public  final class SaveSliceInfoDef extends
       return this;
     }
 
-    private java.util.List<java.lang.Integer> varOffset_ = java.util.Collections.emptyList();
+    private java.util.List<java.lang.Long> varOffset_ = java.util.Collections.emptyList();
     private void ensureVarOffsetIsMutable() {
       if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-        varOffset_ = new java.util.ArrayList<java.lang.Integer>(varOffset_);
+        varOffset_ = new java.util.ArrayList<java.lang.Long>(varOffset_);
         bitField0_ |= 0x00000004;
        }
     }
@@ -896,9 +896,9 @@ public  final class SaveSliceInfoDef extends
      * Offset of this variable into the full variable.
      * </pre>
      *
-     * <code>repeated int32 var_offset = 3;</code>
+     * <code>repeated int64 var_offset = 3;</code>
      */
-    public java.util.List<java.lang.Integer>
+    public java.util.List<java.lang.Long>
         getVarOffsetList() {
       return java.util.Collections.unmodifiableList(varOffset_);
     }
@@ -907,7 +907,7 @@ public  final class SaveSliceInfoDef extends
      * Offset of this variable into the full variable.
      * </pre>
      *
-     * <code>repeated int32 var_offset = 3;</code>
+     * <code>repeated int64 var_offset = 3;</code>
      */
     public int getVarOffsetCount() {
       return varOffset_.size();
@@ -917,9 +917,9 @@ public  final class SaveSliceInfoDef extends
      * Offset of this variable into the full variable.
      * </pre>
      *
-     * <code>repeated int32 var_offset = 3;</code>
+     * <code>repeated int64 var_offset = 3;</code>
      */
-    public int getVarOffset(int index) {
+    public long getVarOffset(int index) {
       return varOffset_.get(index);
     }
     /**
@@ -927,10 +927,10 @@ public  final class SaveSliceInfoDef extends
      * Offset of this variable into the full variable.
      * </pre>
      *
-     * <code>repeated int32 var_offset = 3;</code>
+     * <code>repeated int64 var_offset = 3;</code>
      */
     public Builder setVarOffset(
-        int index, int value) {
+        int index, long value) {
       ensureVarOffsetIsMutable();
       varOffset_.set(index, value);
       onChanged();
@@ -941,9 +941,9 @@ public  final class SaveSliceInfoDef extends
      * Offset of this variable into the full variable.
      * </pre>
      *
-     * <code>repeated int32 var_offset = 3;</code>
+     * <code>repeated int64 var_offset = 3;</code>
      */
-    public Builder addVarOffset(int value) {
+    public Builder addVarOffset(long value) {
       ensureVarOffsetIsMutable();
       varOffset_.add(value);
       onChanged();
@@ -954,10 +954,10 @@ public  final class SaveSliceInfoDef extends
      * Offset of this variable into the full variable.
      * </pre>
      *
-     * <code>repeated int32 var_offset = 3;</code>
+     * <code>repeated int64 var_offset = 3;</code>
      */
     public Builder addAllVarOffset(
-        java.lang.Iterable<? extends java.lang.Integer> values) {
+        java.lang.Iterable<? extends java.lang.Long> values) {
       ensureVarOffsetIsMutable();
       com.google.protobuf.AbstractMessageLite.Builder.addAll(
           values, varOffset_);
@@ -969,7 +969,7 @@ public  final class SaveSliceInfoDef extends
      * Offset of this variable into the full variable.
      * </pre>
      *
-     * <code>repeated int32 var_offset = 3;</code>
+     * <code>repeated int64 var_offset = 3;</code>
      */
     public Builder clearVarOffset() {
       varOffset_ = java.util.Collections.emptyList();
@@ -978,10 +978,10 @@ public  final class SaveSliceInfoDef extends
       return this;
     }
 
-    private java.util.List<java.lang.Integer> varShape_ = java.util.Collections.emptyList();
+    private java.util.List<java.lang.Long> varShape_ = java.util.Collections.emptyList();
     private void ensureVarShapeIsMutable() {
       if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-        varShape_ = new java.util.ArrayList<java.lang.Integer>(varShape_);
+        varShape_ = new java.util.ArrayList<java.lang.Long>(varShape_);
         bitField0_ |= 0x00000008;
        }
     }
@@ -990,9 +990,9 @@ public  final class SaveSliceInfoDef extends
      * Shape of this variable.
      * </pre>
      *
-     * <code>repeated int32 var_shape = 4;</code>
+     * <code>repeated int64 var_shape = 4;</code>
      */
-    public java.util.List<java.lang.Integer>
+    public java.util.List<java.lang.Long>
         getVarShapeList() {
       return java.util.Collections.unmodifiableList(varShape_);
     }
@@ -1001,7 +1001,7 @@ public  final class SaveSliceInfoDef extends
      * Shape of this variable.
      * </pre>
      *
-     * <code>repeated int32 var_shape = 4;</code>
+     * <code>repeated int64 var_shape = 4;</code>
      */
     public int getVarShapeCount() {
       return varShape_.size();
@@ -1011,9 +1011,9 @@ public  final class SaveSliceInfoDef extends
      * Shape of this variable.
      * </pre>
      *
-     * <code>repeated int32 var_shape = 4;</code>
+     * <code>repeated int64 var_shape = 4;</code>
      */
-    public int getVarShape(int index) {
+    public long getVarShape(int index) {
       return varShape_.get(index);
     }
     /**
@@ -1021,10 +1021,10 @@ public  final class SaveSliceInfoDef extends
      * Shape of this variable.
      * </pre>
      *
-     * <code>repeated int32 var_shape = 4;</code>
+     * <code>repeated int64 var_shape = 4;</code>
      */
     public Builder setVarShape(
-        int index, int value) {
+        int index, long value) {
       ensureVarShapeIsMutable();
       varShape_.set(index, value);
       onChanged();
@@ -1035,9 +1035,9 @@ public  final class SaveSliceInfoDef extends
      * Shape of this variable.
      * </pre>
      *
-     * <code>repeated int32 var_shape = 4;</code>
+     * <code>repeated int64 var_shape = 4;</code>
      */
-    public Builder addVarShape(int value) {
+    public Builder addVarShape(long value) {
       ensureVarShapeIsMutable();
       varShape_.add(value);
       onChanged();
@@ -1048,10 +1048,10 @@ public  final class SaveSliceInfoDef extends
      * Shape of this variable.
      * </pre>
      *
-     * <code>repeated int32 var_shape = 4;</code>
+     * <code>repeated int64 var_shape = 4;</code>
      */
     public Builder addAllVarShape(
-        java.lang.Iterable<? extends java.lang.Integer> values) {
+        java.lang.Iterable<? extends java.lang.Long> values) {
       ensureVarShapeIsMutable();
       com.google.protobuf.AbstractMessageLite.Builder.addAll(
           values, varShape_);
@@ -1063,7 +1063,7 @@ public  final class SaveSliceInfoDef extends
      * Shape of this variable.
      * </pre>
      *
-     * <code>repeated int32 var_shape = 4;</code>
+     * <code>repeated int64 var_shape = 4;</code>
      */
     public Builder clearVarShape() {
       varShape_ = java.util.Collections.emptyList();

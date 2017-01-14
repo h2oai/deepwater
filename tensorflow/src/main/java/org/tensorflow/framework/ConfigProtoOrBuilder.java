@@ -323,4 +323,29 @@ public interface ConfigProtoOrBuilder extends
    * <code>optional int64 operation_timeout_in_ms = 11;</code>
    */
   long getOperationTimeoutInMs();
+
+  /**
+   * <pre>
+   * Options that apply when this session uses the distributed runtime.
+   * </pre>
+   *
+   * <code>optional .tensorflow.RPCOptions rpc_options = 13;</code>
+   */
+  boolean hasRpcOptions();
+  /**
+   * <pre>
+   * Options that apply when this session uses the distributed runtime.
+   * </pre>
+   *
+   * <code>optional .tensorflow.RPCOptions rpc_options = 13;</code>
+   */
+  org.tensorflow.framework.RPCOptions getRpcOptions();
+  /**
+   * <pre>
+   * Options that apply when this session uses the distributed runtime.
+   * </pre>
+   *
+   * <code>optional .tensorflow.RPCOptions rpc_options = 13;</code>
+   */
+  org.tensorflow.framework.RPCOptionsOrBuilder getRpcOptionsOrBuilder();
 }

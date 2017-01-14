@@ -72,9 +72,9 @@ public interface RunGraphRequestOrBuilder extends
    * fetches the keys into `RunGraphResponse.recv` after the run.
    * </pre>
    *
-   * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+   * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
    */
-  java.util.List<org.tensorflow.distruntime.NamedTensor> 
+  java.util.List<org.tensorflow.framework.NamedTensorProto> 
       getSendList();
   /**
    * <pre>
@@ -83,9 +83,9 @@ public interface RunGraphRequestOrBuilder extends
    * fetches the keys into `RunGraphResponse.recv` after the run.
    * </pre>
    *
-   * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+   * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
    */
-  org.tensorflow.distruntime.NamedTensor getSend(int index);
+  org.tensorflow.framework.NamedTensorProto getSend(int index);
   /**
    * <pre>
    * Runs the graph.
@@ -93,7 +93,7 @@ public interface RunGraphRequestOrBuilder extends
    * fetches the keys into `RunGraphResponse.recv` after the run.
    * </pre>
    *
-   * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+   * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
    */
   int getSendCount();
   /**
@@ -103,9 +103,9 @@ public interface RunGraphRequestOrBuilder extends
    * fetches the keys into `RunGraphResponse.recv` after the run.
    * </pre>
    *
-   * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+   * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
    */
-  java.util.List<? extends org.tensorflow.distruntime.NamedTensorOrBuilder> 
+  java.util.List<? extends org.tensorflow.framework.NamedTensorProtoOrBuilder> 
       getSendOrBuilderList();
   /**
    * <pre>
@@ -114,9 +114,9 @@ public interface RunGraphRequestOrBuilder extends
    * fetches the keys into `RunGraphResponse.recv` after the run.
    * </pre>
    *
-   * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+   * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
    */
-  org.tensorflow.distruntime.NamedTensorOrBuilder getSendOrBuilder(
+  org.tensorflow.framework.NamedTensorProtoOrBuilder getSendOrBuilder(
       int index);
 
   /**
@@ -137,4 +137,22 @@ public interface RunGraphRequestOrBuilder extends
    */
   com.google.protobuf.ByteString
       getRecvKeyBytes(int index);
+
+  /**
+   * <pre>
+   * True if the RunGraphRequest is a partial run request.
+   * </pre>
+   *
+   * <code>optional bool is_partial = 6;</code>
+   */
+  boolean getIsPartial();
+
+  /**
+   * <pre>
+   * True if this is the last partial run request in a sequence of requests.
+   * </pre>
+   *
+   * <code>optional bool is_last_partial_run = 7;</code>
+   */
+  boolean getIsLastPartialRun();
 }

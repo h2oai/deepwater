@@ -392,8 +392,56 @@ public  final class AttrValue extends
      */
     org.tensorflow.framework.TensorProtoOrBuilder getTensorOrBuilder(
         int index);
+
+    /**
+     * <pre>
+     * "list(attr)"
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+     */
+    java.util.List<org.tensorflow.framework.NameAttrList> 
+        getFuncList();
+    /**
+     * <pre>
+     * "list(attr)"
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+     */
+    org.tensorflow.framework.NameAttrList getFunc(int index);
+    /**
+     * <pre>
+     * "list(attr)"
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+     */
+    int getFuncCount();
+    /**
+     * <pre>
+     * "list(attr)"
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+     */
+    java.util.List<? extends org.tensorflow.framework.NameAttrListOrBuilder> 
+        getFuncOrBuilderList();
+    /**
+     * <pre>
+     * "list(attr)"
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+     */
+    org.tensorflow.framework.NameAttrListOrBuilder getFuncOrBuilder(
+        int index);
   }
   /**
+   * <pre>
+   * LINT.IfChange
+   * </pre>
+   *
    * Protobuf type {@code tensorflow.AttrValue.ListValue}
    */
   public  static final class ListValue extends
@@ -412,6 +460,7 @@ public  final class AttrValue extends
       type_ = java.util.Collections.emptyList();
       shape_ = java.util.Collections.emptyList();
       tensor_ = java.util.Collections.emptyList();
+      func_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -551,6 +600,15 @@ public  final class AttrValue extends
                   input.readMessage(org.tensorflow.framework.TensorProto.parser(), extensionRegistry));
               break;
             }
+            case 74: {
+              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+                func_ = new java.util.ArrayList<org.tensorflow.framework.NameAttrList>();
+                mutable_bitField0_ |= 0x00000080;
+              }
+              func_.add(
+                  input.readMessage(org.tensorflow.framework.NameAttrList.parser(), extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -579,6 +637,9 @@ public  final class AttrValue extends
         }
         if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           tensor_ = java.util.Collections.unmodifiableList(tensor_);
+        }
+        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+          func_ = java.util.Collections.unmodifiableList(func_);
         }
         makeExtensionsImmutable();
       }
@@ -909,6 +970,61 @@ public  final class AttrValue extends
       return tensor_.get(index);
     }
 
+    public static final int FUNC_FIELD_NUMBER = 9;
+    private java.util.List<org.tensorflow.framework.NameAttrList> func_;
+    /**
+     * <pre>
+     * "list(attr)"
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+     */
+    public java.util.List<org.tensorflow.framework.NameAttrList> getFuncList() {
+      return func_;
+    }
+    /**
+     * <pre>
+     * "list(attr)"
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+     */
+    public java.util.List<? extends org.tensorflow.framework.NameAttrListOrBuilder> 
+        getFuncOrBuilderList() {
+      return func_;
+    }
+    /**
+     * <pre>
+     * "list(attr)"
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+     */
+    public int getFuncCount() {
+      return func_.size();
+    }
+    /**
+     * <pre>
+     * "list(attr)"
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+     */
+    public org.tensorflow.framework.NameAttrList getFunc(int index) {
+      return func_.get(index);
+    }
+    /**
+     * <pre>
+     * "list(attr)"
+     * </pre>
+     *
+     * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+     */
+    public org.tensorflow.framework.NameAttrListOrBuilder getFuncOrBuilder(
+        int index) {
+      return func_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -958,6 +1074,9 @@ public  final class AttrValue extends
       }
       for (int i = 0; i < tensor_.size(); i++) {
         output.writeMessage(8, tensor_.get(i));
+      }
+      for (int i = 0; i < func_.size(); i++) {
+        output.writeMessage(9, func_.get(i));
       }
     }
 
@@ -1031,6 +1150,10 @@ public  final class AttrValue extends
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, tensor_.get(i));
       }
+      for (int i = 0; i < func_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, func_.get(i));
+      }
       memoizedSize = size;
       return size;
     }
@@ -1060,6 +1183,8 @@ public  final class AttrValue extends
           .equals(other.getShapeList());
       result = result && getTensorList()
           .equals(other.getTensorList());
+      result = result && getFuncList()
+          .equals(other.getFuncList());
       return result;
     }
 
@@ -1097,6 +1222,10 @@ public  final class AttrValue extends
       if (getTensorCount() > 0) {
         hash = (37 * hash) + TENSOR_FIELD_NUMBER;
         hash = (53 * hash) + getTensorList().hashCode();
+      }
+      if (getFuncCount() > 0) {
+        hash = (37 * hash) + FUNC_FIELD_NUMBER;
+        hash = (53 * hash) + getFuncList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -1181,6 +1310,10 @@ public  final class AttrValue extends
       return builder;
     }
     /**
+     * <pre>
+     * LINT.IfChange
+     * </pre>
+     *
      * Protobuf type {@code tensorflow.AttrValue.ListValue}
      */
     public static final class Builder extends
@@ -1214,6 +1347,7 @@ public  final class AttrValue extends
                 .alwaysUseFieldBuilders) {
           getShapeFieldBuilder();
           getTensorFieldBuilder();
+          getFuncFieldBuilder();
         }
       }
       public Builder clear() {
@@ -1239,6 +1373,12 @@ public  final class AttrValue extends
           bitField0_ = (bitField0_ & ~0x00000040);
         } else {
           tensorBuilder_.clear();
+        }
+        if (funcBuilder_ == null) {
+          func_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000080);
+        } else {
+          funcBuilder_.clear();
         }
         return this;
       }
@@ -1305,6 +1445,15 @@ public  final class AttrValue extends
           result.tensor_ = tensor_;
         } else {
           result.tensor_ = tensorBuilder_.build();
+        }
+        if (funcBuilder_ == null) {
+          if (((bitField0_ & 0x00000080) == 0x00000080)) {
+            func_ = java.util.Collections.unmodifiableList(func_);
+            bitField0_ = (bitField0_ & ~0x00000080);
+          }
+          result.func_ = func_;
+        } else {
+          result.func_ = funcBuilder_.build();
         }
         onBuilt();
         return result;
@@ -1446,6 +1595,32 @@ public  final class AttrValue extends
                    getTensorFieldBuilder() : null;
             } else {
               tensorBuilder_.addAllMessages(other.tensor_);
+            }
+          }
+        }
+        if (funcBuilder_ == null) {
+          if (!other.func_.isEmpty()) {
+            if (func_.isEmpty()) {
+              func_ = other.func_;
+              bitField0_ = (bitField0_ & ~0x00000080);
+            } else {
+              ensureFuncIsMutable();
+              func_.addAll(other.func_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.func_.isEmpty()) {
+            if (funcBuilder_.isEmpty()) {
+              funcBuilder_.dispose();
+              funcBuilder_ = null;
+              func_ = other.func_;
+              bitField0_ = (bitField0_ & ~0x00000080);
+              funcBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getFuncFieldBuilder() : null;
+            } else {
+              funcBuilder_.addAllMessages(other.func_);
             }
           }
         }
@@ -2646,6 +2821,318 @@ public  final class AttrValue extends
           tensor_ = null;
         }
         return tensorBuilder_;
+      }
+
+      private java.util.List<org.tensorflow.framework.NameAttrList> func_ =
+        java.util.Collections.emptyList();
+      private void ensureFuncIsMutable() {
+        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
+          func_ = new java.util.ArrayList<org.tensorflow.framework.NameAttrList>(func_);
+          bitField0_ |= 0x00000080;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          org.tensorflow.framework.NameAttrList, org.tensorflow.framework.NameAttrList.Builder, org.tensorflow.framework.NameAttrListOrBuilder> funcBuilder_;
+
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public java.util.List<org.tensorflow.framework.NameAttrList> getFuncList() {
+        if (funcBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(func_);
+        } else {
+          return funcBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public int getFuncCount() {
+        if (funcBuilder_ == null) {
+          return func_.size();
+        } else {
+          return funcBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public org.tensorflow.framework.NameAttrList getFunc(int index) {
+        if (funcBuilder_ == null) {
+          return func_.get(index);
+        } else {
+          return funcBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public Builder setFunc(
+          int index, org.tensorflow.framework.NameAttrList value) {
+        if (funcBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFuncIsMutable();
+          func_.set(index, value);
+          onChanged();
+        } else {
+          funcBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public Builder setFunc(
+          int index, org.tensorflow.framework.NameAttrList.Builder builderForValue) {
+        if (funcBuilder_ == null) {
+          ensureFuncIsMutable();
+          func_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          funcBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public Builder addFunc(org.tensorflow.framework.NameAttrList value) {
+        if (funcBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFuncIsMutable();
+          func_.add(value);
+          onChanged();
+        } else {
+          funcBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public Builder addFunc(
+          int index, org.tensorflow.framework.NameAttrList value) {
+        if (funcBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFuncIsMutable();
+          func_.add(index, value);
+          onChanged();
+        } else {
+          funcBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public Builder addFunc(
+          org.tensorflow.framework.NameAttrList.Builder builderForValue) {
+        if (funcBuilder_ == null) {
+          ensureFuncIsMutable();
+          func_.add(builderForValue.build());
+          onChanged();
+        } else {
+          funcBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public Builder addFunc(
+          int index, org.tensorflow.framework.NameAttrList.Builder builderForValue) {
+        if (funcBuilder_ == null) {
+          ensureFuncIsMutable();
+          func_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          funcBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public Builder addAllFunc(
+          java.lang.Iterable<? extends org.tensorflow.framework.NameAttrList> values) {
+        if (funcBuilder_ == null) {
+          ensureFuncIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, func_);
+          onChanged();
+        } else {
+          funcBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public Builder clearFunc() {
+        if (funcBuilder_ == null) {
+          func_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000080);
+          onChanged();
+        } else {
+          funcBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public Builder removeFunc(int index) {
+        if (funcBuilder_ == null) {
+          ensureFuncIsMutable();
+          func_.remove(index);
+          onChanged();
+        } else {
+          funcBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public org.tensorflow.framework.NameAttrList.Builder getFuncBuilder(
+          int index) {
+        return getFuncFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public org.tensorflow.framework.NameAttrListOrBuilder getFuncOrBuilder(
+          int index) {
+        if (funcBuilder_ == null) {
+          return func_.get(index);  } else {
+          return funcBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public java.util.List<? extends org.tensorflow.framework.NameAttrListOrBuilder> 
+           getFuncOrBuilderList() {
+        if (funcBuilder_ != null) {
+          return funcBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(func_);
+        }
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public org.tensorflow.framework.NameAttrList.Builder addFuncBuilder() {
+        return getFuncFieldBuilder().addBuilder(
+            org.tensorflow.framework.NameAttrList.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public org.tensorflow.framework.NameAttrList.Builder addFuncBuilder(
+          int index) {
+        return getFuncFieldBuilder().addBuilder(
+            index, org.tensorflow.framework.NameAttrList.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * "list(attr)"
+       * </pre>
+       *
+       * <code>repeated .tensorflow.NameAttrList func = 9;</code>
+       */
+      public java.util.List<org.tensorflow.framework.NameAttrList.Builder> 
+           getFuncBuilderList() {
+        return getFuncFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          org.tensorflow.framework.NameAttrList, org.tensorflow.framework.NameAttrList.Builder, org.tensorflow.framework.NameAttrListOrBuilder> 
+          getFuncFieldBuilder() {
+        if (funcBuilder_ == null) {
+          funcBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              org.tensorflow.framework.NameAttrList, org.tensorflow.framework.NameAttrList.Builder, org.tensorflow.framework.NameAttrListOrBuilder>(
+                  func_,
+                  ((bitField0_ & 0x00000080) == 0x00000080),
+                  getParentForChildren(),
+                  isClean());
+          func_ = null;
+        }
+        return funcBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {

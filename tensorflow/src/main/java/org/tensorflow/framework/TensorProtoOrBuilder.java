@@ -55,8 +55,11 @@ public interface TensorProtoOrBuilder extends
 
   /**
    * <pre>
-   * Serialized content from Tensor::AsProtoTensorContent(). This representation
-   * can be used for all tensor types.
+   * Serialized raw tensor content from either Tensor::AsProtoTensorContent or
+   * memcpy in tensorflow::grpc::EncodeTensorToByteBuffer. This representation
+   * can be used for all tensor types. The purpose of this representation is to
+   * reduce serialization overhead during RPC call by avoiding serialization of
+   * many repeated small items.
    * </pre>
    *
    * <code>optional bytes tensor_content = 4;</code>
@@ -296,4 +299,48 @@ public interface TensorProtoOrBuilder extends
    * <code>repeated double dcomplex_val = 12 [packed = true];</code>
    */
   double getDcomplexVal(int index);
+
+  /**
+   * <pre>
+   * DT_RESOURCE
+   * </pre>
+   *
+   * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+   */
+  java.util.List<org.tensorflow.framework.ResourceHandle> 
+      getResourceHandleValList();
+  /**
+   * <pre>
+   * DT_RESOURCE
+   * </pre>
+   *
+   * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+   */
+  org.tensorflow.framework.ResourceHandle getResourceHandleVal(int index);
+  /**
+   * <pre>
+   * DT_RESOURCE
+   * </pre>
+   *
+   * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+   */
+  int getResourceHandleValCount();
+  /**
+   * <pre>
+   * DT_RESOURCE
+   * </pre>
+   *
+   * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+   */
+  java.util.List<? extends org.tensorflow.framework.ResourceHandleOrBuilder> 
+      getResourceHandleValOrBuilderList();
+  /**
+   * <pre>
+   * DT_RESOURCE
+   * </pre>
+   *
+   * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+   */
+  org.tensorflow.framework.ResourceHandleOrBuilder getResourceHandleValOrBuilder(
+      int index);
 }

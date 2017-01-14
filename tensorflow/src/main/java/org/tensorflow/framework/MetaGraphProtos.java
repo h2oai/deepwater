@@ -84,6 +84,11 @@ public final class MetaGraphProtos {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_SignatureDef_OutputsEntry_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_tensorflow_AssetFileDef_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_tensorflow_AssetFileDef_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -100,45 +105,50 @@ public final class MetaGraphProtos {
       "o\032,tensorflow/core/framework/tensor_shap" +
       "e.proto\032%tensorflow/core/framework/types" +
       ".proto\032$tensorflow/core/protobuf/saver.p" +
-      "roto\"\325\004\n\014MetaGraphDef\022;\n\rmeta_info_def\030\001" +
+      "roto\"\303\005\n\014MetaGraphDef\022;\n\rmeta_info_def\030\001" +
       " \001(\0132$.tensorflow.MetaGraphDef.MetaInfoD" +
       "ef\022\'\n\tgraph_def\030\002 \001(\0132\024.tensorflow.Graph",
       "Def\022\'\n\tsaver_def\030\003 \001(\0132\024.tensorflow.Save" +
       "rDef\022C\n\016collection_def\030\004 \003(\0132+.tensorflo" +
       "w.MetaGraphDef.CollectionDefEntry\022A\n\rsig" +
       "nature_def\030\005 \003(\0132*.tensorflow.MetaGraphD" +
-      "ef.SignatureDefEntry\032\215\001\n\013MetaInfoDef\022\032\n\022" +
-      "meta_graph_version\030\001 \001(\t\022,\n\020stripped_op_" +
-      "list\030\002 \001(\0132\022.tensorflow.OpList\022&\n\010any_in" +
-      "fo\030\003 \001(\0132\024.google.protobuf.Any\022\014\n\004tags\030\004" +
-      " \003(\t\032O\n\022CollectionDefEntry\022\013\n\003key\030\001 \001(\t\022" +
-      "(\n\005value\030\002 \001(\0132\031.tensorflow.CollectionDe",
-      "f:\0028\001\032M\n\021SignatureDefEntry\022\013\n\003key\030\001 \001(\t\022" +
-      "\'\n\005value\030\002 \001(\0132\030.tensorflow.SignatureDef" +
-      ":\0028\001\"\337\003\n\rCollectionDef\0227\n\tnode_list\030\001 \001(" +
-      "\0132\".tensorflow.CollectionDef.NodeListH\000\022" +
-      "9\n\nbytes_list\030\002 \001(\0132#.tensorflow.Collect" +
-      "ionDef.BytesListH\000\0229\n\nint64_list\030\003 \001(\0132#" +
-      ".tensorflow.CollectionDef.Int64ListH\000\0229\n" +
-      "\nfloat_list\030\004 \001(\0132#.tensorflow.Collectio" +
-      "nDef.FloatListH\000\0225\n\010any_list\030\005 \001(\0132!.ten" +
-      "sorflow.CollectionDef.AnyListH\000\032\031\n\010NodeL",
-      "ist\022\r\n\005value\030\001 \003(\t\032\032\n\tBytesList\022\r\n\005value" +
-      "\030\001 \003(\014\032\036\n\tInt64List\022\021\n\005value\030\001 \003(\003B\002\020\001\032\036" +
-      "\n\tFloatList\022\021\n\005value\030\001 \003(\002B\002\020\001\032.\n\007AnyLis" +
-      "t\022#\n\005value\030\001 \003(\0132\024.google.protobuf.AnyB\006" +
-      "\n\004kind\"s\n\nTensorInfo\022\014\n\004name\030\001 \001(\t\022#\n\005dt" +
-      "ype\030\002 \001(\0162\024.tensorflow.DataType\0222\n\014tenso" +
-      "r_shape\030\003 \001(\0132\034.tensorflow.TensorShapePr" +
-      "oto\"\240\002\n\014SignatureDef\0224\n\006inputs\030\001 \003(\0132$.t" +
-      "ensorflow.SignatureDef.InputsEntry\0226\n\007ou" +
-      "tputs\030\002 \003(\0132%.tensorflow.SignatureDef.Ou",
-      "tputsEntry\022\023\n\013method_name\030\003 \001(\t\032E\n\013Input" +
-      "sEntry\022\013\n\003key\030\001 \001(\t\022%\n\005value\030\002 \001(\0132\026.ten" +
-      "sorflow.TensorInfo:\0028\001\032F\n\014OutputsEntry\022\013" +
-      "\n\003key\030\001 \001(\t\022%\n\005value\030\002 \001(\0132\026.tensorflow." +
-      "TensorInfo:\0028\001B0\n\030org.tensorflow.framewo" +
-      "rkB\017MetaGraphProtosP\001\370\001\001b\006proto3"
+      "ef.SignatureDefEntry\0220\n\016asset_file_def\030\006" +
+      " \003(\0132\030.tensorflow.AssetFileDef\032\311\001\n\013MetaI" +
+      "nfoDef\022\032\n\022meta_graph_version\030\001 \001(\t\022,\n\020st" +
+      "ripped_op_list\030\002 \001(\0132\022.tensorflow.OpList" +
+      "\022&\n\010any_info\030\003 \001(\0132\024.google.protobuf.Any" +
+      "\022\014\n\004tags\030\004 \003(\t\022\032\n\022tensorflow_version\030\005 \001",
+      "(\t\022\036\n\026tensorflow_git_version\030\006 \001(\t\032O\n\022Co" +
+      "llectionDefEntry\022\013\n\003key\030\001 \001(\t\022(\n\005value\030\002" +
+      " \001(\0132\031.tensorflow.CollectionDef:\0028\001\032M\n\021S" +
+      "ignatureDefEntry\022\013\n\003key\030\001 \001(\t\022\'\n\005value\030\002" +
+      " \001(\0132\030.tensorflow.SignatureDef:\0028\001\"\337\003\n\rC" +
+      "ollectionDef\0227\n\tnode_list\030\001 \001(\0132\".tensor" +
+      "flow.CollectionDef.NodeListH\000\0229\n\nbytes_l" +
+      "ist\030\002 \001(\0132#.tensorflow.CollectionDef.Byt" +
+      "esListH\000\0229\n\nint64_list\030\003 \001(\0132#.tensorflo" +
+      "w.CollectionDef.Int64ListH\000\0229\n\nfloat_lis",
+      "t\030\004 \001(\0132#.tensorflow.CollectionDef.Float" +
+      "ListH\000\0225\n\010any_list\030\005 \001(\0132!.tensorflow.Co" +
+      "llectionDef.AnyListH\000\032\031\n\010NodeList\022\r\n\005val" +
+      "ue\030\001 \003(\t\032\032\n\tBytesList\022\r\n\005value\030\001 \003(\014\032\036\n\t" +
+      "Int64List\022\021\n\005value\030\001 \003(\003B\002\020\001\032\036\n\tFloatLis" +
+      "t\022\021\n\005value\030\001 \003(\002B\002\020\001\032.\n\007AnyList\022#\n\005value" +
+      "\030\001 \003(\0132\024.google.protobuf.AnyB\006\n\004kind\"s\n\n" +
+      "TensorInfo\022\014\n\004name\030\001 \001(\t\022#\n\005dtype\030\002 \001(\0162" +
+      "\024.tensorflow.DataType\0222\n\014tensor_shape\030\003 " +
+      "\001(\0132\034.tensorflow.TensorShapeProto\"\240\002\n\014Si",
+      "gnatureDef\0224\n\006inputs\030\001 \003(\0132$.tensorflow." +
+      "SignatureDef.InputsEntry\0226\n\007outputs\030\002 \003(" +
+      "\0132%.tensorflow.SignatureDef.OutputsEntry" +
+      "\022\023\n\013method_name\030\003 \001(\t\032E\n\013InputsEntry\022\013\n\003" +
+      "key\030\001 \001(\t\022%\n\005value\030\002 \001(\0132\026.tensorflow.Te" +
+      "nsorInfo:\0028\001\032F\n\014OutputsEntry\022\013\n\003key\030\001 \001(" +
+      "\t\022%\n\005value\030\002 \001(\0132\026.tensorflow.TensorInfo" +
+      ":\0028\001\"M\n\014AssetFileDef\022+\n\013tensor_info\030\001 \001(" +
+      "\0132\026.tensorflow.TensorInfo\022\020\n\010filename\030\002 " +
+      "\001(\tB0\n\030org.tensorflow.frameworkB\017MetaGra",
+      "phProtosP\001\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -163,13 +173,13 @@ public final class MetaGraphProtos {
     internal_static_tensorflow_MetaGraphDef_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_MetaGraphDef_descriptor,
-        new java.lang.String[] { "MetaInfoDef", "GraphDef", "SaverDef", "CollectionDef", "SignatureDef", });
+        new java.lang.String[] { "MetaInfoDef", "GraphDef", "SaverDef", "CollectionDef", "SignatureDef", "AssetFileDef", });
     internal_static_tensorflow_MetaGraphDef_MetaInfoDef_descriptor =
       internal_static_tensorflow_MetaGraphDef_descriptor.getNestedTypes().get(0);
     internal_static_tensorflow_MetaGraphDef_MetaInfoDef_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_MetaGraphDef_MetaInfoDef_descriptor,
-        new java.lang.String[] { "MetaGraphVersion", "StrippedOpList", "AnyInfo", "Tags", });
+        new java.lang.String[] { "MetaGraphVersion", "StrippedOpList", "AnyInfo", "Tags", "TensorflowVersion", "TensorflowGitVersion", });
     internal_static_tensorflow_MetaGraphDef_CollectionDefEntry_descriptor =
       internal_static_tensorflow_MetaGraphDef_descriptor.getNestedTypes().get(1);
     internal_static_tensorflow_MetaGraphDef_CollectionDefEntry_fieldAccessorTable = new
@@ -242,6 +252,12 @@ public final class MetaGraphProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_SignatureDef_OutputsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
+    internal_static_tensorflow_AssetFileDef_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_tensorflow_AssetFileDef_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_tensorflow_AssetFileDef_descriptor,
+        new java.lang.String[] { "TensorInfo", "Filename", });
     com.google.protobuf.AnyProto.getDescriptor();
     org.tensorflow.framework.GraphProtos.getDescriptor();
     org.tensorflow.framework.OpDefProtos.getDescriptor();

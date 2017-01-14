@@ -39,8 +39,8 @@ public final class VariableProtos {
       "\025\n\rsnapshot_name\030\003 \001(\t\0229\n\023save_slice_inf" +
       "o_def\030\004 \001(\0132\034.tensorflow.SaveSliceInfoDe" +
       "f\"`\n\020SaveSliceInfoDef\022\021\n\tfull_name\030\001 \001(\t" +
-      "\022\022\n\nfull_shape\030\002 \003(\005\022\022\n\nvar_offset\030\003 \003(\005" +
-      "\022\021\n\tvar_shape\030\004 \003(\005B/\n\030org.tensorflow.fr" +
+      "\022\022\n\nfull_shape\030\002 \003(\003\022\022\n\nvar_offset\030\003 \003(\003" +
+      "\022\021\n\tvar_shape\030\004 \003(\003B/\n\030org.tensorflow.fr" +
       "ameworkB\016VariableProtosP\001\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
