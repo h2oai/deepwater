@@ -24,11 +24,9 @@ sudo bash bazel-0.3.1-installer-darwin-x86_64.sh
 exit
 ```
 
-#### Javaccp presets
+#### Javacpp presets
 ```
-cd thirdparty
 git submodule update --init --recursive
-cd ..
 ```
 
 ## Install Anaconda Python
