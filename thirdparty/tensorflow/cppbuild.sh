@@ -100,5 +100,5 @@ mvn install:install-file \
     -DlocalRepositoryPath=$TOP_PATH/../tensorflow/lib/
 echo "Done"
 
-cp bazel_bin/tensorflow/java/*.so  $TOP_PATH/../tensorflow/lib/
+cp ./bazel-bin/tensorflow/java/*.so  $TOP_PATH/../tensorflow/lib/
 
