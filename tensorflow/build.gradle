@@ -46,6 +46,8 @@ dependencies {
 jar {
     baseName = rootProject.name + "." + project.name
 
+    from ("lib/") { include '*.so' }
+
     // include also the sources for easy debugging
     from sourceSets.main.allSource
 
@@ -69,14 +71,15 @@ artifacts {
     archives javadocJar
 }
 
-task make (type: Exec) {
+task tensorflowCompile(type: Exec) {
     commandLine "bash", "cppbuild.sh", "install", "tensorflow"
     workingDir "$rootDir/thirdparty"
 }
-compileJava.dependsOn(make)
 
-task makeClean (type: Exec) {
+compileJava.dependsOn(tensorflowCompile)
+
+task tensorflowClean(type: Exec) {
     commandLine "rm", "-fr", "$rootDir/thirdparty/tensorflow/cppbuild/*"
     workingDir "$rootDir/thirdparty"
 }
-clean.dependsOn(makeClean)
+clean.dependsOn(tensorflowClean)

@@ -84,7 +84,7 @@ case $PLATFORM in
         ;;
 esac
 
-TOP_PATH=`pwd`
+export TOP_PATH=`pwd`
 
 function download {
     mkdir -p "$TOP_PATH/downloads"

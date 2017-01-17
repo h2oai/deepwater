@@ -21,13 +21,10 @@ export TF_CUDA_COMPUTE_CAPABILITIES=3.0
 export TF_NEED_JEMALLOC=0
 export TF_ENABLE_XLA=0
 
-
 # fix issue with anaconda installation
-if [ -z ${CONDA_PREFIX} ]; then
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${CONDA_PREFIX}/lib/python2.7/site-packages/numpy/.libs/
-fi
-
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${CONDA_PREFIX}/lib/python2.7/site-packages/numpy/.libs/
 export PYTHON_PATH=$CONDA_PREFIX/lib/python2.7/site-packages
+
 export USE_DEFAULT_PYTHON_LIB_PATH=1
 
 TENSORFLOW_VERSION=1.0.0-alpha
@@ -103,4 +100,5 @@ mvn install:install-file \
     -DlocalRepositoryPath=$TOP_PATH/../tensorflow/lib/
 echo "Done"
 
-cd $TOP_DIR/.. 
+cp bazel_bin/tensorflow/java/*.so  $TOP_PATH/../tensorflow/lib/
+
