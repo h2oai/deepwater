@@ -24,11 +24,9 @@ sudo bash bazel-0.3.1-installer-darwin-x86_64.sh
 exit
 ```
 
-#### Javaccp presets
+#### Javacpp presets
 ```
-cd thirdparty
 git submodule update --init --recursive
-cd ..
 ```
 
 #### Install Anaconda Python
@@ -36,8 +34,7 @@ cd ..
 ```
 conda create --name deepwater python=2.7
 source activate deepwater
-# The numpy version is important
-conda install numpy=1.10
+conda install numpy=1.10 # The numpy version is important
 ```
 #### Install SWIG
 For Linux:
