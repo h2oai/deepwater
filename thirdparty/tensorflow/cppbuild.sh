@@ -23,7 +23,9 @@ export TF_ENABLE_XLA=0
 
 
 # fix issue with anaconda installation
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/python2.7/site-packages/numpy/.libs/
+if [ -z ${CONDA_PREFIX} ]; then
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${CONDA_PREFIX}/lib/python2.7/site-packages/numpy/.libs/
+fi
 
 export PYTHON_PATH=$CONDA_PREFIX/lib/python2.7/site-packages
 export USE_DEFAULT_PYTHON_LIB_PATH=1
@@ -42,7 +44,9 @@ tar --totals -xzf ../tensorflow-$TENSORFLOW_VERSION.tar.gz
 cd tensorflow-$TENSORFLOW_VERSION
 
 # fix links in old zlib
-patch -Np1 < ../../../tensorflow-$TENSORFLOW_VERSION.patch 
+(patch -Np1 --dry-run < ../../../tensorflow-$TENSORFLOW_VERSION.patch && \ 
+  patch -Np1 < ../../../tensorflow-$TENSORFLOW_VERSION.patch) || true
+
 
 case $PLATFORM in
 	android-arm)
@@ -95,7 +99,8 @@ bazel build -c opt //tensorflow/java:pom \
 echo "Publishing to local maven repository"
 mvn install:install-file \
     -Dfile=bazel-bin/tensorflow/java/libtensorflow.jar \
-    -DpomFile=bazel-bin/tensorflow/java/pom.xml
-
+    -DpomFile=bazel-bin/tensorflow/java/pom.xml \
+    -DlocalRepositoryPath=$TOP_PATH/../tensorflow/lib/
 echo "Done"
-cd ../..
+
+cd $TOP_DIR/.. 

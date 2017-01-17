@@ -12,6 +12,7 @@ dependencies {
     compile files ('build')
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
+
 jar {
     baseName = rootProject.name + "." + project.name
     from ('build/deepwater/backends/mxnet/') { include '**/*' }
@@ -33,6 +34,7 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
+
 task make (type: Exec) {
   commandLine "mkdir", "build"
   commandLine "make", "-j12"

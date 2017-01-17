@@ -5,7 +5,7 @@
  - Get DeepWater Source Code
 
 ## Pre-requsite and Environment ##
- - Install prerequsite for H2O-3 and DeepWater
+ - Install prerequisite for H2O-3 and DeepWater
  - Test environment
 
 ## GPU/CUDA Libraries and Tools ##
@@ -26,7 +26,6 @@
    - With OpenCV 
    
 ### Build thridparty section ###
-   - javacpp
-   - javacpp-presets
-   
+   - tensorflow
+ 
 ### Building DeepWater - tensorflow ###

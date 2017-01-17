@@ -6,7 +6,9 @@ apply plugin: 'maven'
 
 repositories {
     mavenCentral()
-    mavenLocal()
+    flatDir {
+      dirs "${rootDir}/tensorflow/lib"
+    }
 }
 
 sourceSets {
@@ -19,10 +21,7 @@ sourceSets {
 
 dependencies {
 
-    def presets = "${rootDir}/thirdparty/javacpp-presets"
-
-    compile 'org.tensorflow:libtensorflow:0.12.head'
-
+    compile files ("lib/org/tensorflow/libtensorflow/0.12.head/libtensorflow-0.12.head.jar")
     compile project (':deepwater-backend-api')
     compile "com.google.protobuf:protobuf-java:3.1.0"
     compile 'com.google.guava:guava:19.0'
@@ -70,3 +69,14 @@ artifacts {
     archives javadocJar
 }
 
+task make (type: Exec) {
+    commandLine "bash", "cppbuild.sh", "install", "tensorflow"
+    workingDir "$rootDir/thirdparty"
+}
+compileJava.dependsOn(make)
+
+task makeClean (type: Exec) {
+    commandLine "rm", "-fr", "$rootDir/thirdparty/tensorflow/cppbuild/*"
+    workingDir "$rootDir/thirdparty"
+}
+clean.dependsOn(makeClean)
