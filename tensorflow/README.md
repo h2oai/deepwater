@@ -1,11 +1,11 @@
-# Tensorflow Bindings for H2O.ai
+# TensorFlow Bindings for H2O.ai
 
-This package provides inference bindings for Tensorflow and H2O.ai.
+This package provides inference bindings for TensorFlow and H2O.ai.
 
-The module directory contains a pretrained set of ready to use models. 
+The module directory contains a pretrained set of ready-to-use models. 
 
 #### Install Protobuf 3.0.0
-https://github.com/google/protobuf/releases/tag/v3.0.0
+[https://github.com/google/protobuf/releases/tag/v3.0.0](https://github.com/google/protobuf/releases/tag/v3.0.0)
 
 #### Install Bazel 0.3.1
 For Linux:
@@ -16,7 +16,7 @@ exit
 ```
 
 For Mac:
-(Optional) MacOs X Sierra needs a Bazel >=0.4 version due to bugs in 0.3.1, it can be installed with `brew install bazel`
+(Optional) Mac OS X Sierra needs a Bazel >=0.4 version due to bugs in 0.3.1. It can be installed with `brew install bazel`
 
 ```
 curl -L -O https://github.com/bazelbuild/bazel/releases/download/0.3.1/bazel-0.3.1-installer-darwin-x86_64.sh
@@ -31,7 +31,7 @@ git submodule update --init --recursive
 cd ..
 ```
 
-## Install Anaconda Python
+#### Install Anaconda Python
 
 ```
 conda create --name deepwater python=2.7
@@ -69,7 +69,7 @@ cd ../..
 ```
 
 #### Build TF Java bindings
-(Optional) To build bindings for GPU disabled TF comment out `export TF_NEED_CUDA=1` line and remove `-conf=cuda` in `thirdparty/javacpp-presets/tensorflow/cppbuild.sh` for your platform.
+(Optional) To build bindings for GPU disabled TF, comment out the `export TF_NEED_CUDA=1` line and remove `-conf=cuda` in `thirdparty/javacpp-presets/tensorflow/cppbuild.sh` for your platform.
 
 ```
 cd thirdparty/javacpp-presets
