@@ -1,6 +1,5 @@
 package deepwater.backends.tensorflow;
 
-import com.google.common.primitives.Floats;
 import deepwater.backends.BackendModel;
 import deepwater.backends.BackendParams;
 import deepwater.backends.BackendTrain;
@@ -17,6 +16,15 @@ import java.util.List;
 
 
 public class TensorflowBackend implements BackendTrain {
+
+    static { //only load libraries once
+        try {
+            LibraryLoader.loadNativeLib("tensorflow_jni");
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("Couldn't load tensorflow libraries");
+        }
+    }
 
     //private Map<TensorflowModel, Integer> global_step = new HashMap<>();
     //private SessionOptions sessionOptions;
@@ -146,13 +154,19 @@ public class TensorflowBackend implements BackendTrain {
         assert data.length == model.frameSize * batchSize: "input data length is not equal to expected value";
 
         long [] labelShape = new long[]{ batchSize, model.classes};
-        float [][] labelData = new float[][]{ labels};
+        float [][] labelData;
 
         if (model.classes > 1) { //one-hot encoder
             labelData = new float[Math.toIntExact(batchSize)][model.classes];
             for (int i = 0; i < batchSize; i++) {
                 int idx = (int)labels[i];
                 labelData[i][idx] = 1.0f;
+            }
+        } else {
+            labelData = new float[Math.toIntExact(batchSize)][1];
+            for (int i = 0; i < batchSize; i++) {
+                assert labels.length == batchSize;
+                labelData[i][0] = labels[i];
             }
         }
 
@@ -261,8 +275,8 @@ public class TensorflowBackend implements BackendTrain {
 
         Session session = model.getSession();
         Session.Runner runner = session.runner();
-        runner.feed(model.meta.inputs.get("batch_image_input"), Tensor.create(dataMatrix));
-        runner.fetch(model.meta.predict_op);
+        runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataMatrix));
+        runner.fetch(normalize(model.meta.predict_op));
 
         List<Tensor> results = runner.run();
 
