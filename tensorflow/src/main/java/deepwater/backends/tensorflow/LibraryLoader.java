@@ -88,9 +88,15 @@ public final class LibraryLoader {
     }
 
     public static void loadNativeLib(String resourceName) throws IOException {
-        extractLibrary(resourceName);
-        System.loadLibrary(resourceName);
+       try {
+           System.loadLibrary(resourceName);
+       } catch (Exception e) {
+            extractLibrary(resourceName);
+
+            System.loadLibrary(resourceName);
+        }
     }
+
 
     public static <T> T checkNotNull(T reference, String msg) {
    if (reference == null) {

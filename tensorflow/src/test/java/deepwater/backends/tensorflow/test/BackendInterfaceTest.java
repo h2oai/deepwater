@@ -133,7 +133,7 @@ public class BackendInterfaceTest {
         double testError = computeTestError(model, batchSize);
 
         backend.delete(model);
-        System.out.println("final test error:" + testError);
+        System.out.println("final MNIST test error:" + testError);
     }
 
     private void backendCanTrainCifar10(String modelName, int batchSize, int epochs) throws IOException {
@@ -201,7 +201,7 @@ public class BackendInterfaceTest {
         backend.setParameter(model, "learning_rate", 0.1f);
         backend.setParameter(model, "momentum", 0.8f);
 
-        BatchIterator it = new BatchIterator(dataset, 1, train_images);
+        BatchIterator it = new BatchIterator(dataset, 2, train_images);
         ImageBatch b = new ImageBatch(dataset, batchSize);
         while(it.nextEpochs()) {
             while (it.next(b)) {
@@ -223,7 +223,7 @@ public class BackendInterfaceTest {
 
         double loaded = computeTestError(model2, batchSize);
 
-        assert initial > trained: ("initial error rate:" + initial + " is less than after being trained: " + trained);
+        assert initial > trained: ("initial error rate:" + initial + " is less or same as after being trained: " + trained);
         assert trained <= loaded: loaded;
 
         backend.delete(model);
