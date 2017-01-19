@@ -138,10 +138,10 @@ def CIFAR10_must_converge(model_class, optimizer_class,
         dataset = cifar.read_data_sets('/tmp/deepwater/cifar10/', validation_size=0)
 
         print("computing initial test error ...")
-        test_error = test(0, dataset.test, batch_size,
-                          dataset.test.num_examples, sess, summaries=summaries)
-
-        print('initial test error:', test_error)
+        # test_error = test(0, dataset.test, batch_size,
+        #                   dataset.test.num_examples, sess, summaries=summaries)
+        #
+        # print('initial test error:', test_error)
 
         for epoch in range(epochs):
             global_step, train_loss, train_error = train(epoch,
@@ -169,7 +169,7 @@ def MNIST_must_converge(model_class, optimizer_class,
 
     print("logging at %s" % "/tmp/test//test")
 
-    def train(epoch, dataset, batch_size, total, sess, summaries=True):
+    def train(epoch, dataset, batch_size, total, sess, summaries=False):
         average_loss = []
         average_error = []
         eye = np.eye(10)

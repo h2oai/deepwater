@@ -14,7 +14,7 @@ class TestLenet(unittest.TestCase):
         MNIST_must_converge(model,
                             optimizers.MomentumOptimizer,
                             batch_size=100,
-                            epochs=90)
+                            epochs=10)
 
 
 if __name__ == "__main__":

@@ -20,7 +20,7 @@ export CUDNN_INSTALL_PATH=$CUDA_TOOLKIT_PATH
 export TF_CUDA_COMPUTE_CAPABILITIES=3.5,5.2,6.0,6.1
 export TF_NEED_JEMALLOC=0
 export TF_ENABLE_XLA=0
-
+export CC_OPT_FLAGS=-march=native
 
 # fix issue with anaconda installation
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/python2.7/site-packages/numpy/.libs/
@@ -99,10 +99,12 @@ mvn install:install-file \
     -Dfile=bazel-bin/tensorflow/java/libtensorflow.jar \
     -DpomFile=bazel-bin/tensorflow/java/pom.xml \
     -DlocalRepositoryPath=$TOP_PATH/../tensorflow/lib/
-echo "Done"
+echo "copying libtensorflow_jni.so"
 
 # we need force because the file is write protected
 rm -f $TOP_PATH/../tensorflow/lib/libtensorflow*.so || true
 cp ./bazel-bin/tensorflow/java/*.so  $TOP_PATH/../tensorflow/lib/
 
-cd $TOP_DIR/.. 
+cd $TOP_PATH/.. 
+echo "done"
+

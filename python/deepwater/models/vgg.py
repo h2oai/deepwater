@@ -1,47 +1,8 @@
-import math
-
-from deepwater.models import BaseImageClassificationModel
 import tensorflow as tf
 
+from deepwater.models import BaseImageClassificationModel
 
-def weight_variable(shape, name):
-    # Delving deep into Rectifier
-    n = shape[0]
-    factor = 2.0
-    stddev = math.sqrt(1.3 * factor / n)
-
-    initialization = tf.truncated_normal(
-        shape, mean=0.0, stddev=stddev)
-
-    return tf.Variable(initialization, name=name)
-
-
-def bias_variable(shape, name):
-    initial = tf.constant(0.1, shape=shape)
-    var = tf.Variable(initial)
-    return var
-
-
-def conv2d(x, W):
-    return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
-
-
-def max_pool_2x2(x):
-    return tf.nn.max_pool(x, ksize=[1, 2, 2, 1],
-                          strides=[1, 2, 2, 1], padding='SAME')
-
-
-def block(x, kernel_shape):
-    kernel = weight_variable(kernel_shape, "kernel")
-    b = bias_variable([kernel_shape[-1]], "bias")
-    out = conv2d(x, kernel) + b
-    return tf.nn.relu(out)
-
-
-def fc(x, shape):
-    W = weight_variable(shape, "weight")
-    b = bias_variable([shape[-1]], "bias")
-    return tf.matmul(x, W) + b
+from deepwater.models.nn import block, fc, max_pool_2x2
 
 
 class VGG(BaseImageClassificationModel):
@@ -61,48 +22,50 @@ class VGG(BaseImageClassificationModel):
         x = tf.reshape(x, [-1, width, height, channels])
 
         self._number_of_classes = classes
-
-        input_width = width
+    
+        if width < 224:
+            x = tf.image.resize_images(x, [48, 48])
+            input_width = 48 
+        elif width == 224:
+            input_width = 224 
+        else:
+            x = tf.image.resize_images(x, [224, 224])
+            input_width = 224 
 
         # 2 x 64
         out = block(x, [3, 3, channels, 64])
         out = block(out, [3, 3, 64, 64])
-        if width / 2 > 3:
-            input_width /= 2
-            out = max_pool_2x2(out)
+        out = max_pool_2x2(out)
+        input_width /= 2
 
         # 2 x 128
         out = block(out, [3, 3, 64, 128])
         out = block(out, [3, 3, 128, 128])
-        if width / 4 > 3:
-            input_width /= 2
-            out = max_pool_2x2(out)
+        out = max_pool_2x2(out)
+        input_width /= 2
 
         # 3 x 256
         out = block(out, [3, 3, 128, 256])
         out = block(out, [3, 3, 256, 256])
         out = block(out, [3, 3, 256, 256])
-        if width / 8 > 3:
-            input_width /= 2
-            out = max_pool_2x2(out)
+        out = max_pool_2x2(out)
+        input_width /= 2
 
         # 3 x 512
         out = block(out, [3, 3, 256, 512])
         out = block(out, [3, 3, 512, 512])
         out = block(out, [3, 3, 512, 512])
-        if width / 16 > 3:
-            input_width /= 2
-            out = max_pool_2x2(out)
+        out = max_pool_2x2(out)
+        input_width /= 2
 
         # 512
         out = block(out, [3, 3, 512, 512])
         out = block(out, [3, 3, 512, 512])
         out = block(out, [3, 3, 512, 512])
-        if width / 64 > 1:
-            input_width /= 2
-            out = max_pool_2x2(out)
+        out = max_pool_2x2(out)
+        input_width /= 2
 
-        flatten_size = input_width * input_width * 512
+        flatten_size = reduce(lambda a,b: a * b, out.get_shape().as_list()[1:], 1)
 
         out = tf.reshape(out, [-1, int(flatten_size)])
 
