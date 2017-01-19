@@ -85,6 +85,9 @@ public class TensorflowBackend implements BackendTrain {
         if (!model.meta.init.isEmpty()) {
             Session.Runner runner = session.runner();
             runner.addTarget(model.meta.init).run();
+        } else {
+            System.out.println("WARNING WARNING: no init operation found");
+            assert false;
         }
         model.setSession(this.session);
         return model;
@@ -106,6 +109,8 @@ public class TensorflowBackend implements BackendTrain {
 
         Session.Runner runner = model.getSession().runner();
 
+        assert new File(param_path).exists(): "cannot load from an invalid file:" + param_path;
+
         runner.feed(normalize(model.meta.save_filename), Tensor.create(param_path.getBytes()));
         runner.addTarget(model.meta.restore_op);
         runner.run();
@@ -120,8 +125,10 @@ public class TensorflowBackend implements BackendTrain {
         TensorflowModel model = (TensorflowModel) m;
         Session.Runner runner = model.getSession().runner();
         runner.feed(normalize(model.meta.save_filename), Tensor.create(param_path.getBytes()));
-        runner.addTarget(normalize(model.meta.save_op));
+        //runner.addTarget(normalize(model.meta.save_op));
+        runner.fetch(normalize(model.meta.save_op));
         runner.run();
+        assert new File(param_path).exists(): "saveParam di not save. could not find file:" + param_path;
     }
 
     @Override

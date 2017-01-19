@@ -114,7 +114,6 @@ public class ModelFactory {
         meta.save_op = saver.getSaveTensorName();
         meta.restore_op = saver.getRestoreOpName();
 
-
         meta.summary_op = getFirstOperationFromCollection(metaGraphDef, "summaries");
         meta.predict_op = getFirstOperationFromCollection(metaGraphDef, "predictions");
         meta.train_op =  getFirstOperationFromCollection(metaGraphDef, "train");

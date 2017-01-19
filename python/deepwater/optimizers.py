@@ -3,7 +3,6 @@ from abc import ABCMeta, abstractproperty, abstractmethod
 
 
 class BaseOptimizer(object):
-
     __metaclass__ = ABCMeta
 
     @abstractmethod
@@ -22,33 +21,35 @@ class BaseOptimizer(object):
     def grads_and_vars(self):
         pass
 
-class MomentumOptimizer(BaseOptimizer):
 
+class MomentumOptimizer(BaseOptimizer):
     def __init__(self,
                  initial_learning_rate=0.1,
                  initial_momentum=0.9,
                  ):
-
         self._global_step = tf.Variable(0, name="global_step", trainable=False)
         self._learning_rate = \
-          tf.placeholder_with_default(initial_learning_rate, [],
-                name="learning_rate")
+            tf.placeholder_with_default(initial_learning_rate, [],
+                                        name="learning_rate")
         self._momentum = \
-          tf.placeholder_with_default(initial_momentum, [],
-                name="momentum")
+            tf.placeholder_with_default(initial_momentum, [],
+                                        name="momentum")
 
         self._optimizer = tf.train.MomentumOptimizer(
             self._learning_rate, self._momentum)
 
+        self._grads_and_vars = None
+        self._optimize_op = None
+
     def apply(self, loss):
-        trainables = tf.trainable_variables()
-        grads_and_vars = self._optimizer.compute_gradients(loss, trainables)
+        trainable = tf.trainable_variables()
+        grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
         self._grads_and_vars = grads_and_vars
         # clipped_var_grads = [(tf.clip_by_value(grad, -1.0, 1.0), var) for grad, var
         #         in  grads_and_vars]
-        clipped_var_grads = [(tf.clip_by_norm(grad, 1.0), var) for grad, var
-                in  grads_and_vars]
-        self._optimize_op = self._optimizer.apply_gradients(clipped_var_grads,
+        #clipped_var_grads = [(tf.clip_by_norm(grad, 1.0), var) for grad, var
+        #                     in grads_and_vars]
+        self._optimize_op = self._optimizer.apply_gradients(grads_and_vars,
                                                             global_step=self._global_step)
 
     @property
@@ -75,23 +76,24 @@ class MomentumOptimizer(BaseOptimizer):
     def optimize_op(self):
         return self._optimize_op
 
-class GradientDescentOptimizer(BaseOptimizer):
 
+class GradientDescentOptimizer(BaseOptimizer):
     def __init__(self,
                  initial_learning_rate=0.1,
                  ):
-
         self._global_step = tf.Variable(0, name="global_step", trainable=False)
         self._learning_rate = \
-        tf.placeholder_with_default(initial_learning_rate, [],
-                name="learning_rate")
+            tf.placeholder_with_default(initial_learning_rate, [],
+                                        name="learning_rate")
 
         self._optimizer = tf.train.GradientDescentOptimizer(
             self._learning_rate)
+        self._grads_and_vars = None
+        self._optimize_op = None
 
     def apply(self, loss):
-        trainables = tf.trainable_variables()
-        grads_and_vars = self._optimizer.compute_gradients(loss, trainables)
+        trainable = tf.trainable_variables()
+        grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
         self._grads_and_vars = grads_and_vars
         self._optimize_op = self._optimizer.apply_gradients(grads_and_vars,
                                                             global_step=self._global_step)
@@ -112,13 +114,12 @@ class GradientDescentOptimizer(BaseOptimizer):
     def optimize_op(self):
         return self._optimize_op
 
-class DefaultOptimizer(BaseOptimizer):
 
+class DefaultOptimizer(BaseOptimizer):
     def __init__(self,
                  initial_learning_rate=0.01,
                  num_steps_per_decay=1000,
                  decay_rate=0.96):
-
         self._global_step = tf.Variable(0, name="global_step", trainable=False)
 
         self._learning_rate = tf.train.exponential_decay(
@@ -131,13 +132,16 @@ class DefaultOptimizer(BaseOptimizer):
         self._optimizer = tf.train.AdagradOptimizer(
             self._learning_rate)
 
+        self._grads_and_vars = None
+        self._optimize_op = None
+
     def apply(self, loss):
-        trainables = tf.trainable_variables()
-        grads_and_vars = self._optimizer.compute_gradients(loss, trainables)
+        trainable = tf.trainable_variables()
+        grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
         self._grads_and_vars = grads_and_vars
         self._optimize_op = self._optimizer.apply_gradients(grads_and_vars,
                                                             global_step=self._global_step)
-        
+
         for _, var in grads_and_vars:
             print(var.name)
             var.assign(tf.clip_by_norm(var, 2.0))

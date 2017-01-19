@@ -11,12 +11,12 @@ def weight_variable(shape, name):
 
 def bias_variable(shape, name):
     initial = tf.constant(0.1, shape=shape)
-    var = tf.Variable(initial)
+    var = tf.Variable(initial, name=name)
     return var
 
 
-def conv2d(x, W):
-    return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
+def conv2d(x, weights):
+    return tf.nn.conv2d(x, weights, strides=[1, 1, 1, 1], padding='SAME')
 
 
 def max_pool_2x2(x):

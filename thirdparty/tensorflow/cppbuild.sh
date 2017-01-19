@@ -17,14 +17,15 @@ export TF_NEED_OPENCL=0
 export GCC_HOST_COMPILER_PATH=$(which gcc)
 export CUDA_TOOLKIT_PATH=/usr/local/cuda
 export CUDNN_INSTALL_PATH=$CUDA_TOOLKIT_PATH
-export TF_CUDA_COMPUTE_CAPABILITIES=3.0
+export TF_CUDA_COMPUTE_CAPABILITIES=3.5,5.2,6.0,6.1
 export TF_NEED_JEMALLOC=0
 export TF_ENABLE_XLA=0
 
-# fix issue with anaconda installation
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${CONDA_PREFIX}/lib/python2.7/site-packages/numpy/.libs/
-export PYTHON_PATH=$CONDA_PREFIX/lib/python2.7/site-packages
 
+# fix issue with anaconda installation
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/python2.7/site-packages/numpy/.libs/
+
+export PYTHON_PATH=$CONDA_PREFIX/lib/python2.7/site-packages
 export USE_DEFAULT_PYTHON_LIB_PATH=1
 
 TENSORFLOW_VERSION=1.0.0-alpha
@@ -70,7 +71,7 @@ case $PLATFORM in
         export CXX="/usr/bin/g++"
         export TF_NEED_CUDA=1
         export GCC_HOST_COMPILER_PATH=$CC
-        export BUILDFLAGS="--config=cuda --copt=-m64 --linkopt=-m64"
+        export BUILDFLAGS="--config=cuda --copt=-m64 --linkopt=-m64 --copt=-march=native"
         ;;
     macosx-*)
         export TF_NEED_CUDA=1
@@ -100,5 +101,8 @@ mvn install:install-file \
     -DlocalRepositoryPath=$TOP_PATH/../tensorflow/lib/
 echo "Done"
 
+# we need force because the file is write protected
+rm -f $TOP_PATH/../tensorflow/lib/libtensorflow*.so || true
 cp ./bazel-bin/tensorflow/java/*.so  $TOP_PATH/../tensorflow/lib/
 
+cd $TOP_DIR/.. 

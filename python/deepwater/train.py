@@ -1,14 +1,5 @@
 import tensorflow as tf
 
-print(tf.__version__)
-
-if tf.__version__ < (0,13):
-    tf.summary.scalar = tf.scalar_summary
-    tf.summary.histogram = tf.histogram_summary
-    tf.summary.merge_all = tf.merge_all_summaries
-    tf.global_variables_initializer = tf.initialize_all_variables
-    tf.summary.FileWriter = tf.train.SummaryWriter
-
 
 class ImageClassificationTrainStrategy(object):
     """
@@ -17,7 +8,7 @@ class ImageClassificationTrainStrategy(object):
 
     """
 
-    def __init__(self, graph, model, optimizer, add_summaries=True):
+    def __init__(self, graph, model, optimizer, add_summaries=False):
         self._graph = graph
         self._model = model
         self._labels = labels = tf.placeholder(tf.float32,
@@ -25,22 +16,23 @@ class ImageClassificationTrainStrategy(object):
         logits = model.logits
 
         self._loss = tf.reduce_mean(
-            tf.nn.softmax_cross_entropy_with_logits(logits, labels))
+            tf.nn.softmax_cross_entropy_with_logits(labels=labels,
+                                                    logits=logits))
 
-        a = tf.argmax(model.predictions, 1) 
+        a = tf.argmax(model.predictions, 1)
         b = tf.argmax(self._labels, 1)
         correct_predictions = tf.equal(a, b)
         wrong_predictions = tf.not_equal(a, b)
 
         self._accuracy = tf.reduce_mean(tf.cast(correct_predictions,
-            tf.float32))
+                                                tf.float32))
         self._error = tf.reduce_mean(tf.cast(wrong_predictions,
-            tf.float32))
+                                             tf.float32))
 
         self._optimizer = optimizer
         self._optimizer.apply(self._loss)
 
-        max_norm_constraint = False 
+        max_norm_constraint = False
         if max_norm_constraint:
             for _, var in self._optimizer.grads_and_vars:
                 var.assign(tf.clip_by_norm(var, 2.0))
