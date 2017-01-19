@@ -1,4 +1,18 @@
-# Deep Water Workshop on EC2 Amazon AMI
+# Deep Water AMI
+
+An Amazon Machine Image (AMI) provides a convenient way for H2O to distribute Deep Water. Deep Water AMIs are produced periodcally, often based on a known stable AMI previously produced. When an AMI is made public, H2O.ai **does not** support the AMI for enterprise or production use cases. AMIs are merely provided for user experiments and training.
+
+AMIs are specific to Amazon Elastic Compute Cloud (EC2) regions and, as such, AMI IDs are unique to regions. Be sure that the AMI ID you use is for the correct region.
+
+By default, Amazon AMIs update packages. This can cause problems with GPU drivers, which are tied to the OS kernel. Updates to the kernel can cause a mismatch between the installed GPU drivers and break the Deep Water stack. Because of this, we recommend that you:
+
+- Prevent automatic updates using: ``sudo apt-get remove unattended-upgrades``
+
+  or
+
+- Re-install the drivers to match the new kernel.
+
+## Deep Water Workshop on EC2 Amazon AMI
 
 A Deep Water workshop was presented at H2O Open Tour Dallas. The hands-on workshop is available in a public EC2 Amazon AMI. This document describes how to load and run this workshop. Note that this requires an account on Amazon AWS. 
 

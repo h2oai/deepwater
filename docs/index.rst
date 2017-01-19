@@ -13,8 +13,8 @@ We're glad you're interested in learning more about H2O.  If you have questions 
 .. toctree::
    :maxdepth: 3
    
-   README
-   tensorflow/index
-   mxnet/index
-   docs/open-tour-dallas/deep-water-ami
+   about
+   installation
+   deepwater-demo
+   open-tour-dallas/deep-water-ami
  
