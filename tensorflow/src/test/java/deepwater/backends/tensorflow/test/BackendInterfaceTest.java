@@ -94,11 +94,10 @@ public class BackendInterfaceTest {
 
     @Test
     public void testAlexnet() throws IOException{
-        backendCanTrainMNIST("alexnet", 32, 3);
+        backendCanTrainMNIST("alexnet", 32, 3, 0.01f);
         backendCanSaveCheckpoint("alexnet", 32);
     }
 
-    @Ignore
     @Test
     public void testVGG() throws IOException {
         backendCanSaveCheckpoint("vgg", 16);
@@ -107,6 +106,10 @@ public class BackendInterfaceTest {
     }
 
     private void backendCanTrainMNIST(String modelName, int batchSize, int epochs) throws IOException {
+        backendCanTrainMNIST(modelName, batchSize, epochs, 0.1f);
+    }
+
+    private void backendCanTrainMNIST(String modelName, int batchSize, int epochs, float learningRate) throws IOException {
         BackendTrain backend = new TensorflowBackend();
 
         MNISTImageDataset dataset = new MNISTImageDataset();
@@ -119,7 +122,7 @@ public class BackendInterfaceTest {
         BackendModel model = backend.buildNet(dataset, opts, params,
                                             dataset.getNumClasses(), modelName);
 
-        backend.setParameter(model, "learning_rate", 0.1f);
+        backend.setParameter(model, "learning_rate", learningRate);
         backend.setParameter(model, "momentum", 0.8f);
 
         BatchIterator it = new BatchIterator(dataset, epochs, mnistTrainData);

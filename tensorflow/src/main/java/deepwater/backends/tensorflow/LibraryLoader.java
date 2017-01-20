@@ -90,7 +90,8 @@ public final class LibraryLoader {
     public static void loadNativeLib(String resourceName) throws IOException {
        try {
            System.loadLibrary(resourceName);
-       } catch (Exception e) {
+       } catch (Error e) {
+            System.out.println("current java.library.path:" + System.getProperty("java.library.path"));
             extractLibrary(resourceName);
 
             System.loadLibrary(resourceName);
