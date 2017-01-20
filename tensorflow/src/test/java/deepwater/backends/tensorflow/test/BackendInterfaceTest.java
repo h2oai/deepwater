@@ -230,6 +230,7 @@ public class BackendInterfaceTest {
 
         double loaded = computeTestError(model2, batchSize);
 
+        System.out.printf("error rate: initial %f  trained %f  improvement %f\n", initial, trained, initial - trained);
         assert initial > trained: ("initial error rate:" + initial + " is less or same as after being trained: " + trained);
         assert trained <= loaded: loaded;
 
