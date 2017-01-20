@@ -170,15 +170,15 @@ public class BackendInterfaceTest {
         ImageBatch b = new ImageBatch(dataset, batchSize);
 
         BatchIterator test_it = new BatchIterator(dataset, 1, test_images);
-        ImageBatch bb = new ImageBatch(dataset, batchSize);
+        ImageBatch batchTest = new ImageBatch(dataset, batchSize);
 
         while(it.nextEpochs()) {
             while (it.next(b)) {
                 backend.train(model, b.getImages(), b.getLabels());
             }
 
-            while (test_it.next(bb)) {
-                float[] loss = backend.predict(model, bb.getImages(), bb.getLabels());
+            while (test_it.next(batchTest)) {
+                float[] loss = backend.predict(model, batchTest.getImages(), batchTest.getLabels());
                 printLoss(loss);
             }
 
