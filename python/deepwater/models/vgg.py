@@ -5,12 +5,12 @@ from deepwater.models import BaseImageClassificationModel
 from deepwater.models.nn import block, fc, max_pool_2x2
 
 
-class VGG(BaseImageClassificationModel):
+class VGG16(BaseImageClassificationModel):
 
     def __init__(self, width=28, height=28, channels=1, classes=10,
                  hidden_layers=[],
                  dropout=[]):
-        super(VGG, self).__init__()
+        super(VGG16, self).__init__()
 
         assert width == height, "width and height must be the same"
 

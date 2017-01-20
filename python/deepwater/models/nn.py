@@ -6,16 +6,29 @@ import tensorflow as tf
 def get_fans(shape):
     fan_in = shape[0] if len(shape) == 2 else np.prod(shape[1:])
     fan_out = shape[1] if len(shape) == 2 else shape[0]
-    return fan_in, fan_out
+    return float(fan_in), float(fan_out)
 
 
 def weight_variable(shape, name):
     # Delving deep into Rectifier
-    fan_in, fan_out = get_fans(shape)
-    stddev = math.sqrt(2.0/ fan_in)
+    # http://arxiv.org/pdf/1502.01852v1.pdf)
+    #fan_in, _ = get_fans(shape)
+    if shape:
+        fan_in = float(shape[-2]) if len(shape) > 1 else float(shape[-1])
+        fan_out = float(shape[-1])
+    else:
+        fan_in = 1.0
+        fan_out = 1.0
+    for dim in shape[:-2]:
+        fan_in *= float(dim)
+        fan_out *= float(dim)
 
-    initialization = tf.truncated_normal(
-        shape, mean=0.0, stddev=stddev)
+    # assert stddev > 0.001, stddev
+
+    factor = 2.0
+    stddev = math.sqrt(1.3 * factor / fan_in)
+
+    initialization = tf.truncated_normal(shape, 0.0, stddev)
 
     return tf.Variable(initialization, name=name)
 

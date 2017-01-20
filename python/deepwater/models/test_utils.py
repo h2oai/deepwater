@@ -1,4 +1,5 @@
 import unittest
+import datetime
 
 import numpy as np
 import tensorflow as tf
@@ -12,7 +13,7 @@ from deepwater import train
 
 
 def generate_train_graph(model_class, optimizer_class,
-                         width, height, channels, classes):
+                         width, height, channels, classes, add_summaries=False):
     graph = tf.Graph()
     with graph.as_default():
         # 1. instantiate the model
@@ -23,7 +24,7 @@ def generate_train_graph(model_class, optimizer_class,
 
         # 3. instantiate the train wrapper
         train_strategy = train.ImageClassificationTrainStrategy(
-            graph, model, optimizer)
+            graph, model, optimizer, add_summaries=add_summaries)
 
         init = tf.global_variables_initializer()
         tf.add_to_collection("init", init.name)
@@ -41,7 +42,6 @@ def CIFAR10_must_converge(model_class, optimizer_class,
         model_class, optimizer_class, 32, 32, 3, 10)
 
     train_writer = tf.summary.FileWriter("/tmp/%s/train" % model_class.name)
-    test_writer = tf.summary.FileWriter("/tmp/%s/test" % model_class.name)
 
     print("logging at %s" % "/tmp/test/")
 
@@ -155,38 +155,39 @@ def CIFAR10_must_converge(model_class, optimizer_class,
                   '% train error:', train_error,
                   '% test error:', test_error)
 
-        test_writer.close()
         train_writer.close()
 
 
-def MNIST_must_converge(model_class, optimizer_class,
-                        epochs=20, batch_size=500):
+def MNIST_must_converge(name, model_class,
+                        optimizer_class,
+                        epochs=20,
+                        batch_size=500,
+                        initial_learning_rate=0.01,
+                        summaries=False,
+                        use_debug_session=False
+                        ):
     train_strategy = generate_train_graph(
-        model_class, optimizer_class, 28, 28, 1, 10)
+        model_class, optimizer_class, 28, 28, 1, 10, add_summaries=summaries)
 
-    train_writer = tf.summary.FileWriter("/tmp/%s/train" % "test")
-    test_writer = tf.summary.FileWriter("/tmp/%s/test" % "test")
+    timestamp = datetime.datetime.now().strftime("%y%m%d%H%M%S")
+    train_writer = tf.summary.FileWriter("/tmp/%s/train/%s" % (name, timestamp))
 
-    print("logging at %s" % "/tmp/test//test")
-
-    def train(epoch, dataset, batch_size, total, sess, summaries=False):
+    def train(epoch, dataset, batch_size, total, sess):
         average_loss = []
         average_error = []
         eye = np.eye(10)
         total_examples = 0
 
         def step_decay(epoch):
-            initial_lrate = 0.1
+            initial_lrate = initial_learning_rate
             drop = 0.5
             epochs_drop = 10.0
             lrate = initial_lrate * math.pow(drop, math.floor((1 + epoch) / epochs_drop))
             return lrate
 
         learning_rate = step_decay(epoch)
-        # learning_rate = 0.01
-        print(learning_rate)
 
-        while total_examples != total:
+        while total_examples <= total:
             x_batch, label_batch = dataset.next_batch(batch_size)
             total_examples += len(x_batch)
             # one hot encode 
@@ -212,10 +213,15 @@ def MNIST_must_converge(model_class, optimizer_class,
             average_loss.append(loss)
             average_error.append(error)
 
-        if summaries:
-            fetches = train_strategy.summary_op
-            summary = sess.run(fetches, feed_dict=feed_dict)
-            train_writer.add_summary(summary)
+            err = np.mean(average_error) * 100.0
+            print("train: loss: %f err: %f lr: %f" % (np.mean(average_loss), err, learning_rate))
+
+            if summaries and (total_examples % 10):
+                fetches = train_strategy.summary_op
+                summary = sess.run(fetches, feed_dict=feed_dict)
+                train_writer.add_summary(summary)
+                train_writer.flush()
+                print("writing summaries")
 
         return global_step, np.mean(average_loss), np.mean(average_error) * 100.
 
@@ -223,7 +229,7 @@ def MNIST_must_converge(model_class, optimizer_class,
         total_examples = 0
         average_error = []
         eye = np.eye(10)
-        while total_examples != total:
+        while total_examples <= total:
             x_batch, label_batch = dataset.next_batch(batch_size)
             total_examples += len(x_batch)
 
@@ -242,11 +248,8 @@ def MNIST_must_converge(model_class, optimizer_class,
 
             average_error.append(error)
 
-        # Add summaries
-        if summaries:
-            fetches = train_strategy.summary_op
-            summary = sess.run(fetches, feed_dict=feed_dict)
-            train_writer.add_summary(summary)
+            err = np.mean(average_error) * 100.0
+            print("test err: %f" % err)
 
         return np.mean(average_error) * 100.0
 
@@ -254,16 +257,18 @@ def MNIST_must_converge(model_class, optimizer_class,
         tf.set_random_seed(12345678)
         sess.run(tf.get_collection('init')[0])
 
-        # from tensorflow.python import debug as tf_debug                                                                                                                                                                                                                                
-        # sess = tf_debug.LocalCLIDebugWrapperSession(sess)    
-        # sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)       
-        summaries = False
+        if use_debug_session:
+            from tensorflow.python import debug as tf_debug
+            sess = tf_debug.LocalCLIDebugWrapperSession(sess)
+            sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)
 
         dataset = read_data_sets('/tmp/deepwater/datasets/', validation_size=0)
 
-        test_error = test(0, dataset.test, batch_size,
-                          dataset.test.num_examples, sess, summaries=summaries)
-        print('initial test error:', test_error)
+        if not use_debug_session:
+            print('computing initial test error')
+            test_error = test(0, dataset.test, batch_size,
+                              dataset.test.num_examples, sess, summaries=summaries)
+            print('initial test error:', test_error)
 
         for epoch in range(epochs):
             global_step, train_loss, train_error = train(epoch,
