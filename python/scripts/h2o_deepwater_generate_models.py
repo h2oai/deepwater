@@ -17,12 +17,12 @@ from tensorflow.python.framework import ops
 
 from google.protobuf import text_format
 
-from deepwater.models import (lenet, mlp, alexnet)
+from deepwater.models import (lenet, mlp, alexnet, vgg)
 from deepwater import train, optimizers
 
 from functools import partial
 
-tf.logging.set_verbosity(tf.logging.INFO)
+tf.logging.set_verbosity(tf.logging.DEBUG)
 
 
 def test_cifar10(model_class, optimizer_class,
@@ -179,7 +179,9 @@ def export_train_graph(model_class, optimizer_class,
         train_strategy = train.ImageClassificationTrainStrategy(
             graph,
             model,
-            optimizer)
+            optimizer,
+            add_summaries=True,
+        )
 
         saver = tf.train.Saver()
         init = tf.global_variables_initializer()
@@ -239,5 +241,5 @@ if __name__ == "__main__":
     export_linear_model_graph(default_mlp)
     export_image_classifier_model_graph(default_mlp)
 
-    for model in (lenet.LeNet, alexnet.AlexNet):
+    for model in (lenet.LeNet, alexnet.AlexNet, vgg.VGG16):
         export_image_classifier_model_graph(model)
