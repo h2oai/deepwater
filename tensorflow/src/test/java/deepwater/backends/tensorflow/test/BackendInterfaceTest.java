@@ -83,26 +83,26 @@ public class BackendInterfaceTest {
     @Test
     public void testMLP() throws IOException{
         backendCanTrainMNIST("mlp", 32, 1);
-        backendCanSaveCheckpoint("mlp", 32);
+        backendCanSaveCheckpoint("mlp", 32, 0.1f);
     }
 
     @Test
     public void testLenet() throws IOException{
-        backendCanTrainMNIST("lenet", 32, 3);
-        backendCanSaveCheckpoint("lenet", 32);
+        backendCanTrainMNIST("lenet", 32, 1);
+        backendCanSaveCheckpoint("lenet", 32, 0.1f);
     }
 
     @Test
     public void testAlexnet() throws IOException{
-        backendCanTrainMNIST("alexnet", 32, 3, 0.01f);
-        backendCanSaveCheckpoint("alexnet", 32);
+        backendCanTrainMNIST("alexnet", 32, 1, 0.01f);
+        backendCanSaveCheckpoint("alexnet", 32, 0.01f);
     }
 
     @Test
     public void testVGG() throws IOException {
-        backendCanSaveCheckpoint("vgg", 16);
-        backendCanTrainMNIST("vgg", 32, 10);
-        backendCanTrainCifar10("vgg", 32, 10);
+        backendCanTrainMNIST("vgg", 32, 1, 0.01f);
+        backendCanTrainCifar10("vgg", 32, 1, 0.01f);
+        backendCanSaveCheckpoint("vgg", 16, 0.01f);
     }
 
     private void backendCanTrainMNIST(String modelName, int batchSize, int epochs) throws IOException {
@@ -139,7 +139,7 @@ public class BackendInterfaceTest {
         System.out.println("final MNIST test error:" + testError);
     }
 
-    private void backendCanTrainCifar10(String modelName, int batchSize, int epochs) throws IOException {
+    private void backendCanTrainCifar10(String modelName, int batchSize, int epochs, float learningRate) throws IOException {
         BackendTrain backend = new TensorflowBackend();
 
         CIFAR10ImageDataset dataset = new CIFAR10ImageDataset();
@@ -147,8 +147,12 @@ public class BackendInterfaceTest {
         RuntimeOptions opts = new RuntimeOptions();
         BackendParams params = new BackendParams();
 
+        params.set("mini_batch_size", batchSize);
 
         BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelName);
+
+        backend.setParameter(model, "learning_rate", learningRate);
+        backend.setParameter(model, "momentum", 0.8f);
 
         String[] train_images = new String[]{
                 findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_1.bin"),
@@ -184,7 +188,7 @@ public class BackendInterfaceTest {
     }
 
 
-    private void backendCanSaveCheckpoint(String modelName, int batchSize) throws IOException {
+    private void backendCanSaveCheckpoint(String modelName, int batchSize, float learningRate) throws IOException {
 
         BackendTrain backend = new TensorflowBackend();
 
@@ -201,10 +205,10 @@ public class BackendInterfaceTest {
 
         double initial = computeTestError(model, batchSize);
 
-        backend.setParameter(model, "learning_rate", 0.1f);
+        backend.setParameter(model, "learning_rate", learningRate);
         backend.setParameter(model, "momentum", 0.8f);
 
-        BatchIterator it = new BatchIterator(dataset, 2, train_images);
+        BatchIterator it = new BatchIterator(dataset, 1, train_images);
         ImageBatch b = new ImageBatch(dataset, batchSize);
         while(it.nextEpochs()) {
             while (it.next(b)) {
