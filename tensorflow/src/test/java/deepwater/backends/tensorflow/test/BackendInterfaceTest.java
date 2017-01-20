@@ -155,15 +155,15 @@ public class BackendInterfaceTest {
         backend.setParameter(model, "momentum", 0.8f);
 
         String[] train_images = new String[]{
-                findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_1.bin"),
-                findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_2.bin"),
-                findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_3.bin"),
-                findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_4.bin"),
-                findFile("bigdata/laptop/cifar-10-batches-bin/data_batch_5.bin"),
+                findFile("bigdata/laptop/mnist/cifar-10/data_batch_1.bin"),
+                findFile("bigdata/laptop/mnist/cifar-10/data_batch_2.bin"),
+                findFile("bigdata/laptop/mnist/cifar-10/data_batch_3.bin"),
+                findFile("bigdata/laptop/mnist/cifar-10/data_batch_4.bin"),
+                findFile("bigdata/laptop/mnist/cifar-10/data_batch_5.bin"),
         };
 
         String[] test_images = new String[]{
-                findFile("bigdata/laptop/cifar-10-batches-bin/test_batch.bin"),
+                findFile("bigdata/laptop/mnist/cifar-10/test_batch.bin"),
         };
 
         BatchIterator it = new BatchIterator(dataset, epochs, train_images);
