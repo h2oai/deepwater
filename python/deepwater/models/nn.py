@@ -3,12 +3,6 @@ import numpy as np
 import tensorflow as tf
 
 
-def get_fans(shape):
-    fan_in = shape[0] if len(shape) == 2 else np.prod(shape[1:])
-    fan_out = shape[1] if len(shape) == 2 else shape[0]
-    return float(fan_in), float(fan_out)
-
-
 def weight_variable(shape, name):
     # Delving deep into Rectifier
     # http://arxiv.org/pdf/1502.01852v1.pdf)

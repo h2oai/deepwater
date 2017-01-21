@@ -22,6 +22,67 @@ class BaseOptimizer(object):
         pass
 
 
+class RMSPropOptimizer(BaseOptimizer):
+
+    def __init__(self,
+                 initial_learning_rate=0.1,
+                 initial_momentum=0.9,
+                 decay=0.9,
+                 epsilon=1.0
+                 ):
+        self._global_step = tf.Variable(0, name="global_step", trainable=False)
+        self._learning_rate = \
+            tf.placeholder_with_default(initial_learning_rate, [],
+                                        name="learning_rate")
+        self._momentum = \
+            tf.placeholder_with_default(initial_momentum, [],
+                                        name="momentum")
+
+        self._decay = decay
+        self._epsilon = epsilon
+
+        self._optimizer = tf.train.RMSPropOptimizer(
+            self._learning_rate, decay=decay, momentum=self._momentum, epsilon=epsilon)
+
+        self._grads_and_vars = None
+        self._optimize_op = None
+
+    def apply(self, loss):
+        trainable = tf.trainable_variables()
+        grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
+        self._grads_and_vars = grads_and_vars
+        # clipped_var_grads = [(tf.clip_by_value(grad, -1.0, 1.0), var) for grad, var
+        #         in  grads_and_vars]
+        #clipped_var_grads = [(tf.clip_by_norm(grad, 1.0), var) for grad, var
+        #                     in grads_and_vars]
+        self._optimize_op = self._optimizer.apply_gradients(grads_and_vars,
+                                                            global_step=self._global_step)
+
+    @property
+    def grads_and_vars(self):
+        return self._grads_and_vars
+
+    @property
+    def learning_rate(self):
+        return self._learning_rate
+
+    @property
+    def learning_rate(self):
+        return self._learning_rate
+
+    @property
+    def momentum(self):
+        return self._momentum
+
+    @property
+    def global_step(self):
+        return self._global_step
+
+    @property
+    def optimize_op(self):
+        return self._optimize_op
+
+
 class MomentumOptimizer(BaseOptimizer):
     def __init__(self,
                  initial_learning_rate=0.1,

@@ -34,7 +34,7 @@ def conv(x, w, h, filters, stride=1, padding="SAME"):
 
     kernel_shape = [w, h, channels, filters]
     kernel = weight_variable(kernel_shape, "kernel")
-    b = bias_variable([kernel_shape[-1]], "bias")
+    b = bias_variable([filters], "bias")
     x = tf.nn.conv2d(x, kernel, strides=[1, stride, stride, 1], padding=padding)
     return tf.nn.relu(x + b)
 
@@ -240,7 +240,7 @@ class InceptionV4(BaseImageClassificationModel):
         return self._predictions
 
 
-def inceptionResNetA(out):
+def inceptionResNetA(out, scale=1.0):
     out = tf.nn.relu(out)
 
     out1 = conv1x1(out, 32)
@@ -252,18 +252,52 @@ def inceptionResNetA(out):
     out3 = conv3x3(out3, 48)
     out3 = conv3x3(out3, 64)
 
-    out4 = conv1x1()
+    mixed = tf.concat(3, [out1, out2, out3])
 
-    total = out
-    return tf.nn.relu(total)
+    out = conv(mixed, 1, 1, out.get_shape().as_list()[3])
+
+    # scale to stabilize
+    out += scale * out
+
+    return tf.nn.relu(out)
 
 
-def inceptionResNetB(out):
-    pass
+def inceptionResNetB(out, scale=1.0):
+    out = tf.nn.relu(out)
+
+    out1 = conv1x1(out, 192)
+
+    out2 = conv1x1(out, 128)
+    out2 = conv1x7(out2, 160)
+    out2 = conv7x1(out2, 192)
+
+    mixed = tf.concat(3, [out1, out2])
+
+    out = conv(mixed, 1, 1, out.get_shape().as_list()[3])
+
+    # scale to stabilize
+    out += scale * out
+
+    return tf.nn.relu(out)
 
 
-def inceptionResNetC(out):
-    pass
+def inceptionResNetC(out, scale=1.0):
+    out = tf.nn.relu(out)
+
+    out1 = conv1x1(out, 192)
+
+    out2 = conv1x1(out, 192)
+    out2 = conv1x7(out2, 224)
+    out2 = conv7x1(out2, 256)
+
+    mixed = tf.concat(3, [out1, out2])
+
+    out = conv(mixed, 1, 1, out.get_shape().as_list()[3])
+
+    # scale to stabilize
+    out += scale * out
+
+    return tf.nn.relu(out)
 
 
 class InceptionResNetV2(BaseImageClassificationModel):
@@ -287,7 +321,7 @@ class InceptionResNetV2(BaseImageClassificationModel):
         self._number_of_classes = classes
 
         max_w = 299
-        min_w = 299 // 3
+        min_w = 299 # // 3
 
         if width < min_w:
             x = tf.image.resize_images(x, [min_w, min_w])
@@ -297,25 +331,31 @@ class InceptionResNetV2(BaseImageClassificationModel):
             x = tf.image.resize_images(x, [max_w, max_w])
 
         out = stem(x)
+        print(out.get_shape().as_list())
         for _ in range(5):
             out = inceptionResNetA(out)
         out = reductionA(out, k=256, l=256, m=384, n=384)
+        print(out.get_shape().as_list())
 
         for _ in range(10):
             out = inceptionResNetB(out)
         out = reductionB(out)
+        print(out.get_shape().as_list())
 
         for _ in range(5):
             out = inceptionResNetC(out)
 
         a, b = out.get_shape().as_list()[1:3]
 
+        print([a, b, out.get_shape().as_list()])
+
         out = tf.nn.avg_pool(out, ksize=[1, a, b, 1],
                              strides=[1, 1, 1, 1], padding="VALID")
 
         out = tf.nn.dropout(out, keep_prob=1.0-self._dropout_var)
 
-        flatten_size = 1 * 1 * 1536
+        print([a, b, out.get_shape().as_list()])
+        flatten_size = 1 * 1 * 1664
 
         out = tf.reshape(out, [-1, flatten_size])
         out = fc(out, [flatten_size, classes])
@@ -335,7 +375,7 @@ class InceptionResNetV2(BaseImageClassificationModel):
 
     @property
     def name(self):
-        return "inception_bn"
+        return "inception_resnet_v2"
 
     @property
     def number_of_classes(self):
