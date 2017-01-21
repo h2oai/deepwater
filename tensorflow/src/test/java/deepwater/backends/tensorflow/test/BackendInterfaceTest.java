@@ -96,13 +96,21 @@ public class BackendInterfaceTest {
     public void testAlexnet() throws IOException{
         backendCanTrainMNIST("alexnet", 32, 1, 0.01f);
         backendCanSaveCheckpoint("alexnet", 32, 0.01f);
+        backendCanTrainCifar10("alexnet", 32, 1, 0.001f);
     }
 
     @Test
     public void testVGG() throws IOException {
         backendCanTrainMNIST("vgg", 32, 1, 0.01f);
-        backendCanTrainCifar10("vgg", 32, 1, 0.01f);
+        backendCanTrainCifar10("vgg", 32, 1, 0.001f);
         backendCanSaveCheckpoint("vgg", 16, 0.01f);
+    }
+
+    @Test
+    public void testInception() throws IOException {
+        backendCanTrainMNIST("inception_bn", 32, 1, 0.01f);
+        backendCanTrainCifar10("inception_bn", 32, 1, 0.001f);
+        backendCanSaveCheckpoint("inception_bn", 16, 0.01f);
     }
 
     private void backendCanTrainMNIST(String modelName, int batchSize, int epochs) throws IOException {
@@ -254,9 +262,11 @@ public class BackendInterfaceTest {
                 meta_model);
 
         File modelFile = File.createTempFile("model", ".tmp");
+        modelFile.delete();
         backend.saveModel(model, modelFile.getPath());
 
         File modelParams = File.createTempFile("params", ".tmp");
+        modelParams.delete();
         backend.saveParam(model, modelParams.getAbsolutePath());
 
 

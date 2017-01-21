@@ -12,7 +12,7 @@ def get_fans(shape):
 def weight_variable(shape, name):
     # Delving deep into Rectifier
     # http://arxiv.org/pdf/1502.01852v1.pdf)
-    #fan_in, _ = get_fans(shape)
+    # fan_in, _ = get_fans(shape)
     if shape:
         fan_in = float(shape[-2]) if len(shape) > 1 else float(shape[-1])
         fan_out = float(shape[-1])
@@ -43,9 +43,15 @@ def conv2d(x, W):
     return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
 
 
-def max_pool_2x2(x):
+def max_pool_2x2(x, stride=2, padding="SAME"):
     return tf.nn.max_pool(x, ksize=[1, 2, 2, 1],
-                          strides=[1, 2, 2, 1], padding='SAME')
+                          strides=[1, stride, stride, 1], padding=padding)
+
+
+def max_pool_3x3(x, stride=2, padding="SAME"):
+    return tf.nn.max_pool(x, ksize=[1, 3, 3, 1],
+                          strides=[1, stride, stride, 1],
+                          padding=padding)
 
 
 def block(x, kernel_shape):
@@ -59,4 +65,3 @@ def fc(x, shape):
     W = weight_variable(shape, "weight")
     b = bias_variable([shape[-1]], "bias")
     return tf.matmul(x, W) + b
-

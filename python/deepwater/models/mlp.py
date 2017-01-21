@@ -15,8 +15,8 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
         x = tf.placeholder(tf.float32, [None, size], name="x")
         self._dropout_train_values = dropout
         dropout_shape = [len(dropout)]
-        droupout_default = tf.zeros(dropout_shape, dtype=tf.float32)
-        self._dropout_var = tf.placeholder_with_default(droupout_default,
+        dropout_default = tf.zeros(dropout_shape, dtype=tf.float32)
+        self._dropout_var = tf.placeholder_with_default(dropout_default,
                                                   dropout_shape,
                                                   name="dropout")
 
@@ -31,8 +31,8 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
             with tf.variable_scope("fc%d" % idx):
                 # Delving deep into Rectifier
                 n = h1
-                factor=2.0 
-                stddev=math.sqrt(1.3 * factor/n)
+                factor = 2.0
+                stddev = math.sqrt(1.3 * factor/n)
 
                 initialization = tf.truncated_normal(
                     [h1, h2], mean=0.0, stddev=stddev)

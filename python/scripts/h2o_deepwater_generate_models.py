@@ -12,65 +12,14 @@ from six.moves import range
 
 import numpy as np
 import tensorflow as tf
-from tensorflow.core.framework import graph_pb2
 from tensorflow.python.framework import ops
 
-from google.protobuf import text_format
-
-from deepwater.models import (lenet, mlp, alexnet, vgg)
+from deepwater.models import (lenet, mlp, alexnet, vgg, inception)
 from deepwater import train, optimizers
 
 from functools import partial
 
 tf.logging.set_verbosity(tf.logging.DEBUG)
-
-
-def test_cifar10(model_class, optimizer_class,
-                 epochs=20, batch_size=128):
-    data = {'data': [], 'labels': []}
-    for batch in range(1, 6):
-        filename = '/datasets/cifar-10-batches-py/data_batch_%d' % batch
-        with open(filename, 'rb') as fd:
-            if PY2:
-                d = cPickle.load(fd)
-            else:
-                d = cPickle.load(fd, encoding='latin1')
-            data['data'].extend(d['data'])
-            data['labels'].extend(d['labels'])
-
-    train_strategy = generate_train_graph(
-        model_class, optimizer_class, 32, 32, 3, 10)
-
-    with tf.Session(graph=train_strategy.graph) as sess:
-        sess.run(tf.get_collection('init')[0])
-        for epoch in range(epochs):
-            x_batch = []
-            y_batch = []
-            for image, label in zip(data['data'], data['labels']):
-                image = np.array(image, dtype=np.float32).reshape(32 * 32 * 3)
-                x_batch.append(image)
-                one_hot = np.zeros([10], dtype=np.float32)
-                one_hot[label] = 1
-                y_batch.append(one_hot)
-
-                if len(y_batch) == batch_size:
-                    feed_dict = {
-                        train_strategy.inputs: x_batch,
-                        train_strategy.labels: y_batch,
-                    }
-
-                    fetches = [train_strategy.optimize,
-                               train_strategy.loss,
-                               train_strategy.global_step
-                               ]
-
-                    _, loss, global_step = sess.run(
-                        fetches, feed_dict=feed_dict)
-                    global_step += 1
-
-                    print(epoch, global_step, loss)
-                    x_batch = []
-                    y_batch = []
 
 
 def print_stat(prefix, statistic_type, value):
@@ -241,5 +190,5 @@ if __name__ == "__main__":
     export_linear_model_graph(default_mlp)
     export_image_classifier_model_graph(default_mlp)
 
-    for model in (lenet.LeNet, alexnet.AlexNet, vgg.VGG16):
+    for model in (lenet.LeNet, alexnet.AlexNet, vgg.VGG16, inception.InceptionV4):
         export_image_classifier_model_graph(model)

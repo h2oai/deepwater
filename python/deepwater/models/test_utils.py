@@ -36,14 +36,21 @@ class BaseImageClassificationTest(unittest.TestCase):
     pass
 
 
-def CIFAR10_must_converge(model_class, optimizer_class,
-                          epochs=32, batch_size=500):
+def CIFAR10_must_converge(name, model_class,
+                          optimizer_class,
+                          epochs=32,
+                          batch_size=500,
+                          initial_learning_rate=0.01,
+                          summaries=False,
+                          use_debug_session=False
+                          ):
     train_strategy = generate_train_graph(
         model_class, optimizer_class, 32, 32, 3, 10)
 
-    train_writer = tf.summary.FileWriter("/tmp/%s/train" % model_class.name)
-
-    print("logging at %s" % "/tmp/test/")
+    if summaries:
+        filepath = "/tmp/%s/cifar10/train" % name
+        train_writer = tf.summary.FileWriter(filepath)
+        print("summaries: ", filepath)
 
     def train(epoch, dataset, batch_size, total, sess, summaries=False):
         average_loss = []
@@ -52,15 +59,13 @@ def CIFAR10_must_converge(model_class, optimizer_class,
         total_examples = 0
 
         def step_decay(epoch):
-            initial_lrate = 0.1
+            initial_lrate = initial_learning_rate
             drop = 0.5
             epochs_drop = 10.0
             lrate = initial_lrate * math.pow(drop, math.floor((1 + epoch) / epochs_drop))
             return lrate
 
         learning_rate = step_decay(epoch)
-        learning_rate = 0.1
-        print(learning_rate)
 
         while total_examples <= total:
             x_batch, label_batch = dataset.next_batch(batch_size)
@@ -130,10 +135,10 @@ def CIFAR10_must_converge(model_class, optimizer_class,
         tf.set_random_seed(12345678)
         sess.run(tf.get_collection('init')[0])
 
-        # from tensorflow.python import debug as tf_debug
-        # sess = tf_debug.LocalCLIDebugWrapperSession(sess)
-        # sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)
-        summaries = False
+        if use_debug_session:
+            from tensorflow.python import debug as tf_debug
+            sess = tf_debug.LocalCLIDebugWrapperSession(sess)
+            sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)
 
         dataset = cifar.read_data_sets('/tmp/deepwater/cifar10/', validation_size=0)
 

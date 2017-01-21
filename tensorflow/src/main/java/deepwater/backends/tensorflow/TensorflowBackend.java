@@ -11,6 +11,7 @@ import org.tensorflow.Session;
 import org.tensorflow.Tensor;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.List;
 
@@ -109,7 +110,20 @@ public class TensorflowBackend implements BackendTrain {
 
         Session.Runner runner = model.getSession().runner();
 
-        assert new File(param_path).exists(): "cannot load from an invalid file:" + param_path;
+        File[] extractedFiles = ZipUtils.extractFiles(param_path, "/tmp");
+
+        String pattern = new File(param_path).getName();
+        for (File f: extractedFiles) {
+            String[] partsA = pattern.split("\\.");
+            String[] partsB = f.getName().split("\\.");
+            for (int i = 0; i < Math.min(partsA.length, partsB.length); i++) {
+                partsB[i] = partsA[i];
+            }
+            String newName = String.join(".", partsB);
+            File newFile = new File(f.getParentFile(), newName);
+            f.renameTo(newFile);
+            System.out.println("renaming "+f+" to "+newFile);
+        }
 
         runner.feed(normalize(model.meta.save_filename), Tensor.create(param_path.getBytes()));
         runner.addTarget(model.meta.restore_op);
@@ -124,11 +138,32 @@ public class TensorflowBackend implements BackendTrain {
     public void saveParam(BackendModel m, String param_path) {
         TensorflowModel model = (TensorflowModel) m;
         Session.Runner runner = model.getSession().runner();
+
         runner.feed(normalize(model.meta.save_filename), Tensor.create(param_path.getBytes()));
-        //runner.addTarget(normalize(model.meta.save_op));
+        runner.addTarget(normalize(model.meta.save_op));
         runner.fetch(normalize(model.meta.save_op));
         runner.run();
-        assert new File(param_path).exists(): "saveParam di not save. could not find file:" + param_path;
+        File tempFile = new File(param_path);
+        File tmpDir = tempFile.getParentFile();
+        // Tensorflow generated files
+        File[] files = listFilesWithPrefix(tmpDir, tempFile.getName());
+        // Save to zip
+        ZipUtils.zipFiles(new File(param_path), files);
+        // Cleanup
+        for (File f: files) {
+           f.delete();
+        }
+        assert new File(param_path).exists(): "saveParam did not save. could not find file:" + param_path;
+    }
+
+    private static File[] listFilesWithPrefix(File dir, String prefix){
+        assert dir.exists(): "directory:"+dir+" does not exists";
+        File[] foundFiles = dir.listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.startsWith(prefix) && !name.equals(prefix);
+            }
+        });
+        return foundFiles;
     }
 
     @Override
