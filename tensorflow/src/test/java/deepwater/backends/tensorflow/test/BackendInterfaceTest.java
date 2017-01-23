@@ -10,7 +10,6 @@ import deepwater.datasets.BatchIterator;
 import deepwater.datasets.CIFAR10ImageDataset;
 import deepwater.datasets.ImageBatch;
 import deepwater.datasets.MNISTImageDataset;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -28,7 +27,7 @@ public class BackendInterfaceTest {
             findFile("bigdata/laptop/mnist/train-labels-idx1-ubyte.gz"),
     };
 
-    private double computeTestError(BackendModel model, int batchSize) throws IOException {
+    private double computeTestErrorMNIST(BackendModel model, int batchSize) throws IOException {
         BackendTrain backend = new TensorflowBackend();
         MNISTImageDataset dataset = new MNISTImageDataset();
         String[] images = new String[]{
@@ -60,6 +59,39 @@ public class BackendInterfaceTest {
         return error/total;
     }
 
+    private double computeTestErrorCifar10(BackendModel model, int batchSize) throws IOException {
+        BackendTrain backend = new TensorflowBackend();
+        CIFAR10ImageDataset dataset = new CIFAR10ImageDataset();
+        String[] images = new String[]{
+                findFile("bigdata/laptop/mnist/cifar-10/test_batch.bin")
+        };
+
+        BatchIterator it = new BatchIterator(dataset, 1, images);
+        ImageBatch b = new ImageBatch(dataset, batchSize);
+
+        List<float[]> lossValues = new ArrayList<>();
+
+        int classNum = 10;
+        double error = 0.0;
+        double total = 0.0;
+
+        while(it.next(b)){
+            float[] predictions = backend.predict(model, b.getImages(), b.getLabels());
+            float[] labels = b.getLabels();
+            for (int i = 0, j = 0; i < predictions.length; i += classNum, j++) {
+                int classPrediction = argmax(predictions, i, i + 10);
+                if (classPrediction != labels[j]){
+                    error++;
+                }
+                total++;
+            }
+        }
+
+        return error/total;
+    }
+
+
+
     private int argmax(float[] values, int start, int end){
         int argmax = 0;
         float maxvalue = 0;
@@ -83,34 +115,36 @@ public class BackendInterfaceTest {
     @Test
     public void testMLP() throws IOException{
         backendCanTrainMNIST("mlp", 32, 1);
-        backendCanSaveCheckpoint("mlp", 32, 0.1f);
+        backendCanSaveCheckpointMNIST("mlp", 32, 0.1f);
     }
 
     @Test
     public void testLenet() throws IOException{
         backendCanTrainMNIST("lenet", 32, 1);
-        backendCanSaveCheckpoint("lenet", 32, 0.1f);
+        backendCanSaveCheckpointMNIST("lenet", 32, 0.1f);
     }
 
     @Test
     public void testAlexnet() throws IOException{
         backendCanTrainMNIST("alexnet", 32, 1, 0.01f);
-        backendCanSaveCheckpoint("alexnet", 32, 0.01f);
+        backendCanSaveCheckpointMNIST("alexnet", 32, 0.01f);
         backendCanTrainCifar10("alexnet", 32, 1, 0.001f);
     }
 
     @Test
     public void testVGG() throws IOException {
         backendCanTrainMNIST("vgg", 32, 1, 0.01f);
-        backendCanTrainCifar10("vgg", 32, 1, 0.001f);
-        backendCanSaveCheckpoint("vgg", 16, 0.01f);
+        backendCanSaveCheckpointMNIST("vgg", 16, 0.01f);
+
+        backendCanTrainCifar10("vgg", 32, 2, 0.00005f);
+        backendCanSaveCheckpointCifar10("vgg", 16, 0.00005f);
     }
 
     @Test
     public void testInception() throws IOException {
         backendCanTrainMNIST("inception_bn", 32, 1, 0.01f);
         backendCanTrainCifar10("inception_bn", 32, 1, 0.001f);
-        backendCanSaveCheckpoint("inception_bn", 16, 0.01f);
+        backendCanSaveCheckpointMNIST("inception_bn", 16, 0.01f);
     }
 
     private void backendCanTrainMNIST(String modelName, int batchSize, int epochs) throws IOException {
@@ -141,7 +175,7 @@ public class BackendInterfaceTest {
                 backend.train(model, b.getImages(), b.getLabels());
             }
         }
-        double testError = computeTestError(model, batchSize);
+        double testError = computeTestErrorMNIST(model, batchSize);
 
         backend.delete(model);
         System.out.println("final MNIST test error:" + testError);
@@ -196,7 +230,7 @@ public class BackendInterfaceTest {
     }
 
 
-    private void backendCanSaveCheckpoint(String modelName, int batchSize, float learningRate) throws IOException {
+    private void backendCanSaveCheckpointMNIST(String modelName, int batchSize, float learningRate) throws IOException {
 
         BackendTrain backend = new TensorflowBackend();
 
@@ -211,7 +245,7 @@ public class BackendInterfaceTest {
         params.set("mini_batch_size", batchSize);
         BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelName);
 
-        double initial = computeTestError(model, batchSize);
+        double initial = computeTestErrorMNIST(model, batchSize);
 
         backend.setParameter(model, "learning_rate", learningRate);
         backend.setParameter(model, "momentum", 0.8f);
@@ -223,7 +257,7 @@ public class BackendInterfaceTest {
                 backend.train(model, b.getImages(), b.getLabels());
             }
         }
-        double trained = computeTestError(model, batchSize);
+        double trained = computeTestErrorMNIST(model, batchSize);
 
         //create a temp file
         File modelFile = File.createTempFile("model", ".tmp");
@@ -236,7 +270,7 @@ public class BackendInterfaceTest {
 
         backend.loadParam(model2, modelParams.getAbsolutePath());
 
-        double loaded = computeTestError(model2, batchSize);
+        double loaded = computeTestErrorMNIST(model2, batchSize);
 
         System.out.printf("error rate: initial %f  trained %f  improvement %f\n", initial, trained, initial - trained);
         assert initial > trained: ("initial error rate:" + initial + " is less or same as after being trained: " + trained);
@@ -246,6 +280,64 @@ public class BackendInterfaceTest {
         backend.delete(model2);
 
     }
+
+    private void backendCanSaveCheckpointCifar10(String modelName, int batchSize, float learningRate) throws IOException {
+
+        BackendTrain backend = new TensorflowBackend();
+
+        String[] train_images = new String[]{
+                findFile("bigdata/laptop/mnist/cifar-10/data_batch_1.bin"),
+                findFile("bigdata/laptop/mnist/cifar-10/data_batch_2.bin"),
+                findFile("bigdata/laptop/mnist/cifar-10/data_batch_3.bin"),
+                findFile("bigdata/laptop/mnist/cifar-10/data_batch_4.bin"),
+                findFile("bigdata/laptop/mnist/cifar-10/data_batch_5.bin"),
+        };
+        CIFAR10ImageDataset dataset = new CIFAR10ImageDataset();
+
+        RuntimeOptions opts = new RuntimeOptions();
+        BackendParams params = new BackendParams();
+        params.set("mini_batch_size", batchSize);
+        BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelName);
+
+        double initial = computeTestErrorCifar10(model, batchSize);
+
+        backend.setParameter(model, "learning_rate", learningRate);
+        backend.setParameter(model, "momentum", 0.8f);
+
+        BatchIterator it = new BatchIterator(dataset, 5, train_images);
+        ImageBatch b = new ImageBatch(dataset, batchSize);
+        int i = 0;
+        while(it.nextEpochs()) {
+            i += 1;
+            System.out.println("iter " + i);
+            while (it.next(b)) {
+                backend.train(model, b.getImages(), b.getLabels());
+            }
+        }
+        double trained = computeTestErrorCifar10(model, batchSize);
+
+        //create a temp file
+        File modelFile = File.createTempFile("model", ".tmp");
+        backend.saveModel(model, modelFile.getAbsolutePath());
+
+        File modelParams = File.createTempFile("params", ".tmp");
+        backend.saveParam(model, modelParams.getAbsolutePath());
+
+        BackendModel model2 = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelFile.getAbsolutePath());
+
+        backend.loadParam(model2, modelParams.getAbsolutePath());
+
+        double loaded = computeTestErrorCifar10(model2, batchSize);
+
+        System.out.printf("error rate: initial %f  trained %f  improvement %f\n", initial, trained, initial - trained);
+        assert initial > trained: ("initial error rate:" + initial + " is less or same as after being trained: " + trained);
+        assert trained <= loaded: loaded;
+
+        backend.delete(model);
+        backend.delete(model2);
+
+    }
+
 
     @Test
     public void backendCanLoadMetaGraph() throws Exception {
