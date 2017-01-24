@@ -16,15 +16,29 @@ def generate_train_graph(model_class, optimizer_class,
                          width, height, channels, classes, add_summaries=False):
     graph = tf.Graph()
     with graph.as_default():
-        # 1. instantiate the model
-        model = model_class(width, height, channels, classes)
 
-        # 2. instantiate the optimizer
-        optimizer = optimizer_class()
+        is_train_var = tf.get_variable("is_training",
+                               initializer=lambda *args, **kwds: False, shape=[],
+                               trainable=False,
+                               dtype=tf.bool)
 
-        # 3. instantiate the train wrapper
-        train_strategy = train.ImageClassificationTrainStrategy(
-            graph, model, optimizer, add_summaries=add_summaries)
+        is_train = tf.placeholder_with_default(False, [])
+
+        assign_train = is_train_var.assign(is_train)
+
+        with tf.control_dependencies([assign_train, is_train_var.initialized_value()]):
+
+            # 1. instantiate the model
+            model = model_class(width, height, channels, classes)
+
+            # 2. instantiate the optimizer
+            optimizer = optimizer_class()
+
+            # 3. instantiate the train wrapper
+            train_strategy = train.ImageClassificationTrainStrategy(
+                graph, model, optimizer, is_train, add_summaries=add_summaries)
+
+
 
         init = tf.global_variables_initializer()
         tf.add_to_collection("init", init.name)

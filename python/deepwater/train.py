@@ -1,5 +1,7 @@
 import tensorflow as tf
 
+from deepwater.models import nn
+
 
 class ImageClassificationTrainStrategy(object):
     """
@@ -8,16 +10,31 @@ class ImageClassificationTrainStrategy(object):
 
     """
 
-    def __init__(self, graph, model, optimizer, add_summaries=False):
+    def __init__(self, graph, model, optimizer, is_train, weight_decay=0.00004, add_summaries=False):
         self._graph = graph
         self._model = model
         self._labels = labels = tf.placeholder(tf.float32,
                                                [None, model.number_of_classes])
+
+        self._is_train = is_train
+
         logits = model.logits
 
-        self._loss = tf.reduce_mean(
-            tf.nn.softmax_cross_entropy_with_logits(labels=labels,
-                                                    logits=logits))
+        self._l2_loss = None
+
+        # weight regularization
+        if weight_decay > 0.0:
+            trainable_vars = tf.trainable_variables()
+            # exclude bias terms
+            self._l2_loss = tf.add_n([tf.nn.l2_loss(v) for v in trainable_vars
+                                      if 'bias' not in v.name]) * weight_decay
+            self._loss = tf.reduce_mean(
+                tf.nn.softmax_cross_entropy_with_logits(labels=labels,
+                                                        logits=logits) + self._l2_loss)
+        else:
+            self._loss = tf.reduce_mean(
+                tf.nn.softmax_cross_entropy_with_logits(labels=labels,
+                                                        logits=logits))
 
         a = tf.argmax(model.predictions, 1)
         b = tf.argmax(self._labels, 1)
@@ -26,6 +43,7 @@ class ImageClassificationTrainStrategy(object):
 
         self._accuracy = tf.reduce_mean(tf.cast(correct_predictions,
                                                 tf.float32))
+
         self._error = tf.reduce_mean(tf.cast(wrong_predictions,
                                              tf.float32))
 
@@ -47,7 +65,7 @@ class ImageClassificationTrainStrategy(object):
 
     @property
     def train_parameters(self):
-        return self._model.train_dict
+        return self._model.train_dict.update({self._is_train: True})
 
     @property
     def learning_rate(self):

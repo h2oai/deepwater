@@ -14,10 +14,9 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static deepwater.datasets.FileUtils.findFile;
+import static java.lang.Float.NaN;
 
 
 public class BackendInterfaceTest {
@@ -38,9 +37,23 @@ public class BackendInterfaceTest {
         BatchIterator it = new BatchIterator(dataset, 1, images);
         ImageBatch b = new ImageBatch(dataset, batchSize);
 
-        List<float[]> lossValues = new ArrayList<>();
+        return computeValidationError(backend, model, it, b, 10);
+    }
 
-        int classNum = 10;
+    private double computeCIFAR10TestError(BackendModel model, int batchSize) throws IOException {
+        BackendTrain backend = new TensorflowBackend();
+        CIFAR10ImageDataset dataset = new CIFAR10ImageDataset();
+
+        String[] test_images = new String[]{
+                findFile("bigdata/laptop/mnist/cifar-10/test_batch.bin"),
+        };
+        BatchIterator test_it = new BatchIterator(dataset, 1, test_images);
+        ImageBatch batchTest = new ImageBatch(dataset, batchSize);
+
+        return computeValidationError(backend, model, test_it, batchTest, dataset.getNumClasses());
+    }
+
+    private double computeValidationError(BackendTrain backend, BackendModel model, BatchIterator it, ImageBatch b, int classNum) throws IOException {
         double error = 0.0;
         double total = 0.0;
 
@@ -48,7 +61,7 @@ public class BackendInterfaceTest {
             float[] predictions = backend.predict(model, b.getImages(), b.getLabels());
             float[] labels = b.getLabels();
             for (int i = 0, j = 0; i < predictions.length; i += classNum, j++) {
-                int classPrediction = argmax(predictions, i, i + 10);
+                int classPrediction = argmax(predictions, i, i + classNum);
                 if (classPrediction != labels[j]){
                    error++;
                 }
@@ -56,7 +69,7 @@ public class BackendInterfaceTest {
             }
         }
 
-        return error/total;
+        return (error/total) * 100.0;
     }
 
     private double computeTestErrorCifar10(BackendModel model, int batchSize) throws IOException {
@@ -68,8 +81,6 @@ public class BackendInterfaceTest {
 
         BatchIterator it = new BatchIterator(dataset, 1, images);
         ImageBatch b = new ImageBatch(dataset, batchSize);
-
-        List<float[]> lossValues = new ArrayList<>();
 
         int classNum = 10;
         double error = 0.0;
@@ -143,8 +154,10 @@ public class BackendInterfaceTest {
     @Test
     public void testInception() throws IOException {
         backendCanTrainMNIST("inception_bn", 32, 1, 0.01f);
-        backendCanTrainCifar10("inception_bn", 32, 1, 0.001f);
         backendCanSaveCheckpointMNIST("inception_bn", 16, 0.01f);
+
+        backendCanTrainCifar10("inception_bn", 32, 1, 0.001f);
+        //backendCanSaveCheckpoint("inception_bn", 16, 0.01f);
     }
 
     private void backendCanTrainMNIST(String modelName, int batchSize, int epochs) throws IOException {
@@ -167,6 +180,10 @@ public class BackendInterfaceTest {
         backend.setParameter(model, "learning_rate", learningRate);
         backend.setParameter(model, "momentum", 0.8f);
 
+        double initialError = computeTestErrorMNIST(model, batchSize);
+
+        System.out.println("initial MNIST test error:" + initialError);
+
         BatchIterator it = new BatchIterator(dataset, epochs, mnistTrainData);
         ImageBatch b = new ImageBatch(dataset, batchSize);
 
@@ -179,6 +196,8 @@ public class BackendInterfaceTest {
 
         backend.delete(model);
         System.out.println("final MNIST test error:" + testError);
+
+        assert testError < initialError: "final error is not less than initial error. model did not learn.";
     }
 
     private void backendCanTrainCifar10(String modelName, int batchSize, int epochs, float learningRate) throws IOException {
@@ -196,6 +215,10 @@ public class BackendInterfaceTest {
         backend.setParameter(model, "learning_rate", learningRate);
         backend.setParameter(model, "momentum", 0.8f);
 
+        double initialError = computeCIFAR10TestError(model, batchSize);
+
+        System.out.println("initial CIFAR10 validation error:" + initialError);
+
         String[] train_images = new String[]{
                 findFile("bigdata/laptop/mnist/cifar-10/data_batch_1.bin"),
                 findFile("bigdata/laptop/mnist/cifar-10/data_batch_2.bin"),
@@ -204,29 +227,43 @@ public class BackendInterfaceTest {
                 findFile("bigdata/laptop/mnist/cifar-10/data_batch_5.bin"),
         };
 
-        String[] test_images = new String[]{
-                findFile("bigdata/laptop/mnist/cifar-10/test_batch.bin"),
-        };
 
         BatchIterator it = new BatchIterator(dataset, epochs, train_images);
         ImageBatch b = new ImageBatch(dataset, batchSize);
-
-        BatchIterator test_it = new BatchIterator(dataset, 1, test_images);
-        ImageBatch batchTest = new ImageBatch(dataset, batchSize);
 
         while(it.nextEpochs()) {
             while (it.next(b)) {
                 backend.train(model, b.getImages(), b.getLabels());
             }
 
-            while (test_it.next(batchTest)) {
-                float[] loss = backend.predict(model, batchTest.getImages(), batchTest.getLabels());
-                printLoss(loss);
-            }
-
+            double err = computeCIFAR10TestError(model, batchSize);
+            System.out.println("train error:" + err);
         }
 
+        double error = computeCIFAR10TestError(model, batchSize);
+
+        System.out.println("final CIFAR10 validation error:" + error);
+
+        assert error < initialError: "final error is not less than initial error. model did not learn.";
+
         backend.delete(model);
+    }
+
+    private double computePredictionError(BackendTrain backend, BackendModel model, ImageBatch b, int classes) {
+        double error = 0.0;
+        double total = 0.0;
+        float[] predictions = backend.predict(model, b.getImages(), b.getLabels());
+        float[] labels = b.getLabels();
+        for (int i = 0, j = 0; i < predictions.length; i += classes, j++) {
+            assert predictions[i] != NaN: "Found Nan inside prediction";
+            int classPrediction = argmax(predictions, i, i + classes);
+            if (classPrediction != labels[j]){
+                error++;
+            }
+            total++;
+        }
+
+        return error/total;
     }
 
 

@@ -1,6 +1,43 @@
 import math
-import numpy as np
 import tensorflow as tf
+
+
+# from: http://stackoverflow.com/questions/33949786/how-could-i-use-batch-normalization-in-tensorflow
+def batch_norm(x, n_out, scope='bn'):
+    """
+    Batch normalization on convolutional maps.
+    Args:
+        x:           Tensor, 4D BHWD input maps
+        n_out:       integer, depth of input maps
+        phase_train: boolean tf.Varialbe, true indicates training phase
+        scope:       string, variable scope
+    Return:
+        normed:      batch-normalized maps
+    """
+    phase_train = is_training()
+
+    with tf.variable_scope(scope):
+        batch_norm_decay=0.997
+
+        beta = tf.Variable(tf.constant(0.0, shape=[n_out]),
+                           name='beta', trainable=True)
+        gamma = tf.Variable(tf.constant(1.0, shape=[n_out]),
+                            name='gamma', trainable=True)
+        batch_mean, batch_var = tf.nn.moments(x, [0, 1, 2], name='moments')
+        ema = tf.train.ExponentialMovingAverage(decay=batch_norm_decay)
+
+        def mean_var_with_update():
+            ema_apply_op = ema.apply([batch_mean, batch_var])
+            with tf.control_dependencies([ema_apply_op]):
+                return tf.identity(batch_mean), tf.identity(batch_var)
+
+        mean, var = tf.cond(phase_train,
+                            mean_var_with_update,
+                            lambda: (ema.average(batch_mean), ema.average(batch_var)))
+
+        batch_norm_epsilon = 1e-5
+        normed = tf.nn.batch_normalization(x, mean, var, beta, gamma, batch_norm_epsilon)
+    return normed
 
 
 def weight_variable(shape, name):
@@ -37,6 +74,45 @@ def conv2d(x, W):
     return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
 
 
+def conv1x1(x, filters, **kwds):
+    return conv(x, 1, 1, filters, **kwds)
+
+
+def conv3x3(x, filters, **kwds):
+    return conv(x, 3, 3, filters, **kwds)
+
+
+def conv1x3(x, filters, **kwds):
+    return conv(x, 1, 3, filters, **kwds)
+
+
+def conv3x1(x, filters, **kwds):
+    return conv(x, 3, 1, filters, **kwds)
+
+
+def conv1x7(x, filters, **kwds):
+    return conv(x, 1, 7, filters, **kwds)
+
+
+def conv7x1(x, filters, **kwds):
+    return conv(x, 7, 1, filters, **kwds)
+
+
+def conv(x, w, h, filters, stride=1, padding="SAME"):
+    channels = x.get_shape().as_list()[3]
+
+    kernel_shape = [w, h, channels, filters]
+    kernel = weight_variable(kernel_shape, "kernel")
+
+    # you don't need to add bias if you are using BatchNormalization
+    # b = bias_variable([filters], "bias")
+    x = tf.nn.conv2d(x, kernel, strides=[1, stride, stride, 1], padding=padding)
+
+    x = batch_norm(x, filters)
+
+    return tf.nn.relu(x)
+
+
 def max_pool_2x2(x, stride=2, padding="SAME"):
     return tf.nn.max_pool(x, ksize=[1, 2, 2, 1],
                           strides=[1, stride, stride, 1], padding=padding)
@@ -59,3 +135,12 @@ def fc(x, shape):
     W = weight_variable(shape, "weight")
     b = bias_variable([shape[-1]], "bias")
     return tf.matmul(x, W) + b
+
+
+def is_training():
+    with tf.variable_scope('') as scope:
+        scope.reuse_variables()
+        return tf.get_variable("is_training",
+                               initializer=lambda *args, **kwds: False, shape=[],
+                               trainable=False,
+                               dtype=tf.bool)
