@@ -17,7 +17,7 @@ class ImageClassificationTrainStrategy(object):
                                                [None, model.number_of_classes])
 
         assert is_train.name is not None, is_train
-        self._is_train = is_train
+        #self._is_train = is_train
 
         logits = model.logits
 
@@ -66,7 +66,7 @@ class ImageClassificationTrainStrategy(object):
 
     @property
     def train_parameters(self):
-        self._model.train_dict.update({self._is_train: True})
+        #self._model.train_dict.update({self._is_train: True})
         return self._model.train_dict
 
     @property

@@ -11,10 +11,10 @@ class TestVGG(unittest.TestCase):
 
     def test_vgg_must_converge_on_MNIST(self):
         MNIST_must_converge("alexnet", alexnet.AlexNet,
-                            optimizers.MomentumOptimizer,
+                            optimizers.RMSPropOptimizer,
                             batch_size=16,
-                            epochs=90,
-                            initial_learning_rate=0.01,
+                            epochs=3,
+                            initial_learning_rate=0.1,
                             summaries=False,
                             use_debug_session=False)
 

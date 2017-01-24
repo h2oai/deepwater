@@ -1,13 +1,12 @@
-import math 
+import math
 
 from deepwater.models import BaseImageClassificationModel
 import tensorflow as tf
 
 
 class MultiLayerPerceptron(BaseImageClassificationModel):
-
-    def __init__(self, width=28, height=28, channels=1, classes=10, 
-            hidden_layers=[], dropout=[]):
+    def __init__(self, width=28, height=28, channels=1, classes=10,
+                 hidden_layers=[], dropout=[]):
         super(MultiLayerPerceptron, self).__init__()
 
         self._number_of_classes = classes
@@ -17,8 +16,8 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
         dropout_shape = [len(dropout)]
         dropout_default = tf.zeros(dropout_shape, dtype=tf.float32)
         self._dropout_var = tf.placeholder_with_default(dropout_default,
-                                                  dropout_shape,
-                                                  name="dropout")
+                                                        dropout_shape,
+                                                        name="dropout")
 
         self._inputs = x
         if not hidden_layers:
@@ -32,7 +31,7 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
                 # Delving deep into Rectifier
                 n = h1
                 factor = 2.0
-                stddev = math.sqrt(1.3 * factor/n)
+                stddev = math.sqrt(1.3 * factor / n)
 
                 initialization = tf.truncated_normal(
                     [h1, h2], mean=0.0, stddev=stddev)
@@ -45,7 +44,7 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
 
             if self._dropout_var.get_shape()[0] > idx:
                 with tf.variable_scope("dropout%d" % idx):
-                    y2 = tf.nn.dropout(y2, keep_prob=1.0-self._dropout_var[idx])
+                    y2 = tf.nn.dropout(y2, keep_prob=1.0 - self._dropout_var[idx])
 
             x = y2
 

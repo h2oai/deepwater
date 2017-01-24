@@ -3,7 +3,7 @@ import tensorflow as tf
 
 
 # from: http://stackoverflow.com/questions/33949786/how-could-i-use-batch-normalization-in-tensorflow
-def batch_norm(x, n_out, scope='bn'):
+def batch_norm(x, n_out, scope=''):
     """
     Batch normalization on convolutional maps.
     Args:
@@ -14,30 +14,40 @@ def batch_norm(x, n_out, scope='bn'):
     Return:
         normed:      batch-normalized maps
     """
+
+    from tensorflow.contrib.layers import batch_norm as layers_batch_norm
     phase_train = is_training()
+    batch_norm_decay=0.997
+    batch_norm_epsilon = 1e-5
+    return layers_batch_norm(x, epsilon=batch_norm_epsilon)
 
-    with tf.variable_scope(scope):
-        batch_norm_decay=0.997
 
-        beta = tf.Variable(tf.constant(0.0, shape=[n_out]),
-                           name='beta', trainable=True)
-        gamma = tf.Variable(tf.constant(1.0, shape=[n_out]),
-                            name='gamma', trainable=True)
-        batch_mean, batch_var = tf.nn.moments(x, [0, 1, 2], name='moments')
-        ema = tf.train.ExponentialMovingAverage(decay=batch_norm_decay)
+    # with tf.variable_scope(scope):
+    #     batch_norm_decay=0.997
+    #
+    #     beta = tf.Variable(tf.constant(0.0, shape=[n_out]),
+    #                        name='beta', trainable=True)
+    #     gamma = tf.Variable(tf.constant(1.0, shape=[n_out]),
+    #                         name='gamma', trainable=True)
+    #     batch_mean, batch_var = tf.nn.moments(x, [0, 1, 2], name='moments')
+    #     ema = tf.train.ExponentialMovingAverage(decay=batch_norm_decay)
+    #
+    #     def mean_var_with_update():
+    #         ema_apply_op = ema.apply([batch_mean, batch_var])
+    #         with tf.control_dependencies([ema_apply_op]):
+    #             return tf.identity(batch_mean), tf.identity(batch_var)
+    #
+    #     with tf.control_dependencies([phase_train]):
+    #
+    #         mean, var = tf.cond(tf.logical_and(True, phase_train),
+    #                             mean_var_with_update,
+    #                             lambda: (ema.average(batch_mean), ema.average(batch_var)))
+    #
+    #     batch_norm_epsilon = 1e-5
+    #     normed = tf.nn.batch_normalization(x, mean, var, beta, gamma, batch_norm_epsilon)
+    # return normed
+    #
 
-        def mean_var_with_update():
-            ema_apply_op = ema.apply([batch_mean, batch_var])
-            with tf.control_dependencies([ema_apply_op]):
-                return tf.identity(batch_mean), tf.identity(batch_var)
-
-        mean, var = tf.cond(phase_train,
-                            mean_var_with_update,
-                            lambda: (ema.average(batch_mean), ema.average(batch_var)))
-
-        batch_norm_epsilon = 1e-5
-        normed = tf.nn.batch_normalization(x, mean, var, beta, gamma, batch_norm_epsilon)
-    return normed
 
 
 def weight_variable(shape, name):
@@ -70,12 +80,12 @@ def bias_variable(shape, name):
     return var
 
 
-def conv2d(x, W):
-    return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
-
-
 def conv1x1(x, filters, **kwds):
     return conv(x, 1, 1, filters, **kwds)
+
+
+def conv5x5(x, filters, **kwds):
+    return conv(x, 5, 5, filters, **kwds)
 
 
 def conv3x3(x, filters, **kwds):
@@ -124,24 +134,26 @@ def max_pool_3x3(x, stride=2, padding="SAME"):
                           padding=padding)
 
 
-def block(x, kernel_shape):
-    kernel = weight_variable(kernel_shape, "kernel")
-    b = bias_variable([kernel_shape[-1]], "bias")
-    out = conv2d(x, kernel) + b
-    return tf.nn.relu(out)
+# def xblock(x, kernel_shape):
+#     kernel = weight_variable(kernel_shape, "kernel")
+#     b = bias_variable([kernel_shape[-1]], "bias")
+#     out = conv2d(x, kernel) + b
+#     return tf.nn.relu(out)
 
 
 def fc(x, shape):
     W = weight_variable(shape, "weight")
     #b = bias_variable([shape[-1]], "bias")
-    x = tf.matmul(x, W)
+    #return tf.matmul(x, W) + b
+    # print(shape)
     return batch_norm(x, shape[-1])
 
 
 def is_training():
-    with tf.variable_scope('') as scope:
-        scope.reuse_variables()
-        return tf.get_variable("is_training",
-                               initializer=lambda *args, **kwds: False, shape=[],
-                               trainable=False,
-                               dtype=tf.bool)
+    return tf.get_default_graph().get_tensor_by_name("global_is_training:0")
+    # with tf.variable_scope('') as scope:
+    #     scope.reuse_variables()
+    #     return tf.get_variable("is_training",
+    #                            initializer=lambda *args, **kwds: False, shape=[],
+    #                            trainable=False,
+    #                            dtype=tf.bool)
