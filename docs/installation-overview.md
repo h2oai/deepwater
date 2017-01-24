@@ -160,7 +160,7 @@ While these instructions were designed for and validated on AWS EC2 GPU instance
 
 #### GPUs
 
-Most Deep Learning frameworks can work with CPUs only. However, in order to take advantage of GPUs with CUDA, please ensure the GPUs are CUDA-enabled CUDA. (Refer to [https://developer.nvidia.com/cuda-gpus](https://developer.nvidia.com/cuda-gpus).
+Most Deep Learning frameworks can work with CPUs only. However, in order to take advantage of GPUs with CUDA, please ensure the GPUs are CUDA-enabled CUDA. (Refer to [https://developer.nvidia.com/cuda-gpus](https://developer.nvidia.com/cuda-gpus)).
 
 You can find your GPUs on your machine: 
 

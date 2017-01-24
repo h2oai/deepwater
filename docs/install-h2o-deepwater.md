@@ -127,6 +127,7 @@ The MXNet build process will create a new Python setup file. Install MXNet Pytho
 		export PATH="$PATH:$HOME/protobuf/bin"
 
 3. Build TensorFlow:
+
 		$ cd ~/deepwater/thirdparty/javacpp/
 		$ mvn install
 		$ cd ~/deepwater/thirdparty/javacpp-presets/
@@ -134,9 +135,7 @@ The MXNet build process will create a new Python setup file. Install MXNet Pytho
 		
 ### TensorFlow Python Module
 
-The TensorFlow Python module is required to create arbitrary graphs using the Python API. The module
-depends on the version of TensorFlow and CUDA. There may be a wheel file that you can simply install.
-(See [https://www.tensorflow.org/get_started/os_setup](https://www.tensorflow.org/get_started/os_setup)). Otherwise, you will need to build a Python module for the specific version of TensorFlow. The following are the instructions to build the Python module for TensorFlow 0.10 with CUDA 8. Please update the instructions accordingly with you specific versions.
+The TensorFlow Python module is required to create arbitrary graphs using the Python API. The module depends on the version of TensorFlow and CUDA. There may be a wheel file that you can simply install. (See [https://www.tensorflow.org/get_started/os_setup](https://www.tensorflow.org/get_started/os_setup)). Otherwise, you will need to build a Python module for the specific version of TensorFlow. The following are the instructions to build the Python module for TensorFlow 0.10 with CUDA 8. Please update the instructions accordingly with you specific versions.
 
 1. Clone the TensorFlow repository: ``$ git clone https://github.com/tensorflow/tensorflow``
 
@@ -168,6 +167,7 @@ depends on the version of TensorFlow and CUDA. There may be a wheel file that yo
 		Configuration finished
 
 5. Update crosstool and add the line below so that the build process can find the CUDA 8 header files:
+
 		$ cd ~/tensorflow/third_party/gpus/crosstool/
 		$ vi CROSSTOOL.tpl
 		
@@ -182,8 +182,7 @@ depends on the version of TensorFlow and CUDA. There may be a wheel file that yo
 
 		$ pip install /tmp/tensorflow_pkg/tensorflow-0.12.1-py2-none-any.whl
 
-If you encounter any issues, please check the following page for updates or discrepancies:
-[https://www.tensorflow.org/get_started/os_setup](https://www.tensorflow.org/get_started/os_setup).
+If you encounter any issues, please check the following page for updates or discrepancies: [https://www.tensorflow.org/get_started/os_setup](https://www.tensorflow.org/get_started/os_setup).
 
 ### Build Deep Water Jar File
 

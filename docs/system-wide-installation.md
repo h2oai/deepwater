@@ -5,10 +5,10 @@
 1. Create a build folder using: ``$ mkdir build``
 2. Update **apt**:
 
-	$ sudo apt-get update
-	$ sudo apt-get upgrade
-	$ sudo apt-get dist-upgrade
-	$ sudo reboot
+		$ sudo apt-get update
+		$ sudo apt-get upgrade
+		$ sudo apt-get dist-upgrade
+		$ sudo reboot
 
 ### Utilities
 
