@@ -11,10 +11,11 @@ class TestLenet(unittest.TestCase):
     def test_lenet(self):
         model = lenet.LeNet
 
-        MNIST_must_converge(model,
-                            optimizers.MomentumOptimizer,
-                            batch_size=100,
-                            epochs=10)
+        MNIST_must_converge('lenet', model,
+                            optimizers.RMSPropOptimizer,
+                            initial_learning_rate=0.1,
+                            batch_size=128,
+                            epochs=2)
 
 
 if __name__ == "__main__":

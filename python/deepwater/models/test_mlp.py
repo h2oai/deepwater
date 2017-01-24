@@ -9,12 +9,13 @@ from deepwater.models.test_utils import MNIST_must_converge
 
 
 class TestMLP(unittest.TestCase):
-    def xxx_test_single_layer(self):
+
+    def test_single_layer(self):
         model = mlp.MultiLayerPerceptron
-        MNIST_must_converge(model,
-                            optimizers.GradientDescentOptimizer,
-                            batch_size=100,
-                            epochs=90)
+        MNIST_must_converge('mlpx1', model,
+                            optimizers.RMSPropOptimizer,
+                            batch_size=128,
+                            epochs=3)
 
     def xxx_test_mlp_layer_with_dropout(self):
         hidden_layers = [1024, 1024]
@@ -59,10 +60,11 @@ class TestMLP(unittest.TestCase):
                         hidden_layers=hidden_layers,
                         dropout=dropout)
 
-        MNIST_must_converge(model,
+        MNIST_must_converge('mlpx2048x2048', model,
                             optimizers.MomentumOptimizer,
-                            batch_size=100,
-                            epochs=90)
+                            initial_learning_rate=0.1,
+                            batch_size=128,
+                            epochs=3)
 
 
 if __name__ == "__main__":

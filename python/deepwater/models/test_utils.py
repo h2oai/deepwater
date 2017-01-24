@@ -177,7 +177,8 @@ def CIFAR10_must_converge(name, model_class,
         train_writer.close()
 
 
-def MNIST_must_converge(name, model_class,
+def MNIST_must_converge(name,
+                        model_class,
                         optimizer_class,
                         epochs=20,
                         batch_size=500,
@@ -301,5 +302,4 @@ def MNIST_must_converge(name, model_class,
                   '% train error:', train_error,
                   '% test error:', test_error)
 
-        test_writer.close()
         train_writer.close()

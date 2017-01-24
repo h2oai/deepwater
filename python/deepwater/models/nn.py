@@ -133,8 +133,9 @@ def block(x, kernel_shape):
 
 def fc(x, shape):
     W = weight_variable(shape, "weight")
-    b = bias_variable([shape[-1]], "bias")
-    return tf.matmul(x, W) + b
+    #b = bias_variable([shape[-1]], "bias")
+    x = tf.matmul(x, W)
+    return batch_norm(x, shape[-1])
 
 
 def is_training():
