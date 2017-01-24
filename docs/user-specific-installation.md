@@ -40,7 +40,9 @@ Alternatives writes files to /etc and /var. This requires administration privile
 
 1. Set CUDA environment variables in ``.profile``:
 
-		export CUDA PATH=/usr/local/cuda		export LD LIBRARY PATH=$CUDA PATH/lib64:$LD LIBRARY PATH		export PATH=$PATH:$CUDA PATH/bin
+		export CUDA PATH=/usr/local/cuda
+		export LD LIBRARY PATH=$CUDA PATH/lib64:$LD LIBRARY PATH
+		export PATH=$PATH:$CUDA PATH/bin
 
 2. Run .profile: ``$ source .profile``
 
@@ -48,24 +50,64 @@ Alternatives writes files to /etc and /var. This requires administration privile
 
 1. Create environment: ``$ virtualenv <ENV>``
 	
-	Example: ``$ virtualenv ~/dw``2. To activate the environment: ``$ source ~/<ENV>/bin/activate``	
-	Example: ``$ source ~/dw/bin/activate``	**Note**: Be sure to activate this environment in any new shells.
+	Example: ``$ virtualenv ~/dw``
+
+2. To activate the environment: ``$ source ~/<ENV>/bin/activate``
+	
+	Example: ``$ source ~/dw/bin/activate``
+
+	**Note**: Be sure to activate this environment in any new shells.
 	
 ## Python Modules
 
 These are the Python packages required for the H2O Python client. If using virtual environments, please be sure to activate and install packages in environments. 
 
 1. Install required H2O Python modules:
-		$ pip install future		$ pip install requests		$ pip install grip		$ pip install tabulate		$ pip install numpy		$ pip install colorama2. Install Python modules required for demos:		$ pip install pandas		$ pip install graphviz		$ pip install matplotlib		$ pip install scipy		$ sudo apt-get install python-scipy		$ sudo apt-get install graphviz
+
+		$ pip install future
+		$ pip install requests
+		$ pip install grip
+		$ pip install tabulate
+		$ pip install numpy
+		$ pip install colorama
+
+2. Install Python modules required for demos:
+
+		$ pip install pandas
+		$ pip install graphviz
+		$ pip install matplotlib
+		$ pip install scipy
+		$ sudo apt-get install python-scipy
+		$ sudo apt-get install graphviz
 
 ## R Packages
 
-All commands that are to be executed from R will be pre-fixed with a greater than sign (i.e. >).1. Update gcc and g++ to version > 5 (devtools requirement). Select appropriate version using alternatives:
-		$ update-alternatives --altdir ~/etc/alternatives --admindir ~/var/lib/dpkg/alternatives --config gcc		$ update-alternatives --altdir ~/etc/alternatives --admindir ~/var/lib/dpkg/alternatives --config g++2. Start R:
+All commands that are to be executed from R will be pre-fixed with a greater than sign (i.e. >).
 
-		$ R		3. From R, install R packages required for H2O:
-		> install.packages("devtools", dependencies=TRUE)		Installing package into /usr/local/lib/R/site-library (as lib is unspecified)		Warning in install.packages("devtools", dependencies = TRUE) :		'lib = "/usr/local/lib/R/site-library"' is not writable		Would you like to use a personal library instead? (y/n) y		Would you like to create a personal library ~/R/x86_64-pc-linux-gnu-library/3.2 to install packages into? (y/n) y		--- Please select a CRAN mirror for use in this session ---		HTTPS CRAN mirror
-		48: USA (CA 1) [https]		> install.packages("RCurl")		> install.packages("statmod")		> install.packages("jsonlite")		> install.packages("h2o")
+1. Update gcc and g++ to version > 5 (devtools requirement). Select appropriate version using alternatives:
+
+		$ update-alternatives --altdir ~/etc/alternatives --admindir ~/var/lib/dpkg/alternatives --config gcc
+		$ update-alternatives --altdir ~/etc/alternatives --admindir ~/var/lib/dpkg/alternatives --config g++
+
+2. Start R:
+
+		$ R		
+
+3. From R, install R packages required for H2O:
+
+		> install.packages("devtools", dependencies=TRUE)
+		Installing package into /usr/local/lib/R/site-library (as lib is unspecified)
+		Warning in install.packages("devtools", dependencies = TRUE) :
+		'lib = "/usr/local/lib/R/site-library"' is not writable
+		Would you like to use a personal library instead? (y/n) y
+		Would you like to create a personal library ~/R/x86_64-pc-linux-gnu-library/3.2 to install packages into? (y/n) y
+		--- Please select a CRAN mirror for use in this session ---
+		HTTPS CRAN mirror
+		48: USA (CA 1) [https]
+		> install.packages("RCurl")
+		> install.packages("statmod")
+		> install.packages("jsonlite")
+		> install.packages("h2o")
 		
 ## Jupyter Notebooks
 
@@ -77,24 +119,66 @@ If using virtual environments, please be sure to activate  and install packages 
 
 **For Virtual Environment**
 
-1. Install required packages:		> install.packages(c("repr", "IRdisplay", "crayon", "pbdZMQ"))		> devtools::install_github("IRkernel/IRkernel")2. Get directory where the IRkernel is installed: 
+1. Install required packages:
 
-		> system.file(package="IRkernel")	Make note of the directory. Let's refer to it as "kernel dir". An example of "kernel dir" is: ``/home/wen/R/x85 64-pc-linux-gnu-library/3.2/IRkernel``3. Get bin directory of R home: 
+		> install.packages(c("repr", "IRdisplay", "crayon", "pbdZMQ"))
+		> devtools::install_github("IRkernel/IRkernel")
 
-		> R.home("bin")	Make note of the directory. Let's refer to it as "r home". An example of "r home" is: ``/usr/lib/R/bin``4. Exit R: 
+2. Get directory where the IRkernel is installed: 
 
-		> exit	**Note**: You may get prompted to specify whether you to save the workspace image. You can select no.
-	5. Go to kernelspec directory in "kernel dir". For example: 
+		> system.file(package="IRkernel")
 
-		$ cd /home/wen/R/x86 64-pc-linux-gnu-library/3.2/IRkernel/kernelspec6. Optional: Make copy of kernel.json file in case of mistake: 
+	Make note of the directory. Let's refer to it as "kernel dir". An example of "kernel dir" is: ``/home/wen/R/x85 64-pc-linux-gnu-library/3.2/IRkernel``
 
-		$ cp kernel.json kernel.json.orig7. Modify kernel.json file to point to R in "kernel dir".The first item of the ``argv`` list in the kernel.json file will simply have "R". This needs to be updatedwith your "r home" directory path. Below are the before and after modi cations of kernel.json (only the argv item should be di fferent. 
+3. Get bin directory of R home: 
 
- - kernel.json Before		{		"argv": ["R",		"--slave", "-e", "IRkernel::main()", "--args", 		"{connection_file}"],		"display_name":"R", "language":"R"		} - kernel.json After		{		"argv": ["/usr/lib/R/bin/R",		"--slave", "-e", "IRkernel::main()", "--args", 		"{connection_file}"],		"display_name": "R", "language": "R"		}8. Install kernel with jupyter (replace with your path):
-		jupyter kernelspec install --replace --name ir --user /home/wen/R/x86_64-pc-linux-gnu-library/3.2/IRkernel/kernelspec
-		You should get a confirmation message similar to:
-		[InstallKernelSpec] Installed kernelspec ir in /home/wen/.local/share/jupyter/kernels/ir
+		> R.home("bin")
+
+	Make note of the directory. Let's refer to it as "r home". An example of "r home" is: ``/usr/lib/R/bin``
+
+4. Exit R: 
+
+		> exit
+
+	**Note**: You may get prompted to specify whether you to save the workspace image. You can select no.
+	
+5. Go to kernelspec directory in "kernel dir". For example: 
+
+		$ cd /home/wen/R/x86 64-pc-linux-gnu-library/3.2/IRkernel/kernelspec
+
+6. Optional: Make copy of kernel.json file in case of mistake: 
+
+		$ cp kernel.json kernel.json.orig
+
+7. Modify kernel.json file to point to R in "kernel dir". The first item of the ``argv`` list in the kernel.json file will simply have "R". This needs to be updated with your "r home" directory path. Below are the before and after modi cations of kernel.json (only the argv item should be di fferent. 
+
+   - kernel.json Before
+
+			{
+			"argv": ["R",
+			"--slave", "-e", "IRkernel::main()", "--args", 		"{connection_file}"],
+			"display_name":"R", "language":"R"
+			}
+
+   - kernel.json After
+
+			{
+			"argv": ["/usr/lib/R/bin/R",
+			"--slave", "-e", "IRkernel::main()", "--args", 		"{connection_file}"],
+			"display_name": "R", "language": "R"
+			}
+
+8. Install kernel with jupyter (replace with your path):
+
+		jupyter kernelspec install --replace --name ir --user /home/wen/R/x86_64-pc-linux-gnu-library/3.2/IRkernel/kernelspec
 		
-**For Global environment**
+   You should get a confirmation message similar to:
 
-		$ R		> install.packages(c('repr', 'IRdisplay', 'crayon', 'pbdZMQ', 'devtools'))		> devtools::install_github('IRkernel/IRkernel')		> IRkernel::installspec()
+		[InstallKernelSpec] Installed kernelspec ir in /home/wen/.local/share/jupyter/kernels/ir
+		
+**For Global Environment**
+
+		$ R
+		> install.packages(c('repr', 'IRdisplay', 'crayon', 'pbdZMQ', 'devtools'))
+		> devtools::install_github('IRkernel/IRkernel')
+		> IRkernel::installspec()
