@@ -31,3 +31,7 @@ build
 .project
 smalldata
 bigdata
+
+*.doctree
+_build
+_static

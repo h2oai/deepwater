@@ -14,7 +14,7 @@
 ### Python/R Jupyter Notebooks
 Check out a sample of cool Deep Learning [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks)!
 
-### PreRelease Downloads
+### Pre-Release Downloads
 For the following system dependencies, we provide recent builds for your convenience. 
 
 * Ubuntu 16.04 LTS
@@ -28,20 +28,20 @@ In the future, we'll have more pre-built jars for more OS/CUDA combinations.
 * To build custom networks: [Matching MXNet Python egg](https://slack-files.com/T0329MHH6-F2PU85GEN-2f4fee68e2) -- install via `easy_install <file>`
 * To run from Flow only: [H2O Standalone h2o.jar](https://slack-files.com/T0329MHH6-F2TMW53FW-a577a9946a) -- launch via `java -jar h2o.jar`
 
-If you are interested in running H2O Deep Water on a different infrastructure, see the DIY build instructions below
+If you are interested in running H2O Deep Water on a different infrastructure, see the DIY build instructions below.
 
-### PreRelease Amazon AWS Image
-For your convenience, here's a pre-built image for Amazon's EC2 environment, based off our recent [H2O Open Tour Hands-On Deep Water workshop](https://twitter.com/ArnoCandel/status/791280896318042112) (recording coming soon).
+### Pre-Release Amazon AWS Image
+For your convenience, here's a pre-built image for Amazon's EC2 environment, based off our recent [H2O Open Tour Hands-On Deep Water workshop](https://twitter.com/ArnoCandel/status/791280896318042112). (Recording coming soon.)
 
 * AMI ID: ami-10bd9607
 * AMI Name: deepwater-dallas-v4
 * Recommended instance types: g2.2xlarge or p2.xlarge
 * After launching the instance, you can connect to port 8888 (Jupyter Notebook) or port 54321 (H2O Flow).
 
-Refer to the [Deep Water Workshop on EC2 Amazon AMI](docs/open-tour-dallas/deep-water-ami.md) document for additional information on how to run this AMI. 
+Refer to the [Deep Water Workshop on EC2 Amazon AMI](https://github.com/h2oai/deepwater/blob/master/docs/open-tour-dallas/deep-water-ami.md) document for additional information on how to run this AMI. 
 
 ### Roadmap, Architecture and Demo
-Download the [Deep Water overview slides](./architecture/deepwater_overview.pdf).
+Download the [Deep Water overview slides](https://github.com/h2oai/deepwater/blob/master/architecture/deepwater_overview.pdf).
 
 ![](./architecture/deepwater_overview/deepwater_overview.001.jpeg "Deep Water Roadmap")
 ![architecture](./architecture/deepwater_overview/deepwater_overview.002.jpeg "More Data")
@@ -50,7 +50,7 @@ Download the [Deep Water overview slides](./architecture/deepwater_overview.pdf)
 ![architecture](./architecture/deepwater_overview/deepwater_overview.005.jpeg "Deep Water Example in Flow")
 
 
-### DIY Build Instructions:
+### DIY Build Instructions
 If you want to use Deep Water in H2O-3, you'll need to have a .jar file that includes backend support for at least one of MXNet, Caffe or TensorFlow.
 
 #### 1. Build MXNet 
@@ -87,20 +87,16 @@ To use the GPU, please make sure to set your path to your CUDA installation:
 export CUDA_PATH=/usr/local/cuda
 ```
 
-
 ##### Install the Python wheel:
 ```
 sudo pip install h2o-3/h2o-py/dist/h2o-3.11.0.99999-py2.py3-none-any.whl
 ```
-
 
 ##### (Optional) Install the Python egg for MXNet
 If you want to build your own MXNet models (from Python so far), install the MXNet wheel (which was built together with MXNet above):
 ```
 sudo easy_install deepwater/thirdparty/mxnet/python/dist/mxnet-0.7.0-py2.7.egg
 ```
-
-
 
 ### Running GPU enabled Deep Water in H2O
 #### (Optional) Launch H2O by hand and build Deep Water models from Flow (`localhost:54321`)
@@ -132,21 +128,18 @@ The release can be invoked for all modules by:
 ```
 
 The process performs the following steps:
-  - update `gradle.properties` and remove `SNAPSHOT` and increase minor version (can be changed)
-  - create a new release commit and tag it with release tag (see `gradle/release.gradle` file to override default template)
-  - build
-  - verification of compatibility of used API with Java 6 API
-  - bytecode rewrite to be compatible with Java 6
-  - generation of artifact metadata 
-  - push of artifacts into staging area at https://oss.sonatype.org/
+  - Updates `gradle.properties` and removes `SNAPSHOT` and increases minor version (can be changed)
+  - Creates a new release commit and tags it with release tag. (See `gradle/release.gradle` file to override the default template.)
+  - Builds
+  - Verifies compatibility of used API with Java 6 API
+  - Bytecode rewrite to be compatible with Java 6
+  - Generation of artifact metadata 
+  - Pushes artifacts into staging area at [https://oss.sonatype.org/](https://oss.sonatype.org/)
 
 The process needs to be finished manually by:
-  - login into https://oss.sonatype.org/#stagingRepositories
-  - performing actions "Close" and "Release" for `ai.h2o` staging area
-    - Note: be careful since the area can contain more artifacts from different H2O projects
+  - Logging in to [https://oss.sonatype.org/#stagingRepositories](https://oss.sonatype.org/#stagingRepositories)
+  - Performing the actions "Close" and "Release" for the `ai.h2o` staging area
+    - **Note**: Be careful because the area can contain more artifacts from different H2O projects.
 
-> Note: The release process creates two new commits and a new tag with release version. 
-> However, the process does not push it to a remote repository and it is necessary
-> to perform remote update manually by `git push --tags` or update `gradle/release.gradle`
-> settings and remove `--dry-run` option from `pushOptions` field.
+> Note: The release process creates two new commits and a new tag with the release version. However, the process does not push it to a remote repository, so it is necessary to perform a remote update manually using `git push --tags` or update the `gradle/release.gradle` settings and remove the `--dry-run` option from the `pushOptions` field.
 
