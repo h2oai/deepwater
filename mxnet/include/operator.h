@@ -67,7 +67,7 @@ class Operator {
   * \param symbol the input symbol
   * \return reference of self
   */
-  Operator &SetInput(const std::string &name, const Symbol& symbol);
+  Operator &SetInput(const std::string &name, Symbol symbol);
   /*!
   * \brief add an input symbol
   * \param symbol the input symbol

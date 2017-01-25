@@ -10,9 +10,9 @@
 
 #include <string>
 #include <vector>
-#include "mxnet-cpp/base.h"
-#include "mxnet-cpp/symbol.h"
-#include "mxnet-cpp/ndarray.h"
+#include "base.h"
+#include "symbol.h"
+#include "ndarray.h"
 
 namespace mxnet {
 namespace cpp {

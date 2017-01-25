@@ -9,6 +9,171 @@
 using namespace mxnet::cpp;
 
 Symbol AlexnetSymbol(int num_classes) {
+  auto input_data = Symbol::Variable("data");
+  auto data_label = Symbol::Variable("label");
+  /*stage 1*/
+  auto conv1 = Operator("Convolution")
+                   .SetParam("kernel", Shape(11, 11))
+                   .SetParam("num_filter", 96)
+                   .SetParam("stride", Shape(4, 4))
+                   .SetParam("dilate", Shape(1, 1))
+                   .SetParam("pad", Shape(0, 0))
+                   .SetParam("num_group", 1)
+                   .SetParam("workspace", 512)
+                   .SetParam("no_bias", false)
+                   .SetInput("data", input_data)
+                   .CreateSymbol("conv1");
+  auto relu1 = Operator("Activation")
+                   .SetParam("act_type", "relu") /*relu,sigmoid,softrelu,tanh */
+                   .SetInput("data", conv1)
+                   .CreateSymbol("relu1");
+  auto pool1 = Operator("Pooling")
+                   .SetParam("kernel", Shape(3, 3))
+                   .SetParam("pool_type", "max") /*avg,max,sum */
+                   .SetParam("global_pool", false)
+                   .SetParam("stride", Shape(2, 2))
+                   .SetParam("pad", Shape(0, 0))
+                   .SetInput("data", relu1)
+                   .CreateSymbol("pool1");
+  auto lrn1 = Operator("LRN")
+                  .SetParam("nsize", 5)
+                  .SetParam("alpha", 0.0001)
+                  .SetParam("beta", 0.75)
+                  .SetParam("knorm", 1)
+                  .SetInput("data", pool1)
+                  .CreateSymbol("lrn1");
+  /*stage 2*/
+  auto conv2 = Operator("Convolution")
+                   .SetParam("kernel", Shape(5, 5))
+                   .SetParam("num_filter", 256)
+                   .SetParam("stride", Shape(1, 1))
+                   .SetParam("dilate", Shape(1, 1))
+                   .SetParam("pad", Shape(2, 2))
+                   .SetParam("num_group", 1)
+                   .SetParam("workspace", 512)
+                   .SetParam("no_bias", false)
+                   .SetInput("data", lrn1)
+                   .CreateSymbol("conv2");
+  auto relu2 = Operator("Activation")
+                   .SetParam("act_type", "relu") /*relu,sigmoid,softrelu,tanh */
+                   .SetInput("data", conv2)
+                   .CreateSymbol("relu2");
+  auto pool2 = Operator("Pooling")
+                   .SetParam("kernel", Shape(3, 3))
+                   .SetParam("pool_type", "max") /*avg,max,sum */
+                   .SetParam("global_pool", false)
+                   .SetParam("stride", Shape(2, 2))
+                   .SetParam("pad", Shape(0, 0))
+                   .SetInput("data", relu2)
+                   .CreateSymbol("pool2");
+  auto lrn2 = Operator("LRN")
+                  .SetParam("nsize", 5)
+                  .SetParam("alpha", 0.0001)
+                  .SetParam("beta", 0.75)
+                  .SetParam("knorm", 1)
+                  .SetInput("data", pool2)
+                  .CreateSymbol("lrn2");
+  /*stage 3*/
+  auto conv3 = Operator("Convolution")
+                   .SetParam("kernel", Shape(3, 3))
+                   .SetParam("num_filter", 384)
+                   .SetParam("stride", Shape(1, 1))
+                   .SetParam("dilate", Shape(1, 1))
+                   .SetParam("pad", Shape(1, 1))
+                   .SetParam("num_group", 1)
+                   .SetParam("workspace", 512)
+                   .SetParam("no_bias", false)
+                   .SetInput("data", lrn2)
+                   .CreateSymbol("conv3");
+  auto relu3 = Operator("Activation")
+                   .SetParam("act_type", "relu") /*relu,sigmoid,softrelu,tanh */
+                   .SetInput("data", conv3)
+                   .CreateSymbol("relu3");
+  auto conv4 = Operator("Convolution")
+                   .SetParam("kernel", Shape(3, 3))
+                   .SetParam("num_filter", 384)
+                   .SetParam("stride", Shape(1, 1))
+                   .SetParam("dilate", Shape(1, 1))
+                   .SetParam("pad", Shape(1, 1))
+                   .SetParam("num_group", 1)
+                   .SetParam("workspace", 512)
+                   .SetParam("no_bias", false)
+                   .SetInput("data", relu3)
+                   .CreateSymbol("conv4");
+  auto relu4 = Operator("Activation")
+                   .SetParam("act_type", "relu") /*relu,sigmoid,softrelu,tanh */
+                   .SetInput("data", conv4)
+                   .CreateSymbol("relu4");
+  auto conv5 = Operator("Convolution")
+                   .SetParam("kernel", Shape(3, 3))
+                   .SetParam("num_filter", 256)
+                   .SetParam("stride", Shape(1, 1))
+                   .SetParam("dilate", Shape(1, 1))
+                   .SetParam("pad", Shape(1, 1))
+                   .SetParam("num_group", 1)
+                   .SetParam("workspace", 512)
+                   .SetParam("no_bias", false)
+                   .SetInput("data", relu4)
+                   .CreateSymbol("conv5");
+  auto relu5 = Operator("Activation")
+                   .SetParam("act_type", "relu")
+                   .SetInput("data", conv5)
+                   .CreateSymbol("relu5");
+  auto pool3 = Operator("Pooling")
+                   .SetParam("kernel", Shape(3, 3))
+                   .SetParam("pool_type", "max")
+                   .SetParam("global_pool", false)
+                   .SetParam("stride", Shape(2, 2))
+                   .SetParam("pad", Shape(0, 0))
+                   .SetInput("data", relu5)
+                   .CreateSymbol("pool3");
+  /*stage4*/
+  auto flatten =
+      Operator("Flatten").SetInput("data", pool3).CreateSymbol("flatten");
+  auto fc1 = Operator("FullyConnected")
+                 .SetParam("num_hidden", 4096)
+                 .SetParam("no_bias", false)
+                 .SetInput("data", flatten)
+                 .CreateSymbol("fc1");
+  auto relu6 = Operator("Activation")
+                   .SetParam("act_type", "relu")
+                   .SetInput("data", fc1)
+                   .CreateSymbol("relu6");
+  auto dropout1 = Operator("Dropout")
+                      .SetParam("p", 0.5)
+                      .SetInput("data", relu6)
+                      .CreateSymbol("dropout1");
+  /*stage5*/
+  auto fc2 = Operator("FullyConnected")
+                 .SetParam("num_hidden", 4096)
+                 .SetParam("no_bias", false)
+                 .SetInput("data", dropout1)
+                 .CreateSymbol("fc2");
+  auto relu7 = Operator("Activation")
+                   .SetParam("act_type", "relu")
+                   .SetInput("data", fc2)
+                   .CreateSymbol("relu7");
+  auto dropout2 = Operator("Dropout")
+                      .SetParam("p", 0.5)
+                      .SetInput("data", relu7)
+                      .CreateSymbol("dropout2");
+  /*stage6*/
+  auto fc3 = Operator("FullyConnected")
+                 .SetParam("num_hidden", num_classes)
+                 .SetParam("no_bias", false)
+                 .SetInput("data", dropout2)
+                 .CreateSymbol("fc3");
+/*
+  auto softmax = Operator("SoftmaxOutput")
+                     .SetParam("grad_scale", 1)
+                     .SetParam("ignore_label", -1)
+                     .SetParam("multi_output", false)
+                     .SetParam("use_ignore", false)
+                     .SetParam("normalization", "null") //batch,null,valid
+                     .SetInput("data", fc3)
+                     .SetInput("label", target_label)
+                     .CreateSymbol("softmax");
+  return softmax;
   Symbol data = Symbol::Variable("data");
   Symbol data_label = Symbol::Variable("softmax_label");
 
@@ -65,6 +230,7 @@ Symbol AlexnetSymbol(int num_classes) {
 
   Symbol fc3_w("fullyconnected2_weight"), fc3_b("fullyconnected2_bias");
   Symbol fc3 = FullyConnected("fullyconnected2", dropout2, fc3_w, fc3_b, num_classes);
+*/
 
   if (num_classes > 1)
     return SoftmaxOutput("softmax", fc3, data_label);
@@ -91,7 +257,7 @@ Symbol InceptionFactory(Symbol data, int num_1x1, int num_3x3red,
   Symbol pooling =
       Pooling(PoolingPoolTypeValues[static_cast<int>(pool)] + "_pool_" +name + "_pool",
               data, Shape(3, 3), pool,
-              false, Shape(1, 1), Shape(1, 1));
+              false, PoolingPoolingConvention::valid, Shape(1, 1), Shape(1, 1));
   Symbol cproj = ConvFactory(pooling, proj, Shape(1, 1),
                              Shape(1, 1), Shape(0, 0), name + "_proj");
 
@@ -110,28 +276,28 @@ Symbol GoogleNetSymbol(int num_classes) {
 
   Symbol conv1 = ConvFactory(data, 64, Shape(7, 7), Shape(2, 2), Shape(3, 3), "conv1");
   Symbol pool1 = Pooling("pooling0", conv1, Shape(3, 3), PoolingPoolType::max,
-                         false, Shape(2, 2));
+                         false, PoolingPoolingConvention::valid, Shape(2, 2));
   Symbol conv2 = ConvFactory(pool1, 64, Shape(1, 1), Shape(1, 1),
                              Shape(0, 0), "conv2");
   Symbol conv3 = ConvFactory(conv2, 192, Shape(3, 3), Shape(1, 1), Shape(1, 1), "conv3");
   Symbol pool3 = Pooling("pooling1", conv3, Shape(3, 3), PoolingPoolType::max,
-                         false, Shape(2, 2));
+                         false, PoolingPoolingConvention::valid, Shape(2, 2));
 
   Symbol in3a = InceptionFactory(pool3, 64, 96, 128, 16, 32, PoolingPoolType::max, 32, "in3a");
   Symbol in3b = InceptionFactory(in3a, 128, 128, 192, 32, 96, PoolingPoolType::max, 64, "in3b");
   Symbol pool4 = Pooling("pooling2", in3b, Shape(3, 3), PoolingPoolType::max,
-                         false, Shape(2, 2));
+                         false, PoolingPoolingConvention::valid, Shape(2, 2));
   Symbol in4a = InceptionFactory(pool4, 192, 96, 208, 16, 48, PoolingPoolType::max, 64, "in4a");
   Symbol in4b = InceptionFactory(in4a, 160, 112, 224, 24, 64, PoolingPoolType::max, 64, "in4b");
   Symbol in4c = InceptionFactory(in4b, 128, 128, 256, 24, 64, PoolingPoolType::max, 64, "in4c");
   Symbol in4d = InceptionFactory(in4c, 112, 144, 288, 32, 64, PoolingPoolType::max, 64, "in4d");
   Symbol in4e = InceptionFactory(in4d, 256, 160, 320, 32, 128, PoolingPoolType::max, 128, "in4e");
   Symbol pool5 = Pooling("pooling3", in4e, Shape(3, 3), PoolingPoolType::max,
-                         false, Shape(2, 2));
+                         false, PoolingPoolingConvention::valid, Shape(2, 2));
   Symbol in5a = InceptionFactory(pool5, 256, 160, 320, 32, 128, PoolingPoolType::max, 128, "in5a");
   Symbol in5b = InceptionFactory(in5a, 384, 192, 384, 48, 128, PoolingPoolType::max, 128, "in5b");
   Symbol pool6 = Pooling("pooling4", in5b, Shape(7, 7), PoolingPoolType::avg,
-                         false, Shape(1, 1), Shape(1, 1));
+                         false, PoolingPoolingConvention::valid, Shape(1, 1), Shape(1, 1));
   Symbol flatten = Flatten("flatten0", pool6);
 
   Symbol fc1_w("fullyconnected0_weight"), fc1_b("fullyconnected0_bias");
@@ -169,6 +335,7 @@ Symbol ConvFactoryBN(Symbol data, int num_filter,
   return Activation("relu_" + name + suffix, bn, "relu");
 }
 
+/*
 Symbol ConvFactoryNoBias(Symbol data, int num_filter,
                          Shape kernel, Shape stride, Shape pad,
                          const std::string & name,
@@ -181,6 +348,7 @@ Symbol ConvFactoryNoBias(Symbol data, int num_filter,
   Symbol bn = BatchNorm("bn_" + name + suffix, conv);
   return Activation("relu_" + name + suffix, bn, "relu");
 }
+*/
 
 Symbol InceptionFactoryA(Symbol data, int num_1x1, int num_3x3red,
                          int num_3x3, int num_d3x3red, int num_d3x3,
@@ -203,7 +371,7 @@ Symbol InceptionFactoryA(Symbol data, int num_1x1, int num_3x3red,
   Symbol pooling =
       Pooling(PoolingPoolTypeValues[static_cast<int>(pool)] + "_pool_" +name + "_pool", data,
               Shape(3, 3), pool, false,
-              Shape(1, 1), Shape(1, 1));
+              PoolingPoolingConvention::valid, Shape(1, 1), Shape(1, 1));
   Symbol cproj = ConvFactoryBN(pooling, proj, Shape(1, 1), Shape(1, 1),
                                Shape(0, 0), name + "_proj", "", eps, momentum);
   std::vector<Symbol> lst;
@@ -230,7 +398,7 @@ Symbol InceptionFactoryB(Symbol data, int num_3x3red, int num_3x3,
                         Shape(1, 1), name + "_double_3x3_1", "", eps, momentum);
   Symbol pooling = Pooling("max_pool_" + name + "_pool", data,
                            Shape(3, 3), PoolingPoolType::max,
-                           false, Shape(2, 2), Shape(1, 1));
+                           false, PoolingPoolingConvention::valid, Shape(2, 2), Shape(1, 1));
   std::vector<Symbol> lst;
   lst.push_back(c3x3);
   lst.push_back(cd3x3);
@@ -245,13 +413,13 @@ Symbol InceptionSymbol(int num_classes) {
 
   // stage 1
   Symbol conv1 = ConvFactoryBN(data, 64, Shape(7, 7), Shape(2, 2), Shape(3, 3), "conv1");
-  Symbol pool1 = Pooling("pool1", conv1, Shape(3, 3), PoolingPoolType::max, false, Shape(2, 2));
+  Symbol pool1 = Pooling("pool1", conv1, Shape(3, 3), PoolingPoolType::max, false, PoolingPoolingConvention::valid, Shape(2, 2));
 
   // stage 2
   Symbol conv2red = ConvFactoryBN(pool1, 64, Shape(1, 1), Shape(1, 1),  Shape(0, 0), "conv2red");
   Symbol conv2 = ConvFactoryBN(conv2red, 192, Shape(3, 3), Shape(1, 1), Shape(1, 1), "conv2");
   Symbol pool2 =
-      Pooling("pool2", conv2, Shape(3, 3), PoolingPoolType::max, false, Shape(2, 2), Shape(0, 0));
+      Pooling("pool2", conv2, Shape(3, 3), PoolingPoolType::max, false, PoolingPoolingConvention::valid,Shape(2, 2), Shape(0, 0));
 
   // stage 3
   Symbol in3a = InceptionFactoryA(pool2, 64, 64, 64, 64, 96, PoolingPoolType::avg, 32, "3a");
@@ -291,7 +459,7 @@ Symbol InceptionSymbol2(int num_classes) {
   Symbol conv1 =
       ConvFactoryBN(data, 64, Shape(7, 7), Shape(2, 2), Shape(3, 3), "1", "", 1e-10, 0.1);
   Symbol pool1 =
-      Pooling("max_pool_1", conv1, Shape(3, 3), PoolingPoolType::max, false, Shape(2, 2));
+      Pooling("max_pool_1", conv1, Shape(3, 3), PoolingPoolType::max, false, PoolingPoolingConvention::valid, Shape(2, 2));
 
   // stage 2
   Symbol conv2red_w("conv_2_reduce_weight"), conv2red_b("conv_2_reduce_bias");
@@ -305,7 +473,7 @@ Symbol InceptionSymbol2(int num_classes) {
 
   Symbol pool2 =
       Pooling("max_pool_2", conv2, Shape(3, 3),
-              PoolingPoolType::max, false, Shape(2, 2), Shape(0, 0));
+              PoolingPoolType::max, false, PoolingPoolingConvention::valid,Shape(2, 2), Shape(0, 0));
 
   // stage 3
   Symbol in3a =
@@ -351,7 +519,7 @@ Symbol VGGSymbol(int num_classes) {
                                Shape(1, 1), Shape(1, 1));
   Symbol relu1_1 = Activation("relu1_1", conv1_1, "relu");
   Symbol pool1 = Pooling("pool1", relu1_1, Shape(2, 2), PoolingPoolType::max,
-                         false, Shape(2, 2));
+                         false, PoolingPoolingConvention::valid, Shape(2, 2));
 
   Symbol conv2_1_w("conv2_1_weight"), conv2_1_b("conv2_1_bias");
   Symbol conv2_1 = Convolution("conv2_1", pool1, conv2_1_w, conv2_1_b,
@@ -359,7 +527,7 @@ Symbol VGGSymbol(int num_classes) {
                                Shape(1, 1), Shape(1, 1));
   Symbol relu2_1 = Activation("relu2_1", conv2_1, "relu");
   Symbol pool2 = Pooling("pool2", relu2_1, Shape(2, 2), PoolingPoolType::max,
-                         false, Shape(2, 2));
+                         false, PoolingPoolingConvention::valid, Shape(2, 2));
 
   Symbol conv3_1_w("conv3_1_weight"), conv3_1_b("conv3_1_bias");
   Symbol conv3_1 = Convolution("conv3_1", pool2, conv3_1_w, conv3_1_b,
@@ -372,7 +540,7 @@ Symbol VGGSymbol(int num_classes) {
                                Shape(1, 1), Shape(1, 1));
   Symbol relu3_2 = Activation("relu3_2", conv3_2, "relu");
   Symbol pool3 = Pooling("pool3", relu3_2, Shape(2, 2), PoolingPoolType::max,
-                         false, Shape(2, 2));
+                         false, PoolingPoolingConvention::valid, Shape(2, 2));
 
   Symbol conv4_1_w("conv4_1_weight"), conv4_1_b("conv4_1_bias");
   Symbol conv4_1 = Convolution("conv4_1", pool3, conv4_1_w, conv4_1_b,
@@ -386,7 +554,7 @@ Symbol VGGSymbol(int num_classes) {
                                Shape(1, 1), Shape(1, 1));
   Symbol relu4_2 = Activation("relu4_2", conv4_2, "relu");
   Symbol pool4 = Pooling("pool4", relu4_2, Shape(2, 2), PoolingPoolType::max,
-                         false, Shape(2, 2));
+                         false, PoolingPoolingConvention::valid, Shape(2, 2));
 
   Symbol conv5_1_w("conv5_1_weight"), conv5_1_b("conv5_1_bias");
   Symbol conv5_1 = Convolution("conv5_1", pool4, conv5_1_w, conv5_1_b,
@@ -400,7 +568,7 @@ Symbol VGGSymbol(int num_classes) {
                                Shape(1, 1), Shape(1, 1));
   Symbol relu5_2 = Activation("relu5_2", conv5_2, "relu");
   Symbol pool5 = Pooling("pool5", relu5_2, Shape(2, 2), PoolingPoolType::max,
-                         false, Shape(2, 2));
+                         false, PoolingPoolingConvention::valid, Shape(2, 2));
 
   Symbol flatten = Flatten("flatten", pool5);
   Symbol fc6_w("fc6_weight"), fc6_b("fc6_bias");
@@ -432,11 +600,11 @@ Symbol LenetSymbol(int num_classes) {
 
   Symbol conv1 = Convolution("convolution0", data, conv1_w, conv1_b, Shape(5, 5), 20);
   Symbol tanh1 = Activation("activation0", conv1, "tanh");
-  Symbol pool1 = Pooling("pooling0", tanh1, Shape(2, 2), PoolingPoolType::max, false, Shape(2, 2));
+  Symbol pool1 = Pooling("pooling0", tanh1, Shape(2, 2), PoolingPoolType::max, false, PoolingPoolingConvention::valid, Shape(2, 2));
 
   Symbol conv2 = Convolution("convolution1", pool1, conv2_w, conv2_b, Shape(5, 5), 50);
   Symbol tanh2 = Activation("activation1", conv2, "tanh");
-  Symbol pool2 = Pooling("pooling1", tanh2, Shape(2, 2), PoolingPoolType::max, false, Shape(2, 2));
+  Symbol pool2 = Pooling("pooling1", tanh2, Shape(2, 2), PoolingPoolType::max, false, PoolingPoolingConvention::valid, Shape(2, 2));
 
   Symbol flatten = Flatten("flatten0", pool2);
   Symbol fc1 = FullyConnected("fullyconnected0", flatten, fc1_w, fc1_b, 500);
@@ -449,12 +617,36 @@ Symbol LenetSymbol(int num_classes) {
     return LinearRegressionOutput("softmax", fc2, data_label);
 }
 
+Symbol ConvolutionNoBias(const std::string& symbol_name,
+                         Symbol data,
+                         Symbol weight,
+                         Shape kernel,
+                         int num_filter,
+                         Shape stride = Shape(1, 1),
+                         Shape dilate = Shape(1, 1),
+                         Shape pad = Shape(0, 0),
+                         int num_group = 1,
+                         int64_t workspace = 512) {
+  return Operator("Convolution")
+      .SetParam("kernel", kernel)
+      .SetParam("num_filter", num_filter)
+      .SetParam("stride", stride)
+      .SetParam("dilate", dilate)
+      .SetParam("pad", pad)
+      .SetParam("num_group", num_group)
+      .SetParam("workspace", workspace)
+      .SetParam("no_bias", true)
+      .SetInput("data", data)
+      .SetInput("weight", weight)
+      .CreateSymbol(symbol_name);
+}
+
 Symbol getConv(const std::string & name, Symbol data,
                int  num_filter,
                Shape kernel, Shape stride, Shape pad,
                bool with_relu,
                mx_float bn_momentum) {
-  Symbol conv_w(name + "_weight");
+  Symbol conv_w(name + "_w");
   Symbol conv = ConvolutionNoBias(name, data, conv_w,
                                   kernel, num_filter, stride, Shape(1, 1),
                                   pad, 1, 512);
@@ -490,7 +682,7 @@ Symbol makeBlock(const std::string & name, Symbol data, int num_filter,
   if (dim_match) {
     shortcut = data;
   } else {
-    Symbol shortcut_w(name + "_proj_weight");
+    Symbol shortcut_w(name + "_proj_w");
     shortcut = ConvolutionNoBias(name + "_proj", data, shortcut_w,
                                  Shape(2, 2), num_filter,
                                  Shape(2, 2), Shape(1, 1), Shape(0, 0),
@@ -514,10 +706,10 @@ Symbol getBody(Symbol data, int num_level, int num_block, int num_filter, mx_flo
 
 Symbol ResNetSymbol(int num_class, int num_level, int num_block,
                     int num_filter, mx_float bn_momentum,
-                    Shape pool_kernel) {
+                    mxnet::cpp::Shape pool_kernel) {
   // data and label
   Symbol data = Symbol::Variable("data");
-  Symbol data_label = Symbol::Variable("softmax_label");
+  Symbol data_label = Symbol::Variable("data_label");
 
   Symbol zscore = BatchNorm("zscore", data, 0.001, bn_momentum);
 
@@ -527,11 +719,11 @@ Symbol ResNetSymbol(int num_class, int num_level, int num_block,
 
   Symbol body = getBody(conv, num_level, num_block, num_filter, bn_momentum);
 
-  Symbol pool = Pooling("pooling0", body, pool_kernel, PoolingPoolType::avg);
+  Symbol pool = Pooling("pool", body, pool_kernel, PoolingPoolType::avg);
 
-  Symbol flat = Flatten("flatten0", pool);
+  Symbol flat = Flatten("flatten", pool);
 
-  Symbol fc_w("fc_weight"), fc_b("fc_bias");
+  Symbol fc_w("fc_w"), fc_b("fc_b");
   Symbol fc = FullyConnected("fc", flat, fc_w, fc_b, num_class);
 
   if (num_class > 1)
@@ -570,7 +762,7 @@ Symbol Inception7A(Symbol data, int num_1x1, int num_3x3_red, int num_3x3_1,
   Symbol pooling =
       Pooling(PoolingPoolTypeValues[static_cast<int>(pool)] + "_pool_" +name + "_pool",
               data, Shape(3, 3), pool,
-              false, Shape(1, 1), Shape(1, 1));
+              false, PoolingPoolingConvention::valid, Shape(1, 1), Shape(1, 1));
   Symbol cproj = ConvFactoryNoBias(pooling,
                                    proj, Shape(1, 1),
                                    Shape(1, 1), Shape(0, 0),
@@ -601,6 +793,7 @@ Symbol Inception7B(Symbol data, int num_3x3, int num_d3x3_red,
   Symbol pooling = Pooling("max_pool_" + name + "_pool",
                            data, Shape(3, 3),
                            PoolingPoolType::max, false,
+                           PoolingPoolingConvention::valid,
                            Shape(2, 2), Shape(0, 0));
   std::vector<Symbol> lst;
   lst.push_back(tower_3x3);
@@ -643,7 +836,7 @@ Symbol Inception7C(Symbol data, int num_1x1, int num_d7_red, int num_d7_1,
                                name + "_tower_1", "_conv_4");
   Symbol pooling =
       Pooling(PoolingPoolTypeValues[static_cast<int>(pool)] + "_pool_" +name + "_pool",
-              data, Shape(3, 3), pool, false,
+              data, Shape(3, 3), pool, false, PoolingPoolingConvention::valid,
               Shape(1, 1), Shape(1, 1));
   Symbol cproj = ConvFactoryNoBias(pooling, proj, Shape(1, 1),
                                    Shape(1, 1), Shape(0, 0),
@@ -682,7 +875,7 @@ Symbol Inception7D(Symbol data,
                                    name + "_tower_1", "_conv_3");
   Symbol pooling =
       Pooling(PoolingPoolTypeValues[static_cast<int>(pool)] + "_pool_" +name + "_pool",
-              data, Shape(3, 3), pool, false, Shape(2, 2));
+              data, Shape(3, 3), pool, false, PoolingPoolingConvention::valid, Shape(2, 2));
   // concat
   std::vector<Symbol> lst;
   lst.push_back(tower_3x3);
@@ -723,7 +916,7 @@ Symbol Inception7E(Symbol data,
                                             name + "_tower_1", "_mixed_conv_1");
   Symbol pooling =
       Pooling(PoolingPoolTypeValues[static_cast<int>(pool)] + "_pool_" +name + "_pool", data,
-              Shape(3, 3), pool, false,
+              Shape(3, 3), pool, false, PoolingPoolingConvention::valid,
               Shape(1, 1), Shape(1, 1));
   Symbol cproj = ConvFactoryNoBias(pooling, proj, Shape(1, 1),
                                    Shape(1, 1), Shape(0, 0),
@@ -752,7 +945,7 @@ mxnet::cpp::Symbol InceptionV3Symbol(int num_classes) {
                                     Shape(1, 1), "conv_2");
   Symbol pool = Pooling("pool", conv_2, Shape(3, 3),
                         PoolingPoolType::max,
-                        false, Shape(2, 2), Shape(0, 0));
+                        false, PoolingPoolingConvention::valid, Shape(2, 2), Shape(0, 0));
   // stage 2
   Symbol conv_3 = ConvFactoryNoBias(pool, 80, Shape(1, 1),
                                     Shape(1, 1), Shape(0, 0),
@@ -761,7 +954,7 @@ mxnet::cpp::Symbol InceptionV3Symbol(int num_classes) {
                                     Shape(1, 1), Shape(0, 0),
                                     "conv_4");
   Symbol pool1 = Pooling("pool1", conv_4,
-                         Shape(3, 3), PoolingPoolType::max, false,
+                         Shape(3, 3), PoolingPoolType::max, false, PoolingPoolingConvention::valid,
                          Shape(2, 2));
   // stage 3
   Symbol in3a = Inception7A(pool1, 64, 64, 96, 96, 48, 64,
@@ -790,9 +983,10 @@ mxnet::cpp::Symbol InceptionV3Symbol(int num_classes) {
                             PoolingPoolType::max, 192, "mixed_10");
   // pool
   pool = Pooling("global_pool", in5b, Shape(8, 8),
-                 PoolingPoolType::avg, false, Shape(1, 1), Shape(1, 1));
+                 PoolingPoolType::avg, false, PoolingPoolingConvention::valid, Shape(1, 1), Shape(1, 1));
   Symbol flatten = Flatten("flatten", pool);
-  Symbol fc1 = FullyConnected("fc1", flatten, num_classes);
+  Symbol fc_w("fc_weight"), fc_b("fc_bias");
+  Symbol fc1 = FullyConnected("fc1", flatten, fc_w, fc_b, num_classes);
   if (num_classes > 1)
     return SoftmaxOutput("softmax", fc1, data_label);
   else
@@ -812,7 +1006,7 @@ Symbol ConvModule(const std::string & name,
     net = Operator("Deconvolution")
         .SetParam("kernel", t)
         .SetParam("num_filter", filter_count)
-        .SetParam("stride", s)
+        .SetParam("stride", stride)
         .SetParam("pad", z)
         .SetParam("workspace", work_space)
         .SetInput("data", net)

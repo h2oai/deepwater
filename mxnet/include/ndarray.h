@@ -29,7 +29,7 @@ enum DeviceType {
 */
 class Context {
  public:
-  Context() {};
+  Context() {}
   /*!
   * \brief Context constructor
   * \param type type of the device

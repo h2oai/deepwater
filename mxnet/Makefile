@@ -25,7 +25,7 @@ include $(MXNET_ROOT)/dmlc-core/make/dmlc.mk
 OBJDIR = build
 
 VPATH = src
-MXNET_SRCS := io.cxx ndarray.cxx kvstore.cxx executor.cxx symbol.cxx optimizer.cxx network_def.cxx operator.cxx
+MXNET_SRCS := io.cxx ndarray.cxx kvstore.cxx executor.cxx symbol.cxx optimizer.cxx operator.cxx network_def.cxx
 MXNET_OBJS = $(patsubst %.cxx,$(OBJDIR)/%.o,$(MXNET_SRCS)) 
 
 $(MXNET_OBJS): | $(OBJDIR)
@@ -39,7 +39,7 @@ OBJS = $(patsubst %.cxx,$(OBJDIR)/%.o,$(SRCS))
 
 TARGET := $(OBJDIR)/libNative.so
 
-CXX := g++
+CXX := g++-5
 
 SWIG := swig
 
@@ -50,7 +50,7 @@ MXLIB := -L$(MXNET_ROOT)/lib -lmxnet
 
 LDFLAGS = -Wl,-rpath,/tmp $(MXLIB)
 
-CXXFLAGS = -std=c++11 -O3 -Wall $(INCLUDE) -Wno-unused-function
+CXXFLAGS = -std=c++11 -O3 -Wall $(INCLUDE) -Wno-unused-function -msse3 -Wno-unused-parameter -Wno-unknown-pragmas -fopenmp 
 #CXXFLAGS = -std=c++11 -O0 -g -Wall $(INCLUDE) -Wno-unused-function
 
 ifeq ($(USE_CUDA), 1)

@@ -127,12 +127,12 @@ struct Shape {
     }
   }
   /*!
-  * \brief constructor five dimension shape
-  * \param s1 size of the first dimension
-  * \param s2 size of the second dimension
-  * \param s3 size of the third dimension
-  * \param s4 size of the fourth dimension
-  * \param s5 size of the fifth dimension
+  * \brief constructor five dimmension shape
+  * \param s1 size of the first dimmension
+  * \param s2 size of the second dimmension
+  * \param s3 size of the third dimmension
+  * \param s4 size of the fourth dimmension
+  * \param s5 size of the fifth dimmension
   */
   Shape(index_t s1, index_t s2, index_t s3, index_t s4, index_t s5)
     : ndim_(5) {
