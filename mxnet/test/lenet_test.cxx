@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 
-#include "initializer.h"
+#include "mxnet-cpp/initializer.h"
 #include "network_def.hpp"
 
 using namespace mxnet::cpp;

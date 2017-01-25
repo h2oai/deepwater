@@ -4,7 +4,7 @@
 #include <cmath>
 #include <string>
 #include <vector>
-#include "network_def.hpp"
+#include "network_def.h"
 
 using namespace mxnet::cpp;
 

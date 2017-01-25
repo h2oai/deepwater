@@ -10,7 +10,7 @@
 #include <vector>
 #include <map>
 
-#include <network_def.hpp>
+#include "network_def.h"
 
 class ImageTrain{
   private:
@@ -62,7 +62,7 @@ class ImageTrain{
   std::unique_ptr<mxnet::cpp::Executor> exec;
   std::unique_ptr<mxnet::cpp::Optimizer> opt;
   bool is_built;
-  mxnet::cpp::Context ctx_dev;
+  std::unique_ptr<mxnet::cpp::Context> ctx_dev;
 
   std::vector<float> execute(float * data, float * label, bool is_train);
 

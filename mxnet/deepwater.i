@@ -50,13 +50,7 @@
 %include "image_train.hpp"
 
 %{
-#include "image_pred.hpp"
-%}
-
-%include "image_pred.hpp"
-
-%{
-#include "include/c_api.h"
+#include "MXNet.cpp/include/mxnet-cpp/c_api.h"
 %}
 
 int MXNotifyShutdown();

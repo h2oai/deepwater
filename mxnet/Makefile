@@ -24,16 +24,19 @@ include $(MXNET_ROOT)/dmlc-core/make/dmlc.mk
 
 OBJDIR = build
 
-VPATH = src
+## for i in MXNet.cpp/include/mxnet-cpp/*hpp; do cp $i `basename $i .hpp`.cxx; done
+## sed -i -e '/HPP/d' *.cxx
+
+
 MXNET_SRCS := io.cxx ndarray.cxx kvstore.cxx executor.cxx symbol.cxx optimizer.cxx network_def.cxx operator.cxx
-MXNET_OBJS = $(patsubst %.cxx,$(OBJDIR)/%.o,$(MXNET_SRCS)) 
+MXNET_OBJS = $(patsubst %.cxx,$(OBJDIR)/%.o,$(MXNET_SRCS))
 
 $(MXNET_OBJS): | $(OBJDIR)
 
 $(OBJDIR):
 	mkdir -p $@
 
-SRCS := image_train.cxx image_pred.cxx
+SRCS := image_train.cxx #image_pred.cxx
 
 OBJS = $(patsubst %.cxx,$(OBJDIR)/%.o,$(SRCS))
 
@@ -43,7 +46,7 @@ CXX := g++
 
 SWIG := swig
 
-INCLUDE = $(JAVA_INCLUDE) -Iinclude -I. -I./src/
+INCLUDE = $(JAVA_INCLUDE) -Iinclude -I. -I./src/ -I./MXNet.cpp/include/
 
 #MXLIB := -L$(MXNET_ROOT)/cppbuild/linux-x86_64/lib -lmxnet
 MXLIB := -L$(MXNET_ROOT)/lib -lmxnet
@@ -59,7 +62,7 @@ else
 	CXXFLAGS += -DMSHADOW_USE_CUDA=0
 endif
 
-$(OBJDIR)/%.o: %.cxx
+$(OBJDIR)/%.o: %.hpp
 	$(CXX) -c -fPIC $(CXXFLAGS) $< -MM -MF $@
 	$(CXX) -c -fPIC $(CXXFLAGS) $< -o $@
 

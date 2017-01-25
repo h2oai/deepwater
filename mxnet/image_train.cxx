@@ -6,10 +6,10 @@
 #include <cassert>
 #include <map>
 
-#include "include/symbol.h"
-#include "include/optimizer.h"
-#include "include/initializer.h"
-#include "include/ndarray.h"
+#include "mxnet-cpp/symbol.h"
+#include "mxnet-cpp/optimizer.h"
+#include "mxnet-cpp/initializer.h"
+#include "mxnet-cpp/ndarray.h"
 #include "image_train.hpp"
 
 using namespace mxnet::cpp;
@@ -31,12 +31,12 @@ ImageTrain::ImageTrain(int w, int h, int c, int device, int seed, bool gpu) {
   clip_gradient = 10;
   is_built = false;
 #if MSHADOW_USE_CUDA == 0
-  ctx_dev = Context::cpu(device);
+  ctx_dev = std::unique_ptr<Context>(new Context(DeviceType::kCPU, device));
 #else
   if (!gpu)
-    ctx_dev = Context::cpu(device);
+    ctx_dev = std::unique_ptr<Context>(new Context(DeviceType::kCPU, device));
   else
-    ctx_dev = Context::gpu(device);
+    ctx_dev = std::unique_ptr<Context>(new Context(DeviceType::kGPU, device));
 #endif
   setSeed(seed);
 }
@@ -57,12 +57,12 @@ void ImageTrain::setClassificationDimensions(int n, int b) {
     shape = Shape(batch_size, width);
   } 
   std::cout << "mxnet data input shape: " << shape << std::endl;
-  args_map["data"] = NDArray(shape, ctx_dev);
-  args_map["softmax_label"] = NDArray(Shape(batch_size), ctx_dev);
-  mxnet_sym.InferArgsMap(ctx_dev, &args_map, args_map);
+  args_map["data"] = NDArray(shape, *ctx_dev);
+  args_map["softmax_label"] = NDArray(Shape(batch_size), *ctx_dev);
+  mxnet_sym.InferArgsMap(*ctx_dev, &args_map, args_map);
 
   // update the executor to use the new args_map and aux_map
-  exec = std::unique_ptr<Executor>(mxnet_sym.SimpleBind(ctx_dev,
+  exec = std::unique_ptr<Executor>(mxnet_sym.SimpleBind(*ctx_dev,
         args_map,
         std::map<std::string, NDArray>(),
         std::map<std::string, OpReqType>(),
@@ -173,7 +173,7 @@ void ImageTrain::loadParam(char * param_path) {
     if (k.first.substr(0, 4) == "arg:") {
       args++;
       auto name = k.first.substr(4, k.first.size() - 4);
-      args_map[name] = k.second.Copy(ctx_dev);
+      args_map[name] = k.second.Copy(*ctx_dev);
       k.second.WaitToRead();
 
 #ifdef MYDEBUG
@@ -191,7 +191,7 @@ void ImageTrain::loadParam(char * param_path) {
     if (k.first.substr(0, 4) == "aux:") {
       aux++;
       auto name = k.first.substr(4, k.first.size() - 4);
-      aux_map[name] = k.second.Copy(ctx_dev);
+      aux_map[name] = k.second.Copy(*ctx_dev);
       k.second.WaitToRead();
 
 #ifdef MYDEBUG
@@ -218,7 +218,7 @@ void ImageTrain::loadParam(char * param_path) {
     exit(-1);
   }
   // update the executor to use the new args_map and aux_map
-  exec = std::unique_ptr<Executor>(mxnet_sym.SimpleBind(ctx_dev,
+  exec = std::unique_ptr<Executor>(mxnet_sym.SimpleBind(*ctx_dev,
         args_map,
         std::map<std::string, NDArray>(),
         std::map<std::string, OpReqType>(),
@@ -323,12 +323,12 @@ std::vector<float> ImageTrain::execute(float * data, float * label, bool is_trai
     exit(0);
   }
 
-  NDArray data_n = NDArray(data, shape, ctx_dev);
+  NDArray data_n = NDArray(data, shape, *ctx_dev);
   data_n.CopyTo(&args_map["data"]);
 
   NDArray label_n;
   if (is_train) {
-    label_n = NDArray(label, Shape(batch_size), ctx_dev);
+    label_n = NDArray(label, Shape(batch_size), *ctx_dev);
     label_n.CopyTo(&args_map["softmax_label"]);
   }
 
