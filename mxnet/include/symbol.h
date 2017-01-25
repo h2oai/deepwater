@@ -68,15 +68,15 @@ class Symbol {
   * \param name the name of the variable
   */
   explicit Symbol(const std::string &name);
-  Symbol operator+(const Symbol &rhs);
-  Symbol operator-(const Symbol &rhs);
-  Symbol operator*(const Symbol &rhs);
-  Symbol operator/(const Symbol &rhs);
+  Symbol operator+(const Symbol &rhs) const;
+  Symbol operator-(const Symbol &rhs) const;
+  Symbol operator*(const Symbol &rhs) const;
+  Symbol operator/(const Symbol &rhs) const;
 
-  Symbol operator+(mx_float scalar);
-  Symbol operator-(mx_float scalar);
-  Symbol operator*(mx_float scalar);
-  Symbol operator/(mx_float scalar);
+  Symbol operator+(mx_float scalar) const;
+  Symbol operator-(mx_float scalar) const;
+  Symbol operator*(mx_float scalar) const;
+  Symbol operator/(mx_float scalar) const;
   Symbol Copy() const;
   /*!
   * \brief construct a variable Symbol
@@ -104,11 +104,11 @@ class Symbol {
   * \brief save Symbol to a file
   * \param file_name the name of the file
   */
-  void Save(const std::string &file_name);
+  void Save(const std::string &file_name) const;
   /*!
   * \brief save Symbol into a JSON string
   */
-  std::string ToJSON();
+  std::string ToJSON() const;
   /*!
   * \brief save Symbol into a JSON string
   * \retutrn the symbol whose outputs are all the internals.
@@ -230,17 +230,28 @@ class Symbol {
   * \param grad_reqs requirment type of gradient saving. Can only be in
   *{kNullOp, kAddTo, kWriteTo}.
   * \param aux_arrays NDArray that is used as internal state in op
+  * \param group_to_ctx dict of string to mx.Context
+  * \param shared_exec Executor to share memory with. This is intended for
+  *runtime reshaping, variable length sequencesn etc.  The returned executor
+  *shares state with shared_exec, and should not be used in parallel with it.
   * \return a new executor, which need to be free manually.
   */
   Executor *Bind(const Context &context, const std::vector<NDArray> &arg_arrays,
                  const std::vector<NDArray> &grad_arrays,
                  const std::vector<OpReqType> &grad_reqs,
-                 const std::vector<NDArray> &aux_arrays);
+                 const std::vector<NDArray> &aux_arrays,
+                 const std::map<std::string, Context> &group_to_ctx =
+                     std::map<std::string, Context>(),
+                 Executor *shared_exec = nullptr);
 
  private:
   std::shared_ptr<SymBlob> blob_ptr_;
   static OpMap *op_map_;
 };
+Symbol operator+(mx_float lhs, const Symbol &rhs);
+Symbol operator-(mx_float lhs, const Symbol &rhs);
+Symbol operator*(mx_float lhs, const Symbol &rhs);
+Symbol operator/(mx_float lhs, const Symbol &rhs);
 }  // namespace cpp
 }  // namespace mxnet
 #endif  // MXNETCPP_SYMBOL_H

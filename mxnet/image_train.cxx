@@ -9,6 +9,7 @@
 #include "include/symbol.h"
 #include "include/optimizer.h"
 #include "include/initializer.h"
+#include "include/ndarray.h"
 #include "image_train.hpp"
 
 using namespace mxnet::cpp;
@@ -30,12 +31,12 @@ ImageTrain::ImageTrain(int w, int h, int c, int device, int seed, bool gpu) {
   clip_gradient = 10;
   is_built = false;
 #if MSHADOW_USE_CUDA == 0
-  ctx_dev = Context(DeviceType::kCPU, device);
+  ctx_dev = Context::cpu(device);
 #else
   if (!gpu)
-    ctx_dev = Context(DeviceType::kCPU, device);
+    ctx_dev = Context::cpu(device);
   else
-    ctx_dev = Context(DeviceType::kGPU, device);
+    ctx_dev = Context::gpu(device);
 #endif
   setSeed(seed);
 }
@@ -69,7 +70,8 @@ void ImageTrain::setClassificationDimensions(int n, int b) {
 }
 
 void ImageTrain::setOptimizer() {
-  opt = std::unique_ptr<Optimizer>(new Optimizer("ccsgd", learning_rate, weight_decay));
+  //opt = std::unique_ptr<Optimizer>(new Optimizer("ccsgd", learning_rate, weight_decay));
+  opt = std::unique_ptr<Optimizer>(OptimizerRegistry::Find("ccsgd"));
   opt->SetParam("momentum", momentum);
   opt->SetParam("rescale_grad", 1.0 / batch_size);
   opt->SetParam("clip_gradient", clip_gradient);

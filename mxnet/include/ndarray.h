@@ -29,12 +29,7 @@ enum DeviceType {
 */
 class Context {
  public:
-  /*!
-  * \brief Context constructor
-  * \param type type of the device
-  * \param id id of the device
-  */
-  Context() : type_(DeviceType::kCPU), id_(0) {}
+  Context() {};
   /*!
   * \brief Context constructor
   * \param type type of the device
@@ -261,9 +256,15 @@ class NDArray {
   */
   void SyncCopyToCPU(std::vector<mx_float> *data, size_t size = 0);
   /*!
-  * \brief return a new copy this NDArray
-  * \param context the new context of this NDArray
+  * \brief Copy the content of current array to other.
+  * \param other the new context of this NDArray
   * \return the new copy
+  */
+  NDArray CopyTo(NDArray * other) const;
+  /*!
+  * \brief return a new copy this NDArray
+  * \param other the target NDArray
+  * \return the copy target NDarray
   */
   NDArray Copy(const Context &) const;
   /*!
@@ -302,7 +303,6 @@ class NDArray {
   * \param end end index in first dim
   * \return sliced NDArray
   */
-  NDArray CopyTo(NDArray * other) const;
   NDArray Slice(mx_uint begin, mx_uint end) const;
   /*!
   * \brief Return a reshaped NDArray that shares memory with current one

@@ -806,12 +806,14 @@ Symbol ConvModule(const std::string & name,
                   bool batch_norm, bool down_pool,
                   bool up_pool, const std::string & act_type,
                   bool convolution) {
+  Shape t(2, 2);
+  Shape z(0, 0);
   if (up_pool) {
     net = Operator("Deconvolution")
-        .SetParam("kernel", Shape(2, 2))
+        .SetParam("kernel", t)
         .SetParam("num_filter", filter_count)
-        .SetParam("stride", Shape(2, 2))
-        .SetParam("pad", Shape(0, 0))
+        .SetParam("stride", s)
+        .SetParam("pad", z)
         .SetParam("workspace", work_space)
         .SetInput("data", net)
         .CreateSymbol(name + "_deconv");
@@ -842,9 +844,9 @@ Symbol ConvModule(const std::string & name,
 
   if (down_pool) {
     net = Operator("Pooling")
-        .SetParam("kernel", Shape(2, 2))
+        .SetParam("kernel", t)
         .SetParam("pool_type", "max")
-        .SetParam("stride", Shape(2, 2))
+        .SetParam("stride", t)
         .SetInput("data", net)
         .CreateSymbol(name + "_max_pool");
   }

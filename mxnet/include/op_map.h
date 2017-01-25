@@ -46,6 +46,17 @@ class OpMap {
       CHECK_EQ(r, 0);
       symbol_creators_[name] = symbol_creators[i];
     }
+
+    nn_uint num_ops;
+    const char **op_names;
+    r = NNListAllOpNames(&num_ops, &op_names);
+    CHECK_EQ(r, 0);
+    for (nn_uint i = 0; i < num_ops; i++) {
+      OpHandle handle;
+      r = NNGetOpHandle(op_names[i], &handle);
+      CHECK_EQ(r, 0);
+      op_handles_[op_names[i]] = handle;
+    }
   }
 
   /*!
@@ -55,11 +66,24 @@ class OpMap {
   * \return handle to the symbol creator
   */
   inline AtomicSymbolCreator GetSymbolCreator(const std::string &name) {
+    if (symbol_creators_.count(name) == 0)
+      return GetOpHandle(name);
     return symbol_creators_[name];
+  }
+
+  /*!
+  * \brief Get an op handle with its name.
+  *
+  * \param name name of the op
+  * \return handle to the op
+  */
+  inline OpHandle GetOpHandle(const std::string &name) {
+    return op_handles_[name];
   }
 
  private:
   std::map<std::string, AtomicSymbolCreator> symbol_creators_;
+  std::map<std::string, OpHandle> op_handles_;
 };
 
 }  // namespace cpp

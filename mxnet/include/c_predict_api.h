@@ -14,6 +14,7 @@
 #endif
 
 #ifdef _WIN32
+#ifndef MXNET_DLL
 #ifdef MXNET_EXPORTS
 #define MXNET_DLL MXNET_EXTERN_C __declspec(dllexport)
 #else
@@ -21,6 +22,7 @@
 #endif
 #else
 #define MXNET_DLL MXNET_EXTERN_C
+#endif
 #endif
 
 /*! \brief manually define unsigned int */

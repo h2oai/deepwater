@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <map>
+#include <set>
 #include <string>
 #include "base.h"
 #include "symbol.h"
@@ -20,20 +21,23 @@ namespace cpp {
 class Optimizer;
 
 /*!
- * \brief Executor interface
- */
+* \brief Executor interface
+*/
 class Executor {
  public:
   Executor(const Symbol &symbol, Context context,
            const std::vector<NDArray> &arg_arrays,
            const std::vector<NDArray> &grad_arrays,
            const std::vector<OpReqType> &grad_reqs,
-           const std::vector<NDArray> &aux_arrays);
+           const std::vector<NDArray> &aux_arrays,
+           const std::map<std::string, Context> &group_to_ctx =
+               std::map<std::string, Context>(),
+           Executor *shared_exec = nullptr);
   explicit Executor(const ExecutorHandle &h) { handle_ = h; }
   /*!
-   * \brief Perform a Forward operation of Operator
-   *  After this operation, user can get the result by using function head.
-   */
+  * \brief Perform a Forward operation of Operator
+  *  After this operation, user can get the result by using function head.
+  */
   void Forward(bool is_train) {
     MXExecutorForward(handle_, is_train ? 1 : 0);
     mx_uint out_size;
@@ -44,17 +48,17 @@ class Executor {
     }
   }
   /*!
-   * \brief Perform a Backward operation of the Operator.
-   *  This must be called after Forward.
-   *  After this operation, NDArrays specified by grad_in_args_store will be
-   *updated accordingly.
-   *  User is allowed to pass in an empty Array if the head node is
-   *  loss function and head gradeitn is not needed.
-   *
-   * \param head_grads the gradient of head nodes to be backproped.
-   */
+  * \brief Perform a Backward operation of the Operator.
+  *  This must be called after Forward.
+  *  After this operation, NDArrays specified by grad_in_args_store will be
+  *updated accordingly.
+  *  User is allowed to pass in an empty Array if the head node is
+  *  loss function and head gradeitn is not needed.
+  *
+  * \param head_grads the gradient of head nodes to be backproped.
+  */
   void Backward(const std::vector<NDArray> &head_grads =
-                std::vector<NDArray>()) {
+                    std::vector<NDArray>()) {
     std::vector<NDArrayHandle> head_grads_;
     for (auto d : head_grads) {
       head_grads_.push_back(d.GetHandle());
@@ -65,30 +69,37 @@ class Executor {
       MXExecutorBackward(handle_, 0, nullptr);
     }
   }
+  // TODO(zhangchen-qinyinghua)
+  // To implement reshape function
+  void Reshape();
   /*!
-   * \brief update the arguments with given learning rate and optimizer
-   * \param opt the pointer to the optimizer
-   * \param lr learning rate
-   * \param wd weight decay
-   * \param arg_update_begin begin index of the arguments to be updated, it
-   * starts after the input data by default
-   * \param arg_update_end end index of the arguments to be updated, it ends
-   * before the label data by default
-   */
+  * \brief update the arguments with given learning rate and optimizer
+  * \return the SymbolHandle
+  */
+  std::string DebugStr();
+  /*!
+  * \brief update the arguments with given learning rate and optimizer
+  * \param opt the pointer to the optimizer
+  * \param lr learning rate
+  * \param wd weight decay
+  * \param arg_update_begin begin index of the arguments to be updated, it
+  * starts after the input data by default
+  * \param arg_update_end end index of the arguments to be updated, it ends
+  * before the label data by default
+  */
   void UpdateAll(Optimizer *opt, float lr, float wd, int arg_update_begin = 1,
                  int arg_update_end = -1);
   /*!
-   * \brief destructor, free the handle
-   */
+  * \brief destructor, free the handle
+  */
   ~Executor() { MXExecutorFree(handle_); }
   std::vector<NDArray> arg_arrays;
   std::vector<NDArray> grad_arrays;
   std::vector<NDArray> aux_arrays;
   /*!
-   * \brief arrays store the outputs of forward
-   */
+  * \brief arrays store the outputs of forward
+  */
   std::vector<NDArray> outputs;
-
   std::map<std::string, NDArray> arg_dict() {
     return GetDict(symbol_.ListArguments(), arg_arrays);
   }
@@ -105,7 +116,21 @@ class Executor {
   ExecutorHandle handle_;
   Symbol symbol_;
   std::map<std::string, NDArray> GetDict(const std::vector<std::string> &names,
-                                         const std::vector<NDArray> &arrays);
+                                         const std::vector<NDArray> &arrays) {
+    std::map<std::string, NDArray> ret;
+    std::set<std::string> name_set;
+    for (const auto &s : names) {
+      CHECK_EQ(name_set.find(s), name_set.end()) << "Duplicate names detected, "
+                                                 << s;
+      name_set.insert(s);
+    }
+    CHECK_EQ(name_set.size(), arrays.size())
+        << "names size not equal to arrays size";
+    for (size_t i = 0; i < names.size(); ++i) {
+      ret[names[i]] = arrays[i];
+    }
+    return ret;
+  }
 };
 }  // namespace cpp
 }  // namespace mxnet

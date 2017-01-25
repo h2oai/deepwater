@@ -70,174 +70,84 @@ NDArray::NDArray(const std::vector<mx_float> &data) {
 
 NDArray NDArray::operator+(mx_float scalar) {
   NDArray ret;
-  static FunctionHandle func_handle;
-  MXGetFunction("_plus_scalar", &func_handle);
-  CHECK_EQ(MXFuncInvoke(func_handle, &blob_ptr_->handle_, &scalar,
-                        &ret.blob_ptr_->handle_),
-           0);
+  Operator("_plus_scalar")(*this, scalar).Invoke(ret);
   return ret;
 }
 NDArray NDArray::operator-(mx_float scalar) {
   NDArray ret;
-  static FunctionHandle func_handle;
-  MXGetFunction("_minus_scalar", &func_handle);
-  CHECK_EQ(MXFuncInvoke(func_handle, &blob_ptr_->handle_, &scalar,
-                        &ret.blob_ptr_->handle_),
-           0);
+  Operator("_minus_scalar")(*this, scalar).Invoke(ret);
   return ret;
 }
 NDArray NDArray::operator*(mx_float scalar) {
   NDArray ret;
-  static FunctionHandle func_handle;
-  MXGetFunction("_mul_scalar", &func_handle);
-  CHECK_EQ(MXFuncInvoke(func_handle, &blob_ptr_->handle_, &scalar,
-                        &ret.blob_ptr_->handle_),
-           0);
+  Operator("_mul_scalar")(*this, scalar).Invoke(ret);
   return ret;
 }
 NDArray NDArray::operator/(mx_float scalar) {
   NDArray ret;
-  static FunctionHandle func_handle;
-  MXGetFunction("_div_scalar", &func_handle);
-  CHECK_EQ(MXFuncInvoke(func_handle, &blob_ptr_->handle_, &scalar,
-                        &ret.blob_ptr_->handle_),
-           0);
+  Operator("_div_scalar")(*this, scalar).Invoke(ret);
   return ret;
 }
 NDArray NDArray::operator+(const NDArray &rhs) {
   NDArray ret;
-  static FunctionHandle func_handle;
-  MXGetFunction("_plus", &func_handle);
-  NDArrayHandle input_handle[2];
-  input_handle[0] = blob_ptr_->handle_;
-  input_handle[1] = rhs.blob_ptr_->handle_;
-  CHECK_EQ(
-      MXFuncInvoke(func_handle, input_handle, nullptr, &ret.blob_ptr_->handle_),
-      0);
+  Operator("_plus")(*this, rhs).Invoke(ret);
   return ret;
 }
 NDArray NDArray::operator-(const NDArray &rhs) {
   NDArray ret;
-  static FunctionHandle func_handle;
-  MXGetFunction("_minus", &func_handle);
-  NDArrayHandle input_handle[2];
-  input_handle[0] = blob_ptr_->handle_;
-  input_handle[1] = rhs.blob_ptr_->handle_;
-  CHECK_EQ(
-      MXFuncInvoke(func_handle, input_handle, nullptr, &ret.blob_ptr_->handle_),
-      0);
+  Operator("_minus")(*this, rhs).Invoke(ret);
   return ret;
 }
 NDArray NDArray::operator*(const NDArray &rhs) {
   NDArray ret;
-  static FunctionHandle func_handle;
-  MXGetFunction("_mul", &func_handle);
-  NDArrayHandle input_handle[2];
-  input_handle[0] = blob_ptr_->handle_;
-  input_handle[1] = rhs.blob_ptr_->handle_;
-  CHECK_EQ(
-      MXFuncInvoke(func_handle, input_handle, nullptr, &ret.blob_ptr_->handle_),
-      0);
+  Operator("_mul")(*this, rhs).Invoke(ret);
   return ret;
 }
 NDArray NDArray::operator/(const NDArray &rhs) {
   NDArray ret;
-  static FunctionHandle func_handle;
-  MXGetFunction("_div", &func_handle);
-  NDArrayHandle input_handle[2];
-  input_handle[0] = blob_ptr_->handle_;
-  input_handle[1] = rhs.blob_ptr_->handle_;
-  CHECK_EQ(
-      MXFuncInvoke(func_handle, input_handle, nullptr, &ret.blob_ptr_->handle_),
-      0);
+  Operator("_div")(*this, rhs).Invoke(ret);
   return ret;
 }
 NDArray &NDArray::operator=(mx_float scalar) {
-  static FunctionHandle func_handle;
-  MXGetFunction("_set_value", &func_handle);
-  CHECK_EQ(MXFuncInvoke(func_handle, nullptr, &scalar, &blob_ptr_->handle_), 0);
+  Operator("_set_value")(scalar).Invoke(*this);
   return *this;
 }
 NDArray &NDArray::operator+=(mx_float scalar) {
-  static FunctionHandle func_handle;
-  MXGetFunction("_plus_scalar", &func_handle);
-  CHECK_EQ(MXFuncInvoke(func_handle, &blob_ptr_->handle_, &scalar,
-                        &blob_ptr_->handle_),
-           0);
+  Operator("_plus_scalar")(*this, scalar).Invoke(*this);
   return *this;
 }
 NDArray &NDArray::operator-=(mx_float scalar) {
-  static FunctionHandle func_handle;
-  MXGetFunction("_minus_scalar", &func_handle);
-  CHECK_EQ(MXFuncInvoke(func_handle, &blob_ptr_->handle_, &scalar,
-                        &blob_ptr_->handle_),
-           0);
+  Operator("_minus_scalar")(*this, scalar).Invoke(*this);
   return *this;
 }
 NDArray &NDArray::operator*=(mx_float scalar) {
-  static FunctionHandle func_handle;
-  MXGetFunction("_mul_scalar", &func_handle);
-  CHECK_EQ(MXFuncInvoke(func_handle, &blob_ptr_->handle_, &scalar,
-                        &blob_ptr_->handle_),
-           0);
+  Operator("_mul_scalar")(*this, scalar).Invoke(*this);
   return *this;
 }
 NDArray &NDArray::operator/=(mx_float scalar) {
-  static FunctionHandle func_handle;
-  MXGetFunction("_div_scalar", &func_handle);
-  CHECK_EQ(MXFuncInvoke(func_handle, &blob_ptr_->handle_, &scalar,
-                        &blob_ptr_->handle_),
-           0);
+  Operator("_div_scalar")(*this, scalar).Invoke(*this);
   return *this;
 }
 NDArray &NDArray::operator+=(const NDArray &rhs) {
-  static FunctionHandle func_handle;
-  MXGetFunction("_plus", &func_handle);
-  NDArrayHandle input_handle[2];
-  input_handle[0] = blob_ptr_->handle_;
-  input_handle[1] = rhs.blob_ptr_->handle_;
-  CHECK_EQ(
-      MXFuncInvoke(func_handle, input_handle, nullptr, &blob_ptr_->handle_), 0);
+  Operator("_plus")(*this, rhs).Invoke(*this);
   return *this;
 }
 NDArray &NDArray::operator-=(const NDArray &rhs) {
-  static FunctionHandle func_handle;
-  MXGetFunction("_minus", &func_handle);
-  NDArrayHandle input_handle[2];
-  input_handle[0] = blob_ptr_->handle_;
-  input_handle[1] = rhs.blob_ptr_->handle_;
-  CHECK_EQ(
-      MXFuncInvoke(func_handle, input_handle, nullptr, &blob_ptr_->handle_), 0);
+  Operator("_minus")(*this, rhs).Invoke(*this);
   return *this;
 }
 NDArray &NDArray::operator*=(const NDArray &rhs) {
-  static FunctionHandle func_handle;
-  MXGetFunction("_mul", &func_handle);
-  NDArrayHandle input_handle[2];
-  input_handle[0] = blob_ptr_->handle_;
-  input_handle[1] = rhs.blob_ptr_->handle_;
-  CHECK_EQ(
-      MXFuncInvoke(func_handle, input_handle, nullptr, &blob_ptr_->handle_), 0);
+  Operator("_mul")(*this, rhs).Invoke(*this);
   return *this;
 }
 NDArray &NDArray::operator/=(const NDArray &rhs) {
-  static FunctionHandle func_handle;
-  MXGetFunction("_div", &func_handle);
-  NDArrayHandle input_handle[2];
-  input_handle[0] = blob_ptr_->handle_;
-  input_handle[1] = rhs.blob_ptr_->handle_;
-  CHECK_EQ(
-      MXFuncInvoke(func_handle, input_handle, nullptr, &blob_ptr_->handle_), 0);
+  Operator("_div")(*this, rhs).Invoke(*this);
   return *this;
 }
 
 NDArray NDArray::ArgmaxChannel() {
   NDArray ret;
-  static FunctionHandle func_handle;
-  MXGetFunction("argmax_channel", &func_handle);
-  CHECK_EQ(MXFuncInvoke(func_handle, &blob_ptr_->handle_, nullptr,
-                        &ret.blob_ptr_->handle_),
-           0);
+  Operator("argmax_channel")(*this).Invoke(ret);
   return ret;
 }
 
@@ -257,23 +167,13 @@ void NDArray::SyncCopyToCPU(std::vector<mx_float> *data, size_t size) {
 }
 NDArray NDArray::Copy(const Context &ctx) const {
   NDArray ret(GetShape(), ctx);
-  static FunctionHandle func_handle;
-  MXGetFunction("_copyto", &func_handle);
-  CHECK_EQ(MXFuncInvoke(func_handle, &blob_ptr_->handle_, nullptr,
-                        &ret.blob_ptr_->handle_),
-           0);
+  Operator("_copyto")(*this).Invoke(ret);
   return ret;
 }
-
 NDArray NDArray::CopyTo(NDArray * other) const {
-  static FunctionHandle func_handle;
-  MXGetFunction("_copyto", &func_handle);
-  CHECK_EQ(MXFuncInvoke(func_handle, &blob_ptr_->handle_, nullptr,
-                        &other->blob_ptr_->handle_),
-           0);
+  Operator("_copyto")(*this).Invoke(*other);
   return *other;
 }
-
 NDArray NDArray::Slice(mx_uint begin, mx_uint end) const {
   NDArrayHandle handle;
   CHECK_EQ(MXNDArraySlice(GetHandle(), begin, end, &handle), 0);
@@ -298,18 +198,10 @@ void NDArray::WaitToWrite() {
 }
 void NDArray::WaitAll() { CHECK_EQ(MXNDArrayWaitAll(), 0); }
 void NDArray::SampleGaussian(mx_float mu, mx_float sigma, NDArray *out) {
-  static FunctionHandle func_handle;
-  MXGetFunction("_random_gaussian", &func_handle);
-  mx_float scalar[2] = {mu, sigma};
-  CHECK_EQ(MXFuncInvoke(func_handle, nullptr, scalar, &out->blob_ptr_->handle_),
-           0);
+  Operator("_sample_normal")(mu, sigma).Invoke(*out);
 }
 void NDArray::SampleUniform(mx_float begin, mx_float end, NDArray *out) {
-  static FunctionHandle func_handle;
-  MXGetFunction("_random_uniform", &func_handle);
-  mx_float scalar[2] = {begin, end};
-  CHECK_EQ(MXFuncInvoke(func_handle, nullptr, scalar, &out->blob_ptr_->handle_),
-           0);
+  Operator("_sample_uniform")(begin, end).Invoke(*out);
 }
 void NDArray::Load(const std::string &file_name,
                    std::vector<NDArray> *array_list,

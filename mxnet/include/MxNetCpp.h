@@ -18,5 +18,6 @@
 #include "op_suppl.h"
 #include "io.h"
 #include "metric.h"
+#include "initializer.h"
 
 #endif  // MXNETCPP_H_

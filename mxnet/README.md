@@ -45,5 +45,14 @@ python setup.py install
 ```
 Now, you'll have the mxnet python module available for creating your own Deep Learning models from scratch.
 
+#### Build and install mxnet R bindings
+To build the R module (which can be installed with `R CMD INSTALL mxnet_current_r.tar.gz`), do the following:
+```
+cd thirdparty/mxnet/
+make rpkg
+```
+You might have to install or upgrade certain dependencies in R first (with `install.packages("package_name")` in R).
+Now, you'll have the mxnet R module available for creating your own Deep Learning models from scratch.
+
 #### Build mxnet H2O bindings
 Once libmxnet.so is built, go back to the top-level directory of the deepwater repo, and follow the directions there.

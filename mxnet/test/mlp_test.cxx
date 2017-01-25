@@ -79,10 +79,10 @@ int main(int argc, char const *argv[]) {
       .SetParam("batch_size", batch_size)
       .CreateDataIter();
 
-  Optimizer opt("ccsgd", learning_rate, weight_decay);
-  opt.SetParam("momentum", momentum)
-      .SetParam("rescale_grad", 1.0 / batch_size)
-      .SetParam("clip_gradient", clip_gradient);
+  Optimizer *opt = OptimizerRegistry::Find("ccsgd");
+  opt->SetParam("momentum", momentum)
+      ->SetParam("rescale_grad", 1.0 / batch_size)
+      ->SetParam("clip_gradient", clip_gradient);
 
   auto * exec = net.SimpleBind(ctx_dev, args_map);
   args_map = exec->arg_dict();
@@ -109,7 +109,7 @@ int main(int argc, char const *argv[]) {
 
       exec->Forward(true);
       exec->Backward();
-      exec->UpdateAll(&opt, learning_rate, weight_decay);
+      exec->UpdateAll(opt, learning_rate, weight_decay);
       NDArray::WaitAll();
       train_acc.Update(data_batch.label, exec->outputs[0]);
     }

@@ -25,32 +25,23 @@ Symbol::Symbol(const char *name) {
   CHECK_EQ(MXSymbolCreateVariable(name, &(handle)), 0);
   blob_ptr_ = std::make_shared<SymBlob>(handle);
 }
-Symbol::Symbol(const std::string &name) : Symbol(name.c_str()) {
-}
+Symbol::Symbol(const std::string &name) : Symbol(name.c_str()) {}
 Symbol Symbol::Variable(const std::string &name) { return Symbol(name); }
-Symbol Symbol::operator+(const Symbol &rhs) {
-  return _Plus(*this, rhs);
+Symbol Symbol::operator+(const Symbol &rhs) const { return _Plus(*this, rhs); }
+Symbol Symbol::operator-(const Symbol &rhs) const { return _Minus(*this, rhs); }
+Symbol Symbol::operator*(const Symbol &rhs) const { return _Mul(*this, rhs); }
+Symbol Symbol::operator/(const Symbol &rhs) const { return _Div(*this, rhs); }
+Symbol Symbol::operator+(mx_float scalar) const {
+  return _PlusScalar(*this, scalar);
 }
-Symbol Symbol::operator-(const Symbol &rhs) {
-  return _Minus(*this, rhs);
+Symbol Symbol::operator-(mx_float scalar) const {
+  return _MinusScalar(*this, scalar);
 }
-Symbol Symbol::operator*(const Symbol &rhs) {
-  return _Mul(*this, rhs);
+Symbol Symbol::operator*(mx_float scalar) const {
+  return _MulScalar(*this, scalar);
 }
-Symbol Symbol::operator/(const Symbol &rhs) {
-  return _Div(*this, rhs);
-}
-Symbol Symbol::operator+(mx_float scalar) {
-  return _PlusScalar(*this, scalar, false);
-}
-Symbol Symbol::operator-(mx_float scalar) {
-  return _MinusScalar(*this, scalar, false);
-}
-Symbol Symbol::operator*(mx_float scalar) {
-  return _MulScalar(*this, scalar, false);
-}
-Symbol Symbol::operator/(mx_float scalar) {
-  return _DivScalar(*this, scalar, false);
+Symbol Symbol::operator/(mx_float scalar) const {
+  return _DivScalar(*this, scalar);
 }
 Symbol Symbol::operator[](int index) {
   SymbolHandle out;
@@ -86,10 +77,10 @@ Symbol Symbol::LoadJSON(const std::string &json_str) {
   CHECK_EQ(MXSymbolCreateFromJSON(json_str.c_str(), &(handle)), 0);
   return Symbol(handle);
 }
-void Symbol::Save(const std::string &file_name) {
+void Symbol::Save(const std::string &file_name) const {
   CHECK_EQ(MXSymbolSaveToFile(GetHandle(), file_name.c_str()), 0);
 }
-std::string Symbol::ToJSON() {
+std::string Symbol::ToJSON() const {
   const char *out_json;
   CHECK_EQ(MXSymbolSaveToJSON(GetHandle(), &out_json), 0);
   return std::string(out_json);
@@ -251,6 +242,8 @@ void Symbol::InferExecutorArrays(
     auto iter_req = grad_req_type.find(arg_name);
     if (iter_req != grad_req_type.end()) {
       grad_reqs->push_back(iter_req->second);
+    } else if (arg_name.rfind("data") == arg_name.length() - 4) {
+      grad_reqs->push_back(OpReqType::kNullOp);
     } else {
       grad_reqs->push_back(OpReqType::kWriteTo);
     }
@@ -321,9 +314,19 @@ Executor *Symbol::Bind(const Context &context,
                        const std::vector<NDArray> &arg_arrays,
                        const std::vector<NDArray> &grad_arrays,
                        const std::vector<OpReqType> &grad_reqs,
-                       const std::vector<NDArray> &aux_arrays) {
+                       const std::vector<NDArray> &aux_arrays,
+                       const std::map<std::string, Context> &group_to_ctx,
+                       Executor *shared_exec) {
   return new Executor(*this, context, arg_arrays, grad_arrays, grad_reqs,
-                      aux_arrays);
+                      aux_arrays, group_to_ctx, shared_exec);
+}
+Symbol operator+(mx_float lhs, const Symbol &rhs) { return rhs + lhs; }
+Symbol operator-(mx_float lhs, const Symbol &rhs) {
+  return mxnet::cpp::_RMinusScalar(lhs, rhs);
+}
+Symbol operator*(mx_float lhs, const Symbol &rhs) { return rhs * lhs; }
+Symbol operator/(mx_float lhs, const Symbol &rhs) {
+  return mxnet::cpp::_RDivScalar(lhs, rhs);
 }
 }  // namespace cpp
 }  // namespace mxnet
