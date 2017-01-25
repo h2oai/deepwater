@@ -9,7 +9,11 @@
 #include <string>
 #include <vector>
 
-#include "MxNetCpp.h"
+#include "symbol.h"
+#include "operator.h"
+#include "executor.h"
+#include "optimizer.h"
+#include "op.h"
 
 static const std::string PoolingPoolTypeValues[] = {
   "avg",

@@ -8,15 +8,15 @@
 #ifndef MXNETCPP_H_
 #define MXNETCPP_H_
 
-#include "executor.hpp"
-#include "symbol.hpp"
-#include "ndarray.hpp"
-#include "operator.hpp"
-#include "optimizer.hpp"
-#include "kvstore.hpp"
+#include "executor.cxx"
+#include "symbol.cxx"
+#include "ndarray.cxx"
+#include "operator.cxx"
+#include "optimizer.cxx"
+#include "kvstore.cxx"
+#include "io.cxx"
 #include "op.h"
 #include "op_suppl.h"
-#include "io.hpp"
 #include "metric.h"
 #include "initializer.h"
 

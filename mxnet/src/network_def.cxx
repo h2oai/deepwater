@@ -4,7 +4,7 @@
 #include <cmath>
 #include <string>
 #include <vector>
-#include "network_def.hpp"
+#include "network_def.h"
 
 using namespace mxnet::cpp;
 
@@ -174,6 +174,9 @@ Symbol AlexnetSymbol(int num_classes) {
                      .SetInput("label", target_label)
                      .CreateSymbol("softmax");
   return softmax;
+*/
+
+/*
   Symbol data = Symbol::Variable("data");
   Symbol data_label = Symbol::Variable("softmax_label");
 

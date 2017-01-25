@@ -44,16 +44,16 @@
 %module deepwater
 
 %{
-#include "image_train.hpp"
+#include "include/image_train.h"
 %}
 
-%include "image_train.hpp"
+%include "include/image_train.h"
 
 %{
-#include "image_pred.hpp"
+#include "include/image_pred.h"
 %}
 
-%include "image_pred.hpp"
+%include "include/image_pred.h"
 
 %{
 #include "include/c_api.h"

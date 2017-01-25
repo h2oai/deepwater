@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 
-#include "include/c_api.h"
-#include "include/logging.h"
-#include "image_pred.hpp"
+#include "c_api.h"
+#include "logging.h"
+#include "image_pred.h"
 
 class BufferFile {
  public :

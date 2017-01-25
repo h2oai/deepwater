@@ -51,6 +51,16 @@ class Operator {
   * \param value value of the config parameter
   * \return reference of self
   */
+  Operator &SetParam(int pos, const NDArray& value) {
+    std::cout << "Shouldn't be called" << std::endl;
+    std::string value_str;
+    std::stringstream ss;
+    //ss << value;
+    //ss >> value_str;
+
+    params_[arg_names_[pos]] = value_str;
+    return *this;
+  }
   template <typename T>
   Operator &SetParam(int pos, const T &value) {
     std::string value_str;

@@ -6,11 +6,11 @@
 #include <cassert>
 #include <map>
 
-#include "include/symbol.h"
-#include "include/optimizer.h"
-#include "include/initializer.h"
-#include "include/ndarray.h"
-#include "image_train.hpp"
+#include "symbol.h"
+#include "optimizer.h"
+#include "initializer.h"
+#include "ndarray.h"
+#include "image_train.h"
 
 using namespace mxnet::cpp;
 
