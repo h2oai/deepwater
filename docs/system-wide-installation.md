@@ -43,9 +43,9 @@ We will install Oracle Java 8.
 
   Note: This should already be installed with Ubuntu 16.04.
 
-### nVIDIA GPU Drivers
+### NVIDIA GPU Drivers
 
-At the time of this writing, the latest version of nVIDIA drivers is 370. Instructions reflect this and are verified to work with this version throughout this document. If using a different version, edit the instruction commands to reflect the version that you are using.
+At the time of this writing, the latest version of NVIDIA drivers is 370. Instructions reflect this and are verified to work with this version throughout this document. If using a different version, edit the instruction commands to reflect the version that you are using.
 
 1. Clean old install: ``$ sudo apt-get purge nvidia-*``
 2. (Optional) Find/verify available drivers
@@ -55,7 +55,7 @@ At the time of this writing, the latest version of nVIDIA drivers is 370. Instru
     With descriptions: ``$ apt search nvidia``
 3. Add repository: ``$ sudo add-apt-repository ppa:graphics-drivers/ppa``
 4. Update repository: ``$ sudo apt-get update``
-5. Verify nVIDIA 370 drivers available: ``$ apt search nvidia | grep 370``
+5. Verify NVIDIA 370 drivers available: ``$ apt search nvidia | grep 370``
 
     You should see a result that starts with nvidia-370/xenial 370.
   
@@ -64,7 +64,7 @@ At the time of this writing, the latest version of nVIDIA drivers is 370. Instru
 8. Test the installation: ``$ nvidia-smi``
 9. **IMPORTANT**: Kernel Updates
 
-   From here, DO NOT run a package manager update (i.e. ``$ sudo apt-get update``). Kernel updates will likely cause nVIDIA drivers to no longer function, as they are usually specific to kernel version and will result in a failed communication error.
+   From here, DO NOT run a package manager update (i.e. ``$ sudo apt-get update``). Kernel updates will likely cause NVIDIA drivers to no longer function, as they are usually specific to kernel version and will result in a failed communication error.
    
 ### Monitoring GPU Usage
 
@@ -74,7 +74,7 @@ Run the following to monitor GPU usage:
 		
 ### Disable Automatic System Updates
 
-By default, Ubuntu applies automatic system updates, which as previously indicated, can cause the nVIDIA driver to fail. Consequently, we will stop auto system updates because after every kernel update, NVIDIA driver fails to communicate with system.
+By default, Ubuntu applies automatic system updates, which as previously indicated, can cause the NVIDIA driver to fail. Consequently, we will stop auto system updates because after every kernel update, NVIDIA driver fails to communicate with system.
 
 		$ sudo apt-get remove unattended-upgrades
 
@@ -86,7 +86,7 @@ At the time of the this writing, Deep Water is developed to support only CUDA 8.
 
 1. Get CUDA Files:
 
-	CUDA can be obtained directly  nVIDIA, which requires a registration. You can obtain these files from by going to the nVIDIA web site or using the CLI. 
+	CUDA can be obtained directly  NVIDIA, which requires a registration. You can obtain these files from by going to the NVIDIA web site or using the CLI. 
 	
 	**Via Web Site**
 	
@@ -113,7 +113,7 @@ At the time of the this writing, Deep Water is developed to support only CUDA 8.
 	2. Use a root shell: ``$ sudo bash``
 	3. Launch CUDA installation: ``$ bash ./cuda 8.0.44 linux.run -override``
 
-      **Note**: The ``-override`` flag is to avoid an Ubuntu 16.04 "Unsupported compiler error".
+       **Note**: The ``-override`` flag is to avoid an Ubuntu 16.04 "Unsupported compiler error".
       
 	4. EULA
 		
@@ -168,7 +168,7 @@ have separately installed NVIDIA driver.
 
 **Note**: Before you begin, we recommended that you save the cuDNN files in the /build directory created during setup.
 
-1. Get cuDNN files. cuDNN can be obtained directly  nVidia.
+1. Get cuDNN files. cuDNN can be obtained directly  NVidia.
 
 2. Extract cuDNN files: ``$ tar -xvf cudnn-8.0-linux-x64-v5.1.tgz``
 

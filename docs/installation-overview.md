@@ -14,7 +14,7 @@ The image below is a conceptual stack of software that is installed and required
 
 - GPU Drivers. To enable, GPU processing, supported GPU drivers must be installed.
 
-- CUDA and cuDNN. Once the GPU drivers are installed, we can install CUDA, a general purpose GPU programming API and parallel computing platform from nVIDIA. On top of CUDA, we'll install cuDNN, a
+- CUDA and cuDNN. Once the GPU drivers are installed, we can install CUDA, a general purpose GPU programming API and parallel computing platform from NVIDIA. On top of CUDA, we'll install cuDNN, a
 library of primitives for deep neural networks that leverage the GPU.
 
 - C and C++ Compilers. C and C++ compilers are installed for installing required packages as well as for building certain components from source.
