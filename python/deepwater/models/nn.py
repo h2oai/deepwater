@@ -144,8 +144,7 @@ def max_pool_3x3(x, stride=2, padding="SAME"):
 def fc(x, shape):
     W = weight_variable(shape, "weight")
     #b = bias_variable([shape[-1]], "bias")
-    #return tf.matmul(x, W) + b
-    # print(shape)
+    x = tf.matmul(x, W)
     return batch_norm(x, shape[-1])
 
 
