@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 from deepwater.models import BaseImageClassificationModel
-from deepwater.models.nn import weight_variable, bias_variable, max_pool_2x2, conv, fc
+from deepwater.models.nn import weight_variable, bias_variable, max_pool_3x3, conv, fc
 
 
 class LeNet(BaseImageClassificationModel):
@@ -21,10 +21,10 @@ class LeNet(BaseImageClassificationModel):
                              name="input_reshape")
 
         out = conv(x_image, 5, 5, 32)
-        out = max_pool_2x2(out)
+        out = max_pool_3x3(out)
 
         out = conv(out, 5, 5, 64)
-        out = max_pool_2x2(out)
+        out = max_pool_3x3(out)
 
         dim = int(width / 4.0)
 

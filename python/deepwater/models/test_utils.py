@@ -172,8 +172,8 @@ def CIFAR10_must_converge(name, model_class,
             print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'train loss:', train_loss,
                   '% train error:', train_error,
                   '% test error:', test_error)
-
-        train_writer.close()
+        if summaries:
+            train_writer.close()
 
 
 def MNIST_must_converge(name,
@@ -271,34 +271,42 @@ def MNIST_must_converge(name,
             print("test err: %f" % err)
 
         return np.mean(average_error) * 100.0
+    with train_strategy.graph.as_default():
+        with tf.train.MonitoredTrainingSession(
+                    checkpoint_dir="/tmp",
+                    hooks=[tf.train.StopAtStepHook(last_step=10)],
+                    config=tf.ConfigProto(
+                        log_device_placement=True)) as sess:
 
-    with tf.Session(graph=train_strategy.graph) as sess:
-        tf.set_random_seed(12345678)
-        sess.run(tf.global_variables_initializer())
+            epoch = 0
 
-        if use_debug_session:
-            from tensorflow.python import debug as tf_debug
-            sess = tf_debug.LocalCLIDebugWrapperSession(sess)
-            sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)
+            tf.set_random_seed(12345678)
+            sess.run(tf.global_variables_initializer())
 
-        dataset = read_data_sets('/tmp/deepwater/datasets/', validation_size=0)
+            if use_debug_session:
+                from tensorflow.python import debug as tf_debug
+                sess = tf_debug.LocalCLIDebugWrapperSession(sess)
+                sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)
 
-        if not use_debug_session:
-            print('computing initial test error')
-            test_error = test(0, dataset.test, batch_size,
-                              dataset.test.num_examples, sess, summaries=summaries)
-            print('initial test error:', test_error)
+            dataset = read_data_sets('/tmp/deepwater/datasets/', validation_size=0)
 
-        for epoch in range(epochs):
-            global_step, train_loss, train_error = train(epoch,
-                                                         dataset.train, batch_size,
-                                                         dataset.train.num_examples,
-                                                         sess)
-            test_error = test(epoch, dataset.test, batch_size,
-                              dataset.test.num_examples, sess, summaries=summaries)
+            if not use_debug_session:
+                print('computing initial test error')
+                test_error = test(0, dataset.test, batch_size,
+                                  dataset.test.num_examples, sess, summaries=summaries)
+                print('initial test error:', test_error)
 
-            print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'train loss:', train_loss,
-                  '% train error:', train_error,
-                  '% test error:', test_error)
+            while not sess.should_stop():
+                epoch += 1
+                global_step, train_loss, train_error = train(epoch,
+                                                             dataset.train, batch_size,
+                                                             dataset.train.num_examples,
+                                                             sess)
+                test_error = test(epoch, dataset.test, batch_size,
+                                  dataset.test.num_examples, sess, summaries=summaries)
 
-        train_writer.close()
+                print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'train loss:', train_loss,
+                      '% train error:', train_error,
+                      '% test error:', test_error)
+
+            train_writer.close()

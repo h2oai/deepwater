@@ -126,7 +126,7 @@ public class BackendInterfaceTest {
     @Test
     public void testMLP() throws IOException{
         backendCanTrainMNIST("mlp", 32, 1);
-        backendCanSaveCheckpointMNIST("mlp", 32, 0.1f);
+        backendCanSaveCheckpointMNIST("mlp", 32, 0.2f);
     }
 
     @Test
@@ -139,25 +139,27 @@ public class BackendInterfaceTest {
     public void testAlexnet() throws IOException{
         backendCanTrainMNIST("alexnet", 32, 1, 0.01f);
         backendCanSaveCheckpointMNIST("alexnet", 32, 0.01f);
-        backendCanTrainCifar10("alexnet", 32, 1, 0.001f);
+
+//        backendCanTrainCifar10("alexnet", 32, 1, 0.01f);
+//        backendCanSaveCheckpointCifar10("alexnet", 32, 1, 0.05f);
     }
 
     @Test
     public void testVGG() throws IOException {
-        backendCanTrainMNIST("vgg", 32, 1, 0.01f);
-        backendCanSaveCheckpointMNIST("vgg", 16, 0.01f);
+        backendCanTrainMNIST("vgg", 32, 2, 0.05f);
+        backendCanSaveCheckpointMNIST("vgg", 64, 0.05f);
 
-        backendCanTrainCifar10("vgg", 32, 2, 0.00005f);
-        backendCanSaveCheckpointCifar10("vgg", 16, 0.00005f);
+//        backendCanTrainCifar10("vgg", 1, 2, 0.01f);
+//        backendCanSaveCheckpointCifar10("vgg", 32, 1, 0.05f);
     }
 
     @Test
     public void testInception() throws IOException {
-        backendCanTrainMNIST("inception_bn", 32, 1, 0.01f);
+        backendCanTrainMNIST("inception_bn", 16, 2, 0.01f);
         backendCanSaveCheckpointMNIST("inception_bn", 16, 0.01f);
 
-        backendCanTrainCifar10("inception_bn", 32, 1, 0.001f);
-        //backendCanSaveCheckpoint("inception_bn", 16, 0.01f);
+//        backendCanTrainCifar10("inception_bn", 32, 1, 0.05f);
+//        backendCanSaveCheckpointCifar10("inception_bn", 32, 1, 0.05f);
     }
 
     private void backendCanTrainMNIST(String modelName, int batchSize, int epochs) throws IOException {
@@ -190,7 +192,12 @@ public class BackendInterfaceTest {
         while(it.nextEpochs()) {
             while (it.next(b)) {
                 backend.train(model, b.getImages(), b.getLabels());
+                double trainError = computePredictionError(backend, model, b, dataset.getNumClasses());
+                System.out.println("error:" + trainError);
             }
+
+            learningRate *= 0.5;
+            backend.setParameter(model, "learning_rate", learningRate);
         }
         double testError = computeTestErrorMNIST(model, batchSize);
 
@@ -234,6 +241,8 @@ public class BackendInterfaceTest {
         while(it.nextEpochs()) {
             while (it.next(b)) {
                 backend.train(model, b.getImages(), b.getLabels());
+                double trainError = computePredictionError(backend, model, b, dataset.getNumClasses());
+                System.out.println("train error:" + trainError);
             }
 
             double err = computeCIFAR10TestError(model, batchSize);
@@ -263,7 +272,7 @@ public class BackendInterfaceTest {
             total++;
         }
 
-        return error/total;
+        return error/total * 100.0;
     }
 
 
@@ -318,7 +327,7 @@ public class BackendInterfaceTest {
 
     }
 
-    private void backendCanSaveCheckpointCifar10(String modelName, int batchSize, float learningRate) throws IOException {
+    private void backendCanSaveCheckpointCifar10(String modelName, int batchSize, int epochs, float learningRate) throws IOException {
 
         BackendTrain backend = new TensorflowBackend();
 
@@ -341,12 +350,9 @@ public class BackendInterfaceTest {
         backend.setParameter(model, "learning_rate", learningRate);
         backend.setParameter(model, "momentum", 0.8f);
 
-        BatchIterator it = new BatchIterator(dataset, 5, train_images);
+        BatchIterator it = new BatchIterator(dataset, epochs, train_images);
         ImageBatch b = new ImageBatch(dataset, batchSize);
-        int i = 0;
         while(it.nextEpochs()) {
-            i += 1;
-            System.out.println("iter " + i);
             while (it.next(b)) {
                 backend.train(model, b.getImages(), b.getLabels());
             }

@@ -2,7 +2,7 @@ import tensorflow as tf
 
 from deepwater.models import BaseImageClassificationModel
 
-from deepwater.models.nn import max_pool_3x3, max_pool_2x2, fc
+from deepwater.models.nn import max_pool_3x3, fc
 from deepwater.models.nn import conv3x3, conv1x1, conv1x7, conv7x1, conv1x3, conv3x1, conv
 
 
@@ -17,7 +17,6 @@ def stem(x):
     out1 = max_pool_3x3(out, stride=2, padding="VALID")
     out2 = conv3x3(out, 96, stride=2, padding="VALID")
 
-    print(out1, out2)
     out = tf.concat(3, [out1, out2])
 
     out1 = conv1x1(out, 64)
@@ -31,9 +30,11 @@ def stem(x):
     out = tf.concat(3, [out1, out2])
 
     out1 = conv3x3(out, 192, stride=2, padding="VALID")
-    out2 = max_pool_2x2(out, stride=2, padding="VALID")
+    out2 = max_pool_3x3(out, stride=2, padding="VALID")
 
-    return tf.concat(3, [out1, out2])
+    out = tf.concat(3, [out1, out2])
+
+    return out
 
 
 def inceptionA(out):
@@ -128,9 +129,6 @@ class InceptionV4(BaseImageClassificationModel):
         self._dropout_var = tf.placeholder_with_default(0.0,
                                                         [],
                                                         name="dropout")
-        weight_decay=0.00004
-        batch_norm_decay=0.9997
-        batch_norm_epsilon=0.001
 
         assert width == height, "width and height must be the same"
 
@@ -292,7 +290,7 @@ class InceptionResNetV2(BaseImageClassificationModel):
         self._number_of_classes = classes
 
         max_w = 299
-        min_w = 299 # // 3
+        min_w = 299 // 3
 
         if width < min_w:
             x = tf.image.resize_images(x, [min_w, min_w])
@@ -303,25 +301,25 @@ class InceptionResNetV2(BaseImageClassificationModel):
 
         out = stem(x)
         print(out.get_shape().as_list())
-        for _ in range(5):
-            out = inceptionResNetA(out)
+        for _ in range(2):
+            out = inceptionResNetA(out, scale=0.1)
         out = reductionA(out, k=256, l=256, m=384, n=384)
         print(out.get_shape().as_list())
 
-        for _ in range(10):
-            out = inceptionResNetB(out)
+        for _ in range(5):
+            out = inceptionResNetB(out, scale=0.1)
         out = reductionB(out)
         print(out.get_shape().as_list())
 
-        for _ in range(5):
-            out = inceptionResNetC(out)
+        for _ in range(2):
+            out = inceptionResNetC(out, scale=0.1)
 
         a, b = out.get_shape().as_list()[1:3]
 
         print([a, b, out.get_shape().as_list()])
 
         out = tf.nn.avg_pool(out, ksize=[1, a, b, 1],
-                             strides=[1, 1, 1, 1], padding="VALID")
+                             strides=[1, 2, 2, 1], padding="VALID")
 
         out = tf.nn.dropout(out, keep_prob=1.0-self._dropout_var)
 

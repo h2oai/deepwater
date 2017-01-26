@@ -31,7 +31,7 @@ class TestMLP(unittest.TestCase):
                             batch_size=128,
                             epochs=3)
 
-    def test_mlp_2048_2048_No_Dropout_Gradient(self):
+    def test_mlp_2048_2048_no_dropout_gradient(self):
         hidden_layers = [2048, 2048, 2048]
         dropout = []
         model = partial(mlp.MultiLayerPerceptron,
@@ -44,7 +44,7 @@ class TestMLP(unittest.TestCase):
                             batch_size=32,
                             epochs=3)
 
-    def test_mlp_2048_2048_Momentum(self):
+    def test_mlp_2048_2048_momentum(self):
         hidden_layers = [2048, 2048, 2048]
         dropout = [0.2, 0.5, 0.5]
         model = partial(mlp.MultiLayerPerceptron,
