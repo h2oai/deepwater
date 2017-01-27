@@ -193,15 +193,15 @@ public class TensorflowBackend implements BackendTrain {
         TensorflowModel model = (TensorflowModel) m;
         final long batchSize = model.miniBatchSize;
 
-        assert data.length == model.frameSize * batchSize: "input data length is not equal to expected value";
+        assert data.length == model.frameSize * batchSize : "input data length is not equal to expected value";
 
-        long [] labelShape = new long[]{ batchSize, model.classes};
-        float [][] labelData;
+        long[] labelShape = new long[]{batchSize, model.classes};
+        float[][] labelData;
 
         if (model.classes > 1) { //one-hot encoder
             labelData = new float[Math.toIntExact(batchSize)][model.classes];
             for (int i = 0; i < batchSize; i++) {
-                int idx = (int)labels[i];
+                int idx = (int) labels[i];
                 labelData[i][idx] = 1.0f;
             }
         } else {
@@ -212,7 +212,7 @@ public class TensorflowBackend implements BackendTrain {
             }
         }
 
-        float [][]dataMatrix = new float[Math.toIntExact(batchSize)][model.frameSize];
+        float[][] dataMatrix = new float[Math.toIntExact(batchSize)][model.frameSize];
         int start = 0;
         for (int i = 0; i < batchSize; i++) {
             System.arraycopy(data, start, dataMatrix[i], 0, model.frameSize);
