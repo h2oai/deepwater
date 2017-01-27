@@ -248,8 +248,8 @@ public class TensorflowBackend implements BackendTrain {
 //                }
 //        );
 
-        runner.fetch(normalize(model.meta.metrics.get("accuracy")));
-        runner.fetch(normalize(model.meta.metrics.get("total_loss")));
+        //runner.fetch(normalize(model.meta.metrics.get("accuracy")));
+        //runner.fetch(normalize(model.meta.metrics.get("total_loss")));
         runner.addTarget(normalize(model.meta.train_op));
         List<Tensor> tensors = runner.run();
 
