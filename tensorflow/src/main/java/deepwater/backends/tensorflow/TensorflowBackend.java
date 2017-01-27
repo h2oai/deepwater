@@ -254,8 +254,8 @@ public class TensorflowBackend implements BackendTrain {
         List<Tensor> tensors = runner.run();
 
         return new float[]{
-                tensors.get(0).floatValue(),
-                tensors.get(1).floatValue()
+        //        tensors.get(0).floatValue(),
+        //        tensors.get(1).floatValue()
         };
     }
 
