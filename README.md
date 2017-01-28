@@ -15,20 +15,55 @@
 Check out a sample of cool Deep Learning [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks)!
 
 ### Pre-Release Downloads
-For the following system dependencies, we provide recent builds for your convenience. 
+#### This latest release of Deep Water is based on H2O-3 3.10.3.1 "Tverberg-1" 1b263c79 - Jan 28 2017
+
+The downloadable packages below are built for the following system specifications:
 
 * Ubuntu 16.04 LTS
 * Latest NVIDIA Display driver
 * CUDA 8 (latest available) in /usr/local/cuda
 * CUDNN 5.1 (placed inside of lib and include directories in /usr/local/cuda/)
 
-In the future, we'll have more pre-built jars for more OS/CUDA combinations.
+To use the GPU, please set the following environment variables:
+```
+export CUDA_PATH=/usr/local/cuda
+export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$LD_LIRBARY_PATH
+```
 
-* Required to run Jupyter notebook: [H2O Deep Water enabled Python module](https://slack-files.com/T0329MHH6-F2TN01TUN-b0577b68da) -- install via `pip install <file>`
-* To build custom networks: [Matching MXNet Python egg](https://slack-files.com/T0329MHH6-F2PU85GEN-2f4fee68e2) -- install via `easy_install <file>`
-* To run from Flow only: [H2O Standalone h2o.jar](https://slack-files.com/T0329MHH6-F2TMW53FW-a577a9946a) -- launch via `java -jar h2o.jar`
+#### Python + Flow (most common)
+* Required to run python [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks): [H2O Deep Water enabled Python module](https://slack-files.com/T0329MHH6-F3YGK308N-bdf9f90d83) -- install via `pip install <file>`
+* To build custom networks from Python: [Matching MXNet Python egg](https://slack-files.com/T0329MHH6-F3YGTF3AT-575207850f) -- install via `easy_install <file>`
+
+#### R + Flow (R users)
+* Required to run R examples: [H2O Deep Water enabled R package](https://slack-files.com/T0329MHH6-F3X5Z9NN5-9ff02f4773) -- install via `R CMD INSTALL <file>`
+* To build custom networks from R: [Matching MXNet R package](https://slack-files.com/T0329MHH6-F3XRXB5BL-db9665bd6d) -- install via `R CMD INSTALL <file>`
+
+#### Flow (Web UI)
+* To run from Flow only: [H2O Standalone h2o.jar](https://slack-files.com/T0329MHH6-F3XUA5YVA-1d3161be65) -- launch via `java -jar h2o.jar`
 
 If you are interested in running H2O Deep Water on a different infrastructure, see the DIY build instructions below.
+
+### Running GPU enabled Deep Water in H2O
+#### (Optional) Launch H2O by hand and build Deep Water models from Flow (`localhost:54321`)
+
+```
+java -jar h2o.jar
+```
+
+#### Java example use cases
+Example [Java GPU-enabled unit tests](https://github.com/h2oai/h2o-3/tree/master/h2o-algos/src/test/java/hex/deepwater).
+
+#### Python example use cases
+Example [Python GPU-enabled unit tests](https://github.com/h2oai/h2o-3/tree/master/h2o-py/tests/testdir_algos/deepwater).
+Check out a sample of cool Deep Learning Python [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks)!
+
+#### R example use cases
+Check out a sample of cool Deep Learning R [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks)!
+
+#### Scala / Sparkling Water example use cases
+Coming soon.
+
+
 
 ### Pre-Release Amazon AWS Image
 For your convenience, here's a pre-built image for Amazon's EC2 environment, based off our recent [H2O Open Tour Hands-On Deep Water workshop](https://twitter.com/ArnoCandel/status/791280896318042112). (Recording coming soon.)
@@ -92,31 +127,13 @@ export CUDA_PATH=/usr/local/cuda
 sudo pip install h2o-3/h2o-py/dist/h2o-3.11.0.99999-py2.py3-none-any.whl
 ```
 
-##### (Optional) Install the Python egg for MXNet
-If you want to build your own MXNet models (from Python so far), install the MXNet wheel (which was built together with MXNet above):
+##### (Optional) Install the MXNet Python/R packages
+If you want to build your own MXNet models from Python or R, install the MXNet wheel (which was built together with MXNet above):
 ```
 sudo easy_install deepwater/thirdparty/mxnet/python/dist/mxnet-0.7.0-py2.7.egg
+R CMD INSTALL deepwater/thirdparty/mxnet/mxnet_0.7.tar.gz
 ```
 
-### Running GPU enabled Deep Water in H2O
-#### (Optional) Launch H2O by hand and build Deep Water models from Flow (`localhost:54321`)
-
-```
-java -jar h2o.jar
-```
-
-#### Java example use cases
-Example [Java GPU-enabled unit tests](https://github.com/h2oai/h2o-3/tree/master/h2o-algos/src/test/java/hex/deepwater).
-
-#### Python example use cases
-Example [Python GPU-enabled unit tests](https://github.com/h2oai/h2o-3/tree/master/h2o-py/tests/testdir_algos/deepwater).
-Check out a sample of cool Deep Learning Python [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks)!
-
-#### R example use cases
-Check out a sample of cool Deep Learning R [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks)!
-
-#### Scala / Sparkling Water example use cases
-Coming soon.
 
 ### Releasing
 The release process bundles all defined submodules and push them into Maven central via Sonatype repository provider.
