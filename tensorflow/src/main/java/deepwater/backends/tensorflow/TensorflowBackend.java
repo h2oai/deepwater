@@ -18,6 +18,8 @@ import java.util.List;
 
 public class TensorflowBackend implements BackendTrain {
 
+    private static final String TMP_FOLDER = "/tmp";
+
     static { //only load libraries once
         try {
             LibraryLoader.loadNativeLib("tensorflow_jni");
@@ -110,7 +112,7 @@ public class TensorflowBackend implements BackendTrain {
 
         Session.Runner runner = model.getSession().runner();
 
-        File[] extractedFiles = ZipUtils.extractFiles(param_path, "/tmp");
+        File[] extractedFiles = ZipUtils.extractFiles(param_path, TMP_FOLDER);
 
         String pattern = new File(param_path).getName();
         for (File f: extractedFiles) {
@@ -125,7 +127,9 @@ public class TensorflowBackend implements BackendTrain {
             System.out.println("renaming "+f+" to "+newFile);
         }
 
-        runner.feed(normalize(model.meta.save_filename), Tensor.create(param_path.getBytes()));
+        String unpackedGraph = TMP_FOLDER + param_path.substring(param_path.lastIndexOf("/"));
+
+        runner.feed(normalize(model.meta.save_filename), Tensor.create(unpackedGraph.getBytes()));
         runner.addTarget(model.meta.restore_op);
         runner.run();
     }
