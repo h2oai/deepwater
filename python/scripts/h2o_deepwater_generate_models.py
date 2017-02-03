@@ -165,7 +165,7 @@ def export_train_graph(model_class, optimizer_class,
         tf.add_to_collection("logits", train_strategy.logits)
         tf.add_to_collection(ops.GraphKeys.SUMMARY_OP, train_strategy.summary_op)
         tf.add_to_collection("predictions", model.predictions)
-        tf.add_to_collection(ops.GraphKeys.LOSS, model.predictions)
+        tf.add_to_collection(ops.GraphKeys.LOSSES, model.predictions)
 
         meta = json.dumps({
             "inputs": {"batch_image_input": train_strategy.inputs.name,
@@ -190,7 +190,7 @@ def export_linear_model_graph(model_class):
     classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50, 100, 1000]
 
     for linear in [2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 20, 23, 25, 27, 30, 40, 50, 60, 70, 80, 90,
-                   100, 3796]:
+                   100, 717, 3796]:
         for class_n in classes:
             export_train_graph(model_class,
                                optimizers.MomentumOptimizer, linear, 1, 1, class_n)
@@ -198,8 +198,8 @@ def export_linear_model_graph(model_class):
 
 def export_image_classifier_model_graph(model_class):
     classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50, 100, 1000]
-    height = [28, 32, 224]
-    width = [28, 32, 224]
+    height = [28, 32, 224, 320]
+    width = [28, 32, 224, 320]
     channels = [1, 3]
     for (h, w) in zip(height, width):
         for ch in channels:
