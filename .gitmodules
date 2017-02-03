@@ -1,12 +1,6 @@
-[submodule "thirdparty/javacpp-presets"]
-	path = thirdparty/javacpp-presets
-	url = https://github.com/h2oai/javacpp-presets
 [submodule "thirdparty/mxnet"]
 	path = thirdparty/mxnet
 	url = http://github.com/h2oai/mxnet
-[submodule "thirdparty/javacpp"]
-	path = thirdparty/javacpp
-	url = http://github.com/h2oai/javacpp
 [submodule "thirdparty/protobuf-gradle-plugin"]
 	path = thirdparty/protobuf-gradle-plugin
 	url = https://github.com/google/protobuf-gradle-plugin.git
