@@ -23,9 +23,9 @@ export TF_ENABLE_XLA=0
 export CC_OPT_FLAGS=-march=native
 
 # fix issue with anaconda installation
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH-}:$CONDA_PREFIX/lib/python2.7/site-packages/numpy/.libs/
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH-}:${CONDA_PREFIX-}/lib/python2.7/site-packages/numpy/.libs/
 
-export PYTHON_PATH=$CONDA_PREFIX/lib/python2.7/site-packages
+export PYTHON_PATH=${CONDA_PREFIX-}/lib/python2.7/site-packages
 export USE_DEFAULT_PYTHON_LIB_PATH=1
 
 TENSORFLOW_VERSION=1.0.0-alpha
