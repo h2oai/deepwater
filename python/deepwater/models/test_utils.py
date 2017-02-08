@@ -226,11 +226,12 @@ def MNIST_must_converge(name,
                        train_strategy.categorical_error,
                        ]
 
-            _, loss, global_step, predictions, error = sess.run(
-                fetches, feed_dict=feed_dict)
+            if not sess.should_stop():
+                _, loss, global_step, predictions, error = sess.run(
+                    fetches, feed_dict=feed_dict)
 
-            average_loss.append(loss)
-            average_error.append(error)
+                average_loss.append(loss)
+                average_error.append(error)
 
             err = np.mean(average_error) * 100.0
             print("train: loss: %f err: %f lr: %f" % (np.mean(average_loss), err, learning_rate))
@@ -262,15 +263,17 @@ def MNIST_must_converge(name,
                 train_strategy.categorical_error,
             ]
 
-            predictions, error = sess.run(
-                fetches, feed_dict=feed_dict)
+            if not sess.should_stop():
+                predictions, error = sess.run(
+                    fetches, feed_dict=feed_dict)
 
-            average_error.append(error)
+                average_error.append(error)
 
-            err = np.mean(average_error) * 100.0
-            print("test err: %f" % err)
+                err = np.mean(average_error) * 100.0
+                print("test err: %f" % err)
 
         return np.mean(average_error) * 100.0
+
     with train_strategy.graph.as_default():
         with tf.train.MonitoredTrainingSession(
                     checkpoint_dir="/tmp",
@@ -281,7 +284,7 @@ def MNIST_must_converge(name,
             epoch = 0
 
             tf.set_random_seed(12345678)
-            sess.run(tf.global_variables_initializer())
+            # sess.run(tf.global_variables_initializer())
 
             if use_debug_session:
                 from tensorflow.python import debug as tf_debug
