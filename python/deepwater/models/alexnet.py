@@ -56,10 +56,8 @@ class AlexNet(BaseImageClassificationModel):
 
         out = fc(out, [prod, 4096])
         out = tf.nn.relu(out)
-
         out = fc(out, [4096, 4096])
         out = tf.nn.relu(out)
-
         out = fc(out, [4096, classes])
 
         self._logits = out
