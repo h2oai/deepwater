@@ -8,7 +8,7 @@ from tensorflow.python.client import timeline
 import numpy as np
 import math
 
-from scipy import misc
+import scipy.misc
 
 from deepwater.datasets import cifar
 from deepwater import train
@@ -341,7 +341,7 @@ def LARGE_must_converge(name,
         labels_batch = []
 
         for img in images:
-            imread = misc.imresize(misc.imread(img), [224, 224]).reshape(1,224*224*3)
+            imread = scipy.misc.imresize(scipy.misc.imread(img), [224, 224]).reshape(1,224*224*3)
             images_batch.append(imread)
 
         for label in labels:
