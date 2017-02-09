@@ -280,6 +280,7 @@ def MNIST_must_converge(name,
             tf.train.StopAtStepHook.__init__(self, last_step=last_step)
 
         def end(self, session):
+            print("computing final test error")
             test_error = test(0, dataset.test, batch_size, dataset.test.num_examples, session, summaries=summaries)
 
     with train_strategy.graph.as_default():
@@ -408,7 +409,7 @@ def LARGE_must_converge(name,
         tf.set_random_seed(12345678)
 
         # Load the data
-        image, labels = read_labeled_image_list("/home/mateusz/Dev/code/github/deepwater/bigdata/laptop/deepwater/imagenet/cat_dog_mouse.csv")
+        image, labels = read_labeled_image_list("bigdata/laptop/deepwater/imagenet/cat_dog_mouse.csv")
 
 
         batch_generator = create_batches(batch_size, image, labels)
