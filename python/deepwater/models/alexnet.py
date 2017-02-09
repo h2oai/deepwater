@@ -42,8 +42,6 @@ class AlexNet(BaseImageClassificationModel):
         for d in dims[1:]:
             flatten_size *= d
 
-        print(flatten_size)
-
         out = tf.reshape(out, [-1, int(flatten_size)])
 
         # fully connected
