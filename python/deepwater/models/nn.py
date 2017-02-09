@@ -79,6 +79,8 @@ def bias_variable(shape, name):
     var = tf.Variable(initial, name=name)
     return var
 
+def conv11x11(x, filters, **kwds):
+    return conv(x, 11, 11, filters, **kwds)
 
 def conv1x1(x, filters, **kwds):
     return conv(x, 1, 1, filters, **kwds)

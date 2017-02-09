@@ -1,17 +1,17 @@
 import unittest
 import datetime
 
-import numpy as np
 import tensorflow as tf
 from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
+from tensorflow.python.client import timeline
+
+import numpy as np
+import math
+
 from scipy import misc
 
 from deepwater.datasets import cifar
-
-import math
-
 from deepwater import train
-
 
 def generate_train_graph(model_class, optimizer_class,
                          width, height, channels, classes, add_summaries=False):
@@ -280,7 +280,6 @@ def MNIST_must_converge(name,
             epoch = 0
 
             tf.set_random_seed(12345678)
-            # sess.run(tf.global_variables_initializer())
 
             if use_debug_session:
                 from tensorflow.python import debug as tf_debug
@@ -347,9 +346,6 @@ def LARGE_must_converge(name,
 
         learning_rate = step_decay(epoch)
 
-        # print("DUPA" + str(images.shape))
-        # print("DUPA2" + str(labels.shape))
-
         feed_dict = {
             train_strategy.inputs: images,
             train_strategy.labels: labels,
@@ -359,7 +355,13 @@ def LARGE_must_converge(name,
         feed_dict.update(train_strategy.train_parameters)
 
         fetches = train_strategy.summary_op
-        summary = sess.run(fetches, feed_dict=feed_dict)
+
+        run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
+
+        summary = sess.run(fetches,
+                           feed_dict=feed_dict,
+                           options=run_options)
+
         train_writer.add_summary(summary)
         train_writer.flush()
         print("writing summaries")
@@ -392,9 +394,24 @@ def LARGE_must_converge(name,
         image, labels = read_labeled_image_list("/home/mateusz/Dev/code/github/deepwater/bigdata/laptop/deepwater/imagenet/cat_dog_mouse.csv")
 
 
+        config = tf.ConfigProto()
+        config.gpu_options.allow_growth=True
+
         batch_generator = create_batches(batch_size, image, labels)
-        with tf.Session(graph=train_strategy.graph) as sess:
-            sess.run(tf.global_variables_initializer())
+        with tf.Session(graph=train_strategy.graph, config=config) as sess:
+            run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
+            run_metadata = tf.RunMetadata()
+
+            sess.run(tf.global_variables_initializer(),
+                     options=run_options,
+                     run_metadata=run_metadata)
+
+            train_writer.add_run_metadata(run_metadata, datetime.datetime.now().strftime("%y%m%d%H%M%S"))
+            tl = timeline.Timeline(run_metadata.step_stats)
+            print(tl.generate_chrome_trace_format(show_memory=True))
+            trace_file = tf.gfile.Open(name='/tmp/alexnet/train/timeline', mode='w')
+            trace_file.write(tl.generate_chrome_trace_format(show_memory=True))
+            train_writer.flush()
 
             for i in range(epochs):
                 batched_images, batched_labels = batch_generator.next()
