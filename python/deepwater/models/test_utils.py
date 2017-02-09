@@ -11,6 +11,8 @@ import math
 
 from deepwater import train
 
+import os
+
 
 def generate_train_graph(model_class, optimizer_class,
                          width, height, channels, classes, add_summaries=False):
@@ -226,15 +228,17 @@ def MNIST_must_converge(name,
                        train_strategy.categorical_error,
                        ]
 
-            if not sess.should_stop():
-                _, loss, global_step, predictions, error = sess.run(
-                    fetches, feed_dict=feed_dict)
+            if sess.should_stop():
+                return global_step, np.mean(average_loss), np.mean(average_error) * 100.
 
-                average_loss.append(loss)
-                average_error.append(error)
+            #if not sess.should_stop():
+            _, loss, global_step, predictions, error = sess.run(fetches, feed_dict=feed_dict)
+
+            average_loss.append(loss)
+            average_error.append(error)
 
             err = np.mean(average_error) * 100.0
-            print("train: loss: %f err: %f lr: %f" % (np.mean(average_loss), err, learning_rate))
+            print("train: avg loss %f  error %f  learning rate %f" % (np.mean(average_loss), err, learning_rate))
 
             if summaries and (total_examples % 10):
                 fetches = train_strategy.summary_op
@@ -263,23 +267,37 @@ def MNIST_must_converge(name,
                 train_strategy.categorical_error,
             ]
 
-            if not sess.should_stop():
-                predictions, error = sess.run(
-                    fetches, feed_dict=feed_dict)
+           # if not sess.should_stop():
+            predictions, error = sess.run(fetches, feed_dict=feed_dict)
 
-                average_error.append(error)
+            average_error.append(error)
 
-                err = np.mean(average_error) * 100.0
-                print("test err: %f" % err)
+        err = np.mean(average_error) * 100.0
+        print("test err: %f" % err)
 
-        return np.mean(average_error) * 100.0
+        return err
+
+
+    # run test on test set at end just before closing the session
+    class TestAtEnd(tf.train.StopAtStepHook):
+        def __init__(self, last_step, dataset, batch_size, summaries=summaries):
+            tf.train.StopAtStepHook.__init__(self, last_step=last_step)
+
+        def end(self, session):
+            test_error = test(0, dataset.test, batch_size, dataset.test.num_examples, session, summaries=summaries)
 
     with train_strategy.graph.as_default():
+        dataset = read_data_sets('/tmp/deepwater/datasets/', validation_size=0)
+        checkpoint_directory="/tmp"
+        checkpoint_file=checkpoint_directory + "/checkpoint"
+        if os.path.isfile(checkpoint_file):
+            os.remove(checkpoint_file)
         with tf.train.MonitoredTrainingSession(
-                    checkpoint_dir="/tmp",
-                    hooks=[tf.train.StopAtStepHook(last_step=10)],
+                    checkpoint_dir=checkpoint_directory,
+                    #hooks=[ tf.train.StopAtStepHook(last_step=10)],
+                    hooks=[ TestAtEnd(20, dataset, batch_size, summaries=summaries) ],
                     config=tf.ConfigProto(
-                        log_device_placement=True)) as sess:
+                        log_device_placement=False)) as sess:
 
             epoch = 0
 
@@ -291,13 +309,13 @@ def MNIST_must_converge(name,
                 sess = tf_debug.LocalCLIDebugWrapperSession(sess)
                 sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)
 
-            dataset = read_data_sets('/tmp/deepwater/datasets/', validation_size=0)
+            # dataset = read_data_sets('/tmp/deepwater/datasets/', validation_size=0)
 
             if not use_debug_session:
                 print('computing initial test error')
                 test_error = test(0, dataset.test, batch_size,
                                   dataset.test.num_examples, sess, summaries=summaries)
-                print('initial test error:', test_error)
+                #print('initial test error:', test_error)
 
             while not sess.should_stop():
                 epoch += 1
@@ -305,11 +323,12 @@ def MNIST_must_converge(name,
                                                              dataset.train, batch_size,
                                                              dataset.train.num_examples,
                                                              sess)
-                test_error = test(epoch, dataset.test, batch_size,
-                                  dataset.test.num_examples, sess, summaries=summaries)
+                # test_error = test(epoch, dataset.test, batch_size,
+                #                   dataset.test.num_examples, sess, summaries=summaries)
+                #print('final test error:', test_error)
 
-                print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'train loss:', train_loss,
-                      '% train error:', train_error,
-                      '% test error:', test_error)
+                # print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'train loss:', train_loss,
+                #       '% train error:', train_error,
+                #       '% test error:', test_error)
 
             train_writer.close()
