@@ -4,6 +4,7 @@ import datetime
 import numpy as np
 import tensorflow as tf
 from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
+from scipy import misc
 
 from deepwater.datasets import cifar
 
@@ -40,12 +41,7 @@ def generate_train_graph(model_class, optimizer_class,
         #    tf.local_variables_initializer(),
         #               tf.global_variables_initializer())
 
-        init_op = tf.global_variables_initializer()
-
-        tf.add_to_collection("init", init_op.name)
-
     return train_strategy
-
 
 class BaseImageClassificationTest(unittest.TestCase):
     pass
@@ -330,5 +326,105 @@ def MNIST_must_converge(name,
                 # print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'train loss:', train_loss,
                 #       '% train error:', train_error,
                 #       '% test error:', test_error)
+
+            train_writer.close()
+
+def LARGE_must_converge(name,
+                        model_class,
+                        optimizer_class,
+                        epochs=20,
+                        batch_size=500,
+                        initial_learning_rate=0.01,
+                        summaries=False
+                        ):
+    def create_batches(batch_size, images, labels):
+        images_batch = []
+        labels_batch = []
+
+        for img in images:
+            imread = misc.imresize(misc.imread(img), [224, 224]).reshape(1,224*224*3)
+            images_batch.append(imread)
+
+        for label in labels:
+            labels_batch.append(label)
+        labels_batch = np.asarray(labels_batch)
+
+        while (True):
+            for i in range(0,len(images),batch_size):
+                yield(images_batch[i:i+batch_size],labels_batch[i:i+batch_size])
+
+    def train(epoch, images, labels, sess):
+        average_loss = []
+        average_error = []
+
+        def step_decay(epoch):
+            initial_lrate = initial_learning_rate
+            drop = 0.5
+            epochs_drop = 10.0
+            lrate = initial_lrate * math.pow(drop, math.floor((1 + epoch) / epochs_drop))
+            return lrate
+
+        learning_rate = step_decay(epoch)
+
+        # print("DUPA" + str(images.shape))
+        # print("DUPA2" + str(labels.shape))
+
+        feed_dict = {
+            train_strategy.inputs: images,
+            train_strategy.labels: labels,
+            train_strategy.learning_rate: learning_rate,
+        }
+
+        feed_dict.update(train_strategy.train_parameters)
+
+        fetches = train_strategy.summary_op
+        summary = sess.run(fetches, feed_dict=feed_dict)
+        train_writer.add_summary(summary)
+        train_writer.flush()
+        print("writing summaries")
+
+        return 0, np.mean(average_loss), np.mean(average_error) * 100.
+
+    def read_labeled_image_list(image_list_file):
+        f = open(image_list_file, 'r')
+        filenames = []
+        labels = []
+        label_domain = ['cat', 'dog', 'mouse']
+        for line in f:
+            filename, label = line[:-1].split(' ')
+            filenames.append(filename)
+            labels.append(label_domain.index(label))
+        return filenames, labels
+
+    train_strategy = generate_train_graph(
+        model_class, optimizer_class, 224, 224, 3, 3, add_summaries=summaries)
+
+    timestamp = datetime.datetime.now().strftime("%y%m%d%H%M%S")
+    train_writer = tf.summary.FileWriter("/tmp/%s/train/%s" % (name, timestamp), graph=train_strategy.graph)
+
+    with train_strategy.graph.as_default():
+        epoch = 0
+
+        tf.set_random_seed(12345678)
+
+        # Load the data
+        image, labels = read_labeled_image_list("/home/mateusz/Dev/code/github/deepwater/bigdata/laptop/deepwater/imagenet/cat_dog_mouse.csv")
+
+
+        batch_generator = create_batches(batch_size, image, labels)
+        with tf.Session(graph=train_strategy.graph) as sess:
+            sess.run(tf.global_variables_initializer())
+
+            for i in range(epochs):
+                batched_images, batched_labels = batch_generator.next()
+                epoch += 1
+                eye = np.eye(3)
+                global_step, train_loss, train_error = train(epoch,
+                                                             np.asarray(batched_images).reshape(batch_size, 224*224*3), eye[batched_labels],
+                                                             sess)
+
+                print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'train loss:', train_loss,
+                      '% train error:', train_error)
+                      # '% test error:', test_error)
 
             train_writer.close()
