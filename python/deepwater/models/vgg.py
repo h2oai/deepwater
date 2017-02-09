@@ -63,7 +63,10 @@ class VGG16(BaseImageClassificationModel):
         out = max_pool_3x3(out)
         input_width /= 2
 
-        flatten_size = reduce(lambda a, b: a * b, out.get_shape().as_list()[1:], 1)
+        dims = out.get_shape().as_list()
+        flatten_size = 1
+        for d in dims[1:]:
+            flatten_size *= d
 
         out = tf.reshape(out, [-1, int(flatten_size)])
 

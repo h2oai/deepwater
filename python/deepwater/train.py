@@ -1,8 +1,5 @@
 import tensorflow as tf
 
-from deepwater.models import nn
-
-
 class ImageClassificationTrainStrategy(object):
     """
     Wraps a image classification model and adds training operations.
@@ -152,41 +149,3 @@ class ImageClassificationTrainStrategy(object):
             # tf.summary.scalar('max/' + name, tf.reduce_max(var))
             # tf.summary.scalar('min/' + name, tf.reduce_min(var))
             tf.summary.histogram(name, var)
-
-
-def deepwater_image_classification_model(
-        x, y, logits, loss, accuracy, optimizer):
-    # This is required by the h2o tensorflow backend
-
-    # train
-    grads = tf.gradients(loss, tf.trainable_variables())
-    grads = list(zip(grads, tf.trainable_variables()))
-
-    train_op = optimizer.apply_gradients(grads_and_vars=grads)
-    global_step = tf.Variable(0, name="global_step", trainable=False)
-
-    tf.summary.scalar("loss", loss)
-    tf.summary.scalar("accuracy", accuracy)
-
-    for var in tf.trainable_variables():
-        tf.histogram_summary(var.name, var)
-
-    summary_op = tf.summary.merge()
-
-    tf.add_to_collection("train", train_op)
-    tf.add_to_collection("summary", summary_op)
-
-    tf.add_to_collection("logits", y)
-    saver = tf.train.Saver()
-    init = tf.global_variables_initializer()
-    tf.add_to_collection("init", init.name)
-
-    meta = json.dumps({
-        "inputs": {"batch_image_input": x.name, "categorical_labels": y.name},
-        "outputs": {"categorical_logits": logits.name},
-        "metrics": {"accuracy": accuracy.name, "total_loss": loss.name},
-        "parameters": {"global_step": global_step.name},
-    })
-    tf.add_to_collection("meta", meta)
-
-    return tf.train.export_meta_graph(saver_def=saver.as_saver_def())

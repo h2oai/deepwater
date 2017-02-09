@@ -6,11 +6,6 @@ import os
 import locale
 import json
 
-from six import PY2, PY3
-from six.moves import cPickle
-from six.moves import range
-
-import numpy as np
 import tensorflow as tf
 from tensorflow.python.framework import ops
 
@@ -82,50 +77,6 @@ def generate_models(name, model_class):
                 filename = "%s_%dx%dx%d_%d" % (name, h, w, ch, class_n)
                 model = model_class([h, w, ch], [class_n])
                 model.export(filename + ".meta")
-
-
-# def generate_train_graph(model_class, optimizer_class,
-#                          width, height, channels, classes):
-#     graph = tf.Graph()
-#     with graph.as_default():
-#         # 1. instantiate the model
-#         model = model_class(width, height, channels, classes)
-#
-#         # 2. instantiate the optimizer
-#         optimizer = optimizer_class()
-#
-#         # 3. instantiate the train wrapper
-#         train_strategy = train.ImageClassificationTrainStrategy(
-#             graph, model, optimizer)
-#
-#         init = tf.global_variables_initializer()
-#         tf.add_to_collection("init", init.name)
-#
-#     return train_strategy
-
-def generate_train_graph(model_class, optimizer_class,
-                         width, height, channels, classes, add_summaries=False):
-    graph = tf.Graph()
-    with graph.as_default():
-
-        is_train_var = tf.Variable(False, trainable=False, name="global_is_training")
-
-        # 1. instantiate the model
-        model = model_class(width, height, channels, classes)
-
-        # 2. instantiate the optimizer
-        optimizer = optimizer_class()
-
-        # 3. instantiate the train wrapper
-        train_strategy = train.ImageClassificationTrainStrategy(
-            graph, model, optimizer, is_train_var, add_summaries=add_summaries)
-
-        init_op = tf.global_variables_initializer()
-
-        tf.add_to_collection("init", init_op.name)
-
-    return train_strategy
-
 
 def export_train_graph(model_class, optimizer_class,
                        height, width, channels, classes):

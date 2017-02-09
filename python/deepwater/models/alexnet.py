@@ -37,7 +37,10 @@ class AlexNet(BaseImageClassificationModel):
         out = max_pool_3x3(out)
         out = tf.nn.lrn(out, 5, bias=1.0, alpha=0.001 / 9.0, beta=0.75)
 
-        flatten_size = reduce(lambda a, b: a * b, out.get_shape().as_list()[1:], 1)
+        dims = out.get_shape().as_list()
+        flatten_size = 1
+        for d in dims[1:]:
+            flatten_size *= d
 
         print(flatten_size)
 
