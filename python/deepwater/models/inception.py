@@ -319,7 +319,7 @@ class InceptionResNetV2(BaseImageClassificationModel):
         print([a, b, out.get_shape().as_list()])
 
         out = tf.nn.avg_pool(out, ksize=[1, a, b, 1],
-                             strides=[1, 2, 2, 1], padding="VALID")
+                             strides=[1, 1, 1, 1], padding="VALID")
 
         out = tf.nn.dropout(out, keep_prob=1.0-self._dropout_var)
 
