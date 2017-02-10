@@ -10,6 +10,8 @@ import math
 
 import scipy.misc
 
+import PIL # from pip install Pillow
+
 from deepwater.datasets import cifar
 from deepwater import train
 import os
