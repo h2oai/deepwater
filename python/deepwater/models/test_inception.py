@@ -6,6 +6,7 @@ from deepwater import optimizers
 from deepwater.models.test_utils import CIFAR10_must_converge
 from deepwater.models.test_utils import MNIST_must_converge
 
+import tensorflow
 
 class TestInceptionResnetV2(unittest.TestCase):
 

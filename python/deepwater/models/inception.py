@@ -2,9 +2,9 @@ import tensorflow as tf
 
 from deepwater.models import BaseImageClassificationModel
 
+from deepwater.models.utils import concat
 from deepwater.models.nn import max_pool_3x3, fc
 from deepwater.models.nn import conv3x3, conv1x1, conv1x7, conv7x1, conv1x3, conv3x1, conv
-
 
 def stem(x):
     """
@@ -17,7 +17,7 @@ def stem(x):
     out1 = max_pool_3x3(out, stride=2, padding="VALID")
     out2 = conv3x3(out, 96, stride=2, padding="VALID")
 
-    out = tf.concat(3, [out1, out2])
+    out = concat(3, [out1, out2])
 
     out1 = conv1x1(out, 64)
     out1 = conv3x3(out1, 96, padding="VALID")
@@ -27,12 +27,12 @@ def stem(x):
     out2 = conv7x1(out2, 64)
     out2 = conv3x3(out2, 96, padding="VALID")
 
-    out = tf.concat(3, [out1, out2])
+    out = concat(3, [out1, out2])
 
     out1 = conv3x3(out, 192, stride=2, padding="VALID")
     out2 = max_pool_3x3(out, stride=2, padding="VALID")
 
-    out = tf.concat(3, [out1, out2])
+    out = concat(3, [out1, out2])
 
     return out
 
@@ -50,7 +50,7 @@ def inceptionA(out):
     out4 = conv3x3(out4, 96)
     out4 = conv3x3(out4, 96)
 
-    return tf.concat(3, [out1, out2, out3, out4])
+    return concat(3, [out1, out2, out3, out4])
 
 
 def avg_pool_3x3(out):
@@ -73,7 +73,7 @@ def inceptionB(out):
     out4 = conv1x7(out4, 224)
     out4 = conv7x1(out4, 256)
 
-    return tf.concat(3, [out1, out2, out3, out4])
+    return concat(3, [out1, out2, out3, out4])
 
 
 def inceptionC(out):
@@ -92,7 +92,7 @@ def inceptionC(out):
     out41 = conv3x1(out4, 256)
     out42 = conv1x3(out4, 256)
 
-    return tf.concat(3, [out1, out2, out31, out32, out41, out42])
+    return concat(3, [out1, out2, out31, out32, out41, out42])
 
 
 def reductionA(out, k=0, l=0, m=0, n=0):
@@ -104,7 +104,7 @@ def reductionA(out, k=0, l=0, m=0, n=0):
     out3 = conv3x3(out3, l)
     out3 = conv3x3(out3, m, stride=2, padding="VALID")
 
-    return tf.concat(3, [out1, out2, out3])
+    return concat(3, [out1, out2, out3])
 
 
 def reductionB(out):
@@ -119,7 +119,7 @@ def reductionB(out):
     out3 = conv1x7(out3, 320)
     out3 = conv3x3(out3, 320, stride=2, padding="VALID")
 
-    return tf.concat(3, [out1, out2, out3])
+    return concat(3, [out1, out2, out3])
 
 
 class InceptionV4(BaseImageClassificationModel):
@@ -221,7 +221,7 @@ def inceptionResNetA(out, scale=1.0):
     out3 = conv3x3(out3, 48)
     out3 = conv3x3(out3, 64)
 
-    mixed = tf.concat(3, [out1, out2, out3])
+    mixed = concat(3, [out1, out2, out3])
 
     out = conv(mixed, 1, 1, out.get_shape().as_list()[3])
 
@@ -240,7 +240,7 @@ def inceptionResNetB(out, scale=1.0):
     out2 = conv1x7(out2, 160)
     out2 = conv7x1(out2, 192)
 
-    mixed = tf.concat(3, [out1, out2])
+    mixed = concat(3, [out1, out2])
 
     out = conv(mixed, 1, 1, out.get_shape().as_list()[3])
 
@@ -259,7 +259,7 @@ def inceptionResNetC(out, scale=1.0):
     out2 = conv1x7(out2, 224)
     out2 = conv7x1(out2, 256)
 
-    mixed = tf.concat(3, [out1, out2])
+    mixed = concat(3, [out1, out2])
 
     out = conv(mixed, 1, 1, out.get_shape().as_list()[3])
 
