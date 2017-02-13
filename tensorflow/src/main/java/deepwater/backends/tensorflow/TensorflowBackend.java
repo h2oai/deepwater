@@ -172,7 +172,7 @@ public class TensorflowBackend implements BackendTrain {
             writer = new BufferedOutputStream(new FileOutputStream(zipFileName));
             writer.write(param);
 
-            int paramHash = 1;
+            int paramHash = 0;
 
             ZipFile zipFile = new ZipFile(zipFileName);
             Enumeration<? extends ZipEntry> entries = zipFile.entries();
@@ -182,9 +182,10 @@ public class TensorflowBackend implements BackendTrain {
                 byte[] content = new byte[(int)entry.getSize()];
                 is.read(content);
                 is.close();
-                paramHash = 31 * paramHash + Arrays.hashCode(content);
+                paramHash += Arrays.hashCode(content);
             }
 
+            new File(zipFileName).delete();
             tmpOutput.toFile().delete();
 
             return paramHash;
