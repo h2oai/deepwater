@@ -16,6 +16,14 @@ public interface BackendTrain {
 
     void saveParam(BackendModel m, String param_path);
 
+    /**
+     * Computes the hash of model parameters file stored as byte[]. Backend specific as it might be the param file or a zipped archive
+     * Mainly used for testing purpose.
+     * @param param file containing all the parameters
+     * @return
+     */
+    int paramHash(byte[] param);
+
     float[] loadMeanImage(BackendModel m, String path);
 
     String toJson(BackendModel m);
@@ -26,7 +34,7 @@ public interface BackendTrain {
     // clip_gradient: bool
     void setParameter(BackendModel m, String name, float value);
 
-float[] train(BackendModel m, float[] data, float[] label);
+    float[] train(BackendModel m, float[] data, float[] label);
 
     float[] predict(BackendModel m, float[] data, float[] label);
 

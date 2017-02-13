@@ -7,6 +7,7 @@ import deepwater.backends.RuntimeOptions;
 import deepwater.datasets.ImageDataSet;
 
 import java.io.*;
+import java.util.Arrays;
 
 public class MXNetBackend implements BackendTrain {
 
@@ -129,6 +130,11 @@ public class MXNetBackend implements BackendTrain {
   @Override
   public void saveParam(BackendModel m, String param_path) {
     get(m).saveParam(param_path);
+  }
+
+  @Override
+  public int paramHash(byte[] params) {
+    return Arrays.hashCode(params);
   }
 
   @Override

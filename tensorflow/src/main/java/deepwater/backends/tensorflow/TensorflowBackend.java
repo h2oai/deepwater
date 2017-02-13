@@ -10,10 +10,15 @@ import deepwater.datasets.ImageDataSet;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 
 public class TensorflowBackend implements BackendTrain {
@@ -67,13 +72,7 @@ public class TensorflowBackend implements BackendTrain {
             model = ModelFactory.LoadModelFromFile(resourceModelName);
         }
 
-//        sessionOptions = new SessionOptions();
-//        sessionOptions.config().gpu_options().set_allow_growth(true);
-//        sessionOptions.config().set_allow_soft_placement(true);
-        //sessionOptions.config().set_log_device_placement(true);
         session = new Session(model.getGraph());
-//        this.session = new Session(sessionOptions);
-
 
         model.frameSize = width * height * channels;
         model.classes = num_classes;
@@ -112,6 +111,8 @@ public class TensorflowBackend implements BackendTrain {
 
         Session.Runner runner = model.getSession().runner();
 
+        String paramUUID = param_path.substring(param_path.lastIndexOf("/"));
+
         File[] extractedFiles = ZipUtils.extractFiles(param_path, TMP_FOLDER);
 
         String pattern = new File(param_path).getName();
@@ -127,10 +128,10 @@ public class TensorflowBackend implements BackendTrain {
             System.out.println("renaming "+f+" to "+newFile);
         }
 
-        String unpackedGraph = TMP_FOLDER + param_path.substring(param_path.lastIndexOf("/"));
+        String unpackedParamFiles = TMP_FOLDER + paramUUID;
 
-        runner.feed(normalize(model.meta.save_filename), Tensor.create(unpackedGraph.getBytes()));
-        runner.addTarget(model.meta.restore_op);
+        runner.feed(normalize(model.meta.save_filename), Tensor.create(unpackedParamFiles.getBytes()));
+        runner.addTarget(normalize(model.meta.restore_op));
         runner.run();
     }
 
@@ -158,6 +159,47 @@ public class TensorflowBackend implements BackendTrain {
            f.delete();
         }
         assert new File(param_path).exists(): "saveParam did not save. could not find file:" + param_path;
+    }
+
+    @Override
+    public int paramHash(byte[] param) {
+        BufferedOutputStream writer = null;
+        try {
+            Path tmpOutput = Files.createTempDirectory(new File(TMP_FOLDER).toPath(), UUID.randomUUID().toString());
+            String zipFileName = tmpOutput.toString() + "params.zip";
+
+            writer = new BufferedOutputStream(new FileOutputStream(zipFileName));
+            writer.write(param);
+
+            int paramHash = 1;
+
+            ZipFile zipFile = new ZipFile(zipFileName);
+            Enumeration<? extends ZipEntry> entries = zipFile.entries();
+            while(entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                InputStream is = zipFile.getInputStream(entry);
+                byte[] content = new byte[(int)entry.getSize()];
+                is.read(content);
+                is.close();
+                paramHash = 31 * paramHash + Arrays.hashCode(content);
+            }
+
+            tmpOutput.toFile().delete();
+
+            return paramHash;
+        } catch (IOException e) {
+            // ignore
+        } finally {
+            if(null != writer) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    // ignore
+                }
+            }
+        }
+
+        return -1;
     }
 
     private static File[] listFilesWithPrefix(File dir, String prefix){
