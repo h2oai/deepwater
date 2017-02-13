@@ -41,6 +41,7 @@ public class TensorflowBackend implements BackendTrain {
     @Override
     public void delete(BackendModel m) {
         TensorflowModel model = (TensorflowModel) m;
+        model.getSession().close();
         model.setSession(null);
     }
 
