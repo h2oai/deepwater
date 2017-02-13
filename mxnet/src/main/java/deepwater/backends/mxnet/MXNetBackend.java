@@ -96,11 +96,6 @@ public class MXNetBackend implements BackendTrain {
   }
 
   @Override
-  public float[] predict(BackendModel m, float[] data, float[] label) {
-    return get(m).predict(data, label);
-  }
-
-  @Override
   public float[] predict(BackendModel m, float[] data) {
     return get(m).predict(data);
   }

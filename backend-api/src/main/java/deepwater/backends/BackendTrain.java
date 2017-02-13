@@ -36,7 +36,5 @@ public interface BackendTrain {
 
     float[] train(BackendModel m, float[] data, float[] label);
 
-    float[] predict(BackendModel m, float[] data, float[] label);
-
     float[] predict(BackendModel m, float[] data);
 }

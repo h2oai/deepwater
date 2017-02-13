@@ -58,7 +58,7 @@ public class BackendInterfaceTest {
         double total = 0.0;
 
         while(it.next(b)){
-            float[] predictions = backend.predict(model, b.getImages(), b.getLabels());
+            float[] predictions = backend.predict(model, b.getImages());
             float[] labels = b.getLabels();
             for (int i = 0, j = 0; i < predictions.length; i += classNum, j++) {
                 int classPrediction = argmax(predictions, i, i + classNum);
@@ -87,7 +87,7 @@ public class BackendInterfaceTest {
         double total = 0.0;
 
         while(it.next(b)){
-            float[] predictions = backend.predict(model, b.getImages(), b.getLabels());
+            float[] predictions = backend.predict(model, b.getImages());
             float[] labels = b.getLabels();
             for (int i = 0, j = 0; i < predictions.length; i += classNum, j++) {
                 int classPrediction = argmax(predictions, i, i + 10);
@@ -261,7 +261,7 @@ public class BackendInterfaceTest {
     private double computePredictionError(BackendTrain backend, BackendModel model, ImageBatch b, int classes) {
         double error = 0.0;
         double total = 0.0;
-        float[] predictions = backend.predict(model, b.getImages(), b.getLabels());
+        float[] predictions = backend.predict(model, b.getImages());
         float[] labels = b.getLabels();
         for (int i = 0, j = 0; i < predictions.length; i += classes, j++) {
             assert predictions[i] != NaN: "Found Nan inside prediction";
