@@ -256,39 +256,18 @@ public class TensorflowBackend implements BackendTrain {
         } else throw new IllegalArgumentException();
 
         float[][] dataMatrix = model.createDataMatrix(data);
+
         Session.Runner runner = model.getSession().runner();
 
         runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataMatrix));
         runner.feed(normalize(model.meta.inputs.get("categorical_labels")), Tensor.create(labelData));
 
-        runner.feed(normalize(model.meta.parameters.get("learning_rate")), Tensor.create(model.getParameter("learning_rate", 0.1f)));
-        runner.feed(normalize(model.meta.parameters.get("momentum")), Tensor.create(model.getParameter("momentum", 0.8f)));
+        runner.feed(normalize(model.meta.parameters.get("learning_rate")), Tensor.create(model.getParameter("learning_rate", 0.001f)));
+        runner.feed(normalize(model.meta.parameters.get("momentum")), Tensor.create(model.getParameter("momentum", 0.5f)));
 
-//        StringTensorPairVector feedDict = convertData(
-//                new float[][]{
-//                        data, /* batch_image_input */
-//                        labelData, /* categorical_labels */
-//                        new float[]{model.getParameter("learning_rate", 0.1f)},
-//                        new float[]{model.getParameter("momentum", 0.8f)},
-//                },
-//                new long[][]{
-//                        new long[]{batchSize, model.frameSize}, /* batch_image_input */
-//                        labelShape,    /* categorical_labels */
-//                        new long[]{1}, /* learning_rate */
-//                        new long[]{1}, /* momentum */
-//                },
-//                new String[]{
-//                        model.meta.inputs.get("batch_image_input"),
-//                        model.meta.inputs.get("categorical_labels"),
-//                        model.meta.parameters.get("learning_rate"),
-//                        model.meta.parameters.get("momentum")
-//                }
-//        );
-
-        //runner.fetch(normalize(model.meta.metrics.get("accuracy")));
-        //runner.fetch(normalize(model.meta.metrics.get("total_loss")));
         runner.addTarget(normalize(model.meta.train_op));
-        runner.run(); //nothing to fetch
+
+        runner.run();//nothing to fetch
         return null;
     }
 

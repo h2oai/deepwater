@@ -9,7 +9,7 @@ import json
 import tensorflow as tf
 from tensorflow.python.framework import ops
 
-from deepwater.models import (lenet, mlp, alexnet, vgg, inception, resnet)
+from deepwater.models import (lenet, mlp, alexnet, vgg, inception)
 from deepwater import train, optimizers
 
 from functools import partial
@@ -168,5 +168,5 @@ if __name__ == "__main__":
     export_linear_model_graph(default_mlp)
     export_image_classifier_model_graph(default_mlp)
 
-    for model in (resnet.ResNet, lenet.LeNet, alexnet.AlexNet, vgg.VGG16, inception.InceptionV4):
+    for model in (lenet.LeNet, alexnet.AlexNet, vgg.VGG16, inception.InceptionV4):
         export_image_classifier_model_graph(model)
