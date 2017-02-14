@@ -6,6 +6,7 @@ import deepwater.backends.BackendModel;
 import deepwater.backends.tensorflow.TensorflowMetaModel;
 import org.tensorflow.Graph;
 import org.tensorflow.Session;
+import org.tensorflow.Tensor;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,6 +60,30 @@ public class TensorflowModel implements BackendModel {
     public void saveModel(String path) throws IOException {
         ByteSink bs = com.google.common.io.Files.asByteSink(new File(path));
         bs.write(modelGraphData);
+    }
+
+    public float[][] createDataMatrix(float[] data) {
+        assert data.length == frameSize * miniBatchSize: "input data length is not equal to expected value";
+        float[][] dataMatrix = new float[miniBatchSize][frameSize];
+        int start = 0;
+        for (int i = 0; i < miniBatchSize; i++) {
+            System.arraycopy(data, start, dataMatrix[i], 0, frameSize);
+            start += frameSize;
+        }
+        return dataMatrix;
+    }
+
+    public float[] getPredictions(Tensor tensor) {
+        float[][] predictions = new float[miniBatchSize][classes];
+        tensor.copyTo(predictions);
+        float[] flatten = new float[miniBatchSize * classes];
+        int start = 0;
+        int length = classes;
+        for (int i = 0; i < predictions.length; i++) {
+            System.arraycopy(predictions[i], 0, flatten, start, length);
+            start += classes;
+        }
+        return flatten;
     }
 
 }

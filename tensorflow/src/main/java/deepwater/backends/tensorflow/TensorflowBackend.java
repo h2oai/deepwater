@@ -239,34 +239,23 @@ public class TensorflowBackend implements BackendTrain {
     @Override
     public float[] train(BackendModel m, float[] data, float[] labels) {
         TensorflowModel model = (TensorflowModel) m;
-        final long batchSize = model.miniBatchSize;
-
+        final int batchSize = model.miniBatchSize;
         assert data.length == model.frameSize * batchSize : "input data length is not equal to expected value";
-
-        long[] labelShape = new long[]{batchSize, model.classes};
         float[][] labelData;
-
+        labelData = new float[batchSize][model.classes];
         if (model.classes > 1) { //one-hot encoder
-            labelData = new float[Math.toIntExact(batchSize)][model.classes];
             for (int i = 0; i < batchSize; i++) {
                 int idx = (int) labels[i];
                 labelData[i][idx] = 1.0f;
             }
-        } else {
-            labelData = new float[Math.toIntExact(batchSize)][1];
+        } else if (model.classes == 1){ //regression
             for (int i = 0; i < batchSize; i++) {
                 assert labels.length == batchSize;
                 labelData[i][0] = labels[i];
             }
-        }
+        } else throw new IllegalArgumentException();
 
-        float[][] dataMatrix = new float[Math.toIntExact(batchSize)][model.frameSize];
-        int start = 0;
-        for (int i = 0; i < batchSize; i++) {
-            System.arraycopy(data, start, dataMatrix[i], 0, model.frameSize);
-            start += model.frameSize;
-        }
-
+        float[][] dataMatrix = model.createDataMatrix(data);
         Session.Runner runner = model.getSession().runner();
 
         runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataMatrix));
@@ -299,47 +288,20 @@ public class TensorflowBackend implements BackendTrain {
         //runner.fetch(normalize(model.meta.metrics.get("accuracy")));
         //runner.fetch(normalize(model.meta.metrics.get("total_loss")));
         runner.addTarget(normalize(model.meta.train_op));
-        List<Tensor> tensors = runner.run();
-
-        return new float[]{
-        //        tensors.get(0).floatValue(),
-        //        tensors.get(1).floatValue()
-        };
+        runner.run(); //nothing to fetch
+        return null;
     }
 
     @Override
     public float[] predict(BackendModel m, float[] data) {
         TensorflowModel model = (TensorflowModel) m;
-        final long batchSize = model.miniBatchSize;
-
-        assert data.length == model.frameSize * batchSize: "input data length is not equal to expected value";
-
-        float [][]dataMatrix = new float[Math.toIntExact(batchSize)][model.frameSize];
-        int start = 0;
-        for (int i = 0; i < batchSize; i++) {
-            System.arraycopy(data, start, dataMatrix[i], 0, model.frameSize);
-            start += model.frameSize;
-        }
-
         Session session = model.getSession();
         Session.Runner runner = session.runner();
+        float[][] dataMatrix = model.createDataMatrix(data);
         runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataMatrix));
-        runner.fetch(normalize(model.meta.predict_op));
-
+        runner.fetch(normalize(model.meta.predict_op)); //the tensor we want to extract
         List<Tensor> results = runner.run();
-
-        // extract predictions
-        float[][] predictions = new float[Math.toIntExact(batchSize)][model.classes];
-        results.get(0).copyTo(predictions);
-        float[] flatten = new float[Math.toIntExact(batchSize) * model.classes];
-
-        start = 0;
-        int length = model.classes;
-        for (int i = 0; i < predictions.length; i++) {
-            System.arraycopy(predictions[i], 0, flatten, start, length);
-            start += model.classes;
-        }
-        return flatten;
+        return model.getPredictions(results.get(0));
     }
 
 }
