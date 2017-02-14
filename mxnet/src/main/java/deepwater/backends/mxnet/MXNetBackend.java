@@ -92,7 +92,8 @@ public class MXNetBackend implements BackendTrain {
 
   @Override
   public float[] train(BackendModel m, float[] data, float[] label) {
-    return get(m).train(data, label);
+    get(m).train(data, label);
+    return null;
   }
 
   @Override

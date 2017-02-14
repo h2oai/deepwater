@@ -63,7 +63,7 @@ public class TensorflowModel implements BackendModel {
     }
 
     public float[][] createDataMatrix(float[] data) {
-        assert data.length == frameSize * miniBatchSize: "input data length is not equal to expected value";
+        assert data.length == frameSize * miniBatchSize;
         float[][] dataMatrix = new float[miniBatchSize][frameSize];
         int start = 0;
         for (int i = 0; i < miniBatchSize; i++) {

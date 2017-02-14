@@ -280,7 +280,9 @@ public class TensorflowBackend implements BackendTrain {
         runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataMatrix));
         runner.fetch(normalize(model.meta.predict_op)); //the tensor we want to extract
         List<Tensor> results = runner.run();
-        return model.getPredictions(results.get(0));
+        Tensor output = results.get(0);
+        float[] preds = model.getPredictions(output);
+        return preds;
     }
 
 }
