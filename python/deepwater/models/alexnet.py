@@ -46,11 +46,9 @@ class AlexNet(BaseImageClassificationModel):
 
         fc1 = fc(flatten, [int(flatten_size), 4096])
         relu1 = tf.nn.relu(fc1)
-        # dropout1 = tf.nn.dropout(relu1, 0.5)
 
         fc2 = fc(relu1, [4096, 4096])
         relu2 = tf.nn.relu(fc2)
-        # dropout2 = tf.nn.dropout(relu2, 0.5)
 
         y = fc(relu2, [4096, classes])
 
