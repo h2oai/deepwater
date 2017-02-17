@@ -16,16 +16,14 @@ from deepwater.datasets import cifar
 from deepwater import train
 import os
 
+import random
+
 def generate_train_graph(model_class, optimizer_class,
                          width, height, channels, classes, add_summaries=False):
     graph = tf.Graph()
     with graph.as_default():
 
         is_train_var = tf.Variable(False, trainable=False, name="global_is_training")
-
-        #is_train = tf.placeholder_with_default(False, [])
-
-        #assign_train = is_train_var.assign(is_train)
 
         # 1. instantiate the model
         model = model_class(width, height, channels, classes)
@@ -37,16 +35,10 @@ def generate_train_graph(model_class, optimizer_class,
         train_strategy = train.ImageClassificationTrainStrategy(
             graph, model, optimizer, is_train_var, add_summaries=add_summaries)
 
-        # The op for initializing the variables.
-        #init_op = tf.group(
-        #    tf.local_variables_initializer(),
-        #               tf.global_variables_initializer())
-
     return train_strategy
 
 class BaseImageClassificationTest(unittest.TestCase):
     pass
-
 
 def CIFAR10_must_converge(name, model_class,
                           optimizer_class,
@@ -178,18 +170,12 @@ def CIFAR10_must_converge(name, model_class,
 def MNIST_must_converge(name,
                         model_class,
                         optimizer_class,
-                        epochs=20,
-                        batch_size=500,
-                        initial_learning_rate=0.01,
+                        epochs=50,
+                        batch_size=32,
+                        initial_learning_rate=0.001,
                         summaries=False,
                         use_debug_session=False
                         ):
-    train_strategy = generate_train_graph(
-        model_class, optimizer_class, 28, 28, 1, 10, add_summaries=summaries)
-
-    timestamp = datetime.datetime.now().strftime("%y%m%d%H%M%S")
-    train_writer = tf.summary.FileWriter("/tmp/%s/train/%s" % (name, timestamp))
-
     def train(epoch, dataset, batch_size, total, sess):
         average_loss = []
         average_error = []
@@ -203,7 +189,7 @@ def MNIST_must_converge(name,
             lrate = initial_lrate * math.pow(drop, math.floor((1 + epoch) / epochs_drop))
             return lrate
 
-        learning_rate = step_decay(epoch)
+        learning_rate = initial_learning_rate#step_decay(epoch)
 
         while total_examples <= total:
             x_batch, label_batch = dataset.next_batch(batch_size)
@@ -235,7 +221,6 @@ def MNIST_must_converge(name,
             average_error.append(error)
 
             err = np.mean(average_error) * 100.0
-            print("train: avg loss %f  error %f  learning rate %f" % (np.mean(average_loss), err, learning_rate))
 
             if summaries and (total_examples % 10):
                 fetches = train_strategy.summary_op
@@ -244,9 +229,9 @@ def MNIST_must_converge(name,
                 train_writer.flush()
                 print("writing summaries")
 
-        return global_step, np.mean(average_loss), np.mean(average_error) * 100.
+        return global_step, np.mean(average_loss), err
 
-    def test(epoch, dataset, batch_size, total, sess, summaries=True):
+    def test(dataset, batch_size, total, sess):
         total_examples = 0
         average_error = []
         eye = np.eye(10)
@@ -277,12 +262,18 @@ def MNIST_must_converge(name,
 
     # run test on test set at end just before closing the session
     class TestAtEnd(tf.train.StopAtStepHook):
-        def __init__(self, last_step, dataset, batch_size, summaries=summaries):
+        def __init__(self, last_step):
             tf.train.StopAtStepHook.__init__(self, last_step=last_step)
 
         def end(self, session):
             print("computing final test error")
-            test_error = test(0, dataset.test, batch_size, dataset.test.num_examples, session, summaries=summaries)
+            test(dataset.test, batch_size, dataset.test.num_examples, session)
+
+    train_strategy = generate_train_graph(
+        model_class, optimizer_class, 28, 28, 1, 10, add_summaries=summaries)
+
+    timestamp = datetime.datetime.now().strftime("%y%m%d%H%M%S")
+    train_writer = tf.summary.FileWriter("/tmp/%s/train/%s" % (name, timestamp))
 
     with train_strategy.graph.as_default():
         dataset = read_data_sets('/tmp/deepwater/datasets/', validation_size=0)
@@ -292,10 +283,8 @@ def MNIST_must_converge(name,
             os.remove(checkpoint_file)
         with tf.train.MonitoredTrainingSession(
                     checkpoint_dir=checkpoint_directory,
-                    #hooks=[ tf.train.StopAtStepHook(last_step=10)],
-                    hooks=[ TestAtEnd(20, dataset, batch_size, summaries=summaries) ],
-                    config=tf.ConfigProto(
-                        log_device_placement=False)) as sess:
+                    hooks=[ TestAtEnd(epochs*dataset.train.num_examples) ],
+                    config=tf.ConfigProto(log_device_placement=False)) as sess:
 
             epoch = 0
 
@@ -306,31 +295,25 @@ def MNIST_must_converge(name,
                 sess = tf_debug.LocalCLIDebugWrapperSession(sess)
                 sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)
 
-            # dataset = read_data_sets('/tmp/deepwater/datasets/', validation_size=0)
 
             if not use_debug_session:
                 print('computing initial test error')
-                test_error = test(0, dataset.test, batch_size,
-                                  dataset.test.num_examples, sess, summaries=summaries)
-                #print('initial test error:', test_error)
+                test_error = test(dataset.test, batch_size, dataset.test.num_examples, sess)
+                print('initial test error:', test_error)
 
             while not sess.should_stop():
+                print('epoch: ', epoch)
                 epoch += 1
                 global_step, train_loss, train_error = train(epoch,
                                                              dataset.train, batch_size,
                                                              dataset.train.num_examples,
                                                              sess)
-                # test_error = test(epoch, dataset.test, batch_size,
-                #                   dataset.test.num_examples, sess, summaries=summaries)
-                #print('final test error:', test_error)
-
-                # print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'train loss:', train_loss,
-                #       '% train error:', train_error,
-                #       '% test error:', test_error)
-
+                print("train: avg loss %f  error %f" % (train_loss, train_error))
             train_writer.close()
 
-def LARGE_must_converge(name,
+trained_global = 0
+
+def cat_dog_mouse_must_converge(name,
                         model_class,
                         optimizer_class,
                         epochs=20,
@@ -346,46 +329,73 @@ def LARGE_must_converge(name,
             imread = scipy.misc.imresize(scipy.misc.imread(img), [224, 224]).reshape(1,224*224*3)
             images_batch.append(imread)
 
+        modulus = len(images_batch) % batch_size
+
+        print(len(images_batch))
+
+        if modulus != 0:
+            i = 0
+            while len(images_batch) % batch_size != 0:
+                imread = scipy.misc.imresize(scipy.misc.imread(images[i]), [224, 224]).reshape(1,224*224*3)
+                images_batch.append(imread)
+                i += 1
+
+        print(len(images_batch))
+
         for label in labels:
             labels_batch.append(label)
+
+        if modulus != 0:
+            i = 0
+            while len(labels_batch) % batch_size != 0:
+                labels_batch.append(labels[i])
+                i += 1
+
         labels_batch = np.asarray(labels_batch)
 
         while (True):
-            for i in range(0,len(images),batch_size):
-                yield(images_batch[i:i+batch_size],labels_batch[i:i+batch_size])
+            for i in range(0,len(images_batch),batch_size):
+                b = random.sample(range(0, len(images_batch)), batch_size)
+                yield( [ images_batch[i] for i in b ], [ labels_batch[i] for i in b ])
 
-    def train(epoch, images, labels, sess):
+    def train(batch_generator, sess):
+        global trained_global
+        trained = 0
+
         average_loss = []
         average_error = []
 
-        def step_decay(epoch):
-            initial_lrate = initial_learning_rate
-            drop = 0.5
-            epochs_drop = 10.0
-            lrate = initial_lrate * math.pow(drop, math.floor((1 + epoch) / epochs_drop))
-            return lrate
+        learning_rate = initial_learning_rate
 
-        learning_rate = step_decay(epoch)
+        while trained + batch_size <= 288:
+            batched_images, batched_labels = batch_generator.next()
+            images = np.asarray(batched_images).reshape(batch_size, 224*224*3)
+            labels = eye[batched_labels]
 
-        feed_dict = {
-            train_strategy.inputs: images,
-            train_strategy.labels: labels,
-            train_strategy.learning_rate: learning_rate,
-        }
+            trained += batch_size
 
-        feed_dict.update(train_strategy.train_parameters)
+            feed_dict = {
+                train_strategy.inputs: images,
+                train_strategy.labels: labels,
+                train_strategy.learning_rate: learning_rate,
+            }
 
-        fetches = train_strategy.summary_op
+            feed_dict.update(train_strategy.train_parameters)
 
-        run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
+            fetches = [train_strategy.optimize,
+                       train_strategy.loss,
+                       train_strategy.global_step,
+                       train_strategy.predictions,
+                       train_strategy.categorical_error,
+                       ]
 
-        summary = sess.run(fetches,
-                           feed_dict=feed_dict,
-                           options=run_options)
+            _, loss, global_step, predictions, error = sess.run(fetches, feed_dict=feed_dict)
 
-        train_writer.add_summary(summary)
-        train_writer.flush()
-        print("writing summaries")
+            average_loss.append(loss)
+            average_error.append(error)
+
+        trained_global += trained
+        print('trained %d', trained_global)
 
         return 0, np.mean(average_loss), np.mean(average_error) * 100.
 
@@ -403,9 +413,6 @@ def LARGE_must_converge(name,
     train_strategy = generate_train_graph(
         model_class, optimizer_class, 224, 224, 3, 3, add_summaries=summaries)
 
-    timestamp = datetime.datetime.now().strftime("%y%m%d%H%M%S")
-    train_writer = tf.summary.FileWriter("/tmp/%s/train/%s" % (name, timestamp), graph=train_strategy.graph)
-
     with train_strategy.graph.as_default():
         epoch = 0
 
@@ -414,36 +421,19 @@ def LARGE_must_converge(name,
         # Load the data
         image, labels = read_labeled_image_list("bigdata/laptop/deepwater/imagenet/cat_dog_mouse.csv")
 
-
-        config = tf.ConfigProto()
-        config.gpu_options.allow_growth=True
-
         batch_generator = create_batches(batch_size, image, labels)
-        with tf.Session(graph=train_strategy.graph, config=config) as sess:
-            run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
-            run_metadata = tf.RunMetadata()
+        with tf.Session(graph=train_strategy.graph) as sess:
 
-            sess.run(tf.global_variables_initializer(),
-                     options=run_options,
-                     run_metadata=run_metadata)
-
-            train_writer.add_run_metadata(run_metadata, datetime.datetime.now().strftime("%y%m%d%H%M%S"))
-            tl = timeline.Timeline(run_metadata.step_stats)
-            print(tl.generate_chrome_trace_format(show_memory=True))
-            trace_file = tf.gfile.Open(name='/tmp/alexnet/train/timeline', mode='w')
-            trace_file.write(tl.generate_chrome_trace_format(show_memory=True))
-            train_writer.flush()
+            sess.run(tf.global_variables_initializer())
 
             for i in range(epochs):
-                batched_images, batched_labels = batch_generator.next()
                 epoch += 1
                 eye = np.eye(3)
-                global_step, train_loss, train_error = train(epoch,
-                                                             np.asarray(batched_images).reshape(batch_size, 224*224*3), eye[batched_labels],
-                                                             sess)
+                global_step, train_loss, train_error = train(batch_generator, sess)
 
                 print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'train loss:', train_loss,
                       '% train error:', train_error)
-                      # '% test error:', test_error)
 
-            train_writer.close()
+            _, train_loss, train_error = train(batch_generator, sess)
+            print('final train error: ', train_error)
+            return train_error

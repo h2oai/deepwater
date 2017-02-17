@@ -1,7 +1,6 @@
 import math
 
 from deepwater.models import BaseImageClassificationModel
-from deepwater.models.nn import batch_norm
 
 import tensorflow as tf
 
@@ -40,7 +39,7 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
 
                 w = tf.Variable(initialization, name="W")
 
-                y1 = batch_norm(tf.matmul(x, w), h2)
+                y1 = tf.nn.lrn(tf.matmul(x, w), 5, bias=1.0, alpha=0.0001, beta=0.75)
                 y2 = tf.nn.relu(y1)
 
             if self._dropout_var.get_shape()[0] > idx:

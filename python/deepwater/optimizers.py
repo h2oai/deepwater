@@ -49,14 +49,9 @@ class RMSPropOptimizer(BaseOptimizer):
 
     def apply(self, loss):
         trainable = tf.trainable_variables()
-        grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
-        self._grads_and_vars = grads_and_vars
-        # clipped_var_grads = [(tf.clip_by_value(grad, -1.0, 1.0), var) for grad, var
-        #         in  grads_and_vars]
-        #clipped_var_grads = [(tf.clip_by_norm(grad, 1.0), var) for grad, var
-        #                     in grads_and_vars]
-        self._optimize_op = self._optimizer.apply_gradients(grads_and_vars,
-                                                            global_step=self._global_step)
+        self._grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
+        self._optimize_op = self._optimizer.minimize(loss, global_step=self._global_step)
+
 
     @property
     def grads_and_vars(self):
@@ -104,14 +99,8 @@ class MomentumOptimizer(BaseOptimizer):
 
     def apply(self, loss):
         trainable = tf.trainable_variables()
-        grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
-        self._grads_and_vars = grads_and_vars
-        # clipped_var_grads = [(tf.clip_by_value(grad, -1.0, 1.0), var) for grad, var
-        #         in  grads_and_vars]
-        #clipped_var_grads = [(tf.clip_by_norm(grad, 1.0), var) for grad, var
-        #                     in grads_and_vars]
-        self._optimize_op = self._optimizer.apply_gradients(grads_and_vars,
-                                                            global_step=self._global_step)
+        self._grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
+        self._optimize_op = self._optimizer.minimize(loss)
 
     @property
     def grads_and_vars(self):
@@ -154,10 +143,8 @@ class GradientDescentOptimizer(BaseOptimizer):
 
     def apply(self, loss):
         trainable = tf.trainable_variables()
-        grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
-        self._grads_and_vars = grads_and_vars
-        self._optimize_op = self._optimizer.apply_gradients(grads_and_vars,
-                                                            global_step=self._global_step)
+        self._grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
+        self._optimize_op = self._optimizer.minimize(loss, global_step=self._global_step)
 
     @property
     def grads_and_vars(self):
@@ -198,12 +185,10 @@ class DefaultOptimizer(BaseOptimizer):
 
     def apply(self, loss):
         trainable = tf.trainable_variables()
-        grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
-        self._grads_and_vars = grads_and_vars
-        self._optimize_op = self._optimizer.apply_gradients(grads_and_vars,
-                                                            global_step=self._global_step)
+        self._grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
+        self._optimize_op = self._optimizer.minimize(loss, global_step=self._global_step)
 
-        for _, var in grads_and_vars:
+        for _, var in self._grads_and_vars:
             print(var.name)
             var.assign(tf.clip_by_norm(var, 2.0))
 

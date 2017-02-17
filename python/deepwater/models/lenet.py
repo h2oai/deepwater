@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 from deepwater.models import BaseImageClassificationModel
-from deepwater.models.nn import weight_variable, bias_variable, max_pool_3x3, conv, fc
+from deepwater.models.nn import weight_variable, bias_variable, max_pool_2x2, conv, fc
 
 
 class LeNet(BaseImageClassificationModel):
@@ -20,31 +20,29 @@ class LeNet(BaseImageClassificationModel):
         x_image = tf.reshape(x, [-1, width, height, channels],
                              name="input_reshape")
 
-        out = conv(x_image, 5, 5, 32)
-        out = max_pool_3x3(out)
+        out = conv(x_image, 5, 5, 20, activation="tanh")
+        out = max_pool_2x2(out)
 
-        out = conv(out, 5, 5, 64)
-        out = max_pool_3x3(out)
+        out = conv(out, 5, 5, 50, activation="tanh")
+        out = max_pool_2x2(out)
 
-        dim = int(width / 4.0)
+        dims = out.get_shape().as_list()
+        flatten_size = 1
+        for d in dims[1:]:
+            flatten_size *= d
 
-        out = tf.reshape(out, [-1, dim * dim * 64])
+        flatten = tf.reshape(out, [-1, int(flatten_size)])
 
-        out = fc(out, [dim * dim * 64, 1024])
-        out = tf.nn.relu(out)
+        out = fc(flatten, [int(flatten_size), 500])
+        out = tf.nn.tanh(out)
 
-        self._dropout = keep_prob = tf.placeholder_with_default(1.0, [], name="dropout")
-        out = tf.nn.dropout(out, keep_prob)
-
-        self._logits = fc(out, [1024, classes])
+        self._logits = fc(out, [500, classes])
 
         self._predictions = tf.nn.softmax(self._logits)
 
     @property
     def train_dict(self):
-        return {
-            self._dropout: 1.0,
-        }
+        return {}
 
     @property
     def name(self):
