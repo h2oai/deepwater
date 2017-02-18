@@ -10,26 +10,26 @@ def stem(x):
     """
     Stem fo the pure InceptionV4 and Inception-ResNet-V2
     """
-    out = conv3x3(x, 32, stride=2, padding="VALID")
-    out = conv3x3(out, 32, stride=1, padding="VALID")
-    out = conv3x3(out, 64, stride=1, padding="SAME")
+    out = conv3x3(x, 32, stride=2, padding="VALID", norm = True)
+    out = conv3x3(out, 32, stride=1, padding="VALID", norm = True)
+    out = conv3x3(out, 64, stride=1, padding="SAME", norm = True)
 
     out1 = max_pool_3x3(out, stride=2, padding="VALID")
-    out2 = conv3x3(out, 96, stride=2, padding="VALID")
+    out2 = conv3x3(out, 96, stride=2, padding="VALID", norm = True)
 
     out = concat(3, [out1, out2])
 
-    out1 = conv1x1(out, 64)
-    out1 = conv3x3(out1, 96, padding="VALID")
+    out1 = conv1x1(out, 64, norm = True)
+    out1 = conv3x3(out1, 96, padding="VALID", norm = True)
 
-    out2 = conv1x1(out, 64)
-    out2 = conv1x7(out2, 64)
-    out2 = conv7x1(out2, 64)
-    out2 = conv3x3(out2, 96, padding="VALID")
+    out2 = conv1x1(out, 64, norm = True)
+    out2 = conv1x7(out2, 64, norm = True)
+    out2 = conv7x1(out2, 64, norm = True)
+    out2 = conv3x3(out2, 96, padding="VALID", norm = True)
 
     out = concat(3, [out1, out2])
 
-    out1 = conv3x3(out, 192, stride=2, padding="VALID")
+    out1 = conv3x3(out, 192, stride=2, padding="VALID", norm = True)
     out2 = max_pool_3x3(out, stride=2, padding="VALID")
 
     out = concat(3, [out1, out2])
@@ -39,16 +39,16 @@ def stem(x):
 
 def inceptionA(out):
     out1 = avg_pool_3x3(out)
-    out1 = conv1x1(out1, 96)
+    out1 = conv1x1(out1, 96, norm = True)
 
-    out2 = conv1x1(out, 96)
+    out2 = conv1x1(out, 96, norm = True)
 
-    out3 = conv1x1(out, 64)
-    out3 = conv3x3(out3, 96)
+    out3 = conv1x1(out, 64, norm = True)
+    out3 = conv3x3(out3, 96, norm = True)
 
-    out4 = conv1x1(out, 64)
-    out4 = conv3x3(out4, 96)
-    out4 = conv3x3(out4, 96)
+    out4 = conv1x1(out, 64, norm = True)
+    out4 = conv3x3(out4, 96, norm = True)
+    out4 = conv3x3(out4, 96, norm = True)
 
     return concat(3, [out1, out2, out3, out4])
 
@@ -59,38 +59,38 @@ def avg_pool_3x3(out):
 
 def inceptionB(out):
     out1 = avg_pool_3x3(out)
-    out1 = conv1x1(out1, 128)
+    out1 = conv1x1(out1, 128, norm = True)
 
-    out2 = conv1x1(out, 384)
+    out2 = conv1x1(out, 384, norm = True)
 
-    out3 = conv1x1(out, 192)
-    out3 = conv1x7(out3, 224)
-    out3 = conv7x1(out3, 256)
+    out3 = conv1x1(out, 192, norm = True)
+    out3 = conv1x7(out3, 224, norm = True)
+    out3 = conv7x1(out3, 256, norm = True)
 
-    out4 = conv1x1(out, 192)
-    out4 = conv1x7(out4, 192)
-    out4 = conv7x1(out4, 224)
-    out4 = conv1x7(out4, 224)
-    out4 = conv7x1(out4, 256)
+    out4 = conv1x1(out, 192, norm = True)
+    out4 = conv1x7(out4, 192, norm = True)
+    out4 = conv7x1(out4, 224, norm = True)
+    out4 = conv1x7(out4, 224, norm = True)
+    out4 = conv7x1(out4, 256, norm = True)
 
     return concat(3, [out1, out2, out3, out4])
 
 
 def inceptionC(out):
     out1 = avg_pool_3x3(out)
-    out1 = conv1x1(out1, 256)
+    out1 = conv1x1(out1, 256, norm = True)
 
-    out2 = conv1x1(out, 256)
+    out2 = conv1x1(out, 256, norm = True)
 
-    out3 = conv1x1(out, 384)
-    out31 = conv3x1(out3, 256)
-    out32 = conv1x3(out3, 256)
+    out3 = conv1x1(out, 384, norm = True)
+    out31 = conv3x1(out3, 256, norm = True)
+    out32 = conv1x3(out3, 256, norm = True)
 
-    out4 = conv1x1(out, 384)
-    out4 = conv1x3(out4, 448)
-    out4 = conv3x1(out4, 512)
-    out41 = conv3x1(out4, 256)
-    out42 = conv1x3(out4, 256)
+    out4 = conv1x1(out, 384, norm = True)
+    out4 = conv1x3(out4, 448, norm = True)
+    out4 = conv3x1(out4, 512, norm = True)
+    out41 = conv3x1(out4, 256, norm = True)
+    out42 = conv1x3(out4, 256, norm = True)
 
     return concat(3, [out1, out2, out31, out32, out41, out42])
 
@@ -98,11 +98,11 @@ def inceptionC(out):
 def reductionA(out, k=0, l=0, m=0, n=0):
     out1 = max_pool_3x3(out, stride=2, padding="VALID")
 
-    out2 = conv3x3(out, n, stride=2, padding="VALID")
+    out2 = conv3x3(out, n, stride=2, padding="VALID", norm = True)
 
-    out3 = conv1x1(out, k)
-    out3 = conv3x3(out3, l)
-    out3 = conv3x3(out3, m, stride=2, padding="VALID")
+    out3 = conv1x1(out, k, norm = True)
+    out3 = conv3x3(out3, l, norm = True)
+    out3 = conv3x3(out3, m, stride=2, padding="VALID", norm = True)
 
     return concat(3, [out1, out2, out3])
 
@@ -110,14 +110,14 @@ def reductionA(out, k=0, l=0, m=0, n=0):
 def reductionB(out):
     out1 = max_pool_3x3(out, stride=2, padding="VALID")
 
-    out2 = conv1x1(out, 192)
-    out2 = conv3x3(out2, 192, stride=2, padding="VALID")
+    out2 = conv1x1(out, 192, norm = True)
+    out2 = conv3x3(out2, 192, stride=2, padding="VALID", norm = True)
 
-    out3 = conv1x1(out, 256)
-    out3 = conv1x7(out3, 256)
-    out3 = conv7x1(out3, 256)
-    out3 = conv1x7(out3, 320)
-    out3 = conv3x3(out3, 320, stride=2, padding="VALID")
+    out3 = conv1x1(out, 256, norm = True)
+    out3 = conv1x7(out3, 256, norm = True)
+    out3 = conv7x1(out3, 256, norm = True)
+    out3 = conv1x7(out3, 320, norm = True)
+    out3 = conv3x3(out3, 320, stride=2, padding="VALID", norm = True)
 
     return concat(3, [out1, out2, out3])
 
@@ -212,18 +212,18 @@ class InceptionV4(BaseImageClassificationModel):
 def inceptionResNetA(out, scale=1.0):
     out = tf.nn.relu(out)
 
-    out1 = conv1x1(out, 32)
+    out1 = conv1x1(out, 32, norm = True)
 
-    out2 = conv1x1(out, 32)
-    out2 = conv3x3(out2, 32)
+    out2 = conv1x1(out, 32, norm = True)
+    out2 = conv3x3(out2, 32, norm = True)
 
-    out3 = conv1x1(out, 32)
-    out3 = conv3x3(out3, 48)
-    out3 = conv3x3(out3, 64)
+    out3 = conv1x1(out, 32, norm = True)
+    out3 = conv3x3(out3, 48, norm = True)
+    out3 = conv3x3(out3, 64, norm = True)
 
     mixed = concat(3, [out1, out2, out3])
 
-    out = conv(mixed, 1, 1, out.get_shape().as_list()[3])
+    out = conv(mixed, 1, 1, out.get_shape().as_list()[3], norm = True)
 
     # scale to stabilize
     out += scale * out
@@ -234,15 +234,15 @@ def inceptionResNetA(out, scale=1.0):
 def inceptionResNetB(out, scale=1.0):
     out = tf.nn.relu(out)
 
-    out1 = conv1x1(out, 192)
+    out1 = conv1x1(out, 192, norm = True)
 
-    out2 = conv1x1(out, 128)
-    out2 = conv1x7(out2, 160)
-    out2 = conv7x1(out2, 192)
+    out2 = conv1x1(out, 128, norm = True)
+    out2 = conv1x7(out2, 160, norm = True)
+    out2 = conv7x1(out2, 192, norm = True)
 
     mixed = concat(3, [out1, out2])
 
-    out = conv(mixed, 1, 1, out.get_shape().as_list()[3])
+    out = conv(mixed, 1, 1, out.get_shape().as_list()[3], norm = True)
 
     # scale to stabilize
     out += scale * out
@@ -253,15 +253,15 @@ def inceptionResNetB(out, scale=1.0):
 def inceptionResNetC(out, scale=1.0):
     out = tf.nn.relu(out)
 
-    out1 = conv1x1(out, 192)
+    out1 = conv1x1(out, 192, norm = True)
 
-    out2 = conv1x1(out, 192)
-    out2 = conv1x7(out2, 224)
-    out2 = conv7x1(out2, 256)
+    out2 = conv1x1(out, 192, norm = True)
+    out2 = conv1x7(out2, 224, norm = True)
+    out2 = conv7x1(out2, 256, norm = True)
 
     mixed = concat(3, [out1, out2])
 
-    out = conv(mixed, 1, 1, out.get_shape().as_list()[3])
+    out = conv(mixed, 1, 1, out.get_shape().as_list()[3], norm = True)
 
     # scale to stabilize
     out += scale * out

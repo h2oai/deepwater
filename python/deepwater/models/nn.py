@@ -1,6 +1,11 @@
 import math
 import tensorflow as tf
 
+def batch_norm(x, scope=''):
+    from tensorflow.contrib.layers import batch_norm as layers_batch_norm
+    batch_norm_epsilon = 1e-5
+    return layers_batch_norm(x, epsilon=batch_norm_epsilon)
+
 def weight_variable(shape, name):
     # Delving deep into Rectifier
     # http://arxiv.org/pdf/1502.01852v1.pdf)
@@ -60,20 +65,24 @@ def conv7x1(x, filters, **kwds):
     return conv(x, 7, 1, filters, **kwds)
 
 
-def conv(x, w, h, filters, stride=1, padding="SAME", activation="relu"):
+def conv(x, w, h, filters, stride=1, padding="SAME", activation="relu", norm = False):
     channels = x.get_shape().as_list()[3]
 
     kernel_shape = [w, h, channels, filters]
     kernel = weight_variable(kernel_shape, "kernel")
 
-    b = bias_variable([filters], "bias")
     x = tf.nn.conv2d(x, kernel, strides=[1, stride, stride, 1], padding=padding)
 
-    wxb = tf.nn.bias_add(x, b)
+    if norm:
+        out = batch_norm(x)
+    else:
+        b = bias_variable([filters], "bias")
+        out = tf.nn.bias_add(x, b)
+
     if activation == "relu":
-        return tf.nn.relu(wxb)
+        return tf.nn.relu(out)
     if activation == "tanh":
-        return tf.nn.tanh(wxb)
+        return tf.nn.tanh(out)
 
 def max_pool_2x2(x, stride=2, padding="SAME"):
     return tf.nn.max_pool(x, ksize=[1, 2, 2, 1],
