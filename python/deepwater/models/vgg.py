@@ -7,7 +7,7 @@ from deepwater.models.nn import conv3x3, fc, max_pool_3x3
 
 class VGG16(BaseImageClassificationModel):
 
-    def __init__(self, width=28, height=28, channels=1, classes=10, dropout=[]):
+    def __init__(self, width=28, height=28, channels=1, classes=10):
         super(VGG16, self).__init__()
 
         assert width == height, "width and height must be the same"
@@ -23,45 +23,36 @@ class VGG16(BaseImageClassificationModel):
 
         if width < 224:
             x = tf.image.resize_images(x, [48, 48])
-            input_width = 48
-        elif width == 224:
-            input_width = 224
-        else:
+        elif width > 224:
             x = tf.image.resize_images(x, [224, 224])
-            input_width = 224
 
         # 2 x 64
-        out = conv3x3(x, 64)
-        out = conv3x3(out, 64)
+        out = conv3x3(x, 64, stride=1)
+        out = conv3x3(out, 64, stride=1)
         out = max_pool_3x3(out)
-        input_width /= 2
 
         # 2 x 128
-        out = conv3x3(out, 128)
-        out = conv3x3(out, 128)
+        out = conv3x3(out, 128, stride=1)
+        out = conv3x3(out, 128, stride=1)
         out = max_pool_3x3(out)
-        input_width /= 2
 
         # 3 x 256
-        out = conv3x3(out, 256)
-        out = conv3x3(out, 256)
-        out = conv3x3(out, 256)
+        out = conv3x3(out, 256, stride=1)
+        out = conv3x3(out, 256, stride=1)
+        out = conv3x3(out, 256, stride=1)
         out = max_pool_3x3(out)
-        input_width /= 2
 
         # 3 x 512
-        out = conv3x3(out, 512)
-        out = conv3x3(out, 512)
-        out = conv3x3(out, 512)
+        out = conv3x3(out, 512, stride=1)
+        out = conv3x3(out, 512, stride=1)
+        out = conv3x3(out, 512, stride=1)
         out = max_pool_3x3(out)
-        input_width /= 2
 
         # 512
-        out = conv3x3(out, 512)
-        out = conv3x3(out, 512)
-        out = conv3x3(out, 512)
+        out = conv3x3(out, 512, stride=1)
+        out = conv3x3(out, 512, stride=1)
+        out = conv3x3(out, 512, stride=1)
         out = max_pool_3x3(out)
-        input_width /= 2
 
         dims = out.get_shape().as_list()
         flatten_size = 1

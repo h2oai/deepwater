@@ -4,6 +4,7 @@ from deepwater.models import BaseImageClassificationModel
 
 import tensorflow as tf
 
+from deepwater.models.nn import fc
 
 class MultiLayerPerceptron(BaseImageClassificationModel):
     def __init__(self, width=28, height=28, channels=1, classes=10,
@@ -27,19 +28,9 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
             hidden_layers = [size] + hidden_layers[:] + [classes]
 
         for idx, (h1, h2) in enumerate(zip(hidden_layers, hidden_layers[1:])):
-
             with tf.variable_scope("fc%d" % idx):
-                # Delving deep into Rectifier
-                n = h1
-                factor = 2.0
-                stddev = math.sqrt(1.3 * factor / n)
-
-                initialization = tf.truncated_normal(
-                    [h1, h2], mean=0.0, stddev=stddev)
-
-                w = tf.Variable(initialization, name="W")
-
-                y2 = tf.nn.relu(tf.matmul(x, w))
+                y1 = fc(x, [h1, h2])
+                y2 = tf.nn.relu(y1)
 
             if self._dropout_var.get_shape()[0] > idx:
                 with tf.variable_scope("dropout%d" % idx):
