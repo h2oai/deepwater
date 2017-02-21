@@ -119,13 +119,6 @@ public class MXNetBackend implements BackendTrain {
   }
 
   @Override
-  public void writeParams(File file, byte[] payload) throws IOException {
-    FileOutputStream os = new FileOutputStream(file.toString());
-    os.write(payload);
-    os.close();
-  }
-
-  @Override
   public void saveModel(BackendModel m, String model_path) {
     get(m).saveModel(model_path);
   }
@@ -136,12 +129,8 @@ public class MXNetBackend implements BackendTrain {
   }
 
   @Override
-  public byte[] readParams(File file) throws IOException {
-    FileInputStream is = new FileInputStream(file);
-    byte[] params = new byte[(int)file.length()];
-    is.read(params);
-    is.close();
-    return params;
+  public int paramHash(byte[] params) {
+    return Arrays.hashCode(params);
   }
 
   @Override

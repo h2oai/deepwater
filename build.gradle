@@ -10,7 +10,6 @@ apply from: "gradle/s3sync.gradle"
 buildscript {
   repositories {
       mavenCentral()
-      mavenLocal()
       jcenter()
   }
   dependencies {

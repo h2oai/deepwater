@@ -2,9 +2,6 @@ package deepwater.backends;
 
 import deepwater.datasets.ImageDataSet;
 
-import java.io.File;
-import java.io.IOException;
-
 public interface BackendTrain {
 
   void delete(BackendModel m);
@@ -12,17 +9,21 @@ public interface BackendTrain {
   // The method to construct a trainable Deep Water model.
   // name specifies the model architecture, or is a path to a graph definition file
   BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts,
-      BackendParams backend_params, int num_classes, String name);
+                        BackendParams backend_params, int num_classes, String name);
 
   void saveModel(BackendModel m, String model_path);
 
   void loadParam(BackendModel m, String param_path);
 
-  void writeParams(File file, byte[] payload) throws IOException;
-
   void saveParam(BackendModel m, String param_path);
 
-  byte[] readParams(File file) throws IOException;
+  /**
+   * Computes the hash of model parameters file stored as byte[]. Backend specific as it might be the param file or a zipped archive
+   * Mainly used for testing purpose.
+   * @param param file containing all the parameters
+   * @return
+   */
+  int paramHash(byte[] param);
 
   float[] loadMeanImage(BackendModel m, String path);
 

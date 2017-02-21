@@ -11,10 +11,14 @@ import org.tensorflow.Session;
 import org.tensorflow.Tensor;
 
 import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.nio.file.Files;
-import java.util.*;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 
 public class TensorflowBackend implements BackendTrain {
@@ -108,42 +112,36 @@ public class TensorflowBackend implements BackendTrain {
 
         Session.Runner runner = model.getSession().runner();
 
-        runner.feed(normalize(model.meta.save_filename), Tensor.create(param_path.getBytes()));
+        String paramUUID = param_path.substring(param_path.lastIndexOf("/"));
+
+        File[] extractedFiles = ZipUtils.extractFiles(param_path, TMP_FOLDER);
+
+        String pattern = new File(param_path).getName();
+        for (File f: extractedFiles) {
+            String[] partsA = pattern.split("\\.");
+            String[] partsB = f.getName().split("\\.");
+            for (int i = 0; i < Math.min(partsA.length, partsB.length); i++) {
+                partsB[i] = partsA[i];
+            }
+            String newName = String.join(".", partsB);
+            File newFile = new File(f.getParentFile(), newName);
+            f.renameTo(newFile);
+            System.out.println("renaming "+f+" to "+newFile);
+        }
+
+        String unpackedParamFiles = TMP_FOLDER + paramUUID;
+
+        runner.feed(normalize(model.meta.save_filename), Tensor.create(unpackedParamFiles.getBytes()));
         runner.addTarget(normalize(model.meta.restore_op));
         runner.run();
     }
 
-    @Override
-    public void writeParams(File file, byte[] payload) throws IOException {
-        ByteBuffer bb = ByteBuffer.wrap(payload);
-
-        while(bb.hasRemaining()) {
-            // Read file extension
-            int extensionSize = bb.getInt();
-            byte[] extension = new byte[extensionSize];
-            bb.get(extension);
-            String fileExtension = new String(extension);
-
-            // Read file content
-            int contentSize = bb.getInt();
-            byte[] content = new byte[contentSize];
-            bb.get(content);
-            File paramFile = new File(file.getAbsolutePath() + "." + fileExtension);
-            try {
-                Files.write(paramFile.toPath(), content);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     private String normalize(String name){
-       return name.split(":")[0];
+        return name.split(":")[0];
     }
 
     @Override
     public void saveParam(BackendModel m, String param_path) {
-        // Run the model to save the parameters to TF files
         TensorflowModel model = (TensorflowModel) m;
         Session.Runner runner = model.getSession().runner();
 
@@ -151,52 +149,59 @@ public class TensorflowBackend implements BackendTrain {
         runner.addTarget(normalize(model.meta.save_op));
         runner.fetch(normalize(model.meta.save_op));
         runner.run();
-
-        File file = new File(param_path);
-        File[] files = listFilesWithPrefix(file.getParentFile(), file.getName());
-
-        assert files.length >= 2: "saveParam did not save. could not find files starting with prefix:" + param_path;
+        File tempFile = new File(param_path);
+        File tmpDir = tempFile.getParentFile();
+        // Tensorflow generated files
+        File[] files = listFilesWithPrefix(tmpDir, tempFile.getName());
+        // Save to zip
+        ZipUtils.zipFiles(new File(param_path), files);
+        // Cleanup
+        for (File f: files) {
+            f.delete();
+        }
+        assert new File(param_path).exists(): "saveParam did not save. could not find file:" + param_path;
     }
 
     @Override
-    public byte[] readParams(File filesPattern) throws IOException {
-        // Read all TF files into a byte[]
-        File tmpDir = filesPattern.getParentFile();
-        // TF generated files
-        File[] files = listFilesWithPrefix(tmpDir, filesPattern.getName());
-        // Calculate required space
-        int totalParamSize = 0; // needs reimplementation if all the params are bigger than Integer.MAX_VALUE
-        for(File file : files) {
-            totalParamSize += 4; // file extension size space
-            String name = file.getName();
-            totalParamSize += name.substring(name.lastIndexOf(".") + 1).getBytes().length; // file extension space
+    public int paramHash(byte[] param) {
+        BufferedOutputStream writer = null;
+        try {
+            Path tmpOutput = Files.createTempDirectory(new File(TMP_FOLDER).toPath(), UUID.randomUUID().toString());
+            String zipFileName = tmpOutput.toString() + "params.zip";
 
-            totalParamSize += 4; // file content size space
-            totalParamSize += file.length(); // file content space
-        }
+            writer = new BufferedOutputStream(new FileOutputStream(zipFileName));
+            writer.write(param);
 
-        // Write params to byte array. Will fail if total param size > Integet.MAX_VALUE
-        byte[] params = new byte[totalParamSize];
-        ByteBuffer bb = ByteBuffer.wrap(params);
-        for(File file : files) {
-            byte[] extension = file.getName().substring(file.getName().lastIndexOf(".") + 1).getBytes();
-            int extensionLength = extension.length;
+            int paramHash = 0;
 
-            bb.putInt(extensionLength);
-            bb.put(extension);
+            ZipFile zipFile = new ZipFile(zipFileName);
+            Enumeration<? extends ZipEntry> entries = zipFile.entries();
+            while(entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                InputStream is = zipFile.getInputStream(entry);
+                byte[] content = new byte[(int)entry.getSize()];
+                is.read(content);
+                is.close();
+                paramHash += Arrays.hashCode(content);
+            }
 
-            try {
-                bb.putInt((int)file.length());
-                FileInputStream f = new FileInputStream(file);
-                FileChannel ch = f.getChannel();
-                ch.read(bb);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            new File(zipFileName).delete();
+            tmpOutput.toFile().delete();
+
+            return paramHash;
+        } catch (IOException e) {
+            // ignore
+        } finally {
+            if(null != writer) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    // ignore
+                }
             }
         }
-        return params;
+
+        return -1;
     }
 
     private static File[] listFilesWithPrefix(File dir, String prefix){
