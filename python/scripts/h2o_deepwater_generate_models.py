@@ -17,10 +17,10 @@ from functools import partial
 tf.logging.set_verbosity(tf.logging.DEBUG)
 
 def generate_models(name, model_class):
-    height = [28, 32, 224, 320]
-    width = [28, 32, 224, 320]
+    height = [28, 32, 224]
+    width = [28, 32, 224]
     channels = [1, 3]
-    classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50, 100, 1000]
+    classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 1000]
 
     for (h, w) in zip(height, width):
         for ch in channels:
@@ -113,7 +113,8 @@ def export_image_classifier_model_graph(model_class):
 if __name__ == "__main__":
     # generate MLP
     default_mlp = partial(mlp.MultiLayerPerceptron,
-                           hidden_layers=[2048, 2048, 2048],
+#                           hidden_layers=[2048, 2048, 2048],
+                           hidden_layers=[200, 200],
                            dropout=[0.2, 0.5, 0.5])
 
     export_linear_model_graph(default_mlp)
