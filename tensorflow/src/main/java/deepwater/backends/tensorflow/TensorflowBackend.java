@@ -206,6 +206,7 @@ public class TensorflowBackend implements BackendTrain {
                 return name.startsWith(prefix) && !name.equals(prefix);
             }
         });
+        Arrays.sort(foundFiles);
         return foundFiles;
     }
 
