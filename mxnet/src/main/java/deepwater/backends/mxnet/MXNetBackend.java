@@ -7,7 +7,6 @@ import deepwater.backends.RuntimeOptions;
 import deepwater.datasets.ImageDataSet;
 
 import java.io.*;
-import java.util.Arrays;
 
 public class MXNetBackend implements BackendTrain {
 
@@ -53,7 +52,7 @@ public class MXNetBackend implements BackendTrain {
     assert(bparms!=null);
     System.out.println("Constructing model.");
     MXNetBackendModel mxnet = new MXNetBackendModel(dataset.getWidth(), dataset.getHeight(), dataset.getChannels(),
-        opts.getDeviceID()[0], (int)opts.getSeed(), opts.useGPU());
+            opts.getDeviceID()[0], (int)opts.getSeed(), opts.useGPU());
     System.out.println("Done constructing model.");
 
     if (bparms.get("clip_gradient") != null)
@@ -63,14 +62,14 @@ public class MXNetBackend implements BackendTrain {
       mxnet.buildNet(num_classes, ((Integer) bparms.get("mini_batch_size")).intValue(), name);
     } else {
       mxnet.buildNet(
-          num_classes,
-          ((Integer) bparms.get("mini_batch_size")).intValue(),
-          name,
-          ((int[]) bparms.get("hidden")).length,
-          (int[]) bparms.get("hidden"),
-          (String[]) bparms.get("activations"),
-          ((Double) bparms.get("input_dropout_ratio")).doubleValue(),
-          (double[]) bparms.get("hidden_dropout_ratios")
+              num_classes,
+              ((Integer) bparms.get("mini_batch_size")).intValue(),
+              name,
+              ((int[]) bparms.get("hidden")).length,
+              (int[]) bparms.get("hidden"),
+              (String[]) bparms.get("activations"),
+              ((Double) bparms.get("input_dropout_ratio")).doubleValue(),
+              (double[]) bparms.get("hidden_dropout_ratios")
       );
     }
     System.out.println("Done building network.");
@@ -119,6 +118,13 @@ public class MXNetBackend implements BackendTrain {
   }
 
   @Override
+  public void writeParams(File file, byte[] payload) throws IOException {
+    FileOutputStream os = new FileOutputStream(file.toString());
+    os.write(payload);
+    os.close();
+  }
+
+  @Override
   public void saveModel(BackendModel m, String model_path) {
     get(m).saveModel(model_path);
   }
@@ -129,8 +135,12 @@ public class MXNetBackend implements BackendTrain {
   }
 
   @Override
-  public int paramHash(byte[] params) {
-    return Arrays.hashCode(params);
+  public byte[] readParams(File file) throws IOException {
+    FileInputStream is = new FileInputStream(file);
+    byte[] params = new byte[(int)file.length()];
+    is.read(params);
+    is.close();
+    return params;
   }
 
   @Override
