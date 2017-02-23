@@ -1,4 +1,5 @@
 import tensorflow as tf
+import math
 
 def batch_norm(x, scope=''):
     from tensorflow.contrib.layers import batch_norm as layers_batch_norm
