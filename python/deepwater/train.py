@@ -148,4 +148,5 @@ class ImageClassificationTrainStrategy(object):
             # tf.summary.scalar('sttdev/' + name, stddev)
             # tf.summary.scalar('max/' + name, tf.reduce_max(var))
             # tf.summary.scalar('min/' + name, tf.reduce_min(var))
+            name = name.replace(":", "_")
             tf.summary.histogram(name, var)

@@ -30,7 +30,8 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
         for idx, (h1, h2) in enumerate(zip(hidden_layers, hidden_layers[1:])):
             with tf.variable_scope("fc%d" % idx):
                 y1 = fc(x, [h1, h2])
-                y2 = tf.nn.relu(y1)
+                # y2 = tf.nn.relu(y1)
+                y2 = tf.tanh(y1)
 
             if self._dropout_var.get_shape()[0] > idx:
                 with tf.variable_scope("dropout%d" % idx):

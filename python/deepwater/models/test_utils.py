@@ -269,6 +269,9 @@ def MNIST_must_converge(name,
             print("computing final test error")
             test(dataset.test, batch_size, dataset.test.num_examples, session)
 
+
+    print("Testing %s" % name)
+
     train_strategy = generate_train_graph(
         model_class, optimizer_class, 28, 28, 1, 10, add_summaries=summaries)
 
@@ -299,16 +302,17 @@ def MNIST_must_converge(name,
             if not use_debug_session:
                 print('computing initial test error')
                 test_error = test(dataset.test, batch_size, dataset.test.num_examples, sess)
-                print('initial test error:', test_error)
+                print('initial test error: %f' % (test_error))
 
-            while not sess.should_stop():
-                print('epoch: ', epoch)
+            while not sess.should_stop() and epoch < epochs:
+                print('epoch: %d' % (epoch))
                 epoch += 1
                 global_step, train_loss, train_error = train(epoch,
                                                              dataset.train, batch_size,
                                                              dataset.train.num_examples,
                                                              sess)
                 print("train: avg loss %f  error %f" % (train_loss, train_error))
+
             train_writer.close()
 
 trained_global = 0
@@ -395,7 +399,7 @@ def cat_dog_mouse_must_converge(name,
             average_error.append(error)
 
         trained_global += trained
-        print('trained %d', trained_global)
+        print('trained %d' % (trained_global))
 
         return 0, np.mean(average_loss), np.mean(average_error) * 100.
 
@@ -435,5 +439,5 @@ def cat_dog_mouse_must_converge(name,
                       '% train error:', train_error)
 
             _, train_loss, train_error = train(batch_generator, sess)
-            print('final train error: ', train_error)
+            print('final train error: %f' % (train_error))
             return train_error
