@@ -53,7 +53,7 @@ brew install maven
 ## Build the Tensorflow native java library
 ```
 cd thirdparty/
-./cppbuild install tensorflow
+./cppbuild.sh install tensorflow
 cd ..
 ```
 
