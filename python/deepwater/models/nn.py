@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+import math
 
 def batch_norm(x, scope=''):
     from tensorflow.contrib.layers import batch_norm as layers_batch_norm
@@ -7,8 +8,6 @@ def batch_norm(x, scope=''):
     return layers_batch_norm(x, epsilon=batch_norm_epsilon)
 
 def weight_variable(shape, name):
-    # return tf.get_variable(name=name, shape=shape, initializer=tf.contrib.layers.xavier_initializer())
-
     # Delving deep into Rectifier
     # http://arxiv.org/pdf/1502.01852v1.pdf)
     # fan_in, _ = get_fans(shape)
@@ -25,7 +24,7 @@ def weight_variable(shape, name):
     # assert stddev > 0.001, stddev
 
     factor = 2.0
-    stddev = np.sqrt(1.3 * factor / fan_in)
+    stddev = math.sqrt(1.3 * factor / fan_in)
 
     initialization = tf.truncated_normal(shape, stddev=stddev)
 
