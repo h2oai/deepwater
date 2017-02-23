@@ -126,13 +126,15 @@ public class TensorflowBackend implements BackendTrain {
 
             // Read file content
             int contentSize = bb.getInt();
-            byte[] content = new byte[contentSize];
-            bb.get(content);
             File paramFile = new File(file.getAbsolutePath() + "." + fileExtension);
+            FileOutputStream fos = new FileOutputStream(paramFile);
             try {
-                Files.write(paramFile.toPath(), content);
+                fos.write(bb.array(), bb.position(), contentSize);
+                bb.position(bb.position() + contentSize);
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                fos.close();
             }
         }
     }

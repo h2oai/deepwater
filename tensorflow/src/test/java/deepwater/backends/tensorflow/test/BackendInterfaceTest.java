@@ -385,8 +385,7 @@ public class BackendInterfaceTest {
 
     @Test
     public void backendCanLoadMetaGraph() throws Exception {
-//        final String meta_model = ModelFactory.findResource("mlp_10x1x1_1.meta");
-        final String meta_model = ModelFactory.findResource("vgg_224x224x3_1000.meta");
+        final String meta_model = ModelFactory.findResource("mlp_10x1x1_1.meta");
 
         MNISTImageDataset dataset = new MNISTImageDataset();
 
@@ -401,6 +400,7 @@ public class BackendInterfaceTest {
         File modelFile = File.createTempFile("model", ".tmp");
         modelFile.delete();
         backend.saveModel(model, modelFile.getPath());
+        byte[] paramArray = backend.readParams(modelFile);
 
         File modelParams = File.createTempFile("params", ".tmp");
         modelParams.delete();
@@ -413,6 +413,10 @@ public class BackendInterfaceTest {
         BackendModel model2 = backend.buildNet(dataset, opts, params,
                 dataset.getNumClasses(),
                 modelFile.getAbsolutePath());
+        backend.loadParam(model2, modelParams.getAbsolutePath());
+        modelParams.delete();
+
+        backend.writeParams(modelParams, paramArray);
         backend.loadParam(model2, modelParams.getAbsolutePath());
     }
 }
