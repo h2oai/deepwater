@@ -116,7 +116,7 @@ if __name__ == "__main__":
     # generate MLP
     default_mlp = partial(mlp.MultiLayerPerceptron,
 #                           hidden_layers=[2048, 2048, 2048],
-                           hidden_layers=[200],
+                           hidden_layers=[200, 200],
                            dropout=[0.2, 0.5, 0.5])
 
     export_linear_model_graph(default_mlp)
