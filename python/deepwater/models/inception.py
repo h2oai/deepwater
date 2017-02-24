@@ -10,26 +10,26 @@ def stem(x):
     """
     Stem fo the pure InceptionV4 and Inception-ResNet-V2
     """
-    out = conv3x3(x, 32, stride=2, padding="VALID")
-    out = conv3x3(out, 32, stride=1, padding="VALID")
-    out = conv3x3(out, 64, stride=1, padding="SAME")
+    out = conv3x3(x, 32, stride=2, padding="VALID", batch_norm = True)
+    out = conv3x3(out, 32, stride=1, padding="VALID", batch_norm = True)
+    out = conv3x3(out, 64, stride=1, padding="SAME", batch_norm = True)
 
     out1 = max_pool_3x3(out, stride=2, padding="VALID")
-    out2 = conv3x3(out, 96, stride=2, padding="VALID")
+    out2 = conv3x3(out, 96, stride=2, padding="VALID", batch_norm = True)
 
     out = concat(3, [out1, out2])
 
-    out1 = conv1x1(out, 64)
-    out1 = conv3x3(out1, 96, padding="VALID")
+    out1 = conv1x1(out, 64, batch_norm = True)
+    out1 = conv3x3(out1, 96, padding="VALID", batch_norm = True)
 
-    out2 = conv1x1(out, 64)
-    out2 = conv1x7(out2, 64)
-    out2 = conv7x1(out2, 64)
-    out2 = conv3x3(out2, 96, padding="VALID")
+    out2 = conv1x1(out, 64, batch_norm = True)
+    out2 = conv1x7(out2, 64, batch_norm = True)
+    out2 = conv7x1(out2, 64, batch_norm = True)
+    out2 = conv3x3(out2, 96, padding="VALID", batch_norm = True)
 
     out = concat(3, [out1, out2])
 
-    out1 = conv3x3(out, 192, stride=2, padding="VALID")
+    out1 = conv3x3(out, 192, stride=2, padding="VALID", batch_norm = True)
     out2 = max_pool_3x3(out, stride=2, padding="VALID")
 
     out = concat(3, [out1, out2])
@@ -37,17 +37,17 @@ def stem(x):
     return out
 
 def inceptionA(out):
-    out1 = conv1x1(out, 96)
+    out1 = conv1x1(out, 96, batch_norm = True)
 
-    out2 = conv1x1(out, 64)
-    out2 = conv3x3(out2, 96)
+    out2 = conv1x1(out, 64, batch_norm = True)
+    out2 = conv3x3(out2, 96, batch_norm = True)
 
-    out3 = conv1x1(out, 64)
-    out3 = conv3x3(out3, 96)
-    out3 = conv3x3(out3, 96)
+    out3 = conv1x1(out, 64, batch_norm = True)
+    out3 = conv3x3(out3, 96, batch_norm = True)
+    out3 = conv3x3(out3, 96, batch_norm = True)
 
     out4 = avg_pool_3x3(out)
-    out4 = conv1x1(out4, 96)
+    out4 = conv1x1(out4, 96, batch_norm = True)
 
     return concat(3, [out1, out2, out3, out4])
 
@@ -57,51 +57,51 @@ def avg_pool_3x3(out):
 
 
 def inceptionB(out):
-    out1 = conv1x1(out, 384)
+    out1 = conv1x1(out, 384, batch_norm = True)
 
-    out2 = conv1x1(out, 192)
-    out2 = conv1x7(out2, 224)
-    out2 = conv7x1(out2, 256)
+    out2 = conv1x1(out, 192, batch_norm = True)
+    out2 = conv1x7(out2, 224, batch_norm = True)
+    out2 = conv7x1(out2, 256, batch_norm = True)
 
-    out3 = conv1x1(out, 192)
-    out3 = conv7x1(out3, 192)
-    out3 = conv1x7(out3, 224)
-    out3 = conv7x1(out3, 224)
-    out3 = conv1x7(out3, 256)
+    out3 = conv1x1(out, 192, batch_norm = True)
+    out3 = conv7x1(out3, 192, batch_norm = True)
+    out3 = conv1x7(out3, 224, batch_norm = True)
+    out3 = conv7x1(out3, 224, batch_norm = True)
+    out3 = conv1x7(out3, 256, batch_norm = True)
 
     out4 = avg_pool_3x3(out)
-    out4 = conv1x1(out4, 128)
+    out4 = conv1x1(out4, 128, batch_norm = True)
 
     return concat(3, [out1, out2, out3, out4])
 
 
 def inceptionC(out):
-    out1 = conv1x1(out, 256)
+    out1 = conv1x1(out, 256, batch_norm = True)
 
-    out2 = conv1x1(out, 384)
-    out21 = conv1x3(out2, 256)
-    out22 = conv3x1(out2, 256)
+    out2 = conv1x1(out, 384, batch_norm = True)
+    out21 = conv1x3(out2, 256, batch_norm = True)
+    out22 = conv3x1(out2, 256, batch_norm = True)
     out2 = concat(3, [out21, out22])
 
-    out3 = conv1x1(out, 384)
-    out3 = conv3x1(out3, 448)
-    out3 = conv1x3(out3, 512)
-    out31 = conv1x3(out3, 256)
-    out32 = conv3x1(out3, 256)
+    out3 = conv1x1(out, 384, batch_norm = True)
+    out3 = conv3x1(out3, 448, batch_norm = True)
+    out3 = conv1x3(out3, 512, batch_norm = True)
+    out31 = conv1x3(out3, 256, batch_norm = True)
+    out32 = conv3x1(out3, 256, batch_norm = True)
     out3 = concat(3, [out31, out32])
 
     out4 = avg_pool_3x3(out)
-    out4 = conv1x1(out4, 256)
+    out4 = conv1x1(out4, 256, batch_norm = True)
 
     return concat(3, [out1, out2, out3, out4])
 
 
 def reductionA(out, k=0, l=0, m=0, n=0):
-    out1 = conv3x3(out, n, stride=2, padding="VALID")
+    out1 = conv3x3(out, n, stride=2, padding="VALID", batch_norm = True)
 
-    out2 = conv1x1(out, k)
-    out2 = conv3x3(out2, l)
-    out2 = conv3x3(out2, m, stride=2, padding="VALID")
+    out2 = conv1x1(out, k, batch_norm = True)
+    out2 = conv3x3(out2, l, batch_norm = True)
+    out2 = conv3x3(out2, m, stride=2, padding="VALID", batch_norm = True)
 
     out3 = max_pool_3x3(out, stride=2, padding="VALID")
 
@@ -109,13 +109,13 @@ def reductionA(out, k=0, l=0, m=0, n=0):
 
 
 def reductionB(out):
-    out1 = conv1x1(out, 192)
-    out1 = conv3x3(out1, 192, stride=2, padding="VALID")
+    out1 = conv1x1(out, 192, batch_norm = True)
+    out1 = conv3x3(out1, 192, stride=2, padding="VALID", batch_norm = True)
 
-    out2 = conv1x1(out, 256)
-    out2 = conv1x7(out2, 256)
-    out2 = conv7x1(out2, 320)
-    out2 = conv3x3(out2, 320, stride=2, padding="VALID")
+    out2 = conv1x1(out, 256, batch_norm = True)
+    out2 = conv1x7(out2, 256, batch_norm = True)
+    out2 = conv7x1(out2, 320, batch_norm = True)
+    out2 = conv3x3(out2, 320, stride=2, padding="VALID", batch_norm = True)
 
     out3 = max_pool_3x3(out, stride=2, padding="VALID")
 

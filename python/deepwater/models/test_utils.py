@@ -22,9 +22,7 @@ def generate_train_graph(model_class, optimizer_class,
                          width, height, channels, classes, add_summaries=False):
     graph = tf.Graph()
     with graph.as_default():
-
-        is_train_var = tf.Variable(False, trainable=False, name="global_is_training")
-
+        tf.placeholder(tf.bool, name="global_is_training")
         # 1. instantiate the model
         model = model_class(width, height, channels, classes)
 
@@ -33,7 +31,7 @@ def generate_train_graph(model_class, optimizer_class,
 
         # 3. instantiate the train wrapper
         train_strategy = train.ImageClassificationTrainStrategy(
-            graph, model, optimizer, is_train_var, add_summaries=add_summaries)
+            graph, model, optimizer, add_summaries=add_summaries)
 
     return train_strategy
 
@@ -81,6 +79,7 @@ def CIFAR10_must_converge(name, model_class,
                 train_strategy.inputs: x_batch,
                 train_strategy.labels: y_batch,
                 train_strategy.learning_rate: learning_rate,
+                "global_is_training:0": True,
             }
 
             feed_dict.update(train_strategy.train_parameters)
@@ -115,6 +114,7 @@ def CIFAR10_must_converge(name, model_class,
             feed_dict = {
                 train_strategy.inputs: x_batch,
                 train_strategy.labels: eye[label_batch],
+                "global_is_training:0": False,
             }
 
             fetches = [
@@ -200,6 +200,7 @@ def MNIST_must_converge(name,
                 train_strategy.inputs: x_batch,
                 train_strategy.labels: y_batch,
                 train_strategy.learning_rate: learning_rate,
+                "global_is_training:0": True
             }
 
             feed_dict.update(train_strategy.train_parameters)
@@ -235,6 +236,7 @@ def MNIST_must_converge(name,
         total_examples = 0
         average_error = []
         eye = np.eye(10)
+
         while total_examples <= total:
             x_batch, label_batch = dataset.next_batch(batch_size)
             total_examples += len(x_batch)
@@ -242,6 +244,7 @@ def MNIST_must_converge(name,
             feed_dict = {
                 train_strategy.inputs: x_batch,
                 train_strategy.labels: eye[label_batch],
+                "global_is_training:0": False,
             }
 
             fetches = [
@@ -363,6 +366,7 @@ def cat_dog_mouse_must_converge(name,
                 yield( [ images_batch[i] for i in b ], [ labels_batch[i] for i in b ])
 
     def train(batch_generator, sess):
+
         global trained_global
         trained = 0
 
@@ -382,6 +386,7 @@ def cat_dog_mouse_must_converge(name,
                 train_strategy.inputs: images,
                 train_strategy.labels: labels,
                 train_strategy.learning_rate: learning_rate,
+                "global_is_training:0": True,
             }
 
             feed_dict.update(train_strategy.train_parameters)

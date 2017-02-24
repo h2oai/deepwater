@@ -3,7 +3,6 @@ from __future__ import print_function
 
 import os
 
-import locale
 import json
 
 import tensorflow as tf
@@ -33,7 +32,7 @@ def export_train_graph(model_class, optimizer_class,
                        height, width, channels, classes):
     graph = tf.Graph()
     with graph.as_default():
-        is_train_var = tf.Variable(False, trainable=False, name="global_is_training")
+        global_is_training = tf.placeholder(tf.bool, name="global_is_training")
 
         # 1. instantiate the model
         model = model_class(width, height, channels, classes)
@@ -56,7 +55,6 @@ def export_train_graph(model_class, optimizer_class,
             graph,
             model,
             optimizer,
-            is_train_var,
             add_summaries=True,
         )
 
@@ -78,7 +76,8 @@ def export_train_graph(model_class, optimizer_class,
             "parameters": {
                 "global_step": train_strategy.global_step.name,
                 "learning_rate": train_strategy._optimizer.learning_rate.name,
-                "momentum": train_strategy._optimizer.momentum.name},
+                "momentum": train_strategy._optimizer.momentum.name,
+                "global_is_training": global_is_training.name},
         })
 
         tf.add_to_collection("meta", meta)

@@ -7,14 +7,11 @@ class ImageClassificationTrainStrategy(object):
 
     """
 
-    def __init__(self, graph, model, optimizer, is_train, weight_decay=0.00004, add_summaries=False):
+    def __init__(self, graph, model, optimizer, weight_decay=0.00004, add_summaries=False):
         self._graph = graph
         self._model = model
         self._labels = labels = tf.placeholder(tf.float32,
                                                [None, model.number_of_classes])
-
-        assert is_train.name is not None, is_train
-        #self._is_train = is_train
 
         logits = model.logits
 
@@ -63,7 +60,6 @@ class ImageClassificationTrainStrategy(object):
 
     @property
     def train_parameters(self):
-        #self._model.train_dict.update({self._is_train: True})
         return self._model.train_dict
 
     @property

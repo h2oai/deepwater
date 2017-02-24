@@ -62,10 +62,11 @@ def conv1x7(x, filters, **kwds):
 def conv7x1(x, filters, **kwds):
     return conv(x, 7, 1, filters, **kwds)
 
-def conv_bn(x, w, h, filters):
-    return conv(x, w, h, filters, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params = { 'is_training': is_training() })
+def conv(x, w, h, filters, stride=1, padding="SAME", batch_norm = False, activation="relu", normalizer_fn = None, normalizer_params = None):
+    if batch_norm:
+        normalizer_fn = tf.contrib.layers.batch_norm
+        normalizer_params = { 'is_training': is_training() }
 
-def conv(x, w, h, filters, stride=1, padding="SAME", activation="relu", normalizer_fn = None, normalizer_params = None):
     # channels = x.get_shape().as_list()[3]
     #
     # kernel_shape = [w, h, channels, filters]
@@ -79,11 +80,6 @@ def conv(x, w, h, filters, stride=1, padding="SAME", activation="relu", normaliz
     # else:
     #     b = bias_variable([filters], "bias")
     #     out = tf.nn.bias_add(x, b)
-    #
-    # if activation == "relu":
-    #     return tf.nn.relu(out)
-    # if activation == "tanh":
-    #     return tf.nn.tanh(out)
 
     out = tf.contrib.layers.convolution2d(inputs=x, num_outputs=filters, kernel_size=[w, h],
                                           stride=stride, padding=padding,
@@ -117,10 +113,14 @@ def fc0(x, shape):
 # def constant_initializer(shape, dtype, partition_info, value=0.01):
 #     return tf.fill(shape, value)
 
-def fc_bn(x, shape):
-    return fc(x, shape, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params = { 'is_training': is_training() })
+def fc_no_bn(x, shape):
+    return fc(x, shape, normalizer_fn = None, normalizer_params = None)
 
-def fc(x, shape, normalizer_fn = None, normalizer_params = None):
+def fc(x, shape, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params = {}):
+    if normalizer_fn is not None and not normalizer_params:
+        # setting this here b/c otherwise is_training() is evaluated too early
+        normalizer_params = { 'is_training': is_training() }
+
     bias_initializer = lambda shape, dtype, partition_info: tf.fill(shape, 0.01)
     out = tf.contrib.layers.fully_connected(inputs=x, num_outputs=shape[-1],
                                         weights_initializer=tf.contrib.layers.xavier_initializer(),

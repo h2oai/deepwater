@@ -13,13 +13,10 @@ import org.tensorflow.Tensor;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.file.Files;
 import java.util.*;
 
 
 public class TensorflowBackend implements BackendTrain {
-
-    private static final String TMP_FOLDER = "/tmp";
 
     static { //only load libraries once
         try {
@@ -30,8 +27,6 @@ public class TensorflowBackend implements BackendTrain {
         }
     }
 
-    //private Map<TensorflowModel, Integer> global_step = new HashMap<>();
-    //private SessionOptions sessionOptions;
     private Session session;
 
     @Override
@@ -83,6 +78,7 @@ public class TensorflowBackend implements BackendTrain {
 
         if (!model.meta.init.isEmpty()) {
             Session.Runner runner = session.runner();
+            runner.feed(normalize(model.meta.parameters.get("global_is_training")), Tensor.create(false));
             runner.addTarget(model.meta.init).run();
         } else {
             System.out.println("WARNING WARNING: no init operation found");
@@ -109,6 +105,7 @@ public class TensorflowBackend implements BackendTrain {
         Session.Runner runner = model.getSession().runner();
 
         runner.feed(normalize(model.meta.save_filename), Tensor.create(param_path.getBytes()));
+        runner.feed(normalize(model.meta.parameters.get("global_is_training")), Tensor.create(false));
         runner.addTarget(normalize(model.meta.restore_op));
         runner.run();
     }
@@ -150,6 +147,7 @@ public class TensorflowBackend implements BackendTrain {
         Session.Runner runner = model.getSession().runner();
 
         runner.feed(normalize(model.meta.save_filename), Tensor.create(param_path.getBytes()));
+        runner.feed(normalize(model.meta.parameters.get("global_is_training")), Tensor.create(false));
         runner.addTarget(normalize(model.meta.save_op));
         runner.fetch(normalize(model.meta.save_op));
         runner.run();
@@ -263,6 +261,8 @@ public class TensorflowBackend implements BackendTrain {
         runner.feed(normalize(model.meta.parameters.get("learning_rate")), Tensor.create(model.getParameter("learning_rate", 0.001f)));
         runner.feed(normalize(model.meta.parameters.get("momentum")), Tensor.create(model.getParameter("momentum", 0.5f)));
 
+        runner.feed(normalize(model.meta.parameters.get("global_is_training")), Tensor.create(true));
+
         runner.addTarget(normalize(model.meta.train_op));
 
         runner.run();//nothing to fetch
@@ -275,6 +275,7 @@ public class TensorflowBackend implements BackendTrain {
         Session session = model.getSession();
         Session.Runner runner = session.runner();
         float[][] dataMatrix = model.createDataMatrix(data);
+        runner.feed(normalize(model.meta.parameters.get("global_is_training")), Tensor.create(false));
         runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataMatrix));
         runner.fetch(normalize(model.meta.predict_op)); //the tensor we want to extract
         List<Tensor> results = runner.run();
