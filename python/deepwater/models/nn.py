@@ -1,36 +1,36 @@
 import tensorflow as tf
-import math
+#import math
 
 def is_training():
     return tf.get_default_graph().get_tensor_by_name("global_is_training:0")
 
-def weight_variable(shape, name):
-    # Delving deep into Rectifier
-    # http://arxiv.org/pdf/1502.01852v1.pdf)
-    # fan_in, _ = get_fans(shape)
-    if shape:
-        fan_in = float(shape[-2]) if len(shape) > 1 else float(shape[-1])
-        fan_out = float(shape[-1])
-    else:
-        fan_in = 1.0
-        fan_out = 1.0
-    for dim in shape[:-2]:
-        fan_in *= float(dim)
-        fan_out *= float(dim)
-
-    # assert stddev > 0.001, stddev
-
-    factor = 2.0
-    stddev = math.sqrt(1.3 * factor / fan_in)
-
-    initialization = tf.truncated_normal(shape, stddev=stddev)
-
-    return tf.Variable(initialization, name=name)
-
-def bias_variable(shape, name):
-    initial = tf.constant(0.01, shape=shape)
-    var = tf.Variable(initial, name=name)
-    return var
+# def weight_variable(shape, name):
+#     # Delving deep into Rectifier
+#     # http://arxiv.org/pdf/1502.01852v1.pdf)
+#     # fan_in, _ = get_fans(shape)
+#     if shape:
+#         fan_in = float(shape[-2]) if len(shape) > 1 else float(shape[-1])
+#         fan_out = float(shape[-1])
+#     else:
+#         fan_in = 1.0
+#         fan_out = 1.0
+#     for dim in shape[:-2]:
+#         fan_in *= float(dim)
+#         fan_out *= float(dim)
+#
+#     # assert stddev > 0.001, stddev
+#
+#     factor = 2.0
+#     stddev = math.sqrt(1.3 * factor / fan_in)
+#
+#     initialization = tf.truncated_normal(shape, stddev=stddev)
+#
+#     return tf.Variable(initialization, name=name)
+#
+# def bias_variable(shape, name):
+#     initial = tf.constant(0.01, shape=shape)
+#     var = tf.Variable(initial, name=name)
+#     return var
 
 def conv11x11(x, filters, **kwds):
     return conv(x, 11, 11, filters, **kwds)
@@ -105,18 +105,19 @@ def max_pool_3x3(x, stride=2, padding="SAME"):
                           strides=[1, stride, stride, 1],
                           padding=padding)
 
-def fc0(x, shape):
-    W = weight_variable(shape, "weight")
-    b = bias_variable([shape[-1]], "bias")
-    return tf.add(tf.matmul(x, W), b)
+# def fc0(x, shape):
+#     W = weight_variable(shape, "weight")
+#     b = bias_variable([shape[-1]], "bias")
+#     return tf.add(tf.matmul(x, W), b)
 
-# def constant_initializer(shape, dtype, partition_info, value=0.01):
-#     return tf.fill(shape, value)
+def constant_initializer(value=0.01):
+     return lambda shape, dtype, partition_info: tf.fill(shape, value)
 
 def fc_no_bn(x, shape):
     return fc(x, shape, normalizer_fn = None, normalizer_params = None)
 
-def fc(x, shape, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params = {}):
+# def fc(x, shape, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params = {}):
+def fc(x, shape, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params = {  'is_training': True }):
     if normalizer_fn is not None and not normalizer_params:
         # setting this here b/c otherwise is_training() is evaluated too early
         normalizer_params = { 'is_training': is_training() }
@@ -128,7 +129,7 @@ def fc(x, shape, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params
                                         normalizer_fn=normalizer_fn,
                                         normalizer_params=normalizer_params,
                                         #biases_initializer=bias_initializer,
-                                        #biases_initializer=constant_initializer(),
+                                        #biases_initializer=constant_initializer(0.01),
                                         #biases_initializer=tf.contrib.layers.xavier_initializer(),
                                         trainable=True)
     return out
