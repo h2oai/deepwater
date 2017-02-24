@@ -108,23 +108,33 @@ def max_pool_3x3(x, stride=2, padding="SAME"):
                           strides=[1, stride, stride, 1],
                           padding=padding)
 
-def fc(x, shape):
-    return fc0(x, shape)
-
 def fc0(x, shape):
     W = weight_variable(shape, "weight")
     b = bias_variable([shape[-1]], "bias")
     return tf.add(tf.matmul(x, W), b)
 
-def fc1(x, shape):
+# def constant_initializer(shape, dtype, partition_info, value=0.01):
+#     return tf.fill(shape, value)
+
+# Mateusz: not sure how the is_training() method is supposed to work so I'm leaving this WIP. Certainly needs cleanup!
+def fc(x, shape):
+    bias_initializer = lambda shape, dtype, partition_info: tf.fill(shape, 0.01)
+    #tf.constant(True, name='global_is_training')
+    #print("is training ", tf.Print(is_training()))
     out = tf.contrib.layers.fully_connected(inputs=x, num_outputs=shape[-1],
                                         weights_initializer=tf.contrib.layers.xavier_initializer(),
-                                        biases_initializer=tf.contrib.layers.xavier_initializer(),
-                                        #biases_initializer=0.01,
+                                        activation_fn=None,
+                                        normalizer_fn=tf.contrib.layers.batch_norm,
+                                        normalizer_params={ 'is_training': True }, # only temporary until is_training() is put in correctly
+                                        #normalizer_params={ 'is_training': is_training() },
+                                        #biases_initializer=bias_initializer,
+                                        #biases_initializer=constant_initializer(),
+                                        #biases_initializer=tf.contrib.layers.xavier_initializer(),
                                         trainable=True)
     return out
 
 def is_training():
+    #return True
     return tf.get_default_graph().get_tensor_by_name("global_is_training:0")
     # with tf.variable_scope('') as scope:
     #     scope.reuse_variables()

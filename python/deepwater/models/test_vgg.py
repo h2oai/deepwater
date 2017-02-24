@@ -25,7 +25,7 @@ class TestVGG(unittest.TestCase):
                               optimizers.MomentumOptimizer,
                               batch_size=16,
                               epochs=3,
-                              initial_learning_rate=1e-4,
+                              initial_learning_rate=1e-5,
                               summaries=False,
                               use_debug_session=False,
                             )

@@ -2,7 +2,7 @@ import tensorflow as tf
 
 from deepwater.models import BaseImageClassificationModel
 # from deepwater.models.nn import weight_variable, bias_variable, max_pool_2x2, conv, fc
-from deepwater.models.nn import  max_pool_2x2, conv, fc
+from deepwater.models.nn import max_pool_2x2, conv, fc
 
 
 class LeNet(BaseImageClassificationModel):
