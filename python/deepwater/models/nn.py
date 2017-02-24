@@ -1,11 +1,8 @@
 import tensorflow as tf
-import numpy as np
 import math
 
-def batch_norm(x, scope=''):
-    from tensorflow.contrib.layers import batch_norm as layers_batch_norm
-    batch_norm_epsilon = 1e-5
-    return layers_batch_norm(x, epsilon=batch_norm_epsilon)
+def is_training():
+    return tf.get_default_graph().get_tensor_by_name("global_is_training:0")
 
 def weight_variable(shape, name):
     # Delving deep into Rectifier
@@ -65,8 +62,10 @@ def conv1x7(x, filters, **kwds):
 def conv7x1(x, filters, **kwds):
     return conv(x, 7, 1, filters, **kwds)
 
+def conv_bn(x, w, h, filters):
+    return conv(x, w, h, filters, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params = { 'is_training': is_training() })
 
-def conv(x, w, h, filters, stride=1, padding="SAME", activation="relu", norm = False):
+def conv(x, w, h, filters, stride=1, padding="SAME", activation="relu", normalizer_fn = None, normalizer_params = None):
     # channels = x.get_shape().as_list()[3]
     #
     # kernel_shape = [w, h, channels, filters]
@@ -90,6 +89,8 @@ def conv(x, w, h, filters, stride=1, padding="SAME", activation="relu", norm = F
                                           stride=stride, padding=padding,
                                           weights_initializer=tf.contrib.layers.xavier_initializer_conv2d(),
                                           biases_initializer=tf.contrib.layers.xavier_initializer(),
+                                          normalizer_fn=normalizer_fn,
+                                          normalizer_params=normalizer_params,
                                           trainable=True)
     if activation == "relu":
         out = tf.nn.relu(out)
@@ -116,29 +117,18 @@ def fc0(x, shape):
 # def constant_initializer(shape, dtype, partition_info, value=0.01):
 #     return tf.fill(shape, value)
 
-# Mateusz: not sure how the is_training() method is supposed to work so I'm leaving this WIP. Certainly needs cleanup!
-def fc(x, shape):
+def fc_bn(x, shape):
+    return fc(x, shape, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params = { 'is_training': is_training() })
+
+def fc(x, shape, normalizer_fn = None, normalizer_params = None):
     bias_initializer = lambda shape, dtype, partition_info: tf.fill(shape, 0.01)
-    #tf.constant(True, name='global_is_training')
-    #print("is training ", tf.Print(is_training()))
     out = tf.contrib.layers.fully_connected(inputs=x, num_outputs=shape[-1],
                                         weights_initializer=tf.contrib.layers.xavier_initializer(),
                                         activation_fn=None,
-                                        normalizer_fn=tf.contrib.layers.batch_norm,
-                                        normalizer_params={ 'is_training': True }, # only temporary until is_training() is put in correctly
-                                        #normalizer_params={ 'is_training': is_training() },
+                                        normalizer_fn=normalizer_fn,
+                                        normalizer_params=normalizer_params,
                                         #biases_initializer=bias_initializer,
                                         #biases_initializer=constant_initializer(),
                                         #biases_initializer=tf.contrib.layers.xavier_initializer(),
                                         trainable=True)
     return out
-
-def is_training():
-    #return True
-    return tf.get_default_graph().get_tensor_by_name("global_is_training:0")
-    # with tf.variable_scope('') as scope:
-    #     scope.reuse_variables()
-    #     return tf.get_variable("is_training",
-    #                            initializer=lambda *args, **kwds: False, shape=[],
-    #                            trainable=False,
-    #                            dtype=tf.bool)
