@@ -20,15 +20,15 @@ class TestInceptionV4(unittest.TestCase):
                             use_debug_session=False,
                             )
 
-    def test_inceptionv4_must_converge_on_CIFAR10(self):
-        CIFAR10_must_converge("inceptionv4", inception.InceptionV4,
-                              optimizers.RMSPropOptimizer,
-                              batch_size=16,
-                              epochs=90,
-                              initial_learning_rate=0.2,
-                              summaries=False,
-                              use_debug_session=False,
-                              )
+#    def test_inceptionv4_must_converge_on_CIFAR10(self):
+#        CIFAR10_must_converge("inceptionv4", inception.InceptionV4,
+#                              optimizers.RMSPropOptimizer,
+#                              batch_size=16,
+#                              epochs=90,
+#                              initial_learning_rate=0.2,
+#                              summaries=False,
+#                              use_debug_session=False,
+#                              )
 
     def test_inceptionv4_cat_dog_mouse_must_converge(self):
         train_error = cat_dog_mouse_must_converge("inceptionv4", inception.InceptionV4,
