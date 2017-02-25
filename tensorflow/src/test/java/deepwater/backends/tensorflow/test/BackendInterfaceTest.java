@@ -194,7 +194,7 @@ public class BackendInterfaceTest {
             while (it.next(b)) {
                 backend.train(model, b.getImages(), b.getLabels());
                 double trainError = computePredictionError(backend, model, b, dataset.getNumClasses());
-                System.out.println("error:" + trainError);
+//                System.out.println("error:" + trainError);
             }
 
             learningRate *= 0.5;
