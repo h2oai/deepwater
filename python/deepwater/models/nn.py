@@ -117,9 +117,9 @@ def fc_no_bn(x, shape):
     return fc(x, shape, normalizer_fn = None, normalizer_params = None)
 
 # def fc(x, shape, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params = {}):
-def fc(x, shape, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params = {  'is_training': True }):
+def fc(x, shape, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params = {}):
     if normalizer_fn is not None and not normalizer_params:
-        # setting this here b/c otherwise is_training() is evaluated too early
+        # setting this here and not as default param value b/c otherwise is_training() is evaluated too early
         normalizer_params = { 'is_training': is_training() }
 
     bias_initializer = lambda shape, dtype, partition_info: tf.fill(shape, 0.01)

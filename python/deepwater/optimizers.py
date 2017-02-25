@@ -1,4 +1,5 @@
 import tensorflow as tf
+from tensorflow.python.ops import control_flow_ops
 from abc import ABCMeta, abstractproperty, abstractmethod
 
 
@@ -50,7 +51,10 @@ class RMSPropOptimizer(BaseOptimizer):
     def apply(self, loss):
         trainable = tf.trainable_variables()
         self._grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
-        self._optimize_op = self._optimizer.minimize(loss, global_step=self._global_step)
+        update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+        with tf.control_dependencies(update_ops):
+            # Ensures that we execute the update_ops before performing the train_step
+            self._optimize_op = self._optimizer.minimize(loss, global_step=self._global_step)
 
 
     @property
@@ -100,7 +104,10 @@ class MomentumOptimizer(BaseOptimizer):
     def apply(self, loss):
         trainable = tf.trainable_variables()
         self._grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
-        self._optimize_op = self._optimizer.minimize(loss)
+        update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+        with tf.control_dependencies(update_ops):
+            # Ensures that we execute the update_ops before performing the train_step
+            self._optimize_op = self._optimizer.minimize(loss)
 
     @property
     def grads_and_vars(self):
@@ -144,7 +151,10 @@ class GradientDescentOptimizer(BaseOptimizer):
     def apply(self, loss):
         trainable = tf.trainable_variables()
         self._grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
-        self._optimize_op = self._optimizer.minimize(loss, global_step=self._global_step)
+        update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+        with tf.control_dependencies(update_ops):
+            # Ensures that we execute the update_ops before performing the train_step
+            self._optimize_op = self._optimizer.minimize(loss, global_step=self._global_step)
 
     @property
     def grads_and_vars(self):
@@ -186,7 +196,10 @@ class DefaultOptimizer(BaseOptimizer):
     def apply(self, loss):
         trainable = tf.trainable_variables()
         self._grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
-        self._optimize_op = self._optimizer.minimize(loss, global_step=self._global_step)
+        update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+        with tf.control_dependencies(update_ops):
+            # Ensures that we execute the update_ops before performing the train_step
+            self._optimize_op = self._optimizer.minimize(loss, global_step=self._global_step)
 
         for _, var in self._grads_and_vars:
             print(var.name)
