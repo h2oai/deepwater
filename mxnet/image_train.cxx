@@ -146,7 +146,7 @@ void ImageTrain::loadModel(char * model_path) {
 
 const char * ImageTrain::toJson() {
   std::string tmp = mxnet_sym.ToJSON();
-  return tmp.c_str();
+  return strdup(tmp.c_str()); //this leaks, but at least doesn't corrupt
 }
 
 void ImageTrain::saveModel(char * model_path) {
@@ -410,5 +410,14 @@ std::vector<float> ImageTrain::extractLayer(float * data, const char * output_ke
   std::vector<float> res;
   exec->outputs[0].SyncCopyToCPU(&res);
   return res;
+}
+
+const char * ImageTrain::listAllLayers() {
+  std::string res;
+  Symbol net = mxnet_sym.GetInternals();
+  for(const auto & layer_name:net.ListOutputs()){
+    res += layer_name + "\n";
+  }
+  return strdup(res.c_str()); // this leaks, but at least doesn't corrupt
 }
 
