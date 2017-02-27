@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 import static deepwater.datasets.FileUtils.findFile;
 import static java.lang.Float.NaN;
@@ -398,12 +397,9 @@ public class BackendInterfaceTest {
                 meta_model);
 
         File modelFile = File.createTempFile("model", ".tmp");
-        modelFile.delete();
         backend.saveModel(model, modelFile.getPath());
-        byte[] paramArray = backend.readParams(modelFile);
 
         File modelParams = File.createTempFile("params", ".tmp");
-        modelParams.delete();
         backend.saveParam(model, modelParams.getAbsolutePath());
 
         opts = new RuntimeOptions();
@@ -414,9 +410,8 @@ public class BackendInterfaceTest {
                 dataset.getNumClasses(),
                 modelFile.getAbsolutePath());
         backend.loadParam(model2, modelParams.getAbsolutePath());
-        modelParams.delete();
 
-        backend.writeParams(modelParams, paramArray);
-        backend.loadParam(model2, modelParams.getAbsolutePath());
+        backend.deleteSavedModel(modelFile.getPath());
+        backend.deleteSavedParam(modelParams.getAbsolutePath());
     }
 }

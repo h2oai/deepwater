@@ -101,6 +101,11 @@ public class MXNetBackend implements BackendTrain {
   }
 
   @Override
+  public float[] extractLayer(BackendModel m, String name, float[] data) {
+    return get(m).extractLayer(data, name);
+  }
+
+  @Override
   public void loadParam(BackendModel m, String networkParms) {
     MXNetBackendModel model = get(m);
 
@@ -118,10 +123,19 @@ public class MXNetBackend implements BackendTrain {
   }
 
   @Override
-  public void writeParams(File file, byte[] payload) throws IOException {
+  public void writeBytes(File file, byte[] payload) throws IOException {
     FileOutputStream os = new FileOutputStream(file.toString());
     os.write(payload);
     os.close();
+  }
+
+  @Override
+  public byte[] readBytes(File file) throws IOException {
+    FileInputStream is = new FileInputStream(file);
+    byte[] params = new byte[(int) file.length()];
+    is.read(params);
+    is.close();
+    return params;
   }
 
   @Override
@@ -130,17 +144,26 @@ public class MXNetBackend implements BackendTrain {
   }
 
   @Override
+  public void deleteSavedModel(String model_path) {
+    try {
+      new File(model_path).delete();
+    } catch (SecurityException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
   public void saveParam(BackendModel m, String param_path) {
     get(m).saveParam(param_path);
   }
 
   @Override
-  public byte[] readParams(File file) throws IOException {
-    FileInputStream is = new FileInputStream(file);
-    byte[] params = new byte[(int)file.length()];
-    is.read(params);
-    is.close();
-    return params;
+  public void deleteSavedParam(String param_path) {
+    try {
+      new File(param_path).delete();
+    } catch (SecurityException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override

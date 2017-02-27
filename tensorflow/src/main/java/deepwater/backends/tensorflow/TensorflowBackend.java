@@ -110,8 +110,7 @@ public class TensorflowBackend implements BackendTrain {
         runner.run();
     }
 
-    @Override
-    public void writeParams(File file, byte[] payload) throws IOException {
+    public void writeBytes(File file, byte[] payload) throws IOException {
         ByteBuffer bb = ByteBuffer.wrap(payload);
 
         while(bb.hasRemaining()) {
@@ -159,7 +158,21 @@ public class TensorflowBackend implements BackendTrain {
     }
 
     @Override
-    public byte[] readParams(File filesPattern) throws IOException {
+    public void deleteSavedModel(String model_path) {
+
+    }
+
+    @Override
+    public void deleteSavedParam(String param_path) {
+
+    }
+
+    @Override
+    public float[] extractLayer(BackendModel m, String name, float[] data) {
+        return new float[0];
+    }
+
+    public byte[] readBytes(File filesPattern) throws IOException {
         // Read all TF files into a byte[]
         File tmpDir = filesPattern.getParentFile();
         // TF generated files

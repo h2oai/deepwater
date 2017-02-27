@@ -5,6 +5,8 @@
 #include <string>
 #include <cassert>
 #include <map>
+#include <stdio.h>
+#include <string.h>
 
 #include "include/symbol.h"
 #include "include/optimizer.h"
@@ -367,3 +369,46 @@ std::vector<float> ImageTrain::loadMeanImage(const char * fname) {
   nd_res.SyncCopyToCPU(&res, nd_size);
   return res;
 }
+
+std::vector<float> ImageTrain::extractLayer(float * data, const char * output_key) {
+
+  // find the output symbol
+  Symbol net = mxnet_sym.GetInternals();
+  bool found = false;
+  for(const auto & layer_name:net.ListOutputs()){
+    //std::cerr << layer_name << std::endl;
+    if (strcmp(layer_name.c_str(), output_key)==0) {
+      found = true;
+      break;
+    }
+  }
+  if (!found) {
+    std::cerr << "Layer " << output_key << " not found. These are the layers available:\n";
+    for(const auto & layer_name:net.ListOutputs()){
+      std::cerr << layer_name << std::endl;
+    }
+    return std::vector<float>(0);
+  }
+
+  // extract the output layer
+  Symbol output_layer = mxnet_sym.GetInternals()[output_key];
+
+  // update the executor to use the new args_map and aux_map
+  exec = std::unique_ptr<Executor>(output_layer.SimpleBind(ctx_dev,
+        args_map,
+        std::map<std::string, NDArray>(),
+        std::map<std::string, OpReqType>(),
+        aux_map));
+
+  // forward propagate the input
+  NDArray data_n = NDArray(data, shape, ctx_dev);
+  data_n.CopyTo(&args_map["data"]);
+  exec->Forward(false);
+
+  // extract the output of this executor (i.e., the requested symbol)
+  NDArray::WaitAll();
+  std::vector<float> res;
+  exec->outputs[0].SyncCopyToCPU(&res);
+  return res;
+}
+

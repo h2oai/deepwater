@@ -15,14 +15,12 @@ public interface BackendTrain {
                         BackendParams backend_params, int num_classes, String name);
 
   void saveModel(BackendModel m, String model_path);
+  void deleteSavedModel(String model_path);
 
   void loadParam(BackendModel m, String param_path);
 
-  void writeParams(File file, byte[] payload) throws IOException;
-
   void saveParam(BackendModel m, String param_path);
-
-  byte[] readParams(File file) throws IOException;
+  void deleteSavedParam(String param_path);
 
   float[] loadMeanImage(BackendModel m, String path);
 
@@ -43,4 +41,10 @@ public interface BackendTrain {
   // data[mini_batch_size * input_neurons]
   // returns float[mini_batch_size * nclasses] with per-class probabilities (regression: nclasses=1)
   float[] predict(BackendModel m, float[] data);
+
+  // extract a hidden layer of given name
+  float[] extractLayer(BackendModel m, String name, float[] data);
+
+  void writeBytes(File file, byte[] payload) throws IOException;
+  byte[] readBytes(File file) throws IOException;
 }
