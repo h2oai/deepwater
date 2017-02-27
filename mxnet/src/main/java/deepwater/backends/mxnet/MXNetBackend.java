@@ -106,6 +106,11 @@ public class MXNetBackend implements BackendTrain {
   }
 
   @Override
+  public String listAllLayers(BackendModel m) {
+    return get(m).listAllLayers();
+  }
+
+  @Override
   public void loadParam(BackendModel m, String networkParms) {
     MXNetBackendModel model = get(m);
 
