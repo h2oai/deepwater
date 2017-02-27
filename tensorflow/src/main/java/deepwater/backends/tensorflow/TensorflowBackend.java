@@ -159,12 +159,19 @@ public class TensorflowBackend implements BackendTrain {
 
     @Override
     public void deleteSavedModel(String model_path) {
+        deleteAllWithPrefix(model_path);
+    }
 
+    private void deleteAllWithPrefix(String prefix) {
+        File filePattern = new File(prefix);
+        for(File file : listFilesWithPrefix(filePattern.getParentFile(),filePattern.getName())) {
+            file.delete();
+        }
     }
 
     @Override
     public void deleteSavedParam(String param_path) {
-
+        deleteAllWithPrefix(param_path);
     }
 
     @Override
