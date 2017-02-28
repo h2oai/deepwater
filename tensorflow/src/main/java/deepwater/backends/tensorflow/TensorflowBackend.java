@@ -7,10 +7,12 @@ import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.backends.tensorflow.models.TensorflowModel;
 import deepwater.datasets.ImageDataSet;
+import org.tensorflow.Operation;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.*;
@@ -159,22 +161,73 @@ public class TensorflowBackend implements BackendTrain {
 
     @Override
     public void deleteSavedModel(String model_path) {
+        deleteAllWithPrefix(model_path);
+    }
 
+    private void deleteAllWithPrefix(String prefix) {
+        File filePattern = new File(prefix);
+        for(File file : listFilesWithPrefix(filePattern.getParentFile(),filePattern.getName())) {
+            file.delete();
+        }
     }
 
     @Override
     public void deleteSavedParam(String param_path) {
-
+        deleteAllWithPrefix(param_path);
     }
 
     @Override
     public String listAllLayers(BackendModel m) {
-        return "";
+        TensorflowModel model = (TensorflowModel) m;
+        // This can be changed to model.getGraph().getOperations() when TF Java API implements it
+        return model.meta.outputs.get("layers");
     }
 
     @Override
     public float[] extractLayer(BackendModel m, String name, float[] data) {
-        return new float[0];
+        TensorflowModel model = (TensorflowModel) m;
+        Session.Runner runner = model.getSession().runner();
+
+        assert null != model.getGraph().operation(name): "no layer with name: " + name;
+
+        float[][] dataMatrix = model.createDataMatrix(data);
+        runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataMatrix));
+        runner.fetch(name);
+
+        Tensor run = runner.run().get(0);
+
+        long[] shape = run.shape();
+        int[] dims = new int[shape.length];
+        int flatten = 1;
+        for(int i = 0; i < shape.length; i++) {
+            long dim = shape[i];
+            dims[i] = (int) dim;
+            flatten *= dim;
+        }
+
+        Object[] original = (Object[]) Array.newInstance(float.class, dims);
+
+        run.copyTo(original);
+
+        float[] flattened = new float[flatten];
+        flatten(original, flattened, 0);
+
+        return flattened;
+    }
+
+    private int flatten(Object original, float[] flattened, int dstPos) {
+        if(original instanceof float[][]) {
+            for(float[] sub : (float[][]) original) {
+                System.arraycopy(sub, 0, flattened, dstPos, sub.length);
+                dstPos += sub.length;
+            }
+            return dstPos;
+        } else {
+            for(Object sub : (Object[]) original) {
+                dstPos = flatten(sub, flattened, dstPos);
+            }
+        }
+        return 0;
     }
 
     public byte[] readBytes(File filesPattern) throws IOException {
