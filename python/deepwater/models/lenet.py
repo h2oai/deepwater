@@ -18,7 +18,8 @@ class LeNet(BaseImageClassificationModel):
 
         self._inputs = x
 
-        x_image = tf.reshape(x, [-1, width, height, channels],
+        with tf.variable_scope("reshape1"):
+            x_image = tf.reshape(x, [-1, width, height, channels],
                              name="input_reshape")
 
         with tf.variable_scope("conv1"):
@@ -34,12 +35,15 @@ class LeNet(BaseImageClassificationModel):
         for d in dims[1:]:
             flatten_size *= d
 
-        flatten = tf.reshape(out, [-1, int(flatten_size)])
+        with tf.variable_scope("reshape2"):
+            flatten = tf.reshape(out, [-1, int(flatten_size)])
 
-        out = fc(flatten, [int(flatten_size), 500])
-        out = tf.nn.tanh(out)
+        with tf.variable_scope("fc1"):
+            out = fc(flatten, [int(flatten_size), 500])
+            out = tf.nn.tanh(out)
 
-        self._logits = fc(out, [500, classes])
+        with tf.variable_scope("fc2"):
+            self._logits = fc(out, [500, classes])
 
         self._predictions = tf.nn.softmax(self._logits)
 

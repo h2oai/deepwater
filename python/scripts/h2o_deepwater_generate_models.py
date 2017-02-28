@@ -70,7 +70,9 @@ def export_train_graph(model_class, optimizer_class,
         meta = json.dumps({
             "inputs": {"batch_image_input": train_strategy.inputs.name,
                        "categorical_labels": train_strategy.labels.name},
-            "outputs": {"categorical_logits": model.logits.name},
+            "outputs": {"categorical_logits": model.logits.name,
+                        # This can be removed when TF Java API implements get_operations
+                        "layers": ','.join([m.name for m in graph.get_operations()])},
             "metrics": {"accuracy": train_strategy.accuracy.name,
                         "total_loss": train_strategy.loss.name},
             "parameters": {

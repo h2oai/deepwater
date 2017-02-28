@@ -135,31 +135,40 @@ class InceptionV4(BaseImageClassificationModel):
         x = tf.placeholder(tf.float32, [None, size], name="x")
         self._inputs = x
 
-        x = tf.reshape(x, [-1, width, height, channels])
+        with tf.variable_scope("reshape1"):
+            x = tf.reshape(x, [-1, width, height, channels])
 
         self._number_of_classes = classes
 
         max_w = 299
         min_w = 299 // 3
 
-        if width < min_w:
-            x = tf.image.resize_images(x, [min_w, min_w])
-        elif width == 299:
-            pass # do nothing
-        else:
-            x = tf.image.resize_images(x, [max_w, max_w])
+        with tf.variable_scope("resize1"):
+            if width < min_w:
+                x = tf.image.resize_images(x, [min_w, min_w])
+            elif width == 299:
+                pass # do nothing
+            else:
+                x = tf.image.resize_images(x, [max_w, max_w])
 
-        out = stem(x)
-        for _ in range(4):
-            out = inceptionA(out)
-        out = reductionA(out, k=192, l=224, m=256, n=384)
+        with tf.variable_scope("stem"):
+            out = stem(x)
 
-        for _ in range(7):
-            out = inceptionB(out)
-        out = reductionB(out)
+        for i in range(4):
+            with tf.variable_scope("incA" + str(i)):
+                out = inceptionA(out)
+        with tf.variable_scope("redA"):
+            out = reductionA(out, k=192, l=224, m=256, n=384)
 
-        for _ in range(3):
-            out = inceptionC(out)
+        for i in range(7):
+            with tf.variable_scope("incB" + str(i)):
+                out = inceptionB(out)
+        with tf.variable_scope("redB"):
+            out = reductionB(out)
+
+        for i in range(3):
+            with tf.variable_scope("incC" + str(i)):
+                out = inceptionC(out)
 
         a, b = out.get_shape().as_list()[1:3]
         out = tf.nn.avg_pool(out, ksize=[1, a, b, 1],
@@ -170,9 +179,11 @@ class InceptionV4(BaseImageClassificationModel):
         for d in dims[1:]:
             flatten_size *= d
 
-        out = tf.reshape(out, [-1, int(flatten_size)])
+        with tf.variable_scope("reshape2"):
+            out = tf.reshape(out, [-1, int(flatten_size)])
 
-        out = fc(out, [flatten_size, classes])
+        with tf.variable_scope("fc1"):
+            out = fc(out, [flatten_size, classes])
 
         self._logits = out
 

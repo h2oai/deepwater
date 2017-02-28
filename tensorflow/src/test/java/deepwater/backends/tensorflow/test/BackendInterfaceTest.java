@@ -10,6 +10,7 @@ import deepwater.datasets.BatchIterator;
 import deepwater.datasets.CIFAR10ImageDataset;
 import deepwater.datasets.ImageBatch;
 import deepwater.datasets.MNISTImageDataset;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
@@ -413,5 +414,29 @@ public class BackendInterfaceTest {
 
         backend.deleteSavedModel(modelFile.getPath());
         backend.deleteSavedParam(modelParams.getAbsolutePath());
+    }
+
+    @Test
+    public void shouldGetAllLenetLayers() {
+        BackendTrain backend = new TensorflowBackend();
+
+        MNISTImageDataset dataset = new MNISTImageDataset();
+
+        RuntimeOptions opts = new RuntimeOptions();
+        BackendParams params = new BackendParams();
+
+        params.set("mini_batch_size", 32);
+
+        BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), "lenet");
+
+        backend.setParameter(model, "learning_rate", 1e-3f);
+        backend.setParameter(model, "momentum", 0.8f);
+
+        ImageBatch b = new ImageBatch(dataset, 32);
+
+        Assert.assertTrue(backend.listAllLayers(model).contains("conv1/MaxPool"));
+
+        float[] maxPoolLayer = backend.extractLayer(model, "conv1/MaxPool", b.getImages());
+        Assert.assertEquals(125440, maxPoolLayer.length);
     }
 }
