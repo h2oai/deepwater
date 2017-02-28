@@ -4,9 +4,7 @@ from tensorflow.contrib.layers import convolution2d, batch_norm
 from deepwater.models import BaseImageClassificationModel
 
 from collections import namedtuple
-from math import sqrt
-
-from deepwater.models.nn import max_pool_3x3, fc
+from deepwater.models.nn import max_pool_3x3, fc, is_training, conv
 
 
 class Resnet(BaseImageClassificationModel):
@@ -34,11 +32,16 @@ class Resnet(BaseImageClassificationModel):
         else:
             x = tf.image.resize_images(x, [max_w, max_w])
 
+        # x = tf.reshape(x, [-1, width, height, channels],
+        #              name="input_reshape")
+
+        # normalizer_params = { 'is_training': is_training() }
+
         # adapted from https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/learn/resnet.py
 
         # Configurations for each bottleneck group.
 
-        activation = tf.nn.relu
+        # activation = tf.nn.relu
         BottleneckGroup = namedtuple('BottleneckGroup',
                                      ['num_blocks', 'num_filters', 'bottleneck_size'])
         groups = [
@@ -46,24 +49,19 @@ class Resnet(BaseImageClassificationModel):
             BottleneckGroup(3, 512, 128), BottleneckGroup(3, 1024, 256)
         ]
 
-        input_shape = x.get_shape().as_list()
-
-        # Reshape the input into the right shape if it's 2D tensor
-        if len(input_shape) == 2:
-            ndim = int(sqrt(input_shape[1]))
-            x = tf.reshape(x, [-1, ndim, ndim, 1])
-
         # First convolution expands to 64 channels
         with tf.variable_scope('conv_layer1'):
-            net = convolution2d(
-                x, 64, 7, normalizer_fn=batch_norm, activation_fn=activation)
+            # net = convolution2d(
+            #     x, 64, 7, normalizer_fn=batch_norm, normalizer_params=normalizer_params, activation_fn=activation)
+            net = conv(x, 7, 7, 64)
 
         # Max pool
         net = tf.nn.max_pool(net, [1, 3, 3, 1], strides=[1, 2, 2, 1], padding='SAME')
 
         # First chain of resnets
         with tf.variable_scope('conv_layer2'):
-            net = convolution2d(net, groups[0].num_filters, 1, padding='VALID')
+            # net = convolution2d(net, groups[0].num_filters, 1, padding='VALID')
+            net = conv(net, 1, 1, groups[0].num_filters, padding='VALID')
 
         # Create the bottleneck groups, each of which contains `num_blocks`
         # bottleneck groups.
@@ -73,49 +71,56 @@ class Resnet(BaseImageClassificationModel):
 
                 # 1x1 convolution responsible for reducing dimension
                 with tf.variable_scope(name + '/conv_in'):
-                    conv = convolution2d(
-                        net,
-                        group.bottleneck_size,
-                        1,
-                        padding='VALID',
-                        activation_fn=activation,
-                        normalizer_fn=batch_norm)
+                    # conv = convolution2d(
+                    #     net,
+                    #     group.bottleneck_size,
+                    #     1,
+                    #     padding='VALID',
+                    #     activation_fn=activation,
+                    #     normalizer_fn=batch_norm,
+                    #     normalizer_params=normalizer_params)
+                    convLayer = conv(net, 1, 1, group.bottleneck_size, padding='VALID')
 
                 with tf.variable_scope(name + '/conv_bottleneck'):
-                    conv = convolution2d(
-                        conv,
-                        group.bottleneck_size,
-                        3,
-                        padding='SAME',
-                        activation_fn=activation,
-                        normalizer_fn=batch_norm)
+                    # conv = convolution2d(
+                    #     conv,
+                    #     group.bottleneck_size,
+                    #     3,
+                    #     padding='SAME',
+                    #     activation_fn=activation,
+                    #     normalizer_fn=batch_norm,
+                    #     normalizer_params=normalizer_params)
+                    convLayer = conv(convLayer, 3, 3, group.bottleneck_size)
 
                 # 1x1 convolution responsible for restoring dimension
                 with tf.variable_scope(name + '/conv_out'):
                     input_dim = net.get_shape()[-1].value
-                    conv = convolution2d(
-                        conv,
-                        input_dim,
-                        1,
-                        padding='VALID',
-                        activation_fn=activation,
-                        normalizer_fn=batch_norm)
+                    # conv = convolution2d(
+                    #     conv,
+                    #     input_dim,
+                    #     1,
+                    #     padding='VALID',
+                    #     activation_fn=activation,
+                    #     normalizer_fn=batch_norm,
+                    #     normalizer_params=normalizer_params)
+                    convLayer = conv(convLayer, 1, 1, input_dim, padding='VALID')
 
                 # shortcut connections that turn the network into its counterpart
                 # residual function (identity shortcut)
-                net = conv + net
+                net = convLayer + net
 
             try:
                 # upscale to the next group size
                 next_group = groups[group_i + 1]
                 with tf.variable_scope('block_%d/conv_upscale' % group_i):
-                    net = convolution2d(
-                        net,
-                        next_group.num_filters,
-                        1,
-                        activation_fn=None,
-                        biases_initializer=None,
-                        padding='SAME')
+                    # net = convolution2d(
+                    #     net,
+                    #     next_group.num_filters,
+                    #     1,
+                    #     activation_fn=None,
+                    #     biases_initializer=None,
+                    #     padding='SAME')
+                    net = conv(net, 1, 1, next_group.num_filters)
             except IndexError:
                 pass
 
