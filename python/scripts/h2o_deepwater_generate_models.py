@@ -100,7 +100,8 @@ def export_linear_model_graph(model_class):
 
 
 def export_image_classifier_model_graph(model_class):
-    classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50, 100, 1000]
+    # classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50, 100, 1000]
+    classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 100]
     height = [28, 32, 224, 320]
     width = [28, 32, 224, 320]
     channels = [1, 3]
