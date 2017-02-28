@@ -42,8 +42,11 @@ public final class util {
     }
 
     public static void loadCudaLib() throws IOException {
-        String cuda_path = System.getenv().get("CUDA_PATH");
-        checkNotNull(cuda_path,"CUDA_PATH hasn't been set!");
+        String cuda_path = System.getenv().get("CUDA_HOME");
+        if (cuda_path == null) {
+          cuda_path = System.getenv().get("CUDA_PATH");
+        }
+        checkNotNull(cuda_path,"CUDA_HOME or CUDA_PATH hasn't been set!");
 
         System.load(path(cuda_path, "lib64", libName("cudart")));
         System.load(path(cuda_path, "lib64", libName("cublas")));
