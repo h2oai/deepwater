@@ -7,9 +7,9 @@ from collections import namedtuple
 from deepwater.models.nn import max_pool_3x3, fc, is_training, conv
 
 
-class Resnet(BaseImageClassificationModel):
+class ResNet(BaseImageClassificationModel):
     def __init__(self, width=299, height=299, channels=3, classes=10):
-        super(Resnet, self).__init__()
+        super(ResNet, self).__init__()
 
         assert width == height, "width and height must be the same"
 
@@ -155,7 +155,7 @@ class Resnet(BaseImageClassificationModel):
 
     @property
     def name(self):
-        return "resnet"
+        return "ResNet"
 
     @property
     def number_of_classes(self):

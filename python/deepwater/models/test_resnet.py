@@ -11,13 +11,11 @@ import tensorflow
 class TestResnet(unittest.TestCase):
 
     def test_resnet_must_converge_on_MNIST(self):
-        MNIST_must_converge("Resnet", resnet.Resnet,
+        MNIST_must_converge("Resnet", resnet.ResNet,
                             optimizers.RMSPropOptimizer,
-                            batch_size=16,
+                            batch_size=32,
                             epochs=10,
-                            initial_learning_rate=0.045,
-                            summaries=False,
-                            use_debug_session=False,
+                            initial_learning_rate=0.001,
                             )
 
 
