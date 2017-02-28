@@ -290,7 +290,7 @@ def MNIST_must_converge(name,
         with tf.train.MonitoredTrainingSession(
                     checkpoint_dir=checkpoint_directory,
                     hooks=[ TestAtEnd(epochs*dataset.train.num_examples) ],
-                    config=tf.ConfigProto(log_device_placement=False)) as sess:
+                    config=tf.ConfigProto(allow_soft_placement=True, log_device_placement=False)) as sess:
 
             epoch = 0
 

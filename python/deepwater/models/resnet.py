@@ -46,7 +46,7 @@ class ResNet(BaseImageClassificationModel):
                                      ['num_blocks', 'num_filters', 'bottleneck_size'])
         groups = [
             BottleneckGroup(3, 128, 32), BottleneckGroup(3, 256, 64),
-            BottleneckGroup(3, 512, 128), BottleneckGroup(3, 1024, 256)
+            # BottleneckGroup(3, 512, 128), BottleneckGroup(3, 1024, 256)
         ]
 
         # First convolution expands to 64 channels
