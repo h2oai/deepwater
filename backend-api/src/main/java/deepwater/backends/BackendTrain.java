@@ -43,6 +43,7 @@ public interface BackendTrain {
   float[] predict(BackendModel m, float[] data);
 
   // extract a hidden layer of given name
+  String listAllLayers(BackendModel m);
   float[] extractLayer(BackendModel m, String name, float[] data);
 
   void writeBytes(File file, byte[] payload) throws IOException;

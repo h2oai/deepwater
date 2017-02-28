@@ -8,7 +8,7 @@ import json
 import tensorflow as tf
 from tensorflow.python.framework import ops
 
-from deepwater.models import (lenet, mlp, alexnet, vgg, inception)
+from deepwater.models import (lenet, mlp, alexnet, vgg, inception, resnet)
 from deepwater import train, optimizers
 
 from functools import partial
@@ -100,7 +100,8 @@ def export_linear_model_graph(model_class):
 
 
 def export_image_classifier_model_graph(model_class):
-    classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50, 100, 1000]
+    # classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50, 100, 1000]
+    classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 100]
     height = [28, 32, 224, 320]
     width = [28, 32, 224, 320]
     channels = [1, 3]
@@ -118,8 +119,8 @@ if __name__ == "__main__":
                            hidden_layers=[200, 200],
                            dropout=[0.2, 0.5, 0.5])
 
-    export_linear_model_graph(default_mlp)
-    export_image_classifier_model_graph(default_mlp)
-
-    for model in (lenet.LeNet, alexnet.AlexNet, vgg.VGG16, inception.InceptionV4):
+    # export_linear_model_graph(default_mlp)
+    # export_image_classifier_model_graph(default_mlp)
+    #
+    for model in (lenet.LeNet, alexnet.AlexNet, vgg.VGG16, inception.InceptionV4, resnet.ResNet):
         export_image_classifier_model_graph(model)

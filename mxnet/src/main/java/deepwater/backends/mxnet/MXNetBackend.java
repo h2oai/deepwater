@@ -13,9 +13,9 @@ public class MXNetBackend implements BackendTrain {
   static private class MXNetLoader {
     static { //only load libraries once
       try {
-        final boolean GPU = System.getenv("CUDA_PATH") != null;
+        final boolean GPU = System.getenv("CUDA_PATH") != null || System.getenv("CUDA_HOME") != null;
         if (GPU) {
-          System.out.println("Found CUDA_PATH environment variable, trying to connect to GPU devices.");
+          System.out.println("Found CUDA_HOME or CUDA_PATH environment variable, trying to connect to GPU devices.");
           //System.out.println(logNvidiaStats());
           System.out.println("Loading CUDA library.");
           util.loadCudaLib();
@@ -103,6 +103,11 @@ public class MXNetBackend implements BackendTrain {
   @Override
   public float[] extractLayer(BackendModel m, String name, float[] data) {
     return get(m).extractLayer(data, name);
+  }
+
+  @Override
+  public String listAllLayers(BackendModel m) {
+    return get(m).listAllLayers();
   }
 
   @Override
