@@ -26,10 +26,6 @@ public class CatDogMouseImageDataset extends ImageDataSet {
     public List<Pair<Integer,float[]>> loadImages(String... filepath) throws IOException {
         List<Pair<Integer,float[]>> images = new ArrayList<>();
 
-        File temp = new File("/tmp/test/");
-        temp.deleteOnExit();
-        temp.mkdir();
-
         for (String path: filepath) {
             Scanner scanner = new Scanner(new File(path));
 
@@ -45,42 +41,34 @@ public class CatDogMouseImageDataset extends ImageDataSet {
 
                 BufferedImage inputImage = ImageIO.read(img);
 
-                // creates output image
-                BufferedImage outputImage = new BufferedImage(224, 224, inputImage.getType());
-                // scales the input image to the output image
-                Graphics2D g2d = outputImage.createGraphics();
+                // READ RESIZED
+                BufferedImage scaledImg = new BufferedImage(224, 224, inputImage.getType());
+                Graphics2D g2d = scaledImg.createGraphics();
                 g2d.drawImage(inputImage, 0, 0, 224, 224, null);
                 g2d.dispose();
 
-                ImageIO.write(outputImage, "jpg", new File("/tmp/test/" + img.getName()));
+                int r_idx = 0;
+                int g_idx = r_idx + 224 * 224;
+                int b_idx = g_idx + 224 * 224;
 
-                // READ RESIZED
-                img = new File("/tmp/test/"+img.getName());
-                inputStream = new FileInputStream(img);
-                imgBytes = new byte[(int)img.length()];
+                float[] pixels = new float[224*224*3];
 
-                inputStream.read(imgBytes);
-
-                int size = imgBytes.length / 3;
-                float[][] imageDataFloat = new float[3][size];
-
-                int i = 0;
-                for (int channel = 0; channel < 3; channel++) {
-                    for (int j = 0; j < size; j++) {
-                        float result = imgBytes[i++] & 0xFF;
-                        imageDataFloat[channel][j] = result;
+                for (int i = 0; i < 224; i++) {
+                    for (int j = 0; j < 224; j++) {
+                        Color mycolor = new Color(scaledImg.getRGB(j, i));
+                        int red = mycolor.getRed();
+                        int green = mycolor.getGreen();
+                        int blue = mycolor.getBlue();
+                        pixels[r_idx] = red;
+                        pixels[g_idx] = green;
+                        pixels[b_idx] = blue;
+                        r_idx++;
+                        g_idx++;
+                        b_idx++;
                     }
                 }
 
-                float[] result = new float[imgBytes.length];
-                int k = 0;
-                for (int j = 0; j < size; j++) {
-                    for (int channel = 0; channel < 3; channel++) {
-                        result[k++] = imageDataFloat[channel][j];
-                    }
-                }
-
-                images.add(new Pair<>(labels.get(pathLabel[1]), result));
+                images.add(new Pair<>(labels.get(pathLabel[1]), pixels));
             }
         }
 
