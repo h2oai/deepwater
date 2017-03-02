@@ -6,10 +6,8 @@ import deepwater.backends.BackendTrain;
 import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.TensorflowBackend;
 import deepwater.backends.tensorflow.models.ModelFactory;
-import deepwater.datasets.BatchIterator;
-import deepwater.datasets.CIFAR10ImageDataset;
-import deepwater.datasets.ImageBatch;
-import deepwater.datasets.MNISTImageDataset;
+import deepwater.backends.tensorflow.test.datasets.CatDogMouseImageDataset;
+import deepwater.datasets.*;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -48,6 +46,20 @@ public class BackendInterfaceTest {
         String[] test_images = new String[]{
                 findFile("bigdata/laptop/mnist/cifar-10/test_batch.bin"),
         };
+        BatchIterator test_it = new BatchIterator(dataset, 1, test_images);
+        ImageBatch batchTest = new ImageBatch(dataset, batchSize);
+
+        return computeValidationError(backend, model, test_it, batchTest, dataset.getNumClasses());
+    }
+
+    private double computeCatDogMouseTestError(BackendModel model, int batchSize) throws IOException {
+        BackendTrain backend = new TensorflowBackend();
+        CatDogMouseImageDataset dataset = new CatDogMouseImageDataset();
+
+        String[] test_images = new String[]{
+                findFile("bigdata/laptop/deepwater/imagenet/cat_dog_mouse.csv")
+        };
+
         BatchIterator test_it = new BatchIterator(dataset, 1, test_images);
         ImageBatch batchTest = new ImageBatch(dataset, batchSize);
 
@@ -134,6 +146,11 @@ public class BackendInterfaceTest {
     public void testLenet() throws IOException{
         backendCanTrainMNIST("lenet", 32, 1);
         backendCanSaveCheckpointMNIST("lenet", 32, 0.1f);
+    }
+
+    @Test
+    public void testLenetCatDogMouse() throws IOException {
+        backendCanTrainCatDogMouse("lenet", 32, 50, 1e-3f);
     }
 
     @Test
@@ -254,9 +271,56 @@ public class BackendInterfaceTest {
 
         System.out.println("final CIFAR10 validation error:" + error);
 
+        backend.delete(model);
+
         assert error < initialError: "final error is not less than initial error. model did not learn.";
+    }
+
+    private void backendCanTrainCatDogMouse(String modelName, int batchSize, int epochs, float learningRate) throws IOException {
+        BackendTrain backend = new TensorflowBackend();
+
+        CatDogMouseImageDataset dataset = new CatDogMouseImageDataset();
+
+        RuntimeOptions opts = new RuntimeOptions();
+        BackendParams params = new BackendParams();
+
+        params.set("mini_batch_size", batchSize);
+
+        BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelName);
+
+        double initialError = computeCatDogMouseTestError(model, batchSize);
+
+        System.out.println("initial CDM validation error:" + initialError);
+
+        backend.setParameter(model, "learning_rate", learningRate);
+        backend.setParameter(model, "momentum", 0.9f);
+
+        String[] train_images = new String[]{
+                findFile("bigdata/laptop/deepwater/imagenet/cat_dog_mouse.csv")
+        };
+
+
+        BatchIterator it = new BatchIterator(dataset, epochs, train_images);
+        ImageBatch b = new ImageBatch(dataset, batchSize);
+
+        while(it.nextEpochs()) {
+            while (it.next(b)) {
+                backend.train(model, b.getImages(), b.getLabels());
+                double trainError = computePredictionError(backend, model, b, dataset.getNumClasses());
+                System.out.println("train error:" + trainError);
+            }
+
+            double err = computeCatDogMouseTestError(model, batchSize);
+            System.out.println("test error:" + err);
+        }
+
+        double error = computeCatDogMouseTestError(model, batchSize);
+
+        System.out.println("final CDM validation error:" + error);
 
         backend.delete(model);
+
+        assert error < initialError: "final error is not less than initial error. model did not learn.";
     }
 
     private double computePredictionError(BackendTrain backend, BackendModel model, ImageBatch b, int classes) {
@@ -320,12 +384,12 @@ public class BackendInterfaceTest {
         double loaded = computeTestErrorMNIST(model2, batchSize);
 
         System.out.printf("error rate: initial %f  trained %f  improvement %f\n", initial, trained, initial - trained);
-        assert initial > trained: ("initial error rate:" + initial + " is less or same as after being trained: " + trained);
-        assert trained <= loaded: loaded;
 
         backend.delete(model);
         backend.delete(model2);
 
+        assert initial > trained: ("initial error rate:" + initial + " is less or same as after being trained: " + trained);
+        assert trained <= loaded: loaded;
     }
 
     private void backendCanSaveCheckpointCifar10(String modelName, int batchSize, int epochs, float learningRate) throws IOException {
@@ -374,12 +438,12 @@ public class BackendInterfaceTest {
         double loaded = computeTestErrorCifar10(model2, batchSize);
 
         System.out.printf("error rate: initial %f  trained %f  improvement %f\n", initial, trained, initial - trained);
-        assert initial > trained: ("initial error rate:" + initial + " is less or same as after being trained: " + trained);
-        assert trained <= loaded: loaded;
 
         backend.delete(model);
         backend.delete(model2);
 
+        assert initial > trained: ("initial error rate:" + initial + " is less or same as after being trained: " + trained);
+        assert trained <= loaded: loaded;
     }
 
 
