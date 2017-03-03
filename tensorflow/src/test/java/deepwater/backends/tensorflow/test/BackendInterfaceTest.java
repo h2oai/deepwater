@@ -9,6 +9,7 @@ import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.backends.tensorflow.test.datasets.CatDogMouseImageDataset;
 import deepwater.datasets.*;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -148,6 +149,7 @@ public class BackendInterfaceTest {
         backendCanSaveCheckpointMNIST("lenet", 32, 0.1f);
     }
 
+    @Ignore
     @Test
     public void testLenetCatDogMouse() throws IOException {
         backendCanTrainCatDogMouse("lenet", 32, 50, 1e-3f);
