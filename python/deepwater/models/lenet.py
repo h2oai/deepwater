@@ -45,7 +45,10 @@ class LeNet(BaseImageClassificationModel):
         with tf.variable_scope("fc2"):
             self._logits = fc(out, [500, classes])
 
-        self._predictions = tf.nn.softmax(self._logits)
+        if classes > 1:
+            self._predictions = tf.nn.softmax(self._logits)
+        else:
+            self._predictions = self._logits
 
     @property
     def train_dict(self):
