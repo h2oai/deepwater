@@ -67,7 +67,7 @@ def export_train_graph(model_class, optimizer_class,
         tf.add_to_collection("predictions", model.predictions)
         tf.add_to_collection(ops.GraphKeys.LOSSES, model.predictions)
 
-        meta = json.dumps({
+        basic_params = {
             "inputs": {"batch_image_input": train_strategy.inputs.name,
                        "categorical_labels": train_strategy.labels.name},
             "outputs": {"categorical_logits": model.logits.name,
@@ -80,7 +80,18 @@ def export_train_graph(model_class, optimizer_class,
                 "learning_rate": train_strategy._optimizer.learning_rate.name,
                 "momentum": train_strategy._optimizer.momentum.name,
                 "global_is_training": global_is_training.name},
-        })
+        }
+
+        if hasattr(model, 'hidden_dropout'):
+            basic_params['parameters']['hidden_dropout'] = model._hidden_dropout.name
+
+        if hasattr(model, 'input_dropout'):
+            basic_params['parameters']['input_dropout'] = model._input_dropout.name
+
+        if hasattr(model, 'activations'):
+            basic_params['parameters']['activations'] = model._activations.name
+
+        meta = json.dumps(basic_params)
 
         tf.add_to_collection("meta", meta)
 
@@ -98,7 +109,7 @@ def export_linear_model_graph(model_class):
             # export_train_graph(model_class,
             #                    optimizers.RMSPropOptimizer, linear, 1, 1, class_n)
             export_train_graph(model_class,
-                            optimizers.MomentumOptimizer, linear, 1, 1, class_n)
+                               optimizers.MomentumOptimizer, linear, 1, 1, class_n)
 
 
 def export_image_classifier_model_graph(model_class):
@@ -116,11 +127,10 @@ def export_image_classifier_model_graph(model_class):
 
 if __name__ == "__main__":
     # generate MLP
-    default_mlp = partial(mlp.MultiLayerPerceptron,
-                           hidden_layers=[200, 200], # FIXME
-			   input_dropout=0, # FIXME
-                           dropout=[0.0, 0.0], # FIXME
-                )
+    default_mlp = partial(
+        mlp.MultiLayerPerceptron,
+        hidden_layers=[200, 200], # FIXME
+        )
 
     export_linear_model_graph(default_mlp)
     export_image_classifier_model_graph(default_mlp)

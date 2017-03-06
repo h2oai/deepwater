@@ -1,5 +1,7 @@
 package deepwater.backends.tensorflow;
 
+import com.google.common.primitives.Doubles;
+import com.google.common.primitives.Floats;
 import deepwater.backends.BackendModel;
 import deepwater.backends.BackendParams;
 import deepwater.backends.BackendTrain;
@@ -90,8 +92,9 @@ public class TensorflowBackend implements BackendTrain {
                 return null;
             }
             model.activations = (String[]) bparms.get("activations", new String[]{"relu","relu"});
-            model.inputDropoutRatio = (Double) bparms.get("input_dropout_ratio", 0.0);
-            model.hiddenDropoutRatios = (double[]) bparms.get("hidden_dropout_ratios", new double[]{0,0});
+            model.inputDropoutRatio = ((Double) bparms.get("input_dropout_ratio", 0.0d)).floatValue();
+            double[] hidden_dropout_ratios = (double[]) bparms.get("hidden_dropout_ratios", new double[]{0f, 0f});
+            model.hiddenDropoutRatios = Floats.toArray(Doubles.asList(hidden_dropout_ratios));
         }
 
         if (!model.meta.init.isEmpty()) {
@@ -345,6 +348,10 @@ public class TensorflowBackend implements BackendTrain {
         runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataMatrix));
         runner.feed(normalize(model.meta.inputs.get("categorical_labels")), Tensor.create(labelData));
 
+        if(null != model.activations) {
+            feedMLPData(model, runner);
+        }
+
         runner.feed(normalize(model.meta.parameters.get("learning_rate")), Tensor.create(model.getParameter("learning_rate", 0.001f)));
         runner.feed(normalize(model.meta.parameters.get("momentum")), Tensor.create(model.getParameter("momentum", 0.5f)));
 
@@ -356,12 +363,29 @@ public class TensorflowBackend implements BackendTrain {
         return null;
     }
 
+    private void feedMLPData(TensorflowModel model, Session.Runner runner) {
+        // String tensors not supported in this version of TF Java API
+        int[] act = new int[model.activations.length];
+        for(int i = 0; i < model.activations.length; i++) {
+            act[i] = TensorflowModel.activationToNumeric.getOrDefault(model.activations[i], 0);
+        }
+
+        runner.feed(normalize(model.meta.parameters.get("activations")), Tensor.create(act));
+        runner.feed(normalize(model.meta.parameters.get("input_dropout")), Tensor.create(model.inputDropoutRatio));
+        runner.feed(normalize(model.meta.parameters.get("hidden_dropout")), Tensor.create(model.hiddenDropoutRatios));
+    }
+
     @Override
     public float[] predict(BackendModel m, float[] data) {
         TensorflowModel model = (TensorflowModel) m;
         Session session = model.getSession();
         Session.Runner runner = session.runner();
         float[][] dataMatrix = model.createDataMatrix(data);
+
+        if(null != model.activations) {
+            feedMLPData(model, runner);
+        }
+
         runner.feed(normalize(model.meta.parameters.get("global_is_training")), Tensor.create(false));
         runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataMatrix));
         runner.fetch(normalize(model.meta.predict_op)); //the tensor we want to extract

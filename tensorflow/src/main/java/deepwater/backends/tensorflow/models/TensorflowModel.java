@@ -23,9 +23,15 @@ public class TensorflowModel implements BackendModel {
     private Map<String, Float> parameters;
     private byte[] modelGraphData;
     public int miniBatchSize;
-    public String[] activations;
-    public double inputDropoutRatio;
-    public double[] hiddenDropoutRatios;
+    public String[] activations = null;
+
+    public static final Map<String, Integer> activationToNumeric = new HashMap<String, Integer>() {{
+      this.put("relu", 0);
+      this.put("tanh", 1);
+    }};
+
+    public float inputDropoutRatio;
+    public float[] hiddenDropoutRatios;
 
     TensorflowModel(TensorflowMetaModel meta, Graph graph, byte[] definition) {
         this.meta = meta;
