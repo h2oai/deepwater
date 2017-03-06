@@ -1,13 +1,14 @@
 from deepwater.models import BaseImageClassificationModel
 
 import tensorflow as tf
+
 from tensorflow.python.ops import nn
 
 from deepwater.models.nn import fc
 
 class MultiLayerPerceptron(BaseImageClassificationModel):
     def __init__(self, width=28, height=28, channels=1, classes=10,
-                 hidden_layers=[], activation_fn=nn.relu):
+                 hidden_layers=[], activation_fn=nn.relu, dropout=[], input_dropout=0):
         super(MultiLayerPerceptron, self).__init__()
 
         self._number_of_classes = classes
@@ -32,7 +33,8 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
 
         self._inputs = x
         x = tf.nn.dropout(x, keep_prob=tf.constant(1.0, dtype=tf.float32) - self._input_dropout)
-	
+        out = x # for when there are no hidden layers
+
         for idx, h in enumerate(hidden_layers):
             with tf.variable_scope("fc%d" % idx):
                 if 1 == self._activations[idx]:
