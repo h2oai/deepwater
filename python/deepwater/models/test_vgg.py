@@ -35,7 +35,7 @@ class TestVGG(unittest.TestCase):
                                                   optimizers.MomentumOptimizer,
                                                   batch_size=32,
                                                   epochs=50,
-                                                  initial_learning_rate=1e-4,
+                                                  initial_learning_rate=1e-3,
                                                   summaries=False)
         self.assertTrue(train_error <= 0.1)
 
