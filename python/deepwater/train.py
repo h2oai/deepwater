@@ -18,9 +18,11 @@ class ImageClassificationTrainStrategy(object):
         self._l2_loss = None
 
         # weight regularization
+        trainable_vars = tf.trainable_variables()
+
         if weight_decay > 0.0:
-            trainable_vars = tf.trainable_variables()
-            self._l2_loss = tf.add_n([tf.nn.l2_loss(v) for v in trainable_vars]) * weight_decay
+            self._l2_loss = tf.add_n([ tf.nn.l2_loss(v) for v in trainable_vars
+                       if 'bias' not in v.name ]) * weight_decay
             self._loss = tf.reduce_mean(
                 tf.nn.softmax_cross_entropy_with_logits(labels=labels,
                                                         logits=logits) + self._l2_loss)
