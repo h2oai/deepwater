@@ -73,9 +73,25 @@ public class TensorflowBackend implements BackendTrain {
         model.miniBatchSize = (int) bparms.get("mini_batch_size");
 
         if (name.toLowerCase().equals("mlp")) {
-            model.activations = (String[]) bparms.get("activations", new String[]{"relu"});
-            model.inputDropoutRatio = (Double) bparms.get("input_dropout_ratio", 0.2);
-            model.hiddenDropoutRatios = (double[]) bparms.get("hidden_dropout_ratios", new double[]{0.5});
+            if (!Arrays.equals((int[])bparms.get("hidden"), new int[]{200,200})) {
+                System.out.println("ERROR: only hidden=[200,200] is currently implemented.");
+                return null;
+            }
+            if ((Double)bparms.get("input_dropout_ratio")!=0) {
+                System.out.println("ERROR: only input_dropout_ratio=0 is currently implemented.");
+                return null;
+            }
+            if (!Arrays.equals((double[])bparms.get("hidden_dropout_ratios"),new double[]{0,0})) {
+                System.out.println("ERROR: only hidden_dropout_ratios=[0,0] is currently implemented.");
+                return null;
+            }
+            if (!Arrays.equals((String[])bparms.get("activations", null),new String[]{"relu","relu"})) {
+                System.out.println("ERROR: only Rectifier activation is currently implemented.");
+                return null;
+            }
+            model.activations = (String[]) bparms.get("activations", new String[]{"relu","relu"});
+            model.inputDropoutRatio = (Double) bparms.get("input_dropout_ratio", 0.0);
+            model.hiddenDropoutRatios = (double[]) bparms.get("hidden_dropout_ratios", new double[]{0,0});
         }
 
         if (!model.meta.init.isEmpty()) {
@@ -83,8 +99,8 @@ public class TensorflowBackend implements BackendTrain {
             runner.feed(normalize(model.meta.parameters.get("global_is_training")), Tensor.create(false));
             runner.addTarget(model.meta.init).run();
         } else {
-            System.out.println("WARNING WARNING: no init operation found");
-            assert false;
+            System.out.println("ERROR: no init operation found");
+            return null;
         }
         model.setSession(this.session);
         return model;

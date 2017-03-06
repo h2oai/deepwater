@@ -117,12 +117,14 @@ def export_image_classifier_model_graph(model_class):
 if __name__ == "__main__":
     # generate MLP
     default_mlp = partial(mlp.MultiLayerPerceptron,
-#                           hidden_layers=[2048, 2048, 2048],
-                           hidden_layers=[200, 200],
-                           dropout=[0.2, 0.5, 0.5])
+                           hidden_layers=[200, 200], # FIXME
+			   input_dropout=0, # FIXME
+                           dropout=[0.0, 0.0], # FIXME
+			   activation='relu') # FIXME
 
-    # export_linear_model_graph(default_mlp)
-    # export_image_classifier_model_graph(default_mlp)
-    #
+    export_linear_model_graph(default_mlp)
+    export_image_classifier_model_graph(default_mlp)
+    
+    # image models
     for model in (lenet.LeNet, alexnet.AlexNet, vgg.VGG16, inception.InceptionV4, resnet.ResNet):
         export_image_classifier_model_graph(model)
