@@ -52,15 +52,15 @@ class AlexNet(BaseImageClassificationModel):
             flatten = tf.reshape(lrn3, [-1, int(flatten_size)])
 
         with tf.variable_scope("fc1"):
-            fc1 = fc(flatten, [int(flatten_size), 4096])
+            fc1 = fc(flatten, 4096)
             relu1 = tf.nn.relu(fc1)
 
         with tf.variable_scope("fc2"):
-            fc2 = fc(relu1, [4096, 4096])
+            fc2 = fc(relu1, 4096)
             relu2 = tf.nn.relu(fc2)
 
         with tf.variable_scope("fc3"):
-            y = fc(relu2, [4096, classes])
+            y = fc(relu2, classes)
 
         self._logits = y
 

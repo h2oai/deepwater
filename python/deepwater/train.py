@@ -7,7 +7,7 @@ class ImageClassificationTrainStrategy(object):
 
     """
 
-    def __init__(self, graph, model, optimizer, weight_decay=0.00004, add_summaries=False):
+    def __init__(self, graph, model, optimizer, weight_decay=1e-6, add_summaries=False):
         self._graph = graph
         self._model = model
         self._labels = labels = tf.placeholder(tf.float32,
@@ -20,9 +20,7 @@ class ImageClassificationTrainStrategy(object):
         # weight regularization
         if weight_decay > 0.0:
             trainable_vars = tf.trainable_variables()
-            # exclude bias terms
-            self._l2_loss = tf.add_n([tf.nn.l2_loss(v) for v in trainable_vars
-                                      if 'bias' not in v.name]) * weight_decay
+            self._l2_loss = tf.add_n([tf.nn.l2_loss(v) for v in trainable_vars]) * weight_decay
             self._loss = tf.reduce_mean(
                 tf.nn.softmax_cross_entropy_with_logits(labels=labels,
                                                         logits=logits) + self._l2_loss)
@@ -145,4 +143,4 @@ class ImageClassificationTrainStrategy(object):
             # tf.summary.scalar('max/' + name, tf.reduce_max(var))
             # tf.summary.scalar('min/' + name, tf.reduce_min(var))
             name = name.replace(":", "_")
-            tf.summary.histogram(name, var)
+            # tf.summary.histogram(name, var)

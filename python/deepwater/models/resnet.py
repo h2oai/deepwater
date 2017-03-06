@@ -140,7 +140,7 @@ class ResNet(BaseImageClassificationModel):
 
         out = tf.reshape(out, [-1, int(flatten_size)])
 
-        out = fc(out, [flatten_size, classes])
+        out = fc(out, classes)
 
         self._logits = out
 

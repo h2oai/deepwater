@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import static deepwater.datasets.FileUtils.findFile;
 import static java.lang.Float.NaN;
@@ -196,6 +197,14 @@ public class BackendInterfaceTest {
 
         params.set("mini_batch_size", batchSize);
 
+        params.set("hidden", new int[]{200,200});
+
+        params.set("input_dropout_ratio", 0.0d);
+
+        params.set("hidden_dropout_ratios", new double[]{0.0d,0.0d});
+
+        params.set("activations", new String[]{"relu","relu"});
+
         BackendModel model = backend.buildNet(dataset, opts, params,
                                             dataset.getNumClasses(), modelName);
 
@@ -356,6 +365,15 @@ public class BackendInterfaceTest {
         RuntimeOptions opts = new RuntimeOptions();
         BackendParams params = new BackendParams();
         params.set("mini_batch_size", batchSize);
+        params.set("mini_batch_size", batchSize);
+
+        params.set("hidden", new int[]{200,200});
+
+        params.set("input_dropout_ratio", 0.0d);
+
+        params.set("hidden_dropout_ratios", new double[]{0.0d,0.0d});
+
+        params.set("activations", new String[]{"relu","relu"});
         BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelName);
 
         double initial = computeTestErrorMNIST(model, batchSize);

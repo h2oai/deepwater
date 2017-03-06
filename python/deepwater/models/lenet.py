@@ -39,11 +39,11 @@ class LeNet(BaseImageClassificationModel):
             flatten = tf.reshape(out, [-1, int(flatten_size)])
 
         with tf.variable_scope("fc1"):
-            out = fc(flatten, [int(flatten_size), 500])
+            out = fc(flatten, 500)
             out = tf.nn.tanh(out)
 
         with tf.variable_scope("fc2"):
-            self._logits = fc(out, [500, classes])
+            self._logits = fc(out, classes)
 
         if classes > 1:
             self._predictions = tf.nn.softmax(self._logits)

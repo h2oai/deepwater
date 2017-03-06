@@ -1,14 +1,13 @@
-import math
-
 from deepwater.models import BaseImageClassificationModel
 
 import tensorflow as tf
+from tensorflow.python.ops import nn
 
-from deepwater.models.nn import fc_no_bn
+from deepwater.models.nn import fc
 
 class MultiLayerPerceptron(BaseImageClassificationModel):
     def __init__(self, width=28, height=28, channels=1, classes=10,
-                 hidden_layers=[], input_dropout=0, dropout=[], activation="relu"):
+                 hidden_layers=[], input_dropout=0, dropout=[], activation_fn=nn.relu):
         super(MultiLayerPerceptron, self).__init__()
 
         self._number_of_classes = classes
@@ -24,30 +23,20 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
         self._inputs = x
         x = tf.nn.dropout(x, keep_prob=1.0 - input_dropout)
 	
-        for idx, (h1, h2) in enumerate(zip(hidden_layers, hidden_layers[1:])):
+        for idx, h in enumerate(hidden_layers):
             with tf.variable_scope("fc%d" % idx):
-		print("fc%d" % idx, h1, h2)
-                y1 = fc_no_bn(x, [h1, h2])
-		if activation=="relu":
-			y2 = tf.nn.relu(y1)
-		elif activation=="tanh":
-			y2 = tf.tanh(y1)
-		else:
-			raise Exception('invalid activation')
+                out = fc(x, h, activation_fn=activation_fn)
 
             if self._dropout_var.get_shape()[0] > idx:
                 with tf.variable_scope("dropout%d" % idx):
-                    y2 = tf.nn.dropout(y2, keep_prob=1.0 - self._dropout_var[idx])
+                    out = tf.nn.dropout(out, keep_prob=1.0 - self._dropout_var[idx])
 
-            x = y2
-	    print("x", x)
         with tf.variable_scope("fc%d" % len(hidden_layers)):
-            y1 = fc_no_bn(x, [hidden_layers[-1], classes])
-	    print("out", y1)
+            out = fc(out, classes)
 
-        self._logits = y1
+        self._logits = out
         if classes > 1:
-            self._predictions = tf.nn.softmax(y1)
+            self._predictions = tf.nn.softmax(out)
         else:
             self._predictions = self._logits
 

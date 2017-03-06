@@ -107,7 +107,11 @@ class MomentumOptimizer(BaseOptimizer):
         update_ops = tf.get_default_graph().get_collection(tf.GraphKeys.UPDATE_OPS)
         with tf.get_default_graph().control_dependencies(update_ops):
             # Ensures that we execute the update_ops before performing the train_step
-            self._optimize_op = self._optimizer.minimize(loss)
+            self._optimize_op = tf.contrib.layers.optimize_loss(loss,
+                                                                tf.contrib.framework.get_global_step(),
+                                                                self._learning_rate,
+                                                                optimizer=lambda lr: tf.train.MomentumOptimizer(self._learning_rate, momentum=self._momentum),
+                                                                clip_gradients=10.0)
 
     @property
     def grads_and_vars(self):

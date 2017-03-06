@@ -283,7 +283,7 @@ def MNIST_must_converge(name,
 
     with train_strategy.graph.as_default():
         dataset = read_data_sets('/tmp/deepwater/datasets/', validation_size=0)
-        checkpoint_directory="/tmp"
+        checkpoint_directory="/tmp/checkpoint"
         checkpoint_file=checkpoint_directory + "/checkpoint"
         if os.path.isfile(checkpoint_file):
             os.remove(checkpoint_file)

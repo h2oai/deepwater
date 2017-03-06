@@ -120,7 +120,7 @@ if __name__ == "__main__":
                            hidden_layers=[200, 200], # FIXME
 			   input_dropout=0, # FIXME
                            dropout=[0.0, 0.0], # FIXME
-			   activation='relu') # FIXME
+                )
 
     export_linear_model_graph(default_mlp)
     export_image_classifier_model_graph(default_mlp)

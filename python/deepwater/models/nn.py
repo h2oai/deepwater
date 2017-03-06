@@ -105,31 +105,16 @@ def max_pool_3x3(x, stride=2, padding="SAME"):
                           strides=[1, stride, stride, 1],
                           padding=padding)
 
-# def fc0(x, shape):
-#     W = weight_variable(shape, "weight")
-#     b = bias_variable([shape[-1]], "bias")
-#     return tf.add(tf.matmul(x, W), b)
-
 def constant_initializer(value=0.01):
      return lambda shape, dtype, partition_info: tf.fill(shape, value)
 
-def fc_no_bn(x, shape):
-    return fc(x, shape, normalizer_fn = None, normalizer_params = None)
+def fc_bn(x, num_outputs):
+    return fc(x, num_outputs, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params = { 'is_training': is_training() })
 
-# def fc(x, shape, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params = {}):
-def fc(x, shape, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params = {}):
-    if normalizer_fn is not None and not normalizer_params:
-        # setting this here and not as default param value b/c otherwise is_training() is evaluated too early
-        normalizer_params = { 'is_training': is_training() }
-
-    bias_initializer = lambda shape, dtype, partition_info: tf.fill(shape, 0.01)
-    out = tf.contrib.layers.fully_connected(inputs=x, num_outputs=shape[-1],
-                                        weights_initializer=tf.contrib.layers.xavier_initializer(),
-                                        activation_fn=None,
+def fc(x, num_outputs, normalizer_fn = None, normalizer_params = None, activation_fn=None):
+    out = tf.contrib.layers.fully_connected(inputs=x, num_outputs=num_outputs,
+                                        activation_fn=activation_fn,
                                         normalizer_fn=normalizer_fn,
                                         normalizer_params=normalizer_params,
-                                        #biases_initializer=bias_initializer,
-                                        #biases_initializer=constant_initializer(0.01),
-                                        #biases_initializer=tf.contrib.layers.xavier_initializer(),
                                         trainable=True)
     return out

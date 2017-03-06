@@ -183,7 +183,7 @@ class InceptionV4(BaseImageClassificationModel):
             out = tf.reshape(out, [-1, int(flatten_size)])
 
         with tf.variable_scope("fc1"):
-            out = fc(out, [flatten_size, classes])
+            out = fc(out, classes)
 
         self._logits = out
 

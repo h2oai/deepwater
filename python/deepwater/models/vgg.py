@@ -80,13 +80,13 @@ class VGG16(BaseImageClassificationModel):
 
         # fully connected
         with tf.variable_scope("fc1"):
-            out = fc(out, [int(flatten_size), 4096])
+            out = fc(out, 4096)
             out = tf.nn.relu(out)
         with tf.variable_scope("fc2"):
-            out = fc(out, [4096, 4096])
+            out = fc(out, 4096)
             out = tf.nn.relu(out)
         with tf.variable_scope("fc3"):
-            y = fc(out, [4096, classes])
+            y = fc(out, classes)
 
         self._logits = y
 

@@ -60,7 +60,8 @@ class TestMLP(unittest.TestCase):
 
     def test_mlp_200_200_momentum(self):
         hidden_layers = [200, 200]
-        dropout = [0.2, 0.5, 0.5]
+        # dropout = [0.2, 0.5, 0.5]
+        dropout = []
         model = partial(mlp.MultiLayerPerceptron,
                         hidden_layers=hidden_layers,
                         dropout=dropout)
@@ -68,7 +69,7 @@ class TestMLP(unittest.TestCase):
         MNIST_must_converge('mlpx200x200', model,
                             optimizers.RMSPropOptimizer,
                             initial_learning_rate=0.1,
-                            batch_size=128,
+                            batch_size=32,
                             epochs=epochs)
 
 
