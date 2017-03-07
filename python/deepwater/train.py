@@ -21,8 +21,10 @@ class ImageClassificationTrainStrategy(object):
 
         # weight regularization
         trainable_vars = tf.trainable_variables()
-        self._l2_loss = tf.add_n([ tf.nn.l2_loss(v) for v in trainable_vars
-                                   if 'bias' not in v.name ]) * weight_decay
+        l2 = tf.contrib.layers.l2_regularizer(weight_decay)
+        self._l2_loss = tf.add_n([l2(v) for v in trainable_vars
+                                  if 'bias' not in v.name])
+
         # Classification model
         if model.number_of_classes > 1:
             if weight_decay > 0.0:
@@ -37,9 +39,9 @@ class ImageClassificationTrainStrategy(object):
         else:
             if weight_decay > 0.0:
                 # Add weight decay
-                self._loss = tf.reduce_sum(tf.pow(logits - labels, 2))/(2 * batch_size) + self._l2_loss
+                self._loss = tf.losses.mean_squared_error(labels, logits) + self._l2_loss
             else:
-                self._loss = tf.reduce_sum(tf.pow(logits - labels, 2))/(2 * batch_size)
+                self._loss = tf.losses.mean_squared_error(labels, logits)
 
         a = tf.argmax(model.predictions, 1)
         b = tf.argmax(self._labels, 1)
