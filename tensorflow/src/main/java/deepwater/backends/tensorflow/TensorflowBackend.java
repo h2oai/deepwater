@@ -340,7 +340,9 @@ public class TensorflowBackend implements BackendTrain {
             feedMLPData(model, runner);
         }
 
-        runner.feed(normalize(model.meta.parameters.get("batch_size")), Tensor.create((float)model.miniBatchSize));
+        if(model.meta.parameters.containsKey("batch_size")) {
+            runner.feed(normalize(model.meta.parameters.get("batch_size")), Tensor.create((float) model.miniBatchSize));
+        }
 
         runner.feed(normalize(model.meta.parameters.get("learning_rate")), Tensor.create(model.getParameter("learning_rate", 0.001f)));
         runner.feed(normalize(model.meta.parameters.get("momentum")), Tensor.create(model.getParameter("momentum", 0.5f)));
@@ -376,7 +378,9 @@ public class TensorflowBackend implements BackendTrain {
             feedMLPData(model, runner);
         }
 
-        runner.feed(normalize(model.meta.parameters.get("batch_size")), Tensor.create((float)model.miniBatchSize));
+        if(model.meta.parameters.containsKey("batch_size")){
+            runner.feed(normalize(model.meta.parameters.get("batch_size")), Tensor.create((float)model.miniBatchSize));
+        }
         runner.feed(normalize(model.meta.parameters.get("global_is_training")), Tensor.create(false));
         runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataMatrix));
         runner.fetch(normalize(model.meta.predict_op)); //the tensor we want to extract
