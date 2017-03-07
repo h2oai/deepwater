@@ -79,18 +79,6 @@ public class TensorflowBackend implements BackendTrain {
                 System.out.println("ERROR: only hidden=[200,200] is currently implemented.");
                 return null;
             }
-            if ((Double)bparms.get("input_dropout_ratio")!=0) {
-                System.out.println("ERROR: only input_dropout_ratio=0 is currently implemented.");
-                return null;
-            }
-            if (!Arrays.equals((double[])bparms.get("hidden_dropout_ratios"),new double[]{0,0})) {
-                System.out.println("ERROR: only hidden_dropout_ratios=[0,0] is currently implemented.");
-                return null;
-            }
-            if (!Arrays.equals((String[])bparms.get("activations", null),new String[]{"relu","relu"})) {
-                System.out.println("ERROR: only Rectifier activation is currently implemented.");
-                return null;
-            }
             model.activations = (String[]) bparms.get("activations", new String[]{"relu","relu"});
             model.inputDropoutRatio = ((Double) bparms.get("input_dropout_ratio", 0.0d)).floatValue();
             double[] hidden_dropout_ratios = (double[]) bparms.get("hidden_dropout_ratios", new double[]{0f, 0f});
