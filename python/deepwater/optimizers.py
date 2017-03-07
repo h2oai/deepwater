@@ -84,7 +84,7 @@ class RMSPropOptimizer(BaseOptimizer):
 
 class MomentumOptimizer(BaseOptimizer):
     def __init__(self,
-                 initial_learning_rate=0.1,
+                 initial_learning_rate=1e-3,
                  initial_momentum=0.9,
                  ):
         self._global_step = tf.Variable(0, name="global_step", trainable=False)
@@ -105,13 +105,14 @@ class MomentumOptimizer(BaseOptimizer):
         trainable = tf.trainable_variables()
         self._grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
         update_ops = tf.get_default_graph().get_collection(tf.GraphKeys.UPDATE_OPS)
+
         with tf.get_default_graph().control_dependencies(update_ops):
             # Ensures that we execute the update_ops before performing the train_step
             self._optimize_op = tf.contrib.layers.optimize_loss(loss,
                                                                 tf.contrib.framework.get_global_step(),
                                                                 self._learning_rate,
                                                                 optimizer=lambda lr: tf.train.MomentumOptimizer(self._learning_rate, momentum=self._momentum),
-                                                                clip_gradients=10.0)
+                                                                clip_gradients=2.0)
 
     @property
     def grads_and_vars(self):

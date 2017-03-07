@@ -19,7 +19,6 @@ class ImageClassificationTrainStrategy(object):
 
         # weight regularization
         trainable_vars = tf.trainable_variables()
-
         if weight_decay > 0.0:
             self._l2_loss = tf.add_n([ tf.nn.l2_loss(v) for v in trainable_vars
                        if 'bias' not in v.name ]) * weight_decay
@@ -44,11 +43,6 @@ class ImageClassificationTrainStrategy(object):
 
         self._optimizer = optimizer
         self._optimizer.apply(self._loss)
-
-        max_norm_constraint = False
-        if max_norm_constraint:
-            for _, var in self._optimizer.grads_and_vars:
-                var.assign(tf.clip_by_norm(var, 2.0))
 
         if add_summaries:
             self._add_summaries()

@@ -7,7 +7,7 @@ from deepwater.models.nn import fc
 
 class MultiLayerPerceptron(BaseImageClassificationModel):
     def __init__(self, width=28, height=28, channels=1, classes=10,
-                 hidden_layers=[], activation_fn=nn.relu):
+                 hidden_layers=[]):
         super(MultiLayerPerceptron, self).__init__()
 
         self._number_of_classes = classes
@@ -31,15 +31,15 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
                                                 name="activations")
 
         self._inputs = x
-        x = tf.nn.dropout(x, keep_prob=tf.constant(1.0, dtype=tf.float32) - self._input_dropout)
-	
+        out = tf.nn.dropout(x, keep_prob=tf.constant(1.0, dtype=tf.float32) - self._input_dropout)
+
         for idx, h in enumerate(hidden_layers):
             with tf.variable_scope("fc%d" % idx):
                 if 1 == self._activations[idx]:
                     activation_fn = nn.tanh
                 else:
                     activation_fn = nn.relu
-                out = fc(x, h, activation_fn=activation_fn)
+                out = fc(out, h, activation_fn=activation_fn)
 
             if self._hidden_dropout.get_shape()[0] > idx:
                 with tf.variable_scope("dropout%d" % idx):
