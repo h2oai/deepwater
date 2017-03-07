@@ -69,6 +69,7 @@ def conv(x, w, h, filters, stride=1, padding="SAME", batch_norm = False, activat
     out = tf.contrib.layers.convolution2d(inputs=x, num_outputs=filters, kernel_size=[w, h],
                                           stride=stride, padding=padding,
                                           # weights_initializer=tf.contrib.layers.xavier_initializer(),
+                                          weights_initializer=tf.contrib.layers.variance_scaling_initializer(factor=2.34, mode='FAN_IN', uniform=False),
                                           biases_initializer=tf.contrib.layers.variance_scaling_initializer(factor=2.34, mode='FAN_IN', uniform=False),
                                           normalizer_fn=normalizer_fn,
                                           normalizer_params=normalizer_params,
