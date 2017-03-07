@@ -7,11 +7,13 @@ class ImageClassificationTrainStrategy(object):
 
     """
 
-    def __init__(self, graph, model, optimizer, weight_decay=1e-6, add_summaries=False):
+    def __init__(self, graph, model, optimizer, batch_size, weight_decay=1e-6, add_summaries=False):
         self._graph = graph
         self._model = model
         self._labels = labels = tf.placeholder(tf.float32,
                                                [None, model.number_of_classes])
+
+        self._batch_size = batch_size
 
         logits = model.logits
 
@@ -19,16 +21,25 @@ class ImageClassificationTrainStrategy(object):
 
         # weight regularization
         trainable_vars = tf.trainable_variables()
-        if weight_decay > 0.0:
-            self._l2_loss = tf.add_n([ tf.nn.l2_loss(v) for v in trainable_vars
-                       if 'bias' not in v.name ]) * weight_decay
-            self._loss = tf.reduce_mean(
-                tf.nn.softmax_cross_entropy_with_logits(labels=labels,
-                                                        logits=logits) + self._l2_loss)
+        self._l2_loss = tf.add_n([ tf.nn.l2_loss(v) for v in trainable_vars
+                                   if 'bias' not in v.name ]) * weight_decay
+        # Classification model
+        if model.number_of_classes > 1:
+            if weight_decay > 0.0:
+                self._loss = tf.reduce_mean(
+                    tf.nn.softmax_cross_entropy_with_logits(labels=labels,
+                                                            logits=logits) + self._l2_loss)
+            else:
+                self._loss = tf.reduce_mean(
+                    tf.nn.softmax_cross_entropy_with_logits(labels=labels,
+                                                            logits=logits))
+        # Regression model
         else:
-            self._loss = tf.reduce_mean(
-                tf.nn.softmax_cross_entropy_with_logits(labels=labels,
-                                                        logits=logits))
+            if weight_decay > 0.0:
+                # Add weight decay
+                self._loss = tf.reduce_sum(tf.pow(logits - labels, 2))/(2 * batch_size) + self._l2_loss
+            else:
+                self._loss = tf.reduce_sum(tf.pow(logits - labels, 2))/(2 * batch_size)
 
         a = tf.argmax(model.predictions, 1)
         b = tf.argmax(self._labels, 1)
@@ -120,6 +131,10 @@ class ImageClassificationTrainStrategy(object):
         Returns a reference to the optimization operation
         """
         return self._graph
+
+    @property
+    def batch_size(self):
+        return self._batch_size
 
     def _add_summaries(self):
         tf.summary.scalar("loss", self.loss)

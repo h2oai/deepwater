@@ -34,6 +34,8 @@ def export_train_graph(model_class, optimizer_class,
     with graph.as_default():
         global_is_training = tf.placeholder(tf.bool, name="global_is_training")
 
+        batch_size = tf.placeholder(tf.float32, [], name="batch_size")
+
         # 1. instantiate the model
         model = model_class(width, height, channels, classes)
 
@@ -55,6 +57,7 @@ def export_train_graph(model_class, optimizer_class,
             graph,
             model,
             optimizer,
+            batch_size,
             add_summaries=True,
         )
 
@@ -79,6 +82,7 @@ def export_train_graph(model_class, optimizer_class,
                 "global_step": train_strategy.global_step.name,
                 "learning_rate": train_strategy._optimizer.learning_rate.name,
                 "momentum": train_strategy._optimizer.momentum.name,
+                "batch_size": train_strategy._batch_size.name,
                 "global_is_training": global_is_training.name},
         }
 

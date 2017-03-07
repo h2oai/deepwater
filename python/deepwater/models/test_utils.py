@@ -26,12 +26,14 @@ def generate_train_graph(model_class, optimizer_class,
         # 1. instantiate the model
         model = model_class(width, height, channels, classes)
 
+        batch_size = tf.placeholder(tf.float32, [], name="batch_size")
+
         # 2. instantiate the optimizer
         optimizer = optimizer_class()
 
         # 3. instantiate the train wrapper
         train_strategy = train.ImageClassificationTrainStrategy(
-            graph, model, optimizer, add_summaries=add_summaries)
+            graph, model, optimizer, batch_size, add_summaries=add_summaries)
 
     return train_strategy
 
@@ -79,6 +81,7 @@ def CIFAR10_must_converge(name, model_class,
                 train_strategy.inputs: x_batch,
                 train_strategy.labels: y_batch,
                 train_strategy.learning_rate: learning_rate,
+                train_strategy.batch_size: batch_size,
                 "global_is_training:0": True,
             }
 
@@ -114,6 +117,7 @@ def CIFAR10_must_converge(name, model_class,
             feed_dict = {
                 train_strategy.inputs: x_batch,
                 train_strategy.labels: eye[label_batch],
+                train_strategy.batch_size: batch_size,
                 "global_is_training:0": False,
             }
 
@@ -200,6 +204,7 @@ def MNIST_must_converge(name,
                 train_strategy.inputs: x_batch,
                 train_strategy.labels: y_batch,
                 train_strategy.learning_rate: learning_rate,
+                train_strategy.batch_size: batch_size,
                 "global_is_training:0": True
             }
 
@@ -244,6 +249,7 @@ def MNIST_must_converge(name,
             feed_dict = {
                 train_strategy.inputs: x_batch,
                 train_strategy.labels: eye[label_batch],
+                train_strategy.batch_size: batch_size,
                 "global_is_training:0": False,
             }
 
