@@ -167,8 +167,8 @@ public class BackendInterfaceTest {
 
     @Test
     public void testVGG() throws IOException {
-        backendCanTrainMNIST("vgg", 32, 2, 0.05f);
-        backendCanSaveCheckpointMNIST("vgg", 64, 0.05f);
+        backendCanTrainMNIST("vgg", 32, 2, 0.01f);
+        backendCanSaveCheckpointMNIST("vgg", 32, 0.01f);
 
 //        backendCanTrainCifar10("vgg", 1, 2, 0.01f);
 //        backendCanSaveCheckpointCifar10("vgg", 32, 1, 0.05f);
@@ -379,7 +379,7 @@ public class BackendInterfaceTest {
         double initial = computeTestErrorMNIST(model, batchSize);
 
         backend.setParameter(model, "learning_rate", learningRate);
-        backend.setParameter(model, "momentum", 0.8f);
+        backend.setParameter(model, "momentum", 0.9f);
 
         BatchIterator it = new BatchIterator(dataset, 1, train_images);
         ImageBatch b = new ImageBatch(dataset, batchSize);

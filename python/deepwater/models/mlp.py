@@ -1,6 +1,7 @@
 from deepwater.models import BaseImageClassificationModel
 
 import tensorflow as tf
+
 from tensorflow.python.ops import nn
 
 from deepwater.models.nn import fc
