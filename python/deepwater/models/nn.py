@@ -68,9 +68,10 @@ def conv(x, w, h, filters, stride=1, padding="SAME", batch_norm = False, activat
 
     out = tf.contrib.layers.convolution2d(inputs=x, num_outputs=filters, kernel_size=[w, h],
                                           stride=stride, padding=padding,
-                                          # weights_initializer=tf.contrib.layers.xavier_initializer(),
-                                          weights_initializer=tf.contrib.layers.variance_scaling_initializer(factor=2.34, mode='FAN_IN', uniform=False),
-                                          biases_initializer=tf.contrib.layers.variance_scaling_initializer(factor=2.34, mode='FAN_IN', uniform=False),
+                                          weights_initializer=tf.contrib.layers.xavier_initializer_conv2d(),
+                                          biases_initializer=tf.contrib.layers.xavier_initializer(),
+                                          #weights_initializer=tf.contrib.layers.variance_scaling_initializer(factor=2.34, mode='FAN_IN', uniform=False),
+                                          #biases_initializer=tf.contrib.layers.variance_scaling_initializer(factor=2.34, mode='FAN_IN', uniform=False),
                                           normalizer_fn=normalizer_fn,
                                           normalizer_params=normalizer_params,
                                           trainable=True)
@@ -99,9 +100,10 @@ def fc_bn(x, num_outputs):
 
 def fc(x, num_outputs, normalizer_fn = None, normalizer_params = None, activation_fn=None):
     out = tf.contrib.layers.fully_connected(inputs=x, num_outputs=num_outputs,
-                                            # weights_initializer=tf.contrib.layers.xavier_initializer(),
-                                            weights_initializer=tf.contrib.layers.variance_scaling_initializer(factor=2.34, mode='FAN_IN', uniform=False),
-                                            biases_initializer=tf.contrib.layers.variance_scaling_initializer(factor=2.34, mode='FAN_IN', uniform=False),
+                                            weights_initializer=tf.contrib.layers.xavier_initializer(),
+                                            #weights_initializer=tf.contrib.layers.variance_scaling_initializer(factor=2.34, mode='FAN_IN', uniform=False),
+                                            #biases_initializer=tf.contrib.layers.variance_scaling_initializer(factor=2.34, mode='FAN_IN', uniform=False),
+                                            biases_initializer=tf.contrib.layers.xavier_initializer(),
                                             activation_fn=activation_fn,
                                             normalizer_fn=normalizer_fn,
                                             normalizer_params=normalizer_params,

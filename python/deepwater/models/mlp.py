@@ -32,7 +32,8 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
                                                 name="activations")
 
         self._inputs = x
-        out = tf.nn.dropout(x, keep_prob=tf.constant(1.0, dtype=tf.float32) - self._input_dropout)
+        #out = tf.nn.dropout(x, keep_prob=tf.constant(1.0, dtype=tf.float32) - self._input_dropout)
+        out = x
 
         for idx, h in enumerate(hidden_layers):
             with tf.variable_scope("fc%d" % idx):
