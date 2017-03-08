@@ -140,5 +140,5 @@ if __name__ == "__main__":
     export_image_classifier_model_graph(default_mlp)
     
     # image models
-    for model in (lenet.LeNet, alexnet.AlexNet, vgg.VGG16, inception.InceptionV4, resnet.ResNet):
+    for model in (lenet.LeNet, alexnet.AlexNet, vgg.VGG16, inception.InceptionV3, resnet.ResNet):
         export_image_classifier_model_graph(model)

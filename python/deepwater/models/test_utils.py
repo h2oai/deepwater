@@ -1,9 +1,11 @@
 import unittest
-import datetime
 
 import tensorflow as tf
 from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
 from tensorflow.python.client import timeline
+
+import time
+from datetime import datetime
 
 import numpy as np
 import math
@@ -17,6 +19,8 @@ from deepwater import train
 import os
 
 import random
+
+print_logs = False
 
 def generate_train_graph(model_class, optimizer_class,
                          width, height, channels, classes, add_summaries=False):
@@ -170,7 +174,6 @@ def CIFAR10_must_converge(name, model_class,
         if summaries:
             train_writer.close()
 
-
 def MNIST_must_converge(name,
                         model_class,
                         optimizer_class,
@@ -278,14 +281,37 @@ def MNIST_must_converge(name,
             print("computing final test error")
             test(dataset.test, batch_size, dataset.test.num_examples, session)
 
-
     print("Testing %s" % name)
 
     train_strategy = generate_train_graph(
         model_class, optimizer_class, 28, 28, 1, 10, add_summaries=summaries)
 
-    timestamp = datetime.datetime.now().strftime("%y%m%d%H%M%S")
+    timestamp = datetime.now().strftime("%y%m%d%H%M%S")
     train_writer = tf.summary.FileWriter("/tmp/%s/train/%s" % (name, timestamp))
+
+    class _LoggerHook(tf.train.SessionRunHook):
+        """Logs loss and runtime."""
+
+        def begin(self):
+            self._step = -1
+
+        def before_run(self, run_context):
+            self._step += 1
+            self._start_time = time.time()
+            return tf.train.SessionRunArgs(train_strategy.loss)  # Asks for loss value.
+
+        def after_run(self, run_context, run_values):
+            duration = time.time() - self._start_time
+            loss_value = run_values.results
+            if self._step % 10 == 0 and print_logs:
+                num_examples_per_step = batch_size
+                examples_per_sec = num_examples_per_step / duration
+                sec_per_batch = float(duration)
+
+                format_str = ('%s: step %d, loss = %.2f (%.1f examples/sec; %.3f '
+                      'sec/batch)')
+                print (format_str % (datetime.now(), self._step, loss_value,
+                                     examples_per_sec, sec_per_batch))
 
     with train_strategy.graph.as_default():
         dataset = read_data_sets('/tmp/deepwater/datasets/', validation_size=0)
@@ -295,7 +321,7 @@ def MNIST_must_converge(name,
             os.remove(checkpoint_file)
         with tf.train.MonitoredTrainingSession(
                     checkpoint_dir=checkpoint_directory,
-                    hooks=[ TestAtEnd(epochs*dataset.train.num_examples) ],
+                    hooks=[ TestAtEnd(epochs*dataset.train.num_examples), _LoggerHook() ],
                     config=tf.ConfigProto(allow_soft_placement=True, log_device_placement=False)) as sess:
 
             epoch = 0
@@ -428,6 +454,30 @@ def cat_dog_mouse_must_converge(name,
     train_strategy = generate_train_graph(
         model_class, optimizer_class, 224, 224, 3, 3, add_summaries=summaries)
 
+    class _LoggerHook(tf.train.SessionRunHook):
+        """Logs loss and runtime."""
+
+        def begin(self):
+            self._step = -1
+
+        def before_run(self, run_context):
+            self._step += 1
+            self._start_time = time.time()
+            return tf.train.SessionRunArgs(train_strategy.loss)  # Asks for loss value.
+
+        def after_run(self, run_context, run_values):
+            duration = time.time() - self._start_time
+            loss_value = run_values.results
+            if self._step % 10 == 0 and print_logs:
+                num_examples_per_step = batch_size
+                examples_per_sec = num_examples_per_step / duration
+                sec_per_batch = float(duration)
+
+                format_str = ('%s: step %d, loss = %.2f (%.1f examples/sec; %.3f '
+                              'sec/batch)')
+                print (format_str % (datetime.now(), self._step, loss_value,
+                                     examples_per_sec, sec_per_batch))
+
     with train_strategy.graph.as_default():
         epoch = 0
 
@@ -437,9 +487,9 @@ def cat_dog_mouse_must_converge(name,
         image, labels = read_labeled_image_list("bigdata/laptop/deepwater/imagenet/cat_dog_mouse.csv")
 
         batch_generator = create_batches(batch_size, image, labels)
-        with tf.Session(graph=train_strategy.graph) as sess:
+        with tf.train.MonitoredTrainingSession(hooks=[ _LoggerHook() ]) as sess:
 
-            sess.run(tf.global_variables_initializer())
+            # sess.run(tf.global_variables_initializer())
 
             for i in range(epochs):
                 epoch += 1
