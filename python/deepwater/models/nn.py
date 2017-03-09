@@ -36,7 +36,10 @@ def conv7x1(x, filters, batch_norm = False, **kwds):
 def conv(x, w, h, filters, stride=1, padding="SAME", batch_norm = False, activation="relu", normalizer_fn = None, normalizer_params = None):
     if batch_norm:
         normalizer_fn = tf.contrib.layers.batch_norm
-        normalizer_params = { 'is_training': is_training() }
+        normalizer_params = {
+            'is_training': is_training(),
+            'fused': True
+        }
 
     out = tf.contrib.layers.convolution2d(inputs=x, num_outputs=filters, kernel_size=[w, h],
                                           stride=stride, padding=padding,
