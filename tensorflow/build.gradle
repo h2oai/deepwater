@@ -21,7 +21,7 @@ sourceSets {
 
 dependencies {
 
-    compile files ("lib/org/tensorflow/libtensorflow/1.0.0/libtensorflow-1.0.0.jar")
+    compile files ("lib/org/tensorflow/libtensorflow/1.0.1/libtensorflow-1.0.1.jar")
     compile project (':deepwater-backend-api')
     compile "com.google.protobuf:protobuf-java:3.2.0"
     compile 'com.google.guava:guava:19.0'
