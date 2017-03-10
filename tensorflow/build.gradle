@@ -76,7 +76,7 @@ task tensorflowCompile(type: Exec) {
     workingDir "$rootDir/thirdparty"
 }
 
-compileJava.dependsOn(tensorflowCompile)
+//compileJava.dependsOn(tensorflowCompile)
 
 task tensorflowClean(type: Exec) {
     commandLine "rm", "-fr", "$rootDir/thirdparty/tensorflow/cppbuild/*"
