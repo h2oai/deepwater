@@ -10,6 +10,7 @@ import org.tensorflow.Tensor;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,15 +69,11 @@ public class TensorflowModel implements BackendModel {
         bs.write(modelGraphData);
     }
 
-    public float[][] createDataMatrix(float[] data) {
+    public FloatBuffer createDataMatrix(float[] data) {
         assert data.length == frameSize * miniBatchSize;
-        float[][] dataMatrix = new float[miniBatchSize][frameSize];
-        int start = 0;
-        for (int i = 0; i < miniBatchSize; i++) {
-            System.arraycopy(data, start, dataMatrix[i], 0, frameSize);
-            start += frameSize;
-        }
-        return dataMatrix;
+        FloatBuffer buffer = FloatBuffer.allocate(frameSize * miniBatchSize);
+        buffer.put(data);
+        return (FloatBuffer) buffer.flip();
     }
 
     public float[] getPredictions(Tensor tensor) {

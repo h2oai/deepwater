@@ -9,13 +9,13 @@ import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.backends.tensorflow.models.TensorflowModel;
 import deepwater.datasets.ImageDataSet;
-import org.tensorflow.Operation;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
 
 import java.io.*;
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.nio.channels.FileChannel;
 import java.util.*;
 
@@ -197,8 +197,9 @@ public class TensorflowBackend implements BackendTrain {
 
         assert null != model.getGraph().operation(name): "no layer with name: " + name;
 
-        float[][] dataMatrix = model.createDataMatrix(data);
-        runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataMatrix));
+        FloatBuffer dataMatrix = model.createDataMatrix(data);
+        long[] dataShape = {model.miniBatchSize, model.frameSize};
+        runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataShape, dataMatrix));
         runner.fetch(name);
 
         Tensor run = runner.run().get(0);
@@ -315,26 +316,37 @@ public class TensorflowBackend implements BackendTrain {
         TensorflowModel model = (TensorflowModel) m;
         final int batchSize = model.miniBatchSize;
         assert data.length == model.frameSize * batchSize : "input data length is not equal to expected value";
-        float[][] labelData;
-        labelData = new float[batchSize][model.classes];
+
+        FloatBuffer labelData = FloatBuffer.allocate(batchSize * model.classes);
+        long[] labelShape = new long[] {batchSize, model.classes};
         if (model.classes > 1) { //one-hot encoder
             for (int i = 0; i < batchSize; i++) {
                 int idx = (int) labels[i];
-                labelData[i][idx] = 1.0f;
+                for(int j = 0; j < model.classes; j++) {
+                    if(j == idx) {
+                        labelData.put(1.0f);
+                    } else {
+                        labelData.put(0.0f);
+                    }
+                }
             }
         } else if (model.classes == 1){ //regression
             for (int i = 0; i < batchSize; i++) {
                 assert labels.length == batchSize;
-                labelData[i][0] = labels[i];
+                labelData.put(labels[i]);
             }
         } else throw new IllegalArgumentException();
+        labelData.flip();
 
-        float[][] dataMatrix = model.createDataMatrix(data);
+        FloatBuffer dataMatrix = model.createDataMatrix(data);
+        long[] dataShape = {batchSize, model.frameSize};
 
         Session.Runner runner = model.getSession().runner();
 
-        runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataMatrix));
-        runner.feed(normalize(model.meta.inputs.get("categorical_labels")), Tensor.create(labelData));
+        runner.feed(
+                normalize(model.meta.inputs.get("batch_image_input")),
+                Tensor.create(dataShape, dataMatrix));
+        runner.feed(normalize(model.meta.inputs.get("categorical_labels")), Tensor.create(labelShape, labelData));
 
         if(null != model.activations) {
             feedMLPData(model, runner);
@@ -344,8 +356,8 @@ public class TensorflowBackend implements BackendTrain {
             runner.feed(normalize(model.meta.parameters.get("batch_size")), Tensor.create((float) model.miniBatchSize));
         }
 
-        runner.feed(normalize(model.meta.parameters.get("learning_rate")), Tensor.create(model.getParameter("learning_rate", 0.001f)));
-        runner.feed(normalize(model.meta.parameters.get("momentum")), Tensor.create(model.getParameter("momentum", 0.5f)));
+        runner.feed(normalize(model.meta.parameters.get("learning_rate")), Tensor.create(model.getParameter("learning_rate", 0.0001f)));
+        runner.feed(normalize(model.meta.parameters.get("momentum")), Tensor.create(model.getParameter("momentum", 0.8f)));
 
         runner.feed(normalize(model.meta.parameters.get("global_is_training")), Tensor.create(true));
 
@@ -372,7 +384,8 @@ public class TensorflowBackend implements BackendTrain {
         TensorflowModel model = (TensorflowModel) m;
         Session session = model.getSession();
         Session.Runner runner = session.runner();
-        float[][] dataMatrix = model.createDataMatrix(data);
+        FloatBuffer dataMatrix = model.createDataMatrix(data);
+        long[] dataShape = {model.miniBatchSize, model.frameSize};
 
         if(null != model.activations) {
             feedMLPData(model, runner);
@@ -382,7 +395,7 @@ public class TensorflowBackend implements BackendTrain {
             runner.feed(normalize(model.meta.parameters.get("batch_size")), Tensor.create((float)model.miniBatchSize));
         }
         runner.feed(normalize(model.meta.parameters.get("global_is_training")), Tensor.create(false));
-        runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataMatrix));
+        runner.feed(normalize(model.meta.inputs.get("batch_image_input")), Tensor.create(dataShape, dataMatrix));
         runner.fetch(normalize(model.meta.predict_op)); //the tensor we want to extract
         List<Tensor> results = runner.run();
         Tensor output = results.get(0);
