@@ -141,7 +141,7 @@ public class BackendInterfaceTest {
     @Test
     public void testMLP() throws IOException{
         backendCanTrainMNIST("mlp", 32, 1);
-        backendCanSaveCheckpointMNIST("mlp", 32, 0.2f);
+        backendCanSaveCheckpointMNIST("mlp", 32, 0.1f);
     }
 
     @Test
