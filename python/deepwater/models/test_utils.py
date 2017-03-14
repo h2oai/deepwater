@@ -402,9 +402,6 @@ def cat_dog_mouse_must_converge(name,
         global trained_global
         trained = 0
 
-        average_loss = []
-        average_error = []
-
         learning_rate = initial_learning_rate
 
         while trained + batch_size <= 288:
@@ -423,20 +420,49 @@ def cat_dog_mouse_must_converge(name,
 
             feed_dict.update(train_strategy.train_parameters)
 
-            fetches = [train_strategy.optimize,
-                       train_strategy.loss,
+            fetches = [train_strategy.optimize]
+
+            sess.run(fetches, feed_dict=feed_dict)
+
+        trained_global += trained
+        print('trained %d' % (trained_global))
+
+    def test(batch_generator, sess):
+
+        global trained_global
+        trained = 0
+
+        average_loss = []
+        average_error = []
+
+        learning_rate = initial_learning_rate
+
+        while trained + batch_size <= 288:
+            batched_images, batched_labels = batch_generator.next()
+            images = np.asarray(batched_images).reshape(batch_size, 224*224*3)
+            labels = eye[batched_labels]
+
+            trained += batch_size
+
+            feed_dict = {
+                train_strategy.inputs: images,
+                train_strategy.labels: labels,
+                train_strategy.learning_rate: learning_rate,
+                "global_is_training:0": False,
+            }
+
+            feed_dict.update(train_strategy.train_parameters)
+
+            fetches = [train_strategy.loss,
                        train_strategy.global_step,
                        train_strategy.predictions,
                        train_strategy.categorical_error,
                        ]
 
-            _, loss, global_step, predictions, error = sess.run(fetches, feed_dict=feed_dict)
+            loss, global_step, predictions, error = sess.run(fetches, feed_dict=feed_dict)
 
             average_loss.append(loss)
             average_error.append(error)
-
-        trained_global += trained
-        print('trained %d' % (trained_global))
 
         return 0, np.mean(average_loss), np.mean(average_error) * 100.
 
@@ -491,13 +517,16 @@ def cat_dog_mouse_must_converge(name,
 
             # sess.run(tf.global_variables_initializer())
 
-            for i in range(epochs):
+            for _ in range(epochs):
                 epoch += 1
                 eye = np.eye(3)
-                global_step, train_loss, train_error = train(batch_generator, sess)
+                train(batch_generator, sess)
 
-                print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'train loss:', train_loss,
-                      '% train error:', train_error)
+                global_step, train_loss, train_error = test(batch_generator, sess)
+
+                print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'test loss:', train_loss,
+                      '% test error:', train_error)
+
 
             _, train_loss, train_error = train(batch_generator, sess)
             print('final train error: %f' % (train_error))

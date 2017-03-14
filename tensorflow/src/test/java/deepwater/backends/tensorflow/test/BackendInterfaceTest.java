@@ -7,14 +7,15 @@ import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.TensorflowBackend;
 import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.backends.tensorflow.test.datasets.CatDogMouseImageDataset;
-import deepwater.datasets.*;
+import deepwater.datasets.BatchIterator;
+import deepwater.datasets.CIFAR10ImageDataset;
+import deepwater.datasets.ImageBatch;
+import deepwater.datasets.MNISTImageDataset;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 import static deepwater.datasets.FileUtils.findFile;
 import static java.lang.Float.NaN;
@@ -150,10 +151,9 @@ public class BackendInterfaceTest {
         backendCanSaveCheckpointMNIST("lenet", 32, 0.1f);
     }
 
-    @Ignore
     @Test
     public void testLenetCatDogMouse() throws IOException {
-        backendCanTrainCatDogMouse("lenet", 32, 50, 1e-3f);
+        backendCanTrainCatDogMouse("lenet", 32, 20, 1e-3f);
     }
 
     @Test
@@ -317,8 +317,7 @@ public class BackendInterfaceTest {
         while(it.nextEpochs()) {
             while (it.next(b)) {
                 backend.train(model, b.getImages(), b.getLabels());
-                double trainError = computePredictionError(backend, model, b, dataset.getNumClasses());
-                System.out.println("train error:" + trainError);
+                computePredictionError(backend, model, b, dataset.getNumClasses());
             }
 
             double err = computeCatDogMouseTestError(model, batchSize);
@@ -331,7 +330,7 @@ public class BackendInterfaceTest {
 
         backend.delete(model);
 
-        assert error < initialError: "final error is not less than initial error. model did not learn.";
+        assert error < 10: "final error is not less than 10%. model did not learn enough.";
     }
 
     private double computePredictionError(BackendTrain backend, BackendModel model, ImageBatch b, int classes) {
