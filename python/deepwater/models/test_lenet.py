@@ -23,7 +23,7 @@ class TestLenet(unittest.TestCase):
         train_error = cat_dog_mouse_must_converge("lenet", model,
                                                   optimizers.MomentumOptimizer,
                                                   batch_size=32,
-                                                  epochs=50,
+                                                  epochs=40,
                                                   # initial_learning_rate=5e-4, # rate for old fc
                                                   initial_learning_rate=1e-3, # rate for new fc
                                                   summaries=True)
