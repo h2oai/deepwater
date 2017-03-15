@@ -152,7 +152,6 @@ public class BackendInterfaceTest {
         backendCanSaveCheckpointMNIST("lenet", 32, 0.1f);
     }
 
-    // there's no learning, temporarily disabling this test
     @Test
     public void testLenetCatDogMouse() throws IOException {
         backendCanTrainCatDogMouse("lenet", 32, 20, 1e-3f);
@@ -316,7 +315,10 @@ public class BackendInterfaceTest {
         BatchIterator it = new BatchIterator(dataset, epochs, train_images);
         ImageBatch b = new ImageBatch(dataset, batchSize);
 
+        int epoch = 0;
         while(it.nextEpochs()) {
+            epoch++;
+            System.out.printf("epoch %d  ", epoch);
             while (it.next(b)) {
                 backend.train(model, b.getImages(), b.getLabels());
                 computePredictionError(backend, model, b, dataset.getNumClasses());
