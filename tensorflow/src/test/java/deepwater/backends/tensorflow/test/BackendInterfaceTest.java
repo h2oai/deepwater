@@ -153,10 +153,9 @@ public class BackendInterfaceTest {
     }
 
     // there's no learning, temporarily disabling this test
-    @Ignore
     @Test
     public void testLenetCatDogMouse() throws IOException {
-        backendCanTrainCatDogMouse("lenet", 32, 20, 0.1f);
+        backendCanTrainCatDogMouse("lenet", 32, 20, 1e-3f);
     }
 
     @Test
