@@ -14,7 +14,7 @@ class TestResnet(unittest.TestCase):
         MNIST_must_converge("Resnet", resnet.ResNet,
                             optimizers.RMSPropOptimizer,
                             batch_size=32,
-                            epochs=10,
+                            epochs=3,
                             initial_learning_rate=0.001,
                             )
 

@@ -8,7 +8,7 @@ from deepwater.models.nn import fc
 
 class MultiLayerPerceptron(BaseImageClassificationModel):
     def __init__(self, width=28, height=28, channels=1, classes=10,
-                 hidden_layers=[], dropout=[]):
+                 hidden_layers=[], dropout=[], activation_fn=nn.relu):
         super(MultiLayerPerceptron, self).__init__()
 
         self._number_of_classes = classes

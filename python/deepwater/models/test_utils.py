@@ -319,6 +319,7 @@ def MNIST_must_converge(name,
         checkpoint_file=checkpoint_directory + "/checkpoint"
         if os.path.isfile(checkpoint_file):
             os.remove(checkpoint_file)
+        start_time = time.time()
         with tf.train.MonitoredTrainingSession(
                     checkpoint_dir=checkpoint_directory,
                     hooks=[ TestAtEnd(epochs*dataset.train.num_examples), _LoggerHook() ],
@@ -349,6 +350,9 @@ def MNIST_must_converge(name,
                 print("train: avg loss %f  error %f" % (train_loss, train_error))
 
             train_writer.close()
+
+        elapsed_time = time.time() - start_time
+        print("time %.2f s\n" % elapsed_time)
 
 trained_global = 0
 
@@ -513,6 +517,7 @@ def cat_dog_mouse_must_converge(name,
         image, labels = read_labeled_image_list("bigdata/laptop/deepwater/imagenet/cat_dog_mouse.csv")
 
         batch_generator = create_batches(batch_size, image, labels)
+        start_time = time.time()
         with tf.train.MonitoredTrainingSession(hooks=[ _LoggerHook() ]) as sess:
 
             # sess.run(tf.global_variables_initializer())
@@ -528,6 +533,9 @@ def cat_dog_mouse_must_converge(name,
                       '% test error:', train_error)
 
 
-            _, train_loss, train_error = train(batch_generator, sess)
-            print('final train error: %f' % (train_error))
-            return train_error
+            # _, train_loss, train_error = train(batch_generator, sess)
+            # print('final train error: %f' % (train_error))
+            # return train_error
+
+        elapsed_time = time.time() - start_time
+        print("time %.2f s\n" % elapsed_time)

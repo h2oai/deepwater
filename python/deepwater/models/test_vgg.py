@@ -10,7 +10,7 @@ from deepwater.models.test_utils import cat_dog_mouse_must_converge
 
 class TestVGG(unittest.TestCase):
 
-    # def xxx_test_vgg_must_converge_on_CIFAR10(self):
+    # def test_vgg_must_converge_on_CIFAR10(self):
     #     CIFAR10_must_converge("vgg16", vgg.VGG16,
     #                         optimizers.MomentumOptimizer,
     #                         batch_size=16,
@@ -25,7 +25,7 @@ class TestVGG(unittest.TestCase):
                               optimizers.MomentumOptimizer,
                               batch_size=16,
                               epochs=3,
-                              initial_learning_rate=1e-5,
+                              initial_learning_rate=1e-3,
                               summaries=False,
                               use_debug_session=False,
                             )

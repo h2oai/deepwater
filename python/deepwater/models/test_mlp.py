@@ -24,7 +24,7 @@ class TestMLP(unittest.TestCase):
         dropout = [0.2, 0.5]
         model = partial(mlp.MultiLayerPerceptron,
                         hidden_layers=hidden_layers,
-                        dropout=dropout, input_dropout=0, activation_fn="tanh")
+                        dropout=dropout, activation_fn="tanh")
 
         MNIST_must_converge('mlpx1024x1024', model,
                             optimizers.GradientDescentOptimizer,
