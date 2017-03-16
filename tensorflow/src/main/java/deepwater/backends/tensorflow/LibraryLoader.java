@@ -66,7 +66,7 @@ public final class LibraryLoader {
 
         String tmpdir = System.getProperty("java.io.tmpdir");
         if (tmpdir.isEmpty()){
-            tmpdir = "/tmp";
+            tmpdir = Files.createTempDirectory(tmpdir).toString();
         }
         String target = path(tmpdir,libname);
         if (Files.exists(Paths.get(target))) {
@@ -93,8 +93,8 @@ public final class LibraryLoader {
        } catch (Error e) {
             System.out.println("current java.library.path:" + System.getProperty("java.library.path"));
             extractLibrary(resourceName);
-
             System.loadLibrary(resourceName);
+            System.out.printf("loaded lib from %s\n", resourceName);
         }
     }
 
