@@ -159,8 +159,8 @@ public class BackendInterfaceTest {
 
     @Test
     public void testAlexnet() throws IOException{
-        backendCanTrainMNIST("alexnet", 32, 3, 0.001f);
-        backendCanSaveCheckpointMNIST("alexnet", 32, 0.001f);
+        backendCanTrainMNIST("alexnet", 32, 2, 0.01f);
+        backendCanSaveCheckpointMNIST("alexnet", 32, 0.01f);
 
 //        backendCanTrainCifar10("alexnet", 32, 1, 0.01f);
 //        backendCanSaveCheckpointCifar10("alexnet", 32, 1, 0.05f);
