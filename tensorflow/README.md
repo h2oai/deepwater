@@ -31,14 +31,6 @@ For Mac:
 brew install swig
 ```
 
-### Install Anaconda Python
-
-```
-conda create --name deepwater python=2.7
-source activate deepwater
-```
-
-
 ### Install Maven
 For Linux:
 ```
@@ -50,12 +42,5 @@ For Mac:
 brew install maven
 ```
 
-## Build the Tensorflow native java library
-```
-cd thirdparty/
-./cppbuild.sh install tensorflow
-cd ..
-```
-
-#### Build Tensorflow H2O bindings
-Once Tensorflow is built, go back to the top-level directory of the deepwater repo, and follow the directions there.
+## Build the Tensorflow native java library and the Tensorflow H2O bindings
+Go back to the top-level directory of the deepwater repo, and follow the directions there.
