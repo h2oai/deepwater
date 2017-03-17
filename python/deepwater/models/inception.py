@@ -1,753 +1,362 @@
-# Copyright 2016 The TensorFlow Authors. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ==============================================================================
-"""Contains the definition for inception v3 classification network."""
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
 import tensorflow as tf
 
 from deepwater.models import BaseImageClassificationModel
 
-# from deepwater.models.utils import concat
-# from deepwater.models.nn import max_pool_3x3, fc
-# from deepwater.models.nn import conv5x5, conv3x3, conv1x1, conv1x7, conv7x1, conv1x3, conv3x1, conv
-
-
-from tensorflow.contrib import layers
-from tensorflow.contrib.framework.python.ops import arg_scope
-from tensorflow.contrib.layers.python.layers import layers as layers_lib
-from tensorflow.contrib.layers.python.layers import regularizers
-from tensorflow.python.framework import ops
-from tensorflow.python.ops import array_ops
-from tensorflow.python.ops import init_ops
-from tensorflow.python.ops import nn_ops
-from tensorflow.python.ops import variable_scope
+from deepwater.models.utils import concat
+from deepwater.models.nn import max_pool_3x3, fc
+from deepwater.models.nn import conv5x5, conv3x3, conv1x1, conv1x7, conv7x1, conv1x3, conv3x1, conv
 
 use_batch_norm = True
-trunc_normal = lambda stddev: init_ops.truncated_normal_initializer(0.0, stddev)
 
-def inception_v3_base(inputs,
-                      final_endpoint='Mixed_7c',
-                      min_depth=16,
-                      depth_multiplier=1.0,
-                      scope=None):
-    """Inception model from http://arxiv.org/abs/1512.00567.
+#================================= INCEPTION V3 =================================
 
-    Constructs an Inception v3 network from inputs to the given final endpoint.
-    This method can construct the network up to the final inception block
-    Mixed_7c.
+def inception7A(out, num_1x1, num_3x3_red, num_3x3_1, num_3x3_2, num_5x5_red, num_5x5, proj):
+    out1 = conv1x1(out, num_1x1, batch_norm = use_batch_norm)
 
-    Note that the names of the layers in the paper do not correspond to the names
-    of the endpoints registered by this function although they build the same
-    network.
+    out2 = conv1x1(out, num_5x5_red, batch_norm = use_batch_norm)
+    out2 = conv5x5(out2, num_5x5, batch_norm = use_batch_norm)
 
-    Here is a mapping from the old_names to the new names:
-    Old name          | New name
-    =======================================
-    conv0             | Conv2d_1a_3x3
-    conv1             | Conv2d_2a_3x3
-    conv2             | Conv2d_2b_3x3
-    pool1             | MaxPool_3a_3x3
-    conv3             | Conv2d_3b_1x1
-    conv4             | Conv2d_4a_3x3
-    pool2             | MaxPool_5a_3x3
-    mixed_35x35x256a  | Mixed_5b
-    mixed_35x35x288a  | Mixed_5c
-    mixed_35x35x288b  | Mixed_5d
-    mixed_17x17x768a  | Mixed_6a
-    mixed_17x17x768b  | Mixed_6b
-    mixed_17x17x768c  | Mixed_6c
-    mixed_17x17x768d  | Mixed_6d
-    mixed_17x17x768e  | Mixed_6e
-    mixed_8x8x1280a   | Mixed_7a
-    mixed_8x8x2048a   | Mixed_7b
-    mixed_8x8x2048b   | Mixed_7c
+    out3 = conv1x1(out, num_3x3_red, batch_norm = use_batch_norm)
+    out3 = conv3x3(out3, num_3x3_1, batch_norm = use_batch_norm)
+    out3 = conv3x3(out3, num_3x3_2, batch_norm = use_batch_norm)
 
-    Args:
-      inputs: a tensor of size [batch_size, height, width, channels].
-      final_endpoint: specifies the endpoint to construct the network up to. It
-        can be one of ['Conv2d_1a_3x3', 'Conv2d_2a_3x3', 'Conv2d_2b_3x3',
-        'MaxPool_3a_3x3', 'Conv2d_3b_1x1', 'Conv2d_4a_3x3', 'MaxPool_5a_3x3',
-        'Mixed_5b', 'Mixed_5c', 'Mixed_5d', 'Mixed_6a', 'Mixed_6b', 'Mixed_6c',
-        'Mixed_6d', 'Mixed_6e', 'Mixed_7a', 'Mixed_7b', 'Mixed_7c'].
-      min_depth: Minimum depth value (number of channels) for all convolution ops.
-        Enforced when depth_multiplier < 1, and not an active constraint when
-        depth_multiplier >= 1.
-      depth_multiplier: Float multiplier for the depth (number of channels)
-        for all convolution ops. The value must be greater than zero. Typical
-        usage will be to set this value in (0, 1) to reduce the number of
-        parameters or computation cost of the model.
-      scope: Optional variable_scope.
+    out4 = avg_pool_3x3(out)
+    out4 = conv1x1(out4, proj, batch_norm = use_batch_norm)
 
-    Returns:
-      tensor_out: output tensor corresponding to the final_endpoint.
-      end_points: a set of activations for external use, for example summaries or
-                  losses.
+    return concat(3, [out1, out2, out3, out4])
 
-    Raises:
-      ValueError: if final_endpoint is not set to one of the predefined values,
-                  or depth_multiplier <= 0
-    """
-    # end_points will collect relevant activations for external use, for example
-    # summaries or losses.
-    end_points = {}
+def inception7B(out, num_3x3, num_d3x3_red, num_d3x3_1, num_d3x3_2):
+    out1 = conv3x3(out, num_3x3, stride=2, padding="VALID", batch_norm = use_batch_norm)
 
-    if depth_multiplier <= 0:
-        raise ValueError('depth_multiplier is not greater than zero.')
-    depth = lambda d: max(int(d * depth_multiplier), min_depth)
+    out2 = conv1x1(out, num_d3x3_red, batch_norm = use_batch_norm)
+    out2 = conv3x3(out2, num_d3x3_1, batch_norm = use_batch_norm)
+    out2 = conv3x3(out2, num_d3x3_2, stride=2, padding="VALID", batch_norm = use_batch_norm)
 
-    with variable_scope.variable_scope(scope, 'InceptionV3', [inputs]):
-        with arg_scope(
-                [layers.conv2d, layers_lib.max_pool2d, layers_lib.avg_pool2d],
-                stride=1,
-                padding='VALID'):
-            # 299 x 299 x 3
-            end_point = 'Conv2d_1a_3x3'
-            net = layers.conv2d(inputs, depth(32), [3, 3], stride=2, scope=end_point)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
-            # 149 x 149 x 32
-            end_point = 'Conv2d_2a_3x3'
-            net = layers.conv2d(net, depth(32), [3, 3], scope=end_point)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
-            # 147 x 147 x 32
-            end_point = 'Conv2d_2b_3x3'
-            net = layers.conv2d(
-                net, depth(64), [3, 3], padding='SAME', scope=end_point)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
-            # 147 x 147 x 64
-            end_point = 'MaxPool_3a_3x3'
-            net = layers_lib.max_pool2d(net, [3, 3], stride=2, scope=end_point)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
-            # 73 x 73 x 64
-            end_point = 'Conv2d_3b_1x1'
-            net = layers.conv2d(net, depth(80), [1, 1], scope=end_point)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
-            # 73 x 73 x 80.
-            end_point = 'Conv2d_4a_3x3'
-            net = layers.conv2d(net, depth(192), [3, 3], scope=end_point)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
-            # 71 x 71 x 192.
-            end_point = 'MaxPool_5a_3x3'
-            net = layers_lib.max_pool2d(net, [3, 3], stride=2, scope=end_point)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
-                # 35 x 35 x 192.
+    out3 = avg_pool_3x3(out, stride=2, padding="VALID")
 
-                # Inception blocks
-        with arg_scope(
-                [layers.conv2d, layers_lib.max_pool2d, layers_lib.avg_pool2d],
-                stride=1,
-                padding='SAME'):
-            # mixed: 35 x 35 x 256.
-            end_point = 'Mixed_5b'
-            with variable_scope.variable_scope(end_point):
-                with variable_scope.variable_scope('Branch_0'):
-                    branch_0 = layers.conv2d(
-                        net, depth(64), [1, 1], scope='Conv2d_0a_1x1')
-                with variable_scope.variable_scope('Branch_1'):
-                    branch_1 = layers.conv2d(
-                        net, depth(48), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_1 = layers.conv2d(
-                        branch_1, depth(64), [5, 5], scope='Conv2d_0b_5x5')
-                with variable_scope.variable_scope('Branch_2'):
-                    branch_2 = layers.conv2d(
-                        net, depth(64), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(96), [3, 3], scope='Conv2d_0b_3x3')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(96), [3, 3], scope='Conv2d_0c_3x3')
-                with variable_scope.variable_scope('Branch_3'):
-                    branch_3 = layers_lib.avg_pool2d(net, [3, 3], scope='AvgPool_0a_3x3')
-                    branch_3 = layers.conv2d(
-                        branch_3, depth(32), [1, 1], scope='Conv2d_0b_1x1')
-                net = array_ops.concat([branch_0, branch_1, branch_2, branch_3], 3)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
+    return concat(3, [out1, out2, out3])
 
-            # mixed_1: 35 x 35 x 288.
-            end_point = 'Mixed_5c'
-            with variable_scope.variable_scope(end_point):
-                with variable_scope.variable_scope('Branch_0'):
-                    branch_0 = layers.conv2d(
-                        net, depth(64), [1, 1], scope='Conv2d_0a_1x1')
-                with variable_scope.variable_scope('Branch_1'):
-                    branch_1 = layers.conv2d(
-                        net, depth(48), [1, 1], scope='Conv2d_0b_1x1')
-                    branch_1 = layers.conv2d(
-                        branch_1, depth(64), [5, 5], scope='Conv_1_0c_5x5')
-                with variable_scope.variable_scope('Branch_2'):
-                    branch_2 = layers.conv2d(
-                        net, depth(64), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(96), [3, 3], scope='Conv2d_0b_3x3')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(96), [3, 3], scope='Conv2d_0c_3x3')
-                with variable_scope.variable_scope('Branch_3'):
-                    branch_3 = layers_lib.avg_pool2d(net, [3, 3], scope='AvgPool_0a_3x3')
-                    branch_3 = layers.conv2d(
-                        branch_3, depth(64), [1, 1], scope='Conv2d_0b_1x1')
-                net = array_ops.concat([branch_0, branch_1, branch_2, branch_3], 3)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
+def inception7C(out, num_1x1, num_d7_red, num_d7_1, num_d7_2, num_q7_red, num_q7_1, num_q7_2, num_q7_3, num_q7_4, proj):
+    out1 = conv1x1(out, num_1x1, batch_norm = use_batch_norm)
 
-            # mixed_2: 35 x 35 x 288.
-            end_point = 'Mixed_5d'
-            with variable_scope.variable_scope(end_point):
-                with variable_scope.variable_scope('Branch_0'):
-                    branch_0 = layers.conv2d(
-                        net, depth(64), [1, 1], scope='Conv2d_0a_1x1')
-                with variable_scope.variable_scope('Branch_1'):
-                    branch_1 = layers.conv2d(
-                        net, depth(48), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_1 = layers.conv2d(
-                        branch_1, depth(64), [5, 5], scope='Conv2d_0b_5x5')
-                with variable_scope.variable_scope('Branch_2'):
-                    branch_2 = layers.conv2d(
-                        net, depth(64), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(96), [3, 3], scope='Conv2d_0b_3x3')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(96), [3, 3], scope='Conv2d_0c_3x3')
-                with variable_scope.variable_scope('Branch_3'):
-                    branch_3 = layers_lib.avg_pool2d(net, [3, 3], scope='AvgPool_0a_3x3')
-                    branch_3 = layers.conv2d(
-                        branch_3, depth(64), [1, 1], scope='Conv2d_0b_1x1')
-                net = array_ops.concat([branch_0, branch_1, branch_2, branch_3], 3)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
+    out2 = conv1x1(out, num_d7_red, batch_norm = use_batch_norm)
+    out2 = conv1x7(out2, num_d7_1, batch_norm = use_batch_norm)
+    out2 = conv7x1(out2, num_d7_2, batch_norm = use_batch_norm)
 
-            # mixed_3: 17 x 17 x 768.
-            end_point = 'Mixed_6a'
-            with variable_scope.variable_scope(end_point):
-                with variable_scope.variable_scope('Branch_0'):
-                    branch_0 = layers.conv2d(
-                        net,
-                        depth(384), [3, 3],
-                        stride=2,
-                        padding='VALID',
-                        scope='Conv2d_1a_1x1')
-                with variable_scope.variable_scope('Branch_1'):
-                    branch_1 = layers.conv2d(
-                        net, depth(64), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_1 = layers.conv2d(
-                        branch_1, depth(96), [3, 3], scope='Conv2d_0b_3x3')
-                    branch_1 = layers.conv2d(
-                        branch_1,
-                        depth(96), [3, 3],
-                        stride=2,
-                        padding='VALID',
-                        scope='Conv2d_1a_1x1')
-                with variable_scope.variable_scope('Branch_2'):
-                    branch_2 = layers_lib.max_pool2d(
-                        net, [3, 3], stride=2, padding='VALID', scope='MaxPool_1a_3x3')
-                net = array_ops.concat([branch_0, branch_1, branch_2], 3)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
+    out3 = conv1x1(out, num_q7_red, batch_norm = use_batch_norm)
+    out3 = conv7x1(out3, num_q7_1, batch_norm = use_batch_norm)
+    out3 = conv1x7(out3, num_q7_2, batch_norm = use_batch_norm)
+    out3 = conv7x1(out3, num_q7_3, batch_norm = use_batch_norm)
+    out3 = conv1x7(out3, num_q7_4, batch_norm = use_batch_norm)
 
-            # mixed4: 17 x 17 x 768.
-            end_point = 'Mixed_6b'
-            with variable_scope.variable_scope(end_point):
-                with variable_scope.variable_scope('Branch_0'):
-                    branch_0 = layers.conv2d(
-                        net, depth(192), [1, 1], scope='Conv2d_0a_1x1')
-                with variable_scope.variable_scope('Branch_1'):
-                    branch_1 = layers.conv2d(
-                        net, depth(128), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_1 = layers.conv2d(
-                        branch_1, depth(128), [1, 7], scope='Conv2d_0b_1x7')
-                    branch_1 = layers.conv2d(
-                        branch_1, depth(192), [7, 1], scope='Conv2d_0c_7x1')
-                with variable_scope.variable_scope('Branch_2'):
-                    branch_2 = layers.conv2d(
-                        net, depth(128), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(128), [7, 1], scope='Conv2d_0b_7x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(128), [1, 7], scope='Conv2d_0c_1x7')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(128), [7, 1], scope='Conv2d_0d_7x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(192), [1, 7], scope='Conv2d_0e_1x7')
-                with variable_scope.variable_scope('Branch_3'):
-                    branch_3 = layers_lib.avg_pool2d(net, [3, 3], scope='AvgPool_0a_3x3')
-                    branch_3 = layers.conv2d(
-                        branch_3, depth(192), [1, 1], scope='Conv2d_0b_1x1')
-                net = array_ops.concat([branch_0, branch_1, branch_2, branch_3], 3)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
+    out4 = avg_pool_3x3(out)
+    out4 = conv1x1(out4, proj, batch_norm = use_batch_norm)
 
-            # mixed_5: 17 x 17 x 768.
-            end_point = 'Mixed_6c'
-            with variable_scope.variable_scope(end_point):
-                with variable_scope.variable_scope('Branch_0'):
-                    branch_0 = layers.conv2d(
-                        net, depth(192), [1, 1], scope='Conv2d_0a_1x1')
-                with variable_scope.variable_scope('Branch_1'):
-                    branch_1 = layers.conv2d(
-                        net, depth(160), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_1 = layers.conv2d(
-                        branch_1, depth(160), [1, 7], scope='Conv2d_0b_1x7')
-                    branch_1 = layers.conv2d(
-                        branch_1, depth(192), [7, 1], scope='Conv2d_0c_7x1')
-                with variable_scope.variable_scope('Branch_2'):
-                    branch_2 = layers.conv2d(
-                        net, depth(160), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(160), [7, 1], scope='Conv2d_0b_7x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(160), [1, 7], scope='Conv2d_0c_1x7')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(160), [7, 1], scope='Conv2d_0d_7x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(192), [1, 7], scope='Conv2d_0e_1x7')
-                with variable_scope.variable_scope('Branch_3'):
-                    branch_3 = layers_lib.avg_pool2d(net, [3, 3], scope='AvgPool_0a_3x3')
-                    branch_3 = layers.conv2d(
-                        branch_3, depth(192), [1, 1], scope='Conv2d_0b_1x1')
-                net = array_ops.concat([branch_0, branch_1, branch_2, branch_3], 3)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
-            # mixed_6: 17 x 17 x 768.
-            end_point = 'Mixed_6d'
-            with variable_scope.variable_scope(end_point):
-                with variable_scope.variable_scope('Branch_0'):
-                    branch_0 = layers.conv2d(
-                        net, depth(192), [1, 1], scope='Conv2d_0a_1x1')
-                with variable_scope.variable_scope('Branch_1'):
-                    branch_1 = layers.conv2d(
-                        net, depth(160), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_1 = layers.conv2d(
-                        branch_1, depth(160), [1, 7], scope='Conv2d_0b_1x7')
-                    branch_1 = layers.conv2d(
-                        branch_1, depth(192), [7, 1], scope='Conv2d_0c_7x1')
-                with variable_scope.variable_scope('Branch_2'):
-                    branch_2 = layers.conv2d(
-                        net, depth(160), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(160), [7, 1], scope='Conv2d_0b_7x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(160), [1, 7], scope='Conv2d_0c_1x7')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(160), [7, 1], scope='Conv2d_0d_7x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(192), [1, 7], scope='Conv2d_0e_1x7')
-                with variable_scope.variable_scope('Branch_3'):
-                    branch_3 = layers_lib.avg_pool2d(net, [3, 3], scope='AvgPool_0a_3x3')
-                    branch_3 = layers.conv2d(
-                        branch_3, depth(192), [1, 1], scope='Conv2d_0b_1x1')
-                net = array_ops.concat([branch_0, branch_1, branch_2, branch_3], 3)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
+    return concat(3, [out1, out2, out3, out4])
 
-            # mixed_7: 17 x 17 x 768.
-            end_point = 'Mixed_6e'
-            with variable_scope.variable_scope(end_point):
-                with variable_scope.variable_scope('Branch_0'):
-                    branch_0 = layers.conv2d(
-                        net, depth(192), [1, 1], scope='Conv2d_0a_1x1')
-                with variable_scope.variable_scope('Branch_1'):
-                    branch_1 = layers.conv2d(
-                        net, depth(192), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_1 = layers.conv2d(
-                        branch_1, depth(192), [1, 7], scope='Conv2d_0b_1x7')
-                    branch_1 = layers.conv2d(
-                        branch_1, depth(192), [7, 1], scope='Conv2d_0c_7x1')
-                with variable_scope.variable_scope('Branch_2'):
-                    branch_2 = layers.conv2d(
-                        net, depth(192), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(192), [7, 1], scope='Conv2d_0b_7x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(192), [1, 7], scope='Conv2d_0c_1x7')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(192), [7, 1], scope='Conv2d_0d_7x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(192), [1, 7], scope='Conv2d_0e_1x7')
-                with variable_scope.variable_scope('Branch_3'):
-                    branch_3 = layers_lib.avg_pool2d(net, [3, 3], scope='AvgPool_0a_3x3')
-                    branch_3 = layers.conv2d(
-                        branch_3, depth(192), [1, 1], scope='Conv2d_0b_1x1')
-                net = array_ops.concat([branch_0, branch_1, branch_2, branch_3], 3)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
+def inception7D(out, num_3x3_red, num_3x3, num_d7_3x3_red, num_d7_1, num_d7_2, num_d7_3x3):
+    out1 = conv1x1(out, num_3x3_red, batch_norm = use_batch_norm)
+    out1 = conv3x3(out1, num_3x3, stride=2, batch_norm = use_batch_norm)
 
-            # mixed_8: 8 x 8 x 1280.
-            end_point = 'Mixed_7a'
-            with variable_scope.variable_scope(end_point):
-                with variable_scope.variable_scope('Branch_0'):
-                    branch_0 = layers.conv2d(
-                        net, depth(192), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_0 = layers.conv2d(
-                        branch_0,
-                        depth(320), [3, 3],
-                        stride=2,
-                        padding='VALID',
-                        scope='Conv2d_1a_3x3')
-                with variable_scope.variable_scope('Branch_1'):
-                    branch_1 = layers.conv2d(
-                        net, depth(192), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_1 = layers.conv2d(
-                        branch_1, depth(192), [1, 7], scope='Conv2d_0b_1x7')
-                    branch_1 = layers.conv2d(
-                        branch_1, depth(192), [7, 1], scope='Conv2d_0c_7x1')
-                    branch_1 = layers.conv2d(
-                        branch_1,
-                        depth(192), [3, 3],
-                        stride=2,
-                        padding='VALID',
-                        scope='Conv2d_1a_3x3')
-                with variable_scope.variable_scope('Branch_2'):
-                    branch_2 = layers_lib.max_pool2d(
-                        net, [3, 3], stride=2, padding='VALID', scope='MaxPool_1a_3x3')
-                net = array_ops.concat([branch_0, branch_1, branch_2], 3)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
-            # mixed_9: 8 x 8 x 2048.
-            end_point = 'Mixed_7b'
-            with variable_scope.variable_scope(end_point):
-                with variable_scope.variable_scope('Branch_0'):
-                    branch_0 = layers.conv2d(
-                        net, depth(320), [1, 1], scope='Conv2d_0a_1x1')
-                with variable_scope.variable_scope('Branch_1'):
-                    branch_1 = layers.conv2d(
-                        net, depth(384), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_1 = array_ops.concat(
-                        [
-                            layers.conv2d(
-                                branch_1, depth(384), [1, 3], scope='Conv2d_0b_1x3'),
-                            layers.conv2d(
-                                branch_1, depth(384), [3, 1], scope='Conv2d_0b_3x1')
-                        ],
-                        3)
-                with variable_scope.variable_scope('Branch_2'):
-                    branch_2 = layers.conv2d(
-                        net, depth(448), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(384), [3, 3], scope='Conv2d_0b_3x3')
-                    branch_2 = array_ops.concat(
-                        [
-                            layers.conv2d(
-                                branch_2, depth(384), [1, 3], scope='Conv2d_0c_1x3'),
-                            layers.conv2d(
-                                branch_2, depth(384), [3, 1], scope='Conv2d_0d_3x1')
-                        ],
-                        3)
-                with variable_scope.variable_scope('Branch_3'):
-                    branch_3 = layers_lib.avg_pool2d(net, [3, 3], scope='AvgPool_0a_3x3')
-                    branch_3 = layers.conv2d(
-                        branch_3, depth(192), [1, 1], scope='Conv2d_0b_1x1')
-                net = array_ops.concat([branch_0, branch_1, branch_2, branch_3], 3)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
+    out2 = conv1x1(out, num_d7_3x3_red, batch_norm = use_batch_norm)
+    out2 = conv1x7(out2, num_d7_1, batch_norm = use_batch_norm)
+    out2 = conv7x1(out2, num_d7_2, batch_norm = use_batch_norm)
+    out2 = conv3x3(out2, num_d7_3x3, stride=2, batch_norm = use_batch_norm)
 
-            # mixed_10: 8 x 8 x 2048.
-            end_point = 'Mixed_7c'
-            with variable_scope.variable_scope(end_point):
-                with variable_scope.variable_scope('Branch_0'):
-                    branch_0 = layers.conv2d(
-                        net, depth(320), [1, 1], scope='Conv2d_0a_1x1')
-                with variable_scope.variable_scope('Branch_1'):
-                    branch_1 = layers.conv2d(
-                        net, depth(384), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_1 = array_ops.concat(
-                        [
-                            layers.conv2d(
-                                branch_1, depth(384), [1, 3], scope='Conv2d_0b_1x3'),
-                            layers.conv2d(
-                                branch_1, depth(384), [3, 1], scope='Conv2d_0c_3x1')
-                        ],
-                        3)
-                with variable_scope.variable_scope('Branch_2'):
-                    branch_2 = layers.conv2d(
-                        net, depth(448), [1, 1], scope='Conv2d_0a_1x1')
-                    branch_2 = layers.conv2d(
-                        branch_2, depth(384), [3, 3], scope='Conv2d_0b_3x3')
-                    branch_2 = array_ops.concat(
-                        [
-                            layers.conv2d(
-                                branch_2, depth(384), [1, 3], scope='Conv2d_0c_1x3'),
-                            layers.conv2d(
-                                branch_2, depth(384), [3, 1], scope='Conv2d_0d_3x1')
-                        ],
-                        3)
-                with variable_scope.variable_scope('Branch_3'):
-                    branch_3 = layers_lib.avg_pool2d(net, [3, 3], scope='AvgPool_0a_3x3')
-                    branch_3 = layers.conv2d(
-                        branch_3, depth(192), [1, 1], scope='Conv2d_0b_1x1')
-                net = array_ops.concat([branch_0, branch_1, branch_2, branch_3], 3)
-            end_points[end_point] = net
-            if end_point == final_endpoint:
-                return net, end_points
-        raise ValueError('Unknown final endpoint %s' % final_endpoint)
+    out3 = avg_pool_3x3(out, stride=2)
 
+    return concat(3, [out1, out2, out3])
 
-def inception_v3(inputs,
-                 num_classes=1000,
-                 is_training=True,
-                 dropout_keep_prob=0.8,
-                 min_depth=16,
-                 depth_multiplier=1.0,
-                 prediction_fn=layers_lib.softmax,
-                 spatial_squeeze=True,
-                 reuse=None,
-                 scope='InceptionV3'):
-    """Inception model from http://arxiv.org/abs/1512.00567.
+def inception7E(out, num_1x1, num_d3_red, num_d3_1, num_d3_2, num_3x3_d3_red, num_3x3, num_3x3_d3_1, num_3x3_d3_2, proj):
+    out1 = conv1x1(out, num_1x1, batch_norm = use_batch_norm)
 
-    "Rethinking the Inception Architecture for Computer Vision"
+    out2 = conv1x1(out, num_d3_red, batch_norm = use_batch_norm)
+    out2_1 = conv1x3(out2, num_d3_1, batch_norm = use_batch_norm)
+    out2_2 = conv3x1(out2, num_d3_2, batch_norm = use_batch_norm)
 
-    Christian Szegedy, Vincent Vanhoucke, Sergey Ioffe, Jonathon Shlens,
-    Zbigniew Wojna.
+    out3 = conv1x1(out, num_3x3_d3_red, batch_norm = use_batch_norm)
+    out3 = conv3x3(out3, num_3x3, batch_norm = use_batch_norm)
+    out3_1 = conv1x3(out3, num_3x3_d3_1, batch_norm = use_batch_norm)
+    out3_2 = conv3x3(out3, num_3x3_d3_2, batch_norm = use_batch_norm)
 
-    With the default arguments this method constructs the exact model defined in
-    the paper. However, one can experiment with variations of the inception_v3
-    network by changing arguments dropout_keep_prob, min_depth and
-    depth_multiplier.
+    out4 = avg_pool_3x3(out)
+    out4 = conv1x1(out4, proj, batch_norm = use_batch_norm)
 
-    The default image size used to train this network is 299x299.
-
-    Args:
-      inputs: a tensor of size [batch_size, height, width, channels].
-      num_classes: number of predicted classes.
-      is_training: whether is training or not.
-      dropout_keep_prob: the percentage of activation values that are retained.
-      min_depth: Minimum depth value (number of channels) for all convolution ops.
-        Enforced when depth_multiplier < 1, and not an active constraint when
-        depth_multiplier >= 1.
-      depth_multiplier: Float multiplier for the depth (number of channels)
-        for all convolution ops. The value must be greater than zero. Typical
-        usage will be to set this value in (0, 1) to reduce the number of
-        parameters or computation cost of the model.
-      prediction_fn: a function to get predictions out of logits.
-      spatial_squeeze: if True, logits is of shape is [B, C], if false logits is
-          of shape [B, 1, 1, C], where B is batch_size and C is number of classes.
-      reuse: whether or not the network and its variables should be reused. To be
-        able to reuse 'scope' must be given.
-      scope: Optional variable_scope.
-
-    Returns:
-      logits: the pre-softmax activations, a tensor of size
-        [batch_size, num_classes]
-      end_points: a dictionary from components of the network to the corresponding
-        activation.
-
-    Raises:
-      ValueError: if 'depth_multiplier' is less than or equal to zero.
-    """
-    if depth_multiplier <= 0:
-        raise ValueError('depth_multiplier is not greater than zero.')
-    depth = lambda d: max(int(d * depth_multiplier), min_depth)
-
-    with variable_scope.variable_scope(
-            scope, 'InceptionV3', [inputs, num_classes], reuse=reuse) as scope:
-        with arg_scope(
-                [layers_lib.batch_norm, layers_lib.dropout], is_training=is_training):
-            net, end_points = inception_v3_base(
-                inputs,
-                scope=scope,
-                min_depth=min_depth,
-                depth_multiplier=depth_multiplier)
-
-            # Auxiliary Head logits
-            with arg_scope(
-                    [layers.conv2d, layers_lib.max_pool2d, layers_lib.avg_pool2d],
-                    stride=1,
-                    padding='SAME'):
-                aux_logits = end_points['Mixed_6e']
-                with variable_scope.variable_scope('AuxLogits'):
-                    aux_logits = layers_lib.avg_pool2d(
-                        aux_logits, [5, 5],
-                        stride=3,
-                        padding='VALID',
-                        scope='AvgPool_1a_5x5')
-                    aux_logits = layers.conv2d(
-                        aux_logits, depth(128), [1, 1], scope='Conv2d_1b_1x1')
-
-                    # Shape of feature map before the final layer.
-                    kernel_size = _reduced_kernel_size_for_small_input(aux_logits, [5, 5])
-                    aux_logits = layers.conv2d(
-                        aux_logits,
-                        depth(768),
-                        kernel_size,
-                        weights_initializer=trunc_normal(0.01),
-                        padding='VALID',
-                        scope='Conv2d_2a_{}x{}'.format(*kernel_size))
-                    aux_logits = layers.conv2d(
-                        aux_logits,
-                        num_classes, [1, 1],
-                        activation_fn=None,
-                        normalizer_fn=None,
-                        weights_initializer=trunc_normal(0.001),
-                        scope='Conv2d_2b_1x1')
-                    if spatial_squeeze:
-                        aux_logits = array_ops.squeeze(
-                            aux_logits, [1, 2], name='SpatialSqueeze')
-                    end_points['AuxLogits'] = aux_logits
-
-            # Final pooling and prediction
-            with variable_scope.variable_scope('Logits'):
-                kernel_size = _reduced_kernel_size_for_small_input(net, [8, 8])
-                net = layers_lib.avg_pool2d(
-                    net,
-                    kernel_size,
-                    padding='VALID',
-                    scope='AvgPool_1a_{}x{}'.format(*kernel_size))
-                # 1 x 1 x 2048
-                net = layers_lib.dropout(
-                    net, keep_prob=dropout_keep_prob, scope='Dropout_1b')
-                end_points['PreLogits'] = net
-                # 2048
-                logits = layers.conv2d(
-                    net,
-                    num_classes, [1, 1],
-                    activation_fn=None,
-                    normalizer_fn=None,
-                    scope='Conv2d_1c_1x1')
-                if spatial_squeeze:
-                    logits = array_ops.squeeze(logits, [1, 2], name='SpatialSqueeze')
-                    # 1000
-            end_points['Logits'] = logits
-            #end_points['Predictions'] = prediction_fn(logits, scope='Predictions')
-    return logits, end_points
-
-
-inception_v3.default_image_size = 299
-
-
-def _reduced_kernel_size_for_small_input(input_tensor, kernel_size):
-    """Define kernel size which is automatically reduced for small input.
-
-    If the shape of the input images is unknown at graph construction time this
-    function assumes that the input images are is large enough.
-
-    Args:
-      input_tensor: input tensor of size [batch_size, height, width, channels].
-      kernel_size: desired kernel size of length 2: [kernel_height, kernel_width]
-
-    Returns:
-      a tensor with the kernel size.
-
-    TODO(jrru): Make this function work with unknown shapes. Theoretically, this
-    can be done with the code below. Problems are two-fold: (1) If the shape was
-    known, it will be lost. (2) inception.tf.contrib.slim.ops._two_element_tuple
-    cannot
-    handle tensors that define the kernel size.
-        shape = tf.shape(input_tensor)
-        return = tf.stack([tf.minimum(shape[1], kernel_size[0]),
-                          tf.minimum(shape[2], kernel_size[1])])
-
-    """
-    shape = input_tensor.get_shape().as_list()
-    if shape[1] is None or shape[2] is None:
-        kernel_size_out = kernel_size
-    else:
-        kernel_size_out = [
-            min(shape[1], kernel_size[0]), min(shape[2], kernel_size[1])
-        ]
-    return kernel_size_out
-
-
-def inception_v3_arg_scope(weight_decay=0.00004,
-                           stddev=0.1,
-                           batch_norm_var_collection='moving_vars'):
-    """Defines the default InceptionV3 arg scope.
-
-    Args:
-      weight_decay: The weight decay to use for regularizing the model.
-      stddev: The standard deviation of the trunctated normal weight initializer.
-      batch_norm_var_collection: The name of the collection for the batch norm
-        variables.
-
-    Returns:
-      An `arg_scope` to use for the inception v3 model.
-    """
-    batch_norm_params = {
-        # Decay for the moving averages.
-        'decay': 0.9997,
-        # epsilon to prevent 0s in variance.
-        'epsilon': 0.001,
-        # collection containing update_ops.
-        'updates_collections': ops.GraphKeys.UPDATE_OPS,
-        # collection containing the moving mean and moving variance.
-        'variables_collections': {
-            'beta': None,
-            'gamma': None,
-            'moving_mean': [batch_norm_var_collection],
-            'moving_variance': [batch_norm_var_collection],
-        }
-    }
-
-    # Set weight_decay for weights in Conv and FC layers.
-    with arg_scope(
-            [layers.conv2d, layers_lib.fully_connected],
-            weights_regularizer=regularizers.l2_regularizer(weight_decay)):
-        with arg_scope(
-                [layers.conv2d],
-                weights_initializer=init_ops.truncated_normal_initializer(
-                    stddev=stddev),
-                activation_fn=nn_ops.relu,
-                normalizer_fn=layers_lib.batch_norm,
-                normalizer_params=batch_norm_params) as sc:
-            return sc
+    return concat(3, [out1, out2_1, out2_2, out3_1, out3_2, out4])
 
 class InceptionV3(BaseImageClassificationModel):
     def __init__(self, width=299, height=299, channels=3, classes=10):
         super(InceptionV3, self).__init__()
+
+        self._number_of_classes = classes
 
         size = width * height * channels
 
         x = tf.placeholder(tf.float32, [None, size], name="x")
         self._inputs = x
 
-        x = tf.reshape(x, [-1, width, height, channels])
+        with tf.variable_scope("reshape1"):
+            x = tf.reshape(x, [-1, width, height, channels])
+
+        max_w = 299
+        min_w = 299 // 3
+
+        with tf.variable_scope("resize1"):
+            if width < min_w:
+                x = tf.image.resize_images(x, [min_w, min_w])
+            elif width > 299:
+                x = tf.image.resize_images(x, [max_w, max_w])
+
+        # Stage 1
+        out = conv3x3(x, 32, stride=2, padding="VALID", batch_norm = use_batch_norm)
+        out = conv3x3(out, 32, padding="VALID", batch_norm = use_batch_norm)
+        out = conv3x3(out, 64, batch_norm = use_batch_norm)
+        out = max_pool_3x3(out, padding="VALID")
+
+        # Stage 2
+        out = conv3x3(out, 80, padding="VALID", batch_norm = use_batch_norm)
+        out = conv3x3(out, 192, padding="VALID", batch_norm = use_batch_norm)
+        out = max_pool_3x3(out, padding="VALID")
+
+        # Stage 3
+        out = inception7A(out, 64, 64, 96, 96, 48, 64, 32)
+        out = inception7A(out, 64, 64, 96, 96, 48, 64, 64)
+        out = inception7A(out, 64, 64, 96, 96, 48, 64, 64)
+        out = inception7B(out, 384, 64, 96, 96)
+
+        # Stage 4
+        out = inception7C(out, 192, 128, 128, 192, 128, 128, 128, 128, 192, 192)
+        out = inception7C(out, 192, 160, 160, 192, 160, 160, 160, 160, 192, 192)
+        out = inception7C(out, 192, 160, 160, 192, 160, 160, 160, 160, 192, 192)
+        out = inception7C(out, 192, 192, 192, 192, 192, 192, 192, 192, 192, 192)
+        out = inception7D(out, 192, 320, 192, 192, 192, 192)
+
+        # Stage 5
+        out = inception7E(out, 320, 384, 384, 384, 448, 384, 384, 384, 192)
+        out = inception7E(out, 320, 384, 384, 384, 448, 384, 384, 384, 192)
+
+        out = tf.nn.avg_pool(out, ksize=[1, 8, 8, 1], strides=[1, 1, 1, 1], padding='SAME')
+
+        dims = out.get_shape().as_list()
+        flatten_size = 1
+        for d in dims[1:]:
+            flatten_size *= d
+
+        with tf.variable_scope("reshape2"):
+            out = tf.reshape(out, [-1, int(flatten_size)])
+
+        with tf.variable_scope("fc1"):
+            out = fc(out, classes)
+
+        self._logits = out
+
+        if classes > 1:
+            self._predictions = tf.nn.softmax(self._logits)
+        else:
+            self._predictions = self._logits
+
+    @property
+    def train_dict(self):
+        return {}
+
+    @property
+    def name(self):
+        return "inception_bn"
+
+    @property
+    def number_of_classes(self):
+        return self._number_of_classes
+
+    @property
+    def inputs(self):
+        return self._inputs
+
+    @property
+    def logits(self):
+        return self._logits
+
+    @property
+    def predictions(self):
+        return self._predictions
+
+#================================= INCEPTION V4 =================================
+
+def stem(x):
+    """
+    Stem fo the pure InceptionV4 and Inception-ResNet-V2
+    """
+    out = conv3x3(x, 32, stride=2, padding="VALID", batch_norm = use_batch_norm)
+    out = conv3x3(out, 32, stride=1, padding="VALID", batch_norm = use_batch_norm)
+    out = conv3x3(out, 64, stride=1, padding="SAME", batch_norm = use_batch_norm)
+
+    out1 = max_pool_3x3(out, stride=2, padding="VALID")
+    out2 = conv3x3(out, 96, stride=2, padding="VALID", batch_norm = use_batch_norm)
+
+    out = concat(3, [out1, out2])
+
+    out1 = conv1x1(out, 64, batch_norm = use_batch_norm)
+    out1 = conv3x3(out1, 96, padding="VALID", batch_norm = use_batch_norm)
+
+    out2 = conv1x1(out, 64, batch_norm = use_batch_norm)
+    out2 = conv1x7(out2, 64, batch_norm = use_batch_norm)
+    out2 = conv7x1(out2, 64, batch_norm = use_batch_norm)
+    out2 = conv3x3(out2, 96, padding="VALID", batch_norm = use_batch_norm)
+
+    out = concat(3, [out1, out2])
+
+    out1 = conv3x3(out, 192, stride=2, padding="VALID", batch_norm = use_batch_norm)
+    out2 = max_pool_3x3(out, stride=2, padding="VALID")
+
+    out = concat(3, [out1, out2])
+
+    return out
+
+def inceptionA(out):
+    out1 = conv1x1(out, 96, batch_norm = use_batch_norm)
+
+    out2 = conv1x1(out, 64, batch_norm = use_batch_norm)
+    out2 = conv3x3(out2, 96, batch_norm = use_batch_norm)
+
+    out3 = conv1x1(out, 64, batch_norm = use_batch_norm)
+    out3 = conv3x3(out3, 96, batch_norm = use_batch_norm)
+    out3 = conv3x3(out3, 96, batch_norm = use_batch_norm)
+
+    out4 = avg_pool_3x3(out)
+    out4 = conv1x1(out4, 96, batch_norm = use_batch_norm)
+
+    return concat(3, [out1, out2, out3, out4])
+
+
+def avg_pool_3x3(out, stride=1, padding='SAME'):
+    return tf.nn.avg_pool(out, ksize=[1, 3, 3, 1], strides=[1, stride, stride, 1], padding=padding)
+
+
+def inceptionB(out):
+    out1 = conv1x1(out, 384, batch_norm = use_batch_norm)
+
+    out2 = conv1x1(out, 192, batch_norm = use_batch_norm)
+    out2 = conv1x7(out2, 224, batch_norm = use_batch_norm)
+    out2 = conv7x1(out2, 256, batch_norm = use_batch_norm)
+
+    out3 = conv1x1(out, 192, batch_norm = use_batch_norm)
+    out3 = conv7x1(out3, 192, batch_norm = use_batch_norm)
+    out3 = conv1x7(out3, 224, batch_norm = use_batch_norm)
+    out3 = conv7x1(out3, 224, batch_norm = use_batch_norm)
+    out3 = conv1x7(out3, 256, batch_norm = use_batch_norm)
+
+    out4 = avg_pool_3x3(out)
+    out4 = conv1x1(out4, 128, batch_norm = use_batch_norm)
+
+    return concat(3, [out1, out2, out3, out4])
+
+
+def inceptionC(out):
+    out1 = conv1x1(out, 256, batch_norm = use_batch_norm)
+
+    out2 = conv1x1(out, 384, batch_norm = use_batch_norm)
+    out21 = conv1x3(out2, 256, batch_norm = use_batch_norm)
+    out22 = conv3x1(out2, 256, batch_norm = use_batch_norm)
+    out2 = concat(3, [out21, out22])
+
+    out3 = conv1x1(out, 384, batch_norm = use_batch_norm)
+    out3 = conv3x1(out3, 448, batch_norm = use_batch_norm)
+    out3 = conv1x3(out3, 512, batch_norm = use_batch_norm)
+    out31 = conv1x3(out3, 256, batch_norm = use_batch_norm)
+    out32 = conv3x1(out3, 256, batch_norm = use_batch_norm)
+    out3 = concat(3, [out31, out32])
+
+    out4 = avg_pool_3x3(out)
+    out4 = conv1x1(out4, 256, batch_norm = use_batch_norm)
+
+    return concat(3, [out1, out2, out3, out4])
+
+
+def reductionA(out, k=0, l=0, m=0, n=0):
+    out1 = conv3x3(out, n, stride=2, padding="VALID", batch_norm = use_batch_norm)
+
+    out2 = conv1x1(out, k, batch_norm = use_batch_norm)
+    out2 = conv3x3(out2, l, batch_norm = use_batch_norm)
+    out2 = conv3x3(out2, m, stride=2, padding="VALID", batch_norm = use_batch_norm)
+
+    out3 = max_pool_3x3(out, stride=2, padding="VALID")
+
+    return concat(3, [out1, out2, out3])
+
+
+def reductionB(out):
+    out1 = conv1x1(out, 192, batch_norm = use_batch_norm)
+    out1 = conv3x3(out1, 192, stride=2, padding="VALID", batch_norm = use_batch_norm)
+
+    out2 = conv1x1(out, 256, batch_norm = use_batch_norm)
+    out2 = conv1x7(out2, 256, batch_norm = use_batch_norm)
+    out2 = conv7x1(out2, 320, batch_norm = use_batch_norm)
+    out2 = conv3x3(out2, 320, stride=2, padding="VALID", batch_norm = use_batch_norm)
+
+    out3 = max_pool_3x3(out, stride=2, padding="VALID")
+
+    return concat(3, [out1, out2, out3])
+
+
+class InceptionV4(BaseImageClassificationModel):
+    def __init__(self, width=299, height=299, channels=3, classes=10):
+        super(InceptionV4, self).__init__()
+
+        assert width == height, "width and height must be the same"
+
+        size = width * height * channels
+
+        x = tf.placeholder(tf.float32, [None, size], name="x")
+        self._inputs = x
+
+        with tf.variable_scope("reshape1"):
+            x = tf.reshape(x, [-1, width, height, channels])
 
         self._number_of_classes = classes
 
-        out, _ = inception_v3(x,
-                 num_classes=classes,
-                 is_training=True,
-                 dropout_keep_prob=0.8,
-                 min_depth=16,
-                 depth_multiplier=1.0,
-                 prediction_fn=layers_lib.softmax,
-                 spatial_squeeze=True,
-                 reuse=None,
-                 scope='InceptionV3')
+        max_w = 299
+        min_w = 299 // 3
+
+        with tf.variable_scope("resize1"):
+            if width < min_w:
+                x = tf.image.resize_images(x, [min_w, min_w])
+            elif width == 299:
+                pass # do nothing
+            else:
+                x = tf.image.resize_images(x, [max_w, max_w])
+
+        with tf.variable_scope("stem"):
+            out = stem(x)
+
+        for i in range(4):
+            with tf.variable_scope("incA" + str(i)):
+                out = inceptionA(out)
+        with tf.variable_scope("redA"):
+            out = reductionA(out, k=192, l=224, m=256, n=384)
+
+        for i in range(7):
+            with tf.variable_scope("incB" + str(i)):
+                out = inceptionB(out)
+        with tf.variable_scope("redB"):
+            out = reductionB(out)
+
+        for i in range(3):
+            with tf.variable_scope("incC" + str(i)):
+                out = inceptionC(out)
+
+        a, b = out.get_shape().as_list()[1:3]
+        out = tf.nn.avg_pool(out, ksize=[1, a, b, 1],
+                             strides=[1, 1, 1, 1], padding="VALID")
+
+        dims = out.get_shape().as_list()
+        flatten_size = 1
+        for d in dims[1:]:
+            flatten_size *= d
+
+        with tf.variable_scope("reshape2"):
+            out = tf.reshape(out, [-1, int(flatten_size)])
+
+        with tf.variable_scope("fc1"):
+            out = fc(out, classes)
 
         self._logits = out
 

@@ -37,8 +37,15 @@ def conv(x, w, h, filters, stride=1, padding="SAME", batch_norm = False, activat
     if batch_norm:
         normalizer_fn = tf.contrib.layers.batch_norm
         normalizer_params = {
-            'is_training': is_training(),
-            'fused': True
+            'decay': 0.9997,
+            'epsilon': 0.001,
+            'updates_collections': tf.GraphKeys.UPDATE_OPS,
+            'variables_collections': {
+                'beta': None,
+                'gamma': None,
+                'moving_mean': ['moving_vars'],
+                'moving_variance': ['moving_vars'],
+            }
         }
 
     out = tf.contrib.layers.convolution2d(inputs=x, num_outputs=filters, kernel_size=[w, h],

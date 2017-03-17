@@ -358,14 +358,15 @@ def cat_dog_mouse_must_converge(name,
                         epochs=20,
                         batch_size=500,
                         initial_learning_rate=0.01,
-                        summaries=False
+                        summaries=False,
+                        dim=299
                         ):
     def create_batches(batch_size, images, labels):
         images_batch = []
         labels_batch = []
 
         for img in images:
-            imread = scipy.misc.imresize(scipy.misc.imread(img), [299, 299]).reshape(1,299*299*3)
+            imread = scipy.misc.imresize(scipy.misc.imread(img), [dim, dim]).reshape(1,dim*dim*3)
             images_batch.append(imread)
 
         modulus = len(images_batch) % batch_size
@@ -375,7 +376,7 @@ def cat_dog_mouse_must_converge(name,
         if modulus != 0:
             i = 0
             while len(images_batch) % batch_size != 0:
-                imread = scipy.misc.imresize(scipy.misc.imread(images[i]), [299, 299]).reshape(1,299*299*3)
+                imread = scipy.misc.imresize(scipy.misc.imread(images[i]), [dim, dim]).reshape(1,dim*dim*3)
                 images_batch.append(imread)
                 i += 1
 
@@ -406,7 +407,7 @@ def cat_dog_mouse_must_converge(name,
 
         while trained + batch_size <= 288:
             batched_images, batched_labels = next(batch_generator)
-            images = np.asarray(batched_images).reshape(batch_size, 299*299*3)
+            images = np.asarray(batched_images).reshape(batch_size, dim*dim*3)
             labels = eye[batched_labels]
 
             trained += batch_size
@@ -439,7 +440,7 @@ def cat_dog_mouse_must_converge(name,
 
         while trained + batch_size <= 288:
             batched_images, batched_labels = next(batch_generator)
-            images = np.asarray(batched_images).reshape(batch_size, 299*299*3)
+            images = np.asarray(batched_images).reshape(batch_size, dim*dim*3)
             labels = eye[batched_labels]
 
             trained += batch_size
@@ -478,7 +479,7 @@ def cat_dog_mouse_must_converge(name,
         return filenames, labels
 
     train_strategy = generate_train_graph(
-        model_class, optimizer_class, 299, 299, 3, 3, add_summaries=summaries)
+        model_class, optimizer_class, dim, dim, 3, 3, add_summaries=summaries)
 
     class _LoggerHook(tf.train.SessionRunHook):
         """Logs loss and runtime."""

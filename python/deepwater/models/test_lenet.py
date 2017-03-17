@@ -26,7 +26,8 @@ class TestLenet(unittest.TestCase):
                                                   epochs=40,
                                                   # initial_learning_rate=5e-4, # rate for old fc
                                                   initial_learning_rate=1e-3, # rate for new fc
-                                                  summaries=True)
+                                                  summaries=True,
+                                                  dim=28)
         self.assertTrue(train_error <= 0.1)
 
 
