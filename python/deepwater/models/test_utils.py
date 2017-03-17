@@ -398,7 +398,7 @@ def cat_dog_mouse_must_converge(name,
                 b = random.sample(range(0, len(images_batch)), batch_size)
                 yield( [ images_batch[i] for i in b ], [ labels_batch[i] for i in b ])
 
-    def train(batch_generator, sess):
+    def train(batch_generator, sess, momentum):
 
         global trained_global
         trained = 0
@@ -416,6 +416,7 @@ def cat_dog_mouse_must_converge(name,
                 train_strategy.inputs: images,
                 train_strategy.labels: labels,
                 train_strategy.learning_rate: learning_rate,
+                "momentum:0": momentum,
                 "global_is_training:0": True,
             }
 
@@ -428,7 +429,7 @@ def cat_dog_mouse_must_converge(name,
         trained_global += trained
         print('trained %d' % (trained_global))
 
-    def test(batch_generator, sess):
+    def test(batch_generator, sess, momentum):
 
         global trained_global
         trained = 0
@@ -449,6 +450,7 @@ def cat_dog_mouse_must_converge(name,
                 train_strategy.inputs: images,
                 train_strategy.labels: labels,
                 train_strategy.learning_rate: learning_rate,
+                "momentum:0": momentum,
                 "global_is_training:0": False,
             }
 
@@ -519,12 +521,14 @@ def cat_dog_mouse_must_converge(name,
 
             # sess.run(tf.global_variables_initializer())
 
-            for _ in range(epochs):
+            momentum_s = 0.9
+            momentum_e = 0.99
+            for momentum in np.arange(momentum_s,momentum_e,(momentum_e - momentum_s)/batch_size):
                 epoch += 1
                 eye = np.eye(3)
-                train(batch_generator, sess)
+                train(batch_generator, sess, momentum)
 
-                global_step, train_loss, train_error = test(batch_generator, sess)
+                global_step, train_loss, train_error = test(batch_generator, sess, momentum)
 
                 print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'test loss:', train_loss,
                       '% test error:', train_error)
