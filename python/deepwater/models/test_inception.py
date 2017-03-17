@@ -13,7 +13,7 @@ class TestInceptionV3(unittest.TestCase):
         train_error = cat_dog_mouse_must_converge("inceptionV3", inception.InceptionV3,
                                                   optimizers.MomentumOptimizer,
                                                   batch_size=32,
-                                                  epochs=500,
+                                                  epochs=50,
                                                   initial_learning_rate=1e-3,
                                                   summaries=False)
         self.assertTrue(train_error <= 0.1)
