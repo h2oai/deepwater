@@ -518,12 +518,9 @@ def cat_dog_mouse_must_converge(name,
         batch_generator = create_batches(batch_size, image, labels)
         start_time = time.time()
         with tf.train.MonitoredTrainingSession(hooks=[ _LoggerHook() ]) as sess:
-
-            # sess.run(tf.global_variables_initializer())
-
             momentum_s = 0.9
             momentum_e = 0.99
-            for momentum in np.arange(momentum_s,momentum_e,(momentum_e - momentum_s)/batch_size):
+            for momentum in np.arange(momentum_s,momentum_e,(momentum_e - momentum_s)/epochs):
                 epoch += 1
                 eye = np.eye(3)
                 train(batch_generator, sess, momentum)
