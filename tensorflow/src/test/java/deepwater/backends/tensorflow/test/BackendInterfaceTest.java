@@ -56,9 +56,9 @@ public class BackendInterfaceTest {
         return computeValidationError(backend, model, test_it, batchTest, dataset.getNumClasses());
     }
 
-    private double computeCatDogMouseTestError(BackendModel model, int batchSize) throws IOException {
+    private double computeCatDogMouseTestError(int imageSize, BackendModel model, int batchSize) throws IOException {
         BackendTrain backend = new TensorflowBackend();
-        CatDogMouseImageDataset dataset = new CatDogMouseImageDataset();
+        CatDogMouseImageDataset dataset = new CatDogMouseImageDataset(imageSize);
 
         String[] test_images = new String[]{
                 findFile("bigdata/laptop/deepwater/imagenet/cat_dog_mouse.csv")
@@ -154,7 +154,17 @@ public class BackendInterfaceTest {
 
     @Test
     public void testLenetCatDogMouse() throws IOException {
-        backendCanTrainCatDogMouse("lenet", 32, 40, 1e-3f);
+        backendCanTrainCatDogMouse(28, "lenet", 32, 40, 1e-3f);
+    }
+
+    @Test
+    public void testLenetCatDogMouse224() throws IOException {
+        backendCanTrainCatDogMouse(224, "lenet", 32, 40, 1e-3f);
+    }
+
+    @Test
+    public void testInceptionCatDogMouse() throws IOException {
+        backendCanTrainCatDogMouse(224, "inception_bn", 32, 40, 1e-3f);
     }
 
     @Test
@@ -288,10 +298,10 @@ public class BackendInterfaceTest {
         assert error < initialError: "final error is not less than initial error. model did not learn.";
     }
 
-    private void backendCanTrainCatDogMouse(String modelName, int batchSize, int epochs, float learningRate) throws IOException {
+    private void backendCanTrainCatDogMouse(int imageSize, String modelName, int batchSize, int epochs, float learningRate) throws IOException {
         BackendTrain backend = new TensorflowBackend();
 
-        CatDogMouseImageDataset dataset = new CatDogMouseImageDataset();
+        CatDogMouseImageDataset dataset = new CatDogMouseImageDataset(imageSize);
 
         RuntimeOptions opts = new RuntimeOptions();
         BackendParams params = new BackendParams();
@@ -300,7 +310,7 @@ public class BackendInterfaceTest {
 
         BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelName);
 
-        double initialError = computeCatDogMouseTestError(model, batchSize);
+        double initialError = computeCatDogMouseTestError(imageSize, model, batchSize);
 
         System.out.println("initial CDM validation error:" + initialError);
 
@@ -324,11 +334,11 @@ public class BackendInterfaceTest {
                 computePredictionError(backend, model, b, dataset.getNumClasses());
             }
 
-            double err = computeCatDogMouseTestError(model, batchSize);
+            double err = computeCatDogMouseTestError(imageSize, model, batchSize);
             System.out.println("test error:" + err);
         }
 
-        double error = computeCatDogMouseTestError(model, batchSize);
+        double error = computeCatDogMouseTestError(imageSize, model, batchSize);
 
         System.out.println("final CDM validation error:" + error);
 

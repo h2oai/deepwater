@@ -16,10 +16,10 @@ import java.util.List;
 
 public class CatDogMouseImageDataset extends ImageDataSet {
 
-    private static int dim = 224;
-
-    public CatDogMouseImageDataset(){
-        super(dim, dim, 3, 3);
+    private static int dim = 0;
+    public CatDogMouseImageDataset(int _dim){
+        super(_dim, _dim, 3, 3);
+        dim = _dim;
     }
 
     private Map<String, Integer> labels = new HashMap<String, Integer>() {{
