@@ -2,8 +2,6 @@ import unittest
 
 import tensorflow as tf
 from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
-from tensorflow.python.client import timeline
-
 import time
 from datetime import datetime
 
@@ -11,8 +9,6 @@ import numpy as np
 import math
 
 import scipy.misc
-
-import PIL # from pip install Pillow
 
 from deepwater.datasets import cifar
 from deepwater import train
@@ -369,7 +365,7 @@ def cat_dog_mouse_must_converge(name,
         labels_batch = []
 
         for img in images:
-            imread = scipy.misc.imresize(scipy.misc.imread(img), [224, 224]).reshape(1,224*224*3)
+            imread = scipy.misc.imresize(scipy.misc.imread(img), [299, 299]).reshape(1,299*299*3)
             images_batch.append(imread)
 
         modulus = len(images_batch) % batch_size
@@ -379,7 +375,7 @@ def cat_dog_mouse_must_converge(name,
         if modulus != 0:
             i = 0
             while len(images_batch) % batch_size != 0:
-                imread = scipy.misc.imresize(scipy.misc.imread(images[i]), [224, 224]).reshape(1,224*224*3)
+                imread = scipy.misc.imresize(scipy.misc.imread(images[i]), [299, 299]).reshape(1,299*299*3)
                 images_batch.append(imread)
                 i += 1
 
@@ -410,7 +406,7 @@ def cat_dog_mouse_must_converge(name,
 
         while trained + batch_size <= 288:
             batched_images, batched_labels = batch_generator.next()
-            images = np.asarray(batched_images).reshape(batch_size, 224*224*3)
+            images = np.asarray(batched_images).reshape(batch_size, 299*299*3)
             labels = eye[batched_labels]
 
             trained += batch_size
@@ -443,7 +439,7 @@ def cat_dog_mouse_must_converge(name,
 
         while trained + batch_size <= 288:
             batched_images, batched_labels = batch_generator.next()
-            images = np.asarray(batched_images).reshape(batch_size, 224*224*3)
+            images = np.asarray(batched_images).reshape(batch_size, 299*299*3)
             labels = eye[batched_labels]
 
             trained += batch_size
@@ -482,7 +478,7 @@ def cat_dog_mouse_must_converge(name,
         return filenames, labels
 
     train_strategy = generate_train_graph(
-        model_class, optimizer_class, 224, 224, 3, 3, add_summaries=summaries)
+        model_class, optimizer_class, 299, 299, 3, 3, add_summaries=summaries)
 
     class _LoggerHook(tf.train.SessionRunHook):
         """Logs loss and runtime."""
@@ -531,7 +527,6 @@ def cat_dog_mouse_must_converge(name,
 
                 print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'test loss:', train_loss,
                       '% test error:', train_error)
-
 
             # _, train_loss, train_error = train(batch_generator, sess)
             # print('final train error: %f' % (train_error))
