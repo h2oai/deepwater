@@ -1,5 +1,4 @@
 import tensorflow as tf
-from tensorflow.contrib.layers import convolution2d, batch_norm
 
 from deepwater.models import BaseImageClassificationModel
 
@@ -11,8 +10,6 @@ class ResNet(BaseImageClassificationModel):
     def __init__(self, width=299, height=299, channels=3, classes=10):
         super(ResNet, self).__init__()
 
-        assert width == height, "width and height must be the same"
-
         size = width * height * channels
 
         x = tf.placeholder(tf.float32, [None, size], name="x")
@@ -21,19 +18,6 @@ class ResNet(BaseImageClassificationModel):
         x = tf.reshape(x, [-1, width, height, channels])
 
         self._number_of_classes = classes
-
-        max_w = 299
-        min_w = 299 // 3
-
-        if width < min_w:
-            x = tf.image.resize_images(x, [min_w, min_w])
-        elif width == 299:
-            pass # do nothing
-        else:
-            x = tf.image.resize_images(x, [max_w, max_w])
-
-        # x = tf.reshape(x, [-1, width, height, channels],
-        #              name="input_reshape")
 
         # normalizer_params = { 'is_training': is_training() }
 
