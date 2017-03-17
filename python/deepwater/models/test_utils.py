@@ -405,7 +405,7 @@ def cat_dog_mouse_must_converge(name,
         learning_rate = initial_learning_rate
 
         while trained + batch_size <= 288:
-            batched_images, batched_labels = batch_generator.next()
+            batched_images, batched_labels = next(batch_generator)
             images = np.asarray(batched_images).reshape(batch_size, 299*299*3)
             labels = eye[batched_labels]
 
@@ -438,7 +438,7 @@ def cat_dog_mouse_must_converge(name,
         learning_rate = initial_learning_rate
 
         while trained + batch_size <= 288:
-            batched_images, batched_labels = batch_generator.next()
+            batched_images, batched_labels = next(batch_generator)
             images = np.asarray(batched_images).reshape(batch_size, 299*299*3)
             labels = eye[batched_labels]
 
