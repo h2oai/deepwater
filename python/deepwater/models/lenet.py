@@ -10,6 +10,9 @@ class LeNet(BaseImageClassificationModel):
     def __init__(self, width, height, channels, classes):
         super(LeNet, self).__init__()
 
+        activation_function = "tanh"
+        # activation_function = "relu"
+
         self._number_of_classes = classes
 
         size = width * height * channels
@@ -23,11 +26,11 @@ class LeNet(BaseImageClassificationModel):
                              name="input_reshape")
 
         with tf.variable_scope("conv1"):
-            out = conv(x_image, 5, 5, 20, activation="tanh")
+            out = conv(x_image, 5, 5, 20, activation=activation_function)
             out = max_pool_2x2(out)
 
         with tf.variable_scope("conv2"):
-            out = conv(out, 5, 5, 50, activation="tanh")
+            out = conv(out, 5, 5, 50, activation=activation_function)
             out = max_pool_2x2(out)
 
         dims = out.get_shape().as_list()
@@ -40,7 +43,10 @@ class LeNet(BaseImageClassificationModel):
 
         with tf.variable_scope("fc1"):
             out = fc(flatten, 500)
-            out = tf.nn.tanh(out)
+            if activation_function == "relu":
+                out = tf.nn.relu(out)
+            elif activation_function == "tanh":
+                out = tf.nn.tanh(out)
 
         with tf.variable_scope("fc2"):
             self._logits = fc(out, classes)
