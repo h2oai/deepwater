@@ -10,8 +10,8 @@ class LeNet(BaseImageClassificationModel):
     def __init__(self, width, height, channels, classes):
         super(LeNet, self).__init__()
 
-        activation_function = "tanh"
-        # activation_function = "relu"
+        # activation_function = "tanh"
+        activation_function = "relu"
 
         self._number_of_classes = classes
 

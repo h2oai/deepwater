@@ -105,13 +105,22 @@ class MomentumOptimizer(BaseOptimizer):
         trainable = tf.trainable_variables()
         self._grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
         update_ops = tf.get_default_graph().get_collection(tf.GraphKeys.UPDATE_OPS)
+        # print("lr %f  mom %f \n" %(self._learning_rate, self._momentum))
         with tf.get_default_graph().control_dependencies(update_ops):
             # Ensures that we execute the update_ops before performing the train_step
+            # gradient_multipliers = {}
+            # for v in trainable:
+            #     print(v.name)
+            #     if 'bias' not in v.name:
+            #         gradient_multipliers[v.name] = 1.0/32
+
             self._optimize_op = tf.contrib.layers.optimize_loss(loss,
                                                                 tf.contrib.framework.get_global_step(),
                                                                 self._learning_rate,
                                                                 optimizer=lambda lr: tf.train.MomentumOptimizer(self._learning_rate, momentum=self._momentum),
+                                                                #gradient_multipliers=gradient_multipliers,
                                                                 clip_gradients=10.0)
+                                                                # )
 
     @property
     def grads_and_vars(self):

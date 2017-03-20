@@ -423,10 +423,12 @@ def cat_dog_mouse_must_converge(name,
 
             fetches = [train_strategy.optimize]
 
+            # print(sess.run( ))
+
             sess.run(fetches, feed_dict=feed_dict)
 
         trained_global += trained
-        print('trained %d' % (trained_global))
+        # print('trained %d' % (trained_global))
 
     def test(batch_generator, sess):
 
@@ -508,7 +510,7 @@ def cat_dog_mouse_must_converge(name,
     with train_strategy.graph.as_default():
         epoch = 0
 
-        tf.set_random_seed(12345678)
+        # tf.set_random_seed(12345678)
 
         # Load the data
         image, labels = read_labeled_image_list("bigdata/laptop/deepwater/imagenet/cat_dog_mouse.csv")
@@ -526,12 +528,14 @@ def cat_dog_mouse_must_converge(name,
 
                 global_step, train_loss, train_error = test(batch_generator, sess)
 
-                print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'test loss:', train_loss,
-                      '% test error:', train_error)
+                if epoch % 10 == 0:
+                    print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'test loss:', train_loss,
+                          '% test error:', train_error)
 
-            # _, train_loss, train_error = train(batch_generator, sess)
-            # print('final train error: %f' % (train_error))
-            # return train_error
+            elapsed_time = time.time() - start_time
+            print("time %.2f s\n" % elapsed_time)
 
-        elapsed_time = time.time() - start_time
-        print("time %.2f s\n" % elapsed_time)
+            global_step, train_loss, train_error = test(batch_generator, sess)
+            print('final train error: %f' % (train_error))
+
+            return train_error

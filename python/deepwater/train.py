@@ -7,7 +7,7 @@ class ImageClassificationTrainStrategy(object):
 
     """
 
-    def __init__(self, graph, model, optimizer, batch_size, weight_decay=1e-6, add_summaries=False):
+    def __init__(self, graph, model, optimizer, batch_size, weight_decay=0.0, add_summaries=False):
         self._graph = graph
         self._model = model
         self._labels = labels = tf.placeholder(tf.float32,
@@ -21,9 +21,10 @@ class ImageClassificationTrainStrategy(object):
 
         # weight regularization
         trainable_vars = tf.trainable_variables()
-        l2 = tf.contrib.layers.l2_regularizer(weight_decay)
-        self._l2_loss = tf.add_n([l2(v) for v in trainable_vars
-                                  if 'bias' not in v.name])
+        if weight_decay > 0.0:
+            l2 = tf.contrib.layers.l2_regularizer(weight_decay)
+            self._l2_loss = tf.add_n([l2(v) for v in trainable_vars
+                                      if 'bias' not in v.name])
 
         # Classification model
         if model.number_of_classes > 1:
