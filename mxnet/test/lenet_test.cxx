@@ -52,9 +52,9 @@ int main(int argc, char const *argv[]) {
       .CreateDataIter();
 
   Optimizer opt("ccsgd", learning_rate, weight_decay);
-  opt.SetParam("momentum", 0.9)
-      .SetParam("rescale_grad", 1.0/batch_size)
-      .SetParam("clip_gradient", 10);
+  opt.SetParam("momentum", 0.9);
+      /*.SetParam("rescale_grad", 1.0/batch_size)
+      .SetParam("clip_gradient", 10);*/
 
   auto * exec = lenet.SimpleBind(ctx_dev, args_map);
 
