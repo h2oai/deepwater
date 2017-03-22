@@ -356,8 +356,8 @@ public class TensorflowBackend implements BackendTrain {
             runner.feed(normalize(model.meta.parameters.get("batch_size")), Tensor.create((float) model.miniBatchSize));
         }
 
-        runner.feed(normalize(model.meta.parameters.get("learning_rate")), Tensor.create(model.getParameter("learning_rate", 0.0001f)));
-        runner.feed(normalize(model.meta.parameters.get("momentum")), Tensor.create(model.getParameter("momentum", 0.8f)));
+        runner.feed(normalize(model.meta.parameters.get("learning_rate")), Tensor.create(model.getParameter("learning_rate", 0.001f)));
+        runner.feed(normalize(model.meta.parameters.get("momentum")), Tensor.create(model.getParameter("momentum", 0.9f)));
 
         runner.feed(normalize(model.meta.parameters.get("global_is_training")), Tensor.create(true));
 

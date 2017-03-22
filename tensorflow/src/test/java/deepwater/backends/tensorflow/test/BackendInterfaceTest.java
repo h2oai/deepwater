@@ -159,7 +159,7 @@ public class BackendInterfaceTest {
 
     @Test
     public void testLenetCatDogMouse224() throws IOException {
-        backendCanTrainCatDogMouse(224, "lenet", 32, 40, 1e-3f);
+        backendCanTrainCatDogMouse(224, "lenet", 32, 30, 1e-3f);
     }
 
     @Test

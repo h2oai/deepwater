@@ -79,7 +79,8 @@ void ImageTrain::setOptimizer() {
 
 void ImageTrain::initializeState() {
   args_map = exec->arg_dict();
-  Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);
+  /*Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);*/
+  Xavier xavier = Xavier(Xavier::uniform, Xavier::avg);
   for (auto &arg : args_map) {
     xavier(arg.first, &arg.second);
   }

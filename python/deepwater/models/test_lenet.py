@@ -13,23 +13,36 @@ class TestLenet(unittest.TestCase):
 
         MNIST_must_converge('lenet', model,
                             optimizers.MomentumOptimizer,
-                            initial_learning_rate=0.001,
+                            initial_learning_rate=1e-3,
                             batch_size=32,
-                            epochs=10)
+                            epochs=5)
 
-    def test_lenet_cat_dog_mouse_must_converge(self):
+    def test_lenet_cat_dog_mouse_must_converge_28(self):
+        model = lenet.LeNet
+
+        batch_size = 128
+
+        train_error = cat_dog_mouse_must_converge("lenet", model,
+                                                     # optimizers.AdamOptimizer,
+                                                     optimizers.MomentumOptimizer,
+                                                     batch_size=batch_size,
+                                                     epochs=80,
+                                                     initial_learning_rate=1e-3,
+                                                     summaries=True,
+                                                     dim=28)
+        self.assertTrue(train_error <= 0.1)
+
+    def test_lenet_cat_dog_mouse_must_converge_299(self):
         model = lenet.LeNet
 
         train_error = cat_dog_mouse_must_converge("lenet", model,
                                                   optimizers.MomentumOptimizer,
                                                   batch_size=32,
-                                                  epochs=40,
-                                                  # initial_learning_rate=5e-4, # rate for old fc
+                                                  epochs=80,
                                                   initial_learning_rate=1e-3, # rate for new fc
                                                   summaries=True,
-                                                  dim=28)
+                                                  dim=299)
         self.assertTrue(train_error <= 0.1)
-
 
 if __name__ == "__main__":
     unittest.main()
