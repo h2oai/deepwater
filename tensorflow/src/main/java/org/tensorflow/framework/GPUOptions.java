@@ -19,6 +19,7 @@ public  final class GPUOptions extends
     allocatorType_ = "";
     deferredDeletionBytes_ = 0L;
     allowGrowth_ = false;
+    visibleDeviceList_ = "";
   }
 
   @java.lang.Override
@@ -65,6 +66,12 @@ public  final class GPUOptions extends
           case 32: {
 
             allowGrowth_ = input.readBool();
+            break;
+          }
+          case 42: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            visibleDeviceList_ = s;
             break;
           }
         }
@@ -187,6 +194,74 @@ public  final class GPUOptions extends
     return allowGrowth_;
   }
 
+  public static final int VISIBLE_DEVICE_LIST_FIELD_NUMBER = 5;
+  private volatile java.lang.Object visibleDeviceList_;
+  /**
+   * <pre>
+   * A comma-separated list of GPU ids that determines the 'visible'
+   * to 'virtual' mapping of GPU devices.  For example, if TensorFlow
+   * can see 8 GPU devices in the process, and one wanted to map
+   * visible GPU devices 5 and 3 as "/gpu:0", and "/gpu:1", then one
+   * would specify this field as "5,3".  This field is similar in
+   * spirit to the CUDA_VISIBLE_DEVICES environment variable, except
+   * it applies to the visible GPU devices in the process.
+   * NOTE: The GPU driver provides the process with the visible GPUs
+   * in an order which is not guaranteed to have any correlation to
+   * the *physical* GPU id in the machine.  This field is used for
+   * remapping "visible" to "virtual", which means this operates only
+   * after the process starts.  Users are required to use vendor
+   * specific mechanisms (e.g., CUDA_VISIBLE_DEVICES) to control the
+   * physical to visible device mapping prior to invoking TensorFlow.
+   * </pre>
+   *
+   * <code>optional string visible_device_list = 5;</code>
+   */
+  public java.lang.String getVisibleDeviceList() {
+    java.lang.Object ref = visibleDeviceList_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      visibleDeviceList_ = s;
+      return s;
+    }
+  }
+  /**
+   * <pre>
+   * A comma-separated list of GPU ids that determines the 'visible'
+   * to 'virtual' mapping of GPU devices.  For example, if TensorFlow
+   * can see 8 GPU devices in the process, and one wanted to map
+   * visible GPU devices 5 and 3 as "/gpu:0", and "/gpu:1", then one
+   * would specify this field as "5,3".  This field is similar in
+   * spirit to the CUDA_VISIBLE_DEVICES environment variable, except
+   * it applies to the visible GPU devices in the process.
+   * NOTE: The GPU driver provides the process with the visible GPUs
+   * in an order which is not guaranteed to have any correlation to
+   * the *physical* GPU id in the machine.  This field is used for
+   * remapping "visible" to "virtual", which means this operates only
+   * after the process starts.  Users are required to use vendor
+   * specific mechanisms (e.g., CUDA_VISIBLE_DEVICES) to control the
+   * physical to visible device mapping prior to invoking TensorFlow.
+   * </pre>
+   *
+   * <code>optional string visible_device_list = 5;</code>
+   */
+  public com.google.protobuf.ByteString
+      getVisibleDeviceListBytes() {
+    java.lang.Object ref = visibleDeviceList_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      visibleDeviceList_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -211,6 +286,9 @@ public  final class GPUOptions extends
     if (allowGrowth_ != false) {
       output.writeBool(4, allowGrowth_);
     }
+    if (!getVisibleDeviceListBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, visibleDeviceList_);
+    }
   }
 
   public int getSerializedSize() {
@@ -232,6 +310,9 @@ public  final class GPUOptions extends
     if (allowGrowth_ != false) {
       size += com.google.protobuf.CodedOutputStream
         .computeBoolSize(4, allowGrowth_);
+    }
+    if (!getVisibleDeviceListBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, visibleDeviceList_);
     }
     memoizedSize = size;
     return size;
@@ -259,6 +340,8 @@ public  final class GPUOptions extends
         == other.getDeferredDeletionBytes());
     result = result && (getAllowGrowth()
         == other.getAllowGrowth());
+    result = result && getVisibleDeviceList()
+        .equals(other.getVisibleDeviceList());
     return result;
   }
 
@@ -280,6 +363,8 @@ public  final class GPUOptions extends
     hash = (37 * hash) + ALLOW_GROWTH_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
         getAllowGrowth());
+    hash = (37 * hash) + VISIBLE_DEVICE_LIST_FIELD_NUMBER;
+    hash = (53 * hash) + getVisibleDeviceList().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -406,6 +491,8 @@ public  final class GPUOptions extends
 
       allowGrowth_ = false;
 
+      visibleDeviceList_ = "";
+
       return this;
     }
 
@@ -432,6 +519,7 @@ public  final class GPUOptions extends
       result.allocatorType_ = allocatorType_;
       result.deferredDeletionBytes_ = deferredDeletionBytes_;
       result.allowGrowth_ = allowGrowth_;
+      result.visibleDeviceList_ = visibleDeviceList_;
       onBuilt();
       return result;
     }
@@ -485,6 +573,10 @@ public  final class GPUOptions extends
       }
       if (other.getAllowGrowth() != false) {
         setAllowGrowth(other.getAllowGrowth());
+      }
+      if (!other.getVisibleDeviceList().isEmpty()) {
+        visibleDeviceList_ = other.visibleDeviceList_;
+        onChanged();
       }
       onChanged();
       return this;
@@ -754,6 +846,160 @@ public  final class GPUOptions extends
     public Builder clearAllowGrowth() {
       
       allowGrowth_ = false;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object visibleDeviceList_ = "";
+    /**
+     * <pre>
+     * A comma-separated list of GPU ids that determines the 'visible'
+     * to 'virtual' mapping of GPU devices.  For example, if TensorFlow
+     * can see 8 GPU devices in the process, and one wanted to map
+     * visible GPU devices 5 and 3 as "/gpu:0", and "/gpu:1", then one
+     * would specify this field as "5,3".  This field is similar in
+     * spirit to the CUDA_VISIBLE_DEVICES environment variable, except
+     * it applies to the visible GPU devices in the process.
+     * NOTE: The GPU driver provides the process with the visible GPUs
+     * in an order which is not guaranteed to have any correlation to
+     * the *physical* GPU id in the machine.  This field is used for
+     * remapping "visible" to "virtual", which means this operates only
+     * after the process starts.  Users are required to use vendor
+     * specific mechanisms (e.g., CUDA_VISIBLE_DEVICES) to control the
+     * physical to visible device mapping prior to invoking TensorFlow.
+     * </pre>
+     *
+     * <code>optional string visible_device_list = 5;</code>
+     */
+    public java.lang.String getVisibleDeviceList() {
+      java.lang.Object ref = visibleDeviceList_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        visibleDeviceList_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <pre>
+     * A comma-separated list of GPU ids that determines the 'visible'
+     * to 'virtual' mapping of GPU devices.  For example, if TensorFlow
+     * can see 8 GPU devices in the process, and one wanted to map
+     * visible GPU devices 5 and 3 as "/gpu:0", and "/gpu:1", then one
+     * would specify this field as "5,3".  This field is similar in
+     * spirit to the CUDA_VISIBLE_DEVICES environment variable, except
+     * it applies to the visible GPU devices in the process.
+     * NOTE: The GPU driver provides the process with the visible GPUs
+     * in an order which is not guaranteed to have any correlation to
+     * the *physical* GPU id in the machine.  This field is used for
+     * remapping "visible" to "virtual", which means this operates only
+     * after the process starts.  Users are required to use vendor
+     * specific mechanisms (e.g., CUDA_VISIBLE_DEVICES) to control the
+     * physical to visible device mapping prior to invoking TensorFlow.
+     * </pre>
+     *
+     * <code>optional string visible_device_list = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getVisibleDeviceListBytes() {
+      java.lang.Object ref = visibleDeviceList_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        visibleDeviceList_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <pre>
+     * A comma-separated list of GPU ids that determines the 'visible'
+     * to 'virtual' mapping of GPU devices.  For example, if TensorFlow
+     * can see 8 GPU devices in the process, and one wanted to map
+     * visible GPU devices 5 and 3 as "/gpu:0", and "/gpu:1", then one
+     * would specify this field as "5,3".  This field is similar in
+     * spirit to the CUDA_VISIBLE_DEVICES environment variable, except
+     * it applies to the visible GPU devices in the process.
+     * NOTE: The GPU driver provides the process with the visible GPUs
+     * in an order which is not guaranteed to have any correlation to
+     * the *physical* GPU id in the machine.  This field is used for
+     * remapping "visible" to "virtual", which means this operates only
+     * after the process starts.  Users are required to use vendor
+     * specific mechanisms (e.g., CUDA_VISIBLE_DEVICES) to control the
+     * physical to visible device mapping prior to invoking TensorFlow.
+     * </pre>
+     *
+     * <code>optional string visible_device_list = 5;</code>
+     */
+    public Builder setVisibleDeviceList(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      visibleDeviceList_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * A comma-separated list of GPU ids that determines the 'visible'
+     * to 'virtual' mapping of GPU devices.  For example, if TensorFlow
+     * can see 8 GPU devices in the process, and one wanted to map
+     * visible GPU devices 5 and 3 as "/gpu:0", and "/gpu:1", then one
+     * would specify this field as "5,3".  This field is similar in
+     * spirit to the CUDA_VISIBLE_DEVICES environment variable, except
+     * it applies to the visible GPU devices in the process.
+     * NOTE: The GPU driver provides the process with the visible GPUs
+     * in an order which is not guaranteed to have any correlation to
+     * the *physical* GPU id in the machine.  This field is used for
+     * remapping "visible" to "virtual", which means this operates only
+     * after the process starts.  Users are required to use vendor
+     * specific mechanisms (e.g., CUDA_VISIBLE_DEVICES) to control the
+     * physical to visible device mapping prior to invoking TensorFlow.
+     * </pre>
+     *
+     * <code>optional string visible_device_list = 5;</code>
+     */
+    public Builder clearVisibleDeviceList() {
+      
+      visibleDeviceList_ = getDefaultInstance().getVisibleDeviceList();
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * A comma-separated list of GPU ids that determines the 'visible'
+     * to 'virtual' mapping of GPU devices.  For example, if TensorFlow
+     * can see 8 GPU devices in the process, and one wanted to map
+     * visible GPU devices 5 and 3 as "/gpu:0", and "/gpu:1", then one
+     * would specify this field as "5,3".  This field is similar in
+     * spirit to the CUDA_VISIBLE_DEVICES environment variable, except
+     * it applies to the visible GPU devices in the process.
+     * NOTE: The GPU driver provides the process with the visible GPUs
+     * in an order which is not guaranteed to have any correlation to
+     * the *physical* GPU id in the machine.  This field is used for
+     * remapping "visible" to "virtual", which means this operates only
+     * after the process starts.  Users are required to use vendor
+     * specific mechanisms (e.g., CUDA_VISIBLE_DEVICES) to control the
+     * physical to visible device mapping prior to invoking TensorFlow.
+     * </pre>
+     *
+     * <code>optional string visible_device_list = 5;</code>
+     */
+    public Builder setVisibleDeviceListBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      visibleDeviceList_ = value;
       onChanged();
       return this;
     }

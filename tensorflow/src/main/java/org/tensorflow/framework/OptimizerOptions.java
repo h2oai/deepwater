@@ -23,6 +23,7 @@ public  final class OptimizerOptions extends
     doConstantFolding_ = false;
     doFunctionInlining_ = false;
     optLevel_ = 0;
+    globalJitLevel_ = 0;
   }
 
   @java.lang.Override
@@ -69,6 +70,12 @@ public  final class OptimizerOptions extends
           case 32: {
 
             doFunctionInlining_ = input.readBool();
+            break;
+          }
+          case 40: {
+            int rawValue = input.readEnum();
+
+            globalJitLevel_ = rawValue;
             break;
           }
         }
@@ -218,6 +225,148 @@ public  final class OptimizerOptions extends
     // @@protoc_insertion_point(enum_scope:tensorflow.OptimizerOptions.Level)
   }
 
+  /**
+   * <pre>
+   * Control the use of the compiler/jit.  Experimental.
+   * </pre>
+   *
+   * Protobuf enum {@code tensorflow.OptimizerOptions.GlobalJitLevel}
+   */
+  public enum GlobalJitLevel
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <pre>
+     * Default setting ("off" now, but later expected to be "on")
+     * </pre>
+     *
+     * <code>DEFAULT = 0;</code>
+     */
+    DEFAULT(0),
+    /**
+     * <code>OFF = -1;</code>
+     */
+    OFF(-1),
+    /**
+     * <pre>
+     * The following settings turn on compilation, with higher values being
+     * more aggressive.  Higher values may reduce opportunities for parallelism
+     * and may use more memory.  (At present, there is no distinction, but this
+     * is expected to change.)
+     * </pre>
+     *
+     * <code>ON_1 = 1;</code>
+     */
+    ON_1(1),
+    /**
+     * <code>ON_2 = 2;</code>
+     */
+    ON_2(2),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <pre>
+     * Default setting ("off" now, but later expected to be "on")
+     * </pre>
+     *
+     * <code>DEFAULT = 0;</code>
+     */
+    public static final int DEFAULT_VALUE = 0;
+    /**
+     * <code>OFF = -1;</code>
+     */
+    public static final int OFF_VALUE = -1;
+    /**
+     * <pre>
+     * The following settings turn on compilation, with higher values being
+     * more aggressive.  Higher values may reduce opportunities for parallelism
+     * and may use more memory.  (At present, there is no distinction, but this
+     * is expected to change.)
+     * </pre>
+     *
+     * <code>ON_1 = 1;</code>
+     */
+    public static final int ON_1_VALUE = 1;
+    /**
+     * <code>ON_2 = 2;</code>
+     */
+    public static final int ON_2_VALUE = 2;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static GlobalJitLevel valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static GlobalJitLevel forNumber(int value) {
+      switch (value) {
+        case 0: return DEFAULT;
+        case -1: return OFF;
+        case 1: return ON_1;
+        case 2: return ON_2;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<GlobalJitLevel>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        GlobalJitLevel> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<GlobalJitLevel>() {
+            public GlobalJitLevel findValueByNumber(int number) {
+              return GlobalJitLevel.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return org.tensorflow.framework.OptimizerOptions.getDescriptor().getEnumTypes().get(1);
+    }
+
+    private static final GlobalJitLevel[] VALUES = values();
+
+    public static GlobalJitLevel valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private GlobalJitLevel(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:tensorflow.OptimizerOptions.GlobalJitLevel)
+  }
+
   public static final int DO_COMMON_SUBEXPRESSION_ELIMINATION_FIELD_NUMBER = 1;
   private boolean doCommonSubexpressionElimination_;
   /**
@@ -273,6 +422,22 @@ public  final class OptimizerOptions extends
     return result == null ? org.tensorflow.framework.OptimizerOptions.Level.UNRECOGNIZED : result;
   }
 
+  public static final int GLOBAL_JIT_LEVEL_FIELD_NUMBER = 5;
+  private int globalJitLevel_;
+  /**
+   * <code>optional .tensorflow.OptimizerOptions.GlobalJitLevel global_jit_level = 5;</code>
+   */
+  public int getGlobalJitLevelValue() {
+    return globalJitLevel_;
+  }
+  /**
+   * <code>optional .tensorflow.OptimizerOptions.GlobalJitLevel global_jit_level = 5;</code>
+   */
+  public org.tensorflow.framework.OptimizerOptions.GlobalJitLevel getGlobalJitLevel() {
+    org.tensorflow.framework.OptimizerOptions.GlobalJitLevel result = org.tensorflow.framework.OptimizerOptions.GlobalJitLevel.valueOf(globalJitLevel_);
+    return result == null ? org.tensorflow.framework.OptimizerOptions.GlobalJitLevel.UNRECOGNIZED : result;
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -297,6 +462,9 @@ public  final class OptimizerOptions extends
     if (doFunctionInlining_ != false) {
       output.writeBool(4, doFunctionInlining_);
     }
+    if (globalJitLevel_ != org.tensorflow.framework.OptimizerOptions.GlobalJitLevel.DEFAULT.getNumber()) {
+      output.writeEnum(5, globalJitLevel_);
+    }
   }
 
   public int getSerializedSize() {
@@ -319,6 +487,10 @@ public  final class OptimizerOptions extends
     if (doFunctionInlining_ != false) {
       size += com.google.protobuf.CodedOutputStream
         .computeBoolSize(4, doFunctionInlining_);
+    }
+    if (globalJitLevel_ != org.tensorflow.framework.OptimizerOptions.GlobalJitLevel.DEFAULT.getNumber()) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(5, globalJitLevel_);
     }
     memoizedSize = size;
     return size;
@@ -343,6 +515,7 @@ public  final class OptimizerOptions extends
     result = result && (getDoFunctionInlining()
         == other.getDoFunctionInlining());
     result = result && optLevel_ == other.optLevel_;
+    result = result && globalJitLevel_ == other.globalJitLevel_;
     return result;
   }
 
@@ -364,6 +537,8 @@ public  final class OptimizerOptions extends
         getDoFunctionInlining());
     hash = (37 * hash) + OPT_LEVEL_FIELD_NUMBER;
     hash = (53 * hash) + optLevel_;
+    hash = (37 * hash) + GLOBAL_JIT_LEVEL_FIELD_NUMBER;
+    hash = (53 * hash) + globalJitLevel_;
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -494,6 +669,8 @@ public  final class OptimizerOptions extends
 
       optLevel_ = 0;
 
+      globalJitLevel_ = 0;
+
       return this;
     }
 
@@ -520,6 +697,7 @@ public  final class OptimizerOptions extends
       result.doConstantFolding_ = doConstantFolding_;
       result.doFunctionInlining_ = doFunctionInlining_;
       result.optLevel_ = optLevel_;
+      result.globalJitLevel_ = globalJitLevel_;
       onBuilt();
       return result;
     }
@@ -572,6 +750,9 @@ public  final class OptimizerOptions extends
       }
       if (other.optLevel_ != 0) {
         setOptLevelValue(other.getOptLevelValue());
+      }
+      if (other.globalJitLevel_ != 0) {
+        setGlobalJitLevelValue(other.getGlobalJitLevelValue());
       }
       onChanged();
       return this;
@@ -753,6 +934,50 @@ public  final class OptimizerOptions extends
     public Builder clearOptLevel() {
       
       optLevel_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private int globalJitLevel_ = 0;
+    /**
+     * <code>optional .tensorflow.OptimizerOptions.GlobalJitLevel global_jit_level = 5;</code>
+     */
+    public int getGlobalJitLevelValue() {
+      return globalJitLevel_;
+    }
+    /**
+     * <code>optional .tensorflow.OptimizerOptions.GlobalJitLevel global_jit_level = 5;</code>
+     */
+    public Builder setGlobalJitLevelValue(int value) {
+      globalJitLevel_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .tensorflow.OptimizerOptions.GlobalJitLevel global_jit_level = 5;</code>
+     */
+    public org.tensorflow.framework.OptimizerOptions.GlobalJitLevel getGlobalJitLevel() {
+      org.tensorflow.framework.OptimizerOptions.GlobalJitLevel result = org.tensorflow.framework.OptimizerOptions.GlobalJitLevel.valueOf(globalJitLevel_);
+      return result == null ? org.tensorflow.framework.OptimizerOptions.GlobalJitLevel.UNRECOGNIZED : result;
+    }
+    /**
+     * <code>optional .tensorflow.OptimizerOptions.GlobalJitLevel global_jit_level = 5;</code>
+     */
+    public Builder setGlobalJitLevel(org.tensorflow.framework.OptimizerOptions.GlobalJitLevel value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      
+      globalJitLevel_ = value.getNumber();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .tensorflow.OptimizerOptions.GlobalJitLevel global_jit_level = 5;</code>
+     */
+    public Builder clearGlobalJitLevel() {
+      
+      globalJitLevel_ = 0;
       onChanged();
       return this;
     }

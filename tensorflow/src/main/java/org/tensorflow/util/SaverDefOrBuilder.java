@@ -92,4 +92,13 @@ public interface SaverDefOrBuilder extends
    * <code>optional float keep_checkpoint_every_n_hours = 6;</code>
    */
   float getKeepCheckpointEveryNHours();
+
+  /**
+   * <code>optional .tensorflow.SaverDef.CheckpointFormatVersion version = 7;</code>
+   */
+  int getVersionValue();
+  /**
+   * <code>optional .tensorflow.SaverDef.CheckpointFormatVersion version = 7;</code>
+   */
+  org.tensorflow.util.SaverDef.CheckpointFormatVersion getVersion();
 }

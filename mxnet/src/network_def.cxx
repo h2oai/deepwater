@@ -431,16 +431,16 @@ Symbol LenetSymbol(int num_classes) {
   Symbol fc2_w("fullyconnected1_weight"), fc2_b("fullyconnected1_bias");
 
   Symbol conv1 = Convolution("convolution0", data, conv1_w, conv1_b, Shape(5, 5), 20);
-  Symbol tanh1 = Activation("activation0", conv1, "tanh");
+  Symbol tanh1 = Activation("activation0", conv1, "relu");
   Symbol pool1 = Pooling("pooling0", tanh1, Shape(2, 2), PoolingPoolType::max, false, Shape(2, 2));
 
   Symbol conv2 = Convolution("convolution1", pool1, conv2_w, conv2_b, Shape(5, 5), 50);
-  Symbol tanh2 = Activation("activation1", conv2, "tanh");
+  Symbol tanh2 = Activation("activation1", conv2, "relu");
   Symbol pool2 = Pooling("pooling1", tanh2, Shape(2, 2), PoolingPoolType::max, false, Shape(2, 2));
 
   Symbol flatten = Flatten("flatten0", pool2);
   Symbol fc1 = FullyConnected("fullyconnected0", flatten, fc1_w, fc1_b, 500);
-  Symbol tanh3 = Activation("activation2", fc1, "tanh");
+  Symbol tanh3 = Activation("activation2", fc1, "relu");
   Symbol fc2 = FullyConnected("fullyconnected1", tanh3, fc2_w, fc2_b, num_classes);
 
   if (num_classes > 1)

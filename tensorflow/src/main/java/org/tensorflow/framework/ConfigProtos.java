@@ -35,6 +35,11 @@ public final class ConfigProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_ThreadPoolOptionProto_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_tensorflow_RPCOptions_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_tensorflow_RPCOptions_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_ConfigProto_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -44,11 +49,6 @@ public final class ConfigProtos {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_tensorflow_ConfigProto_DeviceCountEntry_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_tensorflow_DebugTensorWatch_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_tensorflow_DebugTensorWatch_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_tensorflow_RunOptions_descriptor;
   static final 
@@ -70,51 +70,61 @@ public final class ConfigProtos {
     java.lang.String[] descriptorData = {
       "\n%tensorflow/core/protobuf/config.proto\022" +
       "\ntensorflow\032*tensorflow/core/framework/c" +
-      "ost_graph.proto\032*tensorflow/core/framewo" +
-      "rk/step_stats.proto\"\204\001\n\nGPUOptions\022\'\n\037pe" +
-      "r_process_gpu_memory_fraction\030\001 \001(\001\022\026\n\016a" +
-      "llocator_type\030\002 \001(\t\022\037\n\027deferred_deletion" +
-      "_bytes\030\003 \001(\003\022\024\n\014allow_growth\030\004 \001(\010\"\323\001\n\020O" +
-      "ptimizerOptions\022+\n#do_common_subexpressi" +
-      "on_elimination\030\001 \001(\010\022\033\n\023do_constant_fold" +
-      "ing\030\002 \001(\010\022\034\n\024do_function_inlining\030\004 \001(\010\022",
-      "5\n\topt_level\030\003 \001(\0162\".tensorflow.Optimize" +
-      "rOptions.Level\" \n\005Level\022\006\n\002L1\020\000\022\017\n\002L0\020\377\377" +
-      "\377\377\377\377\377\377\377\001\"\340\001\n\014GraphOptions\022\036\n\026enable_recv" +
-      "_scheduling\030\002 \001(\010\0227\n\021optimizer_options\030\003" +
-      " \001(\0132\034.tensorflow.OptimizerOptions\022\030\n\020bu" +
-      "ild_cost_model\030\004 \001(\003\022\024\n\014infer_shapes\030\005 \001" +
-      "(\010\022\032\n\022place_pruned_graph\030\006 \001(\010J\004\010\001\020\002R%sk" +
-      "ip_common_subexpression_elimination\",\n\025T" +
-      "hreadPoolOptionProto\022\023\n\013num_threads\030\001 \001(" +
-      "\005\"\244\004\n\013ConfigProto\022>\n\014device_count\030\001 \003(\0132",
-      "(.tensorflow.ConfigProto.DeviceCountEntr" +
-      "y\022$\n\034intra_op_parallelism_threads\030\002 \001(\005\022" +
-      "$\n\034inter_op_parallelism_threads\030\005 \001(\005\022\037\n" +
-      "\027use_per_session_threads\030\t \001(\010\022G\n\034sessio" +
-      "n_inter_op_thread_pool\030\014 \003(\0132!.tensorflo" +
-      "w.ThreadPoolOptionProto\022\030\n\020placement_per" +
-      "iod\030\003 \001(\005\022\026\n\016device_filters\030\004 \003(\t\022+\n\013gpu" +
-      "_options\030\006 \001(\0132\026.tensorflow.GPUOptions\022\034" +
-      "\n\024allow_soft_placement\030\007 \001(\010\022\034\n\024log_devi" +
-      "ce_placement\030\010 \001(\010\022/\n\rgraph_options\030\n \001(",
-      "\0132\030.tensorflow.GraphOptions\022\037\n\027operation" +
-      "_timeout_in_ms\030\013 \001(\003\0322\n\020DeviceCountEntry" +
-      "\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\005:\0028\001\"a\n\020Debu" +
-      "gTensorWatch\022\021\n\tnode_name\030\001 \001(\t\022\023\n\013outpu" +
-      "t_slot\030\002 \001(\005\022\021\n\tdebug_ops\030\003 \003(\t\022\022\n\ndebug" +
-      "_urls\030\004 \003(\t\"\214\002\n\nRunOptions\0226\n\013trace_leve" +
-      "l\030\001 \001(\0162!.tensorflow.RunOptions.TraceLev" +
-      "el\022\025\n\rtimeout_in_ms\030\002 \001(\003\022\034\n\024inter_op_th" +
-      "read_pool\030\003 \001(\005\022=\n\027debug_tensor_watch_op" +
-      "ts\030\004 \003(\0132\034.tensorflow.DebugTensorWatch\"R",
-      "\n\nTraceLevel\022\014\n\010NO_TRACE\020\000\022\022\n\016SOFTWARE_T" +
-      "RACE\020\001\022\022\n\016HARDWARE_TRACE\020\002\022\016\n\nFULL_TRACE" +
-      "\020\003\"f\n\013RunMetadata\022)\n\nstep_stats\030\001 \001(\0132\025." +
-      "tensorflow.StepStats\022,\n\ncost_graph\030\002 \001(\013" +
-      "2\030.tensorflow.CostGraphDefB-\n\030org.tensor" +
-      "flow.frameworkB\014ConfigProtosP\001\370\001\001b\006proto" +
-      "3"
+      "ost_graph.proto\032%tensorflow/core/framewo" +
+      "rk/graph.proto\032*tensorflow/core/framewor" +
+      "k/step_stats.proto\032$tensorflow/core/prot" +
+      "obuf/debug.proto\"\241\001\n\nGPUOptions\022\'\n\037per_p" +
+      "rocess_gpu_memory_fraction\030\001 \001(\001\022\026\n\016allo" +
+      "cator_type\030\002 \001(\t\022\037\n\027deferred_deletion_by" +
+      "tes\030\003 \001(\003\022\024\n\014allow_growth\030\004 \001(\010\022\033\n\023visib" +
+      "le_device_list\030\005 \001(\t\"\337\002\n\020OptimizerOption",
+      "s\022+\n#do_common_subexpression_elimination" +
+      "\030\001 \001(\010\022\033\n\023do_constant_folding\030\002 \001(\010\022\034\n\024d" +
+      "o_function_inlining\030\004 \001(\010\0225\n\topt_level\030\003" +
+      " \001(\0162\".tensorflow.OptimizerOptions.Level" +
+      "\022E\n\020global_jit_level\030\005 \001(\0162+.tensorflow." +
+      "OptimizerOptions.GlobalJitLevel\" \n\005Level" +
+      "\022\006\n\002L1\020\000\022\017\n\002L0\020\377\377\377\377\377\377\377\377\377\001\"C\n\016GlobalJitLe" +
+      "vel\022\013\n\007DEFAULT\020\000\022\020\n\003OFF\020\377\377\377\377\377\377\377\377\377\001\022\010\n\004ON" +
+      "_1\020\001\022\010\n\004ON_2\020\002\"\271\002\n\014GraphOptions\022\036\n\026enabl" +
+      "e_recv_scheduling\030\002 \001(\010\0227\n\021optimizer_opt",
+      "ions\030\003 \001(\0132\034.tensorflow.OptimizerOptions" +
+      "\022\030\n\020build_cost_model\030\004 \001(\003\022\036\n\026build_cost" +
+      "_model_after\030\t \001(\003\022\024\n\014infer_shapes\030\005 \001(\010" +
+      "\022\032\n\022place_pruned_graph\030\006 \001(\010\022 \n\030enable_b" +
+      "float16_sendrecv\030\007 \001(\010\022\025\n\rtimeline_step\030" +
+      "\010 \001(\005J\004\010\001\020\002R%skip_common_subexpression_e" +
+      "limination\",\n\025ThreadPoolOptionProto\022\023\n\013n" +
+      "um_threads\030\001 \001(\005\"2\n\nRPCOptions\022$\n\034use_rp" +
+      "c_for_inprocess_master\030\001 \001(\010\"\321\004\n\013ConfigP" +
+      "roto\022>\n\014device_count\030\001 \003(\0132(.tensorflow.",
+      "ConfigProto.DeviceCountEntry\022$\n\034intra_op" +
+      "_parallelism_threads\030\002 \001(\005\022$\n\034inter_op_p" +
+      "arallelism_threads\030\005 \001(\005\022\037\n\027use_per_sess" +
+      "ion_threads\030\t \001(\010\022G\n\034session_inter_op_th" +
+      "read_pool\030\014 \003(\0132!.tensorflow.ThreadPoolO" +
+      "ptionProto\022\030\n\020placement_period\030\003 \001(\005\022\026\n\016" +
+      "device_filters\030\004 \003(\t\022+\n\013gpu_options\030\006 \001(" +
+      "\0132\026.tensorflow.GPUOptions\022\034\n\024allow_soft_" +
+      "placement\030\007 \001(\010\022\034\n\024log_device_placement\030" +
+      "\010 \001(\010\022/\n\rgraph_options\030\n \001(\0132\030.tensorflo",
+      "w.GraphOptions\022\037\n\027operation_timeout_in_m" +
+      "s\030\013 \001(\003\022+\n\013rpc_options\030\r \001(\0132\026.tensorflo" +
+      "w.RPCOptions\0322\n\020DeviceCountEntry\022\013\n\003key\030" +
+      "\001 \001(\t\022\r\n\005value\030\002 \001(\005:\0028\001\"\245\002\n\nRunOptions\022" +
+      "6\n\013trace_level\030\001 \001(\0162!.tensorflow.RunOpt" +
+      "ions.TraceLevel\022\025\n\rtimeout_in_ms\030\002 \001(\003\022\034" +
+      "\n\024inter_op_thread_pool\030\003 \001(\005\022\037\n\027output_p" +
+      "artition_graphs\030\005 \001(\010\022/\n\rdebug_options\030\006" +
+      " \001(\0132\030.tensorflow.DebugOptions\"R\n\nTraceL" +
+      "evel\022\014\n\010NO_TRACE\020\000\022\022\n\016SOFTWARE_TRACE\020\001\022\022",
+      "\n\016HARDWARE_TRACE\020\002\022\016\n\nFULL_TRACE\020\003J\004\010\004\020\005" +
+      "\"\226\001\n\013RunMetadata\022)\n\nstep_stats\030\001 \001(\0132\025.t" +
+      "ensorflow.StepStats\022,\n\ncost_graph\030\002 \001(\0132" +
+      "\030.tensorflow.CostGraphDef\022.\n\020partition_g" +
+      "raphs\030\003 \003(\0132\024.tensorflow.GraphDefB-\n\030org" +
+      ".tensorflow.frameworkB\014ConfigProtosP\001\370\001\001" +
+      "b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -128,64 +138,68 @@ public final class ConfigProtos {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           org.tensorflow.framework.CostGraphProtos.getDescriptor(),
+          org.tensorflow.framework.GraphProtos.getDescriptor(),
           org.tensorflow.framework.StepStatsProtos.getDescriptor(),
+          org.tensorflow.framework.DebugProtos.getDescriptor(),
         }, assigner);
     internal_static_tensorflow_GPUOptions_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_tensorflow_GPUOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_GPUOptions_descriptor,
-        new java.lang.String[] { "PerProcessGpuMemoryFraction", "AllocatorType", "DeferredDeletionBytes", "AllowGrowth", });
+        new java.lang.String[] { "PerProcessGpuMemoryFraction", "AllocatorType", "DeferredDeletionBytes", "AllowGrowth", "VisibleDeviceList", });
     internal_static_tensorflow_OptimizerOptions_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_tensorflow_OptimizerOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_OptimizerOptions_descriptor,
-        new java.lang.String[] { "DoCommonSubexpressionElimination", "DoConstantFolding", "DoFunctionInlining", "OptLevel", });
+        new java.lang.String[] { "DoCommonSubexpressionElimination", "DoConstantFolding", "DoFunctionInlining", "OptLevel", "GlobalJitLevel", });
     internal_static_tensorflow_GraphOptions_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_tensorflow_GraphOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_GraphOptions_descriptor,
-        new java.lang.String[] { "EnableRecvScheduling", "OptimizerOptions", "BuildCostModel", "InferShapes", "PlacePrunedGraph", });
+        new java.lang.String[] { "EnableRecvScheduling", "OptimizerOptions", "BuildCostModel", "BuildCostModelAfter", "InferShapes", "PlacePrunedGraph", "EnableBfloat16Sendrecv", "TimelineStep", });
     internal_static_tensorflow_ThreadPoolOptionProto_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_tensorflow_ThreadPoolOptionProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_ThreadPoolOptionProto_descriptor,
         new java.lang.String[] { "NumThreads", });
-    internal_static_tensorflow_ConfigProto_descriptor =
+    internal_static_tensorflow_RPCOptions_descriptor =
       getDescriptor().getMessageTypes().get(4);
+    internal_static_tensorflow_RPCOptions_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_tensorflow_RPCOptions_descriptor,
+        new java.lang.String[] { "UseRpcForInprocessMaster", });
+    internal_static_tensorflow_ConfigProto_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_tensorflow_ConfigProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_ConfigProto_descriptor,
-        new java.lang.String[] { "DeviceCount", "IntraOpParallelismThreads", "InterOpParallelismThreads", "UsePerSessionThreads", "SessionInterOpThreadPool", "PlacementPeriod", "DeviceFilters", "GpuOptions", "AllowSoftPlacement", "LogDevicePlacement", "GraphOptions", "OperationTimeoutInMs", });
+        new java.lang.String[] { "DeviceCount", "IntraOpParallelismThreads", "InterOpParallelismThreads", "UsePerSessionThreads", "SessionInterOpThreadPool", "PlacementPeriod", "DeviceFilters", "GpuOptions", "AllowSoftPlacement", "LogDevicePlacement", "GraphOptions", "OperationTimeoutInMs", "RpcOptions", });
     internal_static_tensorflow_ConfigProto_DeviceCountEntry_descriptor =
       internal_static_tensorflow_ConfigProto_descriptor.getNestedTypes().get(0);
     internal_static_tensorflow_ConfigProto_DeviceCountEntry_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_ConfigProto_DeviceCountEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
-    internal_static_tensorflow_DebugTensorWatch_descriptor =
-      getDescriptor().getMessageTypes().get(5);
-    internal_static_tensorflow_DebugTensorWatch_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_tensorflow_DebugTensorWatch_descriptor,
-        new java.lang.String[] { "NodeName", "OutputSlot", "DebugOps", "DebugUrls", });
     internal_static_tensorflow_RunOptions_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_tensorflow_RunOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_RunOptions_descriptor,
-        new java.lang.String[] { "TraceLevel", "TimeoutInMs", "InterOpThreadPool", "DebugTensorWatchOpts", });
+        new java.lang.String[] { "TraceLevel", "TimeoutInMs", "InterOpThreadPool", "OutputPartitionGraphs", "DebugOptions", });
     internal_static_tensorflow_RunMetadata_descriptor =
       getDescriptor().getMessageTypes().get(7);
     internal_static_tensorflow_RunMetadata_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_tensorflow_RunMetadata_descriptor,
-        new java.lang.String[] { "StepStats", "CostGraph", });
+        new java.lang.String[] { "StepStats", "CostGraph", "PartitionGraphs", });
     org.tensorflow.framework.CostGraphProtos.getDescriptor();
+    org.tensorflow.framework.GraphProtos.getDescriptor();
     org.tensorflow.framework.StepStatsProtos.getDescriptor();
+    org.tensorflow.framework.DebugProtos.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

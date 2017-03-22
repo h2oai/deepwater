@@ -31,6 +31,7 @@ public  final class TensorProto extends
     int64Val_ = java.util.Collections.emptyList();
     boolVal_ = java.util.Collections.emptyList();
     dcomplexVal_ = java.util.Collections.emptyList();
+    resourceHandleVal_ = java.util.Collections.emptyList();
   }
 
   @java.lang.Override
@@ -263,6 +264,15 @@ public  final class TensorProto extends
             input.popLimit(limit);
             break;
           }
+          case 114: {
+            if (!((mutable_bitField0_ & 0x00002000) == 0x00002000)) {
+              resourceHandleVal_ = new java.util.ArrayList<org.tensorflow.framework.ResourceHandle>();
+              mutable_bitField0_ |= 0x00002000;
+            }
+            resourceHandleVal_.add(
+                input.readMessage(org.tensorflow.framework.ResourceHandle.parser(), extensionRegistry));
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -297,6 +307,9 @@ public  final class TensorProto extends
       }
       if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
         halfVal_ = java.util.Collections.unmodifiableList(halfVal_);
+      }
+      if (((mutable_bitField0_ & 0x00002000) == 0x00002000)) {
+        resourceHandleVal_ = java.util.Collections.unmodifiableList(resourceHandleVal_);
       }
       makeExtensionsImmutable();
     }
@@ -383,8 +396,11 @@ public  final class TensorProto extends
   private com.google.protobuf.ByteString tensorContent_;
   /**
    * <pre>
-   * Serialized content from Tensor::AsProtoTensorContent(). This representation
-   * can be used for all tensor types.
+   * Serialized raw tensor content from either Tensor::AsProtoTensorContent or
+   * memcpy in tensorflow::grpc::EncodeTensorToByteBuffer. This representation
+   * can be used for all tensor types. The purpose of this representation is to
+   * reduce serialization overhead during RPC call by avoiding serialization of
+   * many repeated small items.
    * </pre>
    *
    * <code>optional bytes tensor_content = 4;</code>
@@ -716,6 +732,61 @@ public  final class TensorProto extends
   }
   private int dcomplexValMemoizedSerializedSize = -1;
 
+  public static final int RESOURCE_HANDLE_VAL_FIELD_NUMBER = 14;
+  private java.util.List<org.tensorflow.framework.ResourceHandle> resourceHandleVal_;
+  /**
+   * <pre>
+   * DT_RESOURCE
+   * </pre>
+   *
+   * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+   */
+  public java.util.List<org.tensorflow.framework.ResourceHandle> getResourceHandleValList() {
+    return resourceHandleVal_;
+  }
+  /**
+   * <pre>
+   * DT_RESOURCE
+   * </pre>
+   *
+   * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+   */
+  public java.util.List<? extends org.tensorflow.framework.ResourceHandleOrBuilder> 
+      getResourceHandleValOrBuilderList() {
+    return resourceHandleVal_;
+  }
+  /**
+   * <pre>
+   * DT_RESOURCE
+   * </pre>
+   *
+   * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+   */
+  public int getResourceHandleValCount() {
+    return resourceHandleVal_.size();
+  }
+  /**
+   * <pre>
+   * DT_RESOURCE
+   * </pre>
+   *
+   * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+   */
+  public org.tensorflow.framework.ResourceHandle getResourceHandleVal(int index) {
+    return resourceHandleVal_.get(index);
+  }
+  /**
+   * <pre>
+   * DT_RESOURCE
+   * </pre>
+   *
+   * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+   */
+  public org.tensorflow.framework.ResourceHandleOrBuilder getResourceHandleValOrBuilder(
+      int index) {
+    return resourceHandleVal_.get(index);
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -799,6 +870,9 @@ public  final class TensorProto extends
     }
     for (int i = 0; i < halfVal_.size(); i++) {
       output.writeInt32NoTag(halfVal_.get(i));
+    }
+    for (int i = 0; i < resourceHandleVal_.size(); i++) {
+      output.writeMessage(14, resourceHandleVal_.get(i));
     }
   }
 
@@ -929,6 +1003,10 @@ public  final class TensorProto extends
       }
       halfValMemoizedSerializedSize = dataSize;
     }
+    for (int i = 0; i < resourceHandleVal_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(14, resourceHandleVal_.get(i));
+    }
     memoizedSize = size;
     return size;
   }
@@ -973,6 +1051,8 @@ public  final class TensorProto extends
         .equals(other.getBoolValList());
     result = result && getDcomplexValList()
         .equals(other.getDcomplexValList());
+    result = result && getResourceHandleValList()
+        .equals(other.getResourceHandleValList());
     return result;
   }
 
@@ -1028,6 +1108,10 @@ public  final class TensorProto extends
     if (getDcomplexValCount() > 0) {
       hash = (37 * hash) + DCOMPLEX_VAL_FIELD_NUMBER;
       hash = (53 * hash) + getDcomplexValList().hashCode();
+    }
+    if (getResourceHandleValCount() > 0) {
+      hash = (37 * hash) + RESOURCE_HANDLE_VAL_FIELD_NUMBER;
+      hash = (53 * hash) + getResourceHandleValList().hashCode();
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -1147,6 +1231,7 @@ public  final class TensorProto extends
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessageV3
               .alwaysUseFieldBuilders) {
+        getResourceHandleValFieldBuilder();
       }
     }
     public Builder clear() {
@@ -1181,6 +1266,12 @@ public  final class TensorProto extends
       bitField0_ = (bitField0_ & ~0x00000800);
       dcomplexVal_ = java.util.Collections.emptyList();
       bitField0_ = (bitField0_ & ~0x00001000);
+      if (resourceHandleValBuilder_ == null) {
+        resourceHandleVal_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00002000);
+      } else {
+        resourceHandleValBuilder_.clear();
+      }
       return this;
     }
 
@@ -1258,6 +1349,15 @@ public  final class TensorProto extends
         bitField0_ = (bitField0_ & ~0x00001000);
       }
       result.dcomplexVal_ = dcomplexVal_;
+      if (resourceHandleValBuilder_ == null) {
+        if (((bitField0_ & 0x00002000) == 0x00002000)) {
+          resourceHandleVal_ = java.util.Collections.unmodifiableList(resourceHandleVal_);
+          bitField0_ = (bitField0_ & ~0x00002000);
+        }
+        result.resourceHandleVal_ = resourceHandleVal_;
+      } else {
+        result.resourceHandleVal_ = resourceHandleValBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1401,6 +1501,32 @@ public  final class TensorProto extends
           dcomplexVal_.addAll(other.dcomplexVal_);
         }
         onChanged();
+      }
+      if (resourceHandleValBuilder_ == null) {
+        if (!other.resourceHandleVal_.isEmpty()) {
+          if (resourceHandleVal_.isEmpty()) {
+            resourceHandleVal_ = other.resourceHandleVal_;
+            bitField0_ = (bitField0_ & ~0x00002000);
+          } else {
+            ensureResourceHandleValIsMutable();
+            resourceHandleVal_.addAll(other.resourceHandleVal_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.resourceHandleVal_.isEmpty()) {
+          if (resourceHandleValBuilder_.isEmpty()) {
+            resourceHandleValBuilder_.dispose();
+            resourceHandleValBuilder_ = null;
+            resourceHandleVal_ = other.resourceHandleVal_;
+            bitField0_ = (bitField0_ & ~0x00002000);
+            resourceHandleValBuilder_ = 
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                 getResourceHandleValFieldBuilder() : null;
+          } else {
+            resourceHandleValBuilder_.addAllMessages(other.resourceHandleVal_);
+          }
+        }
       }
       onChanged();
       return this;
@@ -1676,8 +1802,11 @@ public  final class TensorProto extends
     private com.google.protobuf.ByteString tensorContent_ = com.google.protobuf.ByteString.EMPTY;
     /**
      * <pre>
-     * Serialized content from Tensor::AsProtoTensorContent(). This representation
-     * can be used for all tensor types.
+     * Serialized raw tensor content from either Tensor::AsProtoTensorContent or
+     * memcpy in tensorflow::grpc::EncodeTensorToByteBuffer. This representation
+     * can be used for all tensor types. The purpose of this representation is to
+     * reduce serialization overhead during RPC call by avoiding serialization of
+     * many repeated small items.
      * </pre>
      *
      * <code>optional bytes tensor_content = 4;</code>
@@ -1687,8 +1816,11 @@ public  final class TensorProto extends
     }
     /**
      * <pre>
-     * Serialized content from Tensor::AsProtoTensorContent(). This representation
-     * can be used for all tensor types.
+     * Serialized raw tensor content from either Tensor::AsProtoTensorContent or
+     * memcpy in tensorflow::grpc::EncodeTensorToByteBuffer. This representation
+     * can be used for all tensor types. The purpose of this representation is to
+     * reduce serialization overhead during RPC call by avoiding serialization of
+     * many repeated small items.
      * </pre>
      *
      * <code>optional bytes tensor_content = 4;</code>
@@ -1704,8 +1836,11 @@ public  final class TensorProto extends
     }
     /**
      * <pre>
-     * Serialized content from Tensor::AsProtoTensorContent(). This representation
-     * can be used for all tensor types.
+     * Serialized raw tensor content from either Tensor::AsProtoTensorContent or
+     * memcpy in tensorflow::grpc::EncodeTensorToByteBuffer. This representation
+     * can be used for all tensor types. The purpose of this representation is to
+     * reduce serialization overhead during RPC call by avoiding serialization of
+     * many repeated small items.
      * </pre>
      *
      * <code>optional bytes tensor_content = 4;</code>
@@ -2588,6 +2723,318 @@ public  final class TensorProto extends
       bitField0_ = (bitField0_ & ~0x00001000);
       onChanged();
       return this;
+    }
+
+    private java.util.List<org.tensorflow.framework.ResourceHandle> resourceHandleVal_ =
+      java.util.Collections.emptyList();
+    private void ensureResourceHandleValIsMutable() {
+      if (!((bitField0_ & 0x00002000) == 0x00002000)) {
+        resourceHandleVal_ = new java.util.ArrayList<org.tensorflow.framework.ResourceHandle>(resourceHandleVal_);
+        bitField0_ |= 0x00002000;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        org.tensorflow.framework.ResourceHandle, org.tensorflow.framework.ResourceHandle.Builder, org.tensorflow.framework.ResourceHandleOrBuilder> resourceHandleValBuilder_;
+
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public java.util.List<org.tensorflow.framework.ResourceHandle> getResourceHandleValList() {
+      if (resourceHandleValBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(resourceHandleVal_);
+      } else {
+        return resourceHandleValBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public int getResourceHandleValCount() {
+      if (resourceHandleValBuilder_ == null) {
+        return resourceHandleVal_.size();
+      } else {
+        return resourceHandleValBuilder_.getCount();
+      }
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public org.tensorflow.framework.ResourceHandle getResourceHandleVal(int index) {
+      if (resourceHandleValBuilder_ == null) {
+        return resourceHandleVal_.get(index);
+      } else {
+        return resourceHandleValBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public Builder setResourceHandleVal(
+        int index, org.tensorflow.framework.ResourceHandle value) {
+      if (resourceHandleValBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureResourceHandleValIsMutable();
+        resourceHandleVal_.set(index, value);
+        onChanged();
+      } else {
+        resourceHandleValBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public Builder setResourceHandleVal(
+        int index, org.tensorflow.framework.ResourceHandle.Builder builderForValue) {
+      if (resourceHandleValBuilder_ == null) {
+        ensureResourceHandleValIsMutable();
+        resourceHandleVal_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        resourceHandleValBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public Builder addResourceHandleVal(org.tensorflow.framework.ResourceHandle value) {
+      if (resourceHandleValBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureResourceHandleValIsMutable();
+        resourceHandleVal_.add(value);
+        onChanged();
+      } else {
+        resourceHandleValBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public Builder addResourceHandleVal(
+        int index, org.tensorflow.framework.ResourceHandle value) {
+      if (resourceHandleValBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureResourceHandleValIsMutable();
+        resourceHandleVal_.add(index, value);
+        onChanged();
+      } else {
+        resourceHandleValBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public Builder addResourceHandleVal(
+        org.tensorflow.framework.ResourceHandle.Builder builderForValue) {
+      if (resourceHandleValBuilder_ == null) {
+        ensureResourceHandleValIsMutable();
+        resourceHandleVal_.add(builderForValue.build());
+        onChanged();
+      } else {
+        resourceHandleValBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public Builder addResourceHandleVal(
+        int index, org.tensorflow.framework.ResourceHandle.Builder builderForValue) {
+      if (resourceHandleValBuilder_ == null) {
+        ensureResourceHandleValIsMutable();
+        resourceHandleVal_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        resourceHandleValBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public Builder addAllResourceHandleVal(
+        java.lang.Iterable<? extends org.tensorflow.framework.ResourceHandle> values) {
+      if (resourceHandleValBuilder_ == null) {
+        ensureResourceHandleValIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, resourceHandleVal_);
+        onChanged();
+      } else {
+        resourceHandleValBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public Builder clearResourceHandleVal() {
+      if (resourceHandleValBuilder_ == null) {
+        resourceHandleVal_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00002000);
+        onChanged();
+      } else {
+        resourceHandleValBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public Builder removeResourceHandleVal(int index) {
+      if (resourceHandleValBuilder_ == null) {
+        ensureResourceHandleValIsMutable();
+        resourceHandleVal_.remove(index);
+        onChanged();
+      } else {
+        resourceHandleValBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public org.tensorflow.framework.ResourceHandle.Builder getResourceHandleValBuilder(
+        int index) {
+      return getResourceHandleValFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public org.tensorflow.framework.ResourceHandleOrBuilder getResourceHandleValOrBuilder(
+        int index) {
+      if (resourceHandleValBuilder_ == null) {
+        return resourceHandleVal_.get(index);  } else {
+        return resourceHandleValBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public java.util.List<? extends org.tensorflow.framework.ResourceHandleOrBuilder> 
+         getResourceHandleValOrBuilderList() {
+      if (resourceHandleValBuilder_ != null) {
+        return resourceHandleValBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(resourceHandleVal_);
+      }
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public org.tensorflow.framework.ResourceHandle.Builder addResourceHandleValBuilder() {
+      return getResourceHandleValFieldBuilder().addBuilder(
+          org.tensorflow.framework.ResourceHandle.getDefaultInstance());
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public org.tensorflow.framework.ResourceHandle.Builder addResourceHandleValBuilder(
+        int index) {
+      return getResourceHandleValFieldBuilder().addBuilder(
+          index, org.tensorflow.framework.ResourceHandle.getDefaultInstance());
+    }
+    /**
+     * <pre>
+     * DT_RESOURCE
+     * </pre>
+     *
+     * <code>repeated .tensorflow.ResourceHandle resource_handle_val = 14;</code>
+     */
+    public java.util.List<org.tensorflow.framework.ResourceHandle.Builder> 
+         getResourceHandleValBuilderList() {
+      return getResourceHandleValFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        org.tensorflow.framework.ResourceHandle, org.tensorflow.framework.ResourceHandle.Builder, org.tensorflow.framework.ResourceHandleOrBuilder> 
+        getResourceHandleValFieldBuilder() {
+      if (resourceHandleValBuilder_ == null) {
+        resourceHandleValBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+            org.tensorflow.framework.ResourceHandle, org.tensorflow.framework.ResourceHandle.Builder, org.tensorflow.framework.ResourceHandleOrBuilder>(
+                resourceHandleVal_,
+                ((bitField0_ & 0x00002000) == 0x00002000),
+                getParentForChildren(),
+                isClean());
+        resourceHandleVal_ = null;
+      }
+      return resourceHandleValBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

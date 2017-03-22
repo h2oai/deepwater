@@ -6,7 +6,7 @@ package org.tensorflow.framework;
 /**
  * <pre>
  * Session configuration parameters.
- * The system picks an appropriate values for fields that are not set.
+ * The system picks appropriate values for fields that are not set.
  * </pre>
  *
  * Protobuf type {@code tensorflow.ConfigProto}
@@ -63,10 +63,9 @@ public  final class ConfigProto extends
               mutable_bitField0_ |= 0x00000001;
             }
             com.google.protobuf.MapEntry<java.lang.String, java.lang.Integer>
-            deviceCount__ = input.readMessage(
+            deviceCount = input.readMessage(
                 DeviceCountDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-            deviceCount_.getMutableMap().put(
-                deviceCount__.getKey(), deviceCount__.getValue());
+            deviceCount_.getMutableMap().put(deviceCount.getKey(), deviceCount.getValue());
             break;
           }
           case 16: {
@@ -146,6 +145,19 @@ public  final class ConfigProto extends
             }
             sessionInterOpThreadPool_.add(
                 input.readMessage(org.tensorflow.framework.ThreadPoolOptionProto.parser(), extensionRegistry));
+            break;
+          }
+          case 106: {
+            org.tensorflow.framework.RPCOptions.Builder subBuilder = null;
+            if (rpcOptions_ != null) {
+              subBuilder = rpcOptions_.toBuilder();
+            }
+            rpcOptions_ = input.readMessage(org.tensorflow.framework.RPCOptions.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(rpcOptions_);
+              rpcOptions_ = subBuilder.buildPartial();
+            }
+
             break;
           }
         }
@@ -606,6 +618,39 @@ public  final class ConfigProto extends
     return operationTimeoutInMs_;
   }
 
+  public static final int RPC_OPTIONS_FIELD_NUMBER = 13;
+  private org.tensorflow.framework.RPCOptions rpcOptions_;
+  /**
+   * <pre>
+   * Options that apply when this session uses the distributed runtime.
+   * </pre>
+   *
+   * <code>optional .tensorflow.RPCOptions rpc_options = 13;</code>
+   */
+  public boolean hasRpcOptions() {
+    return rpcOptions_ != null;
+  }
+  /**
+   * <pre>
+   * Options that apply when this session uses the distributed runtime.
+   * </pre>
+   *
+   * <code>optional .tensorflow.RPCOptions rpc_options = 13;</code>
+   */
+  public org.tensorflow.framework.RPCOptions getRpcOptions() {
+    return rpcOptions_ == null ? org.tensorflow.framework.RPCOptions.getDefaultInstance() : rpcOptions_;
+  }
+  /**
+   * <pre>
+   * Options that apply when this session uses the distributed runtime.
+   * </pre>
+   *
+   * <code>optional .tensorflow.RPCOptions rpc_options = 13;</code>
+   */
+  public org.tensorflow.framework.RPCOptionsOrBuilder getRpcOptionsOrBuilder() {
+    return getRpcOptions();
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -618,12 +663,15 @@ public  final class ConfigProto extends
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    com.google.protobuf.GeneratedMessageV3
-      .serializeStringMapTo(
-        output,
-        internalGetDeviceCount(),
-        DeviceCountDefaultEntryHolder.defaultEntry,
-        1);
+    for (java.util.Map.Entry<java.lang.String, java.lang.Integer> entry
+         : internalGetDeviceCount().getMap().entrySet()) {
+      com.google.protobuf.MapEntry<java.lang.String, java.lang.Integer>
+      deviceCount = DeviceCountDefaultEntryHolder.defaultEntry.newBuilderForType()
+          .setKey(entry.getKey())
+          .setValue(entry.getValue())
+          .build();
+      output.writeMessage(1, deviceCount);
+    }
     if (intraOpParallelismThreads_ != 0) {
       output.writeInt32(2, intraOpParallelismThreads_);
     }
@@ -657,6 +705,9 @@ public  final class ConfigProto extends
     for (int i = 0; i < sessionInterOpThreadPool_.size(); i++) {
       output.writeMessage(12, sessionInterOpThreadPool_.get(i));
     }
+    if (rpcOptions_ != null) {
+      output.writeMessage(13, getRpcOptions());
+    }
   }
 
   public int getSerializedSize() {
@@ -667,12 +718,12 @@ public  final class ConfigProto extends
     for (java.util.Map.Entry<java.lang.String, java.lang.Integer> entry
          : internalGetDeviceCount().getMap().entrySet()) {
       com.google.protobuf.MapEntry<java.lang.String, java.lang.Integer>
-      deviceCount__ = DeviceCountDefaultEntryHolder.defaultEntry.newBuilderForType()
+      deviceCount = DeviceCountDefaultEntryHolder.defaultEntry.newBuilderForType()
           .setKey(entry.getKey())
           .setValue(entry.getValue())
           .build();
       size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, deviceCount__);
+          .computeMessageSize(1, deviceCount);
     }
     if (intraOpParallelismThreads_ != 0) {
       size += com.google.protobuf.CodedOutputStream
@@ -722,6 +773,10 @@ public  final class ConfigProto extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(12, sessionInterOpThreadPool_.get(i));
     }
+    if (rpcOptions_ != null) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(13, getRpcOptions());
+    }
     memoizedSize = size;
     return size;
   }
@@ -768,6 +823,11 @@ public  final class ConfigProto extends
     }
     result = result && (getOperationTimeoutInMs()
         == other.getOperationTimeoutInMs());
+    result = result && (hasRpcOptions() == other.hasRpcOptions());
+    if (hasRpcOptions()) {
+      result = result && getRpcOptions()
+          .equals(other.getRpcOptions());
+    }
     return result;
   }
 
@@ -816,6 +876,10 @@ public  final class ConfigProto extends
     hash = (37 * hash) + OPERATION_TIMEOUT_IN_MS_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
         getOperationTimeoutInMs());
+    if (hasRpcOptions()) {
+      hash = (37 * hash) + RPC_OPTIONS_FIELD_NUMBER;
+      hash = (53 * hash) + getRpcOptions().hashCode();
+    }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -901,7 +965,7 @@ public  final class ConfigProto extends
   /**
    * <pre>
    * Session configuration parameters.
-   * The system picks an appropriate values for fields that are not set.
+   * The system picks appropriate values for fields that are not set.
    * </pre>
    *
    * Protobuf type {@code tensorflow.ConfigProto}
@@ -997,6 +1061,12 @@ public  final class ConfigProto extends
       }
       operationTimeoutInMs_ = 0L;
 
+      if (rpcOptionsBuilder_ == null) {
+        rpcOptions_ = null;
+      } else {
+        rpcOptions_ = null;
+        rpcOptionsBuilder_ = null;
+      }
       return this;
     }
 
@@ -1054,6 +1124,11 @@ public  final class ConfigProto extends
         result.graphOptions_ = graphOptionsBuilder_.build();
       }
       result.operationTimeoutInMs_ = operationTimeoutInMs_;
+      if (rpcOptionsBuilder_ == null) {
+        result.rpcOptions_ = rpcOptions_;
+      } else {
+        result.rpcOptions_ = rpcOptionsBuilder_.build();
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -1160,6 +1235,9 @@ public  final class ConfigProto extends
       }
       if (other.getOperationTimeoutInMs() != 0L) {
         setOperationTimeoutInMs(other.getOperationTimeoutInMs());
+      }
+      if (other.hasRpcOptions()) {
+        mergeRpcOptions(other.getRpcOptions());
       }
       onChanged();
       return this;
@@ -2545,6 +2623,159 @@ public  final class ConfigProto extends
       operationTimeoutInMs_ = 0L;
       onChanged();
       return this;
+    }
+
+    private org.tensorflow.framework.RPCOptions rpcOptions_ = null;
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.tensorflow.framework.RPCOptions, org.tensorflow.framework.RPCOptions.Builder, org.tensorflow.framework.RPCOptionsOrBuilder> rpcOptionsBuilder_;
+    /**
+     * <pre>
+     * Options that apply when this session uses the distributed runtime.
+     * </pre>
+     *
+     * <code>optional .tensorflow.RPCOptions rpc_options = 13;</code>
+     */
+    public boolean hasRpcOptions() {
+      return rpcOptionsBuilder_ != null || rpcOptions_ != null;
+    }
+    /**
+     * <pre>
+     * Options that apply when this session uses the distributed runtime.
+     * </pre>
+     *
+     * <code>optional .tensorflow.RPCOptions rpc_options = 13;</code>
+     */
+    public org.tensorflow.framework.RPCOptions getRpcOptions() {
+      if (rpcOptionsBuilder_ == null) {
+        return rpcOptions_ == null ? org.tensorflow.framework.RPCOptions.getDefaultInstance() : rpcOptions_;
+      } else {
+        return rpcOptionsBuilder_.getMessage();
+      }
+    }
+    /**
+     * <pre>
+     * Options that apply when this session uses the distributed runtime.
+     * </pre>
+     *
+     * <code>optional .tensorflow.RPCOptions rpc_options = 13;</code>
+     */
+    public Builder setRpcOptions(org.tensorflow.framework.RPCOptions value) {
+      if (rpcOptionsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        rpcOptions_ = value;
+        onChanged();
+      } else {
+        rpcOptionsBuilder_.setMessage(value);
+      }
+
+      return this;
+    }
+    /**
+     * <pre>
+     * Options that apply when this session uses the distributed runtime.
+     * </pre>
+     *
+     * <code>optional .tensorflow.RPCOptions rpc_options = 13;</code>
+     */
+    public Builder setRpcOptions(
+        org.tensorflow.framework.RPCOptions.Builder builderForValue) {
+      if (rpcOptionsBuilder_ == null) {
+        rpcOptions_ = builderForValue.build();
+        onChanged();
+      } else {
+        rpcOptionsBuilder_.setMessage(builderForValue.build());
+      }
+
+      return this;
+    }
+    /**
+     * <pre>
+     * Options that apply when this session uses the distributed runtime.
+     * </pre>
+     *
+     * <code>optional .tensorflow.RPCOptions rpc_options = 13;</code>
+     */
+    public Builder mergeRpcOptions(org.tensorflow.framework.RPCOptions value) {
+      if (rpcOptionsBuilder_ == null) {
+        if (rpcOptions_ != null) {
+          rpcOptions_ =
+            org.tensorflow.framework.RPCOptions.newBuilder(rpcOptions_).mergeFrom(value).buildPartial();
+        } else {
+          rpcOptions_ = value;
+        }
+        onChanged();
+      } else {
+        rpcOptionsBuilder_.mergeFrom(value);
+      }
+
+      return this;
+    }
+    /**
+     * <pre>
+     * Options that apply when this session uses the distributed runtime.
+     * </pre>
+     *
+     * <code>optional .tensorflow.RPCOptions rpc_options = 13;</code>
+     */
+    public Builder clearRpcOptions() {
+      if (rpcOptionsBuilder_ == null) {
+        rpcOptions_ = null;
+        onChanged();
+      } else {
+        rpcOptions_ = null;
+        rpcOptionsBuilder_ = null;
+      }
+
+      return this;
+    }
+    /**
+     * <pre>
+     * Options that apply when this session uses the distributed runtime.
+     * </pre>
+     *
+     * <code>optional .tensorflow.RPCOptions rpc_options = 13;</code>
+     */
+    public org.tensorflow.framework.RPCOptions.Builder getRpcOptionsBuilder() {
+      
+      onChanged();
+      return getRpcOptionsFieldBuilder().getBuilder();
+    }
+    /**
+     * <pre>
+     * Options that apply when this session uses the distributed runtime.
+     * </pre>
+     *
+     * <code>optional .tensorflow.RPCOptions rpc_options = 13;</code>
+     */
+    public org.tensorflow.framework.RPCOptionsOrBuilder getRpcOptionsOrBuilder() {
+      if (rpcOptionsBuilder_ != null) {
+        return rpcOptionsBuilder_.getMessageOrBuilder();
+      } else {
+        return rpcOptions_ == null ?
+            org.tensorflow.framework.RPCOptions.getDefaultInstance() : rpcOptions_;
+      }
+    }
+    /**
+     * <pre>
+     * Options that apply when this session uses the distributed runtime.
+     * </pre>
+     *
+     * <code>optional .tensorflow.RPCOptions rpc_options = 13;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.tensorflow.framework.RPCOptions, org.tensorflow.framework.RPCOptions.Builder, org.tensorflow.framework.RPCOptionsOrBuilder> 
+        getRpcOptionsFieldBuilder() {
+      if (rpcOptionsBuilder_ == null) {
+        rpcOptionsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.tensorflow.framework.RPCOptions, org.tensorflow.framework.RPCOptions.Builder, org.tensorflow.framework.RPCOptionsOrBuilder>(
+                getRpcOptions(),
+                getParentForChildren(),
+                isClean());
+        rpcOptions_ = null;
+      }
+      return rpcOptionsBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

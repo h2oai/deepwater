@@ -5,6 +5,8 @@
 #include <string>
 #include <cassert>
 #include <map>
+#include <stdio.h>
+#include <string.h>
 
 #include "include/symbol.h"
 #include "include/optimizer.h"
@@ -77,7 +79,8 @@ void ImageTrain::setOptimizer() {
 
 void ImageTrain::initializeState() {
   args_map = exec->arg_dict();
-  Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);
+  /*Xavier xavier = Xavier(Xavier::gaussian, Xavier::in, 2.34);*/
+  Xavier xavier = Xavier(Xavier::uniform, Xavier::avg);
   for (auto &arg : args_map) {
     xavier(arg.first, &arg.second);
   }
@@ -144,7 +147,7 @@ void ImageTrain::loadModel(char * model_path) {
 
 const char * ImageTrain::toJson() {
   std::string tmp = mxnet_sym.ToJSON();
-  return tmp.c_str();
+  return strdup(tmp.c_str()); //this leaks, but at least doesn't corrupt
 }
 
 void ImageTrain::saveModel(char * model_path) {
@@ -367,3 +370,55 @@ std::vector<float> ImageTrain::loadMeanImage(const char * fname) {
   nd_res.SyncCopyToCPU(&res, nd_size);
   return res;
 }
+
+std::vector<float> ImageTrain::extractLayer(float * data, const char * output_key) {
+
+  // find the output symbol
+  Symbol net = mxnet_sym.GetInternals();
+  bool found = false;
+  for(const auto & layer_name:net.ListOutputs()){
+    //std::cerr << layer_name << std::endl;
+    if (strcmp(layer_name.c_str(), output_key)==0) {
+      found = true;
+      break;
+    }
+  }
+  if (!found) {
+    std::cerr << "Layer " << output_key << " not found. These are the layers available:\n";
+    for(const auto & layer_name:net.ListOutputs()){
+      std::cerr << layer_name << std::endl;
+    }
+    return std::vector<float>(0);
+  }
+
+  // extract the output layer
+  Symbol output_layer = mxnet_sym.GetInternals()[output_key];
+
+  // update the executor to use the new args_map and aux_map
+  exec = std::unique_ptr<Executor>(output_layer.SimpleBind(ctx_dev,
+        args_map,
+        std::map<std::string, NDArray>(),
+        std::map<std::string, OpReqType>(),
+        aux_map));
+
+  // forward propagate the input
+  NDArray data_n = NDArray(data, shape, ctx_dev);
+  data_n.CopyTo(&args_map["data"]);
+  exec->Forward(false);
+
+  // extract the output of this executor (i.e., the requested symbol)
+  NDArray::WaitAll();
+  std::vector<float> res;
+  exec->outputs[0].SyncCopyToCPU(&res);
+  return res;
+}
+
+const char * ImageTrain::listAllLayers() {
+  std::string res;
+  Symbol net = mxnet_sym.GetInternals();
+  for(const auto & layer_name:net.ListOutputs()){
+    res += layer_name + "\n";
+  }
+  return strdup(res.c_str()); // this leaks, but at least doesn't corrupt
+}
+

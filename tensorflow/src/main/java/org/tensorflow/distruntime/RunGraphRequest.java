@@ -19,6 +19,8 @@ public  final class RunGraphRequest extends
     stepId_ = 0L;
     send_ = java.util.Collections.emptyList();
     recvKey_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    isPartial_ = false;
+    isLastPartialRun_ = false;
   }
 
   @java.lang.Override
@@ -59,11 +61,11 @@ public  final class RunGraphRequest extends
           }
           case 26: {
             if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-              send_ = new java.util.ArrayList<org.tensorflow.distruntime.NamedTensor>();
+              send_ = new java.util.ArrayList<org.tensorflow.framework.NamedTensorProto>();
               mutable_bitField0_ |= 0x00000008;
             }
             send_.add(
-                input.readMessage(org.tensorflow.distruntime.NamedTensor.parser(), extensionRegistry));
+                input.readMessage(org.tensorflow.framework.NamedTensorProto.parser(), extensionRegistry));
             break;
           }
           case 34: {
@@ -86,6 +88,16 @@ public  final class RunGraphRequest extends
               execOpts_ = subBuilder.buildPartial();
             }
 
+            break;
+          }
+          case 48: {
+
+            isPartial_ = input.readBool();
+            break;
+          }
+          case 56: {
+
+            isLastPartialRun_ = input.readBool();
             break;
           }
         }
@@ -213,7 +225,7 @@ public  final class RunGraphRequest extends
   }
 
   public static final int SEND_FIELD_NUMBER = 3;
-  private java.util.List<org.tensorflow.distruntime.NamedTensor> send_;
+  private java.util.List<org.tensorflow.framework.NamedTensorProto> send_;
   /**
    * <pre>
    * Runs the graph.
@@ -221,9 +233,9 @@ public  final class RunGraphRequest extends
    * fetches the keys into `RunGraphResponse.recv` after the run.
    * </pre>
    *
-   * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+   * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
    */
-  public java.util.List<org.tensorflow.distruntime.NamedTensor> getSendList() {
+  public java.util.List<org.tensorflow.framework.NamedTensorProto> getSendList() {
     return send_;
   }
   /**
@@ -233,9 +245,9 @@ public  final class RunGraphRequest extends
    * fetches the keys into `RunGraphResponse.recv` after the run.
    * </pre>
    *
-   * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+   * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
    */
-  public java.util.List<? extends org.tensorflow.distruntime.NamedTensorOrBuilder> 
+  public java.util.List<? extends org.tensorflow.framework.NamedTensorProtoOrBuilder> 
       getSendOrBuilderList() {
     return send_;
   }
@@ -246,7 +258,7 @@ public  final class RunGraphRequest extends
    * fetches the keys into `RunGraphResponse.recv` after the run.
    * </pre>
    *
-   * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+   * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
    */
   public int getSendCount() {
     return send_.size();
@@ -258,9 +270,9 @@ public  final class RunGraphRequest extends
    * fetches the keys into `RunGraphResponse.recv` after the run.
    * </pre>
    *
-   * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+   * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
    */
-  public org.tensorflow.distruntime.NamedTensor getSend(int index) {
+  public org.tensorflow.framework.NamedTensorProto getSend(int index) {
     return send_.get(index);
   }
   /**
@@ -270,9 +282,9 @@ public  final class RunGraphRequest extends
    * fetches the keys into `RunGraphResponse.recv` after the run.
    * </pre>
    *
-   * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+   * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
    */
-  public org.tensorflow.distruntime.NamedTensorOrBuilder getSendOrBuilder(
+  public org.tensorflow.framework.NamedTensorProtoOrBuilder getSendOrBuilder(
       int index) {
     return send_.get(index);
   }
@@ -306,6 +318,32 @@ public  final class RunGraphRequest extends
     return recvKey_.getByteString(index);
   }
 
+  public static final int IS_PARTIAL_FIELD_NUMBER = 6;
+  private boolean isPartial_;
+  /**
+   * <pre>
+   * True if the RunGraphRequest is a partial run request.
+   * </pre>
+   *
+   * <code>optional bool is_partial = 6;</code>
+   */
+  public boolean getIsPartial() {
+    return isPartial_;
+  }
+
+  public static final int IS_LAST_PARTIAL_RUN_FIELD_NUMBER = 7;
+  private boolean isLastPartialRun_;
+  /**
+   * <pre>
+   * True if this is the last partial run request in a sequence of requests.
+   * </pre>
+   *
+   * <code>optional bool is_last_partial_run = 7;</code>
+   */
+  public boolean getIsLastPartialRun() {
+    return isLastPartialRun_;
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -332,6 +370,12 @@ public  final class RunGraphRequest extends
     }
     if (execOpts_ != null) {
       output.writeMessage(5, getExecOpts());
+    }
+    if (isPartial_ != false) {
+      output.writeBool(6, isPartial_);
+    }
+    if (isLastPartialRun_ != false) {
+      output.writeBool(7, isLastPartialRun_);
     }
   }
 
@@ -363,6 +407,14 @@ public  final class RunGraphRequest extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(5, getExecOpts());
     }
+    if (isPartial_ != false) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(6, isPartial_);
+    }
+    if (isLastPartialRun_ != false) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(7, isLastPartialRun_);
+    }
     memoizedSize = size;
     return size;
   }
@@ -392,6 +444,10 @@ public  final class RunGraphRequest extends
         .equals(other.getSendList());
     result = result && getRecvKeyList()
         .equals(other.getRecvKeyList());
+    result = result && (getIsPartial()
+        == other.getIsPartial());
+    result = result && (getIsLastPartialRun()
+        == other.getIsLastPartialRun());
     return result;
   }
 
@@ -419,6 +475,12 @@ public  final class RunGraphRequest extends
       hash = (37 * hash) + RECV_KEY_FIELD_NUMBER;
       hash = (53 * hash) + getRecvKeyList().hashCode();
     }
+    hash = (37 * hash) + IS_PARTIAL_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getIsPartial());
+    hash = (37 * hash) + IS_LAST_PARTIAL_RUN_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getIsLastPartialRun());
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -556,6 +618,10 @@ public  final class RunGraphRequest extends
       }
       recvKey_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       bitField0_ = (bitField0_ & ~0x00000010);
+      isPartial_ = false;
+
+      isLastPartialRun_ = false;
+
       return this;
     }
 
@@ -601,6 +667,8 @@ public  final class RunGraphRequest extends
         bitField0_ = (bitField0_ & ~0x00000010);
       }
       result.recvKey_ = recvKey_;
+      result.isPartial_ = isPartial_;
+      result.isLastPartialRun_ = isLastPartialRun_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -688,6 +756,12 @@ public  final class RunGraphRequest extends
           recvKey_.addAll(other.recvKey_);
         }
         onChanged();
+      }
+      if (other.getIsPartial() != false) {
+        setIsPartial(other.getIsPartial());
+      }
+      if (other.getIsLastPartialRun() != false) {
+        setIsLastPartialRun(other.getIsLastPartialRun());
       }
       onChanged();
       return this;
@@ -1013,17 +1087,17 @@ public  final class RunGraphRequest extends
       return execOptsBuilder_;
     }
 
-    private java.util.List<org.tensorflow.distruntime.NamedTensor> send_ =
+    private java.util.List<org.tensorflow.framework.NamedTensorProto> send_ =
       java.util.Collections.emptyList();
     private void ensureSendIsMutable() {
       if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-        send_ = new java.util.ArrayList<org.tensorflow.distruntime.NamedTensor>(send_);
+        send_ = new java.util.ArrayList<org.tensorflow.framework.NamedTensorProto>(send_);
         bitField0_ |= 0x00000008;
        }
     }
 
     private com.google.protobuf.RepeatedFieldBuilderV3<
-        org.tensorflow.distruntime.NamedTensor, org.tensorflow.distruntime.NamedTensor.Builder, org.tensorflow.distruntime.NamedTensorOrBuilder> sendBuilder_;
+        org.tensorflow.framework.NamedTensorProto, org.tensorflow.framework.NamedTensorProto.Builder, org.tensorflow.framework.NamedTensorProtoOrBuilder> sendBuilder_;
 
     /**
      * <pre>
@@ -1032,9 +1106,9 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
-    public java.util.List<org.tensorflow.distruntime.NamedTensor> getSendList() {
+    public java.util.List<org.tensorflow.framework.NamedTensorProto> getSendList() {
       if (sendBuilder_ == null) {
         return java.util.Collections.unmodifiableList(send_);
       } else {
@@ -1048,7 +1122,7 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
     public int getSendCount() {
       if (sendBuilder_ == null) {
@@ -1064,9 +1138,9 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
-    public org.tensorflow.distruntime.NamedTensor getSend(int index) {
+    public org.tensorflow.framework.NamedTensorProto getSend(int index) {
       if (sendBuilder_ == null) {
         return send_.get(index);
       } else {
@@ -1080,10 +1154,10 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
     public Builder setSend(
-        int index, org.tensorflow.distruntime.NamedTensor value) {
+        int index, org.tensorflow.framework.NamedTensorProto value) {
       if (sendBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -1103,10 +1177,10 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
     public Builder setSend(
-        int index, org.tensorflow.distruntime.NamedTensor.Builder builderForValue) {
+        int index, org.tensorflow.framework.NamedTensorProto.Builder builderForValue) {
       if (sendBuilder_ == null) {
         ensureSendIsMutable();
         send_.set(index, builderForValue.build());
@@ -1123,9 +1197,9 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
-    public Builder addSend(org.tensorflow.distruntime.NamedTensor value) {
+    public Builder addSend(org.tensorflow.framework.NamedTensorProto value) {
       if (sendBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -1145,10 +1219,10 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
     public Builder addSend(
-        int index, org.tensorflow.distruntime.NamedTensor value) {
+        int index, org.tensorflow.framework.NamedTensorProto value) {
       if (sendBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
@@ -1168,10 +1242,10 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
     public Builder addSend(
-        org.tensorflow.distruntime.NamedTensor.Builder builderForValue) {
+        org.tensorflow.framework.NamedTensorProto.Builder builderForValue) {
       if (sendBuilder_ == null) {
         ensureSendIsMutable();
         send_.add(builderForValue.build());
@@ -1188,10 +1262,10 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
     public Builder addSend(
-        int index, org.tensorflow.distruntime.NamedTensor.Builder builderForValue) {
+        int index, org.tensorflow.framework.NamedTensorProto.Builder builderForValue) {
       if (sendBuilder_ == null) {
         ensureSendIsMutable();
         send_.add(index, builderForValue.build());
@@ -1208,10 +1282,10 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
     public Builder addAllSend(
-        java.lang.Iterable<? extends org.tensorflow.distruntime.NamedTensor> values) {
+        java.lang.Iterable<? extends org.tensorflow.framework.NamedTensorProto> values) {
       if (sendBuilder_ == null) {
         ensureSendIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -1229,7 +1303,7 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
     public Builder clearSend() {
       if (sendBuilder_ == null) {
@@ -1248,7 +1322,7 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
     public Builder removeSend(int index) {
       if (sendBuilder_ == null) {
@@ -1267,9 +1341,9 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
-    public org.tensorflow.distruntime.NamedTensor.Builder getSendBuilder(
+    public org.tensorflow.framework.NamedTensorProto.Builder getSendBuilder(
         int index) {
       return getSendFieldBuilder().getBuilder(index);
     }
@@ -1280,9 +1354,9 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
-    public org.tensorflow.distruntime.NamedTensorOrBuilder getSendOrBuilder(
+    public org.tensorflow.framework.NamedTensorProtoOrBuilder getSendOrBuilder(
         int index) {
       if (sendBuilder_ == null) {
         return send_.get(index);  } else {
@@ -1296,9 +1370,9 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
-    public java.util.List<? extends org.tensorflow.distruntime.NamedTensorOrBuilder> 
+    public java.util.List<? extends org.tensorflow.framework.NamedTensorProtoOrBuilder> 
          getSendOrBuilderList() {
       if (sendBuilder_ != null) {
         return sendBuilder_.getMessageOrBuilderList();
@@ -1313,11 +1387,11 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
-    public org.tensorflow.distruntime.NamedTensor.Builder addSendBuilder() {
+    public org.tensorflow.framework.NamedTensorProto.Builder addSendBuilder() {
       return getSendFieldBuilder().addBuilder(
-          org.tensorflow.distruntime.NamedTensor.getDefaultInstance());
+          org.tensorflow.framework.NamedTensorProto.getDefaultInstance());
     }
     /**
      * <pre>
@@ -1326,12 +1400,12 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
-    public org.tensorflow.distruntime.NamedTensor.Builder addSendBuilder(
+    public org.tensorflow.framework.NamedTensorProto.Builder addSendBuilder(
         int index) {
       return getSendFieldBuilder().addBuilder(
-          index, org.tensorflow.distruntime.NamedTensor.getDefaultInstance());
+          index, org.tensorflow.framework.NamedTensorProto.getDefaultInstance());
     }
     /**
      * <pre>
@@ -1340,18 +1414,18 @@ public  final class RunGraphRequest extends
      * fetches the keys into `RunGraphResponse.recv` after the run.
      * </pre>
      *
-     * <code>repeated .tensorflow.NamedTensor send = 3;</code>
+     * <code>repeated .tensorflow.NamedTensorProto send = 3;</code>
      */
-    public java.util.List<org.tensorflow.distruntime.NamedTensor.Builder> 
+    public java.util.List<org.tensorflow.framework.NamedTensorProto.Builder> 
          getSendBuilderList() {
       return getSendFieldBuilder().getBuilderList();
     }
     private com.google.protobuf.RepeatedFieldBuilderV3<
-        org.tensorflow.distruntime.NamedTensor, org.tensorflow.distruntime.NamedTensor.Builder, org.tensorflow.distruntime.NamedTensorOrBuilder> 
+        org.tensorflow.framework.NamedTensorProto, org.tensorflow.framework.NamedTensorProto.Builder, org.tensorflow.framework.NamedTensorProtoOrBuilder> 
         getSendFieldBuilder() {
       if (sendBuilder_ == null) {
         sendBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-            org.tensorflow.distruntime.NamedTensor, org.tensorflow.distruntime.NamedTensor.Builder, org.tensorflow.distruntime.NamedTensorOrBuilder>(
+            org.tensorflow.framework.NamedTensorProto, org.tensorflow.framework.NamedTensorProto.Builder, org.tensorflow.framework.NamedTensorProtoOrBuilder>(
                 send_,
                 ((bitField0_ & 0x00000008) == 0x00000008),
                 getParentForChildren(),
@@ -1451,6 +1525,82 @@ public  final class RunGraphRequest extends
   checkByteStringIsUtf8(value);
       ensureRecvKeyIsMutable();
       recvKey_.add(value);
+      onChanged();
+      return this;
+    }
+
+    private boolean isPartial_ ;
+    /**
+     * <pre>
+     * True if the RunGraphRequest is a partial run request.
+     * </pre>
+     *
+     * <code>optional bool is_partial = 6;</code>
+     */
+    public boolean getIsPartial() {
+      return isPartial_;
+    }
+    /**
+     * <pre>
+     * True if the RunGraphRequest is a partial run request.
+     * </pre>
+     *
+     * <code>optional bool is_partial = 6;</code>
+     */
+    public Builder setIsPartial(boolean value) {
+      
+      isPartial_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * True if the RunGraphRequest is a partial run request.
+     * </pre>
+     *
+     * <code>optional bool is_partial = 6;</code>
+     */
+    public Builder clearIsPartial() {
+      
+      isPartial_ = false;
+      onChanged();
+      return this;
+    }
+
+    private boolean isLastPartialRun_ ;
+    /**
+     * <pre>
+     * True if this is the last partial run request in a sequence of requests.
+     * </pre>
+     *
+     * <code>optional bool is_last_partial_run = 7;</code>
+     */
+    public boolean getIsLastPartialRun() {
+      return isLastPartialRun_;
+    }
+    /**
+     * <pre>
+     * True if this is the last partial run request in a sequence of requests.
+     * </pre>
+     *
+     * <code>optional bool is_last_partial_run = 7;</code>
+     */
+    public Builder setIsLastPartialRun(boolean value) {
+      
+      isLastPartialRun_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * True if this is the last partial run request in a sequence of requests.
+     * </pre>
+     *
+     * <code>optional bool is_last_partial_run = 7;</code>
+     */
+    public Builder clearIsLastPartialRun() {
+      
+      isLastPartialRun_ = false;
       onChanged();
       return this;
     }

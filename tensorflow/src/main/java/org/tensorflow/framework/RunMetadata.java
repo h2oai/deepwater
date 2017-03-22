@@ -19,6 +19,7 @@ public  final class RunMetadata extends
     super(builder);
   }
   private RunMetadata() {
+    partitionGraphs_ = java.util.Collections.emptyList();
   }
 
   @java.lang.Override
@@ -72,6 +73,15 @@ public  final class RunMetadata extends
 
             break;
           }
+          case 26: {
+            if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              partitionGraphs_ = new java.util.ArrayList<org.tensorflow.framework.GraphDef>();
+              mutable_bitField0_ |= 0x00000004;
+            }
+            partitionGraphs_.add(
+                input.readMessage(org.tensorflow.framework.GraphDef.parser(), extensionRegistry));
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -80,6 +90,9 @@ public  final class RunMetadata extends
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
+      if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        partitionGraphs_ = java.util.Collections.unmodifiableList(partitionGraphs_);
+      }
       makeExtensionsImmutable();
     }
   }
@@ -95,6 +108,7 @@ public  final class RunMetadata extends
             org.tensorflow.framework.RunMetadata.class, org.tensorflow.framework.RunMetadata.Builder.class);
   }
 
+  private int bitField0_;
   public static final int STEP_STATS_FIELD_NUMBER = 1;
   private org.tensorflow.framework.StepStats stepStats_;
   /**
@@ -167,6 +181,61 @@ public  final class RunMetadata extends
     return getCostGraph();
   }
 
+  public static final int PARTITION_GRAPHS_FIELD_NUMBER = 3;
+  private java.util.List<org.tensorflow.framework.GraphDef> partitionGraphs_;
+  /**
+   * <pre>
+   * Graphs of the partitions executed by executors.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+   */
+  public java.util.List<org.tensorflow.framework.GraphDef> getPartitionGraphsList() {
+    return partitionGraphs_;
+  }
+  /**
+   * <pre>
+   * Graphs of the partitions executed by executors.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+   */
+  public java.util.List<? extends org.tensorflow.framework.GraphDefOrBuilder> 
+      getPartitionGraphsOrBuilderList() {
+    return partitionGraphs_;
+  }
+  /**
+   * <pre>
+   * Graphs of the partitions executed by executors.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+   */
+  public int getPartitionGraphsCount() {
+    return partitionGraphs_.size();
+  }
+  /**
+   * <pre>
+   * Graphs of the partitions executed by executors.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+   */
+  public org.tensorflow.framework.GraphDef getPartitionGraphs(int index) {
+    return partitionGraphs_.get(index);
+  }
+  /**
+   * <pre>
+   * Graphs of the partitions executed by executors.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+   */
+  public org.tensorflow.framework.GraphDefOrBuilder getPartitionGraphsOrBuilder(
+      int index) {
+    return partitionGraphs_.get(index);
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -185,6 +254,9 @@ public  final class RunMetadata extends
     if (costGraph_ != null) {
       output.writeMessage(2, getCostGraph());
     }
+    for (int i = 0; i < partitionGraphs_.size(); i++) {
+      output.writeMessage(3, partitionGraphs_.get(i));
+    }
   }
 
   public int getSerializedSize() {
@@ -199,6 +271,10 @@ public  final class RunMetadata extends
     if (costGraph_ != null) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(2, getCostGraph());
+    }
+    for (int i = 0; i < partitionGraphs_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(3, partitionGraphs_.get(i));
     }
     memoizedSize = size;
     return size;
@@ -226,6 +302,8 @@ public  final class RunMetadata extends
       result = result && getCostGraph()
           .equals(other.getCostGraph());
     }
+    result = result && getPartitionGraphsList()
+        .equals(other.getPartitionGraphsList());
     return result;
   }
 
@@ -243,6 +321,10 @@ public  final class RunMetadata extends
     if (hasCostGraph()) {
       hash = (37 * hash) + COST_GRAPH_FIELD_NUMBER;
       hash = (53 * hash) + getCostGraph().hashCode();
+    }
+    if (getPartitionGraphsCount() > 0) {
+      hash = (37 * hash) + PARTITION_GRAPHS_FIELD_NUMBER;
+      hash = (53 * hash) + getPartitionGraphsList().hashCode();
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -362,6 +444,7 @@ public  final class RunMetadata extends
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessageV3
               .alwaysUseFieldBuilders) {
+        getPartitionGraphsFieldBuilder();
       }
     }
     public Builder clear() {
@@ -377,6 +460,12 @@ public  final class RunMetadata extends
       } else {
         costGraph_ = null;
         costGraphBuilder_ = null;
+      }
+      if (partitionGraphsBuilder_ == null) {
+        partitionGraphs_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000004);
+      } else {
+        partitionGraphsBuilder_.clear();
       }
       return this;
     }
@@ -400,6 +489,8 @@ public  final class RunMetadata extends
 
     public org.tensorflow.framework.RunMetadata buildPartial() {
       org.tensorflow.framework.RunMetadata result = new org.tensorflow.framework.RunMetadata(this);
+      int from_bitField0_ = bitField0_;
+      int to_bitField0_ = 0;
       if (stepStatsBuilder_ == null) {
         result.stepStats_ = stepStats_;
       } else {
@@ -410,6 +501,16 @@ public  final class RunMetadata extends
       } else {
         result.costGraph_ = costGraphBuilder_.build();
       }
+      if (partitionGraphsBuilder_ == null) {
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          partitionGraphs_ = java.util.Collections.unmodifiableList(partitionGraphs_);
+          bitField0_ = (bitField0_ & ~0x00000004);
+        }
+        result.partitionGraphs_ = partitionGraphs_;
+      } else {
+        result.partitionGraphs_ = partitionGraphsBuilder_.build();
+      }
+      result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
     }
@@ -457,6 +558,32 @@ public  final class RunMetadata extends
       if (other.hasCostGraph()) {
         mergeCostGraph(other.getCostGraph());
       }
+      if (partitionGraphsBuilder_ == null) {
+        if (!other.partitionGraphs_.isEmpty()) {
+          if (partitionGraphs_.isEmpty()) {
+            partitionGraphs_ = other.partitionGraphs_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensurePartitionGraphsIsMutable();
+            partitionGraphs_.addAll(other.partitionGraphs_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.partitionGraphs_.isEmpty()) {
+          if (partitionGraphsBuilder_.isEmpty()) {
+            partitionGraphsBuilder_.dispose();
+            partitionGraphsBuilder_ = null;
+            partitionGraphs_ = other.partitionGraphs_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+            partitionGraphsBuilder_ = 
+              com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                 getPartitionGraphsFieldBuilder() : null;
+          } else {
+            partitionGraphsBuilder_.addAllMessages(other.partitionGraphs_);
+          }
+        }
+      }
       onChanged();
       return this;
     }
@@ -482,6 +609,7 @@ public  final class RunMetadata extends
       }
       return this;
     }
+    private int bitField0_;
 
     private org.tensorflow.framework.StepStats stepStats_ = null;
     private com.google.protobuf.SingleFieldBuilderV3<
@@ -805,6 +933,318 @@ public  final class RunMetadata extends
         costGraph_ = null;
       }
       return costGraphBuilder_;
+    }
+
+    private java.util.List<org.tensorflow.framework.GraphDef> partitionGraphs_ =
+      java.util.Collections.emptyList();
+    private void ensurePartitionGraphsIsMutable() {
+      if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        partitionGraphs_ = new java.util.ArrayList<org.tensorflow.framework.GraphDef>(partitionGraphs_);
+        bitField0_ |= 0x00000004;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        org.tensorflow.framework.GraphDef, org.tensorflow.framework.GraphDef.Builder, org.tensorflow.framework.GraphDefOrBuilder> partitionGraphsBuilder_;
+
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public java.util.List<org.tensorflow.framework.GraphDef> getPartitionGraphsList() {
+      if (partitionGraphsBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(partitionGraphs_);
+      } else {
+        return partitionGraphsBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public int getPartitionGraphsCount() {
+      if (partitionGraphsBuilder_ == null) {
+        return partitionGraphs_.size();
+      } else {
+        return partitionGraphsBuilder_.getCount();
+      }
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public org.tensorflow.framework.GraphDef getPartitionGraphs(int index) {
+      if (partitionGraphsBuilder_ == null) {
+        return partitionGraphs_.get(index);
+      } else {
+        return partitionGraphsBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public Builder setPartitionGraphs(
+        int index, org.tensorflow.framework.GraphDef value) {
+      if (partitionGraphsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensurePartitionGraphsIsMutable();
+        partitionGraphs_.set(index, value);
+        onChanged();
+      } else {
+        partitionGraphsBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public Builder setPartitionGraphs(
+        int index, org.tensorflow.framework.GraphDef.Builder builderForValue) {
+      if (partitionGraphsBuilder_ == null) {
+        ensurePartitionGraphsIsMutable();
+        partitionGraphs_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        partitionGraphsBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public Builder addPartitionGraphs(org.tensorflow.framework.GraphDef value) {
+      if (partitionGraphsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensurePartitionGraphsIsMutable();
+        partitionGraphs_.add(value);
+        onChanged();
+      } else {
+        partitionGraphsBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public Builder addPartitionGraphs(
+        int index, org.tensorflow.framework.GraphDef value) {
+      if (partitionGraphsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensurePartitionGraphsIsMutable();
+        partitionGraphs_.add(index, value);
+        onChanged();
+      } else {
+        partitionGraphsBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public Builder addPartitionGraphs(
+        org.tensorflow.framework.GraphDef.Builder builderForValue) {
+      if (partitionGraphsBuilder_ == null) {
+        ensurePartitionGraphsIsMutable();
+        partitionGraphs_.add(builderForValue.build());
+        onChanged();
+      } else {
+        partitionGraphsBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public Builder addPartitionGraphs(
+        int index, org.tensorflow.framework.GraphDef.Builder builderForValue) {
+      if (partitionGraphsBuilder_ == null) {
+        ensurePartitionGraphsIsMutable();
+        partitionGraphs_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        partitionGraphsBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public Builder addAllPartitionGraphs(
+        java.lang.Iterable<? extends org.tensorflow.framework.GraphDef> values) {
+      if (partitionGraphsBuilder_ == null) {
+        ensurePartitionGraphsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, partitionGraphs_);
+        onChanged();
+      } else {
+        partitionGraphsBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public Builder clearPartitionGraphs() {
+      if (partitionGraphsBuilder_ == null) {
+        partitionGraphs_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000004);
+        onChanged();
+      } else {
+        partitionGraphsBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public Builder removePartitionGraphs(int index) {
+      if (partitionGraphsBuilder_ == null) {
+        ensurePartitionGraphsIsMutable();
+        partitionGraphs_.remove(index);
+        onChanged();
+      } else {
+        partitionGraphsBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public org.tensorflow.framework.GraphDef.Builder getPartitionGraphsBuilder(
+        int index) {
+      return getPartitionGraphsFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public org.tensorflow.framework.GraphDefOrBuilder getPartitionGraphsOrBuilder(
+        int index) {
+      if (partitionGraphsBuilder_ == null) {
+        return partitionGraphs_.get(index);  } else {
+        return partitionGraphsBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public java.util.List<? extends org.tensorflow.framework.GraphDefOrBuilder> 
+         getPartitionGraphsOrBuilderList() {
+      if (partitionGraphsBuilder_ != null) {
+        return partitionGraphsBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(partitionGraphs_);
+      }
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public org.tensorflow.framework.GraphDef.Builder addPartitionGraphsBuilder() {
+      return getPartitionGraphsFieldBuilder().addBuilder(
+          org.tensorflow.framework.GraphDef.getDefaultInstance());
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public org.tensorflow.framework.GraphDef.Builder addPartitionGraphsBuilder(
+        int index) {
+      return getPartitionGraphsFieldBuilder().addBuilder(
+          index, org.tensorflow.framework.GraphDef.getDefaultInstance());
+    }
+    /**
+     * <pre>
+     * Graphs of the partitions executed by executors.
+     * </pre>
+     *
+     * <code>repeated .tensorflow.GraphDef partition_graphs = 3;</code>
+     */
+    public java.util.List<org.tensorflow.framework.GraphDef.Builder> 
+         getPartitionGraphsBuilderList() {
+      return getPartitionGraphsFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilderV3<
+        org.tensorflow.framework.GraphDef, org.tensorflow.framework.GraphDef.Builder, org.tensorflow.framework.GraphDefOrBuilder> 
+        getPartitionGraphsFieldBuilder() {
+      if (partitionGraphsBuilder_ == null) {
+        partitionGraphsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+            org.tensorflow.framework.GraphDef, org.tensorflow.framework.GraphDef.Builder, org.tensorflow.framework.GraphDefOrBuilder>(
+                partitionGraphs_,
+                ((bitField0_ & 0x00000004) == 0x00000004),
+                getParentForChildren(),
+                isClean());
+        partitionGraphs_ = null;
+      }
+      return partitionGraphsBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

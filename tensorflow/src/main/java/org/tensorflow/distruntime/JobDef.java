@@ -60,10 +60,9 @@ public  final class JobDef extends
               mutable_bitField0_ |= 0x00000002;
             }
             com.google.protobuf.MapEntry<java.lang.Integer, java.lang.String>
-            tasks__ = input.readMessage(
+            tasks = input.readMessage(
                 TasksDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-            tasks_.getMutableMap().put(
-                tasks__.getKey(), tasks__.getValue());
+            tasks_.getMutableMap().put(tasks.getKey(), tasks.getValue());
             break;
           }
         }
@@ -270,12 +269,15 @@ public  final class JobDef extends
     if (!getNameBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
     }
-    com.google.protobuf.GeneratedMessageV3
-      .serializeIntegerMapTo(
-        output,
-        internalGetTasks(),
-        TasksDefaultEntryHolder.defaultEntry,
-        2);
+    for (java.util.Map.Entry<java.lang.Integer, java.lang.String> entry
+         : internalGetTasks().getMap().entrySet()) {
+      com.google.protobuf.MapEntry<java.lang.Integer, java.lang.String>
+      tasks = TasksDefaultEntryHolder.defaultEntry.newBuilderForType()
+          .setKey(entry.getKey())
+          .setValue(entry.getValue())
+          .build();
+      output.writeMessage(2, tasks);
+    }
   }
 
   public int getSerializedSize() {
@@ -289,12 +291,12 @@ public  final class JobDef extends
     for (java.util.Map.Entry<java.lang.Integer, java.lang.String> entry
          : internalGetTasks().getMap().entrySet()) {
       com.google.protobuf.MapEntry<java.lang.Integer, java.lang.String>
-      tasks__ = TasksDefaultEntryHolder.defaultEntry.newBuilderForType()
+      tasks = TasksDefaultEntryHolder.defaultEntry.newBuilderForType()
           .setKey(entry.getKey())
           .setValue(entry.getValue())
           .build();
       size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, tasks__);
+          .computeMessageSize(2, tasks);
     }
     memoizedSize = size;
     return size;

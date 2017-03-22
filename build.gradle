@@ -1,7 +1,7 @@
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'maven'
-//apply plugin: 'com.google.protobuf'
+apply plugin: 'com.google.protobuf'
 
 // Include support for S3 syncing
 apply from: "gradle/s3sync.gradle"
@@ -10,13 +10,14 @@ apply from: "gradle/s3sync.gradle"
 buildscript {
   repositories {
       mavenCentral()
+      mavenLocal()
       jcenter()
   }
   dependencies {
       classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
       classpath 'net.researchgate:gradle-release:2.4.1'
       classpath "be.insaneprogramming.gradle:animalsniffer-gradle-plugin:+"
- //     classpath 'com.google.protobuf:protobuf-gradle-plugin:0.7.5'
+      classpath 'com.google.protobuf:protobuf-gradle-plugin:0.7.5'
       classpath 'de.undercouch:gradle-download-task:2.1.0'
   }
 }
@@ -44,12 +45,11 @@ allprojects {
         mavenCentral()
     }
 
-/*
     protobuf {
         generatedFilesBaseDir = "$projectDir/src/"
 
         protoc {
-            artifact = "com.google.protobuf:protoc:3.1.0"
+            artifact = "com.google.protobuf:protoc:3.2.0"
         }
 
         plugins {
@@ -64,8 +64,6 @@ allprojects {
             }
         }
     }
-*/
-
 
 }
 

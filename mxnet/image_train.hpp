@@ -50,6 +50,8 @@ class ImageTrain{
   std::vector<float> train(float * data, float * label);
   std::vector<float> predict(float * data, float * label);
   std::vector<float> predict(float * data);
+  std::vector<float> extractLayer(float * image_data, const char * output_key);
+  const char * listAllLayers();
 
  private:
   int width, height, channels;

@@ -7,10 +7,10 @@ import tarfile
 
 import numpy
 from six.moves import xrange  # pylint: disable=redefined-builtin
+from six.moves import cPickle
 
 from tensorflow.contrib.learn.python.learn.datasets import base
 from tensorflow.python.framework import dtypes
-import cPickle
 import numpy as np
 
 

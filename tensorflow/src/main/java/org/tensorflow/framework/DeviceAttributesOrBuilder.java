@@ -8,10 +8,18 @@ public interface DeviceAttributesOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
+   * <pre>
+   * Fully specified name of the device within a cluster.
+   * </pre>
+   *
    * <code>optional string name = 1;</code>
    */
   java.lang.String getName();
   /**
+   * <pre>
+   * Fully specified name of the device within a cluster.
+   * </pre>
+   *
    * <code>optional string name = 1;</code>
    */
   com.google.protobuf.ByteString
@@ -45,13 +53,32 @@ public interface DeviceAttributesOrBuilder extends
   long getMemoryLimit();
 
   /**
-   * <code>optional .tensorflow.BusAdjacency bus_adjacency = 5;</code>
+   * <pre>
+   * Platform-specific data about device that may be useful
+   * for supporting efficient data transfers.
+   * </pre>
+   *
+   * <code>optional .tensorflow.DeviceLocality locality = 5;</code>
    */
-  int getBusAdjacencyValue();
+  boolean hasLocality();
   /**
-   * <code>optional .tensorflow.BusAdjacency bus_adjacency = 5;</code>
+   * <pre>
+   * Platform-specific data about device that may be useful
+   * for supporting efficient data transfers.
+   * </pre>
+   *
+   * <code>optional .tensorflow.DeviceLocality locality = 5;</code>
    */
-  org.tensorflow.framework.BusAdjacency getBusAdjacency();
+  org.tensorflow.framework.DeviceLocality getLocality();
+  /**
+   * <pre>
+   * Platform-specific data about device that may be useful
+   * for supporting efficient data transfers.
+   * </pre>
+   *
+   * <code>optional .tensorflow.DeviceLocality locality = 5;</code>
+   */
+  org.tensorflow.framework.DeviceLocalityOrBuilder getLocalityOrBuilder();
 
   /**
    * <pre>

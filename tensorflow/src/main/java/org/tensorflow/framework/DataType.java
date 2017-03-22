@@ -4,6 +4,10 @@
 package org.tensorflow.framework;
 
 /**
+ * <pre>
+ * LINT.IfChange
+ * </pre>
+ *
  * Protobuf enum {@code tensorflow.DataType}
  */
 public enum DataType
@@ -131,6 +135,10 @@ public enum DataType
    */
   DT_HALF(19),
   /**
+   * <code>DT_RESOURCE = 20;</code>
+   */
+  DT_RESOURCE(20),
+  /**
    * <pre>
    * Do not use!  These are only for parameters.  Every enum above
    * should have a corresponding value below (verified by types_test).
@@ -211,6 +219,10 @@ public enum DataType
    * <code>DT_HALF_REF = 119;</code>
    */
   DT_HALF_REF(119),
+  /**
+   * <code>DT_RESOURCE_REF = 120;</code>
+   */
+  DT_RESOURCE_REF(120),
   UNRECOGNIZED(-1),
   ;
 
@@ -337,6 +349,10 @@ public enum DataType
    */
   public static final int DT_HALF_VALUE = 19;
   /**
+   * <code>DT_RESOURCE = 20;</code>
+   */
+  public static final int DT_RESOURCE_VALUE = 20;
+  /**
    * <pre>
    * Do not use!  These are only for parameters.  Every enum above
    * should have a corresponding value below (verified by types_test).
@@ -417,6 +433,10 @@ public enum DataType
    * <code>DT_HALF_REF = 119;</code>
    */
   public static final int DT_HALF_REF_VALUE = 119;
+  /**
+   * <code>DT_RESOURCE_REF = 120;</code>
+   */
+  public static final int DT_RESOURCE_REF_VALUE = 120;
 
 
   public final int getNumber() {
@@ -457,6 +477,7 @@ public enum DataType
       case 17: return DT_UINT16;
       case 18: return DT_COMPLEX128;
       case 19: return DT_HALF;
+      case 20: return DT_RESOURCE;
       case 101: return DT_FLOAT_REF;
       case 102: return DT_DOUBLE_REF;
       case 103: return DT_INT32_REF;
@@ -476,6 +497,7 @@ public enum DataType
       case 117: return DT_UINT16_REF;
       case 118: return DT_COMPLEX128_REF;
       case 119: return DT_HALF_REF;
+      case 120: return DT_RESOURCE_REF;
       default: return null;
     }
   }

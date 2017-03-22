@@ -25,6 +25,7 @@ public  final class SaverDef extends
     maxToKeep_ = 0;
     sharded_ = false;
     keepCheckpointEveryNHours_ = 0F;
+    version_ = 0;
   }
 
   @java.lang.Override
@@ -85,6 +86,12 @@ public  final class SaverDef extends
             keepCheckpointEveryNHours_ = input.readFloat();
             break;
           }
+          case 56: {
+            int rawValue = input.readEnum();
+
+            version_ = rawValue;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -106,6 +113,144 @@ public  final class SaverDef extends
     return org.tensorflow.util.SaverProtos.internal_static_tensorflow_SaverDef_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             org.tensorflow.util.SaverDef.class, org.tensorflow.util.SaverDef.Builder.class);
+  }
+
+  /**
+   * <pre>
+   * A version number that identifies a different on-disk checkpoint format.
+   * Usually, each subclass of BaseSaverBuilder works with a particular
+   * version/format.  However, it is possible that the same builder may be
+   * upgraded to support a newer checkpoint format in the future.
+   * </pre>
+   *
+   * Protobuf enum {@code tensorflow.SaverDef.CheckpointFormatVersion}
+   */
+  public enum CheckpointFormatVersion
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <pre>
+     * Internal legacy format.
+     * </pre>
+     *
+     * <code>LEGACY = 0;</code>
+     */
+    LEGACY(0),
+    /**
+     * <pre>
+     * Current format: tf.Saver() which works with tensorflow::table::Table.
+     * </pre>
+     *
+     * <code>V1 = 1;</code>
+     */
+    V1(1),
+    /**
+     * <pre>
+     * Experimental format under development.
+     * </pre>
+     *
+     * <code>V2 = 2;</code>
+     */
+    V2(2),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <pre>
+     * Internal legacy format.
+     * </pre>
+     *
+     * <code>LEGACY = 0;</code>
+     */
+    public static final int LEGACY_VALUE = 0;
+    /**
+     * <pre>
+     * Current format: tf.Saver() which works with tensorflow::table::Table.
+     * </pre>
+     *
+     * <code>V1 = 1;</code>
+     */
+    public static final int V1_VALUE = 1;
+    /**
+     * <pre>
+     * Experimental format under development.
+     * </pre>
+     *
+     * <code>V2 = 2;</code>
+     */
+    public static final int V2_VALUE = 2;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static CheckpointFormatVersion valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static CheckpointFormatVersion forNumber(int value) {
+      switch (value) {
+        case 0: return LEGACY;
+        case 1: return V1;
+        case 2: return V2;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<CheckpointFormatVersion>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        CheckpointFormatVersion> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<CheckpointFormatVersion>() {
+            public CheckpointFormatVersion findValueByNumber(int number) {
+              return CheckpointFormatVersion.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return org.tensorflow.util.SaverDef.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final CheckpointFormatVersion[] VALUES = values();
+
+    public static CheckpointFormatVersion valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private CheckpointFormatVersion(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:tensorflow.SaverDef.CheckpointFormatVersion)
   }
 
   public static final int FILENAME_TENSOR_NAME_FIELD_NUMBER = 1;
@@ -278,6 +423,22 @@ public  final class SaverDef extends
     return keepCheckpointEveryNHours_;
   }
 
+  public static final int VERSION_FIELD_NUMBER = 7;
+  private int version_;
+  /**
+   * <code>optional .tensorflow.SaverDef.CheckpointFormatVersion version = 7;</code>
+   */
+  public int getVersionValue() {
+    return version_;
+  }
+  /**
+   * <code>optional .tensorflow.SaverDef.CheckpointFormatVersion version = 7;</code>
+   */
+  public org.tensorflow.util.SaverDef.CheckpointFormatVersion getVersion() {
+    org.tensorflow.util.SaverDef.CheckpointFormatVersion result = org.tensorflow.util.SaverDef.CheckpointFormatVersion.valueOf(version_);
+    return result == null ? org.tensorflow.util.SaverDef.CheckpointFormatVersion.UNRECOGNIZED : result;
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -308,6 +469,9 @@ public  final class SaverDef extends
     if (keepCheckpointEveryNHours_ != 0F) {
       output.writeFloat(6, keepCheckpointEveryNHours_);
     }
+    if (version_ != org.tensorflow.util.SaverDef.CheckpointFormatVersion.LEGACY.getNumber()) {
+      output.writeEnum(7, version_);
+    }
   }
 
   public int getSerializedSize() {
@@ -335,6 +499,10 @@ public  final class SaverDef extends
     if (keepCheckpointEveryNHours_ != 0F) {
       size += com.google.protobuf.CodedOutputStream
         .computeFloatSize(6, keepCheckpointEveryNHours_);
+    }
+    if (version_ != org.tensorflow.util.SaverDef.CheckpointFormatVersion.LEGACY.getNumber()) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(7, version_);
     }
     memoizedSize = size;
     return size;
@@ -366,6 +534,7 @@ public  final class SaverDef extends
         java.lang.Float.floatToIntBits(getKeepCheckpointEveryNHours())
         == java.lang.Float.floatToIntBits(
             other.getKeepCheckpointEveryNHours()));
+    result = result && version_ == other.version_;
     return result;
   }
 
@@ -390,6 +559,8 @@ public  final class SaverDef extends
     hash = (37 * hash) + KEEP_CHECKPOINT_EVERY_N_HOURS_FIELD_NUMBER;
     hash = (53 * hash) + java.lang.Float.floatToIntBits(
         getKeepCheckpointEveryNHours());
+    hash = (37 * hash) + VERSION_FIELD_NUMBER;
+    hash = (53 * hash) + version_;
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -524,6 +695,8 @@ public  final class SaverDef extends
 
       keepCheckpointEveryNHours_ = 0F;
 
+      version_ = 0;
+
       return this;
     }
 
@@ -552,6 +725,7 @@ public  final class SaverDef extends
       result.maxToKeep_ = maxToKeep_;
       result.sharded_ = sharded_;
       result.keepCheckpointEveryNHours_ = keepCheckpointEveryNHours_;
+      result.version_ = version_;
       onBuilt();
       return result;
     }
@@ -613,6 +787,9 @@ public  final class SaverDef extends
       }
       if (other.getKeepCheckpointEveryNHours() != 0F) {
         setKeepCheckpointEveryNHours(other.getKeepCheckpointEveryNHours());
+      }
+      if (other.version_ != 0) {
+        setVersionValue(other.getVersionValue());
       }
       onChanged();
       return this;
@@ -1031,6 +1208,50 @@ public  final class SaverDef extends
     public Builder clearKeepCheckpointEveryNHours() {
       
       keepCheckpointEveryNHours_ = 0F;
+      onChanged();
+      return this;
+    }
+
+    private int version_ = 0;
+    /**
+     * <code>optional .tensorflow.SaverDef.CheckpointFormatVersion version = 7;</code>
+     */
+    public int getVersionValue() {
+      return version_;
+    }
+    /**
+     * <code>optional .tensorflow.SaverDef.CheckpointFormatVersion version = 7;</code>
+     */
+    public Builder setVersionValue(int value) {
+      version_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .tensorflow.SaverDef.CheckpointFormatVersion version = 7;</code>
+     */
+    public org.tensorflow.util.SaverDef.CheckpointFormatVersion getVersion() {
+      org.tensorflow.util.SaverDef.CheckpointFormatVersion result = org.tensorflow.util.SaverDef.CheckpointFormatVersion.valueOf(version_);
+      return result == null ? org.tensorflow.util.SaverDef.CheckpointFormatVersion.UNRECOGNIZED : result;
+    }
+    /**
+     * <code>optional .tensorflow.SaverDef.CheckpointFormatVersion version = 7;</code>
+     */
+    public Builder setVersion(org.tensorflow.util.SaverDef.CheckpointFormatVersion value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      
+      version_ = value.getNumber();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional .tensorflow.SaverDef.CheckpointFormatVersion version = 7;</code>
+     */
+    public Builder clearVersion() {
+      
+      version_ = 0;
       onChanged();
       return this;
     }

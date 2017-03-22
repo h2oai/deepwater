@@ -28,7 +28,7 @@ task signAll(type : Sign) {
     // Sign additional artifacts
     sign configurations.toPublish
     // Sign only in case of release
-    required = true //project.ext.isRelease || project.hasProperty("doSignAll")
+    required = project.ext.isRelease || project.hasProperty("doSignAll")
 }
 
 //

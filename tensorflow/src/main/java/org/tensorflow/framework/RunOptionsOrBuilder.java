@@ -36,45 +36,36 @@ public interface RunOptionsOrBuilder extends
 
   /**
    * <pre>
-   * Debugging options
+   * Whether the partition graph(s) executed by the executor(s) should be
+   * outputted via RunMetadata.
    * </pre>
    *
-   * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
+   * <code>optional bool output_partition_graphs = 5;</code>
    */
-  java.util.List<org.tensorflow.framework.DebugTensorWatch> 
-      getDebugTensorWatchOptsList();
+  boolean getOutputPartitionGraphs();
+
   /**
    * <pre>
-   * Debugging options
+   * EXPERIMENTAL.  Options used to initialize DebuggerState, if enabled.
    * </pre>
    *
-   * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
+   * <code>optional .tensorflow.DebugOptions debug_options = 6;</code>
    */
-  org.tensorflow.framework.DebugTensorWatch getDebugTensorWatchOpts(int index);
+  boolean hasDebugOptions();
   /**
    * <pre>
-   * Debugging options
+   * EXPERIMENTAL.  Options used to initialize DebuggerState, if enabled.
    * </pre>
    *
-   * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
+   * <code>optional .tensorflow.DebugOptions debug_options = 6;</code>
    */
-  int getDebugTensorWatchOptsCount();
+  org.tensorflow.framework.DebugOptions getDebugOptions();
   /**
    * <pre>
-   * Debugging options
+   * EXPERIMENTAL.  Options used to initialize DebuggerState, if enabled.
    * </pre>
    *
-   * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
+   * <code>optional .tensorflow.DebugOptions debug_options = 6;</code>
    */
-  java.util.List<? extends org.tensorflow.framework.DebugTensorWatchOrBuilder> 
-      getDebugTensorWatchOptsOrBuilderList();
-  /**
-   * <pre>
-   * Debugging options
-   * </pre>
-   *
-   * <code>repeated .tensorflow.DebugTensorWatch debug_tensor_watch_opts = 4;</code>
-   */
-  org.tensorflow.framework.DebugTensorWatchOrBuilder getDebugTensorWatchOptsOrBuilder(
-      int index);
+  org.tensorflow.framework.DebugOptionsOrBuilder getDebugOptionsOrBuilder();
 }

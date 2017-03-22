@@ -13,9 +13,9 @@ public class MXNetBackend implements BackendTrain {
   static private class MXNetLoader {
     static { //only load libraries once
       try {
-        final boolean GPU = System.getenv("CUDA_PATH") != null;
+        final boolean GPU = System.getenv("CUDA_PATH") != null || System.getenv("CUDA_HOME") != null;
         if (GPU) {
-          System.out.println("Found CUDA_PATH environment variable, trying to connect to GPU devices.");
+          System.out.println("Found CUDA_HOME or CUDA_PATH environment variable, trying to connect to GPU devices.");
           //System.out.println(logNvidiaStats());
           System.out.println("Loading CUDA library.");
           util.loadCudaLib();
@@ -52,7 +52,7 @@ public class MXNetBackend implements BackendTrain {
     assert(bparms!=null);
     System.out.println("Constructing model.");
     MXNetBackendModel mxnet = new MXNetBackendModel(dataset.getWidth(), dataset.getHeight(), dataset.getChannels(),
-        opts.getDeviceID()[0], (int)opts.getSeed(), opts.useGPU());
+            opts.getDeviceID()[0], (int)opts.getSeed(), opts.useGPU());
     System.out.println("Done constructing model.");
 
     if (bparms.get("clip_gradient") != null)
@@ -62,14 +62,14 @@ public class MXNetBackend implements BackendTrain {
       mxnet.buildNet(num_classes, ((Integer) bparms.get("mini_batch_size")).intValue(), name);
     } else {
       mxnet.buildNet(
-          num_classes,
-          ((Integer) bparms.get("mini_batch_size")).intValue(),
-          name,
-          ((int[]) bparms.get("hidden")).length,
-          (int[]) bparms.get("hidden"),
-          (String[]) bparms.get("activations"),
-          ((Double) bparms.get("input_dropout_ratio")).doubleValue(),
-          (double[]) bparms.get("hidden_dropout_ratios")
+              num_classes,
+              ((Integer) bparms.get("mini_batch_size")).intValue(),
+              name,
+              ((int[]) bparms.get("hidden")).length,
+              (int[]) bparms.get("hidden"),
+              (String[]) bparms.get("activations"),
+              ((Double) bparms.get("input_dropout_ratio")).doubleValue(),
+              (double[]) bparms.get("hidden_dropout_ratios")
       );
     }
     System.out.println("Done building network.");
@@ -91,17 +91,23 @@ public class MXNetBackend implements BackendTrain {
 
   @Override
   public float[] train(BackendModel m, float[] data, float[] label) {
-    return get(m).train(data, label);
-  }
-
-  @Override
-  public float[] predict(BackendModel m, float[] data, float[] label) {
-    return get(m).predict(data, label);
+    get(m).train(data, label);
+    return null;
   }
 
   @Override
   public float[] predict(BackendModel m, float[] data) {
     return get(m).predict(data);
+  }
+
+  @Override
+  public float[] extractLayer(BackendModel m, String name, float[] data) {
+    return get(m).extractLayer(data, name);
+  }
+
+  @Override
+  public String listAllLayers(BackendModel m) {
+    return get(m).listAllLayers();
   }
 
   @Override
@@ -122,13 +128,47 @@ public class MXNetBackend implements BackendTrain {
   }
 
   @Override
+  public void writeBytes(File file, byte[] payload) throws IOException {
+    FileOutputStream os = new FileOutputStream(file.toString());
+    os.write(payload);
+    os.close();
+  }
+
+  @Override
+  public byte[] readBytes(File file) throws IOException {
+    FileInputStream is = new FileInputStream(file);
+    byte[] params = new byte[(int) file.length()];
+    is.read(params);
+    is.close();
+    return params;
+  }
+
+  @Override
   public void saveModel(BackendModel m, String model_path) {
     get(m).saveModel(model_path);
   }
 
   @Override
+  public void deleteSavedModel(String model_path) {
+    try {
+      new File(model_path).delete();
+    } catch (SecurityException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
   public void saveParam(BackendModel m, String param_path) {
     get(m).saveParam(param_path);
+  }
+
+  @Override
+  public void deleteSavedParam(String param_path) {
+    try {
+      new File(param_path).delete();
+    } catch (SecurityException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override

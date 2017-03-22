@@ -1,15 +1,5 @@
 import tensorflow as tf
 
-print(tf.__version__)
-
-if tf.__version__ < (0,13):
-    tf.summary.scalar = tf.scalar_summary
-    tf.summary.histogram = tf.histogram_summary
-    tf.summary.merge_all = tf.merge_all_summaries
-    tf.global_variables_initializer = tf.initialize_all_variables
-    tf.summary.FileWriter = tf.train.SummaryWriter
-
-
 class ImageClassificationTrainStrategy(object):
     """
     Wraps a image classification model and adds training operations.
@@ -17,33 +7,56 @@ class ImageClassificationTrainStrategy(object):
 
     """
 
-    def __init__(self, graph, model, optimizer, add_summaries=True):
+    def __init__(self, graph, model, optimizer, batch_size, weight_decay=0.0, add_summaries=False):
         self._graph = graph
         self._model = model
         self._labels = labels = tf.placeholder(tf.float32,
                                                [None, model.number_of_classes])
+
+        self._batch_size = batch_size
+
         logits = model.logits
 
-        self._loss = tf.reduce_mean(
-            tf.nn.softmax_cross_entropy_with_logits(logits, labels))
+        self._l2_loss = None
 
-        a = tf.argmax(model.predictions, 1) 
+        # weight regularization
+        trainable_vars = tf.trainable_variables()
+        if weight_decay > 0.0:
+            l2 = tf.contrib.layers.l2_regularizer(weight_decay)
+            self._l2_loss = tf.add_n([l2(v) for v in trainable_vars
+                                      if 'bias' not in v.name])
+
+        # Classification model
+        if model.number_of_classes > 1:
+            if weight_decay > 0.0:
+                self._loss = tf.reduce_mean(
+                    tf.nn.softmax_cross_entropy_with_logits(labels=labels,
+                                                            logits=logits) + self._l2_loss)
+            else:
+                self._loss = tf.reduce_mean(
+                    tf.nn.softmax_cross_entropy_with_logits(labels=labels,
+                                                            logits=logits))
+        # Regression model
+        else:
+            if weight_decay > 0.0:
+                # Add weight decay
+                self._loss = tf.losses.mean_squared_error(labels, logits) + self._l2_loss
+            else:
+                self._loss = tf.losses.mean_squared_error(labels, logits)
+
+        a = tf.argmax(model.predictions, 1)
         b = tf.argmax(self._labels, 1)
         correct_predictions = tf.equal(a, b)
         wrong_predictions = tf.not_equal(a, b)
 
         self._accuracy = tf.reduce_mean(tf.cast(correct_predictions,
-            tf.float32))
+                                                tf.float32))
+
         self._error = tf.reduce_mean(tf.cast(wrong_predictions,
-            tf.float32))
+                                             tf.float32))
 
         self._optimizer = optimizer
         self._optimizer.apply(self._loss)
-
-        max_norm_constraint = False 
-        if max_norm_constraint:
-            for _, var in self._optimizer.grads_and_vars:
-                var.assign(tf.clip_by_norm(var, 2.0))
 
         if add_summaries:
             self._add_summaries()
@@ -122,6 +135,10 @@ class ImageClassificationTrainStrategy(object):
         """
         return self._graph
 
+    @property
+    def batch_size(self):
+        return self._batch_size
+
     def _add_summaries(self):
         tf.summary.scalar("loss", self.loss)
 
@@ -132,49 +149,12 @@ class ImageClassificationTrainStrategy(object):
     def _add_variable_summaries(self, var, name):
         """Attach summaries to a Tensor."""
         with tf.name_scope('summaries'):
-            mean = tf.reduce_mean(var)
-            tf.summary.scalar('mean/' + name, mean)
-            with tf.name_scope('stddev'):
-                stddev = tf.sqrt(tf.reduce_mean(tf.square(var - mean)))
-            tf.summary.scalar('sttdev/' + name, stddev)
-            tf.summary.scalar('max/' + name, tf.reduce_max(var))
-            tf.summary.scalar('min/' + name, tf.reduce_min(var))
-            tf.summary.histogram(name, var)
-
-
-def deepwater_image_classification_model(
-        x, y, logits, loss, accuracy, optimizer):
-    # This is required by the h2o tensorflow backend
-
-    # train
-    grads = tf.gradients(loss, tf.trainable_variables())
-    grads = list(zip(grads, tf.trainable_variables()))
-
-    train_op = optimizer.apply_gradients(grads_and_vars=grads)
-    global_step = tf.Variable(0, name="global_step", trainable=False)
-
-    tf.summary.scalar("loss", loss)
-    tf.summary.scalar("accuracy", accuracy)
-
-    for var in tf.trainable_variables():
-        tf.histogram_summary(var.name, var)
-
-    summary_op = tf.summary.merge()
-
-    tf.add_to_collection("train", train_op)
-    tf.add_to_collection("summary", summary_op)
-
-    tf.add_to_collection("logits", y)
-    saver = tf.train.Saver()
-    init = tf.global_variables_initializer()
-    tf.add_to_collection("init", init.name)
-
-    meta = json.dumps({
-        "inputs": {"batch_image_input": x.name, "categorical_labels": y.name},
-        "outputs": {"categorical_logits": logits.name},
-        "metrics": {"accuracy": accuracy.name, "total_loss": loss.name},
-        "parameters": {"global_step": global_step.name},
-    })
-    tf.add_to_collection("meta", meta)
-
-    return tf.train.export_meta_graph(saver_def=saver.as_saver_def())
+            # mean = tf.reduce_mean(var)
+            # tf.summary.scalar('mean/' + name, mean)
+            # with tf.name_scope('stddev'):
+            #     stddev = tf.sqrt(tf.reduce_mean(tf.square(var - mean)))
+            # tf.summary.scalar('sttdev/' + name, stddev)
+            # tf.summary.scalar('max/' + name, tf.reduce_max(var))
+            # tf.summary.scalar('min/' + name, tf.reduce_min(var))
+            name = name.replace(":", "_")
+            # tf.summary.histogram(name, var)

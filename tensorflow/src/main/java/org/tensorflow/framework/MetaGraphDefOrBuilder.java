@@ -187,4 +187,48 @@ public interface MetaGraphDefOrBuilder extends
 
   org.tensorflow.framework.SignatureDef getSignatureDefOrThrow(
       java.lang.String key);
+
+  /**
+   * <pre>
+   * Asset file def to be used with the defined graph.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+   */
+  java.util.List<org.tensorflow.framework.AssetFileDef> 
+      getAssetFileDefList();
+  /**
+   * <pre>
+   * Asset file def to be used with the defined graph.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+   */
+  org.tensorflow.framework.AssetFileDef getAssetFileDef(int index);
+  /**
+   * <pre>
+   * Asset file def to be used with the defined graph.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+   */
+  int getAssetFileDefCount();
+  /**
+   * <pre>
+   * Asset file def to be used with the defined graph.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+   */
+  java.util.List<? extends org.tensorflow.framework.AssetFileDefOrBuilder> 
+      getAssetFileDefOrBuilderList();
+  /**
+   * <pre>
+   * Asset file def to be used with the defined graph.
+   * </pre>
+   *
+   * <code>repeated .tensorflow.AssetFileDef asset_file_def = 6;</code>
+   */
+  org.tensorflow.framework.AssetFileDefOrBuilder getAssetFileDefOrBuilder(
+      int index);
 }

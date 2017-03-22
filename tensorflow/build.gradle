@@ -6,6 +6,9 @@ apply plugin: 'maven'
 
 repositories {
     mavenCentral()
+    flatDir {
+      dirs "${rootDir}/tensorflow/lib"
+    }
 }
 
 sourceSets {
@@ -18,20 +21,9 @@ sourceSets {
 
 dependencies {
 
-    def presets = "${rootDir}/thirdparty/javacpp-presets"
-
-    compile files("${presets}/target/javacpp.jar")
-    compile files("${presets}/tensorflow/target/tensorflow.jar")
-
-    if (new File("${presets}/tensorflow/target/tensorflow-linux-x86_64.jar").exists()) {
-        compile files("${presets}/tensorflow/target/tensorflow-linux-x86_64.jar")
-    }
-    else if (new File("${presets}/tensorflow/target/tensorflow-macosx-x86_64.jar").exists()) {
-        compile files("${presets}/tensorflow/target/tensorflow-macosx-x86_64.jar")
-    }
-
+    compile files ("lib/org/tensorflow/libtensorflow/1.0.1/libtensorflow-1.0.1.jar")
     compile project (':deepwater-backend-api')
-    compile "com.google.protobuf:protobuf-java:3.1.0"
+    compile "com.google.protobuf:protobuf-java:3.2.0"
     compile 'com.google.guava:guava:19.0'
 
     compile 'io.grpc:grpc-netty:1.0.1'
@@ -53,6 +45,8 @@ dependencies {
 
 jar {
     baseName = rootProject.name + "." + project.name
+
+    from ("lib/") { include '*.so' }
 
     // include also the sources for easy debugging
     from sourceSets.main.allSource
@@ -77,3 +71,15 @@ artifacts {
     archives javadocJar
 }
 
+task tensorflowCompile(type: Exec) {
+    commandLine "bash", "cppbuild.sh", "install", "tensorflow"
+    workingDir "$rootDir/thirdparty"
+}
+
+//compileJava.dependsOn(tensorflowCompile)
+
+task tensorflowClean(type: Exec) {
+    commandLine "rm", "-fr", "$rootDir/thirdparty/tensorflow/cppbuild/*"
+    workingDir "$rootDir/thirdparty"
+}
+clean.dependsOn(tensorflowClean)
