@@ -113,7 +113,9 @@ def export_linear_model_graph(model_class):
             # export_train_graph(model_class,
             #                    optimizers.RMSPropOptimizer, linear, 1, 1, class_n)
             export_train_graph(model_class,
-                               optimizers.MomentumOptimizer, linear, 1, 1, class_n)
+                               # optimizers.MomentumOptimizer,
+                               optimizers.AdamOptimizer,
+                               linear, 1, 1, class_n)
 
 
 def export_image_classifier_model_graph(model_class):
@@ -126,7 +128,9 @@ def export_image_classifier_model_graph(model_class):
         for ch in channels:
             for class_n in classes:
                 export_train_graph(model_class,
-                                   optimizers.MomentumOptimizer, h, w, ch, class_n)
+                                   # optimizers.MomentumOptimizer,
+                                   optimizers.AdamOptimizer,
+                                   h, w, ch, class_n)
 
 
 if __name__ == "__main__":
