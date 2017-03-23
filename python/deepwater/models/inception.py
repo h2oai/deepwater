@@ -32,7 +32,7 @@ def inception7B(out, num_3x3, num_d3x3_red, num_d3x3_1, num_d3x3_2):
     out2 = conv3x3(out2, num_d3x3_1, batch_norm = use_batch_norm)
     out2 = conv3x3(out2, num_d3x3_2, stride=2, padding="VALID", batch_norm = use_batch_norm)
 
-    out3 = avg_pool_3x3(out, stride=2, padding="VALID")
+    out3 = max_pool_3x3(out, stride=2, padding="VALID")
 
     return concat(3, [out1, out2, out3])
 
@@ -63,11 +63,11 @@ def inception7D(out, num_3x3_red, num_3x3, num_d7_3x3_red, num_d7_1, num_d7_2, n
     out2 = conv7x1(out2, num_d7_2, batch_norm = use_batch_norm)
     out2 = conv3x3(out2, num_d7_3x3, stride=2, batch_norm = use_batch_norm)
 
-    out3 = avg_pool_3x3(out, stride=2)
+    out3 = max_pool_3x3(out, stride=2)
 
     return concat(3, [out1, out2, out3])
 
-def inception7E(out, num_1x1, num_d3_red, num_d3_1, num_d3_2, num_3x3_d3_red, num_3x3, num_3x3_d3_1, num_3x3_d3_2, proj):
+def inception7E(out, num_1x1, num_d3_red, num_d3_1, num_d3_2, num_3x3_d3_red, num_3x3, num_3x3_d3_1, num_3x3_d3_2, proj, pool_3x3):
     out1 = conv1x1(out, num_1x1, batch_norm = use_batch_norm)
 
     out2 = conv1x1(out, num_d3_red, batch_norm = use_batch_norm)
@@ -79,7 +79,7 @@ def inception7E(out, num_1x1, num_d3_red, num_d3_1, num_d3_2, num_3x3_d3_red, nu
     out3_1 = conv1x3(out3, num_3x3_d3_1, batch_norm = use_batch_norm)
     out3_2 = conv3x3(out3, num_3x3_d3_2, batch_norm = use_batch_norm)
 
-    out4 = avg_pool_3x3(out)
+    out4 = pool_3x3(out, stride=1)
     out4 = conv1x1(out4, proj, batch_norm = use_batch_norm)
 
     return concat(3, [out1, out2_1, out2_2, out3_1, out3_2, out4])
@@ -132,8 +132,8 @@ class InceptionV3(BaseImageClassificationModel):
         out = inception7D(out, 192, 320, 192, 192, 192, 192)
 
         # Stage 5
-        out = inception7E(out, 320, 384, 384, 384, 448, 384, 384, 384, 192)
-        out = inception7E(out, 320, 384, 384, 384, 448, 384, 384, 384, 192)
+        out = inception7E(out, 320, 384, 384, 384, 448, 384, 384, 384, 192, avg_pool_3x3)
+        out = inception7E(out, 320, 384, 384, 384, 448, 384, 384, 384, 192, max_pool_3x3)
 
         out = tf.nn.avg_pool(out, ksize=[1, 8, 8, 1], strides=[1, 1, 1, 1], padding='SAME')
 
