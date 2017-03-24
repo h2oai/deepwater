@@ -32,10 +32,10 @@ class TestVGG(unittest.TestCase):
 
     def test_vgg_cat_dog_mouse_must_converge(self):
         train_error = cat_dog_mouse_must_converge("vgg16", vgg.VGG16,
-                                                  optimizers.MomentumOptimizer,
+                                                  optimizers.AdamOptimizer,
                                                   batch_size=32,
-                                                  epochs=50,
-                                                  initial_learning_rate=1e-3,
+                                                  epochs=80,
+                                                  initial_learning_rate=1e-4,
                                                   summaries=False)
         self.assertTrue(train_error <= 0.1)
 

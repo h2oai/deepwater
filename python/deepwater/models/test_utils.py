@@ -8,7 +8,7 @@ from datetime import datetime
 import numpy as np
 import math
 
-import scipy.misc
+from scipy.misc import imresize, imread
 
 from deepwater.datasets import cifar
 from deepwater import train
@@ -368,8 +368,8 @@ def cat_dog_mouse_must_converge(name,
         labels_batch = []
 
         for img in images:
-            imread = scipy.misc.imresize(scipy.misc.imread(img), [dim, dim]).reshape(1,dim*dim*3)
-            images_batch.append(imread)
+            imreadi = imresize(imread(img), [dim, dim]).reshape(1,dim*dim*3)
+            images_batch.append(imreadi)
 
         modulus = len(images_batch) % batch_size
 
@@ -378,8 +378,8 @@ def cat_dog_mouse_must_converge(name,
         if modulus != 0:
             i = 0
             while len(images_batch) % batch_size != 0:
-                imread = scipy.misc.imresize(scipy.misc.imread(images[i]), [dim, dim]).reshape(1,dim*dim*3)
-                images_batch.append(imread)
+                imreadi = imresize(imread(images[i]), [dim, dim]).reshape(1,dim*dim*3)
+                images_batch.append(imreadi)
                 i += 1
 
         print(len(images_batch))

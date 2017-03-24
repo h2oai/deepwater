@@ -12,7 +12,7 @@ class TestResnet(unittest.TestCase):
 
     def test_resnet_must_converge_on_MNIST(self):
         MNIST_must_converge("Resnet", resnet.ResNet,
-                            optimizers.RMSPropOptimizer,
+                            optimizers.AdamOptimizer,
                             batch_size=32,
                             epochs=3,
                             initial_learning_rate=0.001,

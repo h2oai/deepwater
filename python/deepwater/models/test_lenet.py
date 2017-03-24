@@ -31,7 +31,7 @@ class TestLenet(unittest.TestCase):
                                                      dim=28)
         self.assertTrue(train_error <= 0.1)
 
-    def test_lenet_cat_dog_mouse_must_converge_224(self):
+    def test_lenet_cat_dog_mouse_must_converge_299(self):
         model = lenet.LeNet
 
         train_error = cat_dog_mouse_must_converge("lenet", model,
@@ -41,7 +41,7 @@ class TestLenet(unittest.TestCase):
                                                   epochs=50,
                                                   initial_learning_rate=1e-3, # rate for new fc
                                                   summaries=True,
-                                                  dim=224)
+                                                  dim=299)
         self.assertTrue(train_error <= 0.1)
 
 if __name__ == "__main__":
