@@ -153,18 +153,18 @@ public class BackendInterfaceTest {
     }
 
     @Test
-    public void testLenetCatDogMouse() throws IOException {
-        backendCanTrainCatDogMouse(28, "lenet", 32, 40, 1e-3f);
+    public void testLenetCatDogMouse28() throws IOException {
+        backendCanTrainCatDogMouse(28, "lenet", 32, 30, 1e-3f);
     }
 
     @Test
-    public void testLenetCatDogMouse224() throws IOException {
-        backendCanTrainCatDogMouse(224, "lenet", 32, 30, 1e-3f);
+    public void testLenetCatDogMouse299() throws IOException {
+        backendCanTrainCatDogMouse(299, "lenet", 32, 30, 1e-4f);
     }
 
     @Test
     public void testInceptionCatDogMouse() throws IOException {
-        backendCanTrainCatDogMouse(224, "inception_bn", 32, 40, 1e-3f);
+        backendCanTrainCatDogMouse(299, "inception_bn", 32, 180, 1e-4f);
     }
 
     @Test
@@ -331,7 +331,7 @@ public class BackendInterfaceTest {
             System.out.printf("epoch %d  ", epoch);
             while (it.next(b)) {
                 backend.train(model, b.getImages(), b.getLabels());
-                computePredictionError(backend, model, b, dataset.getNumClasses());
+//                computePredictionError(backend, model, b, dataset.getNumClasses());
             }
 
             double err = computeCatDogMouseTestError(imageSize, model, batchSize);
