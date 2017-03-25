@@ -11,12 +11,12 @@ The module directory contains a pretrained set of ready to use models.
   - python
   - maven
 
-### Install Bazel 0.4.3
+### Install Bazel 0.4.5 or later
 For Linux:
 
 ```bash
-wget https://github.com/bazelbuild/bazel/releases/download/0.4.3/bazel-0.4.3-installer-linux-x86_64.sh
-sudo bash bazel-0.4.3-installer-linux-x86_64.sh
+wget https://github.com/bazelbuild/bazel/releases/download/0.4.5/bazel-0.4.5-installer-linux-x86_64.sh
+sudo bash bazel-0.4.5-installer-linux-x86_64.sh
 exit
 ```
 

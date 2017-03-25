@@ -21,8 +21,8 @@ The downloadable packages below are built for the following system specification
 
 * Ubuntu 16.04 LTS
 * Latest NVIDIA Display driver
-* CUDA 8 (latest available) in /usr/local/cuda
-* CUDNN 5.1 (placed inside of lib and include directories in /usr/local/cuda/)
+* CUDA 8.0.44 or later (we recommend the latest version) in /usr/local/cuda
+* CUDNN 5.1 or later (placed inside of lib and include directories in /usr/local/cuda/)
 
 To use the GPU, please set the following environment variables:
 ```
