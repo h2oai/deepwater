@@ -45,6 +45,10 @@ public class TensorflowModel implements BackendModel {
         return graph;
     }
 
+    public void setGraph(Graph g) {
+        this.graph = g;
+    }
+
     public Session getSession() {
         return session;
     }

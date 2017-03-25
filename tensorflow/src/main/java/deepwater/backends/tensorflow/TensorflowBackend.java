@@ -38,6 +38,8 @@ public class TensorflowBackend implements BackendTrain {
         TensorflowModel model = (TensorflowModel) m;
         model.getSession().close();
         model.setSession(null);
+        model.getGraph().close();
+        model.setGraph(null);
     }
 
     @Override
