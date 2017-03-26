@@ -33,8 +33,8 @@ public class MXNetBackend implements BackendTrain {
         throw new IllegalArgumentException("Couldn't load native libraries");
       } finally {
         // delete only after files are loaded, as the latter depends on the former
-        new File(s1).delete();
-        new File(s2).delete();
+        if (s1!=null) new File(s1).delete();
+        if (s2!=null) new File(s2).delete();
       }
     }
   }

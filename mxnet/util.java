@@ -15,7 +15,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Map;
 import java.util.Locale;
 import java.nio.file.Paths;
-import java.util.UUID;
+//import java.util.UUID;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 import static java.nio.file.FileVisitResult.TERMINATE;
@@ -55,14 +55,14 @@ public final class util {
         System.load(path(cuda_path, "lib64", libName("cudnn")));
     }
 
-    static String uuid = UUID.randomUUID().toString();
+//    static String uuid = UUID.randomUUID().toString();
     public static String extractLibrary(String resourceName) throws IOException {
       String libname = libName(resourceName);
       String tmpdir = System.getProperty("java.io.tmpdir");
       if (tmpdir.isEmpty()){
         tmpdir = Files.createTempDirectory(tmpdir).toString();
       }
-      String target = path(tmpdir,libname) + uuid;
+      String target = path(tmpdir,libname);// + uuid;
       String origin = path("/deepwater/backends/mxnet/",libname);
       InputStream in = util.class.getResourceAsStream(origin);
       checkNotNull(in, "No native lib " + origin + " found in jar. Please check installation!");
