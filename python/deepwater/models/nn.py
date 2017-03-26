@@ -39,6 +39,7 @@ def conv(x, w, h, filters, stride=1, padding="SAME", batch_norm = False, activat
         normalizer_params = {
             'decay': 0.9997,
             'epsilon': 0.001,
+	    'fused': True,
             'updates_collections': tf.GraphKeys.UPDATE_OPS,
             'variables_collections': {
                 'beta': None,

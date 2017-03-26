@@ -6,7 +6,7 @@ from deepwater.models.utils import concat
 from deepwater.models.nn import max_pool_3x3, fc
 from deepwater.models.nn import conv5x5, conv3x3, conv1x1, conv1x7, conv7x1, conv1x3, conv3x1, conv
 
-use_batch_norm = False
+use_batch_norm = True 
 
 #================================= INCEPTION V3 =================================
 
