@@ -299,10 +299,10 @@ public class TensorflowBackend implements BackendTrain {
     }
 
     private static File[] listFilesWithPrefix(File dir, String prefix){
-        assert dir.exists(): "directory:"+dir+" does not exists";
+        assert dir.exists(): "directory: "+dir+" does not exist.";
         File[] foundFiles = dir.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
-                return name.startsWith(prefix) && !name.equals(prefix);
+                return name.startsWith(prefix); //&& !name.equals(prefix);
             }
         });
         Arrays.sort(foundFiles);
