@@ -1,15 +1,12 @@
 package deepwater.backends.tensorflow;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.UUID;
 
 public final class LibraryLoader {
 
@@ -46,7 +43,7 @@ public final class LibraryLoader {
 
     public static String libName(String name){
         String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
-        
+
         String lib_suffix = "";
 
         if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
@@ -60,42 +57,40 @@ public final class LibraryLoader {
         return "lib" + name + "." + lib_suffix;
     }
 
+    static String uuid = UUID.randomUUID().toString();
     public static String extractLibrary(String resourceName) throws IOException {
-
         String libname = libName(resourceName);
-
         String tmpdir = System.getProperty("java.io.tmpdir");
         if (tmpdir.isEmpty()){
             tmpdir = Files.createTempDirectory(tmpdir).toString();
         }
-        String target = path(tmpdir,libname);
-        if (Files.exists(Paths.get(target))) {
-            Files.delete(Paths.get(target));
-        }
-
+        String target = path(tmpdir,libname) + uuid;
         InputStream in = LibraryLoader.class.getClassLoader().getResourceAsStream(libname);
-        checkNotNull(in,"No native lib " + libname + " found in jar. Please check installation!");
+        checkNotNull(in, "No native lib " + libname + " found in jar. Please check installation!");
 
         OutputStream out = new FileOutputStream(target);
-        checkNotNull(out,"could not create file");
+        checkNotNull(out, "could not create file");
         try {
-            addLibraryPath(tmpdir);
+          addLibraryPath(tmpdir);
         } catch (Exception e) {
-            e.printStackTrace();
+          e.printStackTrace();
         }
         copy(in, out);
+        assert Files.exists(Paths.get(target));
         return target;
     }
 
     public static void loadNativeLib(String resourceName) throws IOException {
-       try {
-           System.loadLibrary(resourceName);
-       } catch (Error e) {
-            System.out.println("current java.library.path:" + System.getProperty("java.library.path"));
-            extractLibrary(resourceName);
-            System.loadLibrary(resourceName);
-            System.out.printf("loaded lib from %s\n", resourceName);
-        }
+      String f=null;
+      try {
+        f = extractLibrary(resourceName);
+        System.load(f);
+      } catch (Error e) {
+        e.printStackTrace();
+      } finally {
+        if (f!=null)
+          new File(f).delete();
+      }
     }
 
 

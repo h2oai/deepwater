@@ -12,6 +12,8 @@ public class MXNetBackend implements BackendTrain {
 
   static private class MXNetLoader {
     static { //only load libraries once
+      String s1 = null;
+      String s2 = null;
       try {
         final boolean GPU = System.getenv("CUDA_PATH") != null || System.getenv("CUDA_HOME") != null;
         if (GPU) {
@@ -23,12 +25,16 @@ public class MXNetBackend implements BackendTrain {
           System.out.println("No GPU found - not loading CUDA library.");
         }
         System.out.println("Loading mxnet library.");
-        util.loadNativeLib("mxnet");
+        s1 = util.loadNativeLib("mxnet");
         System.out.println("Loading H2O mxnet bindings.");
-        util.loadNativeLib("Native");
+        s2 = util.loadNativeLib("Native");
       } catch (IOException e) {
         e.printStackTrace();
         throw new IllegalArgumentException("Couldn't load native libraries");
+      } finally {
+        // delete only after files are loaded, as the latter depends on the former
+        new File(s1).delete();
+        new File(s2).delete();
       }
     }
   }

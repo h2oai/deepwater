@@ -15,6 +15,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Map;
 import java.util.Locale;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 import static java.nio.file.FileVisitResult.TERMINATE;
@@ -54,31 +55,29 @@ public final class util {
         System.load(path(cuda_path, "lib64", libName("cudnn")));
     }
 
+    static String uuid = UUID.randomUUID().toString();
     public static String extractLibrary(String resourceName) throws IOException {
+      String libname = libName(resourceName);
+      String tmpdir = System.getProperty("java.io.tmpdir");
+      if (tmpdir.isEmpty()){
+        tmpdir = Files.createTempDirectory(tmpdir).toString();
+      }
+      String target = path(tmpdir,libname) + uuid;
+      String origin = path("/deepwater/backends/mxnet/",libname);
+      InputStream in = util.class.getResourceAsStream(origin);
+      checkNotNull(in, "No native lib " + origin + " found in jar. Please check installation!");
 
-        String libname = libName(resourceName);
-        String origin = path("/deepwater/backends/mxnet/",libname);
-
-        String tmpdir = System.getProperty("java.io.tmpdir");
-        if (tmpdir.isEmpty()){
-            tmpdir = "/tmp";
-        }
-        String target = path(tmpdir,libname);
-        if (Files.exists(Paths.get(target))) {
-            Files.delete(Paths.get(target));
-        }
-
-        InputStream in = util.class.getResourceAsStream(origin);
-        checkNotNull(in,"No native lib " + origin + " found in jar. Please check installation!");
-
-        OutputStream out = new FileOutputStream(target);
-        checkNotNull(out,"could not create file");
-        copy(in, out);
-        return target;
+      OutputStream out = new FileOutputStream(target);
+      checkNotNull(out, "could not create file");
+      copy(in, out);
+      assert Files.exists(Paths.get(target));
+      return target;
     }
 
-    public static void loadNativeLib(String resourceName) throws IOException {
-        System.load(extractLibrary(resourceName));
+    public static String loadNativeLib(String resourceName) throws IOException {
+      String f = extractLibrary(resourceName);
+      System.load(f);
+      return f;
     }
 
     public static <T> T checkNotNull(T reference, String msg) {
