@@ -40,6 +40,7 @@ def conv(x, w, h, filters, stride=1, padding="SAME", batch_norm = False, activat
             'decay': 0.9997,
             'epsilon': 0.001,
             'updates_collections': tf.GraphKeys.UPDATE_OPS,
+            'is_training': is_training(),
             'variables_collections': {
                 'beta': None,
                 'gamma': None,
@@ -80,7 +81,20 @@ def constant_initializer(value=0.01):
      return lambda shape, dtype, partition_info: tf.fill(shape, value)
 
 def fc_bn(x, num_outputs):
-    return fc(x, num_outputs, normalizer_fn = tf.contrib.layers.batch_norm, normalizer_params = { 'is_training': is_training() })
+    return fc(x, num_outputs,
+              normalizer_fn = tf.contrib.layers.batch_norm,
+              normalizer_params = {
+                  'decay': 0.9997,
+                  'epsilon': 0.001,
+                  'updates_collections': tf.GraphKeys.UPDATE_OPS,
+                  'is_training': is_training(),
+                  'variables_collections': {
+                      'beta': None,
+                      'gamma': None,
+                      'moving_mean': ['moving_vars'],
+                      'moving_variance': ['moving_vars'],
+                  }
+              })
 
 def fc(x, num_outputs, normalizer_fn = None, normalizer_params = None, activation_fn=None):
     out = tf.contrib.layers.fully_connected(inputs=x, num_outputs=num_outputs,
