@@ -1,5 +1,4 @@
 import tensorflow as tf
-from tensorflow.python.framework import ops
 
 def is_training():
     return tf.get_default_graph().get_tensor_by_name("global_is_training:0")
@@ -38,8 +37,9 @@ def conv(x, w, h, filters, stride=1, padding="SAME", batch_norm = False, activat
     if batch_norm:
         normalizer_fn = tf.contrib.layers.batch_norm
         normalizer_params = {
-	        'fused': True,
-            'updates_collections': ops.GraphKeys.UPDATE_OPS,
+	    'decay':0.9,
+	    'fused': True,
+            'updates_collections': tf.GraphKeys.UPDATE_OPS,
             'is_training': is_training(),
             'variables_collections': {
                 'beta': None,
@@ -80,7 +80,8 @@ def fc_bn(x, num_outputs):
     return fc(x, num_outputs,
               normalizer_fn = tf.contrib.layers.batch_norm,
               normalizer_params = {
-                  'fused': True,
+                  'decay': 0.9,
+		  'fused': True,
                   'updates_collections': tf.GraphKeys.UPDATE_OPS,
                   'is_training': is_training(),
                   'variables_collections': {
