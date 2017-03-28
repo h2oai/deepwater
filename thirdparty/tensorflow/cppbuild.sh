@@ -29,9 +29,9 @@ export PYTHON_PATH=${CONDA_PREFIX-}/lib/python2.7/site-packages
 export USE_DEFAULT_PYTHON_LIB_PATH=1
 
 #TENSORFLOW_VERSION=v1.0.1
-TENSORFLOW_VERSION=master
+TENSORFLOW_VERSION=1.1.0-rc0
 
-download https://github.com/tensorflow/tensorflow/archive/$TENSORFLOW_VERSION.tar.gz tensorflow-$TENSORFLOW_VERSION.tar.gz
+download https://github.com/tensorflow/tensorflow/archive/v$TENSORFLOW_VERSION.tar.gz tensorflow-$TENSORFLOW_VERSION.tar.gz
 
 mkdir -p $PLATFORM
 cd $PLATFORM

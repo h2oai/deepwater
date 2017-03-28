@@ -22,7 +22,7 @@ class TestVGG(unittest.TestCase):
 
     def test_vgg_must_converge_on_MNIST(self):
         MNIST_must_converge("vgg16", vgg.VGG16,
-                              optimizers.MomentumOptimizer,
+                              optimizers.AdamOptimizer,
                               batch_size=16,
                               epochs=3,
                               initial_learning_rate=1e-3,

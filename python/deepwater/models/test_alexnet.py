@@ -20,7 +20,7 @@ class TestAlexnet(unittest.TestCase):
 
     def test_alexnet_cat_dog_mouse_must_converge(self):
         train_error = cat_dog_mouse_must_converge("alexnet", alexnet.AlexNet,
-                            optimizers.MomentumOptimizer,
+                            optimizers.AdamOptimizer,
                             batch_size=32,
                             epochs=80,
                             initial_learning_rate=1e-4,

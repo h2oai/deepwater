@@ -1,4 +1,5 @@
 import tensorflow as tf
+from tensorflow.python.framework import ops
 
 def is_training():
     return tf.get_default_graph().get_tensor_by_name("global_is_training:0")
@@ -37,10 +38,8 @@ def conv(x, w, h, filters, stride=1, padding="SAME", batch_norm = False, activat
     if batch_norm:
         normalizer_fn = tf.contrib.layers.batch_norm
         normalizer_params = {
-            'decay': 0.9997,
-            'epsilon': 0.001,
-	    'fused': True,
-            'updates_collections': tf.GraphKeys.UPDATE_OPS,
+	        'fused': True,
+            'updates_collections': ops.GraphKeys.UPDATE_OPS,
             'is_training': is_training(),
             'variables_collections': {
                 'beta': None,
@@ -52,12 +51,8 @@ def conv(x, w, h, filters, stride=1, padding="SAME", batch_norm = False, activat
 
     out = tf.contrib.layers.convolution2d(inputs=x, num_outputs=filters, kernel_size=[w, h],
                                           stride=stride, padding=padding,
-
                                           weights_initializer=tf.contrib.layers.xavier_initializer_conv2d(),
                                           biases_initializer=constant_initializer(),
-                                          #
-                                          # weights_initializer=tf.contrib.layers.variance_scaling_initializer(factor=2, mode='FAN_IN', uniform=False),
-                                          # biases_initializer=tf.contrib.layers.variance_scaling_initializer(factor=2.34, mode='FAN_IN', uniform=False),
                                           normalizer_fn=normalizer_fn,
                                           normalizer_params=normalizer_params,
                                           trainable=True)
@@ -85,8 +80,7 @@ def fc_bn(x, num_outputs):
     return fc(x, num_outputs,
               normalizer_fn = tf.contrib.layers.batch_norm,
               normalizer_params = {
-                  'decay': 0.9997,
-                  'epsilon': 0.001,
+                  'fused': True,
                   'updates_collections': tf.GraphKeys.UPDATE_OPS,
                   'is_training': is_training(),
                   'variables_collections': {
@@ -101,10 +95,6 @@ def fc(x, num_outputs, normalizer_fn = None, normalizer_params = None, activatio
     out = tf.contrib.layers.fully_connected(inputs=x, num_outputs=num_outputs,
                                             weights_initializer=tf.contrib.layers.xavier_initializer(),
                                             biases_initializer=constant_initializer(),
-                                            #
-                                            # weights_initializer=tf.contrib.layers.variance_scaling_initializer(factor=2, mode='FAN_IN', uniform=False),
-                                            # biases_initializer=tf.contrib.layers.variance_scaling_initializer(factor=2.34, mode='FAN_IN', uniform=False),
-
                                             activation_fn=activation_fn,
                                             normalizer_fn=normalizer_fn,
                                             normalizer_params=normalizer_params,
