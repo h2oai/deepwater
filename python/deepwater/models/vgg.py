@@ -2,7 +2,7 @@ import tensorflow as tf
 
 from deepwater.models import BaseImageClassificationModel
 
-from deepwater.models.nn import conv3x3, fc, max_pool_3x3
+from deepwater.models.nn import conv3x3, fc, max_pool_2x2, max_pool_3x3
 
 
 class VGG16(BaseImageClassificationModel):
@@ -28,47 +28,31 @@ class VGG16(BaseImageClassificationModel):
             elif width > 224:
                 x = tf.image.resize_images(x, [224, 224])
 
-        # 2 x 64
         with tf.variable_scope("conv1"):
             out = conv3x3(x, 64, stride=1)
+            out = max_pool_2x2(out, stride=2)
+
         with tf.variable_scope("conv2"):
-            out = conv3x3(out, 64, stride=1)
+            out = conv3x3(out, 128, stride=1)
+            out = max_pool_2x2(out, stride=2)
+
         with tf.variable_scope("conv3"):
-            out = max_pool_3x3(out)
-
-        # 2 x 128
+            out = conv3x3(out, 256, stride=1)
         with tf.variable_scope("conv4"):
-            out = conv3x3(out, 128, stride=1)
+            out = conv3x3(out, 256, stride=1)
+            out = max_pool_2x2(out, stride=2)
+
         with tf.variable_scope("conv5"):
-            out = conv3x3(out, 128, stride=1)
-            out = max_pool_3x3(out)
-
-        # 3 x 256
+            out = conv3x3(out, 512, stride=1)
         with tf.variable_scope("conv6"):
-            out = conv3x3(out, 256, stride=1)
+            out = conv3x3(out, 512, stride=1)
+            out = max_pool_2x2(out, stride=2)
+
         with tf.variable_scope("conv7"):
-            out = conv3x3(out, 256, stride=1)
+            out = conv3x3(out, 512, stride=1)
         with tf.variable_scope("conv8"):
-            out = conv3x3(out, 256, stride=1)
-            out = max_pool_3x3(out)
-
-        # 3 x 512
-        with tf.variable_scope("conv9"):
             out = conv3x3(out, 512, stride=1)
-        with tf.variable_scope("conv10"):
-            out = conv3x3(out, 512, stride=1)
-        with tf.variable_scope("conv11"):
-            out = conv3x3(out, 512, stride=1)
-            out = max_pool_3x3(out)
-
-        # 512
-        with tf.variable_scope("conv12"):
-            out = conv3x3(out, 512, stride=1)
-        with tf.variable_scope("conv13"):
-            out = conv3x3(out, 512, stride=1)
-        with tf.variable_scope("conv14"):
-            out = conv3x3(out, 512, stride=1)
-            out = max_pool_3x3(out)
+            out = max_pool_2x2(out, stride=2)
 
         dims = out.get_shape().as_list()
         flatten_size = 1
@@ -118,3 +102,4 @@ class VGG16(BaseImageClassificationModel):
     @property
     def predictions(self):
         return self._predictions
+
