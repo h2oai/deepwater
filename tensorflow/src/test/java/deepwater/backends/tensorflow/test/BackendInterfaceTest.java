@@ -143,13 +143,13 @@ public class BackendInterfaceTest {
     @Test
     public void testMLP() throws IOException{
         backendCanTrainMNIST("mlp", 32, 1);
-        backendCanSaveCheckpointMNIST("mlp", 32, 0.1f);
+        backendCanSaveCheckpointMNIST("mlp", 32, 1e-3f);
     }
 
     @Test
     public void testLenet() throws IOException{
         backendCanTrainMNIST("lenet", 32, 1);
-        backendCanSaveCheckpointMNIST("lenet", 32, 0.1f);
+        backendCanSaveCheckpointMNIST("lenet", 32, 1e-3f);
     }
 
     @Test
@@ -169,33 +169,24 @@ public class BackendInterfaceTest {
 
     @Test
     public void testAlexnet() throws IOException{
-        backendCanTrainMNIST("alexnet", 32, 2, 0.01f);
-        backendCanSaveCheckpointMNIST("alexnet", 32, 0.01f);
-
-//        backendCanTrainCifar10("alexnet", 32, 1, 0.01f);
-//        backendCanSaveCheckpointCifar10("alexnet", 32, 1, 0.05f);
+        backendCanTrainMNIST("alexnet", 32, 2, 1e-3f);
+        backendCanSaveCheckpointMNIST("alexnet", 32, 1e-3f);
     }
 
     @Test
     public void testVGG() throws IOException {
-        backendCanTrainMNIST("vgg", 32, 2, 0.01f);
-        backendCanSaveCheckpointMNIST("vgg", 32, 0.01f);
-
-//        backendCanTrainCifar10("vgg", 1, 2, 0.01f);
-//        backendCanSaveCheckpointCifar10("vgg", 32, 1, 0.05f);
+        backendCanTrainMNIST("vgg", 32, 2, 1e-3f);
+        backendCanSaveCheckpointMNIST("vgg", 32, 1e-3f);
     }
 
     @Test
     public void testInception() throws IOException {
-        backendCanTrainMNIST("inception_bn", 16, 2, 0.01f);
-        backendCanSaveCheckpointMNIST("inception_bn", 16, 0.01f);
-
-//        backendCanTrainCifar10("inception_bn", 32, 1, 0.05f);
-//        backendCanSaveCheckpointCifar10("inception_bn", 32, 1, 0.05f);
+        backendCanTrainMNIST("inception_bn", 16, 2, 1e-3f);
+        backendCanSaveCheckpointMNIST("inception_bn", 16, 1e-3f);
     }
 
     private void backendCanTrainMNIST(String modelName, int batchSize, int epochs) throws IOException {
-        backendCanTrainMNIST(modelName, batchSize, epochs, 0.1f);
+        backendCanTrainMNIST(modelName, batchSize, epochs, 1e-3f);
     }
 
     private void backendCanTrainMNIST(String modelName, int batchSize, int epochs, float learningRate) throws IOException {
@@ -220,7 +211,7 @@ public class BackendInterfaceTest {
                                             dataset.getNumClasses(), modelName);
 
         backend.setParameter(model, "learning_rate", learningRate);
-        backend.setParameter(model, "momentum", 0.8f);
+        backend.setParameter(model, "momentum", 0.9f);
 
         double initialError = computeTestErrorMNIST(model, batchSize);
 
@@ -260,7 +251,7 @@ public class BackendInterfaceTest {
         BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelName);
 
         backend.setParameter(model, "learning_rate", learningRate);
-        backend.setParameter(model, "momentum", 0.8f);
+        backend.setParameter(model, "momentum", 0.9f);
 
         double initialError = computeCIFAR10TestError(model, batchSize);
 
