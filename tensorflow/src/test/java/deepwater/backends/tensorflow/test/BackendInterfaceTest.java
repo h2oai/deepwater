@@ -179,12 +179,6 @@ public class BackendInterfaceTest {
         backendCanSaveCheckpointMNIST("vgg", 32, 1e-3f);
     }
 
-    @Test
-    public void testInception() throws IOException {
-        backendCanTrainMNIST("inception_bn", 16, 2, 1e-3f);
-        backendCanSaveCheckpointMNIST("inception_bn", 16, 1e-3f);
-    }
-
     private void backendCanTrainMNIST(String modelName, int batchSize, int epochs) throws IOException {
         backendCanTrainMNIST(modelName, batchSize, epochs, 1e-3f);
     }
