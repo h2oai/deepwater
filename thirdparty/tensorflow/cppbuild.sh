@@ -99,7 +99,7 @@ echo "Publishing to local maven repository"
 mvn install:install-file \
     -Dfile=bazel-bin/tensorflow/java/libtensorflow.jar \
     -DpomFile=bazel-bin/tensorflow/java/pom.xml \
-    -DlocalRepositoryPath=$TOP_PATH/../tensorflow/lib/
+    -DlocalRepositoryPath=$TOP_PATH/../tensorflow/src/main/resources/
 echo "copying libtensorflow_jni.so"
 
 # we need force because the file is write protected

@@ -83,10 +83,10 @@ public final class LibraryLoader {
     public static void loadNativeLib(String resourceName) throws IOException {
         String f = null;
         try {
-            System.loadLibrary(resourceName);
-        } catch (Error e) {
             f = extractLibrary(resourceName);
             System.load(f);
+        } catch (Error e) {
+            e.printStackTrace();
         } finally {
             if (f != null) {
                 new File(f).delete();

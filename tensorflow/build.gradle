@@ -46,8 +46,6 @@ dependencies {
 jar {
     baseName = rootProject.name + "." + project.name
 
-    from ("lib/") { include '*.so' }
-
     // include also the sources for easy debugging
     from sourceSets.main.allSource
 
