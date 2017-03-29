@@ -81,41 +81,41 @@ public final class LibraryLoader {
     }
 
     public static void loadNativeLib(String resourceName) throws IOException {
-      String f=null;
-      try {
-        f = extractLibrary(resourceName);
-        System.load(f);
-      } catch (Error e) {
-        e.printStackTrace();
-      } finally {
-        if (f!=null)
-          new File(f).delete();
-      }
+        String f = null;
+        try {
+            System.loadLibrary(resourceName);
+        } catch (Error e) {
+            f = extractLibrary(resourceName);
+            System.load(f);
+        } finally {
+            if (f != null) {
+                new File(f).delete();
+            }
+        }
     }
-
 
     public static <T> T checkNotNull(T reference, String msg) {
-   if (reference == null) {
-     throw new NullPointerException(msg);
+        if (reference == null) {
+            throw new NullPointerException(msg);
+        }
+        return reference;
     }
-    return reference;
-  }
 
-  private static final int BUF_SIZE = 0x1000; // 4K
+    private static final int BUF_SIZE = 0x1000; // 4K
 
-  public static long copy(InputStream from, OutputStream to)
-      throws IOException {
-    byte[] buf = new byte[BUF_SIZE];
-    long total = 0;
-    while (true) {
-      int r = from.read(buf);
-      if (r == -1) {
-        break;
-      }
-      to.write(buf, 0, r);
-      total += r;
+    public static long copy(InputStream from, OutputStream to)
+            throws IOException {
+        byte[] buf = new byte[BUF_SIZE];
+        long total = 0;
+        while (true) {
+            int r = from.read(buf);
+            if (r == -1) {
+                break;
+            }
+            to.write(buf, 0, r);
+            total += r;
+        }
+        return total;
     }
-    return total;
-  }
 
 }
