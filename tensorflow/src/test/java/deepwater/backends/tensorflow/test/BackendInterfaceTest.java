@@ -205,7 +205,7 @@ public class BackendInterfaceTest {
                                             dataset.getNumClasses(), modelName);
 
         backend.setParameter(model, "learning_rate", learningRate);
-        backend.setParameter(model, "momentum", 0.9f);
+        backend.setParameter(model, "momentum", 0.8f);
 
         double initialError = computeTestErrorMNIST(model, batchSize);
 
@@ -245,7 +245,7 @@ public class BackendInterfaceTest {
         BackendModel model = backend.buildNet(dataset, opts, params, dataset.getNumClasses(), modelName);
 
         backend.setParameter(model, "learning_rate", learningRate);
-        backend.setParameter(model, "momentum", 0.9f);
+        backend.setParameter(model, "momentum", 0.8f);
 
         double initialError = computeCIFAR10TestError(model, batchSize);
 
@@ -300,7 +300,7 @@ public class BackendInterfaceTest {
         System.out.println("initial CDM validation error:" + initialError);
 
         backend.setParameter(model, "learning_rate", learningRate);
-        backend.setParameter(model, "momentum", 0.9f);
+        backend.setParameter(model, "momentum", 0.8f);
 
         String[] train_images = new String[]{
                 findFile("bigdata/laptop/deepwater/imagenet/cat_dog_mouse.csv")
@@ -377,7 +377,7 @@ public class BackendInterfaceTest {
         double initial = computeTestErrorMNIST(model, batchSize);
 
         backend.setParameter(model, "learning_rate", learningRate);
-        backend.setParameter(model, "momentum", 0.9f);
+        backend.setParameter(model, "momentum", 0.8f);
 
         BatchIterator it = new BatchIterator(dataset, 1, train_images);
         ImageBatch b = new ImageBatch(dataset, batchSize);
