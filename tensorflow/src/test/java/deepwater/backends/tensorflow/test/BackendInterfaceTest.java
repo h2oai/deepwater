@@ -164,7 +164,7 @@ public class BackendInterfaceTest {
 
     @Test
     public void testInceptionCatDogMouse() throws IOException {
-        backendCanTrainCatDogMouse(299, "inception_bn", 32, 65, 1e-3f);
+        backendCanTrainCatDogMouse(299, "inception_bn", 32, 80, 1e-3f);
     }
 
     @Test
