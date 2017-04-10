@@ -43,4 +43,6 @@ brew install maven
 ```
 
 ## Build the Tensorflow native java library and the Tensorflow H2O bindings
+From the main project directory un `./gradlew clean tensorflowCompile` to build the `so` and `jar` TensorFlow files. This can take several minutes.
+
 Go back to the top-level directory of the deepwater repo, and follow the directions there.
