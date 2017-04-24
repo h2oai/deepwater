@@ -70,7 +70,16 @@ public class TensorflowBackend implements BackendTrain {
             model = ModelFactory.LoadModelFromFile(resourceModelName);
         }
 
-        session = new Session(model.getGraph());
+        byte[] sessionConfig = null;
+
+        if(!opts.useGPU()) {
+            sessionConfig = org.tensorflow.framework.ConfigProto.newBuilder()
+                    .putAllDeviceCount(Collections.singletonMap("GPU", 0))
+                    .build()
+                    .toByteArray();
+        }
+
+        session = new Session(model.getGraph(), sessionConfig);
 
         model.frameSize = width * height * channels;
         model.classes = num_classes;
