@@ -11,6 +11,8 @@ import deepwater.backends.tensorflow.models.TensorflowModel;
 import deepwater.datasets.ImageDataSet;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
+import org.tensorflow.framework.ConfigProto;
+import org.tensorflow.framework.GPUOptions;
 
 import java.io.*;
 import java.lang.reflect.Array;
@@ -70,14 +72,12 @@ public class TensorflowBackend implements BackendTrain {
             model = ModelFactory.LoadModelFromFile(resourceModelName);
         }
 
-        byte[] sessionConfig = null;
-
-        if(!opts.useGPU()) {
-            sessionConfig = org.tensorflow.framework.ConfigProto.newBuilder()
-                    .putAllDeviceCount(Collections.singletonMap("GPU", 0))
-                    .build()
-                    .toByteArray();
-        }
+        ConfigProto.Builder configBuilder = org.tensorflow.framework.ConfigProto.newBuilder()
+                .setAllowSoftPlacement(true) // allow less GPUs than configured
+                .setGpuOptions(GPUOptions.newBuilder().setAllowGrowth(true)); // don't grab all GPU RAM at once
+        if(!opts.useGPU())
+            configBuilder.putAllDeviceCount(Collections.singletonMap("GPU", 0));
+        byte[] sessionConfig = configBuilder.build().toByteArray();
 
         session = new Session(model.getGraph(), sessionConfig);
 
