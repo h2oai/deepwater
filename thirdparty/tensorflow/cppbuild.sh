@@ -91,6 +91,11 @@ bazel build -c opt \
   //tensorflow/java:libtensorflow_jni \
   $BUILDFLAGS --spawn_strategy=standalone --genrule_strategy=standalone
 
+echo "Build pip package"
+bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
+# put whl package in deepwater/thirdparty/tensorflow/pip-package
+bazel-bin/tensorflow/tools/pip_package/build_pip_package $PWD/../../../pip_package
+
 echo "Building pom file"
 bazel build -c opt //tensorflow/java:pom \
   $BUILDFLAGS --spawn_strategy=standalone --genrule_strategy=standalone
