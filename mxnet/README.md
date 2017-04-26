@@ -21,7 +21,7 @@ sudo apt-get install libopencv-dev python-opencv
 Install MXNet: 
 
 ```bash
-cd ../thirdparty/mxnet
+cd thirdparty/mxnet
 git submodule update --init --recursive
 cp make/config.mk .
 ### EDIT config.mk - USE_OPENCV=0, USE_CUDA=1, USE_CUDA_PATH=...
