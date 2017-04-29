@@ -68,7 +68,7 @@ public class TensorflowBackend implements BackendTrain {
             try {
                 resourceModelName = ModelFactory.findResource(resourceModelName);
             } catch (IOException e) {
-                resourceModelName = TFPythonWrapper.generateMetaFile(name, width, height, channels, num_classes);
+                resourceModelName = TFPythonWrapper.generateMetaFile(name, width, height, channels, num_classes, (int[]) bparms.get("hidden"));
             }
             model = ModelFactory.LoadModelFromFile(resourceModelName);
         }

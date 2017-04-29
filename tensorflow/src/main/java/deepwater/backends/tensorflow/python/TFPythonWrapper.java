@@ -3,6 +3,7 @@ package deepwater.backends.tensorflow.python;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +28,8 @@ public class TFPythonWrapper {
             int width,
             int height,
             int channels,
-            int numClasses) {
+            int numClasses,
+            int[] hiddens) {
 
         templateFilePresent(networkType);
 
@@ -38,7 +40,7 @@ public class TFPythonWrapper {
 
             String runScript = extractGenFiles(output);
 
-            return runGenScript(output, runScript, networkType, width, height, channels, numClasses);
+            return runGenScript(output, runScript, networkType, width, height, channels, numClasses, hiddens);
         } catch (IOException | InterruptedException e) {
             throw new IllegalStateException(e);
         }
@@ -75,16 +77,22 @@ public class TFPythonWrapper {
                                        int width,
                                        int height,
                                        int channels,
-                                       int numClasses) throws IOException {
-        Runtime.getRuntime().exec(
-                "python "
-                        + runScript + " "
-                        + output.getAbsolutePath() + " "
-                        + networkType + " "
-                        + width + " "
-                        + height + " "
-                        + channels + " "
-                        + numClasses);
+                                       int numClasses,
+                                       int[] hiddens) throws IOException {
+        StringBuilder command = new StringBuilder("python "
+                + runScript + " "
+                + output.getAbsolutePath() + " "
+                + networkType + " "
+                + width + " "
+                + height + " "
+                + channels + " "
+                + numClasses + " ");
+
+        if(null != hiddens) {
+            command.append(Arrays.toString(hiddens));
+        }
+
+        Runtime.getRuntime().exec(command.toString());
         return output.getAbsolutePath() + File.pathSeparator +
                 networkType + "_"
                 + width + "x"
