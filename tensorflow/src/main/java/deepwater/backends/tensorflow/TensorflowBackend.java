@@ -87,13 +87,9 @@ public class TensorflowBackend implements BackendTrain {
         model.miniBatchSize = (int) bparms.get("mini_batch_size");
 
         if (name.toLowerCase().equals("mlp")) {
-            if (!Arrays.equals((int[])bparms.get("hidden"), new int[]{200,200})) {
-                System.out.println("ERROR: only hidden=[200,200] is currently implemented.");
-                return null;
-            }
-            model.activations = (String[]) bparms.get("activations", new String[]{"relu","relu"});
+            model.activations = activations(bparms);
             model.inputDropoutRatio = ((Double) bparms.get("input_dropout_ratio", 0.0d)).floatValue();
-            double[] hidden_dropout_ratios = (double[]) bparms.get("hidden_dropout_ratios", new double[]{0f, 0f});
+            double[] hidden_dropout_ratios = hiddenDropoutratios(bparms);
             model.hiddenDropoutRatios = Floats.toArray(Doubles.asList(hidden_dropout_ratios));
         }
 
@@ -109,6 +105,34 @@ public class TensorflowBackend implements BackendTrain {
         }
         model.setSession(this.session);
         return model;
+    }
+
+    // returns doubles not floats b/c we get doubles from H2O
+    private double[] hiddenDropoutratios(BackendParams bparms) {
+        double[] hiddenDropoutRatios = (double[]) bparms.get("hidden_dropout_ratios");
+        if(null != hiddenDropoutRatios) {
+            return hiddenDropoutRatios;
+        }
+        int layerNr = ((int[]) bparms.get("hidden")).length;
+        hiddenDropoutRatios = new double[layerNr];
+        for(int i = 0; i < layerNr; i++) {
+            hiddenDropoutRatios[i] = 0d;
+        }
+        return hiddenDropoutRatios;
+    }
+
+    private String[] activations(BackendParams bparms) {
+        String[] params = (String[]) bparms.get("activations");
+        if(null != params) {
+            return params;
+        }
+        int layerNr = ((int[]) bparms.get("hidden")).length;
+        params = new String[layerNr];
+        for(int i = 0; i < layerNr; i++) {
+            params[i] = "relu";
+        }
+
+        return params;
     }
 
     private void feedIfPresent(Session.Runner runner, String value, Tensor tensor) {
