@@ -8,6 +8,7 @@ import deepwater.backends.BackendTrain;
 import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.backends.tensorflow.models.TensorflowModel;
+import deepwater.backends.tensorflow.python.TFPythonWrapper;
 import deepwater.datasets.ImageDataSet;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
@@ -67,7 +68,7 @@ public class TensorflowBackend implements BackendTrain {
             try {
                 resourceModelName = ModelFactory.findResource(resourceModelName);
             } catch (IOException e) {
-                e.printStackTrace();
+                resourceModelName = TFPythonWrapper.generateMetaFile(name, width, height, channels, num_classes);
             }
             model = ModelFactory.LoadModelFromFile(resourceModelName);
         }
