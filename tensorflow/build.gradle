@@ -60,6 +60,7 @@ jar {
     from "../python/deepwater/models/resnet.py"
     from "../python/deepwater/models/utils.py"
     from "../python/deepwater/models/vgg.py"
+    from "../python/deepwater/models/__init__.py"
 
     // copy all the other dependencies as a single JAR
     from configurations.compile.collect {it.isDirectory() ? it: zipTree(it)}
