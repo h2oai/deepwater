@@ -207,7 +207,7 @@ class AdamOptimizer(BaseOptimizer):
         self._grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
         update_ops = tf.get_default_graph().get_collection(tf.GraphKeys.UPDATE_OPS)
         with tf.get_default_graph().control_dependencies(update_ops):
-		self._optimize_op = tf.train.AdamOptimizer(self._learning_rate).minimize(loss, colocate_gradients_with_ops=True)
+	    self._optimize_op = tf.train.AdamOptimizer(self._learning_rate).minimize(loss, colocate_gradients_with_ops=True)
  
     @property
     def grads_and_vars(self):

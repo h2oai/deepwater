@@ -108,18 +108,14 @@ def export_linear_model_graph(model_class):
     classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50, 100, 1000]
 
     for linear in [2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 20, 23, 25, 27, 30, 40, 50, 60, 70, 80, 90,
-                   100, 717, 3796]:
+                   100, 717, 784, 3796]:
         for class_n in classes:
-            # export_train_graph(model_class,
-            #                    optimizers.RMSPropOptimizer, linear, 1, 1, class_n)
             export_train_graph(model_class,
-                               # optimizers.MomentumOptimizer,
                                optimizers.AdamOptimizer,
                                linear, 1, 1, class_n)
 
 
 def export_image_classifier_model_graph(model_class):
-    # classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50, 100, 1000]
     classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 100]
     height = [28, 32, 224, 299, 320]
     width = [28, 32, 224, 299, 320]
@@ -128,7 +124,6 @@ def export_image_classifier_model_graph(model_class):
         for ch in channels:
             for class_n in classes:
                 export_train_graph(model_class,
-                                   # optimizers.MomentumOptimizer,
                                    optimizers.AdamOptimizer,
                                    h, w, ch, class_n)
 
