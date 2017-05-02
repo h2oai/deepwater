@@ -45,6 +45,20 @@ public class TensorflowBackend implements BackendTrain {
         model.setGraph(null);
     }
 
+    public static void removeDirectory(File dir) {
+        if (dir.isDirectory()) {
+            File[] files = dir.listFiles();
+            if (files != null && files.length > 0) {
+                for (File aFile : files) {
+                    removeDirectory(aFile);
+                }
+            }
+            dir.delete();
+        } else {
+            dir.delete();
+        }
+    }
+
     @Override
     public BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts,
                                  BackendParams bparms, int num_classes, String name)
@@ -56,28 +70,38 @@ public class TensorflowBackend implements BackendTrain {
         int channels = Math.max(dataset.getChannels(), 1);
         num_classes = Math.max(num_classes, 1);
 
+        // User defined network
+        String network = name.toLowerCase();
         if (new File(name).exists()) {
-
             model = ModelFactory.LoadModelFromFile(name);
-
+        // H2O predefined network
         } else {
-
-            String modelName = name.toLowerCase() + '_' + width + "x" +
-                    height + "x" + channels + "_" + num_classes;
+            String modelName = network + '_' + width + "x" + height + "x" + channels + "_" + num_classes;
             String resourceModelName = ModelFactory.convertToCanonicalName(modelName);
-            try {
-                resourceModelName = ModelFactory.findResource(resourceModelName);
-            } catch (Exception e) {
-                resourceModelName = TFPythonWrapper.generateMetaFile(name, width, height, channels, num_classes, (int[]) bparms.get("hidden"));
+
+            int[] hiddens = (int[]) bparms.get("hidden");
+            boolean generated = false;
+            String metaPath = ModelFactory.findResource(resourceModelName, hiddens);
+            if(null == metaPath) {
+                metaPath = TFPythonWrapper.generateMetaFile(name, width, height, channels, num_classes, hiddens);
+                generated = true;
             }
-            model = ModelFactory.LoadModelFromFile(resourceModelName);
+            try {
+                model = ModelFactory.LoadModelFromFile(metaPath);
+            } finally {
+                File metaFileParent = new File(metaPath).getParentFile();
+                if(generated && metaFileParent.exists()) {
+                    removeDirectory(metaFileParent);
+                }
+            }
         }
 
         ConfigProto.Builder configBuilder = org.tensorflow.framework.ConfigProto.newBuilder()
                 .setAllowSoftPlacement(true) // allow less GPUs than configured
                 .setGpuOptions(GPUOptions.newBuilder().setAllowGrowth(true)); // don't grab all GPU RAM at once
-        if(!opts.useGPU())
+        if(!opts.useGPU()){
             configBuilder.putAllDeviceCount(Collections.singletonMap("GPU", 0));
+        }
         byte[] sessionConfig = configBuilder.build().toByteArray();
 
         session = new Session(model.getGraph(), sessionConfig);
@@ -86,7 +110,7 @@ public class TensorflowBackend implements BackendTrain {
         model.classes = num_classes;
         model.miniBatchSize = (int) bparms.get("mini_batch_size");
 
-        if (name.toLowerCase().equals("mlp")) {
+        if (network.equals("mlp")) {
             model.activations = activations(bparms);
             model.inputDropoutRatio = ((Double) bparms.get("input_dropout_ratio", 0.0d)).floatValue();
             double[] hidden_dropout_ratios = hiddenDropoutratios(bparms);

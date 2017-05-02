@@ -26,7 +26,7 @@ def generate_models(name, model_class):
     for (h, w) in zip(height, width):
         for ch in channels:
             for class_n in classes:
-                filename = "%s_%dx%dx%d_%d" % (name, h, w, ch, class_n)
+                filename = "%s_%dx%dx%d_%d" % (name, w, h, ch, class_n)
                 model = model_class([h, w, ch], [class_n])
                 model.export(filename + ".meta")
 
@@ -43,8 +43,8 @@ def export_train_graph(model_class, optimizer_class,
 
         # 2. export train graph
         filename = "%s_%dx%dx%d_%d.meta" % (model.name.lower(),
-                                            height,
                                             width,
+                                            height,
                                             channels,
                                             classes)
 
@@ -120,7 +120,7 @@ def export_linear_model_graph(model_class):
         for class_n in classes:
             export_train_graph(model_class,
                                optimizers.AdamOptimizer,
-                               linear, 1, 1, class_n)
+                               1, linear, 1, class_n)
 
 
 def export_image_classifier_model_graph(model_class):
