@@ -31,15 +31,15 @@ export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$LD_LIRBARY_PATH
 ```
 
 #### Python + Flow (most common)
-* Required to run python [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks): [H2O Deep Water enabled Python module](https://slack-files.com/T0329MHH6-F3YGK308N-bdf9f90d83) -- install via `pip install <file>`
+* Required to run python [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks): [H2O Deep Water enabled Python module](https://slack-files.com/T0329MHH6-F56V9MSRX-8c9ce75934) -- install via `pip install <file>`
 * To build custom networks from Python: [Matching MXNet Python egg](https://slack-files.com/T0329MHH6-F3YGTF3AT-575207850f) -- install via `easy_install <file>`
 
 #### R + Flow (R users)
-* Required to run R examples: [H2O Deep Water enabled R package](https://slack-files.com/T0329MHH6-F3X5Z9NN5-9ff02f4773) -- install via `R CMD INSTALL <file>`
+* Required to run R examples: [H2O Deep Water enabled R package](https://slack-files.com/T0329MHH6-F57GWRZBL-7671a4e94a) -- install via `R CMD INSTALL <file>`
 * To build custom networks from R: [Matching MXNet R package](https://slack-files.com/T0329MHH6-F3XRXB5BL-db9665bd6d) -- install via `R CMD INSTALL <file>`
 
 #### Flow (Web UI)
-* To run from Flow only: [H2O Standalone h2o.jar](https://slack-files.com/T0329MHH6-F3XUA5YVA-1d3161be65) -- launch via `java -jar h2o.jar`
+* To run from Flow only: [H2O Standalone h2o.jar](https://slack-files.com/T0329MHH6-F57KC7HBP-fa0aa952c5) -- launch via `java -jar h2o.jar`
 
 If you are interested in running H2O Deep Water on a different infrastructure, see the DIY build instructions below.
 
