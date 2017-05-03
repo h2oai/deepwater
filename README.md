@@ -76,6 +76,26 @@ For your convenience, here's a pre-built image for Amazon's EC2 environment, bas
 
 Refer to the [Deep Water Workshop on EC2 Amazon AMI](https://github.com/h2oai/deepwater/blob/master/docs/open-tour-dallas/deep-water-ami.md) document for additional information on how to run this AMI. 
 
+### Pre-Release Docker Image
+We have a GPU-enabled Docker image on Docker Hub. To use it you need a Linux machine
+at least one GPU and with docker and nvidia-docker installed.
+
+1. Install **Docker** http://www.docker.com
+
+2. Install **nvidia-docker**, see https://github.com/NVIDIA/nvidia-docker . Note that
+you can only use Linux machines with one or more NVIDIA GPUs:
+
+    + GNU/Linux x86_64 with kernel version > 3.10
+    + Docker >= 1.9 (official docker-engine, docker-ce or docker-ee only)
+    + NVIDIA GPU with Architecture > Fermi (2.1)
+    + NVIDIA drivers >= 340.29 with binary nvidia-modprobe
+
+3.  Download and run the H2O Docker image
+    + `docker run -it -p 54321:54321 opsh2oai/h2o-deepwater`
+    + You now get a prompt: `#`
+    + Start H2O with `java -jar /opt/h2o.jar`
+    + `exit` or `ctrl-d` closes the image
+
 ### Roadmap, Architecture and Demo
 Download the [Deep Water overview slides](https://github.com/h2oai/deepwater/blob/master/architecture/deepwater_overview.pdf).
 
