@@ -28,7 +28,7 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH-}:${CONDA_PREFIX-}/lib/python2.7/site-p
 export PYTHON_PATH=${CONDA_PREFIX-}/lib/python2.7/site-packages
 export USE_DEFAULT_PYTHON_LIB_PATH=1
 
-TENSORFLOW_VERSION=1.1.0
+TENSORFLOW_VERSION=1.1.0-rc0
 
 download https://github.com/tensorflow/tensorflow/archive/v$TENSORFLOW_VERSION.tar.gz tensorflow-$TENSORFLOW_VERSION.tar.gz
 
