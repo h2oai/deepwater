@@ -3,6 +3,8 @@ from __future__ import print_function
 
 import os
 
+import sys
+
 import json
 
 import tensorflow as tf
@@ -24,12 +26,12 @@ def generate_models(name, model_class):
     for (h, w) in zip(height, width):
         for ch in channels:
             for class_n in classes:
-                filename = "%s_%dx%dx%d_%d" % (name, h, w, ch, class_n)
+                filename = "%s_%dx%dx%d_%d" % (name, w, h, ch, class_n)
                 model = model_class([h, w, ch], [class_n])
                 model.export(filename + ".meta")
 
 def export_train_graph(model_class, optimizer_class,
-                       height, width, channels, classes):
+                       height, width, channels, classes, output=None):
     graph = tf.Graph()
     with graph.as_default():
         global_is_training = tf.placeholder(tf.bool, name="global_is_training")
@@ -39,20 +41,26 @@ def export_train_graph(model_class, optimizer_class,
         # 1. instantiate the model
         model = model_class(width, height, channels, classes)
 
-        # 4. export train graph
+        # 2. export train graph
         filename = "%s_%dx%dx%d_%d.meta" % (model.name.lower(),
-                                            height,
                                             width,
+                                            height,
                                             channels,
                                             classes)
+
+        if output is not None:
+            if not output.endswith('/'):
+                output = output + '/'
+            filename = output + filename
+
         if os.path.exists(filename):
             print("file %s exists. skipping" % filename)
             return
 
-        # 2. instantiate the optimizer
+        # 3. instantiate the optimizer
         optimizer = optimizer_class()
 
-        # 3. instantiate the train wrapper
+        # 4. instantiate the train wrapper
         train_strategy = train.ImageClassificationTrainStrategy(
             graph,
             model,
@@ -112,7 +120,7 @@ def export_linear_model_graph(model_class):
         for class_n in classes:
             export_train_graph(model_class,
                                optimizers.AdamOptimizer,
-                               linear, 1, 1, class_n)
+                               1, linear, 1, class_n)
 
 
 def export_image_classifier_model_graph(model_class):
@@ -127,17 +135,49 @@ def export_image_classifier_model_graph(model_class):
                                    optimizers.AdamOptimizer,
                                    h, w, ch, class_n)
 
+networks = {
+    'mlp':mlp.MultiLayerPerceptron,
+    'lenet':lenet.LeNet,
+    'alexnet':alexnet.AlexNet,
+    'vgg':vgg.VGG16,
+    'inception':inception.InceptionV3,
+    'resnet':resnet.ResNet
+}
+
+def parse_hidden_layers(hidden_string):
+    return list(map(lambda x: int(x), hidden_string.replace('[','').replace(']','').split(',')))
 
 if __name__ == "__main__":
-    # generate MLP
-    default_mlp = partial(
-        mlp.MultiLayerPerceptron,
-        hidden_layers=[200, 200], # FIXME
-        )
+    if len(sys.argv) > 1:
+        model_class = networks[sys.argv[2]]
+        if 'mlp' in sys.argv[2]:
+            if len(sys.argv) == 8:
+                hidden_layers=parse_hidden_layers(sys.argv[7])
+            else:
+                hidden_layers=[200,200]
+            model_class = partial(
+                mlp.MultiLayerPerceptron,
+                hidden_layers=hidden_layers
+            )
 
-    export_linear_model_graph(default_mlp)
-    export_image_classifier_model_graph(default_mlp)
-    
-    # image models
-    for model in (lenet.LeNet, alexnet.AlexNet, vgg.VGG16, inception.InceptionV3, resnet.ResNet):
-        export_image_classifier_model_graph(model)
+        w = int(sys.argv[3])
+        h = int(sys.argv[4])
+        ch = int(sys.argv[5])
+        class_n = int(sys.argv[6])
+
+        export_train_graph(model_class,
+                           optimizers.AdamOptimizer,
+                           h, w, ch, class_n,sys.argv[1])
+    else:
+        # generate MLP
+        default_mlp = partial(
+            mlp.MultiLayerPerceptron,
+            hidden_layers=[200, 200], # FIXME
+            )
+
+        export_linear_model_graph(default_mlp)
+        export_image_classifier_model_graph(default_mlp)
+
+        # image models
+        for model in (lenet.LeNet, alexnet.AlexNet, vgg.VGG16, inception.InceptionV3, resnet.ResNet):
+            export_image_classifier_model_graph(model)

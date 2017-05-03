@@ -8,6 +8,7 @@ import deepwater.backends.BackendTrain;
 import deepwater.backends.RuntimeOptions;
 import deepwater.backends.tensorflow.models.ModelFactory;
 import deepwater.backends.tensorflow.models.TensorflowModel;
+import deepwater.backends.tensorflow.python.TFPythonWrapper;
 import deepwater.datasets.ImageDataSet;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
@@ -44,6 +45,20 @@ public class TensorflowBackend implements BackendTrain {
         model.setGraph(null);
     }
 
+    public static void removeDirectory(File dir) {
+        if (dir.isDirectory()) {
+            File[] files = dir.listFiles();
+            if (files != null && files.length > 0) {
+                for (File aFile : files) {
+                    removeDirectory(aFile);
+                }
+            }
+            dir.delete();
+        } else {
+            dir.delete();
+        }
+    }
+
     @Override
     public BackendModel buildNet(ImageDataSet dataset, RuntimeOptions opts,
                                  BackendParams bparms, int num_classes, String name)
@@ -55,28 +70,38 @@ public class TensorflowBackend implements BackendTrain {
         int channels = Math.max(dataset.getChannels(), 1);
         num_classes = Math.max(num_classes, 1);
 
+        // User defined network
+        String network = name.toLowerCase();
         if (new File(name).exists()) {
-
             model = ModelFactory.LoadModelFromFile(name);
-
+        // H2O predefined network
         } else {
-
-            String modelName = name.toLowerCase() + '_' + width + "x" +
-                    height + "x" + channels + "_" + num_classes;
+            String modelName = network + '_' + width + "x" + height + "x" + channels + "_" + num_classes;
             String resourceModelName = ModelFactory.convertToCanonicalName(modelName);
-            try {
-                resourceModelName = ModelFactory.findResource(resourceModelName);
-            } catch (IOException e) {
-                e.printStackTrace();
+
+            int[] hiddens = (int[]) bparms.get("hidden");
+            boolean generated = false;
+            String metaPath = ModelFactory.findResource(resourceModelName, hiddens);
+            if(null == metaPath) {
+                metaPath = TFPythonWrapper.generateMetaFile(name, width, height, channels, num_classes, hiddens);
+                generated = true;
             }
-            model = ModelFactory.LoadModelFromFile(resourceModelName);
+            try {
+                model = ModelFactory.LoadModelFromFile(metaPath);
+            } finally {
+                File metaFileParent = new File(metaPath).getParentFile();
+                if(generated && metaFileParent.exists()) {
+                    removeDirectory(metaFileParent);
+                }
+            }
         }
 
         ConfigProto.Builder configBuilder = org.tensorflow.framework.ConfigProto.newBuilder()
                 .setAllowSoftPlacement(true) // allow less GPUs than configured
                 .setGpuOptions(GPUOptions.newBuilder().setAllowGrowth(true)); // don't grab all GPU RAM at once
-        if(!opts.useGPU())
+        if(!opts.useGPU()){
             configBuilder.putAllDeviceCount(Collections.singletonMap("GPU", 0));
+        }
         byte[] sessionConfig = configBuilder.build().toByteArray();
 
         session = new Session(model.getGraph(), sessionConfig);
@@ -85,14 +110,10 @@ public class TensorflowBackend implements BackendTrain {
         model.classes = num_classes;
         model.miniBatchSize = (int) bparms.get("mini_batch_size");
 
-        if (name.toLowerCase().equals("mlp")) {
-            if (!Arrays.equals((int[])bparms.get("hidden"), new int[]{200,200})) {
-                System.out.println("ERROR: only hidden=[200,200] is currently implemented.");
-                return null;
-            }
-            model.activations = (String[]) bparms.get("activations", new String[]{"relu","relu"});
+        if (network.equals("mlp")) {
+            model.activations = activations(bparms);
             model.inputDropoutRatio = ((Double) bparms.get("input_dropout_ratio", 0.0d)).floatValue();
-            double[] hidden_dropout_ratios = (double[]) bparms.get("hidden_dropout_ratios", new double[]{0f, 0f});
+            double[] hidden_dropout_ratios = hiddenDropoutratios(bparms);
             model.hiddenDropoutRatios = Floats.toArray(Doubles.asList(hidden_dropout_ratios));
         }
 
@@ -108,6 +129,34 @@ public class TensorflowBackend implements BackendTrain {
         }
         model.setSession(this.session);
         return model;
+    }
+
+    // returns doubles not floats b/c we get doubles from H2O
+    private double[] hiddenDropoutratios(BackendParams bparms) {
+        double[] hiddenDropoutRatios = (double[]) bparms.get("hidden_dropout_ratios");
+        if(null != hiddenDropoutRatios) {
+            return hiddenDropoutRatios;
+        }
+        int layerNr = ((int[]) bparms.get("hidden")).length;
+        hiddenDropoutRatios = new double[layerNr];
+        for(int i = 0; i < layerNr; i++) {
+            hiddenDropoutRatios[i] = 0d;
+        }
+        return hiddenDropoutRatios;
+    }
+
+    private String[] activations(BackendParams bparms) {
+        String[] params = (String[]) bparms.get("activations");
+        if(null != params) {
+            return params;
+        }
+        int layerNr = ((int[]) bparms.get("hidden")).length;
+        params = new String[layerNr];
+        for(int i = 0; i < layerNr; i++) {
+            params[i] = "relu";
+        }
+
+        return params;
     }
 
     private void feedIfPresent(Session.Runner runner, String value, Tensor tensor) {
