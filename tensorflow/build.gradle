@@ -49,19 +49,6 @@ jar {
     // include also the sources for easy debugging
     from sourceSets.main.allSource
 
-    from "../python/scripts/h2o_deepwater_generate_models.py"
-    from "../python/deepwater/train.py"
-    from "../python/deepwater/optimizers.py"
-    from "../python/deepwater/models/alexnet.py"
-    from "../python/deepwater/models/inception.py"
-    from "../python/deepwater/models/lenet.py"
-    from "../python/deepwater/models/mlp.py"
-    from "../python/deepwater/models/nn.py"
-    from "../python/deepwater/models/resnet.py"
-    from "../python/deepwater/models/utils.py"
-    from "../python/deepwater/models/vgg.py"
-    from "../python/deepwater/models/__init__.py"
-
     // copy all the other dependencies as a single JAR
     from configurations.compile.collect {it.isDirectory() ? it: zipTree(it)}
 }

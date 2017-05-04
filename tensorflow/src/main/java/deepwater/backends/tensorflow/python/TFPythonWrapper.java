@@ -8,20 +8,20 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class TFPythonWrapper {
-    private static final String GEN_SCRIPT = "h2o_deepwater_generate_models.py";
-    private static final Map<String, String> GEN_FILES = new HashMap<String, String>() {{
-        this.put(GEN_SCRIPT, "");
-        this.put("train.py", "deepwater/");
-        this.put("optimizers.py", "deepwater/");
-        this.put("alexnet.py", "deepwater/models/");
-        this.put("inception.py", "deepwater/models/");
-        this.put("lenet.py", "deepwater/models/");
-        this.put("mlp.py", "deepwater/models/");
-        this.put("nn.py", "deepwater/models/");
-        this.put("resnet.py", "deepwater/models/");
-        this.put("utils.py", "deepwater/models/");
-        this.put("vgg.py", "deepwater/models/");
-        this.put("__init__.py", "deepwater/models/");
+    static final String GEN_SCRIPT = "h2o_deepwater_generate_models.py";
+    static final Set<String> GEN_FILES = new HashSet<String>() {{
+        this.add(GEN_SCRIPT);
+        this.add("deepwater/train.py");
+        this.add("deepwater/optimizers.py");
+        this.add("deepwater/models/alexnet.py");
+        this.add("deepwater/models/inception.py");
+        this.add("deepwater/models/lenet.py");
+        this.add("deepwater/models/mlp.py");
+        this.add("deepwater/models/nn.py");
+        this.add("deepwater/models/resnet.py");
+        this.add("deepwater/models/utils.py");
+        this.add("deepwater/models/vgg.py");
+        this.add("deepwater/models/__init__.py");
     }};
 
     public static String generateMetaFile(
@@ -53,42 +53,42 @@ public class TFPythonWrapper {
         }
     }
 
-    private static void templateFilePresent(String networkType) {
-        if (null == TFPythonWrapper.class.getResource("/" + networkType + ".py")) {
+    static void templateFilePresent(String networkType) {
+        if (null == TFPythonWrapper.class.getResource("/deepwater/models/" + networkType + ".py")) {
             throw new IllegalArgumentException("Neither a Tensorflow meta graph file nor a Python template file for network [" + networkType + "] could be " +
                     "found. If you are running a user defined network please make sure the path is correct. Otherwise please check the " +
                     "documentation for a list of currently supported networks.");
         }
     }
 
-    private static void tensorflowInstalled() throws IOException, InterruptedException {
+    static void tensorflowInstalled() throws IOException, InterruptedException {
         if (Runtime.getRuntime().exec(new String[]{"python", "-c", "import tensorflow"}).waitFor() != 0) {
             throw new IllegalArgumentException("Python Tensorflow not installed on this machine. Please run 'pip install tensorflow[-gpu]' first.");
         }
     }
 
-    private static String extractGenFiles(Path output) throws IOException {
+    static String extractGenFiles(Path output) throws IOException {
         Files.createDirectory(Paths.get(output.toFile().getAbsolutePath(), "deepwater"));
         Files.createDirectory(Paths.get(output.toFile().getAbsolutePath(), "deepwater", "models"));
 
-        for (Map.Entry<String, String> entry : GEN_FILES.entrySet()) {
+        for (String entry : GEN_FILES) {
             Files.copy(
-                    TFPythonWrapper.class.getResource("/" + entry.getKey()).openStream(),
-                    new File(output.toFile(), entry.getValue() + File.separator + entry.getKey()).toPath()
+                    TFPythonWrapper.class.getResource("/" + entry).openStream(),
+                    new File(output.toFile(), entry).toPath()
             );
         }
 
         return output.toFile().getAbsolutePath() + File.separator + GEN_SCRIPT;
     }
 
-    private static String runGenScript(Path output,
-                                       String runScript,
-                                       String networkType,
-                                       int width,
-                                       int height,
-                                       int channels,
-                                       int numClasses,
-                                       int[] hiddens) throws IOException, InterruptedException {
+    static String runGenScript(Path output,
+                               String runScript,
+                               String networkType,
+                               int width,
+                               int height,
+                               int channels,
+                               int numClasses,
+                               int[] hiddens) throws IOException, InterruptedException {
         List<String> command = new ArrayList<String>() {{
             this.add("python");
             this.add(runScript);
@@ -108,10 +108,10 @@ public class TFPythonWrapper {
         command.toArray(cmdArray);
 
         Runtime.getRuntime().exec(cmdArray).waitFor();
-        return output.toFile().getAbsolutePath() + File.separator +
-                networkType + "_"
-                + height + "x"
+        return output.toFile().getAbsolutePath() + File.separator
+                + networkType + "_"
                 + width + "x"
+                + height + "x"
                 + channels + "_"
                 + numClasses
                 + ".meta";
