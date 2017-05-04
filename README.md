@@ -94,7 +94,7 @@ you can only use Linux machines with one or more NVIDIA GPUs:
     + `nvidia-docker run -it -p 54321:54321 -v $PWD:/host opsh2oai/h2o-deepwater`
     + You now get a prompt in the image: `#` . The directory you started from is avaiable as `/host`
     + Start H2O with `java -jar /opt/h2o.jar`
-    + Python and R is avaialable
+    + `python` and `R` is available
     + `exit` or `ctrl-d` closes the image
 
 ### Roadmap, Architecture and Demo
