@@ -81,10 +81,14 @@ We have a GPU-enabled Docker image on Docker Hub. To use it you need a Linux mac
 at least one GPU and with docker and nvidia-docker installed.
 
 1. Install **Docker** http://www.docker.com
+    + Make docker run without sudo. Instructions for Ubuntu 16.04:
+        + `sudo groupadd docker`
+        + `sudo gpasswd -a ${USER} docker`
+        + `sudo service docker restart`
+        + log out then log in, or `newgrp docker`
 
 2. Install **nvidia-docker**, see https://github.com/NVIDIA/nvidia-docker . Note that
 you can only use Linux machines with one or more NVIDIA GPUs:
-
     + GNU/Linux x86_64 with kernel version > 3.10
     + Docker >= 1.9 (official docker-engine, docker-ce or docker-ee only)
     + NVIDIA GPU with Architecture > Fermi (2.1)
