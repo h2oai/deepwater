@@ -71,7 +71,7 @@ For your convenience, here's a pre-built image for Amazon's EC2 environment, bas
 
 * AMI ID: ami-10bd9607
 * AMI Name: deepwater-dallas-v4
-* Recommended instance types: g2.2xlarge or p2.xlarge
+* Recommended instance types: p2.xlarge
 * After launching the instance, you can connect to port 8888 (Jupyter Notebook) or port 54321 (H2O Flow).
 
 Refer to the [Deep Water Workshop on EC2 Amazon AMI](https://github.com/h2oai/deepwater/blob/master/docs/open-tour-dallas/deep-water-ami.md) document for additional information on how to run this AMI. 
@@ -79,6 +79,12 @@ Refer to the [Deep Water Workshop on EC2 Amazon AMI](https://github.com/h2oai/de
 ### Pre-Release Docker Image
 We have a GPU-enabled Docker image on Docker Hub. To use it you need a Linux machine
 at least one GPU and with docker and nvidia-docker installed.
+
+An **NVIDIA GPU** with a **Compute Capability** of at least 3.5 is necessary. See
+https://developer.nvidia.com/cuda-gpus .
+
+If you use **Amazon Web Services (AWS)**, a good machine type to use is the **P2** series.
+Note that G2 series machines have GPUs that are too old.
 
 1. Install **Docker**, see http://www.docker.com
     + *Optional Step*. Make docker run without sudo. Instructions for Ubuntu 16.04:
@@ -91,14 +97,14 @@ at least one GPU and with docker and nvidia-docker installed.
 you can only use Linux machines with one or more NVIDIA GPUs:
     + GNU/Linux x86_64 with kernel version > 3.10
     + Docker >= 1.9 (official docker-engine, docker-ce or docker-ee only)
-    + NVIDIA GPU with Architecture > Fermi (2.1)
+    + NVIDIA GPU with Architecture > Fermi (2.1) and Compute Capability >= 3.5
     + NVIDIA drivers >= 340.29 with binary nvidia-modprobe
 
 3.  Download and run the H2O Docker image
     + `nvidia-docker run -it --net host -v $PWD:/host opsh2oai/h2o-deepwater`
     + You now get a prompt in the image: `#` . The directory you started from is avaiable as `/host`
     + Start H2O with `java -jar /opt/h2o.jar`
-    + `python` and `R` is available
+    + Python, R and Jupyter Notebooks are available
     + `exit` or `ctrl-d` closes the image
 
 ### Roadmap, Architecture and Demo
