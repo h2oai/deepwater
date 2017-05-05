@@ -1,5 +1,8 @@
 package deepwater.backends.tensorflow.python;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,9 +11,12 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class TFPythonWrapper {
+    private static final Logger log = LoggerFactory.getLogger(TFPythonWrapper.class);
+
     static final String GEN_SCRIPT = "h2o_deepwater_generate_models.py";
     static final Set<String> GEN_FILES = new HashSet<String>() {{
         this.add(GEN_SCRIPT);
+        this.add("deepwater/__init__.py");
         this.add("deepwater/train.py");
         this.add("deepwater/optimizers.py");
         this.add("deepwater/models/alexnet.py");
@@ -32,6 +38,14 @@ public class TFPythonWrapper {
             int numClasses,
             int[] hiddens) {
 
+        log.info("Generating meta file for network [" + networkType + "] with parameters: " +
+                "width = " + width +
+                "height = " + height +
+                "channels = " + channels +
+                "numClasses = " + numClasses +
+                "hidden layers = " + Arrays.toString(hiddens)
+        );
+
         networkType = networkType.toLowerCase();
         if (networkType.endsWith("_bn")) {
             networkType = networkType.replace("_bn", "");
@@ -47,7 +61,10 @@ public class TFPythonWrapper {
 
             String runScript = extractGenFiles(output);
 
-            return runGenScript(output, runScript, networkType, width, height, channels, numClasses, hiddens);
+            String outputScript =
+                    runGenScript(output, runScript, networkType, width, height, channels, numClasses, hiddens);
+            log.info("Generated meta file " + outputScript);
+            return outputScript;
         } catch (IOException | InterruptedException e) {
             throw new IllegalStateException(e);
         }
@@ -104,10 +121,26 @@ public class TFPythonWrapper {
             command.add(Arrays.toString(hiddens));
         }
 
+        log.info("Running command " + Arrays.toString(command.toArray()));
+
         String[] cmdArray = new String[command.size()];
         command.toArray(cmdArray);
 
-        Runtime.getRuntime().exec(cmdArray).waitFor();
+        Process exec = Runtime.getRuntime().exec(cmdArray);
+
+        Scanner inputScanner = new Scanner(exec.getInputStream());
+        while(inputScanner.hasNextLine()) {
+            log.info(inputScanner.nextLine());
+        }
+
+        Scanner errorScanner = new Scanner(exec.getErrorStream());
+        while(errorScanner.hasNextLine()) {
+            log.error(errorScanner.nextLine());
+        }
+        if(0 != exec.waitFor()) {
+            throw new IllegalStateException("Failed to generate meta file for network");
+        }
+
         return output.toFile().getAbsolutePath() + File.separator
                 + networkType + "_"
                 + width + "x"
