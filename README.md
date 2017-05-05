@@ -77,10 +77,10 @@ For your convenience, here's a pre-built image for Amazon's EC2 environment, bas
 Refer to the [Deep Water Workshop on EC2 Amazon AMI](https://github.com/h2oai/deepwater/blob/master/docs/open-tour-dallas/deep-water-ami.md) document for additional information on how to run this AMI. 
 
 ### Pre-Release Docker Image
-We have a GPU-enabled Docker image on Docker Hub. To use it you need a Linux machine
-at least one GPU and with docker and nvidia-docker installed.
+We have a GPU-enabled Docker image on Docker Hub. To use it you need a Linux machine with
+at least one GPU, and with docker and nvidia-docker installed.
 
-An **NVIDIA GPU** with a **Compute Capability** of at least 3.5 is necessary. See
+An **NVIDIA GPU** with a **Compute Capability of at least 3.5** is necessary. See
 https://developer.nvidia.com/cuda-gpus .
 
 If you use **Amazon Web Services (AWS)**, a good machine type to use is the **P2** series.
