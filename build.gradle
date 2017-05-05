@@ -103,6 +103,21 @@ subprojects {
     if (project.hasProperty("doAnimalSniffer") && project.doAnimalSniffer == "true") {
         apply from: "$rootDir/gradle/animalSniffer.gradle"
     }
+
+    plugins.withType(JavaPlugin) {
+        dependencies {
+            compile "org.slf4j:slf4j-log4j12:1.7.5"
+        }
+    }
+
+    sourceSets {
+        main {
+            resources {
+                srcDirs "config"
+            }
+        }
+    }
+
 }
 
 //
@@ -120,7 +135,6 @@ dependencies {
       compile project('deepwater-mxnet')
       compile project('deepwater-tensorflow')
     }
-
     // Test stuff
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
@@ -142,4 +156,3 @@ artifacts {
 task wrapper(type: Wrapper) {
   gradleVersion = '2.9'
 }
-
