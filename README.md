@@ -80,8 +80,8 @@ Refer to the [Deep Water Workshop on EC2 Amazon AMI](https://github.com/h2oai/de
 We have a GPU-enabled Docker image on Docker Hub. To use it you need a Linux machine
 at least one GPU and with docker and nvidia-docker installed.
 
-1. Install **Docker** http://www.docker.com
-    + Make docker run without sudo. Instructions for Ubuntu 16.04:
+1. Install **Docker**, see http://www.docker.com
+    + *Optional Step*. Make docker run without sudo. Instructions for Ubuntu 16.04:
         + `sudo groupadd docker`
         + `sudo gpasswd -a ${USER} docker`
         + `sudo service docker restart`
@@ -95,7 +95,7 @@ you can only use Linux machines with one or more NVIDIA GPUs:
     + NVIDIA drivers >= 340.29 with binary nvidia-modprobe
 
 3.  Download and run the H2O Docker image
-    + `nvidia-docker run -it -p 54321:54321 -v $PWD:/host opsh2oai/h2o-deepwater`
+    + `nvidia-docker run -it --net host -v $PWD:/host opsh2oai/h2o-deepwater`
     + You now get a prompt in the image: `#` . The directory you started from is avaiable as `/host`
     + Start H2O with `java -jar /opt/h2o.jar`
     + `python` and `R` is available
