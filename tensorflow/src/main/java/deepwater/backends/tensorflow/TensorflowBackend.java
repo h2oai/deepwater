@@ -34,8 +34,6 @@ public class TensorflowBackend implements BackendTrain {
         }
     }
 
-    private Session session;
-
     @Override
     public void delete(BackendModel m) {
         TensorflowModel model = (TensorflowModel) m;
@@ -104,7 +102,7 @@ public class TensorflowBackend implements BackendTrain {
         }
         byte[] sessionConfig = configBuilder.build().toByteArray();
 
-        session = new Session(model.getGraph(), sessionConfig);
+        final Session session = new Session(model.getGraph(), sessionConfig);
 
         model.frameSize = width * height * channels;
         model.classes = num_classes;
@@ -127,7 +125,7 @@ public class TensorflowBackend implements BackendTrain {
             System.out.println("ERROR: no init operation found");
             return null;
         }
-        model.setSession(this.session);
+        model.setSession(session);
         return model;
     }
 
