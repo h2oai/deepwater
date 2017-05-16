@@ -56,7 +56,7 @@ EOF
 make -j$(sysctl -n hw.ncpu)
 ```
 
-For other options see the [official MXNet build instructions](http://mxnet.readthedocs.io/en/latest/how_to/build.html).
+For other options see the [official MXNet build instructions](http://mxnet.io/get_started/ubuntu_setup.html).
 
 ### Build and install MXNet Python bindings
 To build the Python egg (which can be installed with `easy_install dist/*.egg`), do the following:

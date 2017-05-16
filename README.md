@@ -31,15 +31,34 @@ export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$LD_LIRBARY_PATH
 ```
 
 #### Python + Flow (most common)
-* Required to run python [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks): [H2O Deep Water enabled Python module](https://slack-files.com/T0329MHH6-F56V9MSRX-8c9ce75934) -- install via `pip install <file>`
-* To build custom networks from Python: [Matching MXNet Python egg](https://slack-files.com/T0329MHH6-F3YGTF3AT-575207850f) -- install via `easy_install <file>`
+* Required to run python [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks): 
+[H2O Deep Water enabled Python 2.7/3.5 module](http://s3.amazonaws.com/h2o-deepwater/public/nightly/deepwater-h2o-229/h2o-3.11.0.229-py2.py3-none-any.whl) 
+-- install via `pip install <file>`
+* To build custom MXNet networks from Python: 
+[Matching MXNet Python 2.7 egg](http://s3.amazonaws.com/h2o-deepwater/public/nightly/mxnet-0.7.0-py2.7.egg) 
+-- install via `easy_install <file>`
+* To build custom TensorFlow networks from Python: 
+[Matching TensorFlow Python 2.7 wheel](http://s3.amazonaws.com/h2o-deepwater/public/nightly/tensorflow-1.1.0rc0-cp27-cp27mu-linux_x86_64.whl) 
+-- install via `pip install <file>`
 
 #### R + Flow (R users)
-* Required to run R examples: [H2O Deep Water enabled R package](https://slack-files.com/T0329MHH6-F57GWRZBL-7671a4e94a) -- install via `R CMD INSTALL <file>`
-* To build custom networks from R: [Matching MXNet R package](https://slack-files.com/T0329MHH6-F3XRXB5BL-db9665bd6d) -- install via `R CMD INSTALL <file>`
+* Required to run R examples: 
+[H2O Deep Water enabled R package](http://s3.amazonaws.com/h2o-deepwater/public/nightly/h2o_latest.tar.gz) 
+-- install via `R CMD INSTALL <file>`
+<!--- 
+* To build custom MXNet networks from R: 
+[Matching MXNet R package](http://s3.amazonaws.com/h2o-deepwater/public/nightly/) 
+-- install via `R CMD INSTALL <file>`
+--->
+* To build custom Tensorflow networks from R: 
+[Matching TensorFlow R package (unofficial from RStudio)](https://github.com/rstudio/tensorflow) 
+-- follow link for installation instructions
+
+
 
 #### Flow (Web UI)
-* To run from Flow only: [H2O Standalone h2o.jar](https://slack-files.com/T0329MHH6-F57KC7HBP-fa0aa952c5) -- launch via `java -jar h2o.jar`
+* To run from Flow only: [H2O Standalone h2o.jar](http://s3.amazonaws.com/h2o-deepwater/public/nightly/h2o.jar) 
+-- launch via `java -jar h2o.jar` for image tasks we recommend `java -Xmx30g -jar h2o.jar`
 
 If you are interested in running H2O Deep Water on a different infrastructure, see the DIY build instructions below.
 
@@ -67,14 +86,18 @@ Coming soon.
 
 
 ### Pre-Release Amazon AWS Image
-For your convenience, here's a pre-built image for Amazon's EC2 environment, based off our recent [H2O Open Tour Hands-On Deep Water workshop](https://twitter.com/ArnoCandel/status/791280896318042112). (Recording coming soon.)
+For your convenience, here's a pre-built image for Amazon's EC2 environment, based off our recent
+ [H2O Open Tour Hands-On Deep Water workshop](https://twitter.com/ArnoCandel/status/791280896318042112). 
+ (Recording coming soon.)
 
 * AMI ID: ami-10bd9607
 * AMI Name: deepwater-dallas-v4
 * Recommended instance types: p2.xlarge
 * After launching the instance, you can connect to port 8888 (Jupyter Notebook) or port 54321 (H2O Flow).
 
-Refer to the [Deep Water Workshop on EC2 Amazon AMI](https://github.com/h2oai/deepwater/blob/master/docs/open-tour-dallas/deep-water-ami.md) document for additional information on how to run this AMI. 
+Refer to the 
+[Deep Water Workshop on EC2 Amazon AMI](https://github.com/h2oai/deepwater/blob/master/docs/open-tour-dallas/deep-water-ami.md) 
+document for additional information on how to run this AMI. 
 
 ### Pre-Release Docker Image
 We have a GPU-enabled Docker image on Docker Hub. To use it you need a Linux machine with
