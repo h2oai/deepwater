@@ -32,7 +32,7 @@ export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$LD_LIRBARY_PATH
 
 #### Python + Flow (most common)
 * Required to run python [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks): 
-[H2O Deep Water enabled Python 2.7/3.5 module](http://s3.amazonaws.com/h2o-deepwater/public/nightly/latest/deepwater-h2o-229/h2o-3.11.0.229-py2.py3-none-any.whl) 
+[H2O Deep Water enabled Python 2.7/3.5 module](http://s3.amazonaws.com/h2o-deepwater/public/nightly/latest/h2o-3.11.0.229-py2.py3-none-any.whl) 
 -- install via `pip install <file>`
 * To build custom MXNet networks from Python: 
 [Matching MXNet Python 2.7 egg](http://s3.amazonaws.com/h2o-deepwater/public/nightly/latest/mxnet-0.7.0-py2.7.egg) 
