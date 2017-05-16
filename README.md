@@ -15,14 +15,14 @@
 Check out a sample of cool Deep Learning [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks)!
 
 ### Pre-Release Downloads
-#### This latest release of Deep Water is based on H2O-3 3.10.3.1 "Tverberg-1" 1b263c79 - Jan 28 2017
+#### This release of Deep Water is based on the latest H2O-3 release
 
 The downloadable packages below are built for the following system specifications:
 
 * Ubuntu 16.04 LTS
-* Latest NVIDIA Display driver
+* NVIDIA Display driver at least 367
 * CUDA 8.0.44 or later (we recommend the latest version) in /usr/local/cuda
-* CUDNN 5.1 or later (placed inside of lib and include directories in /usr/local/cuda/)
+* CUDNN 5.1 (placed inside of lib and include directories in /usr/local/cuda/)
 
 To use the GPU, please set the following environment variables:
 ```
@@ -32,7 +32,7 @@ export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$LD_LIRBARY_PATH
 
 #### Python + Flow (most common)
 * Required to run python [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks): 
-[H2O Deep Water enabled Python 2.7/3.5 module](http://s3.amazonaws.com/h2o-deepwater/public/nightly/latest/h2o-latest-py2.py3-non-any.whl) 
+[H2O Deep Water enabled Python 2.7/3.5 module](http://s3.amazonaws.com/h2o-deepwater/public/nightly/latest/h2o-3.11.0-py2.py3-non-any.whl) 
 -- install via `pip install <file>`
 * To build custom MXNet networks from Python: 
 [Matching MXNet Python 2.7 egg](http://s3.amazonaws.com/h2o-deepwater/public/nightly/latest/mxnet-0.7.0-py2.7.egg) 
@@ -43,7 +43,7 @@ export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$LD_LIRBARY_PATH
 
 #### R + Flow (R users)
 * Required to run R examples: 
-[H2O Deep Water enabled R package](http://s3.amazonaws.com/h2o-deepwater/public/nightly/latest/h2o_latest.tar.gz) 
+[H2O Deep Water enabled R package](http://s3.amazonaws.com/h2o-deepwater/public/nightly/latest/h2o_3.11.0.tar.gz) 
 -- install via `R CMD INSTALL <file>`
 <!--- 
 * To build custom MXNet networks from R: 
