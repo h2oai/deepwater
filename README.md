@@ -90,8 +90,9 @@ For your convenience, here's a pre-built image for Amazon's EC2 environment, bas
  [H2O Open Tour Hands-On Deep Water workshop](https://twitter.com/ArnoCandel/status/791280896318042112). 
  (Recording coming soon.)
 
-* AMI ID: ami-10bd9607
-* AMI Name: deepwater-dallas-v4
+* AMI ID: ami-97591381
+* AMI Name: h2o-deepwater-ami-latest
+* Region: US East (N. Virginia)
 * Recommended instance types: p2.xlarge
 * After launching the instance, you can connect to port 8888 (Jupyter Notebook) or port 54321 (H2O Flow).
 
