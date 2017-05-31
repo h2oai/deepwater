@@ -15,14 +15,14 @@
 Check out a sample of cool Deep Learning [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks)!
 
 ### Pre-Release Downloads
-#### This latest release of Deep Water is based on H2O-3 3.10.3.1 "Tverberg-1" 1b263c79 - Jan 28 2017
+#### This release of Deep Water is based on the latest H2O-3 release
 
 The downloadable packages below are built for the following system specifications:
 
 * Ubuntu 16.04 LTS
-* Latest NVIDIA Display driver
+* NVIDIA Display driver at least 367
 * CUDA 8.0.44 or later (we recommend the latest version) in /usr/local/cuda
-* CUDNN 5.1 or later (placed inside of lib and include directories in /usr/local/cuda/)
+* CUDNN 5.1 (placed inside of lib and include directories in /usr/local/cuda/)
 
 To use the GPU, please set the following environment variables:
 ```
@@ -31,15 +31,34 @@ export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$LD_LIRBARY_PATH
 ```
 
 #### Python + Flow (most common)
-* Required to run python [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks): [H2O Deep Water enabled Python module](https://slack-files.com/T0329MHH6-F3YGK308N-bdf9f90d83) -- install via `pip install <file>`
-* To build custom networks from Python: [Matching MXNet Python egg](https://slack-files.com/T0329MHH6-F3YGTF3AT-575207850f) -- install via `easy_install <file>`
+* Required to run python [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks): 
+[H2O Deep Water enabled Python 2.7/3.5 module](http://s3.amazonaws.com/h2o-deepwater/public/nightly/latest/h2o-3.11.0-py2.py3-none-any.whl) 
+-- install via `pip install <file>`
+* To build custom MXNet networks from Python: 
+[Matching MXNet Python 2.7 egg](http://s3.amazonaws.com/h2o-deepwater/public/nightly/latest/mxnet-0.7.0-py2.7.egg) 
+-- install via `easy_install <file>`
+* To build custom TensorFlow networks from Python: 
+[Matching TensorFlow Python 2.7 wheel](http://s3.amazonaws.com/h2o-deepwater/public/nightly/latest/tensorflow-1.1.0rc0-cp27-cp27mu-linux_x86_64.whl) 
+-- install via `pip install <file>`
 
 #### R + Flow (R users)
-* Required to run R examples: [H2O Deep Water enabled R package](https://slack-files.com/T0329MHH6-F3X5Z9NN5-9ff02f4773) -- install via `R CMD INSTALL <file>`
-* To build custom networks from R: [Matching MXNet R package](https://slack-files.com/T0329MHH6-F3XRXB5BL-db9665bd6d) -- install via `R CMD INSTALL <file>`
+* Required to run R examples: 
+[H2O Deep Water enabled R package](http://s3.amazonaws.com/h2o-deepwater/public/nightly/latest/h2o_3.11.0.tar.gz) 
+-- install via `R CMD INSTALL <file>`
+<!--- 
+* To build custom MXNet networks from R: 
+[Matching MXNet R package](http://s3.amazonaws.com/h2o-deepwater/public/nightly/) 
+-- install via `R CMD INSTALL <file>`
+--->
+* To build custom Tensorflow networks from R: 
+[Matching TensorFlow R package (unofficial from RStudio)](https://github.com/rstudio/tensorflow) 
+-- follow link for installation instructions
+
+
 
 #### Flow (Web UI)
-* To run from Flow only: [H2O Standalone h2o.jar](https://slack-files.com/T0329MHH6-F3XUA5YVA-1d3161be65) -- launch via `java -jar h2o.jar`
+* To run from Flow only: [H2O Standalone h2o.jar](http://s3.amazonaws.com/h2o-deepwater/public/nightly/latest/h2o.jar) 
+-- launch via `java -jar h2o.jar` for image tasks we recommend `java -Xmx30g -jar h2o.jar`
 
 If you are interested in running H2O Deep Water on a different infrastructure, see the DIY build instructions below.
 
@@ -67,14 +86,49 @@ Coming soon.
 
 
 ### Pre-Release Amazon AWS Image
-For your convenience, here's a pre-built image for Amazon's EC2 environment, based off our recent [H2O Open Tour Hands-On Deep Water workshop](https://twitter.com/ArnoCandel/status/791280896318042112). (Recording coming soon.)
+For your convenience, here's a pre-built image for Amazon's EC2 environment, based off our recent
+ [H2O Open Tour Hands-On Deep Water workshop](https://twitter.com/ArnoCandel/status/791280896318042112). 
+ (Recording coming soon.)
 
 * AMI ID: ami-10bd9607
 * AMI Name: deepwater-dallas-v4
-* Recommended instance types: g2.2xlarge or p2.xlarge
+* Recommended instance types: p2.xlarge
 * After launching the instance, you can connect to port 8888 (Jupyter Notebook) or port 54321 (H2O Flow).
 
-Refer to the [Deep Water Workshop on EC2 Amazon AMI](https://github.com/h2oai/deepwater/blob/master/docs/open-tour-dallas/deep-water-ami.md) document for additional information on how to run this AMI. 
+Refer to the 
+[Deep Water Workshop on EC2 Amazon AMI](https://github.com/h2oai/deepwater/blob/master/docs/open-tour-dallas/deep-water-ami.md) 
+document for additional information on how to run this AMI. 
+
+### Pre-Release Docker Image
+We have a GPU-enabled Docker image on Docker Hub. To use it you need a Linux machine with
+at least one GPU, and with docker and nvidia-docker installed.
+
+An **NVIDIA GPU** with a **Compute Capability of at least 3.5** is necessary. See
+https://developer.nvidia.com/cuda-gpus .
+
+If you use **Amazon Web Services (AWS)**, a good machine type to use is the **P2** series.
+Note that G2 series machines have GPUs that are too old.
+
+1. Install **Docker**, see http://www.docker.com
+    + *Optional Step*. Make docker run without sudo. Instructions for Ubuntu 16.04:
+        + `sudo groupadd docker`
+        + `sudo gpasswd -a ${USER} docker`
+        + `sudo service docker restart`
+        + log out then log in, or `newgrp docker`
+
+2. Install **nvidia-docker**, see https://github.com/NVIDIA/nvidia-docker . Note that
+you can only use Linux machines with one or more NVIDIA GPUs:
+    + GNU/Linux x86_64 with kernel version > 3.10
+    + Docker >= 1.9 (official docker-engine, docker-ce or docker-ee only)
+    + NVIDIA GPU with Architecture > Fermi (2.1) and Compute Capability >= 3.5
+    + NVIDIA drivers >= 340.29 with binary nvidia-modprobe
+
+3.  Download and run the H2O Docker image
+    + `nvidia-docker run -it --net host -v $PWD:/host opsh2oai/h2o-deepwater`
+    + You now get a prompt in the image: `#` . The directory you started from is avaiable as `/host`
+    + Start H2O with `java -jar /opt/h2o.jar`
+    + Python, R and Jupyter Notebooks are available
+    + `exit` or `ctrl-d` closes the image
 
 ### Roadmap, Architecture and Demo
 Download the [Deep Water overview slides](https://github.com/h2oai/deepwater/blob/master/architecture/deepwater_overview.pdf).

@@ -26,6 +26,7 @@ public class TensorflowModel implements BackendModel {
     public int miniBatchSize;
     public String[] activations = null;
 
+    // Same values as in mlp.py
     public static final Map<String, Integer> activationToNumeric = new HashMap<String, Integer>() {{
       this.put("relu", 0);
       this.put("tanh", 1);

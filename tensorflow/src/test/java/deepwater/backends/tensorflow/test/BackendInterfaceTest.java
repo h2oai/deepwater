@@ -12,7 +12,6 @@ import deepwater.datasets.CIFAR10ImageDataset;
 import deepwater.datasets.ImageBatch;
 import deepwater.datasets.MNISTImageDataset;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -20,7 +19,6 @@ import java.io.IOException;
 
 import static deepwater.datasets.FileUtils.findFile;
 import static java.lang.Float.NaN;
-
 
 public class BackendInterfaceTest {
 
@@ -284,6 +282,10 @@ public class BackendInterfaceTest {
     }
 
     private void backendCanTrainCatDogMouse(int imageSize, String modelName, int batchSize, int epochs, float learningRate) throws IOException {
+        backendCanTrainCatDogMouse(true, imageSize, modelName, batchSize, epochs, learningRate);
+    }
+
+    private void backendCanTrainCatDogMouse(boolean runAssert, int imageSize, String modelName, int batchSize, int epochs, float learningRate) throws IOException {
         BackendTrain backend = new TensorflowBackend();
 
         CatDogMouseImageDataset dataset = new CatDogMouseImageDataset(imageSize);
@@ -329,7 +331,9 @@ public class BackendInterfaceTest {
 
         backend.delete(model);
 
-        assert error < 10: "final error is not less than 10%. model did not learn enough.";
+        if(runAssert){
+            assert error < 10: "final error is not less than 10%. model did not learn enough.";
+        }
     }
 
     private double computePredictionError(BackendTrain backend, BackendModel model, ImageBatch b, int classes) {
@@ -467,7 +471,7 @@ public class BackendInterfaceTest {
 
     @Test
     public void backendCanLoadMetaGraph() throws Exception {
-        final String meta_model = ModelFactory.findResource("mlp_10x1x1_1.meta");
+        final String meta_model = ModelFactory.findResource("mlp_10x1x1_1.meta", new int[] {200,200});
 
         MNISTImageDataset dataset = new MNISTImageDataset();
 
@@ -520,5 +524,53 @@ public class BackendInterfaceTest {
 
         float[] maxPoolLayer = backend.extractLayer(model, "conv1/MaxPool", b.getImages());
         Assert.assertEquals(125440, maxPoolLayer.length);
+    }
+
+    @Test
+    public void shouldGenMLPFile() throws IOException {
+        BackendTrain backend = new TensorflowBackend();
+
+        MNISTImageDataset dataset = new MNISTImageDataset();
+
+        RuntimeOptions opts = new RuntimeOptions();
+        BackendParams params = new BackendParams();
+
+        params.set("mini_batch_size", 32);
+        params.set("hidden", new int[]{10,10,10,10});
+        params.set("input_dropout_ratio", 0.0d);
+        // Should still work will less dropouts and activations than hidden layers
+        params.set("hidden_dropout_ratios", new double[]{0.0d,0.0d,0.0d});
+        params.set("activations", new String[]{"relu","relu","relu"});
+
+        BackendModel model =  backend.buildNet(dataset, opts, params, dataset.getNumClasses(), "mlp");
+
+        for(int i = 0; i < 5; i++) {
+            Assert.assertTrue(backend.listAllLayers(model).contains("fc"+i));
+        }
+        Assert.assertFalse(backend.listAllLayers(model).contains("fc5"));
+
+        backend.setParameter(model, "learning_rate", 1e-3f);
+
+        computeTestErrorMNIST(model, 32);
+
+        BatchIterator it = new BatchIterator(dataset, 1, mnistTrainData);
+        ImageBatch b = new ImageBatch(dataset, 32);
+
+        while(it.nextEpochs()) {
+            while (it.next(b)) {
+                backend.train(model, b.getImages(), b.getLabels());
+                computePredictionError(backend, model, b, dataset.getNumClasses());
+            }
+        }
+        double testError = computeTestErrorMNIST(model, 32);
+
+        backend.delete(model);
+        System.out.println("final MNIST test error:" + testError);
+    }
+
+    @Test
+    // Tests lenet for an image size that we don't provide generated meta files
+    public void testLenetCatDogMouse30() throws IOException {
+        backendCanTrainCatDogMouse(false,30, "lenet", 32, 1, 1e-3f);
     }
 }

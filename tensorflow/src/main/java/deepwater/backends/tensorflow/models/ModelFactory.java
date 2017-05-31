@@ -28,10 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.security.CodeSource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -235,22 +232,30 @@ public class ModelFactory {
         return path;
     }
 
-    public static String findResource(String resourceModelName) throws IOException {
-
-        URL url = Resources.getResource(resourceModelName);
-        byte[] modelGraphData = Resources.toByteArray(url);
-        String path = saveToTempFile(modelGraphData);
-
-        if (modelGraphData == null || modelGraphData.length == 0) {
-            InputStream in = ModelFactory.class.getResourceAsStream("/" + resourceModelName);
-            if (in != null) {
-                path = saveToTempFile(in);
-            } else {
-                // NOTE: for some reason inside idea it does not work
-                path = findFile("deepwater/tensorflow/src/main/resources/" + resourceModelName);
-            }
+    public static String findResource(String resourceModelName, int[] hiddens) {
+        // We provide generated meta files only for MLP [200,200] but don't encode that information in the filename
+        if(resourceModelName.contains("mlp") && !Arrays.equals(hiddens, new int[]{200,200}) ) {
+            return null;
         }
-        return path;
+
+        try {
+            URL url = Resources.getResource(resourceModelName);
+            byte[] modelGraphData = Resources.toByteArray(url);
+            String path = saveToTempFile(modelGraphData);
+
+            if (modelGraphData == null || modelGraphData.length == 0) {
+                InputStream in = ModelFactory.class.getResourceAsStream("/" + resourceModelName);
+                if (in != null) {
+                    path = saveToTempFile(in);
+                } else {
+                    // NOTE: for some reason inside idea it does not work
+                    path = findFile("deepwater/tensorflow/src/main/resources/" + resourceModelName);
+                }
+            }
+            return path;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }
