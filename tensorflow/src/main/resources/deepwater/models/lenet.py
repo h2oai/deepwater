@@ -38,10 +38,6 @@ class LeNet(BaseImageClassificationModel):
 
         logits_arr = [ 0.0 ] * gpus
 
-        print(classes)
-        print(classes_arr)
-        print(len(x_image_arr))
-
         for gpu in range(gpus):
             with tf.device('/gpu:' + str(gpu)):
 
