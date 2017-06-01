@@ -86,16 +86,15 @@ Coming soon.
 
 
 ### Pre-Release Amazon AWS Image
-For your convenience, here's a pre-built image for Amazon's EC2 environment, based off our recent
- [H2O Open Tour Hands-On Deep Water workshop](https://twitter.com/ArnoCandel/status/791280896318042112). 
- (Recording coming soon.)
+We have a pre-built image for Amazon Web Services's EC2 environment:
 
 * AMI ID: ami-97591381
 * AMI Name: h2o-deepwater-ami-latest
 * AWS Region: US East (N. Virginia)
 * Recommended instance type: p2.xlarge
 
-The AMI image contains the Docker Image described below. Once started, login and start the docker image.
+The AMI image contains the Docker Image described below. Once started, login and start the docker image, 
+either with the provided shell script or with `nvidia-docker run -it --net host opsh2oai/h2o-deepwater`.
 
 Start H2O with `java -Xmx30g -jar /opt/h2o.jar &`. Connect to port 54321.
 
