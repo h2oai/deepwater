@@ -92,13 +92,15 @@ For your convenience, here's a pre-built image for Amazon's EC2 environment, bas
 
 * AMI ID: ami-97591381
 * AMI Name: h2o-deepwater-ami-latest
-* Region: US East (N. Virginia)
-* Recommended instance types: p2.xlarge
-* After launching the instance, you can connect to port 8888 (Jupyter Notebook) or port 54321 (H2O Flow).
+* AWS Region: US East (N. Virginia)
+* Recommended instance type: p2.xlarge
 
-Refer to the 
-[Deep Water Workshop on EC2 Amazon AMI](https://github.com/h2oai/deepwater/blob/master/docs/open-tour-dallas/deep-water-ami.md) 
-document for additional information on how to run this AMI. 
+The AMI image contains the Docker Image described below. Once started, login and start the docker image.
+
+Start H2O with `java -Xmx30g -jar /opt/h2o.jar &`. Connect to port 54321.
+
+Start Jupyter with `jupyter notebook --allow-root --ip=* &`.
+Connect to the link shown, with your IP exchanged for localhost.
 
 ### Pre-Release Docker Image
 We have a GPU-enabled Docker image on Docker Hub. To use it you need a Linux machine with
