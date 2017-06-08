@@ -71,7 +71,7 @@ case $PLATFORM in
         export CXX="/usr/bin/g++"
         export TF_NEED_CUDA=0
         export GCC_HOST_COMPILER_PATH=$CC
-        export BUILDFLAGS="--config=cuda --copt=-m64 --linkopt=-m64 --copt=-march=native"
+        export BUILDFLAGS="--copt=-m64 --linkopt=-m64 --copt=-march=native"
         ;;
     macosx-*)
         export TF_NEED_CUDA=0
@@ -91,7 +91,7 @@ bazel build -c opt \
   $BUILDFLAGS --spawn_strategy=standalone --genrule_strategy=standalone
 
 echo "Build pip package"
-bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
+bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
 # put whl package in deepwater/thirdparty/tensorflow/pip-package
 bazel-bin/tensorflow/tools/pip_package/build_pip_package $PWD/../../../pip_package
 
