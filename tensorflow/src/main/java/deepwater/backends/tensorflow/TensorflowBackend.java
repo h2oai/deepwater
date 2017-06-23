@@ -119,7 +119,11 @@ public class TensorflowBackend implements BackendTrain {
             Session.Runner runner = session.runner();
             Tensor isTrainingTensor = Tensor.create(false);
             feedIfPresent(runner, model.meta.parameters.get("global_is_training"), isTrainingTensor);
-            runner.addTarget(model.meta.init).run();
+            runner.addTarget(model.meta.init);
+            if(!model.meta.init_tables.isEmpty()) {
+                runner.addTarget(model.meta.init_tables);
+            }
+            runner.run();
             isTrainingTensor.close();
         } else {
             System.out.println("ERROR: no init operation found");

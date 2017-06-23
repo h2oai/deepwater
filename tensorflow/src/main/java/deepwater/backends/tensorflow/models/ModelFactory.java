@@ -115,6 +115,7 @@ public class ModelFactory {
         meta.predict_op = getFirstOperationFromCollection(metaGraphDef, "predictions");
         meta.train_op =  getFirstOperationFromCollection(metaGraphDef, "train_op");
         meta.init = getFirstOperationFromCollection(metaGraphDef, "init_op");
+        meta.init_tables = getFirstOperationFromCollection(metaGraphDef, "init_tables_op");
 
         getOperationsFromCollection(metaGraphDef, "variables");
         getOperationsFromCollection(metaGraphDef, "trainable_variables");

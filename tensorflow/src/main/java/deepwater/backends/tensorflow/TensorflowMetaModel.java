@@ -15,6 +15,7 @@ public class TensorflowMetaModel {
    public String summary_op = "";
    public String predict_op = "";
    public String init = "";
+   public String init_tables = "";
    Map<String, String> parameters = new HashMap<>();
    Map<String, String> metrics = new HashMap<>();
 
