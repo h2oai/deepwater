@@ -7,7 +7,7 @@ from deepwater.models.nn import max_pool_2x2, conv, fc
 
 class LeNet(BaseImageClassificationModel):
 
-    def __init__(self, width, height, channels, classes):
+    def __init__(self, width, height, channels, classes, number_of_gpus=4):
         super(LeNet, self).__init__()
 
         # activation_function = "tanh"
@@ -25,31 +25,51 @@ class LeNet(BaseImageClassificationModel):
             x_image = tf.reshape(x, [-1, width, height, channels],
                              name="input_reshape")
 
-        with tf.variable_scope("conv1"):
-            out = conv(x_image, 5, 5, 20, activation=activation_function)
-            out = max_pool_2x2(out)
+        if number_of_gpus <= 1:
+            gpus = 1
+        else:
+            gpus = number_of_gpus
 
-        with tf.variable_scope("conv2"):
-            out = conv(out, 5, 5, 50, activation=activation_function)
-            out = max_pool_2x2(out)
+        if gpus > 1:
+            x_image_arr = tf.split(x_image, gpus, axis=0)
+        else:
+            x_image_arr = [ x_image ]
+        classes_arr = [ classes ] * gpus
 
-        dims = out.get_shape().as_list()
-        flatten_size = 1
-        for d in dims[1:]:
-            flatten_size *= d
+        logits_arr = [ 0.0 ] * gpus
 
-        with tf.variable_scope("reshape2"):
-            flatten = tf.reshape(out, [-1, int(flatten_size)])
+        for gpu in range(gpus):
+            with tf.device('/gpu:' + str(gpu)):
 
-        with tf.variable_scope("fc1"):
-            out = fc(flatten, 500)
-            if activation_function == "relu":
-                out = tf.nn.relu(out)
-            elif activation_function == "tanh":
-                out = tf.nn.tanh(out)
+                with tf.variable_scope("conv1"):
+                    out = conv(x_image_arr[gpu], 5, 5, 20, activation=activation_function)
+                    out = max_pool_2x2(out)
 
-        with tf.variable_scope("fc2"):
-            self._logits = fc(out, classes)
+                with tf.variable_scope("conv2"):
+                    out = conv(out, 5, 5, 50, activation=activation_function)
+                    out = max_pool_2x2(out)
+
+                dims = out.get_shape().as_list()
+                flatten_size = 1
+                for d in dims[1:]:
+                    flatten_size *= d
+
+                with tf.variable_scope("reshape2"):
+                    flatten = tf.reshape(out, [-1, int(flatten_size)])
+
+                with tf.variable_scope("fc1"):
+                    out = fc(flatten, 500)
+                    if activation_function == "relu":
+                        out = tf.nn.relu(out)
+                    elif activation_function == "tanh":
+                        out = tf.nn.tanh(out)
+
+                with tf.variable_scope("fc2"):
+                        logits_arr[gpu] = fc(out, classes_arr[gpu])
+
+        self._logits = tf.concat(logits_arr, 0)
+
+        # print(self._logits.graph.as_graph_def())
 
         if classes > 1:
             self._predictions = tf.nn.softmax(self._logits)

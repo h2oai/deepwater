@@ -316,7 +316,7 @@ def MNIST_must_converge(name,
         if os.path.isfile(checkpoint_file):
             os.remove(checkpoint_file)
         start_time = time.time()
-        config = tf.ConfigProto(allow_soft_placement=True, log_device_placement=False)
+        config = tf.ConfigProto(allow_soft_placement=True, log_device_placement=True)
         config.gpu_options.allow_growth=True
         with tf.train.MonitoredTrainingSession(
                     checkpoint_dir=checkpoint_directory,
@@ -521,11 +521,11 @@ def cat_dog_mouse_must_converge(name,
 
         batch_generator = create_batches(batch_size, image, labels)
         start_time = time.time()
-        config = tf.ConfigProto(allow_soft_placement=True, log_device_placement=False)
+        config = tf.ConfigProto(allow_soft_placement=True, log_device_placement=True)
         config.gpu_options.allow_growth = True
         with tf.train.MonitoredTrainingSession(hooks=[ _LoggerHook() ], config=config) as sess:
             momentum_s = 0.9
-            momentum_e = 0.99
+            momentum_e = 0.91
             for momentum in np.arange(momentum_s,momentum_e,(momentum_e - momentum_s)/epochs):
                 epoch += 1
                 eye = np.eye(3)
@@ -533,7 +533,7 @@ def cat_dog_mouse_must_converge(name,
 
                 global_step, train_loss, train_error = test(batch_generator, sess, momentum)
 
-                if epoch % 10 == 0:
+                if epoch % 5 == 0:
                     print('epoch:', "%d/%d" % (epoch, epochs), 'step', global_step, 'test loss:', train_loss,
                           '% test error:', train_error)
 
