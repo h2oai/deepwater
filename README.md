@@ -107,12 +107,11 @@ We have a GPU-enabled Docker image and one the CPU only. Both are available on
 Docker Hub.
 
 For both images you need to install **Docker**, see http://www.docker.com
-    + *Optional Step*. Make docker run without sudo. Instructions for Ubuntu 16.04:
-        + `sudo groupadd docker`
-        + `sudo gpasswd -a ${USER} docker`
-        + `sudo service docker restart`
-        + log out then log in, or `newgrp docker`
-
++ *Optional Step*. Make docker run without sudo. Instructions for Ubuntu 16.04:
+  + `sudo groupadd docker`
+  + `sudo gpasswd -a ${USER} docker`
+  + `sudo service docker restart`
+  + log out then log in, or `newgrp docker`
 
 #### GPU-Enabled Docker Image (Recommended)
 
