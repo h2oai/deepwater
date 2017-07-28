@@ -18,6 +18,7 @@ import random
 
 print_logs = False
 
+
 def generate_train_graph(model_class, optimizer_class,
                          width, height, channels, classes, add_summaries=False):
     graph = tf.Graph()
@@ -37,8 +38,10 @@ def generate_train_graph(model_class, optimizer_class,
 
     return train_strategy
 
+
 class BaseImageClassificationTest(unittest.TestCase):
     pass
+
 
 def CIFAR10_must_converge(name, model_class,
                           optimizer_class,
@@ -170,6 +173,7 @@ def CIFAR10_must_converge(name, model_class,
         if summaries:
             train_writer.close()
 
+
 def MNIST_must_converge(name,
                         model_class,
                         optimizer_class,
@@ -192,7 +196,7 @@ def MNIST_must_converge(name,
             lrate = initial_lrate * math.pow(drop, math.floor((1 + epoch) / epochs_drop))
             return lrate
 
-        learning_rate = initial_learning_rate#step_decay(epoch)
+        learning_rate = initial_learning_rate  # step_decay(epoch)
 
         while total_examples <= total:
             x_batch, label_batch = dataset.next_batch(batch_size)
@@ -219,7 +223,7 @@ def MNIST_must_converge(name,
             if sess.should_stop():
                 return global_step, np.mean(average_loss), np.mean(average_error) * 100.
 
-            #if not sess.should_stop():
+            # if not sess.should_stop():
             _, loss, global_step, predictions, error = sess.run(fetches, feed_dict=feed_dict)
 
             average_loss.append(loss)
@@ -257,7 +261,7 @@ def MNIST_must_converge(name,
                 train_strategy.categorical_error,
             ]
 
-           # if not sess.should_stop():
+            # if not sess.should_stop():
             predictions, error = sess.run(fetches, feed_dict=feed_dict)
 
             average_error.append(error)
@@ -266,7 +270,6 @@ def MNIST_must_converge(name,
         print("test err: %f" % err)
 
         return err
-
 
     # run test on test set at end just before closing the session
     class TestAtEnd(tf.train.StopAtStepHook):
@@ -305,23 +308,23 @@ def MNIST_must_converge(name,
                 sec_per_batch = float(duration)
 
                 format_str = ('%s: step %d, loss = %.2f (%.1f examples/sec; %.3f '
-                      'sec/batch)')
-                print (format_str % (datetime.now(), self._step, loss_value,
-                                     examples_per_sec, sec_per_batch))
+                              'sec/batch)')
+                print(format_str % (datetime.now(), self._step, loss_value,
+                                    examples_per_sec, sec_per_batch))
 
     with train_strategy.graph.as_default():
         dataset = read_data_sets('/tmp/deepwater/datasets/', validation_size=0)
-        checkpoint_directory="/tmp/checkpoint"
-        checkpoint_file=checkpoint_directory + "/checkpoint"
+        checkpoint_directory = "/tmp/checkpoint"
+        checkpoint_file = checkpoint_directory + "/checkpoint"
         if os.path.isfile(checkpoint_file):
             os.remove(checkpoint_file)
         start_time = time.time()
         config = tf.ConfigProto(allow_soft_placement=True, log_device_placement=True)
-        config.gpu_options.allow_growth=True
+        config.gpu_options.allow_growth = True
         with tf.train.MonitoredTrainingSession(
-                    checkpoint_dir=checkpoint_directory,
-                    hooks=[ TestAtEnd(epochs*dataset.train.num_examples), _LoggerHook() ],
-                    config=config) as sess:
+                checkpoint_dir=checkpoint_directory,
+                hooks=[TestAtEnd(epochs * dataset.train.num_examples), _LoggerHook()],
+                config=config) as sess:
 
             epoch = 0
 
@@ -331,7 +334,6 @@ def MNIST_must_converge(name,
                 from tensorflow.python import debug as tf_debug
                 sess = tf_debug.LocalCLIDebugWrapperSession(sess)
                 sess.add_tensor_filter("has_inf_or_nan", tf_debug.has_inf_or_nan)
-
 
             if not use_debug_session:
                 print('computing initial test error')
@@ -352,23 +354,25 @@ def MNIST_must_converge(name,
         elapsed_time = time.time() - start_time
         print("time %.2f s\n" % elapsed_time)
 
+
 trained_global = 0
 
+
 def cat_dog_mouse_must_converge(name,
-                        model_class,
-                        optimizer_class,
-                        epochs=20,
-                        batch_size=500,
-                        initial_learning_rate=0.01,
-                        summaries=False,
-                        dim=299
-                        ):
+                                model_class,
+                                optimizer_class,
+                                epochs=20,
+                                batch_size=500,
+                                initial_learning_rate=0.01,
+                                summaries=False,
+                                dim=299
+                                ):
     def create_batches(batch_size, images, labels):
         images_batch = []
         labels_batch = []
 
         for img in images:
-            imreadi = imresize(imread(img), [dim, dim]).reshape(1,dim*dim*3)
+            imreadi = imresize(imread(img), [dim, dim]).reshape(1, dim * dim * 3)
             images_batch.append(imreadi)
 
         modulus = len(images_batch) % batch_size
@@ -378,7 +382,7 @@ def cat_dog_mouse_must_converge(name,
         if modulus != 0:
             i = 0
             while len(images_batch) % batch_size != 0:
-                imreadi = imresize(imread(images[i]), [dim, dim]).reshape(1,dim*dim*3)
+                imreadi = imresize(imread(images[i]), [dim, dim]).reshape(1, dim * dim * 3)
                 images_batch.append(imreadi)
                 i += 1
 
@@ -396,9 +400,9 @@ def cat_dog_mouse_must_converge(name,
         labels_batch = np.asarray(labels_batch)
 
         while (True):
-            for i in range(0,len(images_batch),batch_size):
+            for i in range(0, len(images_batch), batch_size):
                 b = random.sample(range(0, len(images_batch)), batch_size)
-                yield( [ images_batch[i] for i in b ], [ labels_batch[i] for i in b ])
+                yield ([images_batch[i] for i in b], [labels_batch[i] for i in b])
 
     def train(batch_generator, sess, momentum):
 
@@ -409,7 +413,7 @@ def cat_dog_mouse_must_converge(name,
 
         while trained + batch_size <= 288:
             batched_images, batched_labels = next(batch_generator)
-            images = np.asarray(batched_images).reshape(batch_size, dim*dim*3)
+            images = np.asarray(batched_images).reshape(batch_size, dim * dim * 3)
             labels = eye[batched_labels]
 
             trained += batch_size
@@ -445,7 +449,7 @@ def cat_dog_mouse_must_converge(name,
 
         while trained + batch_size <= 288:
             batched_images, batched_labels = next(batch_generator)
-            images = np.asarray(batched_images).reshape(batch_size, dim*dim*3)
+            images = np.asarray(batched_images).reshape(batch_size, dim * dim * 3)
             labels = eye[batched_labels]
 
             trained += batch_size
@@ -508,8 +512,8 @@ def cat_dog_mouse_must_converge(name,
 
                 format_str = ('%s: step %d, loss = %.2f (%.1f examples/sec; %.3f '
                               'sec/batch)')
-                print (format_str % (datetime.now(), self._step, loss_value,
-                                     examples_per_sec, sec_per_batch))
+                print(format_str % (datetime.now(), self._step, loss_value,
+                                    examples_per_sec, sec_per_batch))
 
     with train_strategy.graph.as_default():
         epoch = 0
@@ -523,10 +527,10 @@ def cat_dog_mouse_must_converge(name,
         start_time = time.time()
         config = tf.ConfigProto(allow_soft_placement=True, log_device_placement=True)
         config.gpu_options.allow_growth = True
-        with tf.train.MonitoredTrainingSession(hooks=[ _LoggerHook() ], config=config) as sess:
+        with tf.train.MonitoredTrainingSession(hooks=[_LoggerHook()], config=config) as sess:
             momentum_s = 0.9
             momentum_e = 0.91
-            for momentum in np.arange(momentum_s,momentum_e,(momentum_e - momentum_s)/epochs):
+            for momentum in np.arange(momentum_s, momentum_e, (momentum_e - momentum_s) / epochs):
                 epoch += 1
                 eye = np.eye(3)
                 train(batch_generator, sess, momentum)

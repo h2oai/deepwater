@@ -17,6 +17,7 @@ from functools import partial
 
 tf.logging.set_verbosity(tf.logging.DEBUG)
 
+
 def generate_models(name, model_class):
     height = [28, 32, 224]
     width = [28, 32, 224]
@@ -29,6 +30,7 @@ def generate_models(name, model_class):
                 filename = "%s_%dx%dx%d_%d" % (name, w, h, ch, class_n)
                 model = model_class([h, w, ch], [class_n])
                 model.export(filename + ".meta")
+
 
 def export_train_graph(model_class, optimizer_class,
                        height, width, channels, classes, output=None):
@@ -135,26 +137,29 @@ def export_image_classifier_model_graph(model_class):
                                    optimizers.AdamOptimizer,
                                    h, w, ch, class_n)
 
+
 networks = {
-    'mlp':mlp.MultiLayerPerceptron,
-    'lenet':lenet.LeNet,
-    'alexnet':alexnet.AlexNet,
-    'vgg':vgg.VGG16,
-    'inception':inception.InceptionV3,
-    'resnet':resnet.ResNet
+    'mlp': mlp.MultiLayerPerceptron,
+    'lenet': lenet.LeNet,
+    'alexnet': alexnet.AlexNet,
+    'vgg': vgg.VGG16,
+    'inception': inception.InceptionV3,
+    'resnet': resnet.ResNet
 }
 
+
 def parse_hidden_layers(hidden_string):
-    return list(map(lambda x: int(x), hidden_string.replace('[','').replace(']','').split(',')))
+    return list(map(lambda x: int(x), hidden_string.replace('[', '').replace(']', '').split(',')))
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         model_class = networks[sys.argv[2]]
         if 'mlp' in sys.argv[2]:
             if len(sys.argv) == 8:
-                hidden_layers=parse_hidden_layers(sys.argv[7])
+                hidden_layers = parse_hidden_layers(sys.argv[7])
             else:
-                hidden_layers=[200,200]
+                hidden_layers = [200, 200]
             model_class = partial(
                 mlp.MultiLayerPerceptron,
                 hidden_layers=hidden_layers
@@ -167,13 +172,13 @@ if __name__ == "__main__":
 
         export_train_graph(model_class,
                            optimizers.AdamOptimizer,
-                           h, w, ch, class_n,sys.argv[1])
+                           h, w, ch, class_n, sys.argv[1])
     else:
         # generate MLP
         default_mlp = partial(
             mlp.MultiLayerPerceptron,
-            hidden_layers=[200, 200], # FIXME
-            )
+            hidden_layers=[200, 200],  # FIXME
+        )
 
         export_linear_model_graph(default_mlp)
         export_image_classifier_model_graph(default_mlp)

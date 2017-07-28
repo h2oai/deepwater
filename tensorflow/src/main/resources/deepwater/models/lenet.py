@@ -1,12 +1,10 @@
 import tensorflow as tf
 
 from deepwater.models import BaseImageClassificationModel
-# from deepwater.models.nn import weight_variable, bias_variable, max_pool_2x2, conv, fc
 from deepwater.models.nn import max_pool_2x2, conv, fc
 
 
 class LeNet(BaseImageClassificationModel):
-
     def __init__(self, width, height, channels, classes, number_of_gpus=4):
         super(LeNet, self).__init__()
 
@@ -23,7 +21,7 @@ class LeNet(BaseImageClassificationModel):
 
         with tf.variable_scope("reshape1"):
             x_image = tf.reshape(x, [-1, width, height, channels],
-                             name="input_reshape")
+                                 name="input_reshape")
 
         if number_of_gpus <= 1:
             gpus = 1
@@ -33,10 +31,10 @@ class LeNet(BaseImageClassificationModel):
         if gpus > 1:
             x_image_arr = tf.split(x_image, gpus, axis=0)
         else:
-            x_image_arr = [ x_image ]
-        classes_arr = [ classes ] * gpus
+            x_image_arr = [x_image]
+        classes_arr = [classes] * gpus
 
-        logits_arr = [ 0.0 ] * gpus
+        logits_arr = [0.0] * gpus
 
         for gpu in range(gpus):
             with tf.device('/gpu:' + str(gpu)):
@@ -65,7 +63,7 @@ class LeNet(BaseImageClassificationModel):
                         out = tf.nn.tanh(out)
 
                 with tf.variable_scope("fc2"):
-                        logits_arr[gpu] = fc(out, classes_arr[gpu])
+                    logits_arr[gpu] = fc(out, classes_arr[gpu])
 
         self._logits = tf.concat(logits_arr, 0)
 

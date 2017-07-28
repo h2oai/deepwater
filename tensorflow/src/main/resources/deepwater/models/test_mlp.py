@@ -7,10 +7,10 @@ from functools import partial
 
 from deepwater.models.test_utils import MNIST_must_converge
 
-epochs=10
+epochs = 10
+
 
 class TestMLP(unittest.TestCase):
-
     def test_single_layer(self):
         model = mlp.MultiLayerPerceptron
         MNIST_must_converge('mlpx1', model,

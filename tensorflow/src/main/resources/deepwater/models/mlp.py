@@ -6,6 +6,7 @@ from tensorflow.python.ops import nn
 
 from deepwater.models.nn import fc
 
+
 class MultiLayerPerceptron(BaseImageClassificationModel):
     def __init__(self, width=28, height=28, channels=1, classes=10,
                  hidden_layers=[], dropout=[], activation_fn=nn.relu):
@@ -23,16 +24,16 @@ class MultiLayerPerceptron(BaseImageClassificationModel):
 
         # Input dropout
         self._input_dropout = tf.placeholder_with_default(tf.constant(0.0, dtype=tf.float32),
-                                                [],
-                                                name="input_dropout")
+                                                          [],
+                                                          name="input_dropout")
 
         # Activations
         self._activations = tf.placeholder_with_default([0, 0],
-                                                [None],
-                                                name="activations")
+                                                        [None],
+                                                        name="activations")
 
         self._inputs = x
-        #out = tf.nn.dropout(x, keep_prob=tf.constant(1.0, dtype=tf.float32) - self._input_dropout)
+        # out = tf.nn.dropout(x, keep_prob=tf.constant(1.0, dtype=tf.float32) - self._input_dropout)
         out = x
 
         for idx, h in enumerate(hidden_layers):

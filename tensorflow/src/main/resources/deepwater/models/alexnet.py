@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 from deepwater.models import BaseImageClassificationModel
-from deepwater.models.nn import fc, conv, conv3x3, conv5x5, conv11x11, max_pool_3x3
+from deepwater.models.nn import fc, conv3x3, conv5x5, conv11x11, max_pool_3x3
 
 
 class AlexNet(BaseImageClassificationModel):

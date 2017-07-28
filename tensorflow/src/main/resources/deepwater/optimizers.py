@@ -1,6 +1,7 @@
 import tensorflow as tf
 from abc import ABCMeta, abstractproperty, abstractmethod
 
+
 class BaseOptimizer(object):
     __metaclass__ = ABCMeta
 
@@ -22,7 +23,6 @@ class BaseOptimizer(object):
 
 
 class RMSPropOptimizer(BaseOptimizer):
-
     def __init__(self,
                  initial_learning_rate=1e-3,
                  initial_momentum=0.9,
@@ -53,7 +53,6 @@ class RMSPropOptimizer(BaseOptimizer):
         with tf.control_dependencies(update_ops):
             # Ensures that we execute the update_ops before performing the train_step
             self._optimize_op = self._optimizer.minimize(loss, global_step=self._global_step, colocate_gradients_with_ops=True)
-
 
     @property
     def grads_and_vars(self):
@@ -116,9 +115,9 @@ class MomentumOptimizer(BaseOptimizer):
                                                                 tf.contrib.framework.get_global_step(),
                                                                 self._learning_rate,
                                                                 optimizer=lambda lr: tf.train.MomentumOptimizer(self._learning_rate, momentum=self._momentum),
-                                                                #gradient_multipliers=gradient_multipliers,
+                                                                # gradient_multipliers=gradient_multipliers,
                                                                 clip_gradients=10.0)
-                                                                # )
+            # )
 
     @property
     def grads_and_vars(self):
@@ -183,6 +182,7 @@ class GradientDescentOptimizer(BaseOptimizer):
     def optimize_op(self):
         return self._optimize_op
 
+
 class AdamOptimizer(BaseOptimizer):
     def __init__(self,
                  initial_learning_rate=1e-3,
@@ -207,8 +207,8 @@ class AdamOptimizer(BaseOptimizer):
         self._grads_and_vars = self._optimizer.compute_gradients(loss, trainable)
         update_ops = tf.get_default_graph().get_collection(tf.GraphKeys.UPDATE_OPS)
         with tf.get_default_graph().control_dependencies(update_ops):
-	    self._optimize_op = tf.train.AdamOptimizer(self._learning_rate).minimize(loss, colocate_gradients_with_ops=True)
- 
+            self._optimize_op = tf.train.AdamOptimizer(self._learning_rate).minimize(loss, colocate_gradients_with_ops=True)
+
     @property
     def grads_and_vars(self):
         return self._grads_and_vars
@@ -232,6 +232,7 @@ class AdamOptimizer(BaseOptimizer):
     @property
     def optimize_op(self):
         return self._optimize_op
+
 
 class DefaultOptimizer(BaseOptimizer):
     def __init__(self,

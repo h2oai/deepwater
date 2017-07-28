@@ -8,8 +8,8 @@ from deepwater.models.test_utils import MNIST_must_converge
 
 import tensorflow
 
-class TestResnet(unittest.TestCase):
 
+class TestResnet(unittest.TestCase):
     def test_resnet_must_converge_on_MNIST(self):
         MNIST_must_converge("Resnet", resnet.ResNet,
                             optimizers.AdamOptimizer,
@@ -19,7 +19,7 @@ class TestResnet(unittest.TestCase):
                             )
 
 
-#     def test_resnet_must_converge_on_CIFAR10(self):
+# def test_resnet_must_converge_on_CIFAR10(self):
 #         CIFAR10_must_converge("Resnet", resnet.Resnet,
 #                               optimizers.RMSPropOptimizer,
 #                               batch_size=16,

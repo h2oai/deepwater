@@ -1,5 +1,6 @@
 import tensorflow as tf
 
+
 class ImageClassificationTrainStrategy(object):
     """
     Wraps a image classification model and adds training operations.
