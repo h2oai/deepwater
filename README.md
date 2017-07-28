@@ -102,8 +102,21 @@ Start Jupyter with `jupyter notebook --allow-root --ip=* &`.
 Connect to the link shown, with your IP exchanged for localhost.
 
 ### Pre-Release Docker Image
-We have a GPU-enabled Docker image on Docker Hub. To use it you need a Linux machine with
-at least one GPU, and with docker and nvidia-docker installed.
+
+We have a GPU-enabled Docker image and one the CPU only. Both are available on 
+Docker Hub.
+
+For both images you need to install **Docker**, see http://www.docker.com
++ *Optional Step*. Make docker run without sudo. Instructions for Ubuntu 16.04:
+  + `sudo groupadd docker`
+  + `sudo gpasswd -a ${USER} docker`
+  + `sudo service docker restart`
+  + log out then log in, or `newgrp docker`
+
+#### GPU-Enabled Docker Image (Recommended)
+
+To use the GPU-enabled Docker image you need a Linux machine with
+at least one GPU, a GPU driver, and with docker and nvidia-docker installed.
 
 An **NVIDIA GPU** with a **Compute Capability of at least 3.5** is necessary. See
 https://developer.nvidia.com/cuda-gpus .
@@ -111,26 +124,34 @@ https://developer.nvidia.com/cuda-gpus .
 If you use **Amazon Web Services (AWS)**, a good machine type to use is the **P2** series.
 Note that G2 series machines have GPUs that are too old.
 
-1. Install **Docker**, see http://www.docker.com
-    + *Optional Step*. Make docker run without sudo. Instructions for Ubuntu 16.04:
-        + `sudo groupadd docker`
-        + `sudo gpasswd -a ${USER} docker`
-        + `sudo service docker restart`
-        + log out then log in, or `newgrp docker`
-
-2. Install **nvidia-docker**, see https://github.com/NVIDIA/nvidia-docker . Note that
+1. Install **nvidia-docker**, see https://github.com/NVIDIA/nvidia-docker . Note that
 you can only use Linux machines with one or more NVIDIA GPUs:
     + GNU/Linux x86_64 with kernel version > 3.10
     + Docker >= 1.9 (official docker-engine, docker-ce or docker-ee only)
     + NVIDIA GPU with Architecture > Fermi (2.1) and Compute Capability >= 3.5
     + NVIDIA drivers >= 340.29 with binary nvidia-modprobe
 
-3.  Download and run the H2O Docker image
-    + `nvidia-docker run -it --net host -v $PWD:/host opsh2oai/h2o-deepwater`
+2.  Download and run the H2O Docker image
+    + `nvidia-docker run -it --rm --net host -v $PWD:/host opsh2oai/h2o-deepwater`
     + You now get a prompt in the image: `#` . The directory you started from is avaiable as `/host`
     + Start H2O with `java -jar /opt/h2o.jar`
     + Python, R and Jupyter Notebooks are available
     + `exit` or `ctrl-d` closes the image
+
+#### CPU-only Docker Image
+
+To use the CPU-enabled Docker image you just need to have Docker installed.
+Note that this image is significantly slower than the GPU image, which is 
+why we don't recommend it.
++ Download and run the H2O Docker image:
+    + On Linux: `docker run -it --rm --net host -v $PWD:/host opsh2oai/h2o-deepwater-cpu`
+    + On MacOS: `docker run -it --rm -p 54321:54321 -p 8080:8080 -v $PWD:/host opsh2oai/h2o-deepwater-cpu`
+    + You now get a prompt in the image: `#` . The directory you started from is avaiable as `/host`
+    + Start H2O with `java -jar /opt/h2o.jar`
+    + Python, R and Jupyter Notebooks are available
+    + `exit` or `ctrl-d` closes the image
+
+
 
 ### Roadmap, Architecture and Demo
 Download the [Deep Water overview slides](https://github.com/h2oai/deepwater/blob/master/architecture/deepwater_overview.pdf).
