@@ -39,11 +39,11 @@ class LeNet(BaseImageClassificationModel):
         for gpu in range(gpus):
             with tf.device('/gpu:' + str(gpu)):
 
-                with tf.variable_scope("conv1"):
+                with tf.variable_scope("conv1_" + str(gpu)):
                     out = conv(x_image_arr[gpu], 5, 5, 20, activation=activation_function)
                     out = max_pool_2x2(out)
 
-                with tf.variable_scope("conv2"):
+                with tf.variable_scope("conv2_" + str(gpu)):
                     out = conv(out, 5, 5, 50, activation=activation_function)
                     out = max_pool_2x2(out)
 
@@ -52,17 +52,17 @@ class LeNet(BaseImageClassificationModel):
                 for d in dims[1:]:
                     flatten_size *= d
 
-                with tf.variable_scope("reshape2"):
+                with tf.variable_scope("reshape2_" + str(gpu)):
                     flatten = tf.reshape(out, [-1, int(flatten_size)])
 
-                with tf.variable_scope("fc1"):
+                with tf.variable_scope("fc1_" + str(gpu)):
                     out = fc(flatten, 500)
                     if activation_function == "relu":
                         out = tf.nn.relu(out)
                     elif activation_function == "tanh":
                         out = tf.nn.tanh(out)
 
-                with tf.variable_scope("fc2"):
+                with tf.variable_scope("fc2_" + str(gpu)):
                     logits_arr[gpu] = fc(out, classes_arr[gpu])
 
         self._logits = tf.concat(logits_arr, 0)
