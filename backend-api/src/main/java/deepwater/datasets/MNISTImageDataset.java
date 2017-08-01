@@ -2,30 +2,27 @@ package deepwater.datasets;
 
 // Inspired from http://stackoverflow.com/questions/8286668/how-to-read-mnist-data-in-c
 
-import com.google.common.collect.ImmutableMap;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.zip.GZIPInputStream;
 
 
 public class MNISTImageDataset extends ImageDataSet {
 
-    public static final Map<String, String> Resources = ImmutableMap.of(
-            "train_images", "http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz",
-            "in_images","http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz",
-            "test_images", "http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz",
-            "test_labels","http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz"
-    );
+    public static final Map<String, String> Resources = fillResources();
+
+    private static Map<String, String> fillResources() {
+        Map<String, String> resources = new HashMap<>();
+        resources.put("train_images", "http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz");
+        resources.put("in_images","http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz");
+        resources.put("test_images", "http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz");
+        resources.put("test_labels","http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz");
+        return Collections.unmodifiableMap(resources);
+    }
 
     private String labelFileName;
     private String imageFileName;
@@ -122,7 +119,7 @@ public class MNISTImageDataset extends ImageDataSet {
             float[] imageDataFloat = new float[ROWS * COLUMNS];
             int p = 0;
             for (int j = 0; j < imageData.length; j++) {
-               float result = imageData[j] & 0xFF;
+                float result = imageData[j] & 0xFF;
                 // Convert from [0,255] to [0.0, 1.0]
                 result *= 1.0/255.0;
                 imageDataFloat[p] = result;
