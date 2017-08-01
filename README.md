@@ -93,8 +93,12 @@ We have a pre-built image for Amazon Web Services's EC2 environment:
 * AWS Region: US East (N. Virginia)
 * Recommended instance type: p2.xlarge
 
-The AMI image contains the Docker Image described below. Once started, login and start the docker image, 
-either with the provided shell script or with `nvidia-docker run -it --net host opsh2oai/h2o-deepwater`.
+The AMI image contains the Docker Image described below. Once started,
+login to the shell prompt. It's a good idea to update the docker image
+with `docker pull opsh2oai/h2o-deepwater` to ensure that you have the
+most recent version. Then start the docker image, either with the
+provided shell script or with `nvidia-docker run -it --net host
+opsh2oai/h2o-deepwater`.
 
 Start H2O with `java -Xmx30g -jar /opt/h2o.jar &`. Connect to port 54321.
 
@@ -123,6 +127,9 @@ https://developer.nvidia.com/cuda-gpus .
 
 If you use **Amazon Web Services (AWS)**, a good machine type to use is the **P2** series.
 Note that G2 series machines have GPUs that are too old.
+
+If you have used these docker images before, please run `docker pull IMAGENAME` to ensure
+that you have the latest version.
 
 1. Install **nvidia-docker**, see https://github.com/NVIDIA/nvidia-docker . Note that
 you can only use Linux machines with one or more NVIDIA GPUs:
