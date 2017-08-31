@@ -27,7 +27,7 @@ The downloadable packages below are built for the following system specification
 To use the GPU, please set the following environment variables:
 ```
 export CUDA_PATH=/usr/local/cuda
-export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$LD_LIRBARY_PATH
+export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$LD_LIBRARY_PATH
 ```
 
 #### Python + Flow (most common)
