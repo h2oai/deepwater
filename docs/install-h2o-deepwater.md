@@ -232,5 +232,5 @@ The H2O build process will create a new Python wheel file. Install H2O with the
 
 The H2O build process will create a new R package. Install H2O with Deep Water R module:
 
-		$ R CMD INSTALL ~/h2o-3/h2o-r/R/src/contrib/h2o-*.tar.gz
+		$ R CMD INSTALL ~/h2o-3/h2o-r/R/src/contrib/h2o_*.tar.gz
 
