@@ -3,13 +3,10 @@
 ### What it is
 * Native implementation of Deep Learning models for GPU-optimized backends (MXNet, Caffe, TensorFlow, etc.)
 * State-of-the-art Deep Learning models trained from the H2O Platform
-* Train user-defined or pre-defined deeplearning models for image/text/H2OFrame classification from Flow, R, Python, Java, Scala or REST API
+* Train user-defined or pre-defined Deep Learning models for image/text/H2OFrame classification from Flow, R, Python, Java, Scala or REST API
 * Behaves just like any other H2O model (Flow, cross-validation, early stopping, hyper-parameter search, etc.)
-* The next best thing after sliced bread
-* Under development
+* Deep Water is a legacy project (as of December 2017), which means that it is **no longer under active development**.  The H2O.ai team has no current plans to add new features, however, contributions from the community (in the form of pull requests) are welcome.
 
-### What it is not
-* An oil drilling platform
 
 ### Python/R Jupyter Notebooks
 Check out a sample of cool Deep Learning [Jupyter notebooks](https://github.com/h2oai/h2o-3/tree/master/examples/deeplearning/notebooks)!
